@@ -7,10 +7,10 @@
 
 | Command              | What it does                                                                                      |
 | -------------------- | ------------------------------------------------------------------------------------------------- |
-| `pnpm test`          | Vitest projects `core` (node) + `dom` (happy-dom) _(split in T-013)_                              |
-| `pnpm test:browser`  | Vitest browser mode in Chromium _(T-013)_                                                         |
+| `pnpm test`          | Vitest projects `core` (node) + `dom` (happy-dom)                                                 |
+| `pnpm test:browser`  | Vitest browser mode in Chromium (`*.browser.test.ts`)                                             |
 | `pnpm test:watch`    | Watch mode for the TDD loop                                                                       |
-| `pnpm test:coverage` | Coverage with per-glob thresholds _(T-013)_                                                       |
+| `pnpm test:coverage` | All three projects with per-glob coverage thresholds (core 90/85, platform 85, overall 80)        |
 | `pnpm test:e2e`      | Builds the e2e variant and runs Playwright _(e2e mode: T-015)_                                    |
 | `pnpm check`         | typecheck + lint (Biome) + format (Biome, Prettier for Markdown/YAML) + unit tests + traceability |
 | `pnpm progress`      | Progress per milestone + requirement coverage (`--verbose` lists gaps)                            |
