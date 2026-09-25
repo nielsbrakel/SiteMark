@@ -1,50 +1,31 @@
-import type { RegexErrorCode, SiteGroupErrorCode, UrlPatternErrorCode } from '../errors';
-import type { PatternId, SiteGroupId } from '../ids';
 import type { SiteMarkState } from '../model/schema';
-import { notImplemented } from '../not-implemented';
 import type { Result } from '../result';
-import type { UrlPatternDraft } from '../url/match';
-import type { CommandDeps } from './command';
+import type { CommandDeps, CommandOf } from './command';
+import { addToList, type PatternErrorCode, removeFromList, updateInList } from './pattern-list';
 
-export type AddExclude = {
-  readonly type: 'addExclude';
-  readonly groupId: SiteGroupId;
-  readonly draft: UrlPatternDraft;
-};
+// Exclude pattern reducers (REQ-URL-008): the same validation and limit as URL patterns, but an
+// empty exclude list never disables a site group.
 
-export type UpdateExclude = {
-  readonly type: 'updateExclude';
-  readonly groupId: SiteGroupId;
-  readonly patternId: PatternId;
-  readonly draft: UrlPatternDraft;
-};
-
-export type RemoveExclude = {
-  readonly type: 'removeExclude';
-  readonly groupId: SiteGroupId;
-  readonly patternId: PatternId;
-};
-
-type PatternErrorCode = SiteGroupErrorCode | UrlPatternErrorCode | RegexErrorCode;
+type PatternResult = Result<SiteMarkState, PatternErrorCode>;
 
 export function addExclude(
-  _state: SiteMarkState,
-  _command: AddExclude,
-  _deps: CommandDeps,
-): Result<SiteMarkState, PatternErrorCode> {
-  return notImplemented();
+  state: SiteMarkState,
+  { groupId, draft }: CommandOf<'addExclude'>,
+  { idGen }: CommandDeps,
+): PatternResult {
+  return addToList(state, groupId, 'excludes', draft, idGen);
 }
 
 export function updateExclude(
-  _state: SiteMarkState,
-  _command: UpdateExclude,
-): Result<SiteMarkState, PatternErrorCode> {
-  return notImplemented();
+  state: SiteMarkState,
+  { groupId, patternId, draft }: CommandOf<'updateExclude'>,
+): PatternResult {
+  return updateInList(state, groupId, 'excludes', patternId, draft);
 }
 
 export function removeExclude(
-  _state: SiteMarkState,
-  _command: RemoveExclude,
-): Result<SiteMarkState, PatternErrorCode> {
-  return notImplemented();
+  state: SiteMarkState,
+  { groupId, patternId }: CommandOf<'removeExclude'>,
+): PatternResult {
+  return removeFromList(state, groupId, 'excludes', patternId);
 }

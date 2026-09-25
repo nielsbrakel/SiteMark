@@ -24,11 +24,11 @@ function indexOf(state: SiteMarkState, id: SiteGroupId): number {
 }
 
 /** Replaces site group `id` with `change(group)`, or fails when the group no longer exists. */
-function updateGroup(
+export function updateGroup<E>(
   state: SiteMarkState,
   id: SiteGroupId,
-  change: (group: SiteGroup) => Result<SiteGroup, SiteGroupErrorCode>,
-): GroupResult {
+  change: (group: SiteGroup) => Result<SiteGroup, E>,
+): Result<SiteMarkState, E | 'siteGroupNotFound'> {
   const index = indexOf(state, id);
   const group = state.siteGroups[index];
   if (!group) return err('siteGroupNotFound');

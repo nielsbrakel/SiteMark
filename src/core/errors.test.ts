@@ -34,7 +34,10 @@ const everyCode = {
   patternLimitReached: true,
   excludeLimitReached: true,
   markLimitReached: true,
+  markInvalid: true,
   siteGroupNotFound: true,
+  patternNotFound: true,
+  markNotFound: true,
 } as const satisfies Record<ErrorCode, true>;
 
 const codes = Object.keys(everyCode) as ErrorCode[];

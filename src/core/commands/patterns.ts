@@ -1,57 +1,43 @@
-import type { RegexErrorCode, SiteGroupErrorCode, UrlPatternErrorCode } from '../errors';
-import type { PatternId, SiteGroupId } from '../ids';
+import type { SiteGroupId } from '../ids';
 import type { SiteMarkState } from '../model/schema';
-import { notImplemented } from '../not-implemented';
-import type { Result } from '../result';
-import type { UrlPatternDraft } from '../url/match';
-import type { CommandDeps } from './command';
+import { ok, type Result } from '../result';
+import type { CommandDeps, CommandOf, CommandOutcome } from './command';
+import { addToList, type PatternErrorCode, removeFromList, updateInList } from './pattern-list';
 
-export type AddPattern = {
-  readonly type: 'addPattern';
-  readonly groupId: SiteGroupId;
-  readonly draft: UrlPatternDraft;
-};
+// URL pattern reducers (REQ-GRP-002, REQ-URL-003, REQ-URL-009). Invalid and broad patterns are
+// never stored; the error code says why.
 
-export type UpdatePattern = {
-  readonly type: 'updatePattern';
-  readonly groupId: SiteGroupId;
-  readonly patternId: PatternId;
-  readonly draft: UrlPatternDraft;
-};
-
-export type RemovePattern = {
-  readonly type: 'removePattern';
-  readonly groupId: SiteGroupId;
-  readonly patternId: PatternId;
-};
-
-export type CommandNotice = 'siteGroupAutoDisabled';
-
-export type CommandOutcome = {
-  readonly state: SiteMarkState;
-  readonly notices: readonly CommandNotice[];
-};
-
-type PatternErrorCode = SiteGroupErrorCode | UrlPatternErrorCode | RegexErrorCode;
+type PatternResult = Result<SiteMarkState, PatternErrorCode>;
 
 export function addPattern(
-  _state: SiteMarkState,
-  _command: AddPattern,
-  _deps: CommandDeps,
-): Result<SiteMarkState, PatternErrorCode> {
-  return notImplemented();
+  state: SiteMarkState,
+  { groupId, draft }: CommandOf<'addPattern'>,
+  { idGen }: CommandDeps,
+): PatternResult {
+  return addToList(state, groupId, 'patterns', draft, idGen);
 }
 
 export function updatePattern(
-  _state: SiteMarkState,
-  _command: UpdatePattern,
-): Result<SiteMarkState, PatternErrorCode> {
-  return notImplemented();
+  state: SiteMarkState,
+  { groupId, patternId, draft }: CommandOf<'updatePattern'>,
+): PatternResult {
+  return updateInList(state, groupId, 'patterns', patternId, draft);
 }
 
+function isEnabled(state: SiteMarkState, id: SiteGroupId): boolean {
+  return state.siteGroups.some((group) => group.id === id && group.enabled);
+}
+
+/**
+ * Removes a URL pattern. Removing the last one disables an enabled site group and adds the
+ * `siteGroupAutoDisabled` notice (REQ-GRP-002).
+ */
 export function removePattern(
-  _state: SiteMarkState,
-  _command: RemovePattern,
+  state: SiteMarkState,
+  { groupId, patternId }: CommandOf<'removePattern'>,
 ): Result<CommandOutcome, PatternErrorCode> {
-  return notImplemented();
+  const next = removeFromList(state, groupId, 'patterns', patternId);
+  if (!next.ok) return next;
+  const autoDisabled = isEnabled(state, groupId) && !isEnabled(next.value, groupId);
+  return ok({ state: next.value, notices: autoDisabled ? ['siteGroupAutoDisabled'] : [] });
 }

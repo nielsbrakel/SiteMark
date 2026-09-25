@@ -34,7 +34,7 @@ export type DataErrorCode =
   | 'stateReadOnly'
   | 'stateUnreadable';
 
-/** Site group names, invariants and limits (REQ-GRP-001, REQ-GRP-002). */
+/** Site group names, invariants, limits and contents (REQ-GRP-001, REQ-GRP-002, REQ-MARK-001). */
 export type SiteGroupErrorCode =
   | 'siteGroupNeedsPattern'
   | 'siteGroupNameInvalid'
@@ -42,7 +42,10 @@ export type SiteGroupErrorCode =
   | 'patternLimitReached'
   | 'excludeLimitReached'
   | 'markLimitReached'
-  | 'siteGroupNotFound';
+  | 'markInvalid'
+  | 'siteGroupNotFound'
+  | 'patternNotFound'
+  | 'markNotFound';
 
 export type ErrorCode = UrlPatternErrorCode | RegexErrorCode | DataErrorCode | SiteGroupErrorCode;
 

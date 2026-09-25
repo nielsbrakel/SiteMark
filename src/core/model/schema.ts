@@ -3,7 +3,7 @@ import type { Result } from '../result';
 import { hexSchema } from './fields';
 import { siteGroupSchema } from './group-schema';
 import { parseWith } from './issues';
-import { markSchema } from './mark-schema';
+import { markDraftSchema, markSchema } from './mark-schema';
 import { urlPatternSchema } from './pattern-schema';
 import { stateSchema } from './state-schema';
 
@@ -75,6 +75,9 @@ export type ElementMark = MarkBase & {
   effects: ElementEffects;
 };
 
+/** A mark before the background gives it an ID (the addMark and updateMark commands). */
+export type MarkDraft = Omit<PageMark, 'id'> | Omit<ElementMark, 'id'>;
+
 export type Corner = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 export type Ribbon = {
@@ -127,6 +130,11 @@ export function parseSiteGroup(input: unknown): SchemaResult<SiteGroup> {
 /** A page or element mark with effects that fit its target (REQ-MARK-001, REQ-MARK-014). */
 export function parseMark(input: unknown): SchemaResult<Mark> {
   return parseWith(markSchema, input);
+}
+
+/** A mark without an ID, checked like `parseMark` (REQ-MARK-001, REQ-MARK-014). */
+export function parseMarkDraft(input: unknown): SchemaResult<MarkDraft> {
+  return parseWith(markDraftSchema, input);
 }
 
 /** Checks the shape and limits only; the URL engine validates the pattern itself. */
