@@ -29,6 +29,7 @@ export type DataErrorCode =
   | 'importTooDeep'
   | 'importTooLarge'
   | 'importSchemaInvalid'
+  | 'importPatternInvalid'
   | 'importUnsupportedVersion'
   | 'stateReadOnly'
   | 'stateUnreadable';

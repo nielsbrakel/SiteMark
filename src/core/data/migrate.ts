@@ -24,7 +24,8 @@ export type MigrateError =
       readonly issues: readonly SchemaIssue[];
     };
 
-const CURRENT_VERSION: SiteMarkState['schemaVersion'] = 1;
+/** The schema version this build reads and writes. */
+export const CURRENT_VERSION: SiteMarkState['schemaVersion'] = 1;
 
 /**
  * The production registry. v1 is the only version so far; a v2 adds `1: v1ToV2` here, bumps the

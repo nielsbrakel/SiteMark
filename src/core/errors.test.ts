@@ -24,6 +24,7 @@ const everyCode = {
   importTooDeep: true,
   importTooLarge: true,
   importSchemaInvalid: true,
+  importPatternInvalid: true,
   importUnsupportedVersion: true,
   stateReadOnly: true,
   stateUnreadable: true,
