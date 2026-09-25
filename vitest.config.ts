@@ -54,6 +54,15 @@ export default defineConfig({
         },
       },
       {
+        // Repo tooling (progress, verify-tdd) in plain Node.
+        test: {
+          ...isolation,
+          name: 'scripts',
+          environment: 'node',
+          include: ['scripts/**/*.test.ts'],
+        },
+      },
+      {
         plugins: [WxtVitest()],
         test: {
           ...isolation,

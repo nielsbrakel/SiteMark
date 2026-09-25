@@ -30,7 +30,7 @@
   ],
   "packageManager": "pnpm@10.33.0",
   "engines": {
-    "node": "^22.12"
+    "node": "^22.18.0"
   },
   "scripts": {
     "dev": "wxt",
@@ -51,10 +51,10 @@
     "format": "biome format --write && prettier --write '**/*.{md,yml,yaml}'",
     "format:check": "biome format && prettier --check '**/*.{md,yml,yaml}'",
     "knip": "knip",
-    "test": "vitest run --project core --project dom",
-    "test:watch": "vitest --project core --project dom",
+    "test": "vitest run --project core --project dom --project scripts",
+    "test:watch": "vitest --project core --project dom --project scripts",
     "test:browser": "vitest run --project browser",
-    "test:coverage": "vitest run --coverage --project core --project dom --project browser",
+    "test:coverage": "vitest run --coverage --project core --project dom --project browser --project scripts",
     "test:e2e": "wxt build --mode e2e && playwright test",
     "test:build": "pnpm build:all && vitest run --project build",
     "size": "wxt build && vitest run --project build tests/build/size.test.ts",

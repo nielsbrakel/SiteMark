@@ -19,6 +19,7 @@
     "tests/fakes",
     "tests/browser",
     "tests/build",
+    "scripts",
     "*.config.ts"
   ],
   "exclude": ["src/core"]
