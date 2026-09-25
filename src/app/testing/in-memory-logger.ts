@@ -1,4 +1,3 @@
-import { notImplemented } from '../../core/not-implemented';
 import type { Logger } from '../ports';
 
 export type LogEntry = {
@@ -10,5 +9,11 @@ export type LogEntry = {
 export type InMemoryLogger = Logger & { readonly entries: readonly LogEntry[] };
 
 export function createInMemoryLogger(): InMemoryLogger {
-  return notImplemented();
+  const entries: LogEntry[] = [];
+  const log =
+    (level: LogEntry['level']) =>
+    (message: string, detail?: unknown): void => {
+      entries.push(detail === undefined ? { level, message } : { level, message, detail });
+    };
+  return { warn: log('warn'), error: log('error'), entries };
 }

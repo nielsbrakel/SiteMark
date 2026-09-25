@@ -1,5 +1,5 @@
-import { notImplemented } from '../../core/not-implemented';
-import type { Tabs } from '../ports';
+import { err, ok } from '../../core/result';
+import type { TabInfo, Tabs } from '../ports';
 
 export type InMemoryTab = {
   readonly id: number;
@@ -25,7 +25,40 @@ export type InMemoryTabs = Tabs & {
   respondWith(tabId: number, responder: (message: unknown) => unknown): void;
 };
 
+const info = ({ id, url }: InMemoryTab): TabInfo => (url === undefined ? { id } : { id, url });
+
 /** A Tabs fake: only tabs with a content script get messages; restricted tabs refuse injection. */
-export function createInMemoryTabs(_tabs: readonly InMemoryTab[] = []): InMemoryTabs {
-  return notImplemented();
+export function createInMemoryTabs(tabs: readonly InMemoryTab[] = []): InMemoryTabs {
+  const byId = new Map(tabs.map((tab) => [tab.id, tab]));
+  const listening = new Set(tabs.filter((tab) => tab.injected).map((tab) => tab.id));
+  const responders = new Map<number, (message: unknown) => unknown>();
+  const sent: SentMessage[] = [];
+  const injections: Injection[] = [];
+  const created: string[] = [];
+  return {
+    list: async () => tabs.map(info),
+    active: async () => {
+      const tab = tabs.find((candidate) => candidate.active);
+      return tab && info(tab);
+    },
+    sendMessage: async (tabId, message) => {
+      if (!listening.has(tabId)) return err('noReceiver');
+      sent.push({ tabId, message });
+      return ok(responders.get(tabId)?.(message));
+    },
+    inject: async (tabId, files) => {
+      const tab = byId.get(tabId);
+      if (!tab || tab.restricted) return err('injectionFailed');
+      injections.push({ tabId, files: [...files] });
+      listening.add(tabId);
+      return ok(undefined);
+    },
+    create: async (url) => {
+      created.push(url);
+    },
+    sent,
+    injections,
+    created,
+    respondWith: (tabId, responder) => void responders.set(tabId, responder),
+  };
 }

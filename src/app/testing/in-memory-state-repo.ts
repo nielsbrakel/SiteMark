@@ -1,5 +1,6 @@
+import { emptyState } from '../../core/model/defaults';
 import type { SiteMarkState } from '../../core/model/schema';
-import { notImplemented } from '../../core/not-implemented';
+import { err, ok } from '../../core/result';
 import type { LoadedState, StateBackup, StateRepo } from '../ports';
 
 export type InMemoryStateRepoOptions = {
@@ -16,9 +17,33 @@ export type InMemoryStateRepo = StateRepo & {
   failNextSave(): void;
 };
 
+function defaultBackups(loaded: LoadedState): StateBackup[] {
+  return loaded.mode === 'recovered' ? [loaded.backup] : [];
+}
+
 /** A StateRepo fake for use-case tests, keeping tests/contracts/state-repo-contract.ts. */
-export function createInMemoryStateRepo(
-  _options: InMemoryStateRepoOptions = {},
-): InMemoryStateRepo {
-  return notImplemented();
+export function createInMemoryStateRepo(options: InMemoryStateRepoOptions = {}): InMemoryStateRepo {
+  const fresh: LoadedState = { mode: 'normal', state: emptyState() };
+  let current: LoadedState = structuredClone(options.loaded ?? fresh);
+  const backups: StateBackup[] = structuredClone([...(options.backups ?? defaultBackups(current))]);
+  const saves: SiteMarkState[] = [];
+  let failNext = false;
+  return {
+    load: async (): Promise<LoadedState> => structuredClone(current),
+    save: async (state) => {
+      if (current.mode === 'readOnly') return err('stateReadOnly');
+      if (failNext) {
+        failNext = false;
+        return err('storageFailed');
+      }
+      current = { mode: 'normal', state: structuredClone(state) };
+      saves.push(structuredClone(state));
+      return ok(undefined);
+    },
+    backups: async () => structuredClone(backups).sort((a, b) => b.savedAt - a.savedAt),
+    saves,
+    failNextSave: () => {
+      failNext = true;
+    },
+  };
 }

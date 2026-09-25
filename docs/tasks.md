@@ -98,7 +98,7 @@ Status: ☐ todo · ✅ done.
 
 | Task  | Description                                                                                                                   | REQs                                     | Tests                                                   | Status |
 | ----- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------- | ------ |
-| T-061 | Ports + in-memory fakes (StateRepo, Permissions, ScriptRegistrar, Tabs, Badge, Logger)                                        | REQ-NFR-004                              | `src/app/ports.test.ts`                                 | ☐      |
+| T-061 | Ports + in-memory fakes (StateRepo, Permissions, ScriptRegistrar, Tabs, Badge, Logger)                                        | REQ-NFR-004                              | `src/app/ports.test.ts`, `src/platform/logger.test.ts`  | ✅     |
 | T-062 | StateRepo adapter: load → migrate, 3 rotating backups, read-only mode, local only                                             | REQ-DATA-001, REQ-DATA-007, REQ-PRIV-006 | `src/platform/state-repo.test.ts`                       | ☐      |
 | T-063 | Storage access level `TRUSTED_CONTEXTS` (feature-detected per browser)                                                        | REQ-SEC-002                              | `src/platform/state-repo.test.ts`                       | ☐      |
 | T-064 | Command queue: serialized single writer, revision, concurrent-commands test                                                   | REQ-SEC-001                              | `src/app/command-queue.test.ts`                         | ☐      |
