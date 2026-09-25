@@ -1,6 +1,6 @@
 import type { UrlPatternErrorCode } from '../errors';
-import { notImplemented } from '../not-implemented';
-import type { Result } from '../result';
+import { err, ok, type Result } from '../result';
+import { isIpAddress, normalizeHost, parsePort, splitHostPort } from './host';
 
 /** `*` means http or https (REQ-URL-001). */
 export type WildcardScheme = 'http' | 'https' | '*';
@@ -20,17 +20,97 @@ export type ParsedWildcard = {
   readonly matchesQuery: boolean;
 };
 
+type Code = UrlPatternErrorCode;
+
+/** `scheme://` at the start: everything before the first `://`, if no `/?#:` comes earlier. */
+const SCHEME_PREFIX = /^([^/?#:[\]]*):\/\//;
+/** Schemes written without `//` (`about:blank`); anything else before a `:` is a host. */
+const OPAQUE_SCHEME = /^(about|blob|data|file|javascript|mailto|tel|view-source):/i;
+const SCHEMES: readonly string[] = ['http', 'https', '*'] satisfies WildcardScheme[];
+/** Characters a browser percent-encodes in a path or query: controls, space, `"`, `<`, `>`. */
+const ENCODED = /[^!#-;=?-~]/gu;
+
+function isScheme(text: string): text is WildcardScheme {
+  return SCHEMES.includes(text);
+}
+
+function splitScheme(text: string): Result<{ scheme: WildcardScheme; rest: string }, Code> {
+  const prefix = SCHEME_PREFIX.exec(text);
+  if (!prefix) {
+    return OPAQUE_SCHEME.test(text) ? err('patternInvalidScheme') : ok({ scheme: '*', rest: text });
+  }
+  const scheme = (prefix[1] ?? '').toLowerCase();
+  if (!isScheme(scheme)) return err('patternInvalidScheme');
+  return ok({ scheme, rest: text.slice(prefix[0].length) });
+}
+
+function encodeChar(char: string): string {
+  try {
+    return encodeURIComponent(char);
+  } catch {
+    return '%EF%BF%BD'; // a lone surrogate becomes U+FFFD, as in a browser
+  }
+}
+
+/** The pattern's path (and query), fragment dropped and encoded like a browser URL. */
+function normalizePath(tail: string): string {
+  const hash = tail.indexOf('#');
+  const path = hash < 0 ? tail : tail.slice(0, hash);
+  if (path === '') return '/*';
+  return (path.startsWith('?') ? `/${path}` : path).replace(ENCODED, encodeChar);
+}
+
+type Authority = { host: string; includeSubdomains: boolean; port: number | undefined };
+
+function parseHost(raw: string): Result<{ host: string; includeSubdomains: boolean }, Code> {
+  const includeSubdomains = raw.startsWith('*.');
+  const bare = includeSubdomains ? raw.slice(2) : raw;
+  if (bare.includes('*')) return err('patternWildcardInHost');
+  const host = normalizeHost(bare);
+  if (!host.ok) return host;
+  if (includeSubdomains && isIpAddress(host.value)) return err('patternInvalidHost');
+  return ok({ host: host.value, includeSubdomains });
+}
+
+function parseAuthority(authority: string): Result<Authority, Code> {
+  const wildcard = authority.startsWith('*.') ? '*.' : '';
+  const split = splitHostPort(authority.slice(wildcard.length));
+  if (!split.ok) return split;
+  const host = parseHost(wildcard + split.value.host);
+  if (!host.ok) return host;
+  if (split.value.port === undefined) return ok({ ...host.value, port: undefined });
+  const port = parsePort(split.value.port);
+  return port.ok ? ok({ ...host.value, port: port.value }) : port;
+}
+
 /** Parses and validates a wildcard pattern or its shorthand. Never throws (D-225). */
-export function parseWildcard(_input: string): Result<ParsedWildcard, UrlPatternErrorCode> {
-  return notImplemented();
+export function parseWildcard(input: string): Result<ParsedWildcard, UrlPatternErrorCode> {
+  const text = input.trim();
+  if (text === '') return err('patternEmpty');
+  const scheme = splitScheme(text);
+  if (!scheme.ok) return scheme;
+  const { rest } = scheme.value;
+  const end = rest.search(/[/?#]/);
+  const authority = parseAuthority(end < 0 ? rest : rest.slice(0, end));
+  if (!authority.ok) return authority;
+  const path = normalizePath(end < 0 ? '' : rest.slice(end));
+  return ok({
+    scheme: scheme.value.scheme,
+    ...authority.value,
+    path,
+    matchesQuery: path.includes('?'),
+  });
 }
 
 /** The canonical text of a parsed pattern: `scheme://[*.]host[:port]/path`. */
-export function formatWildcard(_parsed: ParsedWildcard): string {
-  return notImplemented();
+export function formatWildcard(parsed: ParsedWildcard): string {
+  const host = `${parsed.includeSubdomains ? '*.' : ''}${parsed.host}`;
+  const port = parsed.port === undefined ? '' : `:${parsed.port}`;
+  return `${parsed.scheme}://${host}${port}${parsed.path}`;
 }
 
 /** Parses `input` and returns its canonical text, the form that is stored. */
-export function normalizeWildcard(_input: string): Result<string, UrlPatternErrorCode> {
-  return notImplemented();
+export function normalizeWildcard(input: string): Result<string, UrlPatternErrorCode> {
+  const parsed = parseWildcard(input);
+  return parsed.ok ? ok(formatWildcard(parsed.value)) : parsed;
 }
