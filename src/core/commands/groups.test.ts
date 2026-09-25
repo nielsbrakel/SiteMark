@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import type { SiteGroupId } from '../ids';
 import { emptyState } from '../model/defaults';
-import { parseState, type SiteGroup, type SiteMarkState } from '../model/schema';
-import { err, type Result } from '../result';
+import type { SiteMarkState } from '../model/schema';
+import { err } from '../result';
 import { aSiteGroup, aState, aWildcardPattern } from '../testing/builders';
+import { applied, frozen, MISSING_GROUP_ID as MISSING, stateWith } from '../testing/reducers';
 import { times } from '../testing/schema-results';
 import { fixedIdGen } from '../testing/test-doubles';
 import {
@@ -13,29 +14,6 @@ import {
   renameSiteGroup,
   setSiteGroupEnabled,
 } from './groups';
-
-// Reducers get deeply frozen states: a reducer that mutates its input throws in strict mode.
-
-const MISSING = 'grp-missing0' as SiteGroupId;
-
-function frozen<T>(value: T): T {
-  if (typeof value === 'object' && value !== null) {
-    for (const child of Object.values(value)) frozen(child);
-    Object.freeze(value);
-  }
-  return value;
-}
-
-function stateWith(...siteGroups: SiteGroup[]): SiteMarkState {
-  return frozen(aState({ revision: 7, siteGroups }));
-}
-
-/** The new state; fails the test with the error code when the reducer refused. */
-function applied(result: Result<SiteMarkState, unknown>): SiteMarkState {
-  if (!result.ok) expect.fail(`expected ok, got ${String(result.error)}`);
-  expect(parseState(result.value)).toEqual({ ok: true, value: result.value });
-  return result.value;
-}
 
 const namesOf = (state: SiteMarkState) => state.siteGroups.map((group) => group.name);
 const create = (state: SiteMarkState, name: string) =>
