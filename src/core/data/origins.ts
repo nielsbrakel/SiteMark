@@ -1,5 +1,6 @@
-import type { OriginPattern, SiteGroup, SiteMarkState, UrlPattern } from '../model/schema';
+import type { SiteGroup, SiteMarkState, UrlPattern } from '../model/schema';
 import { assertNever } from '../result';
+import type { OriginPattern } from '../url/origin';
 import { toOriginPattern } from '../url/origin';
 import { parseWildcard } from '../url/parse';
 

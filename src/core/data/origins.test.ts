@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import type { OriginPattern, SiteGroup } from '../model/schema';
+import type { SiteGroup } from '../model/schema';
 import { aRegexPattern, aSiteGroup, aState, aWildcardPattern } from '../testing/builders';
+import type { OriginPattern } from '../url/origin';
 import {
   originsOfEnabledSiteGroups,
   originsOfSiteGroup,

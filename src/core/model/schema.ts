@@ -1,5 +1,6 @@
 import type { Brand, MarkId, PatternId, SiteGroupId } from '../ids';
 import type { Result } from '../result';
+import type { OriginPattern } from '../url/origin';
 import { hexSchema } from './fields';
 import { siteGroupSchema } from './group-schema';
 import { parseWith } from './issues';
@@ -12,8 +13,7 @@ import { stateSchema } from './state-schema';
 
 /** `^#[0-9a-f]{6}$`, lowercased on input. */
 export type Hex = Brand<string, 'Hex'>;
-/** `^(\*|https?)://(\*\.)?host(:port)?/\*$`, never broad (the URL engine checks breadth). */
-export type OriginPattern = Brand<string, 'OriginPattern'>;
+// `OriginPattern` (spec §7) is owned by the URL engine: src/core/url/origin.ts.
 
 export type Theme = 'system' | 'light' | 'dark';
 

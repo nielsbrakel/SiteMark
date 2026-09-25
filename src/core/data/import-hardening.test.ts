@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import type { OriginPattern, SiteGroup, UrlPattern } from '../model/schema';
+import type { SiteGroup, UrlPattern } from '../model/schema';
 import type { Result } from '../result';
 import { aRegexPattern, aSiteGroup, aState, aWildcardPattern } from '../testing/builders';
+import type { OriginPattern } from '../url/origin';
 import { buildExport } from './export';
 import { type ImportData, type ImportError, type PatternIssue, parseImport } from './import';
 
@@ -94,13 +95,21 @@ describe('REQ-URL-009 parseImport re-validates every pattern with the URL engine
     },
   );
 
-  it('rejects a regex with a broad origin or an unsafe expression', () => {
-    const broad = aRegexPattern({ origins: origins('https://*.com/*') });
+  it('rejects an unsafe regex', () => {
     const unsafe = aRegexPattern({ value: '(a+)+$' });
-    const text = fileOf([aSiteGroup(), aSiteGroup({ patterns: [broad, unsafe] })]);
+    const text = fileOf([aSiteGroup(), aSiteGroup({ patterns: [unsafe] })]);
     expect(patternIssues(parseImport(text))).toEqual([
-      { path: 'siteGroups[1].patterns[0]', code: 'patternTooBroad' },
-      { path: 'siteGroups[1].patterns[1]', code: 'regexUnsafe' },
+      { path: 'siteGroups[1].patterns[0]', code: 'regexUnsafe' },
+    ]);
+  });
+
+  it('rejects a regex origin that is broad or not canonical at the schema level', () => {
+    const broad = aRegexPattern({ origins: origins('https://*.com/*') });
+    const ported = aRegexPattern({ origins: origins('https://example.com:8443/*') });
+    const result = parseImport(fileOf([aSiteGroup({ patterns: [broad, ported] })]));
+    expect(result.ok ? [] : 'issues' in result.error ? result.error.issues : []).toEqual([
+      expect.objectContaining({ path: 'siteGroups[0].patterns[0].origins[0]' }),
+      expect.objectContaining({ path: 'siteGroups[0].patterns[1].origins[0]' }),
     ]);
   });
 
@@ -111,11 +120,9 @@ describe('REQ-URL-009 parseImport re-validates every pattern with the URL engine
     ]);
   });
 
-  it('stores patterns and regex origins in canonical form', () => {
+  it('stores patterns in canonical form', () => {
     const wildcard = aWildcardPattern({ value: 'Prod.Example.com' });
-    const regex = aRegexPattern({
-      origins: origins('https://example.com:8443/*', 'https://example.com/*'),
-    });
+    const regex = aRegexPattern({ origins: origins('https://example.com/*') });
     const [group] = importedOf(
       parseImport(fileOf([aSiteGroup({ patterns: [wildcard, regex] })])),
     ).siteGroups;

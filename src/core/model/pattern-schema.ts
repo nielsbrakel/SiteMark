@@ -1,24 +1,22 @@
 import type { ZodType } from 'zod';
 import type { PatternId } from '../ids';
+import { isOriginPattern, type OriginPattern } from '../url/origin';
 import { idSchema } from './fields';
-import type { OriginPattern, UrlPattern } from './schema';
+import type { UrlPattern } from './schema';
 import { z } from './zod';
 
-// Shape and limits only (REQ-SEC-004, REQ-URL-004, REQ-URL-010). Whether a pattern parses, is safe
-// and isn't too broad is the URL engine's job (src/core/url), run by reducers and import.
+// Shape and limits only (REQ-SEC-004, REQ-URL-004, REQ-URL-010), plus canonical regex origins.
+// Whether a pattern parses, is safe and isn't too broad is the URL engine's job (src/core/url),
+// run by reducers and import.
 
 const MAX_LENGTH = 500;
 const MAX_STARS = 10;
 const MAX_ORIGINS = 20;
 
-/** `^(\*|https?)://(\*\.)?host(:port)?/\*$` with a lowercase DNS name, IPv4 or bracketed IPv6. */
-const ORIGIN =
-  /^(\*|https?):\/\/(\*\.)?([a-z0-9-]+(\.[a-z0-9-]+)*|\[[0-9a-f:.]+\])(:\d{1,5})?\/\*$/;
-
-const originSchema = z.custom<OriginPattern>(
-  (value) => typeof value === 'string' && ORIGIN.test(value),
-  { error: 'Expected an origin pattern like https://*.example.com/*' },
-);
+/** The canonical form the URL engine produces (REQ-URL-005): no port, never broad. */
+const originSchema = z.custom<OriginPattern>(isOriginPattern, {
+  error: 'Expected an origin pattern like https://*.example.com/*',
+});
 
 const lengthMessage = `Expected 1-${MAX_LENGTH} characters`;
 const patternValue = z.string().min(1, lengthMessage).max(MAX_LENGTH, lengthMessage);

@@ -1,7 +1,8 @@
 import type { SiteGroupErrorCode } from '../errors';
 import type { IdGen, SiteGroupId } from '../ids';
-import type { OriginPattern, RegexPattern, SiteGroup, SiteMarkState } from '../model/schema';
+import type { RegexPattern, SiteGroup, SiteMarkState } from '../model/schema';
 import { err, ok, type Result } from '../result';
+import type { OriginPattern } from '../url/origin';
 import { idsOfSiteGroup, withFreeIds } from './free-ids';
 import type { ImportData } from './import';
 import { originsToRequest } from './origins';

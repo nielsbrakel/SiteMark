@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import type { SiteGroupId } from '../ids';
-import type { OriginPattern, SiteGroup, SiteMarkState } from '../model/schema';
+import type { SiteGroup, SiteMarkState } from '../model/schema';
 import { err } from '../result';
 import { aPageMark, aRegexPattern, aSiteGroup, aWildcardPattern } from '../testing/builders';
 import { applied, frozen, stateWith } from '../testing/reducers';
 import { times } from '../testing/schema-results';
 import { fixedIdGen } from '../testing/test-doubles';
+import type { OriginPattern } from '../url/origin';
 import type { ImportData } from './import';
 import { mergeImport, previewImport, replaceImport } from './merge-import';
 

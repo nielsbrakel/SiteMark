@@ -3,13 +3,13 @@ import type {
   ElementMark,
   Hex,
   Mark,
-  OriginPattern,
   PageMark,
   RegexPattern,
   SiteGroup,
   SiteMarkState,
   WildcardPattern,
 } from '../model/schema';
+import type { OriginPattern } from '../url/origin';
 
 // Test builders: each returns schema-valid data with deterministic IDs; overrides replace whole
 // top-level fields. IDs come from one counter per test file (`grp-00000001`, `pat-00000002`, …),
