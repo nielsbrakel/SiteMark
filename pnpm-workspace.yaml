@@ -7,3 +7,8 @@ onlyBuiltDependencies: []
 
 # Refuse to install on a Node or pnpm version outside package.json `engines`.
 engineStrict: true
+
+# Reviewed and deliberately not run: lefthook's postinstall would install git hooks from inside a
+# dependency. `pnpm prepare` (scripts/install-hooks.mjs) installs them instead.
+ignoredBuiltDependencies:
+  - lefthook
