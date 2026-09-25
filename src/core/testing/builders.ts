@@ -10,7 +10,6 @@ import type {
   SiteMarkState,
   WildcardPattern,
 } from '../model/schema';
-import { notImplemented } from '../not-implemented';
 
 // Test builders: each returns schema-valid data with deterministic IDs; overrides replace whole
 // top-level fields. IDs come from one counter per test file (`grp-00000001`, `pat-00000002`, …),
@@ -56,8 +55,16 @@ export function aPageMark(overrides: Partial<PageMark> = {}): PageMark {
 }
 
 /** A blue 2 px outline around `#app`. */
-export function anElementMark(_overrides: Partial<ElementMark> = {}): ElementMark {
-  return notImplemented();
+export function anElementMark(overrides: Partial<ElementMark> = {}): ElementMark {
+  return {
+    id: nextId<MarkId>('mrk'),
+    enabled: true,
+    color: '#1f6feb' as Hex,
+    textColor: 'auto',
+    target: { kind: 'element', selector: '#app' },
+    effects: { outline: { widthPx: 2, style: 'solid', pulse: false } },
+    ...overrides,
+  };
 }
 
 /** Any valid mark: a page ribbon, like `aPageMark()`. */
