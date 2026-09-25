@@ -76,15 +76,15 @@ Improve the code without changing behavior. `pnpm check` must pass. Don't make e
 
 ## Test layers (D-233)
 
-| Layer     | Where                          | Use it for                                                                                              |
-| --------- | ------------------------------ | ------------------------------------------------------------------------------------------------------- |
-| `core`    | Vitest, node environment       | Pure domain logic. Table tests + fast-check properties                                                  |
-| `dom`     | Vitest, happy-dom              | Use cases with in-memory fakes, adapters with the fake browser, DOM structure, React (RTL + vitest-axe) |
-| `browser` | Vitest browser mode (Chromium) | Anything needing real layout, canvas, popover, `elementsFromPoint`, CSS cascade (`*.browser.test.ts`)   |
-| e2e       | Playwright + built extension   | Real extension behavior: registration, permissions, isolated world, top layer, CSP, hostile pages       |
-| build     | Vitest (node) on `.output/**`  | Manifest privacy assertions for every target, output scan for network/eval                              |
-| mutation  | Stryker (nightly)              | `src/core` test strength                                                                                |
-| manual    | This document                  | Firefox each release (D-214), Safari from v1.1                                                          |
+| Layer     | Where                          | Use it for                                                                                               |
+| --------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| `core`    | Vitest, node environment       | Pure domain logic. Table tests + fast-check properties                                                   |
+| `dom`     | Vitest, happy-dom              | Use cases with in-memory fakes, adapters with the fake browser, DOM structure, React (RTL + vitest-axe)  |
+| `browser` | Vitest browser mode (Chromium) | Anything needing real layout, canvas, popover, `elementsFromPoint`, CSS cascade (`*.browser.test.ts`)    |
+| e2e       | Playwright + built extension   | Real extension behavior: registration, permissions, isolated world, top layer, CSP, hostile pages        |
+| build     | Vitest (node) on `.output/**`  | Manifest privacy assertions for every target, output scan for network/eval                               |
+| mutation  | Stryker (nightly)              | `src/core` test strength: `pnpm mutation` fails below a 60 % mutation score (HTML in `reports/mutation`) |
+| manual    | This document                  | Firefox each release (D-214), Safari from v1.1                                                           |
 
 **Fakes**: `tests/fakes/` provides stateful fakes for `permissions`, `scripting`, `i18n` (it reads
 `en/messages.json` and throws on unknown keys) and `commands`, which `wxt/testing`'s fake browser lacks. They are

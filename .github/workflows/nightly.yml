@@ -1,0 +1,36 @@
+name: Nightly
+
+on:
+  schedule:
+    # 03:17 UTC every day, off the top of the hour.
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+# Every job declares its own minimal permissions (REQ-SEC-009, D-238).
+permissions: {}
+
+concurrency:
+  group: nightly-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  mutation:
+    name: mutation (Stryker, src/core)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      # Fails below a 60 % mutation score (stryker.config.mjs, REQ-NFR-004).
+      - run: pnpm mutation
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: mutation-report
+          path: reports/mutation/
+          retention-days: 14
+          if-no-files-found: ignore

@@ -7,7 +7,8 @@
         "src/entrypoints/*/main.tsx",
         "tests/e2e/serve.mjs",
         "scripts/*.mjs",
-        "scripts/*/cli.ts"
+        "scripts/*/cli.ts",
+        "vitest.mutation.config.ts"
       ],
       "project": [
         "src/**/*.{ts,tsx}",

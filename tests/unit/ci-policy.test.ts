@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import playwright from '../../node_modules/@playwright/test/package.json';
@@ -8,7 +9,7 @@ import pkg from '../../package.json';
 // Supply-chain and CI policy (REQ-SEC-009, D-238), checked on every run so a workflow edit or a
 // Dependabot bump can't quietly undo it. zizmor and actionlint cover the rest in CI.
 
-type Step = { uses?: string; with?: Record<string, unknown> };
+type Step = { uses?: string; run?: string; with?: Record<string, unknown> };
 type Job = {
   'timeout-minutes'?: number;
   permissions?: unknown;
@@ -16,7 +17,11 @@ type Job = {
   container?: { image: string };
   steps?: Step[];
 };
-type Workflow = { permissions?: unknown; jobs: Record<string, Job> };
+type Workflow = {
+  on?: { schedule?: { cron: string }[] };
+  permissions?: unknown;
+  jobs: Record<string, Job>;
+};
 
 const yamlIn = (dir: string) =>
   readdirSync(dir, { recursive: true, encoding: 'utf8' })
@@ -110,5 +115,26 @@ describe('REQ-SEC-009 dependencies are frozen, pinned and cooled down', () => {
     for (const update of config.updates) {
       expect(update.cooldown, update['package-ecosystem']).toBeDefined();
     }
+  });
+});
+
+describe('REQ-NFR-004 mutation testing guards core every night', () => {
+  it('runs `pnpm mutation` on a schedule and keeps the HTML report', () => {
+    const nightly = load<Workflow>('.github/workflows/nightly.yml');
+    expect(nightly.on?.schedule?.length).toBeGreaterThan(0);
+    const steps = Object.values(nightly.jobs).flatMap((job) => job.steps ?? []);
+    expect(steps.map((step) => step.run)).toContain('pnpm mutation');
+    const upload = steps.find((step) => step.uses?.startsWith('actions/upload-artifact@'));
+    expect(upload?.with?.path).toBe('reports/mutation/');
+  });
+
+  it('mutates src/core and fails below a 60 % mutation score', async () => {
+    const href = pathToFileURL(path.resolve('stryker.config.mjs')).href;
+    const config = (await import(href)).default as {
+      mutate: string[];
+      thresholds: { break: number };
+    };
+    expect(config.mutate).toContain('src/core/**/*.ts');
+    expect(config.thresholds.break).toBeGreaterThanOrEqual(60);
   });
 });
