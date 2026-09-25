@@ -45,7 +45,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm wxt zip -b ${{ matrix.browser }}
-      - name: Build assertions (manifest, output scan)
+      - name: Build assertions (manifest, output scan, size budget)
         run: pnpm exec vitest run --project build
         env:
           SITEMARK_TARGETS: ${{ matrix.browser }}

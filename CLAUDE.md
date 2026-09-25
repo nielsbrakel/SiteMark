@@ -27,5 +27,5 @@ Read `docs/spec.md` (requirements), `docs/plan.md` (architecture), `docs/decisio
 
 ## Commands
 
-`pnpm test` · `pnpm lint` · `pnpm format` · `pnpm test:e2e` (set `PW_CHROMIUM_EXECUTABLE` to use a preinstalled Chromium) ·
+`pnpm test` · `pnpm test:browser` · `pnpm test:build` · `pnpm lint` · `pnpm format` · `pnpm test:e2e` (set `PW_CHROMIUM_EXECUTABLE` to use a preinstalled Chromium) ·
 `pnpm check` · `pnpm progress` · `pnpm build[:firefox|:safari]` · `pnpm icons` (after logo SVG changes)
