@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { decode, prerenderedPages } from '../../tests/unit/rendered-pages';
+import { decode } from '../../tests/html';
+import { prerenderedPages } from '../../tests/unit/rendered-pages';
 import { jsonLdText, softwareApplication } from './json-ld';
 
 const JSON_LD = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;

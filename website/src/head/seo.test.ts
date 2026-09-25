@@ -1,11 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import {
-  langOf,
-  metaContent,
-  prerenderedPages,
-  tags,
-  titleOf,
-} from '../../tests/unit/rendered-pages';
+import { langOf, metaContent, tags, titleOf } from '../../tests/html';
+import { prerenderedPages } from '../../tests/unit/rendered-pages';
 import type { RenderedPage } from '../entry-server';
 import { routeTable } from '../routes/routes';
 import { seoHead } from './seo';
