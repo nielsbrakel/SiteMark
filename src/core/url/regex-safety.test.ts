@@ -20,7 +20,7 @@ describe('REQ-URL-004 regex patterns: safe subset only (D-211)', () => {
     // Alternation outside a repeat, and repeats that can't eat what follows them.
     String.raw`^https://[a-z0-9-]+\.example\.com/(admin|ops)/.*`,
     String.raw`^https://[^/]+\.example\.com/[^?]*\?(.*&)?debug=1`,
-    String.raw`^https?://(staging|stage|stg)[.-]`,
+    '^https?://(staging|stage|stg)[.-]',
     String.raw`[a-z]+\.example\.com/`,
     String.raw`/admin/\d+$`,
     // Anchored, so it runs once: overlapping repeats cost ~n² there, not ~n³.
@@ -78,7 +78,7 @@ describe('REQ-URL-004 regex patterns: safe subset only (D-211)', () => {
     [String.raw`\w+\dxyz`, 'regexUnsafe'],
     [String.raw`\s+ xyz`, 'regexUnsafe'],
     [String.raw`[^/]+\.xyz`, 'regexUnsafe'],
-    [String.raw`[a-z]+[x-z0-9]xyz`, 'regexUnsafe'],
+    ['[a-z]+[x-z0-9]xyz', 'regexUnsafe'],
     [String.raw`\p{L}+/xyz`, 'regexUnsafe'],
     // Length.
     ['a'.repeat(501), 'regexTooLong'],
@@ -95,15 +95,21 @@ const HOSTILE_URLS = ['1', '1x', '11x', 'x', '.', 'a.', 'a/', 'a.c', '1.'].flatM
   return [url, `${url.slice(0, -1)}!`];
 });
 
-/** The slowest run of `source` over the hostile URLs, in ms. */
+/** One timed run of `regex` on `url`, in ms. */
+function timed(regex: RegExp, url: string): number {
+  const started = Date.now();
+  regex.test(url);
+  return Date.now() - started;
+}
+
+/**
+ * The slowest hostile URL for `source`, in ms. Each URL keeps its fastest of 3 runs, because a
+ * loaded machine only ever adds time; a catastrophic regex is slow on every run.
+ */
 function slowestRun(source: string): number {
   const regex = new RegExp(source, 'u');
   return Math.max(
-    ...HOSTILE_URLS.map((url) => {
-      const started = Date.now();
-      regex.test(url);
-      return Date.now() - started;
-    }),
+    ...HOSTILE_URLS.map((url) => Math.min(timed(regex, url), timed(regex, url), timed(regex, url))),
   );
 }
 
@@ -113,7 +119,7 @@ describe('REQ-URL-004 an accepted regex stays fast on a hostile URL (D-211)', ()
     String.raw`\w*$`,
     String.raw`\d+/`,
     String.raw`\d*\.\.\.`,
-    String.raw`[a-z.]+1.1/(?:1)?11111`,
+    '[a-z.]+1.1/(?:1)?11111',
     String.raw`\d{0,50}1\d?1\d{0,9}\.\.\.`,
     String.raw`^\d*\d*$`,
     String.raw`^https://[^/]+\.example\.com/[^?]*\?(.*&)?debug=1`,
@@ -121,5 +127,27 @@ describe('REQ-URL-004 an accepted regex stays fast on a hostile URL (D-211)', ()
   ])('%j is accepted and runs in < 50 ms', (source) => {
     expect(validateRegex(source).ok).toBe(true);
     expect(slowestRun(source)).toBeLessThan(50);
+  });
+
+  // biome-ignore format: a table of regex pieces reads better packed
+  const PIECES = [
+    String.raw`\d*`, String.raw`\d+`, String.raw`\d{0,50}`, String.raw`\d{3}`, '1', '11', 'x', '$', '.*',
+    '.+', '(?:1|1)', '(?:1|x)', '(?:1)?', '1?', '[0-9x]*', '[a-z1.]+', '[^/]+', String.raw`\w*`,
+    String.raw`\b`, String.raw`\.`, '/', '(?:11)*', String.raw`\d{2,}`, '(?:x|$)',
+  ];
+
+  it('random pieces: every accepted regex runs in < 50 ms', () => {
+    let seed = 42;
+    const next = (n: number) => {
+      seed = (seed * 1_103_515_245 + 12_345) % 2 ** 31; // a fixed LCG: the same regexes each run
+      return seed % n;
+    };
+    let slowest = 0;
+    for (let i = 0; i < 400; i++) {
+      const pieces = Array.from({ length: 1 + next(6) }, () => PIECES[next(PIECES.length)]);
+      const source = (next(3) === 0 ? '^' : '') + pieces.join('');
+      if (validateRegex(source).ok) slowest = Math.max(slowest, slowestRun(source));
+    }
+    expect(slowest).toBeLessThan(50);
   });
 });

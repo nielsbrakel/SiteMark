@@ -2,8 +2,11 @@ import { type AST, RegExpParser, visitRegExpAST } from '@eslint-community/regexp
 import type { RegexErrorCode } from '../errors';
 import { err, ok, type Result } from '../result';
 import { memoize } from './memo';
+import { regexCost } from './regex-cost';
 
 const MAX_LENGTH = 500;
+/** Worst-case backtracking steps of one `test` (see regex-cost.ts). */
+const MAX_STEPS = 10_000_000;
 /** The flags are fixed by the code (REQ-URL-004): unicode mode, nothing else. */
 const FLAGS = 'u';
 /** ES2024 = the syntax every supported browser runs (D-241), e.g. no `(?i:…)` modifiers yet. */
@@ -20,10 +23,10 @@ function parse(source: string): AST.Pattern | undefined {
 }
 
 /**
- * Backreferences, lookaround, or a quantifier inside a repeating quantifier (max > 1): the
- * constructs that make a backtracking engine slow (star height ≤ 1).
+ * Backreferences, lookaround, and anything but a single character, class or fixed sequence inside a
+ * repeating quantifier (max > 1): no nested quantifiers (star height ≤ 1) and no alternation.
  */
-function isUnsafe(pattern: AST.Pattern): boolean {
+function hasUnsafeSyntax(pattern: AST.Pattern): boolean {
   let unsafe = false;
   let repeating = 0;
   visitRegExpAST(pattern, {
@@ -32,6 +35,9 @@ function isUnsafe(pattern: AST.Pattern): boolean {
     },
     onAssertionEnter: (node) => {
       if (node.kind === 'lookahead' || node.kind === 'lookbehind') unsafe = true;
+    },
+    onAlternativeEnter: (node) => {
+      if (repeating > 0 && node.parent.alternatives.length > 1) unsafe = true;
     },
     onQuantifierEnter: (node) => {
       if (repeating > 0) unsafe = true;
@@ -53,7 +59,8 @@ export function validateRegex(source: string): Result<string, RegexErrorCode> {
   if (source.length > MAX_LENGTH) return err('regexTooLong');
   const pattern = source === '' ? undefined : parse(source);
   if (!pattern) return err('regexInvalid');
-  return isUnsafe(pattern) ? err('regexUnsafe') : ok(source);
+  if (hasUnsafeSyntax(pattern) || regexCost(pattern) > MAX_STEPS) return err('regexUnsafe');
+  return ok(source);
 }
 
 /** Compiles a stored regex with the fixed flags, or `undefined` when it isn't in the safe subset. */
