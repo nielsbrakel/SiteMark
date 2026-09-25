@@ -1,3 +1,5 @@
+import { notImplemented } from './not-implemented';
+
 /** Longer tokens are almost always generated, and would eat the 300-character selector budget. */
 const MAX_TOKEN_LENGTH = 64;
 
@@ -53,4 +55,17 @@ function isRandomCase(segment: string): boolean {
 
 function countMatches(text: string, pattern: RegExp): number {
   return text.match(pattern)?.length ?? 0;
+}
+
+/**
+ * Escapes `value` for use as a CSS identifier (a class name or id in a selector), following the CSSOM
+ * `CSS.escape()` algorithm. Core has no DOM, so this is a pure reimplementation.
+ */
+export function cssEscapeIdent(_value: string): string {
+  return notImplemented();
+}
+
+/** Quotes `value` as a CSS string for an attribute selector: `[aria-label=${cssAttrValue(label)}]`. */
+export function cssAttrValue(_value: string): string {
+  return notImplemented();
 }
