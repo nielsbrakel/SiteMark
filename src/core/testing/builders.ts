@@ -1,5 +1,6 @@
 import type { EntityId, MarkId, PatternId, SiteGroupId } from '../ids';
 import type {
+  ElementMark,
   Hex,
   Mark,
   OriginPattern,
@@ -9,6 +10,7 @@ import type {
   SiteMarkState,
   WildcardPattern,
 } from '../model/schema';
+import { notImplemented } from '../not-implemented';
 
 // Test builders: each returns schema-valid data with deterministic IDs; overrides replace whole
 // top-level fields. IDs come from one counter per test file (`grp-00000001`, `pat-00000002`, …),
@@ -51,6 +53,11 @@ export function aPageMark(overrides: Partial<PageMark> = {}): PageMark {
     effects: { ribbon: { text: 'PROD', corner: 'top-right' } },
     ...overrides,
   };
+}
+
+/** A blue 2 px outline around `#app`. */
+export function anElementMark(_overrides: Partial<ElementMark> = {}): ElementMark {
+  return notImplemented();
 }
 
 /** Any valid mark: a page ribbon, like `aPageMark()`. */
