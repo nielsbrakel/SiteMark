@@ -186,8 +186,8 @@ describe('REQ-SEC-004 URL pattern shape and limits', () => {
     'https://example.com/*',
     'http://example.com/*',
     '*://*.example.com/*',
-    'http://localhost:3000/*',
-    'https://[::1]:8443/*',
+    'http://localhost/*',
+    'https://[::1]/*',
     'https://192.168.0.1/*',
   ])('accepts the origin %s', (origin) => {
     expect(parseUrlPattern({ ...aRegexPattern(), origins: [origin] }).ok).toBe(true);
@@ -203,6 +203,11 @@ describe('REQ-SEC-004 URL pattern shape and limits', () => {
     'https://ex*ample.com/*',
     'https://example.com:port/*',
     '',
+    // Only the canonical form the URL engine produces (REQ-URL-005): no port, never broad.
+    'http://localhost:3000/*',
+    'https://[::1]:8443/*',
+    'https://*.co.uk/*',
+    '*://*.com/*',
   ])('rejects the origin %j', (origin) => {
     const result = parseUrlPattern({ ...aRegexPattern(), origins: ['https://ok.com/*', origin] });
     expect(pathsOf(result)).toEqual(['origins[1]']);

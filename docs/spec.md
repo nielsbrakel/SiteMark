@@ -313,7 +313,7 @@ type SiteGroupId = Brand<string, 'SiteGroupId'>; // 12 chars [A-Za-z0-9_-], mint
 type MarkId = Brand<string, 'MarkId'>;
 type PatternId = Brand<string, 'PatternId'>;
 type Hex = Brand<string, 'Hex'>; // /^#[0-9a-f]{6}$/ (lowercased on input)
-type OriginPattern = Brand<string, 'OriginPattern'>; // ^(\*|https?)://(\*\.)?host(:port)?/\*$, never broad
+type OriginPattern = Brand<string, 'OriginPattern'>; // ^(\*|https?)://(\*\.)?host/\*$, canonical (no port), never broad
 
 interface SiteMarkState {
   schemaVersion: 1;
