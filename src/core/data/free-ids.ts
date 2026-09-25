@@ -13,11 +13,13 @@ export function idsOfSiteGroup(group: SiteGroup): EntityId[] {
 
 /**
  * Returns `group` with a fresh ID for each ID in `taken`, and adds every ID it keeps or mints to
- * `taken`, so later groups can't reuse them either.
+ * `taken`, so later groups can't reuse them either. A minted ID that is taken too (unlikely with
+ * random IDs, but not impossible) is minted again.
  */
 export function withFreeIds(group: SiteGroup, taken: Set<EntityId>, idGen: IdGen): SiteGroup {
   const free = <I extends EntityId>(id: I, mint: () => I): I => {
-    const next = taken.has(id) ? mint() : id;
+    let next = id;
+    while (taken.has(next)) next = mint();
     taken.add(next);
     return next;
   };
