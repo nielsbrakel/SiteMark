@@ -122,6 +122,10 @@
     "message": "Your data comes from a newer version of SiteMark, so changes are turned off to keep it safe.",
     "description": "Shown when a change is refused because the stored data is read-only."
   },
+  "errorStateUnreadable": {
+    "message": "Your saved SiteMark data could not be read, so SiteMark started with the defaults. A backup of the old data was kept.",
+    "description": "Shown on the options page when the stored data is damaged and was replaced by the defaults."
+  },
   "errorSiteGroupNeedsPattern": {
     "message": "Add a URL pattern before you turn on this site group.",
     "description": "Site group error: an enabled site group needs at least one URL pattern."

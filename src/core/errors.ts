@@ -30,7 +30,8 @@ export type DataErrorCode =
   | 'importTooLarge'
   | 'importSchemaInvalid'
   | 'importUnsupportedVersion'
-  | 'stateReadOnly';
+  | 'stateReadOnly'
+  | 'stateUnreadable';
 
 /** Site group invariants and limits (REQ-GRP-002). */
 export type SiteGroupErrorCode =

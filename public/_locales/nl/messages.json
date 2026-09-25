@@ -122,6 +122,10 @@
     "message": "Je gegevens komen van een nieuwere versie van SiteMark. Wijzigen is daarom uitgeschakeld, zodat er niets verloren gaat.",
     "description": "Getoond als een wijziging wordt geweigerd omdat de opgeslagen gegevens alleen-lezen zijn."
   },
+  "errorStateUnreadable": {
+    "message": "Je opgeslagen SiteMark-gegevens konden niet worden gelezen, dus SiteMark is gestart met de standaardinstellingen. Er is een back-up van de oude gegevens bewaard.",
+    "description": "Getoond op de optiepagina als de opgeslagen gegevens beschadigd zijn en door de standaardinstellingen zijn vervangen."
+  },
   "errorSiteGroupNeedsPattern": {
     "message": "Voeg een URL-patroon toe voordat je deze sitegroep aanzet.",
     "description": "Fout in sitegroep: een ingeschakelde sitegroep heeft minstens één URL-patroon nodig."

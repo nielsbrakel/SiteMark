@@ -26,6 +26,7 @@ const everyCode = {
   importSchemaInvalid: true,
   importUnsupportedVersion: true,
   stateReadOnly: true,
+  stateUnreadable: true,
   siteGroupNeedsPattern: true,
   siteGroupLimitReached: true,
   patternLimitReached: true,
