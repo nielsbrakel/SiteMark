@@ -169,5 +169,9 @@
   "errorMarkInvalid": {
     "message": "This mark has settings that SiteMark can't save. Check its effects, colors and selector.",
     "description": "Site group error: a mark failed validation (for example no effect, an empty selector or an invalid color)."
+  },
+  "errorCommandProducedInvalidState": {
+    "message": "Something went wrong, so your change was not saved. Please try again.",
+    "description": "Command error: applying the change would have produced invalid data (a SiteMark bug), so nothing was saved."
   }
 }

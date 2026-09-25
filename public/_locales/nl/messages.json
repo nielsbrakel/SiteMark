@@ -169,5 +169,9 @@
   "errorMarkInvalid": {
     "message": "Deze markering heeft instellingen die SiteMark niet kan opslaan. Controleer de effecten, kleuren en selector.",
     "description": "Fout in sitegroep: een markering is ongeldig (bijvoorbeeld geen effect, een lege selector of een ongeldige kleur)."
+  },
+  "errorCommandProducedInvalidState": {
+    "message": "Er ging iets mis, dus je wijziging is niet opgeslagen. Probeer het opnieuw.",
+    "description": "Opdrachtfout: de wijziging zou ongeldige gegevens opleveren (een fout in SiteMark), dus er is niets opgeslagen."
   }
 }
