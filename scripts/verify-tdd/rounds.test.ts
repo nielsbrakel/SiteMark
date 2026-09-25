@@ -62,6 +62,26 @@ describe('REQ-NFR-004 a red commit only adds tests, typed stubs and test infrast
     expect(redScopeViolations(red, isStub)).toEqual([]);
   });
 
+  it('treats the website workspace like the root: its tests, locales and package file', () => {
+    const red = commit('r', 'test(T-206): red — x', [
+      'website/src/i18n/catalog-source.test.ts',
+      'website/tests/build/prerender.test.ts',
+      'website/tests/unit/setup.ts',
+      'website/locales/en/messages.json',
+      'website/package.json',
+      'website/tsconfig.json',
+    ]);
+    expect(redScopeViolations(red, isStub)).toEqual([]);
+    const production = commit('r', 'test(T-206): red — x', [
+      'website/src/i18n/catalog-source.ts',
+      'website/vite.config.ts',
+    ]);
+    expect(redScopeViolations(production, isStub)).toEqual([
+      'website/src/i18n/catalog-source.ts',
+      'website/vite.config.ts',
+    ]);
+  });
+
   it('rejects production code that is not a stub', () => {
     const red = commit('r', 'test(T-032): red — x', ['src/core/url/glob.ts', 'wxt.config.ts']);
     expect(redScopeViolations(red, isStub)).toEqual(['src/core/url/glob.ts', 'wxt.config.ts']);
