@@ -1,0 +1,21 @@
+{
+  "extName": {
+    "message": "SiteMark",
+    "description": "Extension name. Do not translate."
+  },
+  "extDescription": {
+    "message": "Mark production (or any) websites with ribbons, banners and outlines so you never confuse environments. Private: all data stays on your device."
+  },
+  "commandStartPicker": {
+    "message": "Pick an element to mark on this page"
+  },
+  "popupTitle": {
+    "message": "SiteMark"
+  },
+  "optionsTitle": {
+    "message": "SiteMark settings"
+  },
+  "scaffoldNotice": {
+    "message": "Under construction. See docs/tasks.md for progress."
+  }
+}

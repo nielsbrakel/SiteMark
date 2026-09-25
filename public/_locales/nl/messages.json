@@ -1,0 +1,21 @@
+{
+  "extName": {
+    "message": "SiteMark",
+    "description": "Naam van de extensie. Niet vertalen."
+  },
+  "extDescription": {
+    "message": "Markeer productie- (of andere) websites met linten, banners en kaders zodat je omgevingen nooit meer verwart. Privé: alle gegevens blijven op je apparaat."
+  },
+  "commandStartPicker": {
+    "message": "Kies een element op deze pagina om te markeren"
+  },
+  "popupTitle": {
+    "message": "SiteMark"
+  },
+  "optionsTitle": {
+    "message": "SiteMark-instellingen"
+  },
+  "scaffoldNotice": {
+    "message": "In aanbouw. Zie docs/tasks.md voor de voortgang."
+  }
+}

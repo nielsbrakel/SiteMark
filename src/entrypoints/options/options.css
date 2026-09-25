@@ -1,0 +1,18 @@
+.sm-options {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--sm-space-6) var(--sm-space-5);
+  display: grid;
+  gap: var(--sm-space-5);
+}
+
+.sm-options__header {
+  display: flex;
+  align-items: center;
+  gap: var(--sm-space-3);
+}
+
+.sm-options__header h1 {
+  margin: 0;
+  font-size: 28px;
+}

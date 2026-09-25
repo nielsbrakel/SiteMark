@@ -1,0 +1,20 @@
+body {
+  width: 360px;
+}
+
+.sm-popup {
+  padding: var(--sm-space-4);
+  display: grid;
+  gap: var(--sm-space-4);
+}
+
+.sm-popup__header {
+  display: flex;
+  align-items: center;
+  gap: var(--sm-space-2);
+}
+
+.sm-popup__header h1 {
+  margin: 0;
+  font-size: var(--sm-text-xl);
+}
