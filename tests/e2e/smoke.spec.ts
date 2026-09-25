@@ -6,9 +6,20 @@ type ExtensionPage = {
   chrome: { permissions: { contains(p: { origins: string[] }): Promise<boolean> } };
 };
 
-test('extension loads and the popup renders', async ({ page, extensionId }) => {
+test('extension pages render without console errors under the strict CSP', async ({
+  page,
+  extensionId,
+}) => {
+  const errors: string[] = [];
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
+  page.on('pageerror', (error) => errors.push(error.message));
   await page.goto(`chrome-extension://${extensionId}/popup.html`);
   await expect(page.getByRole('heading', { name: 'SiteMark' })).toBeVisible();
+  await page.goto(`chrome-extension://${extensionId}/options.html`);
+  await expect(page.getByRole('heading', { name: 'SiteMark settings' })).toBeVisible();
+  expect(errors).toEqual([]);
 });
 
 test('the fixture site is served on the sitemark.test hosts', async ({ page }) => {

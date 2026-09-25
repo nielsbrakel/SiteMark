@@ -45,6 +45,10 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm wxt zip -b ${{ matrix.browser }}
+      - name: Manifest assertions (REQ-PRIV-001, REQ-SEC-003, REQ-NFR-001)
+        run: pnpm exec vitest run --project build
+        env:
+          SITEMARK_TARGETS: ${{ matrix.browser }}
       - if: matrix.browser == 'firefox'
         run: pnpm dlx web-ext@9 lint --source-dir .output/firefox-mv3 --self-hosted
       - uses: actions/upload-artifact@v4

@@ -22,6 +22,13 @@ export default defineConfig({
     // requested one by one when the user adds a URL pattern (REQ-PRIV-002).
     permissions: ['storage', 'scripting', 'activeTab'],
     optional_host_permissions: ['*://*/*'],
+    // REQ-PRIV-005: no remote code and no requests from extension pages.
+    content_security_policy: {
+      extension_pages:
+        "script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; connect-src 'none'",
+    },
+    // REQ-SEC-003: no other extension or web page may message SiteMark. Firefox doesn't support the key.
+    ...(browser !== 'firefox' && { externally_connectable: { ids: [], matches: [] } }),
     // `wxt build --mode e2e` (own outDir: .output/<browser>-mv3-e2e) pre-grants the fixture hosts
     // prod. and test.sitemark.test only; new.sitemark.test stays ungranted (D-233).
     ...(mode === 'e2e' && { host_permissions: E2E_GRANTED_ORIGINS }),
