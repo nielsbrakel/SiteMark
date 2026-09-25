@@ -83,7 +83,7 @@
     "description": "Fout in regex-patroon: de expressie is niet te lezen."
   },
   "errorRegexUnsafe": {
-    "message": "Terugverwijzingen, lookarounds en geneste kwantoren zijn niet toegestaan.",
+    "message": "Niet toegestaan: terugverwijzingen, lookarounds, geneste kwantoren, (a|b) binnen een herhaling, of herhalingen die dezelfde tekst kunnen matchen (begin met ^ of gebruik een smallere klasse zoals [^/]+).",
     "description": "Fout in regex-patroon: de expressie gebruikt iets waardoor matchen traag kan worden."
   },
   "errorRegexTooLong": {

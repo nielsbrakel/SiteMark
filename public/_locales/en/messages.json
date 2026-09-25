@@ -83,7 +83,7 @@
     "description": "Regex pattern error: the expression does not parse."
   },
   "errorRegexUnsafe": {
-    "message": "Backreferences, lookarounds and nested quantifiers are not allowed.",
+    "message": "Not allowed: backreferences, lookarounds, nested quantifiers, (a|b) inside a repeat, or repeats that can match the same text (start with ^ or use a narrower class like [^/]+).",
     "description": "Regex pattern error: the expression uses a feature that could make matching slow."
   },
   "errorRegexTooLong": {
