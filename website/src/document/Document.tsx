@@ -6,6 +6,8 @@ type DocumentProps = {
   locale: Locale;
   page: PageId;
   title: string;
+  /** The inline theme bootstrap (REQ-WEBUX-002): the only inline script. */
+  bootstrap: string;
   /** Absolute URLs under the base path. */
   script: string;
   styles: readonly string[];
@@ -17,7 +19,15 @@ type DocumentProps = {
  * The whole HTML document, rendered by React at build time so every attribute and text is escaped
  * by one renderer. `data-route` and `data-locale` tell the client what to hydrate.
  */
-export function Document({ locale, page, title, script, styles, children }: DocumentProps) {
+export function Document({
+  locale,
+  page,
+  title,
+  bootstrap,
+  script,
+  styles,
+  children,
+}: DocumentProps) {
   return (
     <html lang={locale} data-route={page} data-locale={locale}>
       <head>
@@ -27,6 +37,8 @@ export function Document({ locale, page, title, script, styles, children }: Docu
         {styles.map((href) => (
           <link key={href} rel="stylesheet" href={href} />
         ))}
+        {/* Before first paint: applies the stored theme and sets data-js (React leaves it as is). */}
+        <script>{bootstrap}</script>
       </head>
       <body>
         <div id="root">{children}</div>

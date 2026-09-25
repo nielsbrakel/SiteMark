@@ -4,6 +4,7 @@ import type { Locale } from '../i18n/locales';
 import type { PageProps } from '../pages/page-props';
 import type { Route } from '../routes/routes';
 import { routePath } from '../routes/urls';
+import { ThemeToggle } from '../theme/ThemeToggle';
 import styles from './Header.module.css';
 import { LanguageSwitch } from './LanguageSwitch';
 import { pageLabel } from './page-labels';
@@ -58,7 +59,7 @@ function Navigation({ route, locale, routes, t }: HeaderProps) {
   );
 }
 
-/** The wordmark (links home), the navigation and the language switch (REQ-PAGE-007). */
+/** The wordmark (links home), the navigation, the language switch and the theme toggle. */
 export function Header(props: HeaderProps) {
   return (
     <header className={styles.header}>
@@ -67,6 +68,7 @@ export function Header(props: HeaderProps) {
         <Navigation {...props} />
         <div className={styles.tools}>
           <LanguageSwitch route={props.route} locale={props.locale} t={props.t} />
+          <ThemeToggle t={props.t} />
         </div>
       </div>
     </header>

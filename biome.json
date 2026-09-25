@@ -503,6 +503,31 @@
       }
     },
     {
+      "includes": ["website/src/theme/bootstrap.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedGlobals": {
+              "level": "error",
+              "options": {
+                "deniedGlobals": {
+                  "fetch": "SiteMark makes no requests (REQ-PRIV-005).",
+                  "XMLHttpRequest": "SiteMark makes no requests (REQ-PRIV-005).",
+                  "WebSocket": "SiteMark makes no requests (REQ-PRIV-005).",
+                  "EventSource": "SiteMark makes no requests (REQ-PRIV-005).",
+                  "importScripts": "No remote code (REQ-NFR-005).",
+                  "Function": "No new Function (REQ-NFR-005, D-238).",
+                  "chrome": "Import { browser } from 'wxt/browser' (D-222).",
+                  "sessionStorage": "The website stores only the theme choice, in localStorage (D-250).",
+                  "indexedDB": "The website stores only the theme choice, in localStorage (D-250)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "includes": ["src/ui/components/**"],
       "plugins": ["./tools/biome/no-style-attribute.grit"]
     },

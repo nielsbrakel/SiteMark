@@ -7,6 +7,7 @@ import { PageView } from './pages/PageView';
 import { pageFor, renderedRoutes } from './pages/registry';
 import type { Route } from './routes/routes';
 import { assetUrl, outputFile } from './routes/urls';
+import { bootstrapScript } from './theme/bootstrap';
 
 /** Built client files, relative to the client output directory (from the Vite manifest). */
 export type PageAssets = { script: string; styles: readonly string[] };
@@ -27,6 +28,7 @@ function renderRoute(
       locale={locale}
       page={route.page}
       title={translator.t(page.title)}
+      bootstrap={bootstrapScript()}
       script={assetUrl(assets.script)}
       styles={assets.styles.map(assetUrl)}
     >
