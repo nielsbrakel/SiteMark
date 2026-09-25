@@ -80,3 +80,23 @@ body {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* REQ-A11Y-007: forced colors drop shadows and author colors, so boundaries, states and focus
+   switch to system colors. Marks opt out separately with forced-color-adjust: none. */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight;
+  }
+
+  .sm-card,
+  .sm-well,
+  .sm-button {
+    border-color: ButtonBorder;
+  }
+
+  .sm-button:active,
+  .sm-button[aria-pressed='true'] {
+    background: Highlight;
+    color: HighlightText;
+  }
+}
