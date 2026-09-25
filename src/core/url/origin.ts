@@ -1,5 +1,6 @@
-import type { UrlPatternErrorCode } from '../errors';
+import type { RegexErrorCode, UrlPatternErrorCode } from '../errors';
 import type { Brand } from '../ids';
+import { notImplemented } from '../not-implemented';
 import { ok, type Result } from '../result';
 import { memoize } from './memo';
 import { type ParsedWildcard, parseWildcard } from './parse';
@@ -37,4 +38,14 @@ export function isOriginPattern(value: unknown): value is OriginPattern {
 export function originMatches(origin: OriginPattern, url: UrlParts): boolean {
   const parsed = parseOrigin(origin);
   return parsed.ok && matchWildcard(parsed.value, url);
+}
+
+/**
+ * Validates the origins of a regex pattern (REQ-URL-004): 1…20 distinct origins, each in canonical
+ * form. Duplicates (after canonicalization) are dropped.
+ */
+export function validateRegexOrigins(
+  _origins: readonly string[],
+): Result<OriginPattern[], RegexErrorCode | UrlPatternErrorCode> {
+  return notImplemented();
 }
