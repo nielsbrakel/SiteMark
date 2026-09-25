@@ -5,17 +5,17 @@
 
 ## Commands
 
-| Command              | What it does                                                                                      |
-| -------------------- | ------------------------------------------------------------------------------------------------- |
-| `pnpm test`          | Vitest projects `core` (node) + `dom` (happy-dom)                                                 |
-| `pnpm test:browser`  | Vitest browser mode in Chromium (`*.browser.test.ts`)                                             |
-| `pnpm test:watch`    | Watch mode for the TDD loop                                                                       |
-| `pnpm test:coverage` | All three projects with per-glob coverage thresholds (core 90/85, platform 85, overall 80)        |
-| `pnpm test:e2e`      | Builds the e2e variant (`.output/chrome-mv3-e2e`) and runs Playwright                             |
-| `pnpm test:build`    | Builds all three targets, then manifest, output-scan and size assertions (`tests/build`)          |
-| `pnpm size`          | Chromium build + the gzip size budget only                                                        |
-| `pnpm check`         | typecheck + lint (Biome) + format (Biome, Prettier for Markdown/YAML) + unit tests + traceability |
-| `pnpm progress`      | Progress per milestone + requirement coverage (`--verbose` lists gaps)                            |
+| Command              | What it does                                                                                             |
+| -------------------- | -------------------------------------------------------------------------------------------------------- |
+| `pnpm test`          | Vitest projects `core` (node) + `dom` (happy-dom)                                                        |
+| `pnpm test:browser`  | Vitest browser mode in Chromium (`*.browser.test.ts`)                                                    |
+| `pnpm test:watch`    | Watch mode for the TDD loop                                                                              |
+| `pnpm test:coverage` | All three projects with per-glob coverage thresholds (core 90/85, platform 85, overall 80)               |
+| `pnpm test:e2e`      | Builds the e2e variant (`.output/chrome-mv3-e2e`) and runs Playwright                                    |
+| `pnpm test:build`    | Builds all three targets, then manifest, output-scan and size assertions (`tests/build`)                 |
+| `pnpm size`          | Chromium build + the gzip size budget only                                                               |
+| `pnpm check`         | typecheck + lint (Biome) + format (Biome, Prettier for Markdown/YAML) + knip + unit tests + traceability |
+| `pnpm progress`      | Progress per milestone + requirement coverage (`--verbose` lists gaps)                                   |
 
 First-time Playwright setup: `pnpm exec playwright install chromium`, or set `PW_CHROMIUM_EXECUTABLE`
 to an existing **Chromium / Chrome for Testing** (branded Chrome ≥ 137 ignores `--load-extension`).
