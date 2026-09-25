@@ -56,7 +56,7 @@ export default defineConfig({
           ...isolation,
           name: 'dom',
           environment: 'happy-dom',
-          include: ['src/**/*.test.{ts,tsx}', 'tests/unit/**/*.test.{ts,tsx}'],
+          include: ['src/**/*.test.{ts,tsx}', 'tests/{unit,fakes}/**/*.test.{ts,tsx}'],
           exclude: ['src/core/**', browserTests],
           setupFiles: ['tests/unit/setup.ts'],
         },

@@ -12,6 +12,6 @@
     "noUncheckedSideEffectImports": true,
     "erasableSyntaxOnly": true
   },
-  "include": [".wxt/wxt.d.ts", "src", "tests/unit", "tests/browser", "*.config.ts"],
+  "include": [".wxt/wxt.d.ts", "src", "tests/unit", "tests/fakes", "tests/browser", "*.config.ts"],
   "exclude": ["src/core"]
 }
