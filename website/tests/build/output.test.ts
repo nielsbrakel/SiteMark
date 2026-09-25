@@ -167,6 +167,26 @@ describe('REQ-WEB-005 only the hashed bootstrap and JSON-LD are inline, and no i
     }
   });
 
+  it.each(pages)('%s: the CSP comes before every script and stylesheet', (file) => {
+    const head = allTags(read(file));
+    const at = head.findIndex(
+      (tag) => tag.name === 'meta' && tag.attributes['http-equiv'] === 'Content-Security-Policy',
+    );
+    expect(at, file).toBeGreaterThan(0);
+    // React puts charset, viewport and its own image preloads first; those are same-origin
+    // images, which img-src 'self' allows anyway (the resource test above checks their URLs).
+    for (const tag of head.slice(0, at)) {
+      const early =
+        (tag.name === 'meta' &&
+          ('charset' in tag.attributes || tag.attributes.name === 'viewport')) ||
+        (tag.name === 'link' &&
+          tag.attributes.rel === 'preload' &&
+          tag.attributes.as === 'image') ||
+        ['html', 'head'].includes(tag.name);
+      expect(early, `${file} <${tag.name}> before the CSP`).toBe(true);
+    }
+  });
+
   it.each(pages)('%s: sends only its origin as the referrer', (file) => {
     expect(metaContent(read(file), 'referrer')).toBe('strict-origin-when-cross-origin');
   });

@@ -1,4 +1,4 @@
-import { notImplemented } from '@/core/not-implemented';
+import { createHash } from 'node:crypto';
 
 type CspOptions = {
   /** Vite's dev server injects CSS as <style> elements; never set for the build. */
@@ -6,19 +6,32 @@ type CspOptions = {
 };
 
 /** A CSP source for an inline script: `'sha256-<base64>'` of its exact text. */
-export function scriptHash(_source: string): string {
-  return notImplemented();
+export function scriptHash(source: string): string {
+  return `'sha256-${createHash('sha256').update(source, 'utf8').digest('base64')}'`;
 }
 
-/** The policy of REQ-WEB-005, allowing only the given inline script hashes. */
+/**
+ * The policy of REQ-WEB-005 (D-250), set by a meta tag because GitHub Pages can't send headers:
+ * nothing by default, scripts from the website plus the given inline hashes, styles and images
+ * from the website only, no requests from scripts, no <base> and no form posts.
+ */
 export function contentSecurityPolicy(
-  _scriptHashes: readonly string[],
-  _options: CspOptions = {},
+  scriptHashes: readonly string[],
+  options: CspOptions = {},
 ): string {
-  return notImplemented();
+  const styles = options.inlineStyles ? "'self' 'unsafe-inline'" : "'self'";
+  return [
+    "default-src 'none'",
+    ["script-src 'self'", ...scriptHashes].join(' '),
+    `style-src ${styles}`,
+    "img-src 'self'",
+    "connect-src 'none'",
+    "base-uri 'none'",
+    "form-action 'none'",
+  ].join('; ');
 }
 
-/** The `<meta name="referrer">` policy (REQ-WEB-005). */
+/** The `<meta name="referrer">` policy (REQ-WEB-005): other websites see only the origin. */
 export function referrerPolicy(): string {
-  return notImplemented();
+  return 'strict-origin-when-cross-origin';
 }

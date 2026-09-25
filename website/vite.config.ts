@@ -15,10 +15,13 @@ export default defineConfig(({ isSsrBuild }) => ({
     alias: { '@': fileURLToPath(new URL('../src', import.meta.url)) },
   },
   build: isSsrBuild
-    ? { outDir: 'dist/server', emptyOutDir: true }
+    ? { outDir: 'dist/server', emptyOutDir: true, assetsInlineLimit: 0 }
     : {
         outDir: 'dist/client',
         emptyOutDir: true,
+        // No data: URLs: the CSP allows images from the website only (img-src 'self', REQ-WEB-005).
+        // The SSR build must agree, or the server renders other URLs than the client hydrates.
+        assetsInlineLimit: 0,
         // The prerender step reads the hashed entry and CSS file names from the manifest.
         manifest: true,
         rolldownOptions: { input: 'src/entry-client.ts' },

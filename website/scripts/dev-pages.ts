@@ -10,7 +10,11 @@ async function render(server: ViteDevServer, url: string): Promise<string | unde
   const entry = (await server.ssrLoadModule('/src/entry-server.tsx')) as {
     renderPages: typeof renderPages;
   };
-  const pages = await entry.renderPages({ script: 'src/entry-client.ts', styles: [] });
+  const pages = await entry.renderPages({
+    script: 'src/entry-client.ts',
+    styles: [],
+    devServer: true,
+  });
   const page = pages.find((p) => p.file === file);
   // Not transformIndexHtml: it would put the base path in front of the script URL a second time.
   // The entry imports its CSS, and Vite serves that CSS with its client (and so with reloads).

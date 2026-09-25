@@ -1,5 +1,6 @@
 import { renderToString } from 'react-dom/server';
 import { Document } from './document/Document';
+import { contentSecurityPolicy, scriptHash } from './head/csp';
 import { pageHead } from './head/page-head';
 import { sitemapEntries, sitemapXml } from './head/sitemap';
 import type { Locale } from './i18n/locales';
@@ -11,8 +12,11 @@ import type { Route } from './routes/routes';
 import { assetUrl, outputFile } from './routes/urls';
 import { bootstrapScript } from './theme/bootstrap';
 
-/** Built client files, relative to the client output directory (from the Vite manifest). */
-export type PageAssets = { script: string; styles: readonly string[] };
+/**
+ * Built client files, relative to the client output directory (from the Vite manifest).
+ * `devServer`: rendered by `pnpm web:dev`, whose CSS arrives as <style> elements.
+ */
+export type PageAssets = { script: string; styles: readonly string[]; devServer?: boolean };
 
 /** One prerendered HTML file, relative to the client output directory. */
 export type RenderedPage = { file: string; html: string };
@@ -26,13 +30,18 @@ function renderRoute(
   const page = pageFor(route.page);
   if (!page) return [];
   const { head, jsonLd } = pageHead(route, page, locale, translator.t);
+  const bootstrap = bootstrapScript();
+  const csp = contentSecurityPolicy([scriptHash(bootstrap)], {
+    inlineStyles: assets.devServer === true,
+  });
   const html = renderToString(
     <Document
       locale={locale}
       page={route.page}
       head={head}
+      csp={csp}
       jsonLd={jsonLd}
-      bootstrap={bootstrapScript()}
+      bootstrap={bootstrap}
       script={assetUrl(assets.script)}
       styles={assets.styles.map(assetUrl)}
     >
