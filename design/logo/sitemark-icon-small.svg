@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-labelledby="t">
+  <title id="t">SiteMark</title>
+  <!-- Simplified for 16px and 32px: no soft shadows, thicker shapes. -->
+  <rect x="1" y="1" width="30" height="30" rx="8" fill="#e6e9ef"/>
+  <path d="M8 4h14a2 2 0 0 1 2 2v22l-9-6-9 6V6a2 2 0 0 1 2-2z" fill="#e5483b"/>
+  <path d="M16 13v15l3.2-3 2.2 5 2.8-1.2-2.2-4.8H26z"
+        fill="#ffffff" stroke="#2b2f38" stroke-width="1.6" stroke-linejoin="round"/>
+</svg>

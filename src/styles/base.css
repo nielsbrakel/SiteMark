@@ -1,0 +1,71 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--sm-bg);
+  color: var(--sm-text);
+  font-family: var(--sm-font);
+  font-size: var(--sm-text-md);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--sm-focus-ring);
+}
+
+/* Soft UI primitives. Components compose these; see docs/design.md §4. */
+.sm-card {
+  background: var(--sm-surface);
+  border-radius: var(--sm-radius-lg);
+  box-shadow: var(--sm-raised);
+  padding: var(--sm-space-4);
+}
+
+.sm-well {
+  background: var(--sm-surface);
+  border-radius: var(--sm-radius-md);
+  box-shadow: var(--sm-inset);
+  padding: var(--sm-space-3);
+}
+
+.sm-button {
+  appearance: none;
+  border: 0;
+  border-radius: var(--sm-radius-md);
+  background: var(--sm-surface);
+  color: var(--sm-text);
+  box-shadow: var(--sm-raised-sm);
+  padding: var(--sm-space-2) var(--sm-space-4);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow var(--sm-duration) var(--sm-ease);
+}
+
+.sm-button:active,
+.sm-button[aria-pressed='true'] {
+  box-shadow: var(--sm-pressed);
+}
+
+.sm-button--primary {
+  background: var(--sm-accent);
+  color: var(--sm-on-accent);
+}
+
+.sm-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
