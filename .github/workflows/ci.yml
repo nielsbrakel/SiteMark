@@ -173,6 +173,29 @@ jobs:
             exit 1
           fi
 
+  verify-tdd:
+    name: verify-tdd (red before green, red fails, green passes)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      # The container runs as another user than the checkout; let git operate on it.
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Replay every red → green round of the pull request
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: pnpm verify-tdd "$BASE" "$HEAD"
+
   traceability:
     name: traceability (every finished requirement has a passing test)
     needs: [check, build, e2e]
@@ -197,7 +220,8 @@ jobs:
   ci-ok:
     name: ci-ok
     if: always()
-    needs: [check, build, e2e, traceability, workflow-lint, dependency-review, commitlint]
+    needs:
+      [check, build, e2e, traceability, verify-tdd, workflow-lint, dependency-review, commitlint]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions: {}

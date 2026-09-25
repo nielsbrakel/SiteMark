@@ -45,8 +45,10 @@ Each task row in [tasks.md](tasks.md) is one or more red → green (→ refactor
 
 4. Run the tests. They must fail **only** with assertion or `NotImplementedError` failures. Never use `it.fails`
    (it also passes on unrelated errors).
-5. Commit only tests + stubs. The `verify-tdd` CI job _(T-020)_ checks that a red commit touches only
-   `*.test.*`, `tests/**` and stub files, and that its tests really fail.
+5. Commit only tests + stubs. The `verify-tdd` CI job checks that a red commit touches only tests, stub files
+   (files that call `notImplemented()`) and test infrastructure (`tests/**`, docs, locales, package/lock,
+   Vitest/Playwright/tsconfig files), and that its tests really fail. Run it locally with
+   `pnpm verify-tdd origin/main HEAD` (set `PW_CHROMIUM_EXECUTABLE` for browser tests).
 
 ### 🟢 Green: `feat(T-xxx): green — <behavior>`
 
@@ -68,7 +70,7 @@ Improve the code without changing behavior. `pnpm check` must pass. Don't make e
   fails when every task of a requirement is done but no passing test names it.
 - Keep tests fast and deterministic: fake timers, fixed `IdGen`/`Clock`, no real network.
 - PRs are **rebase-merged** (D-209), so red, green and refactor commits all stay on `main`.
-  `git bisect run scripts/bisect.sh` skips `test(*): red` commits _(T-020)_.
+  `git bisect run scripts/bisect.sh pnpm test` skips `test(*): red` commits.
 - Commit messages are checked by commitlint (lefthook locally, and in CI, which also rejects leftover `fixup!`
   commits). Hooks never run tests, so red commits are always committable.
 
