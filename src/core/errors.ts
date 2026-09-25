@@ -33,9 +33,10 @@ export type DataErrorCode =
   | 'stateReadOnly'
   | 'stateUnreadable';
 
-/** Site group invariants and limits (REQ-GRP-002). */
+/** Site group names, invariants and limits (REQ-GRP-001, REQ-GRP-002). */
 export type SiteGroupErrorCode =
   | 'siteGroupNeedsPattern'
+  | 'siteGroupNameInvalid'
   | 'siteGroupLimitReached'
   | 'patternLimitReached'
   | 'excludeLimitReached'

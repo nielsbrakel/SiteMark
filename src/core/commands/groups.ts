@@ -1,51 +1,99 @@
 import type { SiteGroupErrorCode } from '../errors';
-import type { IdGen, SiteGroupId } from '../ids';
-import type { SiteMarkState } from '../model/schema';
-import { notImplemented } from '../not-implemented';
-import type { Result } from '../result';
+import type { SiteGroupId } from '../ids';
+import type { SiteGroup, SiteMarkState } from '../model/schema';
+import { cleanText } from '../model/text';
+import { err, ok, type Result } from '../result';
+import type { CommandDeps, CommandOf } from './command';
 
-export type CommandDeps = { readonly idGen: IdGen };
+// Reducers for site groups (REQ-GRP-001…004). They leave `revision` to the dispatcher.
 
-export type CreateSiteGroup = { readonly type: 'createSiteGroup'; readonly name: string };
-export type RenameSiteGroup = {
-  readonly type: 'renameSiteGroup';
-  readonly id: SiteGroupId;
-  readonly name: string;
-};
-export type DeleteSiteGroup = { readonly type: 'deleteSiteGroup'; readonly id: SiteGroupId };
-export type SetSiteGroupEnabled = {
-  readonly type: 'setSiteGroupEnabled';
-  readonly id: SiteGroupId;
-  readonly enabled: boolean;
-};
-export type MoveSiteGroup = {
-  readonly type: 'moveSiteGroup';
-  readonly id: SiteGroupId;
-  readonly toIndex: number;
-};
+const MAX_SITE_GROUPS = 200;
+const NAME_MAX = 40;
 
 type GroupResult = Result<SiteMarkState, SiteGroupErrorCode>;
 
-export function createSiteGroup(
-  _state: SiteMarkState,
-  _cmd: CreateSiteGroup,
-  _deps: CommandDeps,
+/** A name as stored: cleaned (see `cleanText`), then 1..40 characters. */
+function siteGroupName(input: string): Result<string, SiteGroupErrorCode> {
+  const name = cleanText(input);
+  // biome-ignore lint/security/noSecrets: an error code, not a secret.
+  return name.length > 0 && name.length <= NAME_MAX ? ok(name) : err('siteGroupNameInvalid');
+}
+
+function indexOf(state: SiteMarkState, id: SiteGroupId): number {
+  return state.siteGroups.findIndex((group) => group.id === id);
+}
+
+/** Replaces site group `id` with `change(group)`, or fails when the group no longer exists. */
+function updateGroup(
+  state: SiteMarkState,
+  id: SiteGroupId,
+  change: (group: SiteGroup) => Result<SiteGroup, SiteGroupErrorCode>,
 ): GroupResult {
-  return notImplemented();
+  const index = indexOf(state, id);
+  const group = state.siteGroups[index];
+  if (!group) return err('siteGroupNotFound');
+  const changed = change(group);
+  if (!changed.ok) return changed;
+  return ok({ ...state, siteGroups: state.siteGroups.with(index, changed.value) });
 }
 
-export function renameSiteGroup(_state: SiteMarkState, _cmd: RenameSiteGroup): GroupResult {
-  return notImplemented();
+export function createSiteGroup(
+  state: SiteMarkState,
+  command: CommandOf<'createSiteGroup'>,
+  { idGen }: CommandDeps,
+): GroupResult {
+  if (state.siteGroups.length >= MAX_SITE_GROUPS) return err('siteGroupLimitReached');
+  const name = siteGroupName(command.name);
+  if (!name.ok) return name;
+  const group: SiteGroup = {
+    id: idGen.siteGroupId(),
+    name: name.value,
+    enabled: false,
+    patterns: [],
+    excludes: [],
+    marks: [],
+  };
+  return ok({ ...state, siteGroups: [...state.siteGroups, group] });
 }
 
-export function deleteSiteGroup(_state: SiteMarkState, _cmd: DeleteSiteGroup): GroupResult {
-  return notImplemented();
+export function renameSiteGroup(
+  state: SiteMarkState,
+  { id, name }: CommandOf<'renameSiteGroup'>,
+): GroupResult {
+  return updateGroup(state, id, (group) => {
+    const cleaned = siteGroupName(name);
+    return cleaned.ok ? ok({ ...group, name: cleaned.value }) : cleaned;
+  });
 }
 
-export function setSiteGroupEnabled(_state: SiteMarkState, _cmd: SetSiteGroupEnabled): GroupResult {
-  return notImplemented();
+export function deleteSiteGroup(
+  state: SiteMarkState,
+  { id }: CommandOf<'deleteSiteGroup'>,
+): GroupResult {
+  const index = indexOf(state, id);
+  if (index < 0) return err('siteGroupNotFound');
+  return ok({ ...state, siteGroups: state.siteGroups.toSpliced(index, 1) });
 }
 
-export function moveSiteGroup(_state: SiteMarkState, _cmd: MoveSiteGroup): GroupResult {
-  return notImplemented();
+export function setSiteGroupEnabled(
+  state: SiteMarkState,
+  { id, enabled }: CommandOf<'setSiteGroupEnabled'>,
+): GroupResult {
+  return updateGroup(state, id, (group) =>
+    enabled && group.patterns.length === 0
+      ? err('siteGroupNeedsPattern')
+      : ok({ ...group, enabled }),
+  );
+}
+
+export function moveSiteGroup(
+  state: SiteMarkState,
+  { id, toIndex }: CommandOf<'moveSiteGroup'>,
+): GroupResult {
+  const index = indexOf(state, id);
+  const group = state.siteGroups[index];
+  if (!group) return err('siteGroupNotFound');
+  const rest = state.siteGroups.toSpliced(index, 1);
+  const target = Math.min(Math.max(toIndex, 0), rest.length);
+  return ok({ ...state, siteGroups: rest.toSpliced(target, 0, group) });
 }

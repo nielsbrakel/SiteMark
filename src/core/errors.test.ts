@@ -28,6 +28,7 @@ const everyCode = {
   stateReadOnly: true,
   stateUnreadable: true,
   siteGroupNeedsPattern: true,
+  siteGroupNameInvalid: true,
   siteGroupLimitReached: true,
   patternLimitReached: true,
   excludeLimitReached: true,
