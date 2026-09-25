@@ -114,6 +114,10 @@
     "message": "Dit bestand is geen geldige SiteMark-export.",
     "description": "Importfout: de JSON heeft niet het exportformaat van SiteMark."
   },
+  "errorImportPatternInvalid": {
+    "message": "Dit bestand bevat een URL-patroon dat SiteMark niet accepteert, bijvoorbeeld een dat op te veel sites past.",
+    "description": "Importfout: een URL-patroon of uitzondering in het bestand is ongeldig, onveilig of te breed. De UI toont elk patroon met een eigen foutmelding."
+  },
   "errorImportUnsupportedVersion": {
     "message": "Dit bestand komt van een nieuwere of onbekende versie van SiteMark. Werk SiteMark bij en probeer het opnieuw.",
     "description": "Importfout: de export heeft een schemaversie die deze versie niet kan lezen."

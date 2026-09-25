@@ -114,6 +114,10 @@
     "message": "This file is not a valid SiteMark export.",
     "description": "Import error: the JSON does not have the SiteMark export format."
   },
+  "errorImportPatternInvalid": {
+    "message": "This file contains a URL pattern SiteMark does not accept, for example one that matches too many sites.",
+    "description": "Import error: a URL pattern or exclude in the file is invalid, unsafe or too broad. The UI lists each pattern with its own error."
+  },
   "errorImportUnsupportedVersion": {
     "message": "This file comes from a newer or unknown version of SiteMark. Update SiteMark and try again.",
     "description": "Import error: the export has a schema version this build cannot read."
