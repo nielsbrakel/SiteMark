@@ -7,3 +7,7 @@ const LOCALES: readonly Locale[] = ['en', 'nl'];
 export function websiteLocales(): readonly Locale[] {
   return LOCALES;
 }
+
+export function isLocale(value: string | undefined): value is Locale {
+  return LOCALES.some((locale) => locale === value);
+}
