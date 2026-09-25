@@ -1,5 +1,3 @@
-import { notImplemented } from './not-implemented';
-
 /** Longer tokens are almost always generated, and would eat the 300-character selector budget. */
 const MAX_TOKEN_LENGTH = 64;
 
@@ -61,11 +59,56 @@ function countMatches(text: string, pattern: RegExp): number {
  * Escapes `value` for use as a CSS identifier (a class name or id in a selector), following the CSSOM
  * `CSS.escape()` algorithm. Core has no DOM, so this is a pure reimplementation.
  */
-export function cssEscapeIdent(_value: string): string {
-  return notImplemented();
+export function cssEscapeIdent(value: string): string {
+  if (value === '-') return '\\-';
+  let out = '';
+  for (let i = 0; i < value.length; i++) {
+    out += escapeIdentUnit(value.charCodeAt(i), i, value.charCodeAt(0));
+  }
+  return out;
 }
 
 /** Quotes `value` as a CSS string for an attribute selector: `[aria-label=${cssAttrValue(label)}]`. */
-export function cssAttrValue(_value: string): string {
-  return notImplemented();
+export function cssAttrValue(value: string): string {
+  let out = '"';
+  for (let i = 0; i < value.length; i++) out += escapeStringUnit(value.charCodeAt(i));
+  return `${out}"`;
+}
+
+const REPLACEMENT_CHARACTER = '�';
+const HYPHEN = 0x2d;
+
+function escapeIdentUnit(code: number, index: number, first: number): string {
+  if (code === 0) return REPLACEMENT_CHARACTER;
+  if (isControl(code)) return escapeCodePoint(code);
+  const isLeadingDigit = isDigit(code) && (index === 0 || (index === 1 && first === HYPHEN));
+  if (isLeadingDigit) return escapeCodePoint(code);
+  if (code >= 0x80 || code === HYPHEN || code === 0x5f || isDigit(code) || isAsciiLetter(code)) {
+    return String.fromCharCode(code);
+  }
+  return `\\${String.fromCharCode(code)}`;
+}
+
+/** CSSOM "serialize a string", without the surrounding quotes. */
+function escapeStringUnit(code: number): string {
+  if (code === 0) return REPLACEMENT_CHARACTER;
+  if (isControl(code)) return escapeCodePoint(code);
+  const char = String.fromCharCode(code);
+  return char === '"' || char === '\\' ? `\\${char}` : char;
+}
+
+function escapeCodePoint(code: number): string {
+  return `\\${code.toString(16)} `;
+}
+
+function isControl(code: number): boolean {
+  return (code >= 0x01 && code <= 0x1f) || code === 0x7f;
+}
+
+function isDigit(code: number): boolean {
+  return code >= 0x30 && code <= 0x39;
+}
+
+function isAsciiLetter(code: number): boolean {
+  return (code >= 0x41 && code <= 0x5a) || (code >= 0x61 && code <= 0x7a);
 }
