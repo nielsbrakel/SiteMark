@@ -4,8 +4,9 @@
     "src/entrypoints/*.ts",
     "src/entrypoints/*/main.tsx",
     "tests/e2e/serve.mjs",
-    "scripts/*.mjs"
+    "scripts/*.mjs",
+    "scripts/*/cli.ts"
   ],
-  "project": ["src/**/*.{ts,tsx}", "tests/**/*.{ts,mjs}", "scripts/**/*.mjs", "*.config.ts"],
+  "project": ["src/**/*.{ts,tsx}", "tests/**/*.{ts,mjs}", "scripts/**/*.{ts,mjs}", "*.config.ts"],
   "ignoreExportsUsedInFile": true
 }

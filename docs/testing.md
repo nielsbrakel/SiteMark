@@ -63,7 +63,9 @@ Improve the code without changing behavior. `pnpm check` must pass. Don't make e
 - One behavior per red. A task may take several red/green rounds.
 - A bug fix starts with a reproducing test: `test(bug): red — …`, then `fix(bug): green — …`.
 - A requirement counts as **covered** only when a **passing** test's title (or a Playwright `@REQ-…` tag)
-  names it. Comments don't count _(T-019)_.
+  names it. Comments don't count. Each Vitest run writes `test-results/vitest-<projects>.json` and Playwright
+  writes `test-results/playwright.json`; `pnpm progress --coverage` merges them, and the CI `traceability` job
+  fails when every task of a requirement is done but no passing test names it.
 - Keep tests fast and deterministic: fake timers, fixed `IdGen`/`Clock`, no real network.
 - PRs are **rebase-merged** (D-209), so red, green and refactor commits all stay on `main`.
   `git bisect run scripts/bisect.sh` skips `test(*): red` commits _(T-020)_.

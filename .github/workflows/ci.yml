@@ -26,15 +26,22 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          # progress derives task status from the full git history (D-210).
+          fetch-depth: 0
       - uses: ./.github/actions/setup
       - run: pnpm check:ci
       - if: ${{ !cancelled() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: unit-results
-          path: |
-            test-results/
-            coverage/
+          name: results-unit
+          path: test-results/
+          retention-days: 14
+          if-no-files-found: ignore
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: coverage
+          path: coverage/
           retention-days: 14
           if-no-files-found: ignore
 
@@ -62,6 +69,13 @@ jobs:
           SITEMARK_TARGETS: ${{ matrix.browser }}
       - if: matrix.browser == 'firefox'
         run: pnpm exec web-ext lint --source-dir .output/firefox-mv3 --self-hosted
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: results-build-${{ matrix.browser }}
+          path: test-results/
+          retention-days: 14
+          if-no-files-found: ignore
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: sitemark-${{ matrix.browser }}
@@ -85,6 +99,13 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/setup
       - run: pnpm test:e2e
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: results-e2e
+          path: test-results/playwright.json
+          retention-days: 14
+          if-no-files-found: ignore
       - if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -152,11 +173,31 @@ jobs:
             exit 1
           fi
 
+  traceability:
+    name: traceability (every finished requirement has a passing test)
+    needs: [check, build, e2e]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: results-*
+          path: test-results/
+          merge-multiple: true
+      - run: pnpm progress --strict --coverage --verbose
+
   # The only required status check (docs/repo-setup.md). Add every new job to `needs`.
   ci-ok:
     name: ci-ok
     if: always()
-    needs: [check, build, e2e, workflow-lint, dependency-review, commitlint]
+    needs: [check, build, e2e, traceability, workflow-lint, dependency-review, commitlint]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions: {}

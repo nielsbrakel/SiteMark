@@ -14,7 +14,12 @@ export default defineConfig({
   // A test that only passes on retry is a bug, not a pass (TEST-09).
   failOnFlakyTests: ci,
   timeout: 30_000,
-  reporter: ci ? [['github'], ['html', { open: 'never' }]] : 'list',
+  // playwright.json feeds requirement coverage (`pnpm progress --coverage`).
+  reporter: [
+    ci ? ['github'] : ['list'],
+    ['html', { open: 'never' }],
+    ['json', { outputFile: 'test-results/playwright.json' }],
+  ],
   webServer: {
     command: 'node tests/e2e/serve.mjs',
     url: `http://127.0.0.1:${E2E_PORT}/`,

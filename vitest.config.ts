@@ -15,13 +15,26 @@ const browserTests = '**/*.browser.test.{ts,tsx}';
 const chromium = process.env.PW_CHROMIUM_EXECUTABLE;
 const alias = { '@': path.resolve('src') };
 
+/** `vitest run --project core --project dom` → "core-dom" (+ "-chrome" per build target); a bare run → "all". */
+function reportName(): string {
+  const projects = process.argv.flatMap((arg, i, all) =>
+    arg === '--project' ? [all[i + 1]] : arg.startsWith('--project=') ? [arg.slice(10)] : [],
+  );
+  const name = projects.length ? projects.join('-') : 'all';
+  const targets = process.env.SITEMARK_TARGETS?.replaceAll(',', '-');
+  return targets ? `${name}-${targets}` : name;
+}
+
 export default defineConfig({
   // D-226: tests pierce shadow roots, like the e2e build.
   define: { __SHADOW_MODE__: JSON.stringify('open') },
   test: {
-    reporters: process.env.CI
-      ? ['default', 'github-actions', ['json', { outputFile: 'test-results/vitest.json' }]]
-      : ['default', ['json', { outputFile: 'test-results/vitest.json' }]],
+    // One JSON report per run (named after its projects), merged by `pnpm progress --coverage`.
+    reporters: [
+      'default',
+      ...(process.env.CI ? ['github-actions'] : []),
+      ['json', { outputFile: `test-results/vitest-${reportName()}.json` }],
+    ],
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}'],
