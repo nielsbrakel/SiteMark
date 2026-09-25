@@ -1,0 +1,6 @@
+language js
+
+`$storage.sync` where {
+  $storage <: `$_.storage`,
+  register_diagnostic(span=$storage, message="storage.sync is banned: SiteMark keeps data in storage.local only (REQ-PRIV-006).")
+}

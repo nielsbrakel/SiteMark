@@ -1,0 +1,14 @@
+language js
+
+or {
+  `setTimeout($code, $...)`,
+  `setInterval($code, $...)`,
+  `setTimeout($code)`,
+  `setInterval($code)`
+} where {
+  $code <: or {
+    JsStringLiteralExpression(),
+    JsTemplateExpression()
+  },
+  register_diagnostic(span=$code, message="Pass a function, not a string: string timers are eval (REQ-NFR-005).")
+}

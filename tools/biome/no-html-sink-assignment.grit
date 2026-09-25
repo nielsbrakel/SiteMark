@@ -1,0 +1,11 @@
+language js
+
+`$target.$prop = $value` where {
+  $prop <: or {
+    `innerHTML`,
+    `outerHTML`,
+    `srcdoc`,
+    `cssText`
+  },
+  register_diagnostic(span=$target, message="HTML and CSS-text sinks are banned: use textContent, createElement and style.setProperty with validated values (REQ-RND-011).")
+}

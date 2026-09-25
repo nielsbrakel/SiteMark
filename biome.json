@@ -21,12 +21,374 @@
       "quoteStyle": "single"
     }
   },
+  "plugins": [
+    "./tools/biome/no-html-sink-assignment.grit",
+    "./tools/biome/no-storage-sync.grit",
+    "./tools/biome/no-string-timers.grit"
+  ],
   "linter": {
     "enabled": true,
+    "domains": {
+      "project": "recommended",
+      "react": "recommended",
+      "test": "recommended"
+    },
     "rules": {
-      "preset": "recommended"
+      "preset": "recommended",
+      "a11y": "error",
+      "complexity": {
+        "noExcessiveCognitiveComplexity": {
+          "level": "error",
+          "options": { "maxAllowedComplexity": 15 }
+        },
+        "noExcessiveLinesPerFunction": {
+          "level": "error",
+          "options": { "maxLines": 40, "skipBlankLines": true }
+        }
+      },
+      "correctness": {
+        "noUndeclaredVariables": "error",
+        "noUnusedFunctionParameters": "error",
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "useExhaustiveDependencies": "error"
+      },
+      "nursery": {
+        "noFloatingPromises": "error",
+        "noMisusedPromises": "error",
+        "useExhaustiveSwitchCases": "error",
+        "noJsRestrictedProperties": {
+          "level": "error",
+          "options": {
+            "entries": [
+              { "property": "innerHTML", "message": "Use textContent (REQ-RND-011)." },
+              { "property": "outerHTML", "message": "Use textContent (REQ-RND-011)." },
+              {
+                "property": "insertAdjacentHTML",
+                "message": "Build nodes with createElement (REQ-RND-011)."
+              },
+              { "property": "setHTMLUnsafe", "message": "Use textContent (REQ-RND-011)." },
+              {
+                "property": "createContextualFragment",
+                "message": "Build nodes with createElement (REQ-RND-011)."
+              },
+              { "property": "parseFromString", "message": "No HTML parsing (REQ-RND-011)." },
+              { "property": "srcdoc", "message": "No inline documents (REQ-RND-011)." },
+              {
+                "property": "cssText",
+                "message": "Set validated values with style.setProperty (REQ-RND-011)."
+              },
+              { "object": "document", "property": "write", "message": "No document.write." },
+              { "object": "document", "property": "writeln", "message": "No document.write." },
+              { "property": "fetch", "message": "SiteMark makes no requests (REQ-PRIV-005)." },
+              { "property": "sendBeacon", "message": "SiteMark makes no requests (REQ-PRIV-005)." },
+              {
+                "property": "postMessage",
+                "message": "Use runtime messaging through the background (REQ-SEC-003)."
+              },
+              {
+                "property": "onMessageExternal",
+                "message": "No external messaging (REQ-SEC-003)."
+              },
+              {
+                "property": "onConnectExternal",
+                "message": "No external messaging (REQ-SEC-003)."
+              }
+            ]
+          }
+        }
+      },
+      "performance": {
+        "noBarrelFile": "error",
+        "noReExportAll": "error"
+      },
+      "security": {
+        "noSecrets": "error"
+      },
+      "style": {
+        "noDefaultExport": "error",
+        "noEnum": "error",
+        "noNonNullAssertion": "error",
+        "noParameterAssign": "error",
+        "useExportType": "error",
+        "useImportType": "error",
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": { "filenameCases": ["kebab-case", "PascalCase"], "requireAscii": true }
+        },
+        "noExcessiveLinesPerFile": {
+          "level": "error",
+          "options": { "maxLines": 200, "skipBlankLines": true }
+        },
+        "noRestrictedGlobals": {
+          "level": "error",
+          "options": {
+            "deniedGlobals": {
+              "fetch": "SiteMark makes no requests (REQ-PRIV-005).",
+              "XMLHttpRequest": "SiteMark makes no requests (REQ-PRIV-005).",
+              "WebSocket": "SiteMark makes no requests (REQ-PRIV-005).",
+              "EventSource": "SiteMark makes no requests (REQ-PRIV-005).",
+              "importScripts": "No remote code (REQ-NFR-005).",
+              "Function": "No new Function (REQ-NFR-005, D-238).",
+              "chrome": "Import { browser } from 'wxt/browser' (D-222).",
+              "localStorage": "State lives in storage.local, written by the background only (D-220).",
+              "sessionStorage": "State lives in storage.local, written by the background only (D-220).",
+              "indexedDB": "State lives in storage.local, written by the background only (D-220)."
+            }
+          }
+        }
+      },
+      "suspicious": {
+        "noConsole": "error",
+        "noExplicitAny": "error",
+        "noFocusedTests": "error",
+        "noImportCycles": "error",
+        "noSkippedTests": "error"
+      }
     }
   },
+  "overrides": [
+    {
+      "includes": ["src/core/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "**/app/**",
+                      "**/platform/**",
+                      "**/shared/**",
+                      "**/content/**",
+                      "**/ui/**",
+                      "**/lib/**",
+                      "**/entrypoints/**"
+                    ],
+                    "message": "core is the innermost layer and imports only core (D-222)."
+                  },
+                  {
+                    "group": [
+                      "wxt",
+                      "wxt/**",
+                      "@webext-core/**",
+                      "react",
+                      "react/**",
+                      "react-dom",
+                      "react-dom/**",
+                      "@medv/finder"
+                    ],
+                    "message": "core is pure: no browser, DOM or UI libraries (D-222)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/app/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "**/platform/**",
+                      "**/shared/**",
+                      "**/content/**",
+                      "**/ui/**",
+                      "**/entrypoints/**"
+                    ],
+                    "message": "app depends only on core; adapters implement its ports (D-222)."
+                  },
+                  {
+                    "group": [
+                      "wxt",
+                      "wxt/**",
+                      "@webext-core/**",
+                      "react",
+                      "react/**",
+                      "react-dom",
+                      "react-dom/**"
+                    ],
+                    "message": "app talks to the browser only through ports (D-222)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/platform/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/shared/**", "**/content/**", "**/ui/**", "**/entrypoints/**"],
+                    "message": "platform adapters depend on app and core only (D-222)."
+                  },
+                  {
+                    "group": ["react", "react/**", "react-dom", "react-dom/**"],
+                    "message": "platform has no UI (D-222)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/shared/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "**/app/**",
+                      "**/platform/**",
+                      "**/content/**",
+                      "**/ui/**",
+                      "**/entrypoints/**"
+                    ],
+                    "message": "shared view code depends on core only (D-222)."
+                  },
+                  {
+                    "group": ["wxt", "wxt/**", "react", "react/**", "react-dom", "react-dom/**"],
+                    "message": "shared view code is plain DOM, used by content scripts and the options preview (D-222)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/content/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/ui/**", "**/entrypoints/**"],
+                    "message": "content and ui never import each other; share code through shared (D-222)."
+                  },
+                  {
+                    "group": ["react", "react/**", "react-dom", "react-dom/**"],
+                    "message": "Content scripts are plain TypeScript, no React (D-101)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/ui/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/content/**", "**/entrypoints/**"],
+                    "message": "content and ui never import each other; share code through shared (D-222)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/lib/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "**/app/**",
+                      "**/platform/**",
+                      "**/shared/**",
+                      "**/content/**",
+                      "**/ui/**",
+                      "**/entrypoints/**"
+                    ],
+                    "message": "lib holds leaf helpers (i18n) and imports only core (D-222)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/**/*.tsx", "!**/*.test.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noJsxLiterals": {
+              "level": "error",
+              "options": {
+                "noStrings": false,
+                "ignoreProps": true,
+                "allowedStrings": ["·", "✕", "!"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/entrypoints/**", "*.config.ts", "*.config.mjs", "**/*.d.ts"],
+      "linter": { "rules": { "style": { "noDefaultExport": "off" } } }
+    },
+    {
+      "includes": ["**/*.test.ts", "**/*.test.tsx", "tests/**"],
+      "linter": {
+        "rules": {
+          "complexity": { "noExcessiveLinesPerFunction": "off" },
+          "security": { "noSecrets": "off" },
+          "style": { "noExcessiveLinesPerFile": "off" },
+          "suspicious": { "noConsole": "off" }
+        }
+      }
+    },
+    {
+      "includes": ["scripts/**"],
+      "linter": { "rules": { "suspicious": { "noConsole": "off" } } }
+    }
+  ],
   "assist": {
     "actions": {
       "source": {
