@@ -157,5 +157,17 @@
   "errorSiteGroupNotFound": {
     "message": "This site group no longer exists.",
     "description": "Site group error: the site group was deleted, for example in another window."
+  },
+  "errorPatternNotFound": {
+    "message": "This pattern no longer exists.",
+    "description": "Site group error: the URL or exclude pattern was removed, for example in another window."
+  },
+  "errorMarkNotFound": {
+    "message": "This mark no longer exists.",
+    "description": "Site group error: the mark was removed, for example in another window."
+  },
+  "errorMarkInvalid": {
+    "message": "This mark has settings that SiteMark can't save. Check its effects, colors and selector.",
+    "description": "Site group error: a mark failed validation (for example no effect, an empty selector or an invalid color)."
   }
 }

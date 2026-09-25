@@ -157,5 +157,17 @@
   "errorSiteGroupNotFound": {
     "message": "Deze sitegroep bestaat niet meer.",
     "description": "Fout in sitegroep: de sitegroep is verwijderd, bijvoorbeeld in een ander venster."
+  },
+  "errorPatternNotFound": {
+    "message": "Dit patroon bestaat niet meer.",
+    "description": "Fout in sitegroep: het URL- of uitsluitpatroon is verwijderd, bijvoorbeeld in een ander venster."
+  },
+  "errorMarkNotFound": {
+    "message": "Deze markering bestaat niet meer.",
+    "description": "Fout in sitegroep: de markering is verwijderd, bijvoorbeeld in een ander venster."
+  },
+  "errorMarkInvalid": {
+    "message": "Deze markering heeft instellingen die SiteMark niet kan opslaan. Controleer de effecten, kleuren en selector.",
+    "description": "Fout in sitegroep: een markering is ongeldig (bijvoorbeeld geen effect, een lege selector of een ongeldige kleur)."
   }
 }
