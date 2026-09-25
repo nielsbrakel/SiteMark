@@ -1,6 +1,10 @@
 import type { Brand, MarkId, PatternId, SiteGroupId } from '../ids';
-import { notImplemented } from '../not-implemented';
 import type { Result } from '../result';
+import { hexSchema } from './fields';
+import { siteGroupSchema } from './group-schema';
+import { parseWith } from './issues';
+import { urlPatternSchema } from './pattern-schema';
+import { stateSchema } from './state-schema';
 
 // The data model (spec §7, normative; D-223). Everything read from storage, messages or imports is
 // `unknown` until one of the parse functions below accepts it.
@@ -111,20 +115,20 @@ export type SchemaIssue = { readonly path: string; readonly message: string };
 export type SchemaResult<T> = Result<T, SchemaIssue[]>;
 
 /** Validates a whole stored or imported state (REQ-SEC-004). */
-export function parseState(_input: unknown): SchemaResult<SiteMarkState> {
-  return notImplemented();
+export function parseState(input: unknown): SchemaResult<SiteMarkState> {
+  return parseWith(stateSchema, input);
 }
 
-export function parseSiteGroup(_input: unknown): SchemaResult<SiteGroup> {
-  return notImplemented();
+export function parseSiteGroup(input: unknown): SchemaResult<SiteGroup> {
+  return parseWith(siteGroupSchema, input);
 }
 
 /** Checks the shape and limits only; the URL engine validates the pattern itself. */
-export function parseUrlPattern(_input: unknown): SchemaResult<UrlPattern> {
-  return notImplemented();
+export function parseUrlPattern(input: unknown): SchemaResult<UrlPattern> {
+  return parseWith(urlPatternSchema, input);
 }
 
 /** Accepts `#rrggbb` in any case and returns it lowercased (REQ-MARK-012). */
-export function parseHex(_input: unknown): SchemaResult<Hex> {
-  return notImplemented();
+export function parseHex(input: unknown): SchemaResult<Hex> {
+  return parseWith(hexSchema, input);
 }
