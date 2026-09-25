@@ -1,6 +1,6 @@
 import { type ReactNode, StrictMode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { applyDocumentLocale } from '@/lib/i18n';
+import { applyDocumentLocale } from '@/lib/i18n/browser-source';
 
 /** Renders an extension page into #root with the document locale applied. */
 export function mount(app: ReactNode, doc: Document = document): Root {

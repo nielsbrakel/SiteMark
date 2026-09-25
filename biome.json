@@ -353,6 +353,37 @@
       }
     },
     {
+      "includes": ["src/lib/i18n/translate.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "wxt",
+                      "wxt/**",
+                      "react",
+                      "react/**",
+                      "**/browser-source*",
+                      "**/app/**",
+                      "**/platform/**",
+                      "**/content/**",
+                      "**/ui/**",
+                      "**/entrypoints/**"
+                    ],
+                    "message": "translate.ts is shared with the website and stays pure (D-246, D-247)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "includes": ["src/**/*.tsx", "!**/*.test.tsx"],
       "linter": {
         "rules": {

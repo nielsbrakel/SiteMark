@@ -50,7 +50,11 @@ const layers: Case[] = [
     code: "export { useState } from 'react';",
     rule: 'noRestrictedImports',
   },
-  { file: 'src/core/l5.ts', code: "export { t } from '@/lib/i18n';", rule: 'noRestrictedImports' },
+  {
+    file: 'src/core/l5.ts',
+    code: "export { t } from '@/lib/i18n/browser-source';",
+    rule: 'noRestrictedImports',
+  },
   {
     file: 'src/app/l1.ts',
     code: "export { a } from '@/platform/state-repo';",
@@ -84,6 +88,11 @@ const layers: Case[] = [
   {
     file: 'src/platform/l1.ts',
     code: "export { a } from '@/content/marker/host';",
+    rule: 'noRestrictedImports',
+  },
+  {
+    file: 'src/lib/i18n/translate.ts',
+    code: "export { browser } from 'wxt/browser';",
     rule: 'noRestrictedImports',
   },
   {

@@ -1,5 +1,5 @@
 import logo from '@/assets/logo.svg';
-import { t } from '@/lib/i18n';
+import { t } from '@/lib/i18n/browser-source';
 
 export function OptionsApp() {
   return (
