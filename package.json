@@ -45,6 +45,7 @@
     "web:dev": "pnpm --filter @sitemark/website dev",
     "web:build": "pnpm --filter @sitemark/website build",
     "web:preview": "pnpm --filter @sitemark/website preview",
+    "web:test:build": "pnpm web:build && vitest run --project website-build",
     "postinstall": "wxt prepare",
     "prepare": "node scripts/install-hooks.mjs",
     "typecheck": "tsc --noEmit && tsc --noEmit -p src/core && tsc --noEmit -p tests/e2e && tsc --noEmit -p website",

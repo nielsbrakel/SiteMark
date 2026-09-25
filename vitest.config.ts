@@ -10,6 +10,7 @@ import { WxtVitest } from 'wxt/testing/vitest-plugin';
 //   build   — tests/build on the production output of every target (`pnpm test:build`).
 //   website-node / website-dom — the website (docs/website/plan.md §7): pure modules in Node, components
 //             in happy-dom without the extension's fake browser (the website never touches browser.*).
+//   website-build — website/tests/build on the built website (`pnpm web:test:build`).
 // `pnpm test` runs core + dom; `pnpm test:coverage` runs core, dom and browser with the thresholds below.
 
 const isolation = { mockReset: true, restoreMocks: true, unstubEnvs: true, unstubGlobals: true };
@@ -116,6 +117,15 @@ export default defineConfig({
           environment: 'happy-dom',
           include: ['website/src/**/*.test.tsx'],
           exclude: [browserTests],
+        },
+      },
+      {
+        // Assertions on the built website in website/dist (`pnpm web:test:build` builds it first).
+        test: {
+          ...isolation,
+          name: 'website-build',
+          environment: 'node',
+          include: ['website/tests/build/**/*.test.ts'],
         },
       },
       {
