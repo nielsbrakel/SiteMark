@@ -63,6 +63,8 @@ function runTests(worktree: string, sha: string, files: ReturnType<typeof testFi
   if (vitest.length) {
     if (vitest.some((file) => file.startsWith('tests/build/')))
       run(worktree, 'pnpm', ['build:all']);
+    if (vitest.some((file) => file.startsWith('website/tests/build/')))
+      run(worktree, 'pnpm', ['web:build']);
     // Each commit's config decides where its JSON report goes, so start clean and read what appears.
     const results = path.join(worktree, 'test-results');
     rmSync(results, { recursive: true, force: true });

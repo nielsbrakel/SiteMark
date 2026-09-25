@@ -56,6 +56,9 @@ const INFRA = [
   /^public\/_locales\//,
   /^(package\.json|pnpm-lock\.yaml|pnpm-workspace\.yaml|vitest\.config\.ts|playwright\.config\.ts)$/,
   /(^|\/)tsconfig\.json$/,
+  // The website workspace (D-244) follows the same protocol.
+  /^website\/(tests|locales)\//,
+  /^website\/package\.json$/,
 ];
 
 /** Files a red commit may not touch: anything but tests, typed stubs and test infrastructure. */
