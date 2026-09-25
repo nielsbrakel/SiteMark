@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@eslint-community/regexpp':
+        specifier: ^4.12.2
+        version: 4.12.2
       react:
         specifier: ^19.3.0
         version: 19.3.0
