@@ -1,6 +1,5 @@
 import type { MarkId } from '../ids';
 import type { ElementEffects, Hex, PageEffects } from '../model/schema';
-import { notImplemented } from '../not-implemented';
 
 // The render plan: the ONLY data a content script receives (D-221). Plain JSON, no functions,
 // nothing the tab doesn't need to draw its marks. Built by compose() in the background.
@@ -66,5 +65,5 @@ export type RenderPlan = {
 
 /** The plan of a tab with no active site group, and the starting point of a tab's diff. */
 export function emptyPlan(): RenderPlan {
-  return notImplemented();
+  return { items: [] };
 }
