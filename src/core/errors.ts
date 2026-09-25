@@ -1,5 +1,3 @@
-import { notImplemented } from './not-implemented';
-
 // Typed error codes for the whole core (D-225). Each area has its own union; a task that needs a new
 // code adds it to its area (or adds an area to `ErrorCode`) and adds `error<Code>` to both locales.
 // The type test in errors.test.ts fails until the message exists.
@@ -49,6 +47,6 @@ export type ErrorCode = UrlPatternErrorCode | RegexErrorCode | DataErrorCode | S
 export type ErrorMessageKey<C extends ErrorCode = ErrorCode> = `error${Capitalize<C>}`;
 
 /** Maps a code to its message key (REQ-URL-003). Core can't import src/lib, so the UI translates it. */
-export function errorMessageKey<C extends ErrorCode>(_code: C): ErrorMessageKey<C> {
-  return notImplemented();
+export function errorMessageKey<C extends ErrorCode>(code: C): ErrorMessageKey<C> {
+  return `error${code.charAt(0).toUpperCase()}${code.slice(1)}` as ErrorMessageKey<C>;
 }
