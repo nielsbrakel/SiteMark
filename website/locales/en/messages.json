@@ -94,5 +94,13 @@
   "websiteThemeDark": {
     "message": "Dark",
     "description": "Theme toggle option: always use the dark theme. Keep it short."
+  },
+  "websiteHomeDescription": {
+    "message": "SiteMark marks production and other websites with ribbons, banners and outlines, so you never confuse environments. Free, private and open source.",
+    "description": "Meta description of the website home page, shown in search results. At most 160 characters."
+  },
+  "websiteSocialImageAlt": {
+    "message": "The SiteMark logo next to a browser window marked with a ribbon and a banner",
+    "description": "Text alternative of the preview image that social networks show when someone shares a website link."
   }
 }

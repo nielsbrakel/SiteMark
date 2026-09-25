@@ -1,4 +1,5 @@
 import { renderToString } from 'react-dom/server';
+import { notImplemented } from '@/core/not-implemented';
 import { Document } from './document/Document';
 import type { Locale } from './i18n/locales';
 import { websiteLocales } from './i18n/locales';
@@ -54,4 +55,9 @@ export async function renderPages(assets: PageAssets): Promise<RenderedPage[]> {
     }),
   );
   return perLocale.flat();
+}
+
+/** sitemap.xml for every rendered route (REQ-SEO-003); the prerender step writes it. */
+export function renderSitemap(): string {
+  return notImplemented();
 }

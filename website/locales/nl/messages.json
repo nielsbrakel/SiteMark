@@ -94,5 +94,13 @@
   "websiteThemeDark": {
     "message": "Donker",
     "description": "Theme toggle option: always use the dark theme. Keep it short."
+  },
+  "websiteHomeDescription": {
+    "message": "SiteMark markeert productie- en andere websites met linten, banners en kaders, zodat je omgevingen nooit verwart. Gratis, privé en open source.",
+    "description": "Meta description of the website home page, shown in search results. At most 160 characters."
+  },
+  "websiteSocialImageAlt": {
+    "message": "Het SiteMark-logo naast een browservenster met een lint en een banner",
+    "description": "Text alternative of the preview image that social networks show when someone shares a website link."
   }
 }

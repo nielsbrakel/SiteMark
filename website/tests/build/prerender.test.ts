@@ -37,7 +37,8 @@ describe('REQ-WEB-002 every route is prerendered to one static HTML file', () =>
   });
 
   it.each(pages)('$file loads the hashed client module from the base path', ({ file }) => {
-    const scripts = [...read(file).matchAll(/<script ([^>]*)>/g)].map((m) => m[1] ?? '');
+    // Scripts with a src; the inline bootstrap and JSON-LD are checked in output.test.ts.
+    const scripts = [...read(file).matchAll(/<script ([^>]*\bsrc=[^>]*)>/g)].map((m) => m[1] ?? '');
     expect(scripts).toHaveLength(1);
     const src = scripts[0]?.match(/^type="module" src="\/SiteMark\/(assets\/[\w-]+\.js)"$/)?.[1];
     expect(src, scripts[0]).toBeDefined();
