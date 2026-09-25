@@ -1,8 +1,7 @@
 import en from '../../public/_locales/en/messages.json';
 import nl from '../../public/_locales/nl/messages.json';
 
-// REQ-I18N-001: every string exists in every supported locale.
-describe('locales', () => {
+describe('REQ-I18N-001 every string exists in every supported locale', () => {
   it('nl has exactly the same message keys as en', () => {
     expect(Object.keys(nl).sort()).toEqual(Object.keys(en).sort());
   });

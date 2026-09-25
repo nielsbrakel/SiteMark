@@ -4,7 +4,7 @@
     "description": "Extension name. Do not translate."
   },
   "extDescription": {
-    "message": "Mark production (or any) websites with ribbons, banners and outlines so you never confuse environments. Private: all data stays on your device."
+    "message": "Mark production and test sites with ribbons, banners and outlines so you never mix them up. Private: data stays on your device."
   },
   "commandStartPicker": {
     "message": "Pick an element to mark on this page"

@@ -4,7 +4,7 @@
     "description": "Naam van de extensie. Niet vertalen."
   },
   "extDescription": {
-    "message": "Markeer productie- (of andere) websites met linten, banners en kaders zodat je omgevingen nooit meer verwart. Privé: alle gegevens blijven op je apparaat."
+    "message": "Markeer productie- en testsites met linten, banners en kaders zodat je ze nooit verwart. Privé: gegevens blijven op je apparaat."
   },
   "commandStartPicker": {
     "message": "Kies een element op deze pagina om te markeren"
