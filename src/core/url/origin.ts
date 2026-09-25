@@ -1,7 +1,6 @@
 import type { RegexErrorCode, UrlPatternErrorCode } from '../errors';
 import type { Brand } from '../ids';
-import { notImplemented } from '../not-implemented';
-import { ok, type Result } from '../result';
+import { err, ok, type Result } from '../result';
 import { memoize } from './memo';
 import { type ParsedWildcard, parseWildcard } from './parse';
 import type { UrlParts } from './url-parts';
@@ -12,6 +11,9 @@ import { matchWildcard } from './wildcard-match';
  * (no port, lowercase ASCII host) and never broad. Only this module produces one.
  */
 export type OriginPattern = Brand<string, 'OriginPattern'>;
+
+/** A regex pattern runs on 1…20 explicit origins (REQ-URL-004). */
+const MAX_REGEX_ORIGINS = 20;
 
 /** The origin a wildcard pattern needs (REQ-URL-005): port dropped, path `/*`, `*.` kept. */
 export function toOriginPattern(pattern: ParsedWildcard): OriginPattern {
@@ -45,7 +47,14 @@ export function originMatches(origin: OriginPattern, url: UrlParts): boolean {
  * form. Duplicates (after canonicalization) are dropped.
  */
 export function validateRegexOrigins(
-  _origins: readonly string[],
+  origins: readonly string[],
 ): Result<OriginPattern[], RegexErrorCode | UrlPatternErrorCode> {
-  return notImplemented();
+  const unique = new Set<OriginPattern>();
+  for (const input of origins) {
+    const parsed = parseOriginPattern(input);
+    if (!parsed.ok) return parsed;
+    unique.add(parsed.value);
+  }
+  if (unique.size === 0) return err('regexNeedsOrigin');
+  return unique.size > MAX_REGEX_ORIGINS ? err('regexTooManyOrigins') : ok([...unique]);
 }

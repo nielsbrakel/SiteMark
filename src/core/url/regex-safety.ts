@@ -1,6 +1,7 @@
 import { type AST, RegExpParser, visitRegExpAST } from '@eslint-community/regexpp';
 import type { RegexErrorCode } from '../errors';
 import { err, ok, type Result } from '../result';
+import { memoize } from './memo';
 
 const MAX_LENGTH = 500;
 /** The flags are fixed by the code (REQ-URL-004): unicode mode, nothing else. */
@@ -54,3 +55,8 @@ export function validateRegex(source: string): Result<string, RegexErrorCode> {
   if (!pattern) return err('regexInvalid');
   return isUnsafe(pattern) ? err('regexUnsafe') : ok(source);
 }
+
+/** Compiles a stored regex with the fixed flags, or `undefined` when it isn't in the safe subset. */
+export const compileRegex = memoize((source: string): RegExp | undefined =>
+  validateRegex(source).ok ? new RegExp(source, FLAGS) : undefined,
+);
