@@ -1,5 +1,6 @@
 import type { UrlPatternErrorCode } from '../errors';
 import { err, ok, type Result } from '../result';
+import { isPublicSuffix } from './broad';
 import { isIpAddress, normalizeHost, parsePort, splitHostPort } from './host';
 
 /** `*` means http or https (REQ-URL-001). */
@@ -25,6 +26,8 @@ type Code = UrlPatternErrorCode;
 /** REQ-URL-010: at most 500 characters (input and stored form) and 10 wildcards. */
 const MAX_LENGTH = 500;
 const MAX_WILDCARDS = 10;
+/** The browser's match-everything pattern (REQ-URL-009). */
+const ALL_URLS = '<all_urls>';
 
 /** `scheme://` at the start: everything before the first `://`, if no `/?#:` comes earlier. */
 const SCHEME_PREFIX = /^([^/?#:[\]]*):\/\//;
@@ -67,12 +70,14 @@ function normalizePath(tail: string): string {
 type Authority = { host: string; includeSubdomains: boolean; port: number | undefined };
 
 function parseHost(raw: string): Result<{ host: string; includeSubdomains: boolean }, Code> {
+  if (raw === '*') return err('patternTooBroad');
   const includeSubdomains = raw.startsWith('*.');
   const bare = includeSubdomains ? raw.slice(2) : raw;
   if (bare.includes('*')) return err('patternWildcardInHost');
   const host = normalizeHost(bare);
   if (!host.ok) return host;
   if (includeSubdomains && isIpAddress(host.value)) return err('patternInvalidHost');
+  if (includeSubdomains && isPublicSuffix(host.value)) return err('patternTooBroad');
   return ok({ host: host.value, includeSubdomains });
 }
 
@@ -91,6 +96,7 @@ function parseAuthority(authority: string): Result<Authority, Code> {
 export function parseWildcard(input: string): Result<ParsedWildcard, UrlPatternErrorCode> {
   const text = input.trim();
   if (text === '') return err('patternEmpty');
+  if (text.toLowerCase() === ALL_URLS) return err('patternTooBroad');
   if (text.length > MAX_LENGTH) return err('patternTooLong');
   if (text.split('*').length - 1 > MAX_WILDCARDS) return err('patternTooManyWildcards');
   const split = splitScheme(text);
