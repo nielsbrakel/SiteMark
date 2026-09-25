@@ -37,5 +37,113 @@
         "example": "3"
       }
     }
+  },
+  "errorPatternEmpty": {
+    "message": "Voer een URL-patroon in.",
+    "description": "Fout in URL-patroon: het patroon is leeg."
+  },
+  "errorPatternTooLong": {
+    "message": "Een patroon mag maximaal 500 tekens lang zijn.",
+    "description": "Fout in URL-patroon: het patroon is te lang."
+  },
+  "errorPatternTooManyWildcards": {
+    "message": "Een patroon mag maximaal 10 jokertekens (*) bevatten.",
+    "description": "Fout in URL-patroon: te veel *-tekens."
+  },
+  "errorPatternInvalidScheme": {
+    "message": "Gebruik http, https of * als schema.",
+    "description": "Fout in URL-patroon: het deel vóór :// is niet toegestaan."
+  },
+  "errorPatternWildcardInHost": {
+    "message": "Een jokerteken is alleen toegestaan aan het begin van de host.",
+    "description": "Fout in URL-patroon: er staat een * midden in de hostnaam."
+  },
+  "errorPatternInvalidHost": {
+    "message": "Voer een geldige hostnaam in, zoals example.com.",
+    "description": "Fout in URL-patroon: de hostnaam is ongeldig."
+  },
+  "errorPatternInvalidPort": {
+    "message": "Voer een geldig poortnummer in, zoals 8080.",
+    "description": "Fout in URL-patroon: de poort is geen geldig getal."
+  },
+  "errorPatternInvalidIpv6": {
+    "message": "Voer een geldig IPv6-adres tussen haken in, zoals [::1].",
+    "description": "Fout in URL-patroon: het IPv6-adres is ongeldig."
+  },
+  "errorPatternTooBroad": {
+    "message": "Dit patroon past op te veel sites. Gebruik een specifiek domein, zoals *.example.com.",
+    "description": "Fout in URL-patroon: het patroon omvat alle sites of een heel publiek achtervoegsel zoals *.co.uk."
+  },
+  "errorUrlTooLong": {
+    "message": "Deze URL is te lang om te controleren (meer dan 2048 tekens).",
+    "description": "Getoond als een te testen URL langer is dan 2048 tekens."
+  },
+  "errorRegexInvalid": {
+    "message": "Deze reguliere expressie is ongeldig.",
+    "description": "Fout in regex-patroon: de expressie is niet te lezen."
+  },
+  "errorRegexUnsafe": {
+    "message": "Terugverwijzingen, lookarounds en geneste kwantoren zijn niet toegestaan.",
+    "description": "Fout in regex-patroon: de expressie gebruikt iets waardoor matchen traag kan worden."
+  },
+  "errorRegexTooLong": {
+    "message": "Een reguliere expressie mag maximaal 500 tekens lang zijn.",
+    "description": "Fout in regex-patroon: de expressie is te lang."
+  },
+  "errorRegexNeedsOrigin": {
+    "message": "Voeg minstens één origin toe voor deze reguliere expressie, zoals https://example.com/*.",
+    "description": "Fout in regex-patroon: een regex heeft de sites (origins) nodig waarop hij mag draaien."
+  },
+  "errorRegexTooManyOrigins": {
+    "message": "Een reguliere expressie mag maximaal 20 origins hebben.",
+    "description": "Fout in regex-patroon: te veel origins."
+  },
+  "errorImportInvalidJson": {
+    "message": "Dit bestand bevat geen geldige JSON.",
+    "description": "Importfout: het bestand is niet als JSON te lezen."
+  },
+  "errorImportTooDeep": {
+    "message": "Dit bestand is te diep genest voor een SiteMark-export.",
+    "description": "Importfout: de JSON is te diep genest."
+  },
+  "errorImportTooLarge": {
+    "message": "Dit bestand is te groot om te importeren.",
+    "description": "Importfout: het bestand is groter dan de limiet."
+  },
+  "errorImportSchemaInvalid": {
+    "message": "Dit bestand is geen geldige SiteMark-export.",
+    "description": "Importfout: de JSON heeft niet het exportformaat van SiteMark."
+  },
+  "errorImportUnsupportedVersion": {
+    "message": "Dit bestand komt van een nieuwere of onbekende versie van SiteMark. Werk SiteMark bij en probeer het opnieuw.",
+    "description": "Importfout: de export heeft een schemaversie die deze versie niet kan lezen."
+  },
+  "errorStateReadOnly": {
+    "message": "Je gegevens komen van een nieuwere versie van SiteMark. Wijzigen is daarom uitgeschakeld, zodat er niets verloren gaat.",
+    "description": "Getoond als een wijziging wordt geweigerd omdat de opgeslagen gegevens alleen-lezen zijn."
+  },
+  "errorSiteGroupNeedsPattern": {
+    "message": "Voeg een URL-patroon toe voordat je deze sitegroep aanzet.",
+    "description": "Fout in sitegroep: een ingeschakelde sitegroep heeft minstens één URL-patroon nodig."
+  },
+  "errorSiteGroupLimitReached": {
+    "message": "Je kunt maximaal 200 sitegroepen hebben.",
+    "description": "Fout in sitegroep: het maximale aantal sitegroepen is bereikt."
+  },
+  "errorPatternLimitReached": {
+    "message": "Een sitegroep kan maximaal 50 URL-patronen hebben.",
+    "description": "Fout in sitegroep: het maximale aantal URL-patronen is bereikt."
+  },
+  "errorExcludeLimitReached": {
+    "message": "Een sitegroep kan maximaal 50 uitsluitpatronen hebben.",
+    "description": "Fout in sitegroep: het maximale aantal uitsluitpatronen is bereikt."
+  },
+  "errorMarkLimitReached": {
+    "message": "Een sitegroep kan maximaal 50 markeringen hebben.",
+    "description": "Fout in sitegroep: het maximale aantal markeringen is bereikt."
+  },
+  "errorSiteGroupNotFound": {
+    "message": "Deze sitegroep bestaat niet meer.",
+    "description": "Fout in sitegroep: de sitegroep is verwijderd, bijvoorbeeld in een ander venster."
   }
 }
