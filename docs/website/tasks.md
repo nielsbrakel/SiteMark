@@ -6,7 +6,7 @@
 
 **How it works:** the same protocol as the extension ([testing.md](../testing.md#tdd-protocol)):
 🔴 `test(T-2xx): red — …` → 🟢 `feat(T-2xx): green — …` → 🔵 optional `refactor(T-2xx): …`. Setup chores
-use `chore(T-2xx)`. Top-level `describe` names start with the REQ ID. Until T-203 lands, `pnpm progress` doesn't read this file.
+use `chore(T-2xx)`. Top-level `describe` names start with the REQ ID. `pnpm progress` reads this file next to the extension's (T-203).
 
 **Order:** W1 starts after M0.5 and T-024, and must be done **before T-152** (the store listings need the
 privacy and support URLs). W2 starts after M6. Rows within a milestone are ordered by dependency.
