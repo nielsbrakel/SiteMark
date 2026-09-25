@@ -91,7 +91,7 @@
     "description": "Regex pattern error: the expression is too long."
   },
   "errorRegexNeedsOrigin": {
-    "message": "Add at least one origin, such as https://example.com/*, for this regular expression.",
+    "message": "Add at least one origin, such as *://example.com/*, for this regular expression.",
     "description": "Regex pattern error: a regex needs the sites (origins) it may run on."
   },
   "errorRegexTooManyOrigins": {

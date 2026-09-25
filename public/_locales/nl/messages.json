@@ -91,7 +91,7 @@
     "description": "Fout in regex-patroon: de expressie is te lang."
   },
   "errorRegexNeedsOrigin": {
-    "message": "Voeg minstens één origin toe voor deze reguliere expressie, zoals https://example.com/*.",
+    "message": "Voeg minstens één origin toe voor deze reguliere expressie, zoals *://example.com/*.",
     "description": "Fout in regex-patroon: een regex heeft de sites (origins) nodig waarop hij mag draaien."
   },
   "errorRegexTooManyOrigins": {
