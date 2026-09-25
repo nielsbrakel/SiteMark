@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-labelledby="t">
+  <title id="t">SiteMark</title>
+  <!-- 16px toolbar: no tile, no cursor. A full-height ribbon with a deep notch
+       and a thin dark keyline so it reads on light and dark toolbars. -->
+  <path d="M3.5 1h9a1 1 0 0 1 1 1v13l-5.5-3.6L2.5 15V2a1 1 0 0 1 1-1z"
+        fill="#e5483b" stroke="#8a2a22" stroke-width=".8" stroke-linejoin="round"/>
+</svg>

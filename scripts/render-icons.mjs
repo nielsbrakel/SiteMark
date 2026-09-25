@@ -4,7 +4,8 @@ import { chromium } from '@playwright/test';
 import { mkdir, readFile } from 'node:fs/promises';
 
 const targets = [
-  { svg: 'design/logo/sitemark-icon-small.svg', sizes: [16, 32] },
+  { svg: 'design/logo/sitemark-icon-16.svg', sizes: [16] },
+  { svg: 'design/logo/sitemark-icon-small.svg', sizes: [32] },
   { svg: 'design/logo/sitemark-icon.svg', sizes: [48, 96, 128] },
 ];
 

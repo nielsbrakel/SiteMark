@@ -1,6 +1,7 @@
 /*
  * SiteMark design tokens — neumorphic ("soft UI") system.
- * Spec: docs/design.md. All text/background pairs meet WCAG AA (4.5:1).
+ * Spec: docs/design.md. Text pairs meet WCAG AA (4.5:1); control boundaries
+ * (--sm-control-border) meet non-text contrast (3:1, WCAG 1.4.11).
  * Theme: follows the OS unless <html data-theme="light|dark"> overrides it.
  */
 :root {
@@ -15,19 +16,21 @@
   /* Text */
   --sm-text: #2b2f38;
   --sm-text-muted: #555c6a;
-  --sm-border: rgba(43, 47, 56, 0.12);
+  --sm-border: rgba(43, 47, 56, 0.12); /* decorative dividers only */
+  --sm-control-border: #707784; /* inputs, switch tracks, swatches (3.7:1) */
+  --sm-edge: transparent; /* dark mode highlight edge */
 
-  /* Brand accent: signal coral */
-  --sm-accent: #c93a2e; /* fills with white text (5.1:1) */
-  --sm-accent-text: #b83227; /* accent text on --sm-bg */
+  /* Brand accent: signal coral (kept distinct from the red mark preset) */
+  --sm-accent: #b8452f; /* fills with white text (5.3:1) */
+  --sm-accent-text: #a63d28; /* accent text on --sm-bg (5.2:1) */
   --sm-on-accent: #ffffff;
   --sm-accent-soft: rgba(229, 72, 59, 0.14);
   --sm-brand-coral: #e5483b; /* decorative only (logo) */
 
   /* Status */
-  --sm-success: #1a7f37;
-  --sm-warning: #9a6700;
-  --sm-danger: #b83227;
+  --sm-success: #17692e; /* 5.6:1 */
+  --sm-warning: #7d5400; /* 5.5:1 */
+  --sm-danger: #a63d28;
 
   /* Shape */
   --sm-radius-sm: 8px;
@@ -46,7 +49,7 @@
   /* Type: system fonts only, no network requests (privacy) */
   --sm-font: ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --sm-font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, Consolas, monospace;
-  --sm-text-xs: 11px;
+  --sm-text-xs: 12px; /* minimum UI text size */
   --sm-text-sm: 12px;
   --sm-text-md: 14px;
   --sm-text-lg: 16px;
@@ -58,19 +61,20 @@
   --sm-inset: inset 3px 3px 6px var(--sm-shadow-dark), inset -3px -3px 6px var(--sm-shadow-light);
   --sm-pressed: inset 2px 2px 4px var(--sm-shadow-dark), inset -2px -2px 4px var(--sm-shadow-light);
 
-  /* Focus: neumorphism alone is not accessible; always show a real ring */
-  --sm-focus-ring: 0 0 0 2px var(--sm-bg), 0 0 0 4px var(--sm-accent-text);
+  /* Focus: neumorphism alone is not accessible; always show a real ring.
+     Drawn with `outline` (survives forced-colors mode, unlike box-shadow). */
+  --sm-focus-color: var(--sm-accent-text);
 
   /* Motion */
   --sm-duration: 160ms;
   --sm-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
-  /* Marker presets (injected marks, not extension chrome) */
+  /* Marker presets (injected marks, not extension chrome). Colorblind-safe:
+     spread over the blue–yellow axis and luminance (docs/design.md §2). */
   --sm-mark-red: #c93a2e;
   --sm-mark-amber: #f4a300;
-  --sm-mark-green: #1a7f37;
-  --sm-mark-violet: #6b4eff;
   --sm-mark-blue: #1f6feb;
+  --sm-mark-slate: #57606a;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -83,8 +87,10 @@
     --sm-text: #e7e9ee;
     --sm-text-muted: #a3a9b6;
     --sm-border: rgba(231, 233, 238, 0.1);
-    --sm-accent: #ff7a6b;
-    --sm-accent-text: #ff8a7d;
+    --sm-control-border: #848b9a;
+    --sm-edge: rgba(255, 255, 255, 0.08);
+    --sm-accent: #ff8f6b;
+    --sm-accent-text: #ff8f6b;
     --sm-on-accent: #1b1d22;
     --sm-accent-soft: rgba(255, 122, 107, 0.16);
     --sm-success: #4ac26b;
@@ -102,8 +108,10 @@
   --sm-text: #e7e9ee;
   --sm-text-muted: #a3a9b6;
   --sm-border: rgba(231, 233, 238, 0.1);
-  --sm-accent: #ff7a6b;
-  --sm-accent-text: #ff8a7d;
+  --sm-control-border: #848b9a;
+  --sm-edge: rgba(255, 255, 255, 0.08);
+  --sm-accent: #ff8f6b;
+  --sm-accent-text: #ff8f6b;
   --sm-on-accent: #1b1d22;
   --sm-accent-soft: rgba(255, 122, 107, 0.16);
   --sm-success: #4ac26b;
