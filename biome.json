@@ -149,6 +149,26 @@
   },
   "overrides": [
     {
+      "includes": ["src/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["**/website/**"],
+                    "message": "Nothing under src/ imports the website (D-246)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "includes": ["src/core/**"],
       "linter": {
         "rules": {
@@ -181,6 +201,10 @@
                       "@medv/finder"
                     ],
                     "message": "core is pure: no browser, DOM or UI libraries (D-222)."
+                  },
+                  {
+                    "group": ["**/website/**"],
+                    "message": "Nothing under src/ imports the website (D-246)."
                   }
                 ]
               }
@@ -219,6 +243,10 @@
                       "react-dom/**"
                     ],
                     "message": "app talks to the browser only through ports (D-222)."
+                  },
+                  {
+                    "group": ["**/website/**"],
+                    "message": "Nothing under src/ imports the website (D-246)."
                   }
                 ]
               }
@@ -243,6 +271,10 @@
                   {
                     "group": ["react", "react/**", "react-dom", "react-dom/**"],
                     "message": "platform has no UI (D-222)."
+                  },
+                  {
+                    "group": ["**/website/**"],
+                    "message": "Nothing under src/ imports the website (D-246)."
                   }
                 ]
               }
@@ -273,6 +305,10 @@
                   {
                     "group": ["wxt", "wxt/**", "react", "react/**", "react-dom", "react-dom/**"],
                     "message": "shared view code is plain DOM, used by content scripts and the options preview (D-222)."
+                  },
+                  {
+                    "group": ["**/website/**"],
+                    "message": "Nothing under src/ imports the website (D-246)."
                   }
                 ]
               }
@@ -297,6 +333,10 @@
                   {
                     "group": ["react", "react/**", "react-dom", "react-dom/**"],
                     "message": "Content scripts are plain TypeScript, no React (D-101)."
+                  },
+                  {
+                    "group": ["**/website/**"],
+                    "message": "Nothing under src/ imports the website (D-246)."
                   }
                 ]
               }
@@ -317,6 +357,10 @@
                   {
                     "group": ["**/content/**", "**/entrypoints/**"],
                     "message": "content and ui never import each other; share code through shared (D-222)."
+                  },
+                  {
+                    "group": ["**/website/**"],
+                    "message": "Nothing under src/ imports the website (D-246)."
                   }
                 ]
               }
@@ -344,6 +388,10 @@
                       "**/entrypoints/**"
                     ],
                     "message": "lib holds leaf helpers (i18n) and imports only core (D-222)."
+                  },
+                  {
+                    "group": ["**/website/**"],
+                    "message": "Nothing under src/ imports the website (D-246)."
                   }
                 ]
               }
@@ -375,6 +423,10 @@
                       "**/entrypoints/**"
                     ],
                     "message": "translate.ts is shared with the website and stays pure (D-246, D-247)."
+                  },
+                  {
+                    "group": ["**/website/**"],
+                    "message": "Nothing under src/ imports the website (D-246)."
                   }
                 ]
               }
@@ -384,7 +436,78 @@
       }
     },
     {
-      "includes": ["src/**/*.tsx", "!**/*.test.tsx"],
+      "includes": ["website/**"],
+      "plugins": ["./tools/biome/no-style-attribute.grit"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@/**",
+                      "!@/core/**",
+                      "!@/shared/**",
+                      "!@/ui/components/**",
+                      "!@/lib/i18n/translate",
+                      "!@/styles/**"
+                    ],
+                    "message": "The website imports only core, shared, ui/components, lib/i18n/translate and styles from the extension (D-246)."
+                  },
+                  {
+                    "group": ["wxt", "wxt/**", "@webext-core/**"],
+                    "message": "The website never uses extension APIs (D-246)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["website/src/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@/**",
+                      "!@/core/**",
+                      "!@/shared/**",
+                      "!@/ui/components/**",
+                      "!@/lib/i18n/translate",
+                      "!@/styles/**"
+                    ],
+                    "message": "The website imports only core, shared, ui/components, lib/i18n/translate and styles from the extension (D-246)."
+                  },
+                  {
+                    "group": ["wxt", "wxt/**", "@webext-core/**"],
+                    "message": "The website never uses extension APIs (D-246)."
+                  },
+                  {
+                    "group": ["**/src/**"],
+                    "message": "Import extension code through the @/ alias, so the D-246 zone can check it."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/ui/components/**"],
+      "plugins": ["./tools/biome/no-style-attribute.grit"]
+    },
+    {
+      "includes": ["src/**/*.tsx", "website/src/**/*.tsx", "!**/*.test.tsx"],
       "linter": {
         "rules": {
           "style": {

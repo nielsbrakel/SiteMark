@@ -1,0 +1,6 @@
+language js
+
+JsxAttribute(name=$name) as $attribute where {
+  $name <: `style`,
+  register_diagnostic(span=$attribute, message="No style attributes: prerendered style attributes need 'unsafe-inline' in the website CSP. Use a CSS Module class (REQ-WEB-005).")
+}
