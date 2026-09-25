@@ -7,7 +7,8 @@ import { WxtVitest } from 'wxt/testing/vitest-plugin';
 //   core    — src/core in plain Node: no DOM, no fake browser (the layering guarantee).
 //   dom     — everything else in happy-dom with WXT's fake browser.
 //   browser — *.browser.test.ts in real Chromium, for layout, popover, canvas and input.
-// `pnpm test` runs core + dom; `pnpm test:coverage` runs all three with the thresholds below.
+//   build   — tests/build on the production output of every target (`pnpm test:build`).
+// `pnpm test` runs core + dom; `pnpm test:coverage` runs core, dom and browser with the thresholds below.
 
 const isolation = { mockReset: true, restoreMocks: true, unstubEnvs: true, unstubGlobals: true };
 const browserTests = '**/*.browser.test.{ts,tsx}';
@@ -61,6 +62,15 @@ export default defineConfig({
           include: ['src/**/*.test.{ts,tsx}', 'tests/{unit,fakes}/**/*.test.{ts,tsx}'],
           exclude: ['src/core/**', browserTests],
           setupFiles: ['tests/unit/setup.ts'],
+        },
+      },
+      {
+        // Assertions on the real production builds in .output (`pnpm test:build` builds them first).
+        test: {
+          ...isolation,
+          name: 'build',
+          environment: 'node',
+          include: ['tests/build/**/*.test.ts'],
         },
       },
       {
