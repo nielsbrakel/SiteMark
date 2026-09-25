@@ -21,6 +21,12 @@ describe('REQ-NFR-004 fake i18n reads the real English messages', () => {
     expect(api.getMessage('greet', 'Ada')).toBe('Hi Ada, $2 left');
   });
 
+  it('answers the predefined @@ messages', () => {
+    expect(createFakeI18n().api.getMessage('@@bidi_dir')).toBe('ltr');
+    expect(createFakeI18n(undefined, 'he').api.getMessage('@@bidi_dir')).toBe('rtl');
+    expect(createFakeI18n(undefined, 'pt-BR').api.getMessage('@@ui_locale')).toBe('pt_BR');
+  });
+
   it('reports the UI language', () => {
     expect(createFakeI18n(undefined, 'nl').api.getUILanguage()).toBe('nl');
   });

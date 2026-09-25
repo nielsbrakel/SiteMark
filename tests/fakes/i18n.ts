@@ -27,10 +27,22 @@ function format(entry: Messages[string], substitutions: string[]): string {
   return positional(named);
 }
 
+/** Chrome's built-in `@@` messages that SiteMark reads. */
+function predefinedMessage(key: string, uiLanguage: string): string | undefined {
+  const rtl = /^(ar|fa|he|ur)\b/.test(uiLanguage);
+  const values: Record<string, string> = {
+    '@@ui_locale': uiLanguage.replace('-', '_'),
+    '@@bidi_dir': rtl ? 'rtl' : 'ltr',
+  };
+  return values[key];
+}
+
 export function createFakeI18n(messages: Messages = en, uiLanguage = 'en'): { api: FakeI18nApi } {
   return {
     api: {
       getMessage: (key, substitutions = []) => {
+        const predefined = predefinedMessage(key, uiLanguage);
+        if (predefined !== undefined) return predefined;
         const entry = messages[key];
         if (!entry) throw new Error(`Unknown i18n key: ${key}`);
         return format(entry, typeof substitutions === 'string' ? [substitutions] : substitutions);

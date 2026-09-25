@@ -17,5 +17,25 @@
   },
   "scaffoldNotice": {
     "message": "In aanbouw. Zie docs/tasks.md voor de voortgang."
+  },
+  "siteGroupCount_one": {
+    "message": "$COUNT$ sitegroep",
+    "description": "Aantal sitegroepen, bijvoorbeeld in de zijbalk van de instellingen.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "siteGroupCount_other": {
+    "message": "$COUNT$ sitegroepen",
+    "description": "Aantal sitegroepen, bijvoorbeeld in de zijbalk van de instellingen.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
   }
 }

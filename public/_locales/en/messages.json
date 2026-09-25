@@ -17,5 +17,25 @@
   },
   "scaffoldNotice": {
     "message": "Under construction. See docs/tasks.md for progress."
+  },
+  "siteGroupCount_one": {
+    "message": "$COUNT$ site group",
+    "description": "Number of site groups, e.g. in the settings sidebar.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "siteGroupCount_other": {
+    "message": "$COUNT$ site groups",
+    "description": "Number of site groups, e.g. in the settings sidebar.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
   }
 }
