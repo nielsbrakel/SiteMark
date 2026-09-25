@@ -4,7 +4,6 @@ import { type MigrateOk, type MigrationSteps, migrate } from '../core/data/migra
 import type { Clock } from '../core/ids';
 import { emptyState } from '../core/model/defaults';
 import type { SiteMarkState } from '../core/model/schema';
-import { notImplemented } from '../core/not-implemented';
 import { assertNever, err, ok, type Result } from '../core/result';
 import { backUp, readBackups } from './state-backups';
 
@@ -85,9 +84,16 @@ export type AccessLevelArea = {
  * Keeps content scripts away from `storage.local` where the browser supports it (REQ-SEC-002,
  * D-221). Resolves `true` when the access level is set; never rejects.
  */
-export function restrictStorageAccess(
-  _logger: Logger,
-  _area: AccessLevelArea = browser.storage.local,
+export async function restrictStorageAccess(
+  logger: Logger,
+  area: AccessLevelArea = browser.storage.local,
 ): Promise<boolean> {
-  return notImplemented();
+  if (typeof area.setAccessLevel !== 'function') return false;
+  try {
+    await area.setAccessLevel({ accessLevel: 'TRUSTED_CONTEXTS' });
+    return true;
+  } catch (error) {
+    logger.warn('Could not restrict the storage access level to trusted contexts', error);
+    return false;
+  }
 }
