@@ -32,12 +32,19 @@ export type MoveSiteGroup = {
   readonly toIndex: number;
 };
 
+/**
+ * Copies a site group to the bottom of the list with new IDs, named `<name> copy` (REQ-GRP-006).
+ * The copy starts disabled: its origins may not be granted yet.
+ */
+export type DuplicateSiteGroup = { readonly type: 'duplicateSiteGroup'; readonly id: SiteGroupId };
+
 export type SiteGroupCommand =
   | CreateSiteGroup
   | RenameSiteGroup
   | DeleteSiteGroup
   | SetSiteGroupEnabled
-  | MoveSiteGroup;
+  | MoveSiteGroup
+  | DuplicateSiteGroup;
 
 /** Everything an extension page can ask the background to change. */
 export type Command = SiteGroupCommand;

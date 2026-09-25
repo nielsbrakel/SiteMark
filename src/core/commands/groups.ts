@@ -8,7 +8,7 @@ import type { CommandDeps, CommandOf } from './command';
 // Reducers for site groups (REQ-GRP-001…004). They leave `revision` to the dispatcher.
 
 const MAX_SITE_GROUPS = 200;
-const NAME_MAX = 40;
+export const NAME_MAX = 40;
 
 type GroupResult = Result<SiteMarkState, SiteGroupErrorCode>;
 
@@ -37,23 +37,27 @@ function updateGroup(
   return ok({ ...state, siteGroups: state.siteGroups.with(index, changed.value) });
 }
 
+/** Adds `group` at the bottom (REQ-GRP-001), or fails when there are 200 already (REQ-GRP-002). */
+export function appendSiteGroup(state: SiteMarkState, group: SiteGroup): GroupResult {
+  if (state.siteGroups.length >= MAX_SITE_GROUPS) return err('siteGroupLimitReached');
+  return ok({ ...state, siteGroups: [...state.siteGroups, group] });
+}
+
 export function createSiteGroup(
   state: SiteMarkState,
   command: CommandOf<'createSiteGroup'>,
   { idGen }: CommandDeps,
 ): GroupResult {
-  if (state.siteGroups.length >= MAX_SITE_GROUPS) return err('siteGroupLimitReached');
   const name = siteGroupName(command.name);
   if (!name.ok) return name;
-  const group: SiteGroup = {
+  return appendSiteGroup(state, {
     id: idGen.siteGroupId(),
     name: name.value,
     enabled: false,
     patterns: [],
     excludes: [],
     marks: [],
-  };
-  return ok({ ...state, siteGroups: [...state.siteGroups, group] });
+  });
 }
 
 export function renameSiteGroup(
