@@ -261,7 +261,144 @@ const conventions: Case[] = [
   { file: 'src/core/c15.ts', code: 'export const n = (x: any) => x;', rule: 'noExplicitAny' },
 ];
 
-const all = [...layers, ...privacy, ...security, ...htmlSinks, ...i18n, ...conventions];
+const imports = 'noRestrictedImports';
+
+/** D-246: the website reaches the extension only through `@/`, and only core, shared, ui/components,
+ * the translator and styles. Nothing under src/ imports the website. */
+const websiteZone: Case[] = [
+  { file: 'website/src/w1.ts', code: "export { a } from '@/app/ports';", rule: imports },
+  { file: 'website/src/w2.ts', code: "export { a } from '@/platform/tabs';", rule: imports },
+  { file: 'website/src/w3.ts', code: "export { a } from '@/content/marker/host';", rule: imports },
+  {
+    file: 'website/src/w4.ts',
+    code: "export { A } from '@/entrypoints/popup/App';",
+    rule: imports,
+  },
+  {
+    file: 'website/src/w5.ts',
+    code: "export { t } from '@/lib/i18n/browser-source';",
+    rule: imports,
+  },
+  { file: 'website/src/w6.ts', code: "export { u } from '@/ui/hooks/use-state';", rule: imports },
+  { file: 'website/src/w7.ts', code: "export { browser } from 'wxt/browser';", rule: imports },
+  {
+    file: 'website/src/pages/w8.ts',
+    code: "export { ok } from '../../../src/core/result';",
+    rule: imports,
+  },
+  { file: 'website/scripts/w9.ts', code: "export { a } from '@/app/ports';", rule: imports },
+  {
+    file: 'src/ui/w10.ts',
+    code: "export { a } from '../../website/src/routes/routes';",
+    rule: imports,
+  },
+  { file: 'src/core/w11.ts', code: "export { a } from '../../website/src/x';", rule: imports },
+  {
+    file: 'src/entrypoints/w12.ts',
+    code: "export { a } from '../../website/src/x';",
+    rule: imports,
+  },
+  // Allowed directions stay clean.
+  { file: 'website/src/ok1.ts', code: "export { ok } from '@/core/result';", rule: null },
+  {
+    file: 'website/src/ok2.ts',
+    code: "export { v } from '@/shared/marker-view/banner';",
+    rule: null,
+  },
+  { file: 'website/src/ok3.ts', code: "export { B } from '@/ui/components/button';", rule: null },
+  {
+    file: 'website/src/ok4.ts',
+    code: "export { createTranslator } from '@/lib/i18n/translate';",
+    rule: null,
+  },
+  { file: 'website/src/ok5.ts', code: "import '@/styles/base.css';", rule: null },
+  {
+    file: 'website/src/pages/ok6.ts',
+    code: "export { m } from '../content/markdown';",
+    rule: null,
+  },
+  {
+    file: 'website/src/i18n/ok7.ts',
+    code: "export { default } from '../../../public/_locales/en/messages.json';",
+    rule: null,
+  },
+  { file: 'website/scripts/ok8.ts', code: "export { r } from '../src/routes/routes';", rule: null },
+];
+
+const websiteNetwork: Case[] = [
+  { file: 'website/src/n1.ts', code: "export const r = fetch('/x');", rule: 'noRestrictedGlobals' },
+  {
+    file: 'website/src/n2.ts',
+    code: 'export const r = new XMLHttpRequest();',
+    rule: 'noRestrictedGlobals',
+  },
+  {
+    file: 'website/src/n3.ts',
+    code: "export const r = new WebSocket('wss://x');",
+    rule: 'noRestrictedGlobals',
+  },
+  {
+    file: 'website/src/n4.ts',
+    code: "export const r = navigator.sendBeacon('/x');",
+    rule: 'noJsRestrictedProperties',
+  },
+];
+
+const websiteSinks: Case[] = [
+  { file: 'website/src/h1.ts', code: 'el.innerHTML = text;', rule: 'plugin' },
+  { file: 'website/src/h2.ts', code: "export const r = eval('1');", rule: 'noGlobalEval' },
+  {
+    file: 'website/src/h3.ts',
+    code: "export const r = new Function('return 1');",
+    rule: 'noRestrictedGlobals',
+  },
+  {
+    file: 'website/src/H4.tsx',
+    code: 'export function H({ t }: { t: string }) { return <div dangerouslySetInnerHTML={{ __html: t }} />; }',
+    rule: 'noDangerouslySetInnerHtml',
+  },
+];
+
+/** Prerendered `style` attributes would need 'unsafe-inline' in the website CSP. */
+const styleAttributes: Case[] = [
+  {
+    file: 'website/src/S1.tsx',
+    code: 'export function S() { return <div style={{ margin: 0 }} />; }',
+    rule: 'plugin',
+  },
+  {
+    file: 'website/src/S2.tsx',
+    code: "export function S() { return <p style={{ margin: 0 }}>{'x'}</p>; }",
+    rule: 'plugin',
+  },
+  {
+    file: 'src/ui/components/S3.tsx',
+    code: 'export function S({ c }: { c: string }) { return <span style={{ color: c }} />; }',
+    rule: 'plugin',
+  },
+];
+
+const websiteI18n: Case[] = [
+  {
+    file: 'website/src/I1.tsx',
+    code: 'export function I() { return <p>Hello</p>; }',
+    rule: 'noJsxLiterals',
+  },
+];
+
+const all = [
+  ...layers,
+  ...privacy,
+  ...security,
+  ...htmlSinks,
+  ...i18n,
+  ...conventions,
+  ...websiteZone,
+  ...websiteNetwork,
+  ...websiteSinks,
+  ...styleAttributes,
+  ...websiteI18n,
+];
 
 type Diagnostic = { category: string; location: { path: string } };
 let project: string;
@@ -330,4 +467,24 @@ describe('REQ-I18N-002 lint bans hard-coded JSX text', () => {
 
 describe('REQ-NFR-004 lint enforces the code conventions (D-235)', () => {
   it.each(conventions)('$file → $rule', expectRule);
+});
+
+describe('REQ-WEB-009 lint enforces the website zone (D-246)', () => {
+  it.each(websiteZone)('$file → $rule', expectRule);
+});
+
+describe('REQ-WEB-003 lint bans network APIs in website code', () => {
+  it.each(websiteNetwork)('$file → $rule', expectRule);
+});
+
+describe('REQ-WEB-006 lint bans HTML sinks and dynamic code in website code', () => {
+  it.each(websiteSinks)('$file → $rule', expectRule);
+});
+
+describe('REQ-WEB-005 lint bans style attributes in website code and shared components', () => {
+  it.each(styleAttributes)('$file → $rule', expectRule);
+});
+
+describe('REQ-WEBUX-003 lint bans hard-coded JSX text in website code', () => {
+  it.each(websiteI18n)('$file → $rule', expectRule);
 });
