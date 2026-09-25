@@ -1,4 +1,4 @@
-import { notImplemented } from './not-implemented';
+import { assertNever } from './result';
 
 /** How the current candidate was reached: the pointer, or ↑ ↓ ← → from the keyboard (REQ-PICK-002). */
 export type PickerMode = 'pointer' | 'keyboard';
@@ -37,8 +37,70 @@ export type PickerEvent<C extends NonNullable<unknown>> =
  * the event means nothing in the current state.
  */
 export function transition<C extends NonNullable<unknown>>(
-  _state: PickerState<C>,
-  _event: PickerEvent<C>,
+  state: PickerState<C>,
+  event: PickerEvent<C>,
 ): PickerState<C> {
-  return notImplemented();
+  switch (state.kind) {
+    case 'idle':
+    case 'done':
+      return event.type === 'invoke'
+        ? { kind: 'picking', candidate: null, mode: 'pointer' }
+        : state;
+    case 'picking':
+      return fromPicking(state, event);
+    case 'editing':
+      return fromEditing(state, event);
+    default:
+      return assertNever(state);
+  }
+}
+
+type Picking<C extends NonNullable<unknown>> = Extract<PickerState<C>, { kind: 'picking' }>;
+type Editing<C extends NonNullable<unknown>> = Extract<PickerState<C>, { kind: 'editing' }>;
+
+const CANCELLED = { kind: 'done', outcome: 'cancelled' } as const;
+
+function fromPicking<C extends NonNullable<unknown>>(
+  state: Picking<C>,
+  event: PickerEvent<C>,
+): PickerState<C> {
+  switch (event.type) {
+    case 'invoke':
+    case 'cancel':
+      return CANCELLED;
+    case 'hover':
+      return { kind: 'picking', candidate: event.candidate, mode: 'pointer' };
+    case 'navigate':
+      return { kind: 'picking', candidate: event.candidate, mode: 'keyboard' };
+    case 'select': {
+      const selection = event.candidate ?? state.candidate;
+      return selection === null ? state : { kind: 'editing', selection };
+    }
+    case 'repick':
+    case 'save':
+      return state;
+    default:
+      return assertNever(event);
+  }
+}
+
+function fromEditing<C extends NonNullable<unknown>>(
+  state: Editing<C>,
+  event: PickerEvent<C>,
+): PickerState<C> {
+  switch (event.type) {
+    case 'invoke':
+    case 'cancel':
+      return CANCELLED;
+    case 'save':
+      return { kind: 'done', outcome: 'saved', selection: state.selection };
+    case 'repick':
+      return { kind: 'picking', candidate: state.selection, mode: 'pointer' };
+    case 'hover':
+    case 'navigate':
+    case 'select':
+      return state;
+    default:
+      return assertNever(event);
+  }
 }
