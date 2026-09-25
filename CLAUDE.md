@@ -20,8 +20,10 @@ Read `docs/spec.md` (requirements), `docs/plan.md` (architecture), `docs/decisio
 - Content scripts are plain TS (no React). User text goes in via `textContent` only; colors only as validated hex.
 - Colors come from `src/styles/tokens.css`, and strings from `public/_locales/{en,nl}` (keep both in sync).
 - Conventions (D-235): named exports, no barrels, small files and functions, `Result` in core, exhaustive switches.
+- Lint and format with **Biome** (D-243), not ESLint; Prettier only formats Markdown and YAML. Suppress a rule with
+  `// biome-ignore lint/<group>/<rule>: <reason>`.
 
 ## Commands
 
-`pnpm test` · `pnpm test:e2e` (set `PW_CHROMIUM_EXECUTABLE` to use a preinstalled Chromium) ·
+`pnpm test` · `pnpm lint` · `pnpm format` · `pnpm test:e2e` (set `PW_CHROMIUM_EXECUTABLE` to use a preinstalled Chromium) ·
 `pnpm check` · `pnpm progress` · `pnpm build[:firefox|:safari]` · `pnpm icons` (after logo SVG changes)

@@ -6,7 +6,10 @@ import { PopupApp } from './App';
 
 document.documentElement.lang = browser.i18n.getUILanguage();
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root');
+if (!root) throw new Error('[SiteMark] missing #root element');
+
+ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <PopupApp />
   </React.StrictMode>,

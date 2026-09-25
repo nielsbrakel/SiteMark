@@ -19,9 +19,9 @@
     "zip:firefox": "wxt zip -b firefox",
     "postinstall": "wxt prepare",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "lint": "biome check --formatter-enabled=false",
+    "format": "biome format --write && prettier --write '**/*.{md,yml,yaml}'",
+    "format:check": "biome format && prettier --check '**/*.{md,yml,yaml}'",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -35,7 +35,7 @@
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.0",
+    "@biomejs/biome": "2.5.14",
     "@playwright/test": "^1.56.1",
     "@testing-library/jest-dom": "^6.9.0",
     "@testing-library/react": "^16.3.0",
@@ -45,13 +45,9 @@
     "@types/react-dom": "^19.3.0",
     "@vitest/coverage-v8": "^4.1.0",
     "@wxt-dev/module-react": "^1.2.0",
-    "eslint": "^9.39.0",
-    "eslint-plugin-react-hooks": "^7.0.0",
-    "globals": "^16.5.0",
     "happy-dom": "^20.0.0",
     "prettier": "^3.6.0",
     "typescript": "^5.9.0",
-    "typescript-eslint": "^8.46.0",
     "vitest": "^4.1.0",
     "wxt": "^0.21.0"
   }

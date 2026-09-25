@@ -5,7 +5,7 @@
 //
 // Sources: docs/spec.md (REQ definitions), docs/tasks.md (task rows + Status column),
 // test files (REQ IDs mentioned in describe/it names or comments).
-import { readFileSync, readdirSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const args = new Set(process.argv.slice(2));
