@@ -378,6 +378,20 @@ const styleAttributes: Case[] = [
   },
 ];
 
+/** D-250: only the theme bootstrap may use localStorage; every other ban still applies there. */
+const websiteStorage: Case[] = [
+  {
+    file: 'website/src/theme/other.ts',
+    code: "export const r = localStorage.getItem('x');",
+    rule: 'noRestrictedGlobals',
+  },
+  {
+    file: 'website/src/theme/bootstrap.ts',
+    code: "export const a = localStorage.getItem('x');\nexport const b = fetch('/x');\nexport const c = sessionStorage.length;",
+    rule: 'noRestrictedGlobals',
+  },
+];
+
 const websiteI18n: Case[] = [
   {
     file: 'website/src/I1.tsx',
@@ -397,6 +411,7 @@ const all = [
   ...websiteNetwork,
   ...websiteSinks,
   ...styleAttributes,
+  ...websiteStorage,
   ...websiteI18n,
 ];
 
@@ -483,6 +498,19 @@ describe('REQ-WEB-006 lint bans HTML sinks and dynamic code in website code', ()
 
 describe('REQ-WEB-005 lint bans style attributes in website code and shared components', () => {
   it.each(styleAttributes)('$file → $rule', expectRule);
+});
+
+describe('REQ-WEB-004 lint allows localStorage only in the theme bootstrap (D-250)', () => {
+  const globals = (file: string) =>
+    (byFile.get(file) ?? []).filter((rule) => rule === 'noRestrictedGlobals');
+
+  it('bans localStorage in other website files', () => {
+    expect(globals('website/src/theme/other.ts')).toHaveLength(1);
+  });
+
+  it('allows it in bootstrap.ts but still bans fetch and sessionStorage there', () => {
+    expect(globals('website/src/theme/bootstrap.ts')).toHaveLength(2);
+  });
 });
 
 describe('REQ-WEBUX-003 lint bans hard-coded JSX text in website code', () => {

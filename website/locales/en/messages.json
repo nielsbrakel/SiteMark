@@ -78,5 +78,21 @@
   "websiteFooterMadeIn": {
     "message": "Made by Niels Brakel in the Netherlands.",
     "description": "Footer line that names the maker and controller (as in the privacy policy)."
+  },
+  "websiteThemeLabel": {
+    "message": "Theme",
+    "description": "Accessible name of the theme toggle in the header (Auto / Light / Dark)."
+  },
+  "websiteThemeAuto": {
+    "message": "Auto",
+    "description": "Theme toggle option: follow the operating system's light or dark setting. Keep it short."
+  },
+  "websiteThemeLight": {
+    "message": "Light",
+    "description": "Theme toggle option: always use the light theme. Keep it short."
+  },
+  "websiteThemeDark": {
+    "message": "Dark",
+    "description": "Theme toggle option: always use the dark theme. Keep it short."
   }
 }
