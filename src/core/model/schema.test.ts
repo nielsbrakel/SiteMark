@@ -1,23 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 import { aRegexPattern, aSiteGroup, aState, aWildcardPattern } from '../testing/builders';
-import { parseHex, parseSiteGroup, parseState, parseUrlPattern, type SchemaResult } from './schema';
-
-const pathsOf = <T>(result: SchemaResult<T>): string[] =>
-  result.ok ? [] : result.error.map((issue) => issue.path);
-
-const messagesOf = <T>(result: SchemaResult<T>): string[] =>
-  result.ok ? [] : result.error.map((issue) => issue.message);
-
-const okValue = <T>(result: SchemaResult<T>): T => {
-  if (!result.ok) expect.fail(`expected ok, got ${JSON.stringify(result.error)}`);
-  return result.value;
-};
-
-/** Round-trips through JSON, like data from storage or an import file. */
-const untrusted = (value: unknown): unknown => JSON.parse(JSON.stringify(value));
-
-const times = <T>(count: number, make: () => T): T[] => Array.from({ length: count }, make);
+import { messagesOf, okValue, pathsOf, times, untrusted } from '../testing/schema-results';
+import { parseHex, parseSiteGroup, parseState, parseUrlPattern } from './schema';
 
 describe('REQ-SEC-004 strict state schema with readable issue paths', () => {
   it('accepts what the builders produce', () => {
