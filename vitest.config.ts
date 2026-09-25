@@ -15,6 +15,8 @@ const chromium = process.env.PW_CHROMIUM_EXECUTABLE;
 const alias = { '@': path.resolve('src') };
 
 export default defineConfig({
+  // D-226: tests pierce shadow roots, like the e2e build.
+  define: { __SHADOW_MODE__: JSON.stringify('open') },
   test: {
     reporters: process.env.CI
       ? ['default', 'github-actions', ['json', { outputFile: 'test-results/vitest.json' }]]

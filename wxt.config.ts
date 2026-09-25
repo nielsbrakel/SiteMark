@@ -1,4 +1,5 @@
 import { defineConfig } from 'wxt';
+import { E2E_GRANTED_ORIGINS } from './tests/e2e/hosts';
 
 // See docs/plan.md §3 (Architecture) for why permissions look like this.
 export default defineConfig({
@@ -8,7 +9,11 @@ export default defineConfig({
   // One manifest version everywhere (Chromium 120+, Firefox 140+, Safari 18+).
   manifestVersion: 3,
   modules: ['@wxt-dev/module-react'],
-  manifest: ({ browser }) => ({
+  // D-226: closed shadow roots in production; open in dev, test and e2e builds so tests can pierce them.
+  vite: ({ mode }) => ({
+    define: { __SHADOW_MODE__: JSON.stringify(mode === 'production' ? 'closed' : 'open') },
+  }),
+  manifest: ({ browser, mode }) => ({
     name: '__MSG_extName__',
     short_name: 'SiteMark',
     description: '__MSG_extDescription__',
@@ -17,6 +22,9 @@ export default defineConfig({
     // requested one by one when the user adds a URL pattern (REQ-PRIV-002).
     permissions: ['storage', 'scripting', 'activeTab'],
     optional_host_permissions: ['*://*/*'],
+    // `wxt build --mode e2e` (own outDir: .output/<browser>-mv3-e2e) pre-grants the fixture hosts
+    // prod. and test.sitemark.test only; new.sitemark.test stays ungranted (D-233).
+    ...(mode === 'e2e' && { host_permissions: E2E_GRANTED_ORIGINS }),
     commands: {
       'start-picker': {
         suggested_key: { default: 'Alt+Shift+M' },

@@ -11,7 +11,7 @@
 | `pnpm test:browser`  | Vitest browser mode in Chromium (`*.browser.test.ts`)                                             |
 | `pnpm test:watch`    | Watch mode for the TDD loop                                                                       |
 | `pnpm test:coverage` | All three projects with per-glob coverage thresholds (core 90/85, platform 85, overall 80)        |
-| `pnpm test:e2e`      | Builds the e2e variant and runs Playwright _(e2e mode: T-015)_                                    |
+| `pnpm test:e2e`      | Builds the e2e variant (`.output/chrome-mv3-e2e`) and runs Playwright                             |
 | `pnpm check`         | typecheck + lint (Biome) + format (Biome, Prettier for Markdown/YAML) + unit tests + traceability |
 | `pnpm progress`      | Progress per milestone + requirement coverage (`--verbose` lists gaps)                            |
 
@@ -85,13 +85,14 @@ Improve the code without changing behavior. `pnpm check` must pass. Don't make e
 installed fresh before every `dom` test; drive them with `fakes()` (e.g. `fakes().permissions.answerNextRequest('deny')`).
 Builders (`aSiteGroup()`, `aMark()`, `aState()`) always produce schema-valid data _(T-040)_.
 
-**E2E specifics** _(T-015)_:
+**E2E specifics**:
 
 - `wxt build --mode e2e` has its own outDir, pre-grants `prod.`/`test.sitemark.test`, uses an open shadow root and accepts `?tabId=`.
 - Fixture site `tests/e2e/site/`: dashboard, SPA, lazy content, nested scroll, dialog, fullscreen, strict CSP +
   Trusted Types, a hostile page.
-- Helpers: `restartServiceWorker()`, `dispatchCommand()`, `waitForMarker()`, plus a request listener that fails
-  on any non-fixture traffic.
+- A route in `tests/e2e/fixtures.ts` aborts every request that isn't `*.sitemark.test` and fails the test
+  (`blockedRequests` lists them). Helpers arrive with their features: `dispatchCommand()` (T-074),
+  `restartServiceWorker()` (T-076), `waitForMarker()` (T-078).
 - Visual baselines (T-147) are generated and compared only inside the Playwright Docker image.
 
 ## Manual smoke checklist

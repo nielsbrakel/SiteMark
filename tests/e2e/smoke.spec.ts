@@ -1,18 +1,44 @@
 import { expect, test } from './fixtures';
+import { E2E_GRANTED_ORIGINS, fixtureUrl } from './hosts';
+
+/** The slice of the extension API that page.evaluate callbacks use inside extension pages. */
+type ExtensionPage = {
+  chrome: { permissions: { contains(p: { origins: string[] }): Promise<boolean> } };
+};
 
 test('extension loads and the popup renders', async ({ page, extensionId }) => {
   await page.goto(`chrome-extension://${extensionId}/popup.html`);
   await expect(page.getByRole('heading', { name: 'SiteMark' })).toBeVisible();
 });
 
-test('REQ-PRIV-001 manifest requests no host access at install time', async ({
+test('the fixture site is served on the sitemark.test hosts', async ({ page }) => {
+  await page.goto(fixtureUrl('prod'));
+  await expect(page.getByRole('heading', { name: 'Fixture dashboard' })).toBeVisible();
+});
+
+// The production manifest is asserted on the real builds in tests/build (T-016).
+test('the e2e build pre-grants only prod. and test.sitemark.test', async ({
   page,
   extensionId,
 }) => {
-  await page.goto(`chrome-extension://${extensionId}/manifest.json`);
-  const manifest = JSON.parse((await page.locator('body').textContent()) ?? '{}');
-  expect(manifest.host_permissions ?? []).toEqual([]);
-  expect(manifest.content_scripts ?? []).toEqual([]);
-  expect(manifest.permissions).not.toContain('<all_urls>');
-  expect(manifest.optional_host_permissions).toEqual(['*://*/*']);
+  await page.goto(`chrome-extension://${extensionId}/popup.html`);
+  const granted = await page.evaluate(async (origins) => {
+    const { permissions } = (globalThis as unknown as ExtensionPage).chrome;
+    const has = (origin: string) => permissions.contains({ origins: [origin] });
+    return {
+      e2e: await Promise.all(origins.map(has)),
+      new: await has('*://new.sitemark.test/*'),
+      all: await has('*://*/*'),
+    };
+  }, E2E_GRANTED_ORIGINS);
+  expect(granted).toEqual({ e2e: [true, true], new: false, all: false });
+});
+
+test('the network guard aborts requests outside the fixture hosts', async ({
+  page,
+  blockedRequests,
+}) => {
+  await page.goto(fixtureUrl('prod', 'leak.html'));
+  await expect.poll(() => blockedRequests).toEqual(['https://tracker.example.com/pixel.gif']);
+  blockedRequests.length = 0;
 });
