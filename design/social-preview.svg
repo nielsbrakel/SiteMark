@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" role="img" aria-labelledby="t">
+  <title id="t">SiteMark: never confuse production with test again</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f1f3f7"/>
+      <stop offset="1" stop-color="#dde1e8"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff7a6b"/>
+      <stop offset="1" stop-color="#e5483b"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="-6" dy="-6" stdDeviation="8" flood-color="#ffffff" flood-opacity=".85"/>
+      <feDropShadow dx="10" dy="10" stdDeviation="12" flood-color="#a3acbb" flood-opacity=".75"/>
+    </filter>
+    <clipPath id="window">
+      <rect x="740" y="120" width="460" height="400" rx="24"/>
+    </clipPath>
+    <clipPath id="page">
+      <rect x="740" y="172" width="460" height="348"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1280" height="640" fill="#e6e9ef"/>
+
+  <!-- Logo -->
+  <g transform="translate(96 90) scale(1.1)">
+    <rect x="10" y="10" width="108" height="108" rx="28" fill="url(#tile)" filter="url(#soft)"/>
+    <path d="M42 24h40a6 6 0 0 1 6 6v74l-26-17-26 17V30a6 6 0 0 1 6-6z" fill="url(#ribbon)"/>
+    <path d="M70 56v34l8.5-8 6 13.5 7-3-6-13.2H97z"
+          fill="#ffffff" stroke="#2b2f38" stroke-width="3.5" stroke-linejoin="round"/>
+  </g>
+  <text x="260" y="188" font-family="ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="84" font-weight="700" letter-spacing="-2">
+    <tspan fill="#2b2f38">Site</tspan><tspan fill="#e5483b">Mark</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <g font-family="ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" fill="#2b2f38">
+    <text x="106" y="350" font-size="46" font-weight="700">Never confuse</text>
+    <text x="106" y="406" font-size="46" font-weight="700">production with test.</text>
+    <text x="106" y="470" font-size="25" fill="#555c6a">Ribbons, banners and outlines</text>
+    <text x="106" y="504" font-size="25" fill="#555c6a">on the sites you choose.</text>
+    <text x="106" y="552" font-size="21" font-weight="700" fill="#a63d28">Private · Chrome · Edge · Firefox · Safari</text>
+  </g>
+
+  <!-- Browser window with marks -->
+  <rect x="740" y="120" width="460" height="400" rx="24" fill="#e6e9ef" filter="url(#soft)"/>
+  <g clip-path="url(#window)">
+    <rect x="740" y="120" width="460" height="52" fill="#dde1e8"/>
+    <circle cx="770" cy="146" r="7" fill="#c93a2e"/>
+    <circle cx="794" cy="146" r="7" fill="#f4a300"/>
+    <circle cx="818" cy="146" r="7" fill="#57606a"/>
+    <rect x="842" y="132" width="300" height="28" rx="14" fill="#f1f3f7"/>
+    <text x="858" y="152" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="15" fill="#555c6a">https://app.example.com/admin</text>
+
+    <!-- Page skeleton -->
+    <rect x="772" y="204" width="170" height="18" rx="9" fill="#cfd4dd"/>
+    <rect x="772" y="240" width="250" height="12" rx="6" fill="#d7dbe3"/>
+    <rect x="772" y="264" width="220" height="12" rx="6" fill="#d7dbe3"/>
+    <rect x="772" y="288" width="236" height="12" rx="6" fill="#d7dbe3"/>
+    <rect x="772" y="326" width="190" height="124" rx="16" fill="#dde1e8"/>
+    <rect x="978" y="326" width="190" height="124" rx="16" fill="#dde1e8"/>
+
+    <!-- Outlined element -->
+    <rect x="1018" y="392" width="112" height="36" rx="10" fill="#c93a2e" fill-opacity=".12"/>
+    <rect x="1012" y="386" width="124" height="48" rx="14" fill="none" stroke="#c93a2e" stroke-width="4" stroke-dasharray="10 6"/>
+    <text x="1074" y="416" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+          font-size="15" font-weight="700" fill="#a63d28">Delete</text>
+
+    <!-- Bottom banner -->
+    <rect x="740" y="476" width="460" height="44" fill="#c93a2e"/>
+    <text x="970" y="504" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+          font-size="16" font-weight="700" letter-spacing="2" fill="#ffffff">PRODUCTION · BE CAREFUL</text>
+
+    <!-- Corner ribbon -->
+    <g clip-path="url(#page)">
+    <g transform="translate(1200 172) rotate(45)">
+      <rect x="-110" y="34" width="220" height="34" fill="#c93a2e"/>
+      <text x="0" y="57" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+            font-size="16" font-weight="800" letter-spacing="2" fill="#ffffff">PROD</text>
+    </g>
+    </g>
+  </g>
+</svg>

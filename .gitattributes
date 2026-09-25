@@ -1,0 +1,13 @@
+# Normalize line endings; the repo uses LF everywhere (.editorconfig).
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.ico binary
+*.zip binary
+
+# GitHub language stats and diffs
+pnpm-lock.yaml linguist-generated=true -diff
+docs/** linguist-documentation
+design/** linguist-documentation
