@@ -47,7 +47,18 @@ export type SiteGroupErrorCode =
   | 'patternNotFound'
   | 'markNotFound';
 
-export type ErrorCode = UrlPatternErrorCode | RegexErrorCode | DataErrorCode | SiteGroupErrorCode;
+/**
+ * The command dispatcher (REQ-SEC-001): a reducer produced a state that fails the schema, which is a
+ * SiteMark bug. Nothing is saved.
+ */
+export type CommandErrorCode = 'commandProducedInvalidState';
+
+export type ErrorCode =
+  | UrlPatternErrorCode
+  | RegexErrorCode
+  | DataErrorCode
+  | SiteGroupErrorCode
+  | CommandErrorCode;
 
 /** The i18n key of a code's readable message: `patternEmpty` → `errorPatternEmpty`. */
 export type ErrorMessageKey<C extends ErrorCode = ErrorCode> = `error${Capitalize<C>}`;

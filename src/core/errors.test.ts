@@ -38,6 +38,7 @@ const everyCode = {
   siteGroupNotFound: true,
   patternNotFound: true,
   markNotFound: true,
+  commandProducedInvalidState: true,
 } as const satisfies Record<ErrorCode, true>;
 
 const codes = Object.keys(everyCode) as ErrorCode[];
