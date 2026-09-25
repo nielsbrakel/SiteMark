@@ -1,27 +1,31 @@
 # SiteMark — Testing & TDD workflow
 
+> Decisions: D-209 (rebase-merge), D-210 (automated TDD enforcement), D-214 (manual Firefox), D-233 (test layers).
+> Some tooling mentioned here arrives with the M0.5 hardening tasks. Those spots are marked _(T-xxx)_.
+
 ## Commands
 
-| Command              | What it does                                                                  |
-| -------------------- | ----------------------------------------------------------------------------- |
-| `pnpm test`          | Unit + component tests (Vitest, happy-dom)                                    |
-| `pnpm test:watch`    | The same in watch mode. Keep it running during TDD                            |
-| `pnpm test:coverage` | With v8 coverage (`coverage/index.html`)                                      |
-| `pnpm test:e2e`      | Builds the Chromium extension and runs Playwright against it                  |
-| `pnpm check`         | typecheck + lint + format check + unit tests + traceability (`--strict`)      |
-| `pnpm progress`      | Task progress per milestone and requirement coverage (`--verbose` lists gaps) |
+| Command              | What it does                                                           |
+| -------------------- | ---------------------------------------------------------------------- |
+| `pnpm test`          | Vitest projects `core` (node) + `dom` (happy-dom) _(split in T-013)_   |
+| `pnpm test:browser`  | Vitest browser mode in Chromium _(T-013)_                              |
+| `pnpm test:watch`    | Watch mode for the TDD loop                                            |
+| `pnpm test:coverage` | Coverage with per-glob thresholds _(T-013)_                            |
+| `pnpm test:e2e`      | Builds the e2e variant and runs Playwright _(e2e mode: T-015)_         |
+| `pnpm check`         | typecheck + lint + format + unit tests + traceability                  |
+| `pnpm progress`      | Progress per milestone + requirement coverage (`--verbose` lists gaps) |
 
-First-time Playwright setup: `pnpm exec playwright install chromium`.
-To use an existing Chromium instead, set `PW_CHROMIUM_EXECUTABLE=/path/to/chrome`.
+First-time Playwright setup: `pnpm exec playwright install chromium`, or set `PW_CHROMIUM_EXECUTABLE`
+to an existing **Chromium / Chrome for Testing** (branded Chrome ≥ 137 ignores `--load-extension`).
 
 ## TDD protocol
 
-Every task row in [tasks.md](tasks.md) is one red → green → refactor cycle.
+Each task row in [tasks.md](tasks.md) is one or more red → green (→ refactor) rounds.
 
-### 🔴 Red
+### 🔴 Red: `test(T-xxx): red — <behavior>`
 
-1. Read the task's requirement(s) in [spec.md](spec.md). The acceptance criteria are the test cases.
-2. Write the test(s) at the path in the task's _Tests_ column, named after the REQ:
+1. Read the task's requirements in [spec.md](spec.md). Their acceptance criteria are your test cases.
+2. Write the tests at the path in the _Tests_ column. The **top-level `describe` starts with the REQ ID**:
 
    ```ts
    describe('REQ-URL-001 wildcard matching', () => {
@@ -29,61 +33,90 @@ Every task row in [tasks.md](tasks.md) is one red → green → refactor cycle.
    });
    ```
 
-3. Run them and confirm they **fail for the right reason** (an assertion failure or a missing export,
-   not a typo or a broken setup).
-4. Commit only the test (+ the tasks.md tick):
-   `test(T-010): red — wildcard host and path matching`
+3. Add **typed stubs** so typecheck and lint still pass:
 
-### 🟢 Green
+   ```ts
+   export function matchPattern(pattern: WildcardPattern, url: string): boolean {
+     return notImplemented(); // throws NotImplementedError (tests/kit, T-014)
+   }
+   ```
 
-1. Write the **simplest** production code that makes the tests pass. No extra features.
-2. Run `pnpm test`. Everything passes, including earlier tests.
-3. Commit: `feat(T-010): green — wildcard host and path matching`
+4. Run the tests. They must fail **only** with assertion or `NotImplementedError` failures. Never use `it.fails`
+   (it also passes on unrelated errors).
+5. Commit only tests + stubs. The `verify-tdd` CI job _(T-020)_ checks that a red commit touches only
+   `*.test.*`, `tests/**` and stub files, and that its tests really fail.
 
-### 🔵 Refactor
+### 🟢 Green: `feat(T-xxx): green — <behavior>`
 
-1. Improve names, remove duplication, extract helpers, add types. Behavior doesn't change.
-2. `pnpm check` passes (and `pnpm test:e2e` if the task touches e2e).
-3. Commit: `refactor(T-010): compile patterns once` (or tick 🔵 with no code change if nothing needed refactoring).
+Write the simplest production code that passes. Run the whole suite. Commit. `verify-tdd` checks that
+the tests from the red commit now pass and that red came first.
+
+### 🔵 Refactor: `refactor(T-xxx): <what>` (optional)
+
+Improve the code without changing behavior. `pnpm check` must pass. Don't make empty commits.
 
 ### Rules
 
-- Never write production code without a failing test that needs it (setup chores are the exception).
-- One behavior per red. Split big tasks into several red/green rounds in the same row.
-- Bugs start with a failing test that reproduces them (`test(bug): red — …`).
-- Tests mention REQ IDs so `pnpm progress` can trace requirement → test.
-- Keep the tests fast: unit tests < 10 ms each. No real timers (`vi.useFakeTimers()`), no network.
+- No production code without a failing test that needs it. Setup chores use `chore(T-xxx)`.
+- One behavior per red. A task may take several red/green rounds.
+- A bug fix starts with a reproducing test: `test(bug): red — …`, then `fix(bug): green — …`.
+- A requirement counts as **covered** only when a **passing** test's title (or a Playwright `@REQ-…` tag)
+  names it. Comments don't count _(T-019)_.
+- Keep tests fast and deterministic: fake timers, fixed `IdGen`/`Clock`, no real network.
+- PRs are **rebase-merged** (D-209), so red, green and refactor commits all stay on `main`.
+  `git bisect run scripts/bisect.sh` skips `test(*): red` commits _(T-020)_.
+- Commit messages are checked by commitlint (lefthook locally, and in CI) _(T-021)_. Hooks never run tests,
+  so red commits are always committable.
 
-## Test layers
+## Test layers (D-233)
 
-See [plan.md §6](plan.md#6-test-strategy). In short:
+| Layer     | Where                          | Use it for                                                                                              |
+| --------- | ------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| `core`    | Vitest, node environment       | Pure domain logic. Table tests + fast-check properties                                                  |
+| `dom`     | Vitest, happy-dom              | Use cases with in-memory fakes, adapters with the fake browser, DOM structure, React (RTL + vitest-axe) |
+| `browser` | Vitest browser mode (Chromium) | Anything needing real layout, canvas, popover, `elementsFromPoint`, CSS cascade (`*.browser.test.ts`)   |
+| e2e       | Playwright + built extension   | Real extension behavior: registration, permissions, isolated world, top layer, CSP, hostile pages       |
+| build     | Vitest (node) on `.output/**`  | Manifest privacy assertions for every target, output scan for network/eval                              |
+| mutation  | Stryker (nightly)              | `src/core` test strength                                                                                |
+| manual    | This document                  | Firefox each release (D-214), Safari from v1.1                                                          |
 
-- `src/core/**`: pure, table-driven unit tests. Coverage ≥ 90 %.
-- `src/platform/**`, background, content: integration tests with `fakeBrowser` from
-  `wxt/testing/fake-browser` (it's reset after every test in `tests/unit/setup.ts`).
-- React UI: React Testing Library. Query by role and label, never by class name.
-  `@/lib/i18n` is mocked to return keys.
-- E2E: `tests/e2e/*.spec.ts` with the `test`/`expect` from `tests/e2e/fixtures.ts`, which
-  launch Chromium with the built extension and expose `extensionId`.
+**Fakes** _(T-014)_: `tests/fakes/` provides stateful fakes for `permissions`, `scripting`, `i18n` (it reads
+`en/messages.json` and throws on unknown keys), `commands` and `action`, which `wxt/testing`'s fake browser lacks.
+Builders (`aSiteGroup()`, `aMark()`, `aState()`) always produce schema-valid data.
 
-## Manual smoke checklist (Firefox + Safari, per release)
+**E2E specifics** _(T-015)_:
 
-Build: `pnpm build:firefox` → `about:debugging` → _Load Temporary Add-on_ →
-`.output/firefox-mv3/manifest.json`. Safari: `pnpm build:safari`, then on macOS run
-`xcrun safari-web-extension-converter .output/safari-mv3 --app-name SiteMark --bundle-identifier dev.sitemark.SiteMark --no-open`,
-build in Xcode, and enable it in Safari → Settings → Extensions (allow unsigned extensions in the Develop menu).
+- `wxt build --mode e2e` has its own outDir, pre-grants `prod.`/`test.sitemark.test`, uses an open shadow root and accepts `?tabId=`.
+- Fixture site `tests/e2e/site/`: dashboard, SPA, lazy content, nested scroll, dialog, fullscreen, strict CSP +
+  Trusted Types, a hostile page.
+- Helpers: `restartServiceWorker()`, `dispatchCommand()`, `waitForMarker()`, plus a request listener that fails
+  on any non-fixture traffic.
+- Visual baselines (T-147) are generated and compared only inside the Playwright Docker image.
 
-| #   | Step                                                                         | Firefox | Safari |
-| --- | ---------------------------------------------------------------------------- | ------- | ------ |
-| 1   | Install: no host-permission warning                                          | ☐       | ☐      |
-| 2   | Popup on a new site: "Mark this site" → permission prompt → ribbon appears   | ☐       | ☐      |
-| 3   | Reload: ribbon still there, with no prompt                                   | ☐       | ☐      |
-| 4   | Pick element (button + Alt+Shift+M) → save → outline follows while scrolling | ☐       | ☐      |
-| 5   | SPA navigation (pushState) updates marks                                     | ☐       | ☐      |
-| 6   | Hide on tab → marks gone → reload → back                                     | ☐       | ☐      |
-| 7   | Options: edit color → open tab updates live                                  | ☐       | ☐      |
-| 8   | Export → Reset → Import (merge) → one permission prompt → marks back         | ☐       | ☐      |
-| 9   | Remove profile → revoke prompt → permission removed                          | ☐       | ☐      |
-| 10  | Dark mode (OS) → popup/options/picker panel follow it                        | ☐       | ☐      |
-| 11  | Browser language set to Dutch → UI in Dutch                                  | ☐       | ☐      |
-| 12  | Title prefix + favicon applied, then restored after disabling                | ☐       | ☐      |
+## Manual smoke checklist
+
+**Firefox (each release):** `pnpm build:firefox` → `about:debugging` → _Load Temporary Add-on_ →
+`.output/firefox-mv3/manifest.json`.
+
+**Safari (from v1.1):** `pnpm build:safari`, then either upload the zip with the App Store Connect packager (TestFlight) or run
+`xcrun safari-web-extension-converter .output/safari-mv3 --macos-only --copy-resources --app-name SiteMark --bundle-identifier dev.sitemark.SiteMark --no-open`.
+For local unsigned runs: Safari → Settings → Developer → _Allow unsigned extensions_ (this resets when Safari quits).
+
+| #   | Step                                                                                                           | Firefox | Safari |
+| --- | -------------------------------------------------------------------------------------------------------------- | ------- | ------ |
+| 1   | Install: no host-permission warning. The welcome tab opens                                                     | ☐       | ☐      |
+| 2   | Popup on a new site → Mark this site → prompt → blue host ribbon appears                                       | ☐       | ☐      |
+| 3   | Deny once → group shows "Not granted — Allow" → Allow works                                                    | ☐       | ☐      |
+| 4   | Reload: the ribbon is still there with no prompt; restart the browser: still there                             | ☐       | ☐      |
+| 5   | Pick element (button + shortcut) → save → the outline follows while scrolling                                  | ☐       | ☐      |
+| 6   | During picking, clicking a page button does **nothing**                                                        | ☐       | ☐      |
+| 7   | SPA navigation (pushState) updates marks; Hide survives it; a reload shows marks again                         | ☐       | ☐      |
+| 8   | A page dialog / fullscreen video: the marks stay on top                                                        | ☐       | ☐      |
+| 9   | A strict-CSP site: the marks render                                                                            | ☐       | ☐      |
+| 10  | Options: edit color → the open tab updates live                                                                | ☐       | ☐      |
+| 11  | Export → Reset → Import (merge) → one permission prompt → marks back                                           | ☐       | ☐      |
+| 12  | Remove a group → revoke prompt → permission removed                                                            | ☐       | ☐      |
+| 13  | Revoke the site in the browser's own settings → the popup shows "Not granted"                                  | ☐       | ☐      |
+| 14  | OS dark mode + forced colors (Windows) → the popup, options and panel stay usable                              | ☐       | ☐      |
+| 15  | Browser language Dutch → UI in Dutch, no overflow in the popup                                                 | ☐       | ☐      |
+| 16  | Title prefix + favicon applied, then restored after hide/disable. Favicon "unavailable" on a CORS-favicon site | ☐       | ☐      |

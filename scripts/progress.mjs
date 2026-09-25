@@ -3,7 +3,7 @@
 //   pnpm progress --verbose  also list every requirement without a test yet
 //   pnpm progress --strict   exit 1 on broken traceability (used in CI)
 //
-// Sources: docs/spec.md (REQ definitions), docs/tasks.md (task table rows),
+// Sources: docs/spec.md (REQ definitions), docs/tasks.md (task rows + Status column),
 // test files (REQ IDs mentioned in describe/it names or comments).
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
@@ -21,25 +21,20 @@ for (const m of spec.matchAll(/^\|\s*(REQ-[A-Z0-9]+-\d{3})\s*\|\s*([MSC])\s*\|/g
 // 2. Tasks grouped by milestone.
 const milestones = [];
 for (const line of readFileSync('docs/tasks.md', 'utf8').split('\n')) {
-  const heading = line.match(/^## (M\d+) — (.+)$/);
+  const heading = line.match(/^## (M[\d.]+) — (.+)$/);
   if (heading) {
     milestones.push({ id: heading[1], name: heading[2].replaceAll('`', ''), tasks: [] });
     continue;
   }
   const row = line.match(/^\|\s*(T-\d{3})\s*\|/);
   if (!row || !milestones.length) continue;
+  // Columns: Task | Description | REQs | Tests | Status. Superseded by git-derived status in T-019.
   const cells = line
     .split('|')
     .slice(1, -1)
     .map((c) => c.trim());
-  const [id, , reqs, , red, green, refactor] = cells;
-  const ok = (c) => c === '✅' || c === 'n/a';
-  milestones.at(-1).tasks.push({
-    id,
-    reqs: reqs.match(REQ) ?? [],
-    done: ok(red) && ok(green) && ok(refactor),
-    started: [red, green, refactor].includes('✅'),
-  });
+  const [id, , reqs, , status] = cells;
+  milestones.at(-1).tasks.push({ id, reqs: reqs.match(REQ) ?? [], done: status === '✅' });
 }
 
 // 3. Requirements mentioned by tests.
@@ -62,9 +57,9 @@ const allTasks = milestones.flatMap((m) => m.tasks);
 console.log('\nSiteMark progress\n');
 for (const m of milestones) {
   const done = m.tasks.filter((t) => t.done).length;
-  const wip = m.tasks.some((t) => t.started && !t.done) ? '  (in progress)' : '';
+  const wip = done > 0 && done < m.tasks.length ? '  (in progress)' : '';
   console.log(
-    `${m.id.padEnd(3)} ${bar(done, m.tasks.length)} ${String(done).padStart(3)}/${String(m.tasks.length).padEnd(3)} ${m.name}${wip}`,
+    `${m.id.padEnd(4)} ${bar(done, m.tasks.length)} ${String(done).padStart(3)}/${String(m.tasks.length).padEnd(3)} ${m.name}${wip}`,
   );
 }
 const doneAll = allTasks.filter((t) => t.done).length;

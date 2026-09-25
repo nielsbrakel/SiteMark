@@ -1,177 +1,229 @@
 # SiteMark — Implementation tasks
 
-> Source of truth for progress. Each row is one TDD cycle (or a setup chore).
-> Run **`pnpm progress`** for a summary and a requirement traceability report.
+> The task list: one row per TDD cycle (or setup chore). Run **`pnpm progress`** for status and
+> requirement traceability. Renumbered after the [2026-09-25 plan review](reviews/2026-09-25-plan-review.md).
 
-**How to use** (full protocol in [testing.md](testing.md#tdd-protocol))
+**How it works** (full protocol: [testing.md](testing.md#tdd-protocol))
 
-1. Take the first row with a ☐ (top to bottom; rows within a milestone are ordered by dependency).
-2. 🔴 **Red:** write the failing test(s) listed in _Tests_. Name the `describe` after the REQ ID.
-   Watch them fail for the right reason, commit `test(T-xxx): …`, and tick 🔴.
-3. 🟢 **Green:** write the minimum code to pass, commit `feat(T-xxx): …`, and tick 🟢.
-4. 🔵 **Refactor:** clean up with tests still green and `pnpm check` passing, commit `refactor(T-xxx): …`, and tick 🔵.
+1. Take the first ☐ row (rows within a milestone are ordered by dependency).
+2. 🔴 `test(T-xxx): red — …`: failing tests + typed stubs (typecheck and lint pass; only tests fail).
+3. 🟢 `feat(T-xxx): green — …`: the minimum code to pass.
+4. 🔵 `refactor(T-xxx): …`: optional cleanup, tests stay green.
+5. Set the row's **Status** to ✅ in the green (or refactor) commit.
+   Once T-019 lands, status is **derived from git** and this column is removed (D-210).
 
-Legend: ☐ todo · ✅ done · n/a not applicable (setup chores have no red step).
-Update this file in the **same commit** as the step it records.
+Setup chores (`chore(T-xxx)`) have no red step unless they add a test.
+Status: ☐ todo · ✅ done.
 
 ---
 
 ## M0 — Foundation
 
-| Task  | Description                                                                            | REQs                        | Tests                                | 🔴  | 🟢  | 🔵  |
-| ----- | -------------------------------------------------------------------------------------- | --------------------------- | ------------------------------------ | --- | --- | --- |
-| T-001 | Spec, plan, decisions, design and tasks docs                                           | —                           | —                                    | n/a | ✅  | ✅  |
-| T-002 | Scaffold WXT + React + TS (MV3 on all browsers), ESLint, Prettier                      | REQ-NFR-001                 | build all 3 targets                  | n/a | ✅  | ✅  |
-| T-003 | Vitest + RTL + happy-dom + fake browser setup, popup render smoke                      | REQ-NFR-004                 | `src/entrypoints/popup/App.test.tsx` | n/a | ✅  | ✅  |
-| T-004 | Playwright extension fixture. Manifest privacy e2e (no host access, no static scripts) | REQ-PRIV-001                | `tests/e2e/smoke.spec.ts`            | ✅  | ✅  | ✅  |
-| T-005 | Design tokens (light/dark, AA contrast) + base CSS primitives                          | REQ-THEME-002, REQ-A11Y-003 | —                                    | n/a | ✅  | ✅  |
-| T-006 | Logo (icon, small icon, wordmark) + rendered PNG icons                                 | —                           | —                                    | n/a | ✅  | ✅  |
-| T-007 | `_locales` en + nl, parity test                                                        | REQ-I18N-001                | `tests/unit/locales.test.ts`         | n/a | ✅  | ✅  |
-| T-008 | GitHub Actions CI, PR template, Dependabot                                             | REQ-NFR-004                 | CI green                             | n/a | ✅  | ✅  |
-| T-009 | `pnpm progress` traceability script                                                    | —                           | —                                    | n/a | ✅  | ✅  |
+| Task  | Description                                                                    | REQs | Tests                                | Status |
+| ----- | ------------------------------------------------------------------------------ | ---- | ------------------------------------ | ------ |
+| T-001 | Spec, plan, decisions, design and tasks docs (+ plan review round 1)           | —    | —                                    | ✅     |
+| T-002 | Scaffold WXT + React + TS (MV3 on all browsers), ESLint, Prettier              | —    | build all 3 targets                  | ✅     |
+| T-003 | Vitest + RTL + happy-dom + fake browser setup, popup render smoke              | —    | `src/entrypoints/popup/App.test.tsx` | ✅     |
+| T-004 | Playwright extension fixture, manifest privacy smoke                           | —    | `tests/e2e/smoke.spec.ts`            | ✅     |
+| T-005 | Design tokens + base CSS (revised after review: control border, outline focus) | —    | —                                    | ✅     |
+| T-006 | Logo set (icon, 16/32 toolbar, mono, wordmark light/dark) + PNG icons          | —    | —                                    | ✅     |
+| T-007 | `_locales` en + nl + parity test                                               | —    | `tests/unit/locales.test.ts`         | ✅     |
+| T-008 | GitHub Actions CI, PR template, Dependabot                                     | —    | CI green                             | ✅     |
+| T-009 | `pnpm progress` traceability script (v1)                                       | —    | —                                    | ✅     |
 
-## M1 — Core domain (pure TypeScript, `src/core`)
+## M0.5 — Hardening (guardrails before feature code, D-234)
 
-| Task  | Description                                                                                                | REQs                                     | Tests                             | 🔴  | 🟢  | 🔵  |
-| ----- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------- | --------------------------------- | --- | --- | --- |
-| T-010 | Wildcard pattern parse + match (spec §5.1 example table as test table)                                     | REQ-URL-001                              | `src/core/url-pattern.test.ts`    | ☐   | ☐   | ☐   |
-| T-011 | Bare-host shorthand expansion                                                                              | REQ-URL-002                              | `src/core/url-pattern.test.ts`    | ☐   | ☐   | ☐   |
-| T-012 | Pattern validation with typed error codes (mapped to i18n keys)                                            | REQ-URL-003                              | `src/core/url-pattern.test.ts`    | ☐   | ☐   | ☐   |
-| T-013 | `toOriginPattern()` for permissions                                                                        | REQ-URL-005                              | `src/core/url-pattern.test.ts`    | ☐   | ☐   | ☐   |
-| T-014 | Regex patterns: compile, 500-char cap, fragment stripped, origins required                                 | REQ-URL-004                              | `src/core/url-pattern.test.ts`    | ☐   | ☐   | ☐   |
-| T-015 | Regex safety probe (reject catastrophic backtracking on a probe URL)                                       | REQ-URL-004, REQ-NFR-005                 | `src/core/url-pattern.test.ts`    | ☐   | ☐   | ☐   |
-| T-016 | `matchProfiles(url, profiles)`: enabled only, priority order, reports matched pattern                      | REQ-URL-006                              | `src/core/matching.test.ts`       | ☐   | ☐   | ☐   |
-| T-017 | Exclude patterns (Could)                                                                                   | REQ-URL-008                              | `src/core/matching.test.ts`       | ☐   | ☐   | ☐   |
-| T-018 | zod schema for state/profile/mark/style: ranges, hex colors, text lengths, ≥ 1 effect                      | REQ-MARK-001                             | `src/core/schema.test.ts`         | ☐   | ☐   | ☐   |
-| T-019 | Page-only effects rejected on element targets                                                              | REQ-MARK-014                             | `src/core/schema.test.ts`         | ☐   | ☐   | ☐   |
-| T-020 | Profile invariants: enabled ⇒ ≥ 1 pattern. Name 1..40 chars                                                | REQ-PROF-002                             | `src/core/schema.test.ts`         | ☐   | ☐   | ☐   |
-| T-021 | Contrast ratio + `autoTextColor()`                                                                         | REQ-MARK-011                             | `src/core/color.test.ts`          | ☐   | ☐   | ☐   |
-| T-022 | Color presets, default mark, default state, id generator                                                   | REQ-MARK-012                             | `src/core/defaults.test.ts`       | ☐   | ☐   | ☐   |
-| T-023 | Profile operations: create, update, delete, reorder, duplicate (pure reducers)                             | REQ-PROF-001, REQ-PROF-004, REQ-PROF-006 | `src/core/profiles.test.ts`       | ☐   | ☐   | ☐   |
-| T-024 | `compose(matches)` stacking rules (plan §4)                                                                | REQ-PROF-005                             | `src/core/compose.test.ts`        | ☐   | ☐   | ☐   |
-| T-025 | Migration runner (+ v0 fixture → v1)                                                                       | REQ-DATA-002                             | `src/core/migrations.test.ts`     | ☐   | ☐   | ☐   |
-| T-026 | `buildExport()` envelope + `exportFilename(date)`                                                          | REQ-DATA-003                             | `src/core/import-export.test.ts`  | ☐   | ☐   | ☐   |
-| T-027 | `parseImport()`: size cap, JSON errors, schema errors (readable paths), migrate older versions             | REQ-DATA-004                             | `src/core/import-export.test.ts`  | ☐   | ☐   | ☐   |
-| T-028 | `mergeStates()`: merge (ID clash → new IDs) and replace. Import preview summary                            | REQ-DATA-004                             | `src/core/import-export.test.ts`  | ☐   | ☐   | ☐   |
-| T-029 | `originsToRequest(before, after)` for batched import grants                                                | REQ-DATA-005                             | `src/core/import-export.test.ts`  | ☐   | ☐   | ☐   |
-| T-030 | Architecture guard: `core` imports nothing from `platform`/`content`/`ui`/`wxt/browser` (lint rule + test) | REQ-NFR-004                              | `tests/unit/architecture.test.ts` | ☐   | ☐   | ☐   |
-| T-031 | Coverage thresholds (core ≥ 90 %, overall ≥ 80 %) in `vitest.config.ts` and CI                             | REQ-NFR-004                              | CI                                | n/a | ☐   | ☐   |
+| Task  | Description                                                                                                                                                                                                                                                                                                 | REQs                                                 | Tests                                                         | Status |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------- | ------ |
+| T-010 | Root tsconfig pins strict flags (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitReturns`, `noUncheckedSideEffectImports`, `erasableSyntaxOnly`). DOM-free `src/core/tsconfig.json`. Separate test/e2e tsconfigs. package.json nits (`engines ^22.12`, `lint:fix`, `eslint.config.ts`) | REQ-NFR-004                                          | `pnpm typecheck`                                              | ☐      |
+| T-011 | WXT `imports: false`, explicit imports everywhere                                                                                                                                                                                                                                                           | REQ-NFR-004                                          | `pnpm typecheck`                                              | ☐      |
+| T-012 | Type-aware ESLint (`strictTypeChecked`), layer zones, privacy/security bans (`innerHTML`, `fetch`, `storage.sync`, `eval`), jsx-a11y, no-unsanitized, vitest/playwright/testing-library plugins, i18n literal rule, `import-x/no-cycle`, complexity limits, eslint-config-prettier                          | REQ-NFR-004, REQ-PRIV-005, REQ-RND-011, REQ-I18N-002 | `tests/unit/lint-rules.test.ts` (runs ESLint on bad fixtures) | ☐      |
+| T-013 | Vitest projects: `core` (node), `dom` (happy-dom), `browser` (Vitest browser mode, Chromium). JSON reporters. Per-glob coverage thresholds                                                                                                                                                                  | REQ-NFR-004                                          | `pnpm test`                                                   | ☐      |
+| T-014 | Test kit: builders (`aSiteGroup()`, `aMark()`, `aState()`), fixed IdGen/Clock, `notImplemented()`, zod `jitless`. Stateful fakes for `permissions`, `scripting`, `i18n` (reads en, throws on unknown key), `commands`, `action`                                                                             | REQ-NFR-004, REQ-NFR-005                             | `tests/fakes/*.test.ts`                                       | ☐      |
+| T-015 | Playwright hardening: `forbidOnly`, `failOnFlakyTests`, `webServer` + fixture site skeleton, `--mode e2e` (own outDir, pre-grant `prod.`/`test.` only), `__SHADOW_MODE__`, helpers (`restartServiceWorker`, `dispatchCommand`, `waitForMarker`), network-deny listener, 10 s SW timeout                     | REQ-PRIV-001                                         | `tests/e2e/smoke.spec.ts`                                     | ☐      |
+| T-016 | Manifest assertions on the real builds of all 3 targets: permissions, no host/content scripts/WAR, empty `externally_connectable`, CSP, floors (Chrome 120, Firefox 140, Safari 18)                                                                                                                         | REQ-PRIV-001, REQ-SEC-003, REQ-NFR-001               | `tests/build/manifest.test.ts`                                | ☐      |
+| T-017 | Built-output scan: network sinks, `eval`/`new Function`, `https?://` literals (with allowlist)                                                                                                                                                                                                              | REQ-PRIV-005, REQ-NFR-005                            | `tests/build/output-scan.test.ts`                             | ☐      |
+| T-018 | Size budget (`size-limit`: marker ≤ 25 KB, picker ≤ 20 KB gzip) with a job summary                                                                                                                                                                                                                          | REQ-NFR-002                                          | `pnpm size`                                                   | ☐      |
+| T-019 | progress v2: status derived from `git log`, REQ coverage from **passing** test titles (Vitest/Playwright JSON), strict checks (duplicates, missing test paths, green without red). Unit-tested                                                                                                              | REQ-NFR-004                                          | `scripts/progress/*.test.ts`                                  | ☐      |
+| T-020 | `verify-tdd` CI job (red precedes green, red touches only tests/stubs, red fails / green passes) + `git bisect` skip script                                                                                                                                                                                 | REQ-NFR-004                                          | `scripts/verify-tdd/*.test.ts`                                | ☐      |
+| T-021 | lefthook (pre-commit: prettier + eslint on staged files; commit-msg: commitlint) + commitlint config with task-scope rule + CI commitlint job                                                                                                                                                               | REQ-NFR-004                                          | `commitlint.config.test.ts`                                   | ☐      |
+| T-022 | CI hardening: SHA pins, `persist-credentials: false`, timeouts, `ci-ok` aggregate, Playwright container/cache, artifacts (`test-results` + report), pinned `web-ext` devDependency, `check:ci`                                                                                                              | REQ-SEC-009, REQ-NFR-004                             | CI green                                                      | ☐      |
+| T-023 | `pnpm-workspace.yaml` policies (`strictDepBuilds`, `onlyBuiltDependencies`, `minimumReleaseAge`), Dependabot groups/ignores (TS ≥ 6.1, `@types/node` majors)/cooldown, exact `.nvmrc`                                                                                                                       | REQ-SEC-009                                          | CI green                                                      | ☐      |
+| T-024 | i18n: `MessageKey` derived from `en/messages.json`, dev/test throw on missing key, `tp()` plurals, `mount()` helper, `lang`/`dir`, placeholder parity, store-length test                                                                                                                                    | REQ-I18N-001, REQ-I18N-004, REQ-I18N-005             | `src/lib/i18n.test.ts`, `tests/unit/locales.test.ts`          | ☐      |
+| T-025 | CSS: stylelint (tokens only for color/background/shadow), CSS Modules convention, forced-colors base styles                                                                                                                                                                                                 | REQ-THEME-002, REQ-A11Y-007                          | `pnpm stylelint`                                              | ☐      |
+| T-026 | knip (unused files/exports/deps) with WXT entrypoints configured                                                                                                                                                                                                                                            | REQ-NFR-004                                          | `pnpm knip`                                                   | ☐      |
+| T-027 | Repo docs: `CONTRIBUTING.md`, `SECURITY.md` (threat model, D-239), `docs/conventions.md` (D-235), `CODEOWNERS`, issue forms, `.gitattributes`, Changesets init                                                                                                                                              | REQ-SEC-010                                          | review                                                        | ☐      |
+| T-028 | Token contrast test: parses `tokens.css`, checks AA text pairs and 3:1 control boundaries in both themes                                                                                                                                                                                                    | REQ-A11Y-001, REQ-A11Y-008                           | `tests/unit/contrast.test.ts`                                 | ☐      |
 
-## M2 — Platform layer (`src/platform`, fake browser)
+## M1 — Core domain (`src/core`, node)
 
-| Task  | Description                                                                                             | REQs                       | Tests                                                      | 🔴  | 🟢  | 🔵  |
-| ----- | ------------------------------------------------------------------------------------------------------- | -------------------------- | ---------------------------------------------------------- | --- | --- | --- |
-| T-032 | `store`: load/save through `defineItem` (v1 + migrations), defaults on empty                            | REQ-DATA-001, REQ-DATA-002 | `src/platform/store.test.ts`                               | ☐   | ☐   | ☐   |
-| T-033 | Corrupt data → defaults + raw copy under `sitemark:backup` + error flag                                 | REQ-DATA-001               | `src/platform/store.test.ts`                               | ☐   | ☐   | ☐   |
-| T-034 | Only `storage.local` is ever written (spy on `storage.sync`)                                            | REQ-PRIV-006               | `src/platform/store.test.ts`                               | ☐   | ☐   | ☐   |
-| T-035 | `store.watch()` emits validated state on change                                                         | REQ-RND-007                | `src/platform/store.test.ts`                               | ☐   | ☐   | ☐   |
-| T-036 | `permissions`: granted status per pattern, `requestOrigins()`, `revokeOrigins()`                        | REQ-PRIV-002               | `src/platform/permissions.test.ts`                         | ☐   | ☐   | ☐   |
-| T-037 | `unusedOrigins(state, granted)` for the revoke prompt                                                   | REQ-PRIV-004               | `src/platform/permissions.test.ts`                         | ☐   | ☐   | ☐   |
-| T-038 | `desiredMatches()` + `syncRegistration()` (register/update/unregister `sitemark-marker`)                | REQ-PRIV-003               | `src/platform/registration.test.ts`                        | ☐   | ☐   | ☐   |
-| T-039 | Background wiring: re-sync on installed/startup/permission/state events. Inject into open tabs on grant | REQ-PRIV-003               | `src/entrypoints/background.test.ts`                       | ☐   | ☐   | ☐   |
-| T-040 | Restricted-URL detection (`chrome://`, `about:`, stores, `view-source:`, PDF viewer, …)                 | REQ-POP-005                | `src/platform/tabs.test.ts`                                | ☐   | ☐   | ☐   |
-| T-041 | Messaging protocol + background handlers `getTabStatus`, `setHidden` (session storage, cleared on nav)  | REQ-RND-008                | `src/entrypoints/background.test.ts`                       | ☐   | ☐   | ☐   |
-| T-042 | No-network guard: source scan (fetch/XHR/WebSocket/sendBeacon/EventSource/remote URLs) + manifest CSP   | REQ-PRIV-005, REQ-NFR-005  | `tests/unit/no-network.test.ts`, `tests/e2e/smoke.spec.ts` | ☐   | ☐   | ☐   |
+| Task  | Description                                                                                                 | REQs                                                                                             | Tests                                      | Status |
+| ----- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------ | ------ |
+| T-030 | `Result<T,E>`, error codes, `assertNever`, `errorMessageKey()`                                              | REQ-URL-003                                                                                      | `src/core/result.test.ts`                  | ☐      |
+| T-031 | Branded IDs, `IdGen` (getRandomValues) + `Clock` interfaces, ID format validation                           | REQ-SEC-004                                                                                      | `src/core/ids.test.ts`                     | ☐      |
+| T-032 | Wildcard parser: scheme/host/port/path/query, IDN → punycode, IPv6, trailing dot, shorthand incl. path      | REQ-URL-001, REQ-URL-002                                                                         | `src/core/url/parse.test.ts`               | ☐      |
+| T-033 | Linear glob matcher + limits (500 chars, 10 stars) + star-bomb perf test                                    | REQ-URL-001, REQ-URL-010                                                                         | `src/core/url/glob.test.ts`                | ☐      |
+| T-034 | Validation errors: typed codes for every invalid form                                                       | REQ-URL-003                                                                                      | `src/core/url/parse.test.ts`               | ☐      |
+| T-035 | Broad-pattern rejection (`*`, single-label TLD, multi-part suffix list, `<all_urls>`)                       | REQ-URL-009                                                                                      | `src/core/url/broad.test.ts`               | ☐      |
+| T-036 | `toOriginPattern()` + property: `match(p,u) ⇒ originMatch(toOrigin(p),u)`                                   | REQ-URL-005                                                                                      | `src/core/url/origin.test.ts`              | ☐      |
+| T-037 | Regex safe-subset validator (regexpp: no backrefs/lookaround/nested quantifiers, ≤ 500 chars)               | REQ-URL-004                                                                                      | `src/core/url/regex-safety.test.ts`        | ☐      |
+| T-038 | Regex matching with origin prefilter, fragment stripping, 2048-char URL cap                                 | REQ-URL-004                                                                                      | `src/core/url/match.test.ts`               | ☐      |
+| T-039 | `patternMatches` / `isActive` / priority order                                                              | REQ-URL-006                                                                                      | `src/core/url/match.test.ts`               | ☐      |
+| T-040 | Schema: state, site group, patterns. Strict, limits, control/bidi stripping, lowercase hex                  | REQ-GRP-002, REQ-SEC-004                                                                         | `src/core/model/schema.test.ts`            | ☐      |
+| T-041 | Schema: page marks + page effects (ranges, required texts)                                                  | REQ-MARK-001, REQ-MARK-005, REQ-MARK-006, REQ-MARK-008, REQ-MARK-009, REQ-MARK-010, REQ-MARK-015 | `src/core/model/schema.test.ts`            | ☐      |
+| T-042 | Schema: element marks + element effects. Target-specific effects enforced                                   | REQ-MARK-001, REQ-MARK-002, REQ-MARK-003, REQ-MARK-004, REQ-MARK-007, REQ-MARK-014               | `src/core/model/schema.test.ts`            | ☐      |
+| T-043 | Contrast ratio, `autoTextColor`, presets                                                                    | REQ-MARK-011, REQ-MARK-012                                                                       | `src/core/model/color.test.ts`             | ☐      |
+| T-044 | Defaults: empty state; "Mark this site" group for an origin (blue host ribbon, pattern `*://host[:port]/*`) | REQ-POP-006                                                                                      | `src/core/model/defaults.test.ts`          | ☐      |
+| T-045 | Reducers: site groups (create at bottom, rename, delete, enable w/ invariant, reorder, duplicate)           | REQ-GRP-001, REQ-GRP-003, REQ-GRP-004, REQ-GRP-006                                               | `src/core/commands/groups.test.ts`         | ☐      |
+| T-046 | Reducers: patterns, excludes and marks (add/update/remove; last pattern → auto-disable + notice)            | REQ-GRP-002, REQ-URL-008                                                                         | `src/core/commands/patterns-marks.test.ts` | ☐      |
+| T-047 | `applyCommand` dispatcher (exhaustive, validates the result, bumps revision)                                | REQ-SEC-001                                                                                      | `src/core/commands/apply-command.test.ts`  | ☐      |
+| T-048 | `compose(url, state)` → keyed RenderPlan: composition rules, banner merge per edge, z-order                 | REQ-GRP-005                                                                                      | `src/core/render/compose.test.ts`          | ☐      |
+| T-049 | `diffPlan(prev, next)` → add/update/remove                                                                  | REQ-RND-007                                                                                      | `src/core/render/diff-plan.test.ts`        | ☐      |
+| T-050 | `migrate(unknown)`: version detection, step runner, fixtures, newer-version → read-only result              | REQ-DATA-001, REQ-DATA-002, REQ-DATA-007                                                         | `src/core/data/migrate.test.ts`            | ☐      |
+| T-051 | `buildExport` + `exportFilename(localDate)`                                                                 | REQ-DATA-003                                                                                     | `src/core/data/export.test.ts`             | ☐      |
+| T-052 | `parseImport`: size cap, JSON/depth errors, schema errors with readable paths, limits, broad rejection      | REQ-DATA-004, REQ-SEC-004, REQ-URL-009                                                           | `src/core/data/import.test.ts`             | ☐      |
+| T-053 | Import preview + merge (upsert by ID, keep local settings) + replace                                        | REQ-DATA-004                                                                                     | `src/core/data/import.test.ts`             | ☐      |
+| T-054 | `originsToRequest(before, after)` for batched grants                                                        | REQ-DATA-005                                                                                     | `src/core/data/import.test.ts`             | ☐      |
+| T-055 | `isStableToken()` / selector token escaping                                                                 | REQ-PICK-004                                                                                     | `src/core/selector-tokens.test.ts`         | ☐      |
+| T-056 | Picker `transition()` state machine (incl. re-invoke cancels)                                               | REQ-PICK-002                                                                                     | `src/core/picker-machine.test.ts`          | ☐      |
+| T-057 | Restricted-URL hint list                                                                                    | REQ-POP-005, REQ-ENV-003                                                                         | `src/core/restricted.test.ts`              | ☐      |
+| T-058 | fast-check property suite: URL parse/format round-trip, export→import identity, merge ID uniqueness         | REQ-URL-001, REQ-DATA-003, REQ-DATA-004                                                          | `src/core/**/*.property.test.ts`           | ☐      |
+| T-059 | Stryker mutation testing on `src/core` (nightly, break ≥ 60)                                                | REQ-NFR-004                                                                                      | nightly                                    | ☐      |
+| T-060 | Exclude-pattern matching (Could)                                                                            | REQ-URL-008                                                                                      | `src/core/url/match.test.ts`               | ☐      |
 
-## M3 — Marker renderer (`src/content/marker`)
+## M2 — App & platform (`src/app`, `src/platform`, background)
 
-| Task  | Description                                                                                                   | REQs                       | Tests                                             | 🔴  | 🟢  | 🔵  |
-| ----- | ------------------------------------------------------------------------------------------------------------- | -------------------------- | ------------------------------------------------- | --- | --- | --- |
-| T-043 | E2E infra: fixture site (`tests/e2e/site`), `webServer`, `*.sitemark.test` host mapping, `SITEMARK_E2E` build | —                          | `tests/e2e/fixtures.ts`                           | n/a | ☐   | ☐   |
-| T-044 | Host: `<sitemark-root>`, closed shadow root, `:host{all:initial}`, re-attach when removed                     | REQ-RND-001                | `src/content/marker/host.test.ts`                 | ☐   | ☐   | ☐   |
-| T-045 | Top layer through Popover API with z-index fallback                                                           | REQ-RND-006                | `host.test.ts`, `tests/e2e/marker.spec.ts`        | ☐   | ☐   | ☐   |
-| T-046 | No match → no DOM, no observers. Errors caught + `[SiteMark]` logs                                            | REQ-RND-009                | `src/content/marker/marker.test.ts`               | ☐   | ☐   | ☐   |
-| T-047 | Banner effect (top/bottom, compact/regular, stacking, collapse chevron)                                       | REQ-MARK-005, REQ-A11Y-006 | `page-effects.test.ts`                            | ☐   | ☐   | ☐   |
-| T-048 | Frame effect (nesting by priority)                                                                            | REQ-MARK-006               | `page-effects.test.ts`                            | ☐   | ☐   | ☐   |
-| T-049 | Ribbon effect (4 corners, page + element, corner winner)                                                      | REQ-MARK-002               | `page-effects.test.ts`, `element-effects.test.ts` | ☐   | ☐   | ☐   |
-| T-050 | Tint effect (page + element)                                                                                  | REQ-MARK-004               | `page-effects.test.ts`, `element-effects.test.ts` | ☐   | ☐   | ☐   |
-| T-051 | Stripes effect (edge / full, element)                                                                         | REQ-MARK-007               | `page-effects.test.ts`, `element-effects.test.ts` | ☐   | ☐   | ☐   |
-| T-052 | Watermark effect                                                                                              | REQ-MARK-008               | `page-effects.test.ts`                            | ☐   | ☐   | ☐   |
-| T-053 | Title prefix: apply, survive title changes, restore                                                           | REQ-MARK-009               | `document-effects.test.ts`                        | ☐   | ☐   | ☐   |
-| T-054 | Favicon tint: canvas dot, CORS fallback SVG, restore                                                          | REQ-MARK-010               | `document-effects.test.ts`                        | ☐   | ☐   | ☐   |
-| T-055 | Outline effect (width/style/pulse) + reduced motion                                                           | REQ-MARK-003, REQ-A11Y-005 | `element-effects.test.ts`                         | ☐   | ☐   | ☐   |
-| T-056 | Tracker: rAF-batched positioning through scroll/resize/RO. Hide when detached/hidden                          | REQ-RND-003                | `tracker.test.ts`, `tests/e2e/marker.spec.ts`     | ☐   | ☐   | ☐   |
-| T-057 | Missing element: debounced MO retry, status `found`/`missing`                                                 | REQ-RND-005                | `element-effects.test.ts`, e2e                    | ☐   | ☐   | ☐   |
-| T-058 | SPA URL watch (navigate API, popstate, hashchange, polling fallback) → re-match                               | REQ-RND-004                | `url-watch.test.ts`, `tests/e2e/marker.spec.ts`   | ☐   | ☐   | ☐   |
-| T-059 | Live updates: storage change → diff re-render ≤ 250 ms                                                        | REQ-RND-007                | `marker.test.ts`, e2e                             | ☐   | ☐   | ☐   |
-| T-060 | Hide temporarily (content side) incl. title/favicon restore                                                   | REQ-RND-008                | `marker.test.ts`, e2e                             | ☐   | ☐   | ☐   |
-| T-061 | Safety: `pointer-events:none`, no layout shift (page element rects unchanged), `textContent` only             | REQ-RND-002, REQ-RND-011   | `marker.test.ts`, `tests/e2e/marker.spec.ts`      | ☐   | ☐   | ☐   |
-| T-062 | Hidden in print                                                                                               | REQ-RND-010                | `tests/e2e/marker.spec.ts` (`emulateMedia`)       | ☐   | ☐   | ☐   |
+| Task  | Description                                                                                        | REQs                                     | Tests                                                   | Status |
+| ----- | -------------------------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------------- | ------ |
+| T-061 | Ports + in-memory fakes (StateRepo, Permissions, ScriptRegistrar, Tabs, Badge, Logger)             | REQ-NFR-004                              | `src/app/ports.test.ts`                                 | ☐      |
+| T-062 | StateRepo adapter: load → migrate, 3 rotating backups, read-only mode, local only                  | REQ-DATA-001, REQ-DATA-007, REQ-PRIV-006 | `src/platform/state-repo.test.ts`                       | ☐      |
+| T-063 | Storage access level `TRUSTED_CONTEXTS` (feature-detected per browser)                             | REQ-SEC-002                              | `src/platform/state-repo.test.ts`                       | ☐      |
+| T-064 | Command queue: serialized single writer, revision, concurrent-commands test                        | REQ-SEC-001                              | `src/app/command-queue.test.ts`                         | ☐      |
+| T-065 | Message protocol: sender validation, zod payloads, handler exhaustiveness/contract test            | REQ-SEC-003                              | `src/platform/messaging.test.ts`                        | ☐      |
+| T-066 | `renderPlanFor(sender)` need-to-know + push plans to affected tabs after each command              | REQ-SEC-002, REQ-RND-007                 | `src/app/use-cases/render-plan.test.ts`                 | ☐      |
+| T-067 | Permissions adapter: sync request, live `contains`, revoke, unused-origins computation             | REQ-PRIV-002, REQ-PRIV-004               | `src/platform/permissions.test.ts`                      | ☐      |
+| T-068 | `syncRegistration`: desired set, single-flight + dirty rerun, idempotent diff, runs on every start | REQ-PRIV-003                             | `src/app/use-cases/sync-registration.test.ts`           | ☐      |
+| T-069 | Grant flow: `onAdded` → sync + inject into open tabs; `grant.html` fallback page                   | REQ-PRIV-002, REQ-PICK-006               | `src/app/use-cases/grant.test.ts`, `grant/App.test.tsx` | ☐      |
+| T-070 | Toolbar badge "!" per tab from reported status and read-only state                                 | REQ-POP-007                              | `src/app/use-cases/report-status.test.ts`               | ☐      |
+| T-071 | Use case: markThisSite (command + permission choreography)                                         | REQ-POP-006                              | `src/app/use-cases/mark-this-site.test.ts`              | ☐      |
+| T-072 | Use case: savePick intent (origin from sender, target group rules)                                 | REQ-PICK-005, REQ-SEC-001                | `src/app/use-cases/save-pick.test.ts`                   | ☐      |
+| T-073 | Use case: importData (preview → apply → one batched grant)                                         | REQ-DATA-005                             | `src/app/use-cases/import-data.test.ts`                 | ☐      |
+| T-074 | Commands `start-picker` / `toggle-hide`: active tab resolution, "✕" badge on restricted pages      | REQ-CMD-001, REQ-CMD-002                 | `src/platform/commands.test.ts`                         | ☐      |
+| T-075 | Deep links: open options at a route via `tabs.create` (from the panel and popup)                   | REQ-OPT-001                              | `src/platform/tabs.test.ts`                             | ☐      |
+| T-076 | Background composition root: synchronous top-level listeners, wiring test                          | REQ-PRIV-003                             | `src/entrypoints/background.test.ts`                    | ☐      |
 
-## M4 — Picker (`src/content/picker`, `src/core/selector.ts`)
+## M3 — Marker renderer (`src/content/marker`, `src/shared/marker-view`)
 
-| Task  | Description                                                                                        | REQs                        | Tests                       | 🔴  | 🟢  | 🔵  |
-| ----- | -------------------------------------------------------------------------------------------------- | --------------------------- | --------------------------- | --- | --- | --- |
-| T-063 | `isStableToken()`: reject hashed/generated ids and classes                                         | REQ-PICK-004                | `src/core/selector.test.ts` | ☐   | ☐   | ☐   |
-| T-064 | `generateSelector()`: attribute priority, uniqueness, ≤ 300 chars, `nth-of-type` fallback          | REQ-PICK-004                | `src/core/selector.test.ts` | ☐   | ☐   | ☐   |
-| T-065 | Picker hover highlight + tooltip                                                                   | REQ-PICK-002                | `picker.test.ts`            | ☐   | ☐   | ☐   |
-| T-066 | Picker keyboard navigation (↑ ↓ ← → Enter Esc)                                                     | REQ-PICK-002, REQ-A11Y-002  | `picker.test.ts`            | ☐   | ☐   | ☐   |
-| T-067 | Event suppression while picking + full cleanup on exit                                             | REQ-PICK-003                | `picker.test.ts`, e2e       | ☐   | ☐   | ☐   |
-| T-068 | Mini panel: editable selector + live match count, profile choice, preset, Save/Cancel/More options | REQ-PICK-005, REQ-THEME-001 | `panel.test.ts`             | ☐   | ☐   | ☐   |
-| T-069 | Panel: origin-not-granted notice + "Allow on this site" → grant page                               | REQ-PICK-006                | `panel.test.ts`             | ☐   | ☐   | ☐   |
-| T-070 | Background: inject picker from popup message and `start-picker` command                            | REQ-PICK-001, REQ-CMD-001   | `background.test.ts`        | ☐   | ☐   | ☐   |
-| T-071 | Re-pick replaces an existing mark's selector                                                       | REQ-PICK-007                | `panel.test.ts`             | ☐   | ☐   | ☐   |
-| T-072 | E2E: pick → save → overlay visible on reload                                                       | REQ-PICK-001, REQ-PICK-005  | `tests/e2e/picker.spec.ts`  | ☐   | ☐   | ☐   |
+| Task  | Description                                                                                                                 | REQs                                  | Tests                                           | Status |
+| ----- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ----------------------------------------------- | ------ |
+| T-077 | E2E fixture site: dashboard, SPA, lazy content, nested scroll, dialog, fullscreen, strict CSP + Trusted Types, hostile page | —                                     | `tests/e2e/site/*`                              | ☐      |
+| T-078 | Host: singleton guard, orphan dispose, shadow mode flag, `:host !important`, closure ref, rate-limited re-attach            | REQ-RND-001, REQ-RND-012, REQ-SEC-006 | `host.browser.test.ts`                          | ☐      |
+| T-079 | Shadow styles: adopted sheets with `<style>` fallback. Strict-CSP e2e                                                       | REQ-SEC-007                           | `host.browser.test.ts`, `tests/e2e/csp.spec.ts` | ☐      |
+| T-080 | Top layer: popover, re-promotion on `toggle`/`fullscreenchange`, `::backdrop` neutral, z-index fallback                     | REQ-RND-006                           | `tests/e2e/top-layer.spec.ts`                   | ☐      |
+| T-081 | Renderer core: EffectView contract, Disposer, per-view error isolation, idle when there is no plan                          | REQ-RND-009                           | `renderer.test.ts`                              | ☐      |
+| T-082 | Apply plan via `diffPlan` (keyed mount/update/dispose)                                                                      | REQ-RND-007                           | `renderer.test.ts`                              | ☐      |
+| T-083 | Banner view (edge, size, merged text, `role="note"`)                                                                        | REQ-MARK-005, REQ-A11Y-006            | `shared/marker-view/banner.test.ts`             | ☐      |
+| T-084 | Banner collapse chevron (keyboard, per banner, survives SPA)                                                                | REQ-MARK-005, REQ-A11Y-002            | `banner.test.ts`                                | ☐      |
+| T-085 | Frame view (nesting)                                                                                                        | REQ-MARK-006                          | `shared/marker-view/frame.test.ts`              | ☐      |
+| T-086 | Ribbon view: page + element, auto-shrink, small-target dot                                                                  | REQ-MARK-002, REQ-MARK-015            | `ribbon.browser.test.ts`                        | ☐      |
+| T-087 | Tint view (page + element)                                                                                                  | REQ-MARK-004                          | `shared/marker-view/tint.test.ts`               | ☐      |
+| T-088 | Stripes view (edge / full / element)                                                                                        | REQ-MARK-007                          | `shared/marker-view/stripes.test.ts`            | ☐      |
+| T-089 | Watermark view                                                                                                              | REQ-MARK-008                          | `shared/marker-view/watermark.test.ts`          | ☐      |
+| T-090 | Title prefix: idempotent apply, rate-limited re-apply, strip on removal                                                     | REQ-MARK-009                          | `document-effects.test.ts`                      | ☐      |
+| T-091 | Favicon tint of the original; unavailable status; restore                                                                   | REQ-MARK-010                          | `document-effects.browser.test.ts`              | ☐      |
+| T-092 | Outline view + pulse + reduced motion                                                                                       | REQ-MARK-003, REQ-A11Y-005            | `shared/marker-view/outline.test.ts`            | ☐      |
+| T-093 | Proximity fade for ribbon/banner                                                                                            | REQ-RND-013                           | `proximity.browser.test.ts`                     | ☐      |
+| T-094 | Keyline + `forced-color-adjust: none`                                                                                       | REQ-RND-014, REQ-A11Y-007             | `tests/e2e/visual.spec.ts`                      | ☐      |
+| T-095 | Tracker: rAF batching, scroll/resize/RO, hide when detached                                                                 | REQ-RND-003                           | `tracker.browser.test.ts`                       | ☐      |
+| T-096 | Element resolution: first match, debounced MO retry, status report                                                          | REQ-RND-005                           | `element-resolver.test.ts`, e2e                 | ☐      |
+| T-097 | URL watch: polling first-class, popstate/hashchange, `navigatesuccess`                                                      | REQ-RND-004                           | `url-watch.test.ts`, `tests/e2e/spa.spec.ts`    | ☐      |
+| T-098 | Hide on tab (memory state, survives SPA, restores title/favicon)                                                            | REQ-RND-008                           | `marker.test.ts`, `tests/e2e/hide.spec.ts`      | ☐      |
+| T-099 | Safety e2e: pointer events pass through, page rects unchanged, `textContent` only                                           | REQ-RND-002, REQ-RND-011              | `tests/e2e/marker.spec.ts`                      | ☐      |
+| T-100 | Hidden in print                                                                                                             | REQ-RND-010                           | `tests/e2e/marker.spec.ts`                      | ☐      |
+| T-101 | Hostile-page e2e (pre-planted root, removal loop, `hidePopover` loop)                                                       | REQ-SEC-006                           | `tests/e2e/hostile.spec.ts`                     | ☐      |
+| T-102 | Top frame only / environment behaviour e2e                                                                                  | REQ-ENV-001, REQ-ENV-002              | `tests/e2e/marker.spec.ts`                      | ☐      |
+
+## M4 — Picker (`src/content/picker`)
+
+| Task  | Description                                                                                  | REQs                                     | Tests                                | Status |
+| ----- | -------------------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------ | ------ |
+| T-103 | `generateSelector` (priority, first-match resolution, ≤ 300 chars) + property test           | REQ-PICK-004                             | `selector.browser.test.ts`           | ☐      |
+| T-104 | Glass pane: `elementsFromPoint`, neutral hover outline, tooltip, iframe/component host rules | REQ-PICK-002, REQ-PICK-008               | `glass-pane.browser.test.ts`         | ☐      |
+| T-105 | Keyboard navigation, focus capture, live-region announcements, focus return                  | REQ-PICK-002, REQ-A11Y-002, REQ-A11Y-011 | `glass-pane.browser.test.ts`         | ☐      |
+| T-106 | Zero page side-effects e2e (onclick/pointerdown/window-capture/focus+Enter never fire)       | REQ-PICK-003                             | `tests/e2e/picker-isolation.spec.ts` | ☐      |
+| T-107 | Panel: selector field + match indicator, group choice, effect chips, color, Save → intent    | REQ-PICK-005, REQ-THEME-001              | `panel.test.ts`                      | ☐      |
+| T-108 | Panel: auto placement opposite the selection, Move button, `isTrusted`, activation delay     | REQ-A11Y-010, REQ-SEC-005                | `panel.test.ts`                      | ☐      |
+| T-109 | Panel: not-granted notice → Allow (grant page), temporary activeTab display                  | REQ-PICK-006                             | `panel.test.ts`                      | ☐      |
+| T-110 | Re-pick replaces a mark's selector                                                           | REQ-PICK-007                             | `panel.test.ts`                      | ☐      |
+| T-111 | Picker injection from popup + `start-picker` (activeTab)                                     | REQ-PICK-001, REQ-CMD-001                | `tests/e2e/picker.spec.ts`           | ☐      |
+| T-112 | E2E: pick → save → overlay visible after reload                                              | REQ-PICK-001, REQ-PICK-005               | `tests/e2e/picker.spec.ts`           | ☐      |
 
 ## M5 — Popup (`src/entrypoints/popup`, `src/ui`)
 
-| Task  | Description                                                                                                  | REQs                        | Tests                                      | 🔴  | 🟢  | 🔵  |
-| ----- | ------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------------------------------ | --- | --- | --- |
-| T-073 | UI kit: Button, IconButton, Switch, Card, Field, Segmented, Slider, Dialog, Toast (tokens only, focus rings) | REQ-THEME-002, REQ-A11Y-003 | `src/ui/components/*.test.tsx`             | ☐   | ☐   | ☐   |
-| T-074 | Hooks: `useSiteMarkState`, `useCurrentTab` (supports `?tabId=` for tests), `useTheme`                        | REQ-THEME-001               | `src/ui/hooks/*.test.tsx`                  | ☐   | ☐   | ☐   |
-| T-075 | Matching profiles list with toggles + empty state                                                            | REQ-POP-001, REQ-PROF-003   | `popup/App.test.tsx`                       | ☐   | ☐   | ☐   |
-| T-076 | "Mark this site" flow (profile + default ribbon + permission)                                                | REQ-POP-006                 | `popup/App.test.tsx`, e2e                  | ☐   | ☐   | ☐   |
-| T-077 | Permission warning + Allow. Firefox → `grant.html` fallback page                                             | REQ-POP-004, REQ-PRIV-002   | `popup/App.test.tsx`, `grant/App.test.tsx` | ☐   | ☐   | ☐   |
-| T-078 | Element mark status list + Re-pick                                                                           | REQ-POP-002, REQ-PICK-007   | `popup/App.test.tsx`                       | ☐   | ☐   | ☐   |
-| T-079 | Actions: Pick element, Hide on this tab, Settings                                                            | REQ-POP-003, REQ-RND-008    | `popup/App.test.tsx`                       | ☐   | ☐   | ☐   |
-| T-080 | Restricted page state                                                                                        | REQ-POP-005                 | `popup/App.test.tsx`                       | ☐   | ☐   | ☐   |
-| T-081 | E2E: popup flows on the fixture site                                                                         | REQ-POP-001, REQ-POP-006    | `tests/e2e/popup.spec.ts`                  | ☐   | ☐   | ☐   |
+| Task  | Description                                                                                                | REQs                                                    | Tests                          | Status |
+| ----- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------ | ------ |
+| T-113 | UI kit (CSS Modules): Button, IconButton, Switch, Card, Field, Segmented, Slider, Dialog, Toast, ColorChip | REQ-THEME-002, REQ-A11Y-003, REQ-A11Y-008, REQ-A11Y-009 | `src/ui/components/*.test.tsx` | ☐      |
+| T-114 | Hooks: `useSiteMarkState` (read-only, pushed), `useCurrentTab` (`?tabId=` e2e only), `useTheme`            | REQ-THEME-001                                           | `src/ui/hooks/*.test.tsx`      | ☐      |
+| T-115 | Status list: matching groups, disabled → "enable in settings", empty state                                 | REQ-POP-001, REQ-URL-006                                | `popup/App.test.tsx`           | ☐      |
+| T-116 | Mark this site flow (synchronous request first)                                                            | REQ-POP-006, REQ-PRIV-002                               | `popup/App.test.tsx`, e2e      | ☐      |
+| T-117 | Permission missing + Allow (+ grant page fallback)                                                         | REQ-POP-004                                             | `popup/App.test.tsx`           | ☐      |
+| T-118 | Element mark status + Re-pick + favicon-unavailable notice                                                 | REQ-POP-002                                             | `popup/App.test.tsx`           | ☐      |
+| T-119 | Actions: Pick element, Hide on this tab (+ shortcut hint), Settings                                        | REQ-POP-003, REQ-RND-008                                | `popup/App.test.tsx`           | ☐      |
+| T-120 | Can't-run page state (`executeScript` failure = truth)                                                     | REQ-POP-005, REQ-ENV-003                                | `popup/App.test.tsx`           | ☐      |
+| T-121 | Read-only / corrupt data state                                                                             | REQ-DATA-007                                            | `popup/App.test.tsx`           | ☐      |
+| T-122 | E2E popup flows + axe                                                                                      | REQ-POP-001, REQ-A11Y-004                               | `tests/e2e/popup.spec.ts`      | ☐      |
 
 ## M6 — Options page (`src/entrypoints/options`)
 
-| Task  | Description                                                                           | REQs                                    | Tests                                  | 🔴  | 🟢  | 🔵  |
-| ----- | ------------------------------------------------------------------------------------- | --------------------------------------- | -------------------------------------- | --- | --- | --- |
-| T-082 | Hash router + layout (sidebar/editor), deep links                                     | REQ-OPT-001                             | `options/router.test.tsx`              | ☐   | ☐   | ☐   |
-| T-083 | Profile list: add, rename, delete with confirm + 10 s undo, enable switch             | REQ-PROF-001, REQ-PROF-003              | `options/ProfileList.test.tsx`         | ☐   | ☐   | ☐   |
-| T-084 | Reorder: drag & drop + Move up/down buttons                                           | REQ-PROF-004, REQ-A11Y-002              | `options/ProfileList.test.tsx`, e2e    | ☐   | ☐   | ☐   |
-| T-085 | Duplicate profile (UI)                                                                | REQ-PROF-006                            | `options/ProfileList.test.tsx`         | ☐   | ☐   | ☐   |
-| T-086 | Pattern editor: wildcard/regex, inline errors, regex origins                          | REQ-OPT-002, REQ-URL-003, REQ-URL-004   | `options/PatternEditor.test.tsx`       | ☐   | ☐   | ☐   |
-| T-087 | Pattern permission status + Allow                                                     | REQ-PRIV-002                            | `options/PatternEditor.test.tsx`       | ☐   | ☐   | ☐   |
-| T-088 | Live URL tester                                                                       | REQ-URL-007                             | `options/PatternEditor.test.tsx`       | ☐   | ☐   | ☐   |
-| T-089 | Mark list + mark editor: target page/element, selector syntax check                   | REQ-OPT-003                             | `options/MarkEditor.test.tsx`          | ☐   | ☐   | ☐   |
-| T-090 | Color presets + custom hex + text color                                               | REQ-MARK-012, REQ-MARK-011              | `options/MarkEditor.test.tsx`          | ☐   | ☐   | ☐   |
-| T-091 | Effect controls (per effect settings, page-only effects disabled for element targets) | REQ-OPT-003, REQ-MARK-014               | `options/MarkEditor.test.tsx`          | ☐   | ☐   | ☐   |
-| T-092 | Live preview (reuses marker CSS)                                                      | REQ-MARK-013                            | `options/MarkPreview.test.tsx`, visual | ☐   | ☐   | ☐   |
-| T-093 | Autosave + "Saved" status. Field-local validation                                     | REQ-OPT-006                             | `options/*.test.tsx`                   | ☐   | ☐   | ☐   |
-| T-094 | Settings: theme switch, shortcut info per browser                                     | REQ-OPT-004, REQ-THEME-001              | `options/Settings.test.tsx`            | ☐   | ☐   | ☐   |
-| T-095 | Data: export download                                                                 | REQ-OPT-005, REQ-DATA-003               | `options/DataPanel.test.tsx`           | ☐   | ☐   | ☐   |
-| T-096 | Data: import preview, merge/replace, one batched permission prompt                    | REQ-OPT-005, REQ-DATA-004, REQ-DATA-005 | `options/DataPanel.test.tsx`, e2e      | ☐   | ☐   | ☐   |
-| T-097 | Data: reset everything (double confirm)                                               | REQ-OPT-005                             | `options/DataPanel.test.tsx`           | ☐   | ☐   | ☐   |
-| T-098 | Revoke unused origins prompt                                                          | REQ-PRIV-004                            | `options/*.test.tsx`                   | ☐   | ☐   | ☐   |
-| T-099 | Welcome / first-run empty state                                                       | REQ-OPT-001                             | `options/App.test.tsx`                 | ☐   | ☐   | ☐   |
-| T-100 | Corrupt-data banner with "restore defaults / download backup"                         | REQ-DATA-001                            | `options/App.test.tsx`                 | ☐   | ☐   | ☐   |
-| T-115 | Export a single profile (Could)                                                       | REQ-DATA-006                            | `options/DataPanel.test.tsx`           | ☐   | ☐   | ☐   |
+| Task  | Description                                                                                   | REQs                                                 | Tests                             | Status |
+| ----- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------------------------------- | ------ |
+| T-123 | Router + layout + welcome tab on install                                                      | REQ-OPT-001                                          | `options/router.test.tsx`         | ☐      |
+| T-124 | Site group list: add (bottom), rename, delete with confirm + 10 s undo                        | REQ-GRP-001                                          | `options/GroupList.test.tsx`      | ☐      |
+| T-125 | Enable switch (with the patterns invariant)                                                   | REQ-GRP-003, REQ-GRP-002                             | `options/GroupList.test.tsx`      | ☐      |
+| T-126 | Reorder: drag and drop + Move up/down                                                         | REQ-GRP-004, REQ-A11Y-010                            | `options/GroupList.test.tsx`, e2e | ☐      |
+| T-127 | Duplicate site group                                                                          | REQ-GRP-006                                          | `options/GroupList.test.tsx`      | ☐      |
+| T-128 | Pattern editor: explicit Add, wildcard/regex, inline errors, broad rejection, regex origins   | REQ-OPT-002, REQ-URL-003, REQ-URL-004, REQ-URL-009   | `options/PatternEditor.test.tsx`  | ☐      |
+| T-129 | Pattern permission status (live) + Allow                                                      | REQ-PRIV-002                                         | `options/PatternEditor.test.tsx`  | ☐      |
+| T-130 | Live URL tester                                                                               | REQ-URL-007                                          | `options/PatternEditor.test.tsx`  | ☐      |
+| T-131 | Excludes editor (Could)                                                                       | REQ-URL-008                                          | `options/PatternEditor.test.tsx`  | ☐      |
+| T-132 | Mark list + mark editor: target, selector syntax check                                        | REQ-OPT-003                                          | `options/MarkEditor.test.tsx`     | ☐      |
+| T-133 | Color presets + custom hex + text color                                                       | REQ-MARK-011, REQ-MARK-012                           | `options/MarkEditor.test.tsx`     | ☐      |
+| T-134 | Effect controls (target-specific, required texts, ranges)                                     | REQ-OPT-003, REQ-MARK-014, REQ-MARK-015              | `options/MarkEditor.test.tsx`     | ☐      |
+| T-135 | Mock-browser live preview (shared marker-view)                                                | REQ-MARK-013                                         | `options/MarkPreview.test.tsx`    | ☐      |
+| T-136 | Autosave (debounced commands) + Saved status, field-local validation                          | REQ-OPT-006                                          | `options/*.test.tsx`              | ☐      |
+| T-137 | Settings: theme, shortcuts (`commands.getAll`, unassigned, open settings), title-history help | REQ-OPT-004, REQ-THEME-001, REQ-CMD-001, REQ-CMD-002 | `options/Settings.test.tsx`       | ☐      |
+| T-138 | Data: export + hostname warning                                                               | REQ-OPT-005, REQ-DATA-003                            | `options/DataPanel.test.tsx`      | ☐      |
+| T-139 | Data: import preview, merge/replace, batched grant                                            | REQ-OPT-005, REQ-DATA-004, REQ-DATA-005              | `options/DataPanel.test.tsx`, e2e | ☐      |
+| T-140 | Data: reset everything (double confirm, optional revoke, unregister)                          | REQ-OPT-005                                          | `options/DataPanel.test.tsx`      | ☐      |
+| T-141 | Revoke unused origins prompt (after the undo window)                                          | REQ-PRIV-004                                         | `options/*.test.tsx`              | ☐      |
+| T-142 | Corrupt/read-only banner: download backup, restore defaults                                   | REQ-DATA-001, REQ-DATA-007                           | `options/App.test.tsx`            | ☐      |
+| T-143 | Copy diagnostics                                                                              | REQ-OPT-007                                          | `options/Settings.test.tsx`       | ☐      |
+| T-144 | Export a single site group (Could)                                                            | REQ-DATA-006                                         | `options/DataPanel.test.tsx`      | ☐      |
 
-## M7 — Polish & cross-browser
+## M7 — Polish
 
-| Task  | Description                                                              | REQs                        | Tests                              | 🔴  | 🟢  | 🔵  |
-| ----- | ------------------------------------------------------------------------ | --------------------------- | ---------------------------------- | --- | --- | --- |
-| T-101 | No hard-coded UI strings (lint rule / JSX text scan)                     | REQ-I18N-002                | `tests/unit/i18n-literals.test.ts` | ☐   | ☐   | ☐   |
-| T-102 | User content never passed through `t()`                                  | REQ-I18N-003                | component tests                    | ☐   | ☐   | ☐   |
-| T-103 | Token contrast test (parse `tokens.css`, assert AA pairs in both themes) | REQ-A11Y-001                | `tests/unit/contrast.test.ts`      | ☐   | ☐   | ☐   |
-| T-104 | axe checks: popup + options, light + dark                                | REQ-A11Y-004                | `tests/e2e/a11y.spec.ts`           | ☐   | ☐   | ☐   |
-| T-105 | Visual baselines for every effect + UI themes                            | REQ-MARK-002, REQ-THEME-001 | `tests/e2e/visual.spec.ts`         | ☐   | ☐   | ☐   |
-| T-106 | Bundle size budget check in CI                                           | REQ-NFR-002                 | `scripts/size-budget.mjs`          | ☐   | ☐   | ☐   |
-| T-107 | Performance probes (no-match < 2 ms, 10 marks scroll < 1 ms/frame)       | REQ-NFR-003                 | `tests/e2e/perf.spec.ts`           | ☐   | ☐   | ☐   |
-| T-108 | Firefox: `web-ext lint` in CI + manual smoke + fixes                     | REQ-NFR-001                 | CI + checklist                     | n/a | ☐   | ☐   |
-| T-109 | Safari: converter build on macOS + manual smoke + fixes                  | REQ-NFR-001                 | checklist                          | n/a | ☐   | ☐   |
-| T-110 | Dutch translation review (native pass)                                   | REQ-I18N-001                | `tests/unit/locales.test.ts`       | n/a | ☐   | ☐   |
+| Task  | Description                                                                                    | REQs                        | Tests                      | Status |
+| ----- | ---------------------------------------------------------------------------------------------- | --------------------------- | -------------------------- | ------ |
+| T-145 | Dutch copy review + pseudo-locale (+40 %) visual check in the 360 px popup                     | REQ-I18N-001, REQ-I18N-004  | `tests/e2e/i18n.spec.ts`   | ☐      |
+| T-146 | User content never translated                                                                  | REQ-I18N-003                | component tests            | ☐      |
+| T-147 | Visual baselines (all effects, UI light/dark/forced colors) in the Playwright container        | REQ-THEME-001, REQ-A11Y-007 | `tests/e2e/visual.spec.ts` | ☐      |
+| T-148 | axe e2e, light + dark                                                                          | REQ-A11Y-004                | `tests/e2e/a11y.spec.ts`   | ☐      |
+| T-149 | 200 % zoom + 320 px reflow                                                                     | REQ-A11Y-012                | `tests/e2e/a11y.spec.ts`   | ☐      |
+| T-150 | Performance probes (no-match < 2 ms, 500 patterns < 1 ms, scroll < 1 ms/frame, marks ≤ 100 ms) | REQ-NFR-003                 | `tests/e2e/perf.spec.ts`   | ☐      |
+| T-151 | Firefox manual smoke + fixes                                                                   | REQ-NFR-001                 | checklist                  | ☐      |
 
-## M8 — Release
+## M8 — Release v1.0 (Chrome / Edge / Firefox)
 
-| Task  | Description                                                                  | REQs         | Tests                        | 🔴  | 🟢  | 🔵  |
-| ----- | ---------------------------------------------------------------------------- | ------------ | ---------------------------- | --- | --- | --- |
-| T-111 | `PRIVACY.md` + store privacy answers                                         | REQ-PRIV-007 | review                       | n/a | ☐   | ☐   |
-| T-112 | Store listing texts (en/nl), screenshots (from visual tests), promo tile     | REQ-NFR-006  | review                       | n/a | ☐   | ☐   |
-| T-113 | `release.yml`: zips, GitHub Release, optional `wxt submit`, macOS Safari job | REQ-NFR-006  | dry-run on tag `v0.9.0-rc.1` | n/a | ☐   | ☐   |
-| T-114 | CHANGELOG, version 1.0.0, submit to stores                                   | REQ-NFR-006  | release checklist            | n/a | ☐   | ☐   |
+| Task  | Description                                                                                                  | REQs                      | Tests                    | Status |
+| ----- | ------------------------------------------------------------------------------------------------------------ | ------------------------- | ------------------------ | ------ |
+| T-152 | `PRIVACY.md`, store listings (en/nl), permission justifications, screenshots, promo tile, `SOURCE_REVIEW.md` | REQ-PRIV-007, REQ-NFR-006 | review                   | ☐      |
+| T-153 | `release.yml`: zips, provenance + SHA256SUMS, zip manifest assertions, `wxt submit` in env `store`           | REQ-SEC-008, REQ-NFR-006  | dry run on `v0.9.0-rc.1` | ☐      |
+| T-154 | Changesets release → v1.0.0, store submissions                                                               | REQ-NFR-006               | release checklist        | ☐      |
+
+## M9 — Safari v1.1
+
+| Task  | Description                                                                      | REQs        | Tests             | Status |
+| ----- | -------------------------------------------------------------------------------- | ----------- | ----------------- | ------ |
+| T-155 | Safari 18 build + packaging (App Store Connect packager or Xcode `--macos-only`) | REQ-NFR-001 | checklist         | ☐      |
+| T-156 | Safari fixes: grants in Safari UI, registration persistence, favicon best-effort | REQ-NFR-001 | checklist         | ☐      |
+| T-157 | App Store listing + submission                                                   | REQ-NFR-006 | release checklist | ☐      |
