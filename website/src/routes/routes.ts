@@ -1,5 +1,3 @@
-import { notImplemented } from '@/core/not-implemented';
-
 /** Website milestones (D-253): W1 before the store release, W2 after M6. */
 export type WebsiteMilestone = 'W1' | 'W2';
 
@@ -18,22 +16,34 @@ export type Route = {
   readonly nav: boolean;
 };
 
+const MILESTONES: readonly WebsiteMilestone[] = ['W1', 'W2'];
+
+const ROUTES: readonly Route[] = [
+  { page: 'home', slug: '', milestone: 'W1', stable: false, nav: false },
+  { page: 'help', slug: 'help/', milestone: 'W2', stable: false, nav: true },
+  { page: 'playground', slug: 'playground/', milestone: 'W2', stable: false, nav: true },
+  { page: 'support', slug: 'support/', milestone: 'W1', stable: true, nav: true },
+  { page: 'privacy', slug: 'privacy/', milestone: 'W1', stable: true, nav: true },
+  { page: 'changelog', slug: 'changelog/', milestone: 'W2', stable: false, nav: false },
+];
+
 /** Every route, in navigation order. */
 export function routeTable(): readonly Route[] {
-  return notImplemented();
+  return ROUTES;
 }
 
 /** The milestone the website is built for. */
 export function currentMilestone(): WebsiteMilestone {
-  return notImplemented();
+  return 'W1';
 }
 
 /** Routes whose milestone is finished at `current`. */
-export function publishedRoutes(_current: WebsiteMilestone): readonly Route[] {
-  return notImplemented();
+export function publishedRoutes(current: WebsiteMilestone): readonly Route[] {
+  const reached = MILESTONES.indexOf(current);
+  return ROUTES.filter((route) => MILESTONES.indexOf(route.milestone) <= reached);
 }
 
 /** Published routes that appear in the header navigation. */
-export function navRoutes(_current: WebsiteMilestone): readonly Route[] {
-  return notImplemented();
+export function navRoutes(current: WebsiteMilestone): readonly Route[] {
+  return publishedRoutes(current).filter((route) => route.nav);
 }
