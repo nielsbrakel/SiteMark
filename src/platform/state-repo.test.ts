@@ -9,7 +9,7 @@ import type { MigrationSteps } from '../core/data/migrate';
 import { emptyState } from '../core/model/defaults';
 import { aState } from '../core/testing/builders';
 import { fixedClock } from '../core/testing/test-doubles';
-import { createStateRepo } from './state-repo';
+import { createStateRepo, restrictStorageAccess } from './state-repo';
 
 const STATE = 'sitemark:state';
 const local = fakeBrowser.storage.local;
@@ -143,6 +143,32 @@ describe('REQ-PRIV-006 data is stored only in storage.local', () => {
     expect(Object.keys(await local.get(null)).sort()).toEqual([
       'sitemark:backup:0',
       'sitemark:state',
+    ]);
+  });
+});
+
+describe('REQ-SEC-002 storage.local is restricted to trusted contexts where the browser can', () => {
+  it('sets the TRUSTED_CONTEXTS access level on storage.local', async () => {
+    const setAccessLevel = vi.spyOn(local, 'setAccessLevel').mockResolvedValue(undefined);
+    const logger = createInMemoryLogger();
+    await expect(restrictStorageAccess(logger)).resolves.toBe(true);
+    expect(setAccessLevel).toHaveBeenCalledExactlyOnceWith({ accessLevel: 'TRUSTED_CONTEXTS' });
+    expect(logger.entries).toEqual([]);
+  });
+
+  it('skips browsers without the API (Firefox, Safari) quietly', async () => {
+    const logger = createInMemoryLogger();
+    await expect(restrictStorageAccess(logger, {})).resolves.toBe(false);
+    expect(logger.entries).toEqual([]);
+  });
+
+  it('logs a warning instead of failing when the browser refuses', async () => {
+    const logger = createInMemoryLogger();
+    const refused = new Error('Access level not supported');
+    const area = { setAccessLevel: vi.fn().mockRejectedValue(refused) };
+    await expect(restrictStorageAccess(logger, area)).resolves.toBe(false);
+    expect(logger.entries).toEqual([
+      { level: 'warn', message: expect.stringContaining('access level'), detail: refused },
     ]);
   });
 });

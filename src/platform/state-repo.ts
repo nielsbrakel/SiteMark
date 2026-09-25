@@ -4,6 +4,7 @@ import { type MigrateOk, type MigrationSteps, migrate } from '../core/data/migra
 import type { Clock } from '../core/ids';
 import { emptyState } from '../core/model/defaults';
 import type { SiteMarkState } from '../core/model/schema';
+import { notImplemented } from '../core/not-implemented';
 import { assertNever, err, ok, type Result } from '../core/result';
 import { backUp, readBackups } from './state-backups';
 
@@ -73,4 +74,20 @@ export function createStateRepo({ clock, logger, steps }: StateRepoDeps): StateR
     save: async (state) => (isNewer(await readRaw()) ? err('stateReadOnly') : write(state)),
     backups: readBackups,
   };
+}
+
+/** The part of a storage area T-063 needs; Firefox and Safari may lack `setAccessLevel`. */
+export type AccessLevelArea = {
+  setAccessLevel?: (options: { accessLevel: 'TRUSTED_CONTEXTS' }) => Promise<void>;
+};
+
+/**
+ * Keeps content scripts away from `storage.local` where the browser supports it (REQ-SEC-002,
+ * D-221). Resolves `true` when the access level is set; never rejects.
+ */
+export function restrictStorageAccess(
+  _logger: Logger,
+  _area: AccessLevelArea = browser.storage.local,
+): Promise<boolean> {
+  return notImplemented();
 }
