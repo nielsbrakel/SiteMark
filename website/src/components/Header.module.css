@@ -1,0 +1,97 @@
+.header {
+  border-bottom: 1px solid var(--sm-border);
+  background: var(--sm-bg);
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sm-space-3) var(--sm-space-5);
+  max-width: var(--smw-page-max);
+  margin-inline: auto;
+  padding: var(--sm-space-3) var(--smw-gutter);
+}
+
+.home {
+  display: inline-grid;
+  border-radius: var(--sm-radius-sm);
+}
+
+.home img {
+  display: block;
+  grid-area: 1 / 1;
+}
+
+/* The wordmark variant follows the theme: the OS unless <html data-theme> overrides it. Opacity,
+   not display, so the light variant (which has the alt text) stays in the accessibility tree. */
+.dark {
+  opacity: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .light {
+    opacity: 0;
+  }
+
+  :global(:root:not([data-theme='light'])) .dark {
+    opacity: 1;
+  }
+}
+
+:global(:root[data-theme='dark']) .light {
+  opacity: 0;
+}
+
+:global(:root[data-theme='dark']) .dark {
+  opacity: 1;
+}
+
+.nav {
+  flex: 1;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: var(--sm-space-1) var(--sm-space-3);
+  border-radius: var(--sm-radius-sm);
+  color: var(--sm-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link:hover,
+.link[aria-current='page'] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.link[aria-current='page'] {
+  color: var(--sm-accent-text);
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: var(--sm-space-3);
+  margin-inline-start: auto;
+}
+
+/* No hamburger menu: below 720 px the navigation wraps into its own row (design §3). */
+@media (width <= 720px) {
+  .nav {
+    flex-basis: 100%;
+    order: 3;
+  }
+}

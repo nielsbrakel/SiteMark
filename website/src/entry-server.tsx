@@ -3,8 +3,9 @@ import { Document } from './document/Document';
 import type { Locale } from './i18n/locales';
 import { websiteLocales } from './i18n/locales';
 import { createWebsiteTranslator, loadCatalogs, type WebsiteTranslator } from './i18n/website-t';
-import { pageFor } from './pages/registry';
-import { currentMilestone, publishedRoutes, type Route } from './routes/routes';
+import { PageView } from './pages/PageView';
+import { pageFor, renderedRoutes } from './pages/registry';
+import type { Route } from './routes/routes';
 import { assetUrl, outputFile } from './routes/urls';
 
 /** Built client files, relative to the client output directory (from the Vite manifest). */
@@ -29,7 +30,13 @@ function renderRoute(
       script={assetUrl(assets.script)}
       styles={assets.styles.map(assetUrl)}
     >
-      <page.Component t={translator.t} tp={translator.tp} />
+      <PageView
+        route={route}
+        page={page}
+        locale={locale}
+        routes={renderedRoutes()}
+        translator={translator}
+      />
     </Document>,
   );
   return [{ file: outputFile(route, locale), html: `<!doctype html>${html}` }];
@@ -37,7 +44,7 @@ function renderRoute(
 
 /** Every published route that has a page, in every locale, as a complete HTML document. */
 export async function renderPages(assets: PageAssets): Promise<RenderedPage[]> {
-  const routes = publishedRoutes(currentMilestone());
+  const routes = renderedRoutes();
   const perLocale = await Promise.all(
     websiteLocales().map(async (locale) => {
       const translator = createWebsiteTranslator(locale, await loadCatalogs(locale));
