@@ -1,0 +1,11 @@
+{
+  // Pure domain (D-222): no DOM and no browser.* types, so reaching for either is a type error.
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    "types": [],
+    "jsx": "preserve"
+  },
+  "include": ["**/*.ts"],
+  "exclude": []
+}

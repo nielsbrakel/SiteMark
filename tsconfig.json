@@ -1,9 +1,17 @@
 {
+  // Root project: extension pages, platform code and unit tests (DOM available).
+  // src/core has its own DOM-free project, and tests/e2e runs in Node (see `pnpm typecheck`).
   "extends": "./.wxt/tsconfig.json",
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
-    "types": ["vitest/globals", "@testing-library/jest-dom"]
+    "types": ["@testing-library/jest-dom"],
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUncheckedSideEffectImports": true,
+    "erasableSyntaxOnly": true
   },
-  "include": [".wxt/wxt.d.ts", "src", "tests", "*.config.ts"]
+  "include": [".wxt/wxt.d.ts", "src", "tests/unit", "*.config.ts"],
+  "exclude": ["src/core"]
 }

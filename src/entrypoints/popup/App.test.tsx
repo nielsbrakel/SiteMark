@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import { PopupApp } from './App';
 
 vi.mock('@/lib/i18n', () => ({ t: (key: string) => key }));

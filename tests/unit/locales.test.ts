@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import en from '../../public/_locales/en/messages.json';
 import nl from '../../public/_locales/nl/messages.json';
 

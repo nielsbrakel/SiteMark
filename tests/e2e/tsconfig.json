@@ -1,0 +1,9 @@
+{
+  // Playwright specs run in Node; page callbacks still need DOM types.
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["**/*.ts"],
+  "exclude": []
+}

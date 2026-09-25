@@ -13,7 +13,9 @@ export const test = base.extend<{ context: BrowserContext; extensionId: string }
   context: async ({}, use) => {
     const context = await chromium.launchPersistentContext('', {
       channel: 'chromium',
-      executablePath: process.env.PW_CHROMIUM_EXECUTABLE || undefined,
+      ...(process.env.PW_CHROMIUM_EXECUTABLE && {
+        executablePath: process.env.PW_CHROMIUM_EXECUTABLE,
+      }),
       args: [`--disable-extensions-except=${extensionPath}`, `--load-extension=${extensionPath}`],
     });
     await use(context);

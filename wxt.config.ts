@@ -3,6 +3,8 @@ import { defineConfig } from 'wxt';
 // See docs/plan.md §3 (Architecture) for why permissions look like this.
 export default defineConfig({
   srcDir: 'src',
+  // Explicit imports only (D-222): no hidden globals, and layer rules stay visible to Biome.
+  imports: false,
   // One manifest version everywhere (Chromium 120+, Firefox 140+, Safari 18+).
   manifestVersion: 3,
   modules: ['@wxt-dev/module-react'],

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { browser } from 'wxt/browser';
 import '@/styles/base.css';
 import './options.css';
 import { OptionsApp } from './App';
