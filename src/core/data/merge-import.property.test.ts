@@ -1,5 +1,6 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
+import type { EntityId, IdGen, MarkId, PatternId, SiteGroupId } from '../ids';
 import { parseState, type SiteMarkState } from '../model/schema';
 import { settings, siteGroups, siteMarkState } from '../testing/arbitraries';
 import { assertProperty } from '../testing/property';
@@ -56,6 +57,39 @@ describe('REQ-DATA-004 property: merge keeps IDs unique', () => {
         expect(state.siteGroups.slice(local.siteGroups.length).map((g) => g.name)).toEqual(
           added.map((group) => group.name),
         );
+      }),
+    );
+  });
+});
+
+/**
+ * An IdGen that first mints `used` (IDs the states already hold), then fresh ones. Real IDs are
+ * random, so this is only unlikely, not impossible: the merge must not trust a minted ID blindly.
+ */
+function collidingIdGen(used: readonly EntityId[]): IdGen {
+  const queue = [...used];
+  const fresh = fixedIdGen();
+  const next = <I extends EntityId>(mint: () => I) => (queue.shift() as I | undefined) ?? mint();
+  return {
+    siteGroupId: () => next<SiteGroupId>(fresh.siteGroupId),
+    markId: () => next<MarkId>(fresh.markId),
+    patternId: () => next<PatternId>(fresh.patternId),
+  };
+}
+
+describe('REQ-DATA-004 property: merge keeps IDs unique when the IdGen mints an ID in use', () => {
+  it('mints again until the ID is free', () => {
+    assertProperty(
+      fc.property(siteMarkState, incoming, (local, file) => {
+        const idGen = collidingIdGen([
+          ...allIds(local),
+          ...file.siteGroups.flatMap(idsOfSiteGroup),
+        ]);
+        const result = mergeImport(local, file, { idGen });
+        expect(result.ok).toBe(true);
+        const state = (result as { value: SiteMarkState }).value;
+        const ids = allIds(state);
+        expect(new Set(ids).size).toBe(ids.length);
       }),
     );
   });
