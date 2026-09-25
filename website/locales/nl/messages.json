@@ -1,0 +1,14 @@
+{
+  "websiteHomeTitle": {
+    "message": "SiteMark: verwar productie nooit meer met test",
+    "description": "Browser tab title of the website home page. At most 60 characters."
+  },
+  "websiteHomeHeading": {
+    "message": "Verwar productie nooit meer met test",
+    "description": "Main heading (h1) of the website home page."
+  },
+  "websiteHomeLead": {
+    "message": "SiteMark is een browserextensie die de websites die je kiest markeert met linten, banners en kaders, zodat je altijd weet waar je bent.",
+    "description": "One-sentence value proposition below the home page heading."
+  }
+}
