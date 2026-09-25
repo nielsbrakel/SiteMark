@@ -22,6 +22,10 @@ export type ParsedWildcard = {
 
 type Code = UrlPatternErrorCode;
 
+/** REQ-URL-010: at most 500 characters (input and stored form) and 10 wildcards. */
+const MAX_LENGTH = 500;
+const MAX_WILDCARDS = 10;
+
 /** `scheme://` at the start: everything before the first `://`, if no `/?#:` comes earlier. */
 const SCHEME_PREFIX = /^([^/?#:[\]]*):\/\//;
 /** Schemes written without `//` (`about:blank`); anything else before a `:` is a host. */
@@ -87,19 +91,17 @@ function parseAuthority(authority: string): Result<Authority, Code> {
 export function parseWildcard(input: string): Result<ParsedWildcard, UrlPatternErrorCode> {
   const text = input.trim();
   if (text === '') return err('patternEmpty');
-  const scheme = splitScheme(text);
-  if (!scheme.ok) return scheme;
-  const { rest } = scheme.value;
+  if (text.length > MAX_LENGTH) return err('patternTooLong');
+  if (text.split('*').length - 1 > MAX_WILDCARDS) return err('patternTooManyWildcards');
+  const split = splitScheme(text);
+  if (!split.ok) return split;
+  const { scheme, rest } = split.value;
   const end = rest.search(/[/?#]/);
   const authority = parseAuthority(end < 0 ? rest : rest.slice(0, end));
   if (!authority.ok) return authority;
   const path = normalizePath(end < 0 ? '' : rest.slice(end));
-  return ok({
-    scheme: scheme.value.scheme,
-    ...authority.value,
-    path,
-    matchesQuery: path.includes('?'),
-  });
+  const parsed = { scheme, ...authority.value, path, matchesQuery: path.includes('?') };
+  return formatWildcard(parsed).length > MAX_LENGTH ? err('patternTooLong') : ok(parsed);
 }
 
 /** The canonical text of a parsed pattern: `scheme://[*.]host[:port]/path`. */
