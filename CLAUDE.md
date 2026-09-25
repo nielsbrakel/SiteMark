@@ -28,4 +28,9 @@ Read `docs/spec.md` (requirements), `docs/plan.md` (architecture), `docs/decisio
 ## Commands
 
 `pnpm test` · `pnpm test:browser` · `pnpm test:build` · `pnpm lint` · `pnpm format` · `pnpm test:e2e` (set `PW_CHROMIUM_EXECUTABLE` to use a preinstalled Chromium) ·
-`pnpm check` · `pnpm progress` · `pnpm build[:firefox|:safari]` · `pnpm icons` (after logo SVG changes)
+`pnpm check` (run it after committing a green step) · `pnpm progress` · `pnpm verify-tdd origin/main HEAD` ·
+`pnpm build[:firefox|:safari|:all]` · `pnpm icons` (after logo SVG changes)
+
+Red-phase stubs call `notImplemented()` from `src/core/not-implemented.ts`. Git hooks (lefthook) lint staged files
+and commit messages; `verify-tdd` in CI replays every red → green round, so a red commit must fail only on
+assertions or `NotImplementedError`.
