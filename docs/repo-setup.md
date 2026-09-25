@@ -33,6 +33,7 @@ pnpm exec playwright install chromium   # once, for e2e / browser-mode tests
 | Ruleset `main`      | Require a PR. Required status check **`ci-ok`** (the aggregate job, T-022). Require linear history. Block force pushes and deletion |
 | Ruleset `v*` tags   | Only admins can create them (they trigger `release.yml`)                                                                            |
 | Actions → General   | Workflow permissions: read-only. Allow GitHub Actions to create PRs: off. Require approval for first-time contributors              |
+| Pages               | Settings → Pages → Source: **GitHub Actions** (`pages.yml`, D-252). Environment `github-pages`: deployment branch `main` only       |
 | Environment `store` | Required reviewer: repository owner. Deployment branches/tags: `v*` only. Holds the store secrets (section 7)                       |
 | Code security       | Dependabot alerts + security updates on. Secret scanning + push protection on. Private vulnerability reporting on (SECURITY.md)     |
 | Optional            | CodeQL (JavaScript/TypeScript) default setup; OpenSSF Scorecard action                                                              |
@@ -44,7 +45,7 @@ pnpm exec playwright install chromium   # once, for e2e / browser-mode tests
 | Field           | Value                                                                                                                                                            |
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Description     | Never confuse production with test again: a private browser extension that marks the sites you choose with ribbons, banners and outlines.                        |
-| Website         | The Chrome Web Store listing once it exists (M8); until then leave it empty                                                                                      |
+| Website         | `https://nielsbrakel.github.io/SiteMark/` once the first Pages deploy is live (T-219, D-244)                                                                     |
 | Topics          | `browser-extension`, `webextension`, `chrome-extension`, `firefox-addon`, `safari-extension`, `manifest-v3`, `wxt`, `react`, `typescript`, `privacy`, `devtools` |
 | Include in home | Releases on. Packages and Deployments off                                                                                                                        |
 

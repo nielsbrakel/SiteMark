@@ -2,7 +2,8 @@
 
 Cross-browser MV3 extension (Chromium + Firefox in v1.0, Safari in v1.1) built with WXT + React + TypeScript.
 Read `docs/spec.md` (requirements), `docs/plan.md` (architecture), `docs/decisions.md` (D-xxx) and
-`docs/tasks.md` (what's next) before changing code.
+`docs/tasks.md` (what's next) before changing code. The public website (`website/`) has its own
+`docs/website/{spec,plan,design,tasks}.md` (D-244…D-256).
 
 ## Ground rules
 
@@ -12,7 +13,8 @@ Read `docs/spec.md` (requirements), `docs/plan.md` (architecture), `docs/decisio
   PRs are rebase-merged, so every commit must stand on its own.
 - Terminology: **site group** (`SiteGroup`) everywhere. Never "profile".
 - Layering (D-222): `core ← app ← platform | shared | content | ui ← entrypoints`. `core` is pure
-  (no `browser.*`, no DOM). `content` and `ui` never import each other. Use explicit imports (no WXT auto-imports).
+  (no `browser.*`, no DOM). `content` and `ui` never import each other. Use explicit imports (no WXT auto-imports). `website` may only import
+  `core`, `shared`, presentational `ui/components`, `lib/i18n/translate.ts` and `styles` (D-246).
 - The background is the **only storage writer** (D-220). Other contexts send commands or intents. Content
   scripts are untrusted and only receive their render plan (D-221, D-239).
 - Privacy is a feature: never add `host_permissions`, static `content_scripts`, web-accessible resources,

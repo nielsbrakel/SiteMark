@@ -51,7 +51,7 @@ src/
 │  ├─ marker/            host.ts · renderer.ts (EffectViews, Disposer) · tracker.ts · url-watch.ts · document-effects.ts
 │  └─ picker/            glass-pane.ts · selector.ts (generateSelector, DOM) · panel.ts
 ├─ ui/              React, shared by popup + options: components/ · hooks/ · mount.tsx
-├─ lib/i18n.ts      t(), tp() (plurals), typed MessageKey
+├─ lib/i18n/        translate.ts (pure t(), tp(), typed MessageKey over a MessageSource) · browser-source.ts (D-247)
 ├─ styles/          tokens.css · base.css
 └─ entrypoints/     COMPOSITION ROOTS only: background.ts · content.ts · picker.ts · popup/ · options/ · grant/
 ```
@@ -101,7 +101,7 @@ src/
 4. Newly granted origins → `executeScript` into open matching tabs. REQ-RND-012 makes a second injection safe.
 5. Grant state is always read live (`permissions.contains`), because Safari users can change it in Safari's own UI.
 
-### 3.3 Marker content script (REQ-RND-*)
+### 3.3 Marker content script (REQ-RND-\*)
 
 ```text
 start → singleton guard (isolated-world symbol; the old instance is disposed)
@@ -124,7 +124,7 @@ position: fixed !important; inset: 0 !important; pointer-events: none !important
   `navigatesuccess` where available.
 - **DocumentEffects:** the single owner of title-prefix and favicon state (apply/strip, restore).
 
-### 3.4 Picker (REQ-PICK-*, D-240)
+### 3.4 Picker (REQ-PICK-\*, D-240)
 
 `type PickerState = idle | picking{candidate, mode: 'pointer'|'keyboard'} | editing{selection} | done`,
 changed only by a pure `transition(state, event)` in core. Invoking the picker again while it's active cancels it.
@@ -203,6 +203,9 @@ All actions are pinned by SHA, use `persist-credentials: false`, set `timeout-mi
 | M7   | **Polish**          | i18n review, axe, zoom, visual baselines, perf, Firefox smoke                                                                        |
 | M8   | **Release v1.0**    | PRIVACY, SECURITY, store assets, release workflow, submission (Chrome/Edge/Firefox)                                                  |
 | M9   | **Safari v1.1**     | Safari 18 build, packaging, fixes, App Store                                                                                         |
+
+The public website (`website/`, outside `src/`) has its own [spec, plan and tasks](website/plan.md) with milestones
+W1 (before T-152) and W2 (after M6), D-253.
 
 Each milestone ends with: all its tasks done (status derived from git), `pnpm check` + e2e green,
 every Must REQ of the milestone covered by a passing test, and a pre-release tag (`v0.<M>.0`).
