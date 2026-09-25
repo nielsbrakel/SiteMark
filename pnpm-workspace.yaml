@@ -1,0 +1,9 @@
+# pnpm supply-chain policy (REQ-SEC-009, D-238).
+
+# Fail the install when a dependency wants to run an install script that isn't reviewed below.
+strictDepBuilds: true
+# Dependencies allowed to run install scripts. None need one today; add entries only after review.
+onlyBuiltDependencies: []
+
+# Refuse to install on a Node or pnpm version outside package.json `engines`.
+engineStrict: true

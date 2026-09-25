@@ -38,6 +38,23 @@ pnpm exec playwright install chromium   # once, for e2e / browser-mode tests
 | Code security       | Dependabot alerts + security updates on. Secret scanning + push protection on. Private vulnerability reporting on (SECURITY.md)     |
 | Optional            | CodeQL (JavaScript/TypeScript) default setup; OpenSSF Scorecard action                                                              |
 
+## 3a. CI and supply-chain policy (REQ-SEC-009)
+
+`tests/unit/ci-policy.test.ts` enforces the rules below on every `pnpm test`; `zizmor` and `actionlint` run in the
+`workflow-lint` job.
+
+- **Workflows:** actions pinned by commit SHA (with a `# vX.Y.Z` comment) and images by digest, `permissions: {}` at
+  the top and minimal per job, `persist-credentials: false`, a `timeout-minutes` on every job. The shared setup lives
+  in `.github/actions/setup`. **`ci-ok`** needs every other job and is the only required check.
+- **Playwright:** `@playwright/test` is pinned exactly and CI runs browsers in `mcr.microsoft.com/playwright` with the
+  same version. Bump both together (Dependabot keeps it out of the dev-dependency group).
+- **Dependencies:** `pnpm-workspace.yaml` sets `strictDepBuilds` (no install scripts unless listed in
+  `onlyBuiltDependencies`) and `engineStrict`. Pull requests run GitHub's dependency
+  review (moderate+ advisories and non-permissive licenses fail). Dependabot groups minor/patch updates with a 7-day
+  cooldown and ignores toolchain majors until WXT supports them.
+- **No release-age gate in pnpm:** the owner removed `minimumReleaseAge` (D-257), because it also blocked lockfiles
+  that already held a fresh version. Dependabot's cooldown still delays automated updates by 7 days.
+
 ## 4. About, topics and community files
 
 **About** (the gear icon next to _About_ on the repository page):
