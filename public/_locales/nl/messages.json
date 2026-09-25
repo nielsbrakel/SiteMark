@@ -130,6 +130,10 @@
     "message": "Voeg een URL-patroon toe voordat je deze sitegroep aanzet.",
     "description": "Fout in sitegroep: een ingeschakelde sitegroep heeft minstens één URL-patroon nodig."
   },
+  "errorSiteGroupNameInvalid": {
+    "message": "Vul een naam van 1 tot 40 tekens in.",
+    "description": "Fout in sitegroep: de naam van de sitegroep is leeg of langer dan 40 tekens."
+  },
   "errorSiteGroupLimitReached": {
     "message": "Je kunt maximaal 200 sitegroepen hebben.",
     "description": "Fout in sitegroep: het maximale aantal sitegroepen is bereikt."

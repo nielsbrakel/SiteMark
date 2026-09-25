@@ -130,6 +130,10 @@
     "message": "Add a URL pattern before you turn on this site group.",
     "description": "Site group error: an enabled site group needs at least one URL pattern."
   },
+  "errorSiteGroupNameInvalid": {
+    "message": "Enter a name of 1 to 40 characters.",
+    "description": "Site group error: the site group name is empty or longer than 40 characters."
+  },
   "errorSiteGroupLimitReached": {
     "message": "You can have at most 200 site groups.",
     "description": "Site group error: the maximum number of site groups is reached."
