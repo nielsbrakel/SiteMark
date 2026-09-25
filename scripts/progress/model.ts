@@ -45,11 +45,14 @@ function parseTaskRow(line: string): Task {
   };
 }
 
-/** Milestones are `## M<n> — <name>` headings; tasks are the `| T-xxx |` rows below them. */
+/**
+ * Milestones are `## M<n> — <name>` (extension) or `## W<n> — <name>` (website) headings; tasks are
+ * the `| T-xxx |` rows below them.
+ */
 export function parseTasks(text: string): { milestones: Milestone[]; duplicates: string[] } {
   const milestones: Milestone[] = [];
   for (const line of text.split('\n')) {
-    const heading = line.match(/^## (M[\d.]+) — (.+)$/);
+    const heading = line.match(/^## ([MW][\d.]+) — (.+)$/);
     if (heading) {
       milestones.push({
         id: heading[1] ?? '',
