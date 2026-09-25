@@ -1,6 +1,7 @@
 import type { ZodType } from 'zod';
 import type { SiteGroupId } from '../ids';
 import { idSchema, userText } from './fields';
+import { markSchema } from './mark-schema';
 import { urlPatternSchema } from './pattern-schema';
 import type { SiteGroup } from './schema';
 import { z } from './zod';
@@ -9,7 +10,8 @@ import { z } from './zod';
 
 const MAX_ITEMS = 50;
 
-const patterns = z.array(urlPatternSchema).max(MAX_ITEMS, `Expected at most ${MAX_ITEMS}`);
+const limitMessage = `Expected at most ${MAX_ITEMS}`;
+const patterns = z.array(urlPatternSchema).max(MAX_ITEMS, limitMessage);
 
 export const siteGroupSchema: ZodType<SiteGroup> = z
   .strictObject({
@@ -18,8 +20,7 @@ export const siteGroupSchema: ZodType<SiteGroup> = z
     enabled: z.boolean(),
     patterns,
     excludes: patterns,
-    // Marks arrive with T-041/T-042.
-    marks: z.array(z.never()).max(MAX_ITEMS, `Expected at most ${MAX_ITEMS}`),
+    marks: z.array(markSchema).max(MAX_ITEMS, limitMessage),
   })
   .refine((group) => !group.enabled || group.patterns.length > 0, {
     path: ['enabled'],

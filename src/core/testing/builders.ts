@@ -1,5 +1,6 @@
-import type { EntityId, PatternId, SiteGroupId } from '../ids';
+import type { EntityId, MarkId, PatternId, SiteGroupId } from '../ids';
 import type {
+  Hex,
   Mark,
   OriginPattern,
   PageMark,
@@ -8,7 +9,6 @@ import type {
   SiteMarkState,
   WildcardPattern,
 } from '../model/schema';
-import { notImplemented } from '../not-implemented';
 
 // Test builders: each returns schema-valid data with deterministic IDs; overrides replace whole
 // top-level fields. IDs come from one counter per test file (`grp-00000001`, `pat-00000002`, …),
@@ -41,13 +41,21 @@ export function aRegexPattern(overrides: Partial<RegexPattern> = {}): RegexPatte
 }
 
 /** A red page ribbon. */
-export function aPageMark(_overrides: Partial<PageMark> = {}): PageMark {
-  return notImplemented();
+export function aPageMark(overrides: Partial<PageMark> = {}): PageMark {
+  return {
+    id: nextId<MarkId>('mrk'),
+    enabled: true,
+    color: '#c93a2e' as Hex,
+    textColor: 'auto',
+    target: { kind: 'page' },
+    effects: { ribbon: { text: 'PROD', corner: 'top-right' } },
+    ...overrides,
+  };
 }
 
 /** Any valid mark: a page ribbon, like `aPageMark()`. */
-export function aMark(_overrides: Partial<PageMark> = {}): Mark {
-  return notImplemented();
+export function aMark(overrides: Partial<PageMark> = {}): Mark {
+  return aPageMark(overrides);
 }
 
 export function aSiteGroup(overrides: Partial<SiteGroup> = {}): SiteGroup {

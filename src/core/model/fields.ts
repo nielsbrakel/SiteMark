@@ -25,3 +25,21 @@ export function userText(min: number, max: number) {
   const message = `Expected ${min}-${max} characters`;
   return z.string().transform(cleanText).pipe(z.string().min(min, message).max(max, message));
 }
+
+/** A whole number in `min..max` (opacities are integer percents, D-223). */
+export function intRange(min: number, max: number) {
+  const message = `Expected a whole number from ${min} to ${max}`;
+  return z.int(message).min(min, message).max(max, message);
+}
+
+/**
+ * "A mark needs at least one effect" as a refinement. It only runs on otherwise valid effects, so an
+ * unknown effect is reported once (zod keeps checking after an unrecognized key).
+ */
+export const atLeastOneEffect = [
+  (effects: object): boolean => Object.keys(effects).length > 0,
+  {
+    message: 'A mark needs at least one effect',
+    when: (payload: { issues: readonly unknown[] }) => payload.issues.length === 0,
+  },
+] as const;

@@ -1,9 +1,9 @@
 import type { Brand, MarkId, PatternId, SiteGroupId } from '../ids';
-import { notImplemented } from '../not-implemented';
 import type { Result } from '../result';
 import { hexSchema } from './fields';
 import { siteGroupSchema } from './group-schema';
 import { parseWith } from './issues';
+import { markSchema } from './mark-schema';
 import { urlPatternSchema } from './pattern-schema';
 import { stateSchema } from './state-schema';
 
@@ -125,8 +125,8 @@ export function parseSiteGroup(input: unknown): SchemaResult<SiteGroup> {
 }
 
 /** A page or element mark with effects that fit its target (REQ-MARK-001, REQ-MARK-014). */
-export function parseMark(_input: unknown): SchemaResult<Mark> {
-  return notImplemented();
+export function parseMark(input: unknown): SchemaResult<Mark> {
+  return parseWith(markSchema, input);
 }
 
 /** Checks the shape and limits only; the URL engine validates the pattern itself. */
