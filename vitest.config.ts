@@ -8,6 +8,8 @@ import { WxtVitest } from 'wxt/testing/vitest-plugin';
 //   dom     — everything else in happy-dom with WXT's fake browser.
 //   browser — *.browser.test.ts in real Chromium, for layout, popover, canvas and input.
 //   build   — tests/build on the production output of every target (`pnpm test:build`).
+//   website-node / website-dom — the website (docs/website/plan.md §7): pure modules in Node, components
+//             in happy-dom without the extension's fake browser (the website never touches browser.*).
 // `pnpm test` runs core + dom; `pnpm test:coverage` runs core, dom and browser with the thresholds below.
 
 const isolation = { mockReset: true, restoreMocks: true, unstubEnvs: true, unstubGlobals: true };
@@ -37,12 +39,13 @@ export default defineConfig({
     ],
     coverage: {
       provider: 'v8',
-      include: ['src/**/*.{ts,tsx}'],
+      include: ['src/**/*.{ts,tsx}', 'website/src/**/*.{ts,tsx}'],
       exclude: [
         '**/*.test.*',
         // Composition roots: covered by e2e and the wiring test (T-076), not by unit coverage.
         'src/entrypoints/*.ts',
         'src/entrypoints/**/main.tsx',
+        'website/src/entry-client.{ts,tsx}',
       ],
       reporter: ['text', 'html', 'lcov', 'json-summary'],
       // REQ-NFR-004: core ≥ 90 % lines / 85 % branches, platform ≥ 85 %, overall ≥ 80 %.
@@ -93,6 +96,26 @@ export default defineConfig({
           name: 'build',
           environment: 'node',
           include: ['tests/build/**/*.test.ts'],
+        },
+      },
+      {
+        resolve: { alias },
+        test: {
+          ...isolation,
+          name: 'website-node',
+          environment: 'node',
+          include: ['website/{src,scripts}/**/*.test.ts', 'website/tests/unit/**/*.test.ts'],
+          exclude: [browserTests],
+        },
+      },
+      {
+        resolve: { alias },
+        test: {
+          ...isolation,
+          name: 'website-dom',
+          environment: 'happy-dom',
+          include: ['website/src/**/*.test.tsx'],
+          exclude: [browserTests],
         },
       },
       {

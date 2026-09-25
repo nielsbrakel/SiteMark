@@ -401,7 +401,13 @@
       }
     },
     {
-      "includes": ["src/entrypoints/**", "*.config.ts", "*.config.mjs", "**/*.d.ts"],
+      "includes": [
+        "src/entrypoints/**",
+        "*.config.ts",
+        "*.config.mjs",
+        "website/*.config.ts",
+        "**/*.d.ts"
+      ],
       "linter": { "rules": { "style": { "noDefaultExport": "off" } } }
     },
     {
