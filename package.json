@@ -5,6 +5,29 @@
   "version": "0.0.0",
   "type": "module",
   "license": "MIT",
+  "author": "Niels Brakel (https://github.com/nielsbrakel)",
+  "homepage": "https://github.com/nielsbrakel/SiteMark#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nielsbrakel/SiteMark.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nielsbrakel/SiteMark/issues"
+  },
+  "keywords": [
+    "browser-extension",
+    "webextension",
+    "chrome-extension",
+    "firefox-addon",
+    "safari-extension",
+    "manifest-v3",
+    "wxt",
+    "react",
+    "typescript",
+    "environment",
+    "production",
+    "privacy"
+  ],
   "packageManager": "pnpm@10.33.0",
   "engines": {
     "node": ">=22"
@@ -28,7 +51,8 @@
     "test:e2e": "wxt build && playwright test",
     "icons": "node scripts/render-icons.mjs",
     "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm progress --strict",
-    "progress": "node scripts/progress.mjs"
+    "progress": "node scripts/progress.mjs",
+    "changeset": "changeset"
   },
   "dependencies": {
     "react": "^19.3.0",
@@ -36,6 +60,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
+    "@changesets/cli": "^3.0.3",
     "@playwright/test": "^1.56.1",
     "@testing-library/jest-dom": "^6.9.0",
     "@testing-library/react": "^16.3.0",

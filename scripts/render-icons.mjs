@@ -1,4 +1,5 @@
-// Renders design/logo/*.svg into the PNG toolbar/store icons in public/icon/.
+// Renders design/logo/*.svg into the PNG toolbar/store icons in public/icon/, and
+// design/social-preview.svg into the GitHub social preview (design/social-preview.png).
 // Usage: pnpm icons   (set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium)
 import { mkdir, readFile } from 'node:fs/promises';
 import { chromium } from '@playwright/test';
@@ -26,5 +27,13 @@ for (const { svg, sizes } of targets) {
     console.log(`public/icon/${size}.png`);
   }
 }
+
+const preview = await readFile('design/social-preview.svg', 'utf8');
+await page.setViewportSize({ width: 1280, height: 640 });
+await page.setContent(
+  `<style>html,body{margin:0}svg{display:block;width:1280px;height:640px}</style>${preview}`,
+);
+await page.locator('svg').screenshot({ path: 'design/social-preview.png' });
+console.log('design/social-preview.png');
 
 await browser.close();

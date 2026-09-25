@@ -1,0 +1,77 @@
+name: Bug report
+description: Something in SiteMark doesn't work as expected.
+labels: ['type:bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please **don't** include internal hostnames or other private URLs;
+        `https://prod.example.com/*` is fine as a stand-in. Security problems go through
+        [SECURITY.md](https://github.com/nielsbrakel/SiteMark/blob/main/SECURITY.md) instead.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you see, and what did you expect to see instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Add a site group with pattern `https://*.example.com/*`
+        2. Add a ribbon
+        3. Open https://www.example.com
+        4. …
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Chrome
+        - Edge
+        - Firefox
+        - Safari
+        - Other Chromium (Brave, Opera, Arc, …)
+    validations:
+      required: true
+  - type: input
+    id: browser-version
+    attributes:
+      label: Browser version
+      placeholder: e.g. Chrome 131, Firefox 142
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SiteMark version
+      description: Shown on the browser's extensions page.
+      placeholder: e.g. 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: e.g. Windows 11, macOS 15, Ubuntu 24.04
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Marks on the page (ribbon, banner, outline, …)
+        - Element picker
+        - Popup
+        - Options page
+        - Permissions
+        - Import / export
+        - Other
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or extra context
+      description: Screenshots, console errors (from the extension's service worker or the page), or a minimal page that reproduces it.
