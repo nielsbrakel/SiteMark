@@ -10,5 +10,73 @@
   "websiteHomeLead": {
     "message": "SiteMark is a browser extension that marks the websites you choose with ribbons, banners and outlines, so you always know where you are.",
     "description": "One-sentence value proposition below the home page heading."
+  },
+  "websiteSkipToContent": {
+    "message": "Skip to content",
+    "description": "Skip link, the first thing keyboard users reach on every page. Jumps to the main content."
+  },
+  "websiteHeaderHome": {
+    "message": "SiteMark home",
+    "description": "Text alternative of the SiteMark wordmark in the header, which links to the home page."
+  },
+  "websiteNavLabel": {
+    "message": "Main",
+    "description": "Accessible name of the header navigation (screen readers announce it as a navigation landmark)."
+  },
+  "websiteNavHome": {
+    "message": "Home",
+    "description": "Link to the home page."
+  },
+  "websiteNavHelp": {
+    "message": "Help",
+    "description": "Navigation link to the help pages."
+  },
+  "websiteNavPlayground": {
+    "message": "Playground",
+    "description": "Navigation link to the playground, where visitors try marks in the browser."
+  },
+  "websiteNavSupport": {
+    "message": "Support",
+    "description": "Navigation link to the support and contact page."
+  },
+  "websiteNavPrivacy": {
+    "message": "Privacy",
+    "description": "Navigation link to the privacy policy."
+  },
+  "websiteNavChangelog": {
+    "message": "Changelog",
+    "description": "Footer link to the changelog (the list of changes per release)."
+  },
+  "websiteLanguageLabel": {
+    "message": "Language",
+    "description": "Accessible name of the language switch (EN / NL)."
+  },
+  "websiteLanguageNameEn": {
+    "message": "English",
+    "description": "Name of the English version in the language switch. Always written in English itself."
+  },
+  "websiteLanguageNameNl": {
+    "message": "Nederlands",
+    "description": "Name of the Dutch version in the language switch. Always written in Dutch itself."
+  },
+  "websiteFooterLabel": {
+    "message": "Footer",
+    "description": "Accessible name of the link list in the page footer."
+  },
+  "websiteFooterGitHub": {
+    "message": "GitHub",
+    "description": "Footer link to the SiteMark repository on GitHub."
+  },
+  "websiteFooterSitemap": {
+    "message": "Sitemap",
+    "description": "Footer link to sitemap.xml, the list of all pages for search engines."
+  },
+  "websiteFooterLicense": {
+    "message": "MIT license",
+    "description": "Footer link to the open-source license of SiteMark."
+  },
+  "websiteFooterMadeIn": {
+    "message": "Made by Niels Brakel in the Netherlands.",
+    "description": "Footer line that names the maker and controller (as in the privacy policy)."
   }
 }
