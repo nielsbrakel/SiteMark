@@ -1,4 +1,5 @@
 import type { Brand, MarkId, PatternId, SiteGroupId } from '../ids';
+import { notImplemented } from '../not-implemented';
 import type { Result } from '../result';
 import { hexSchema } from './fields';
 import { siteGroupSchema } from './group-schema';
@@ -121,6 +122,11 @@ export function parseState(input: unknown): SchemaResult<SiteMarkState> {
 
 export function parseSiteGroup(input: unknown): SchemaResult<SiteGroup> {
   return parseWith(siteGroupSchema, input);
+}
+
+/** A page or element mark with effects that fit its target (REQ-MARK-001, REQ-MARK-014). */
+export function parseMark(_input: unknown): SchemaResult<Mark> {
+  return notImplemented();
 }
 
 /** Checks the shape and limits only; the URL engine validates the pattern itself. */
