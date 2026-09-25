@@ -1,0 +1,18 @@
+# Git hooks (D-237, D-243). They never run tests, so a red commit can always be committed.
+pre-commit:
+  parallel: true
+  commands:
+    biome:
+      glob: '*.{js,mjs,ts,tsx,json,css}'
+      run: pnpm exec biome check --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+    stylelint:
+      glob: 'src/**/*.css'
+      run: pnpm exec stylelint {staged_files}
+    prettier:
+      glob: '*.{md,yml,yaml}'
+      run: pnpm exec prettier --check {staged_files}
+
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm exec commitlint --edit {1}

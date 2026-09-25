@@ -67,8 +67,8 @@ Improve the code without changing behavior. `pnpm check` must pass. Don't make e
 - Keep tests fast and deterministic: fake timers, fixed `IdGen`/`Clock`, no real network.
 - PRs are **rebase-merged** (D-209), so red, green and refactor commits all stay on `main`.
   `git bisect run scripts/bisect.sh` skips `test(*): red` commits _(T-020)_.
-- Commit messages are checked by commitlint (lefthook locally, and in CI) _(T-021)_. Hooks never run tests,
-  so red commits are always committable.
+- Commit messages are checked by commitlint (lefthook locally, and in CI, which also rejects leftover `fixup!`
+  commits). Hooks never run tests, so red commits are always committable.
 
 ## Test layers (D-233)
 
