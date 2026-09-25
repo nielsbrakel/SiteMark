@@ -37,7 +37,7 @@ Each task row in [tasks.md](tasks.md) is one or more red → green (→ refactor
 
    ```ts
    export function matchPattern(pattern: WildcardPattern, url: string): boolean {
-     return notImplemented(); // throws NotImplementedError (tests/kit, T-014)
+     return notImplemented(); // throws NotImplementedError (src/core/not-implemented.ts)
    }
    ```
 
@@ -80,9 +80,10 @@ Improve the code without changing behavior. `pnpm check` must pass. Don't make e
 | mutation  | Stryker (nightly)              | `src/core` test strength                                                                                |
 | manual    | This document                  | Firefox each release (D-214), Safari from v1.1                                                          |
 
-**Fakes** _(T-014)_: `tests/fakes/` provides stateful fakes for `permissions`, `scripting`, `i18n` (it reads
-`en/messages.json` and throws on unknown keys), `commands` and `action`, which `wxt/testing`'s fake browser lacks.
-Builders (`aSiteGroup()`, `aMark()`, `aState()`) always produce schema-valid data.
+**Fakes**: `tests/fakes/` provides stateful fakes for `permissions`, `scripting`, `i18n` (it reads
+`en/messages.json` and throws on unknown keys) and `commands`, which `wxt/testing`'s fake browser lacks. They are
+installed fresh before every `dom` test; drive them with `fakes()` (e.g. `fakes().permissions.answerNextRequest('deny')`).
+Builders (`aSiteGroup()`, `aMark()`, `aState()`) always produce schema-valid data _(T-040)_.
 
 **E2E specifics** _(T-015)_:
 

@@ -1,4 +1,3 @@
-import { notImplemented } from '@/core/not-implemented';
 import en from '../../public/_locales/en/messages.json';
 
 export type Messages = Record<
@@ -11,6 +10,32 @@ export type FakeI18nApi = {
   getUILanguage(): string;
 };
 
-export function createFakeI18n(_messages: Messages = en, _uiLanguage = 'en'): { api: FakeI18nApi } {
-  return notImplemented();
+/** Chrome's rules: `$name$` placeholders (case-insensitive) first, then `$1`…`$9`. */
+function format(entry: Messages[string], substitutions: string[]): string {
+  const positional = (text: string) =>
+    text.replace(/\$(\d)/g, (match, n: string) => substitutions[Number(n) - 1] ?? match);
+  const placeholders = Object.fromEntries(
+    Object.entries(entry.placeholders ?? {}).map(([name, { content }]) => [
+      name.toLowerCase(),
+      content,
+    ]),
+  );
+  const named = entry.message.replace(/\$([a-z0-9_@]+)\$/gi, (match, name: string) => {
+    const content = placeholders[name.toLowerCase()];
+    return content === undefined ? match : positional(content);
+  });
+  return positional(named);
+}
+
+export function createFakeI18n(messages: Messages = en, uiLanguage = 'en'): { api: FakeI18nApi } {
+  return {
+    api: {
+      getMessage: (key, substitutions = []) => {
+        const entry = messages[key];
+        if (!entry) throw new Error(`Unknown i18n key: ${key}`);
+        return format(entry, typeof substitutions === 'string' ? [substitutions] : substitutions);
+      },
+      getUILanguage: () => uiLanguage,
+    },
+  };
 }
