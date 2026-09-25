@@ -49,6 +49,19 @@ describe('REQ-NFR-004 progress reads requirements and tasks from the docs', () =
     expect(milestones[0]?.tasks[1]?.done).toBe(false);
     expect(duplicates).toEqual(['T-032']);
   });
+
+  it('parses the website milestones (W1, W2) like the extension ones', () => {
+    const website = tasks.replace(
+      '## M1 — Core `src/core`',
+      '## W1 — Website foundation (before T-152)',
+    );
+    const { milestones } = parseTasks(website);
+    expect(milestones.map((m) => [m.id, m.name])).toEqual([
+      ['W1', 'Website foundation (before T-152)'],
+      ['M2', 'App'],
+    ]);
+    expect(milestones[0]?.tasks.map((t) => t.id)).toEqual(['T-032', 'T-033']);
+  });
 });
 
 describe('REQ-NFR-004 progress derives task status from git history (D-210)', () => {
