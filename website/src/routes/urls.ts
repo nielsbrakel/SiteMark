@@ -39,3 +39,8 @@ export function outputFile(route: Slugged, locale: Locale): string {
 export function assetUrl(file: string): string {
   return `${BASE_PATH}${file.replace(/^\/+/, '')}`;
 }
+
+/** The absolute URL of a public file, e.g. the social preview image (REQ-SEO-004). */
+export function absoluteUrl(file: string): string {
+  return `${ORIGIN}${assetUrl(file)}`;
+}

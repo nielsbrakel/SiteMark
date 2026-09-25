@@ -6,14 +6,16 @@ import type { PageProps } from './page-props';
 
 export type Page = {
   readonly Component: (props: PageProps) => ReactNode;
-  /** The document title (T-210 replaces this with the full SEO head). */
+  /** The document title: unique per locale, ≤ 60 characters (REQ-SEO-001). */
   readonly title: WebsiteMessageKey;
+  /** The meta description: unique per locale, ≤ 160 characters (REQ-SEO-001). */
+  readonly description: WebsiteMessageKey;
 };
 
 // The pages built so far. A published route without a page isn't rendered yet; the tasks that
 // build the privacy, support and later pages add them here.
 const PAGES: Partial<Record<PageId, Page>> = {
-  home: { Component: HomePage, title: 'websiteHomeTitle' },
+  home: { Component: HomePage, title: 'websiteHomeTitle', description: 'websiteHomeDescription' },
 };
 
 /** The page for a route's page ID, or undefined (also for anything that isn't a page ID). */

@@ -1,6 +1,7 @@
 import { renderToString } from 'react-dom/server';
-import { notImplemented } from '@/core/not-implemented';
 import { Document } from './document/Document';
+import { pageHead } from './head/page-head';
+import { sitemapEntries, sitemapXml } from './head/sitemap';
 import type { Locale } from './i18n/locales';
 import { websiteLocales } from './i18n/locales';
 import { createWebsiteTranslator, loadCatalogs, type WebsiteTranslator } from './i18n/website-t';
@@ -24,11 +25,13 @@ function renderRoute(
 ): RenderedPage[] {
   const page = pageFor(route.page);
   if (!page) return [];
+  const { head, jsonLd } = pageHead(route, page, locale, translator.t);
   const html = renderToString(
     <Document
       locale={locale}
       page={route.page}
-      title={translator.t(page.title)}
+      head={head}
+      jsonLd={jsonLd}
       bootstrap={bootstrapScript()}
       script={assetUrl(assets.script)}
       styles={assets.styles.map(assetUrl)}
@@ -59,5 +62,5 @@ export async function renderPages(assets: PageAssets): Promise<RenderedPage[]> {
 
 /** sitemap.xml for every rendered route (REQ-SEO-003); the prerender step writes it. */
 export function renderSitemap(): string {
-  return notImplemented();
+  return sitemapXml(sitemapEntries(renderedRoutes()));
 }
