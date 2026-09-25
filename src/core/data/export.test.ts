@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { SiteMarkState } from '../model/schema';
 import { aRegexPattern, aSiteGroup, aState } from '../testing/builders';
-import { okValue, pathsOf, untrusted } from '../testing/schema-results';
+import { messagesOf, okValue, pathsOf, untrusted } from '../testing/schema-results';
 import { buildExport, exportFilename } from './export';
 import { parseExportEnvelope } from './export-schema';
 
@@ -83,8 +83,15 @@ describe('REQ-DATA-003 the export envelope schema is strict', () => {
   });
 
   it.each([
-    ['an unknown key', { extra: true }, 'extra'],
-    ['the revision (not part of an export)', { revision: 3 }, 'revision'],
+    ['an unknown key', { extra: true }],
+    ['the revision (not part of an export)', { revision: 3 }],
+  ])('rejects %s on the envelope itself, naming the key', (_name, change) => {
+    const result = parseExportEnvelope({ ...valid(), ...change });
+    expect(pathsOf(result)).toEqual(['']);
+    expect(messagesOf(result)[0]).toContain(Object.keys(change)[0]);
+  });
+
+  it.each([
     ['another format', { format: 'other-export' }, 'format'],
     ['a newer schemaVersion', { schemaVersion: 2 }, 'schemaVersion'],
     ['an empty appVersion', { appVersion: '' }, 'appVersion'],
