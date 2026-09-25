@@ -5,20 +5,20 @@
 
 ## 1. Stack
 
-| Concern         | Choice                                                                                     | Ref                |
-| --------------- | ------------------------------------------------------------------------------------------ | ------------------ |
-| Build / dev     | WXT 0.21 (Vite 8), MV3 everywhere, **auto-imports off**                                    | D-003, D-222       |
-| UI              | React 19 + TypeScript (popup, options, grant page), with CSS Modules                       | D-236              |
-| Content scripts | Plain TypeScript + DOM, shadow-root CSS through adopted sheets or `<style>`                | D-101, D-232       |
-| Validation      | zod 4, strict schemas, `jitless`                                                           | D-102, D-238       |
-| Storage         | Plain `storage.local`. One writer (background). One migration pipeline                     | D-220, D-224       |
-| Messaging       | `@webext-core/messaging` with sender validation + zod payloads                             | D-104, REQ-SEC-003 |
-| Selectors       | `@medv/finder` + SiteMark token filters                                                    | D-105              |
-| Regex safety    | `@eslint-community/regexpp` (parse + safe-subset check)                                    | D-211              |
-| Tests           | Vitest 4 (projects: node / happy-dom / browser mode), RTL, fast-check, Stryker, Playwright | D-233              |
-| Quality         | TS strict+, ESLint 9 type-aware + zones, Prettier, stylelint, knip, commitlint, lefthook   | D-234–D-237        |
-| Release         | Changesets, `wxt zip` / `wxt submit` behind the `store` environment                        | D-227, D-228       |
-| Package manager | pnpm 10 (policies in `pnpm-workspace.yaml`), Node 22                                       | D-238              |
+| Concern         | Choice                                                                                                                           | Ref                |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| Build / dev     | WXT 0.21 (Vite 8), MV3 everywhere, **auto-imports off**                                                                          | D-003, D-222       |
+| UI              | React 19 + TypeScript (popup, options, grant page), with CSS Modules                                                             | D-236              |
+| Content scripts | Plain TypeScript + DOM, shadow-root CSS through adopted sheets or `<style>`                                                      | D-101, D-232       |
+| Validation      | zod 4, strict schemas, `jitless`                                                                                                 | D-102, D-238       |
+| Storage         | Plain `storage.local`. One writer (background). One migration pipeline                                                           | D-220, D-224       |
+| Messaging       | `@webext-core/messaging` with sender validation + zod payloads                                                                   | D-104, REQ-SEC-003 |
+| Selectors       | `@medv/finder` + SiteMark token filters                                                                                          | D-105              |
+| Regex safety    | `@eslint-community/regexpp` (parse + safe-subset check)                                                                          | D-211              |
+| Tests           | Vitest 4 (projects: node / happy-dom / browser mode), RTL, fast-check, Stryker, Playwright                                       | D-233              |
+| Quality         | TS strict+, Biome 2 (lint + format, zones, GritQL plugins), Prettier (Markdown/YAML only), stylelint, knip, commitlint, lefthook | D-234–D-237, D-243 |
+| Release         | Changesets, `wxt zip` / `wxt submit` behind the `store` environment                                                              | D-227, D-228       |
+| Package manager | pnpm 10 (policies in `pnpm-workspace.yaml`), Node 22                                                                             | D-238              |
 
 A library is added by the task that first needs it, never ahead of time.
 
@@ -57,8 +57,8 @@ src/
 ```
 
 **Dependency rule:** `core ← app ← platform | shared | content | ui ← entrypoints`. `content` and
-`ui` never import each other; both use `shared`. This is enforced by `import-x/no-restricted-paths` zones,
-a DOM-free `src/core/tsconfig.json`, and running core tests in `environment: 'node'` (T-011–T-013).
+`ui` never import each other; both use `shared`. This is enforced by Biome `noRestrictedImports` zones
+(per-layer `overrides`, D-243), a DOM-free `src/core/tsconfig.json`, and running core tests in `environment: 'node'` (T-011–T-013).
 
 ## 3. Runtime architecture
 
@@ -222,13 +222,13 @@ every Must REQ of the milestone covered by a passing test, and a pre-release tag
 
 ## 9. Risks
 
-| Risk                                          | Mitigation                                                                     |
-| --------------------------------------------- | ------------------------------------------------------------------------------ |
-| The popup dies during a permission prompt     | Request first, background completes on `onAdded`, grant page fallback (D-229)  |
-| Safari grant/registration behavior differs    | Live `permissions.contains`, re-sync on every start, M9 dedicated milestone    |
-| Generated selectors break after deploys       | Stable-attribute preference, editable selector, "not found" + badge + Re-pick  |
-| Page top layer / fullscreen covers marks      | Re-promotion (D-215) + e2e with dialog and fullscreen                          |
-| Hostile or strict-CSP pages break marks       | REQ-SEC-006/007, hostile-page and CSP e2e fixtures                             |
-| ReDoS                                         | Safe-subset regex, linear glob, caps (D-211, REQ-URL-010)                      |
-| TDD discipline erodes under deadline pressure | verify-tdd CI job, git-derived status (D-210)                                  |
-| Toolchain majors (ESLint 10, Vitest 5, TS 7)  | Dependabot ignores majors until WXT and typescript-eslint support them (T-023) |
+| Risk                                          | Mitigation                                                                                                                       |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| The popup dies during a permission prompt     | Request first, background completes on `onAdded`, grant page fallback (D-229)                                                    |
+| Safari grant/registration behavior differs    | Live `permissions.contains`, re-sync on every start, M9 dedicated milestone                                                      |
+| Generated selectors break after deploys       | Stable-attribute preference, editable selector, "not found" + badge + Re-pick                                                    |
+| Page top layer / fullscreen covers marks      | Re-promotion (D-215) + e2e with dialog and fullscreen                                                                            |
+| Hostile or strict-CSP pages break marks       | REQ-SEC-006/007, hostile-page and CSP e2e fixtures                                                                               |
+| ReDoS                                         | Safe-subset regex, linear glob, caps (D-211, REQ-URL-010)                                                                        |
+| TDD discipline erodes under deadline pressure | verify-tdd CI job, git-derived status (D-210)                                                                                    |
+| Toolchain majors (Biome 3, Vitest 5, TS 7)    | Dependabot ignores majors until WXT supports them. Biome is pinned exactly and bumped in its own PR with `biome migrate` (T-023) |

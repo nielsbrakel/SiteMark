@@ -1,5 +1,5 @@
-import { test as base, chromium, type BrowserContext } from '@playwright/test';
 import path from 'node:path';
+import { type BrowserContext, test as base, chromium } from '@playwright/test';
 
 const extensionPath = path.resolve('.output/chrome-mv3');
 
@@ -9,7 +9,7 @@ const extensionPath = path.resolve('.output/chrome-mv3');
  * Set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium.
  */
 export const test = base.extend<{ context: BrowserContext; extensionId: string }>({
-  // eslint-disable-next-line no-empty-pattern
+  // biome-ignore lint/correctness/noEmptyPattern: Playwright fixtures must destructure their first argument
   context: async ({}, use) => {
     const context = await chromium.launchPersistentContext('', {
       channel: 'chromium',

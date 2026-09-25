@@ -5,15 +5,15 @@
 
 ## Commands
 
-| Command              | What it does                                                           |
-| -------------------- | ---------------------------------------------------------------------- |
-| `pnpm test`          | Vitest projects `core` (node) + `dom` (happy-dom) _(split in T-013)_   |
-| `pnpm test:browser`  | Vitest browser mode in Chromium _(T-013)_                              |
-| `pnpm test:watch`    | Watch mode for the TDD loop                                            |
-| `pnpm test:coverage` | Coverage with per-glob thresholds _(T-013)_                            |
-| `pnpm test:e2e`      | Builds the e2e variant and runs Playwright _(e2e mode: T-015)_         |
-| `pnpm check`         | typecheck + lint + format + unit tests + traceability                  |
-| `pnpm progress`      | Progress per milestone + requirement coverage (`--verbose` lists gaps) |
+| Command              | What it does                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------- |
+| `pnpm test`          | Vitest projects `core` (node) + `dom` (happy-dom) _(split in T-013)_                              |
+| `pnpm test:browser`  | Vitest browser mode in Chromium _(T-013)_                                                         |
+| `pnpm test:watch`    | Watch mode for the TDD loop                                                                       |
+| `pnpm test:coverage` | Coverage with per-glob thresholds _(T-013)_                                                       |
+| `pnpm test:e2e`      | Builds the e2e variant and runs Playwright _(e2e mode: T-015)_                                    |
+| `pnpm check`         | typecheck + lint (Biome) + format (Biome, Prettier for Markdown/YAML) + unit tests + traceability |
+| `pnpm progress`      | Progress per milestone + requirement coverage (`--verbose` lists gaps)                            |
 
 First-time Playwright setup: `pnpm exec playwright install chromium`, or set `PW_CHROMIUM_EXECUTABLE`
 to an existing **Chromium / Chrome for Testing** (branded Chrome ≥ 137 ignores `--load-extension`).

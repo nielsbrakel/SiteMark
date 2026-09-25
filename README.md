@@ -49,10 +49,11 @@ pnpm dev            # Chromium + HMR   (pnpm dev:firefox for Firefox)
 pnpm test:watch     # unit/component tests (TDD loop)
 pnpm test:e2e       # Playwright against the built extension
 pnpm check          # everything CI checks except e2e
+pnpm format         # Biome (code, JSON, CSS) + Prettier (Markdown, YAML)
 pnpm progress       # progress + requirement traceability
 ```
 
-Stack: [WXT](https://wxt.dev) · React 19 · TypeScript · Vitest · Testing Library · Playwright · pnpm.
+Stack: [WXT](https://wxt.dev) · React 19 · TypeScript · Vitest · Testing Library · Playwright · Biome · pnpm.
 
 ## License
 

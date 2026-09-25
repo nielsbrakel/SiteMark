@@ -1,7 +1,7 @@
 // Renders design/logo/*.svg into the PNG toolbar/store icons in public/icon/.
 // Usage: pnpm icons   (set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium)
-import { chromium } from '@playwright/test';
 import { mkdir, readFile } from 'node:fs/promises';
+import { chromium } from '@playwright/test';
 
 const targets = [
   { svg: 'design/logo/sitemark-icon-16.svg', sizes: [16] },
