@@ -12,6 +12,8 @@ export default defineConfig({
   // D-226: closed shadow roots in production; open in dev, test and e2e builds so tests can pierce them.
   vite: ({ mode }) => ({
     define: { __SHADOW_MODE__: JSON.stringify(mode === 'production' ? 'closed' : 'open') },
+    // Every supported browser has native modulepreload; the polyfill would ship a fetch() (REQ-PRIV-005).
+    build: { modulePreload: { polyfill: false } },
   }),
   manifest: ({ browser, mode }) => ({
     name: '__MSG_extName__',

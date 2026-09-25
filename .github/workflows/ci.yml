@@ -45,7 +45,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm wxt zip -b ${{ matrix.browser }}
-      - name: Manifest assertions (REQ-PRIV-001, REQ-SEC-003, REQ-NFR-001)
+      - name: Build assertions (manifest, output scan)
         run: pnpm exec vitest run --project build
         env:
           SITEMARK_TARGETS: ${{ matrix.browser }}
