@@ -312,6 +312,38 @@ const websiteZone: Case[] = [
     rule: null,
   },
   { file: 'website/src/ok5.ts', code: "import '@/styles/base.css';", rule: null },
+  // src/ui/components is shared with the website, so it stays presentational: no extension APIs.
+  {
+    file: 'src/ui/components/w13.ts',
+    code: "export { browser } from 'wxt/browser';",
+    rule: imports,
+  },
+  {
+    file: 'src/ui/components/w14.ts',
+    code: "export { s } from '../../platform/send-message';",
+    rule: imports,
+  },
+  { file: 'src/ui/components/w15.ts', code: "export { a } from '../../app/ports';", rule: imports },
+  {
+    file: 'src/ui/components/w16.ts',
+    code: "export { t } from '../../lib/i18n/browser-source';",
+    rule: imports,
+  },
+  {
+    file: 'src/ui/components/w17.ts',
+    code: "export { u } from '../hooks/use-theme';",
+    rule: imports,
+  },
+  {
+    file: 'src/ui/components/w18.ts',
+    code: "export { a } from '../../content/marker/host';",
+    rule: imports,
+  },
+  {
+    file: 'src/ui/components/ok7.ts',
+    code: "export { autoTextColor } from '../../core/model/color';",
+    rule: null,
+  },
   {
     file: 'website/src/pages/ok6.ts',
     code: "export { m } from '../content/markdown';",
