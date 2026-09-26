@@ -1,21 +1,26 @@
-import { notImplemented } from '../../core/not-implemented';
-import type { DrawnItem, EffectView, PageItemOf, ViewContext } from './effect-view';
+import type { EffectView, ElementItemOf, PageItemOf, ViewContext } from './effect-view';
+import { createBoxRoot, placeBox } from './element-box';
+import { assembleView, createRoot, setOpacity } from './view-dom';
 
 type PageTintItem = PageItemOf<'tint'>;
-type ElementTintItem = Extract<Exclude<DrawnItem, { target: 'page' }>, { effect: 'tint' }>;
+type ElementTintItem = ElementItemOf<'tint'>;
 
 /** A wash of the mark color over the viewport, at 3–15 % (REQ-MARK-004). */
-export function createPageTintView(
-  _item: PageTintItem,
-  _ctx: ViewContext,
-): EffectView<PageTintItem> {
-  return notImplemented();
+export function createPageTintView(item: PageTintItem, ctx: ViewContext): EffectView<PageTintItem> {
+  const root = createRoot(ctx, 'sm-fill sm-tint');
+  return assembleView(item, ctx, root, {
+    render: ({ params }) => setOpacity(root, params.opacityPct, 3, 15),
+  });
 }
 
 /** A wash of the mark color over the target element's box, at 5–40 % (REQ-MARK-004). */
 export function createElementTintView(
-  _item: ElementTintItem,
-  _ctx: ViewContext,
+  item: ElementTintItem,
+  ctx: ViewContext,
 ): EffectView<ElementTintItem> {
-  return notImplemented();
+  const root = createBoxRoot(ctx, 'sm-tint');
+  return assembleView(item, ctx, root, {
+    render: ({ params }) => setOpacity(root, params.opacityPct, 5, 40),
+    setRect: (rect) => placeBox(root, rect),
+  });
 }

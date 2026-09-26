@@ -46,6 +46,11 @@ export function setPx(
   el.style.setProperty(name, `${Math.round(clamp(value, min, max))}px`);
 }
 
+/** Sets the opacity from a percentage, limited to the effect's range (spec §7). */
+export function setOpacity(el: HTMLElement, pct: number, min: number, max: number): void {
+  el.style.setProperty('opacity', String(clamp(pct, min, max) / 100));
+}
+
 /** What a view adds to the shared behaviour of `assembleView`. */
 type ViewParts<I extends DrawnItem> = {
   /** Applies an item's own settings (colors and z are already set). */

@@ -12,6 +12,12 @@ type Effect = DrawnItem['effect'];
 /** A page item of one effect, e.g. `PageItemOf<'banner'>`. */
 export type PageItemOf<E extends Effect> = Extract<DrawnItem, { target: 'page'; effect: E }>;
 
+/** An element item of one effect, e.g. `ElementItemOf<'outline'>`. */
+export type ElementItemOf<E extends Effect> = Extract<
+  Exclude<DrawnItem, { target: 'page' }>,
+  { effect: E }
+>;
+
 /**
  * The target element's box in the container's coordinates (in a tab: the viewport, so a
  * `getBoundingClientRect()` result fits). Non-finite values hide the view.
