@@ -343,5 +343,13 @@
   "popupOpenSettings": {
     "message": "Instellingen openen",
     "description": "Pop-uplink onder een gegevensprobleem (alleen-lezen of onleesbare gegevens) die de pagina Gegevens van de SiteMark-instellingen opent."
+  },
+  "pickerFrameNote": {
+    "message": "markeert het hele frame",
+    "description": "Picker tooltip note when the pointer is over an iframe: the whole frame gets the mark."
+  },
+  "pickerComponentNote": {
+    "message": "markeert het component",
+    "description": "Picker tooltip note when the pointer is over a web component: the component gets the mark."
   }
 }

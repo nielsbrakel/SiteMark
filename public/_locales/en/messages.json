@@ -343,5 +343,13 @@
   "popupOpenSettings": {
     "message": "Open settings",
     "description": "Popup link under a data problem (read-only or unreadable data) that opens the Data page of SiteMark's settings."
+  },
+  "pickerFrameNote": {
+    "message": "marks the whole frame",
+    "description": "Picker tooltip note when the pointer is over an iframe: the whole frame gets the mark."
+  },
+  "pickerComponentNote": {
+    "message": "marks the component",
+    "description": "Picker tooltip note when the pointer is over a web component: the component gets the mark."
   }
 }
