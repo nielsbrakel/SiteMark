@@ -2,8 +2,6 @@
 // near, so the page controls underneath stay visible. Marks never take input (REQ-RND-002), so
 // the pointer is watched on the window, passively, and measured at most once per frame.
 
-import { notImplemented } from '../../core/not-implemented';
-
 const NEAR_PX = 24;
 const FADED_OPACITY = '0.15';
 /** The design's proximity fade: 120 ms with the standard easing, 0 ms under reduced motion. */
@@ -34,8 +32,17 @@ export type ProximityFade = {
  * The nodes of a ribbon or banner view to measure and fade: a ribbon's corner box and small-target
  * dot (a page ribbon's root covers the whole viewport), else the view's root (a banner).
  */
-export function fadeNodesOf(_viewRoot: HTMLElement): HTMLElement[] {
-  return notImplemented();
+export function fadeNodesOf(viewRoot: HTMLElement): HTMLElement[] {
+  const parts = viewRoot.querySelectorAll<HTMLElement>(
+    ':scope > .sm-ribbon, :scope > .sm-ribbon__dot',
+  );
+  return parts.length ? [...parts] : [viewRoot];
+}
+
+/** Back to the view's own opacity, without our transition. */
+function restore(node: HTMLElement): void {
+  node.style.removeProperty('opacity');
+  node.style.removeProperty('transition');
 }
 
 function prefersReducedMotion(): boolean {
@@ -72,6 +79,7 @@ export function createProximityFade(options: ProximityFadeOptions): ProximityFad
   const reducedMotion = options.reducedMotion ?? prefersReducedMotion;
   let pointer: Point | undefined;
   let faded = new Set<HTMLElement>();
+  const added = new Set<HTMLElement>();
   let frame = 0;
 
   const setFaded = (node: HTMLElement, isFaded: boolean) => {
@@ -81,7 +89,7 @@ export function createProximityFade(options: ProximityFadeOptions): ProximityFad
   };
   const check = () => {
     frame = 0;
-    const near = nearNodes(options.elements?.() ?? [], pointer);
+    const near = nearNodes([...(options.elements?.() ?? []), ...added], pointer);
     for (const node of faded) if (!near.has(node)) setFaded(node, false);
     for (const node of near) if (!faded.has(node)) setFaded(node, true);
     faded = near;
@@ -100,16 +108,21 @@ export function createProximityFade(options: ProximityFadeOptions): ProximityFad
   window.addEventListener('pointermove', onMove, { capture: true, passive: true });
   document.addEventListener('pointerout', onOut, { capture: true, passive: true });
   return {
-    add: () => notImplemented(),
+    add(node) {
+      added.add(node);
+      return () => {
+        added.delete(node);
+        faded.delete(node);
+        restore(node);
+      };
+    },
     dispose() {
       window.removeEventListener('pointermove', onMove, { capture: true });
       document.removeEventListener('pointerout', onOut, { capture: true });
       cancelAnimationFrame(frame);
-      for (const node of faded) {
-        node.style.removeProperty('opacity');
-        node.style.removeProperty('transition');
-      }
+      for (const node of faded) restore(node);
       faded.clear();
+      added.clear();
     },
   };
 }
