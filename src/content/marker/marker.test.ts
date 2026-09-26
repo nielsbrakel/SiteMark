@@ -19,9 +19,12 @@ afterEach(() => {
 });
 
 const ribbon = aPageItem('ribbon', { text: 'PROD', corner: 'top-right' }, { key: 'm0:ribbon' });
+const tint = aPageItem('tint', { opacityPct: 10 }, { key: 'm0:tint' });
+
+type Answer = RenderPlan | undefined | Promise<RenderPlan | undefined>;
 
 /** Starts a marker whose background answers `plan`; returns the ports and the tab handlers. */
-async function aMarker(plan: RenderPlan | undefined = emptyPlan()) {
+async function aMarker(plan: Answer = emptyPlan()) {
   const setup = rendererDeps();
   let handlers: TabHandlers | undefined;
   const unlisten = vi.fn();
@@ -118,5 +121,25 @@ describe('REQ-RND-012 a replaced or orphaned marker stops', () => {
     markers.pop()?.dispose();
     expect(unlisten).toHaveBeenCalledOnce();
     expect(hosts.hosts[0]?.isDisposed()).toBe(true);
+  });
+});
+
+describe('REQ-RND-007 plans pushed by the background reach the tab', () => {
+  it('applies every pushed plan with a keyed diff', async () => {
+    const { tab, views } = await aMarker(aPlan(ribbon));
+    tab().applyPlan(aPlan(ribbon, tint));
+    expect(views.views.map((view) => view.item.key)).toEqual(['m0:ribbon', 'm0:tint']);
+  });
+
+  it('ignores the answer to its first request once a newer plan was pushed', async () => {
+    let answer: (plan: RenderPlan) => void = () => undefined;
+    const pending = new Promise<RenderPlan>((resolve) => {
+      answer = resolve;
+    });
+    const { tab, views } = await aMarker(pending);
+    tab().applyPlan(aPlan(tint));
+    answer(aPlan(ribbon));
+    await vi.advanceTimersByTimeAsync(0);
+    expect(views.live().map((view) => view.item.key)).toEqual(['m0:tint']);
   });
 });
