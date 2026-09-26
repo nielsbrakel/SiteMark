@@ -73,6 +73,7 @@ describe('REQ-WEB-001 every internal URL carries the base path and resolves', ()
   it('built the website', () => {
     expect(pages).toContain('index.html');
     expect(pages).toContain('nl/index.html');
+    expect(pages).toContain('404.html');
   });
 
   it.each(pages)('%s: internal URLs start with /SiteMark/', (file) => {
@@ -235,7 +236,8 @@ function scriptGraph(html: string): string[] {
 describe('REQ-WEB-007 every page stays within its budgets', () => {
   it.each(pages)('%s: ≤ 80 KB gzipped JavaScript (React included)', (file) => {
     const scripts = scriptGraph(read(file));
-    expect(scripts.length, file).toBeGreaterThan(0);
+    // Route pages load the client module; 404.html has no islands, so it loads no JavaScript.
+    if (file !== '404.html') expect(scripts.length, file).toBeGreaterThan(0);
     const total = scripts.reduce((sum, script) => sum + gzipped(script), 0);
     expect(total, `${file}: ${scripts.join(', ')}`).toBeLessThanOrEqual(80 * KB);
   });

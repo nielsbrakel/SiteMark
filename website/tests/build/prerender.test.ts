@@ -71,6 +71,14 @@ describe('REQ-WEB-002 every route is prerendered to one static HTML file', () =>
     for (const name of new Set(classes)) expect(css, `${file}: .${name}`).toContain(`.${name}`);
   });
 
+  it('writes the bilingual 404.html that GitHub Pages serves for unknown paths', () => {
+    const html = read('404.html');
+    expect(html).toMatch(/^<!doctype html>/i);
+    expect(html).toContain('<section lang="en"');
+    expect(html).toContain('<section lang="nl"');
+    expect(html).toMatch(/<link rel="stylesheet" href="\/SiteMark\/assets\/[\w-]+\.css"/);
+  });
+
   it('ships no build manifest or server bundle', () => {
     expect(existsSync(path.join(dist, '.vite'))).toBe(false);
     expect(read('index.html')).not.toBe('');

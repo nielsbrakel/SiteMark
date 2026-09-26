@@ -1,4 +1,5 @@
 import { renderToString } from 'react-dom/server';
+import { notImplemented } from '@/core/not-implemented';
 import { Document } from './document/Document';
 import { contentSecurityPolicy, scriptHash } from './head/csp';
 import { pageHead } from './head/page-head';
@@ -72,4 +73,9 @@ export async function renderPages(assets: PageAssets): Promise<RenderedPage[]> {
 /** sitemap.xml for every rendered route (REQ-SEO-003); the prerender step writes it. */
 export function renderSitemap(): string {
   return sitemapXml(sitemapEntries(renderedRoutes()));
+}
+
+/** 404.html (REQ-PAGE-006): one bilingual page that GitHub Pages serves for every unknown path. */
+export function renderNotFound(_assets: PageAssets): Promise<RenderedPage> {
+  return notImplemented();
 }
