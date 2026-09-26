@@ -18,6 +18,14 @@
   "scaffoldNotice": {
     "message": "In aanbouw. Zie docs/tasks.md voor de voortgang."
   },
+  "markerCollapseBanner": {
+    "message": "Banner inklappen",
+    "description": "Toegankelijke naam van de pijlknop op een SiteMark-banner op een webpagina. Klapt de banner in tot een klein tabje."
+  },
+  "markerExpandBanner": {
+    "message": "Banner tonen",
+    "description": "Toegankelijke naam van het kleine tabje dat een ingeklapte SiteMark-banner op een webpagina achterlaat. Toont de volledige banner weer."
+  },
   "siteGroupCount_one": {
     "message": "$COUNT$ sitegroep",
     "description": "Aantal sitegroepen, bijvoorbeeld in de zijbalk van de instellingen.",

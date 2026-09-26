@@ -18,6 +18,14 @@
   "scaffoldNotice": {
     "message": "Under construction. See docs/tasks.md for progress."
   },
+  "markerCollapseBanner": {
+    "message": "Collapse banner",
+    "description": "Accessible name of the chevron button on a SiteMark banner shown on a web page. Collapses the banner to a small tab."
+  },
+  "markerExpandBanner": {
+    "message": "Show banner",
+    "description": "Accessible name of the small tab a collapsed SiteMark banner leaves on a web page. Shows the full banner again."
+  },
   "siteGroupCount_one": {
     "message": "$COUNT$ site group",
     "description": "Number of site groups, e.g. in the settings sidebar.",
