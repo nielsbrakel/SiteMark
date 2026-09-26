@@ -29,6 +29,8 @@ jobs:
           # progress derives task status from the full git history (D-210).
           fetch-depth: 0
       - uses: ./.github/actions/setup
+      # The container runs as another user than the checkout; progress reads git history.
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: pnpm check:ci
       - if: ${{ !cancelled() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
