@@ -65,7 +65,7 @@
     "mutation": "stryker run",
     "icons": "node scripts/render-icons.mjs",
     "check": "pnpm typecheck && pnpm lint && pnpm stylelint && pnpm format:check && pnpm knip && pnpm test && pnpm progress --strict",
-    "check:ci": "pnpm typecheck && biome ci --reporter=github && stylelint 'src/**/*.css' 'website/src/**/*.css' --formatter github && prettier --check '**/*.{md,yml,yaml}' && pnpm knip && pnpm test:coverage && pnpm progress --strict",
+    "check:ci": "pnpm typecheck && biome ci --reporter=github && stylelint 'src/**/*.css' 'website/src/**/*.css' --formatter unix && prettier --check '**/*.{md,yml,yaml}' && pnpm knip && pnpm test:coverage && pnpm progress --strict",
     "progress": "node scripts/progress/cli.ts",
     "verify-tdd": "node scripts/verify-tdd/cli.ts",
     "changeset": "changeset"
