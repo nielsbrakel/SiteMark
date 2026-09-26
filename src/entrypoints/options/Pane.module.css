@@ -1,0 +1,28 @@
+.pane {
+  display: grid;
+  gap: var(--sm-space-4);
+  align-content: start;
+  min-width: 0;
+}
+
+.pane h2 {
+  margin: 0;
+  font-size: var(--sm-text-xl);
+  overflow-wrap: anywhere;
+}
+
+.pane h3 {
+  margin: 0;
+  font-size: var(--sm-text-lg);
+}
+
+.pane p {
+  margin: 0;
+}
+
+.steps {
+  margin: 0;
+  padding-inline-start: var(--sm-space-5);
+  display: grid;
+  gap: var(--sm-space-2);
+}
