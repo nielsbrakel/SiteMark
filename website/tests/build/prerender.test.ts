@@ -21,6 +21,8 @@ const pages = [
     route: 'home',
     h1: 'Verwar productie nooit meer met test',
   },
+  { file: 'privacy/index.html', locale: 'en', route: 'privacy', h1: 'Privacy policy' },
+  { file: 'nl/privacy/index.html', locale: 'nl', route: 'privacy', h1: 'Privacyverklaring' },
 ];
 
 describe('REQ-WEB-002 every route is prerendered to one static HTML file', () => {
@@ -32,7 +34,7 @@ describe('REQ-WEB-002 every route is prerendered to one static HTML file', () =>
 
   it.each(pages)('$file carries its content, so it reads without JavaScript', ({ file, h1 }) => {
     const root = read(file).match(/<div id="root">([\s\S]*)<\/div>/)?.[1] ?? '';
-    expect(root).toContain(`<h1>${h1}</h1>`);
+    expect(root).toMatch(new RegExp(`<h1( [^>]*)?>${h1}</h1>`));
     expect(root).not.toContain('<script');
   });
 
