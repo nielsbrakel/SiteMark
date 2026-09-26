@@ -27,3 +27,8 @@ function base(effect: string, color: string) {
 export function aTitlePrefixItem(text: string): DocumentItem<'titlePrefix'> {
   return { ...base('titlePrefix', '#c93a2e'), effect: 'titlePrefix', params: { text } };
 }
+
+/** A favicon tint item in `color` (red by default; unvalidated, so tests can pass bad values). */
+export function aFaviconItem(color = '#c93a2e'): DocumentItem<'favicon'> {
+  return { ...base('favicon', color), effect: 'favicon', params: {} };
+}
