@@ -1,18 +1,13 @@
 import type { Logger } from '../../app/ports';
 import { notImplemented } from '../../core/not-implemented';
-import type { RenderItem, RenderPlan } from '../../core/render/render-plan';
+import { diffPlan } from '../../core/render/diff-plan';
+import { emptyPlan, type RenderItem, type RenderPlan } from '../../core/render/render-plan';
 import type { FaviconStatus, TabStatus } from '../../core/render/status';
-import type {
-  DrawnItem,
-  EffectView,
-  ViewContext,
-  ViewLabels,
-} from '../../shared/marker-view/effect-view';
-import type { Disposer } from './disposer';
+import { createView } from '../../shared/marker-view/create-view';
+import type { ViewLabels } from '../../shared/marker-view/effect-view';
 import type { Host, HostOptions } from './host';
-
-/** Builds the view of a drawn item (`createView` from src/shared/marker-view in production). */
-export type ViewFactory = (item: RenderItem, ctx: ViewContext) => EffectView | undefined;
+import { openStage, type Stage } from './stage';
+import type { ViewFactory, ViewMountHook } from './view-set';
 
 /** The render items that change the document instead of being drawn (T-090, T-091). */
 export type DocumentItem = Extract<RenderItem, { readonly effect: 'titlePrefix' | 'favicon' }>;
@@ -33,11 +28,8 @@ export type RendererDeps = {
   readonly labels: () => ViewLabels;
   readonly createView?: ViewFactory;
   readonly documentEffects?: DocumentEffects;
-  /**
-   * Called after a view mounted; whatever it registers on `disposer` is removed with the view
-   * (e.g. the proximity fade's listeners, T-093).
-   */
-  readonly onViewMount?: (item: DrawnItem, view: EffectView, disposer: Disposer) => void;
+  /** Called after a view mounted, with a Disposer that goes with the view (e.g. T-093). */
+  readonly onViewMount?: ViewMountHook;
   /** The tab status may have changed (a plan, a resolved element, the hidden state). */
   readonly onStatusChange?: () => void;
   /** The host went away on its own: a newer instance replaced it, or the extension is gone. */
@@ -54,6 +46,48 @@ export type Renderer = {
   dispose(): void;
 };
 
-export function createRenderer(_deps: RendererDeps): Renderer {
-  return notImplemented();
+/**
+ * The marker's renderer (plan §3.3). It does nothing until a plan has items (REQ-RND-009): then
+ * it creates the host, and it removes the host again when the plan empties. Views are keyed by
+ * item and every step of every view is isolated, so one failing effect never takes the others.
+ */
+export function createRenderer(deps: RendererDeps): Renderer {
+  const collapsedBanners = new Set<string>();
+  let plan = emptyPlan();
+  let stage: Stage | undefined;
+  let isDisposed = false;
+
+  const close = () => {
+    stage?.close();
+    stage = undefined;
+  };
+  const lost = () => {
+    stage = undefined;
+    isDisposed = true;
+    deps.onHostLost?.();
+  };
+  const open = (): Stage =>
+    openStage({
+      ...deps,
+      createView: deps.createView ?? createView,
+      collapsedBanners,
+      onLost: lost,
+    });
+
+  return {
+    apply(next) {
+      if (isDisposed) return;
+      const diff = diffPlan(plan, next);
+      plan = next;
+      if (next.items.length === 0) return close();
+      stage ??= open();
+      stage.apply(diff);
+    },
+    setHidden: () => notImplemented(),
+    status: () => notImplemented(),
+    dispose() {
+      isDisposed = true;
+      close();
+    },
+  };
 }

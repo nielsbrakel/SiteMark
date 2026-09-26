@@ -1,7 +1,8 @@
 import { vi } from 'vitest';
 import { createInMemoryLogger } from '../../src/app/testing/in-memory-logger';
 import type { Host, HostOptions } from '../../src/content/marker/host';
-import type { RendererDeps, ViewFactory } from '../../src/content/marker/renderer';
+import type { RendererDeps } from '../../src/content/marker/renderer';
+import type { ViewFactory } from '../../src/content/marker/view-set';
 import type { RenderItem, RenderPlan } from '../../src/core/render/render-plan';
 import type { EffectView, ViewContext, ViewRect } from '../../src/shared/marker-view/effect-view';
 
