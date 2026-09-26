@@ -489,5 +489,75 @@
   "pickerRepickTitle": {
     "message": "Choose the element again",
     "description": "Picker panel title when re-picking the element of an existing mark whose element was not found."
+  },
+  "optionsLoading": {
+    "message": "Loading…",
+    "description": "Options page: shown until the settings are loaded."
+  },
+  "optionsUnavailable": {
+    "message": "SiteMark can't show its settings right now. Reload this page to try again.",
+    "description": "Options page: shown when the settings could not be loaded."
+  },
+  "optionsPages": {
+    "message": "Pages",
+    "description": "Options page: accessible name of the navigation between its pages."
+  },
+  "optionsSiteGroups": {
+    "message": "Site groups",
+    "description": "Options page: the site group list heading and navigation link."
+  },
+  "optionsSettings": {
+    "message": "Settings",
+    "description": "Options page: the Settings page heading and navigation link."
+  },
+  "optionsData": {
+    "message": "Data",
+    "description": "Options page: the Data (export, import, reset) page heading and navigation link."
+  },
+  "optionsNoGroups": {
+    "message": "No site groups yet. Add one to start marking sites.",
+    "description": "Options page: shown in the editor pane when there are no site groups."
+  },
+  "welcomeTitle": {
+    "message": "Welcome to SiteMark",
+    "description": "Welcome tab (opened on install): heading."
+  },
+  "welcomeIntro": {
+    "message": "SiteMark marks the sites you choose, so you always know where you are.",
+    "description": "Welcome tab: introduction."
+  },
+  "welcomeSteps": {
+    "message": "Get started",
+    "description": "Welcome tab: heading of the three getting-started steps."
+  },
+  "welcomeStepOpen": {
+    "message": "Open a site you want to mark.",
+    "description": "Welcome tab: step 1."
+  },
+  "welcomeStepMark": {
+    "message": "Click the SiteMark icon and choose Mark this site.",
+    "description": "Welcome tab: step 2. 'Mark this site' is the popup button's label."
+  },
+  "welcomeStepAllow": {
+    "message": "Allow SiteMark on that site when your browser asks.",
+    "description": "Welcome tab: step 3."
+  },
+  "welcomePin": {
+    "message": "Pin SiteMark: open the puzzle-piece menu in the toolbar and click the pin next to SiteMark.",
+    "description": "Welcome tab: how to pin the extension to the toolbar."
+  },
+  "welcomeShortcut": {
+    "message": "Press $SHORTCUT$ on any page to pick an element to mark.",
+    "description": "Welcome tab: the keyboard shortcut of the element picker.",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Alt+Shift+M"
+      }
+    }
+  },
+  "welcomeShortcutUnset": {
+    "message": "Picking an element has no keyboard shortcut yet. You can set one in your browser's shortcut settings.",
+    "description": "Welcome tab: shown when the element picker has no keyboard shortcut."
   }
 }

@@ -489,5 +489,75 @@
   "pickerRepickTitle": {
     "message": "Kies het element opnieuw",
     "description": "Picker panel title when re-picking the element of an existing mark whose element was not found."
+  },
+  "optionsLoading": {
+    "message": "Laden…",
+    "description": "Options page: shown until the settings are loaded."
+  },
+  "optionsUnavailable": {
+    "message": "SiteMark kan zijn instellingen nu niet tonen. Laad deze pagina opnieuw om het nog eens te proberen.",
+    "description": "Options page: shown when the settings could not be loaded."
+  },
+  "optionsPages": {
+    "message": "Pagina's",
+    "description": "Options page: accessible name of the navigation between its pages."
+  },
+  "optionsSiteGroups": {
+    "message": "Sitegroepen",
+    "description": "Options page: the site group list heading and navigation link."
+  },
+  "optionsSettings": {
+    "message": "Instellingen",
+    "description": "Options page: the Settings page heading and navigation link."
+  },
+  "optionsData": {
+    "message": "Gegevens",
+    "description": "Options page: the Data (export, import, reset) page heading and navigation link."
+  },
+  "optionsNoGroups": {
+    "message": "Nog geen sitegroepen. Voeg er een toe om sites te markeren.",
+    "description": "Options page: shown in the editor pane when there are no site groups."
+  },
+  "welcomeTitle": {
+    "message": "Welkom bij SiteMark",
+    "description": "Welcome tab (opened on install): heading."
+  },
+  "welcomeIntro": {
+    "message": "SiteMark markeert de sites die jij kiest, zodat je altijd weet waar je bent.",
+    "description": "Welcome tab: introduction."
+  },
+  "welcomeSteps": {
+    "message": "Aan de slag",
+    "description": "Welcome tab: heading of the three getting-started steps."
+  },
+  "welcomeStepOpen": {
+    "message": "Open een site die je wilt markeren.",
+    "description": "Welcome tab: step 1."
+  },
+  "welcomeStepMark": {
+    "message": "Klik op het SiteMark-icoon en kies Markeer deze site.",
+    "description": "Welcome tab: step 2. 'Mark this site' is the popup button's label."
+  },
+  "welcomeStepAllow": {
+    "message": "Sta SiteMark toe op die site als je browser erom vraagt.",
+    "description": "Welcome tab: step 3."
+  },
+  "welcomePin": {
+    "message": "Zet SiteMark vast: open het puzzelstukmenu in de werkbalk en klik op de punaise naast SiteMark.",
+    "description": "Welcome tab: how to pin the extension to the toolbar."
+  },
+  "welcomeShortcut": {
+    "message": "Druk op een pagina op $SHORTCUT$ om een element te kiezen dat je wilt markeren.",
+    "description": "Welcome tab: the keyboard shortcut of the element picker.",
+    "placeholders": {
+      "shortcut": {
+        "content": "$1",
+        "example": "Alt+Shift+M"
+      }
+    }
+  },
+  "welcomeShortcutUnset": {
+    "message": "Het kiezen van een element heeft nog geen sneltoets. Je kunt er een instellen in de sneltoetsinstellingen van je browser.",
+    "description": "Welcome tab: shown when the element picker has no keyboard shortcut."
   }
 }
