@@ -19,6 +19,7 @@ describe('REQ-RND-001 a single <sitemark-root> host with a shadow root', () => {
     // Open in test builds (D-226), so element.shadowRoot is visible.
     expect(element.shadowRoot).toBe(host.root.getRootNode());
     expect(host.root.isConnected).toBe(true);
+    expect(host.root.hasAttribute('data-sitemark-root')).toBe(true);
   });
 
   it('covers the viewport without taking pointer events, on top of the page', () => {

@@ -17,6 +17,8 @@ export function buildHostElement(): HostElement {
   const shadow = element.attachShadow({ mode: __SHADOW_MODE__ });
   adoptStyles(shadow, [HOST_CSS]);
   const root = document.createElement('div');
+  // Lets e2e tests find the container through the open shadow root (tests/e2e/marker.ts).
+  root.setAttribute('data-sitemark-root', '');
   shadow.append(root);
   return { element, shadow, root };
 }

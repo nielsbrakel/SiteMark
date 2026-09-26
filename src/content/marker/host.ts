@@ -1,6 +1,7 @@
 import { adoptStyles } from './adopt-styles';
 import { isExtensionAlive } from './extension-alive';
 import { buildHostElement, setPopover } from './host-element';
+import { guardHost } from './host-guard';
 import { claimInstance } from './singleton';
 
 export type HostOptions = {
@@ -23,42 +24,40 @@ export type Host = {
   dispose(): void;
 };
 
-/** How often an idle host checks whether its extension context is still alive. */
-const ORPHAN_CHECK_MS = 1000;
-
 /**
  * Creates the single `<sitemark-root>` host on `document.documentElement` (REQ-RND-001). The node is
- * held in this closure and never looked up in the DOM (REQ-SEC-006). A running instance is disposed
- * first, and the host disposes itself once the extension context is gone (REQ-RND-012).
+ * held in this closure and never looked up in the DOM, and it is re-attached (rate-limited) when the
+ * page removes it (REQ-SEC-006). A running instance is disposed first, and the host disposes itself
+ * once the extension context is gone (REQ-RND-012).
  */
 export function createHost(options: HostOptions = {}): Host {
-  const isAlive = options.isAlive ?? isExtensionAlive;
   const { element, shadow, root } = buildHostElement();
+  let onTop = false;
   let disposed = false;
   const dispose = () => {
     if (disposed) return;
     disposed = true;
-    observer.disconnect();
-    clearInterval(orphanTimer);
+    guard.stop();
     element.remove();
     release();
     options.onDispose?.();
   };
   const release = claimInstance(dispose);
-  const checkAlive = () => {
-    if (!isAlive()) dispose();
+  const guard = guardHost(element, {
+    isAlive: options.isAlive ?? isExtensionAlive,
+    onOrphaned: dispose,
+    onReattached: () => setPopover(element, onTop),
+  });
+  const setOnTop = (open: boolean) => {
+    onTop = open;
+    setPopover(element, open);
   };
-  // A newer instance adding its own host is a mutation too, so an orphan leaves at once.
-  const observer = new MutationObserver(checkAlive);
-  observer.observe(document.documentElement, { childList: true });
-  const orphanTimer = setInterval(checkAlive, ORPHAN_CHECK_MS);
-  document.documentElement.append(element);
 
   return {
     root,
     adoptStyles: (cssTexts) => adoptStyles(shadow, cssTexts),
-    show: () => setPopover(element, true),
-    hide: () => setPopover(element, false),
+    show: () => setOnTop(true),
+    hide: () => setOnTop(false),
     dispose,
   };
 }
