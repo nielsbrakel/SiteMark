@@ -133,6 +133,8 @@ export default defineConfig({
       {
         // WxtVitest's setup module can't load in browser mode, so only the alias is shared.
         resolve: { alias },
+        // Pre-bundled up front: discovering it mid-run makes Vite reload the page and rerun tests.
+        optimizeDeps: { include: ['wxt/browser'] },
         test: {
           ...isolation,
           name: 'browser',
