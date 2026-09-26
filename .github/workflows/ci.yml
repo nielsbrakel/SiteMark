@@ -130,6 +130,8 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup
+      # The container runs as another user than the checkout; let git operate on it.
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       # Unit and component tests of the website run in `check`; this job builds it (as pages.yml
       # deploys it) and tests the built output and the pages in Chromium.
       - run: pnpm web:test:build
