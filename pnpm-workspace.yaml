@@ -1,3 +1,7 @@
+# The extension is the root package; the website (D-244) is a private workspace package.
+packages:
+  - website
+
 # pnpm supply-chain policy (REQ-SEC-009, D-238).
 
 # Fail the install when a dependency wants to run an install script that isn't reviewed below.

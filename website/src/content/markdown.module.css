@@ -1,0 +1,63 @@
+/* Long text: privacy, support, help and changelog (docs/website/design.md §4, Prose). */
+.prose {
+  max-width: var(--smw-prose-max);
+
+  /* Long URLs break instead of widening the page at 320 px (REQ-WEBUX-005). */
+  overflow-wrap: break-word;
+  font-size: var(--sm-text-lg);
+  line-height: var(--smw-prose-line);
+}
+
+.prose :is(h1, h2, h3, h4) {
+  line-height: 1.25;
+  scroll-margin-top: var(--sm-space-4);
+}
+
+.prose h1 {
+  font-size: var(--smw-text-2xl);
+}
+
+.prose h2 {
+  margin-top: var(--sm-space-6);
+  font-size: var(--sm-text-xl);
+}
+
+.prose a {
+  color: var(--sm-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose code {
+  padding: 0 var(--sm-space-1);
+  border-radius: var(--sm-radius-sm);
+  box-shadow: var(--sm-inset);
+  font-family: var(--sm-font-mono);
+  font-size: 0.9em;
+}
+
+.prose pre {
+  overflow-x: auto;
+  padding: var(--sm-space-3);
+  border-radius: var(--sm-radius-md);
+  box-shadow: var(--sm-inset);
+}
+
+.prose pre code {
+  padding: 0;
+  box-shadow: none;
+}
+
+.prose table {
+  border-collapse: collapse;
+  font-size: var(--sm-text-md);
+}
+
+/* Cells wrap anywhere, so a table fits a 320 px screen without scrolling (REQ-WEBUX-005). */
+.prose :is(th, td) {
+  overflow-wrap: anywhere;
+  padding: var(--sm-space-2) var(--sm-space-3);
+  border: 1px solid var(--sm-border);
+  text-align: start;
+  vertical-align: top;
+}

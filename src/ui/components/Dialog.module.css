@@ -1,0 +1,47 @@
+.dialog {
+  width: min(480px, calc(100vw - 2 * var(--sm-space-4)));
+  max-height: calc(100vh - 2 * var(--sm-space-4));
+  padding: var(--sm-space-5);
+  border: 1px solid transparent;
+  border-top-color: var(--sm-edge);
+  border-left-color: var(--sm-edge);
+  border-radius: var(--sm-radius-lg);
+  background: var(--sm-surface);
+  color: var(--sm-text);
+  box-shadow: var(--sm-raised);
+}
+
+.dialog[open] {
+  display: grid;
+  gap: var(--sm-space-4);
+  animation: rise var(--sm-duration) var(--sm-ease);
+}
+
+.dialog::backdrop {
+  background: var(--sm-scrim);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--sm-text-lg);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--sm-space-2);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (forced-colors: active) {
+  .dialog {
+    border-color: CanvasText;
+  }
+}

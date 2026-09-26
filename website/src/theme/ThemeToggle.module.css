@@ -1,0 +1,54 @@
+/* A segmented control (docs/website/design.md §4): one pressed option at a time. */
+.toggle {
+  display: flex;
+  gap: 2px;
+  min-inline-size: auto;
+  margin: 0;
+  padding: var(--sm-space-1);
+  border: 1px solid transparent;
+  border-radius: var(--sm-radius-md);
+  box-shadow: var(--sm-raised-sm);
+}
+
+/* Without JavaScript the toggle can't work: the bootstrap sets data-js, and the OS decides. */
+:global(:root:not([data-js])) .toggle {
+  display: none;
+}
+
+.option {
+  min-height: 28px;
+  padding: 0 var(--sm-space-2);
+  border: 0;
+  border-radius: var(--sm-radius-sm);
+  background: transparent;
+  color: var(--sm-text-muted);
+  font: inherit;
+  font-size: var(--sm-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow var(--sm-duration) var(--sm-ease);
+  appearance: none;
+}
+
+.option:hover {
+  color: var(--sm-text);
+}
+
+/* Pressed, and underlined so the state isn't shown by shadow alone. */
+.option[aria-pressed='true'] {
+  color: var(--sm-text);
+  box-shadow: var(--sm-pressed);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (forced-colors: active) {
+  .toggle {
+    border-color: ButtonBorder;
+  }
+
+  .option[aria-pressed='true'] {
+    background: Highlight;
+    color: HighlightText;
+  }
+}

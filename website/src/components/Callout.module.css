@@ -1,0 +1,35 @@
+/* A note or warning box (docs/website/design.md §4): icon + title + text, never color alone. */
+.callout {
+  display: flex;
+  gap: var(--sm-space-3);
+  margin-block: var(--sm-space-5);
+  padding: var(--sm-space-4);
+  border: 1px solid var(--sm-border);
+  border-inline-start: 4px solid var(--sm-warning);
+  border-radius: var(--sm-radius-md);
+  background: var(--sm-surface);
+}
+
+.icon {
+  flex: none;
+  color: var(--sm-warning);
+}
+
+.title {
+  margin: 0 0 var(--sm-space-2);
+  font-weight: 700;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+@media (forced-colors: active) {
+  .callout {
+    border-color: CanvasText;
+  }
+
+  .icon {
+    color: CanvasText;
+  }
+}

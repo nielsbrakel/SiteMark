@@ -38,6 +38,18 @@ describe.each(targets())('%s production manifest', (target) => {
     });
   });
 
+  describe('REQ-CMD-001 REQ-CMD-002 keyboard commands', () => {
+    it('suggests Alt+Shift+M for start-picker and leaves toggle-hide without a key (D-208)', () => {
+      expect(manifest.commands).toEqual({
+        'start-picker': {
+          suggested_key: { default: 'Alt+Shift+M' },
+          description: '__MSG_commandStartPicker__',
+        },
+        'toggle-hide': { description: '__MSG_commandToggleHide__' },
+      });
+    });
+  });
+
   describe('REQ-NFR-001 browser floors', () => {
     it('is MV3 with the declared minimum version', () => {
       expect(manifest.manifest_version).toBe(3);

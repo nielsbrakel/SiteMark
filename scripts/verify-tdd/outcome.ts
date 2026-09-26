@@ -19,7 +19,11 @@ type PlaywrightSuite = {
   suites?: PlaywrightSuite[];
 };
 
-const firstLine = (message: string) => message.split('\n')[0] ?? '';
+// biome-ignore lint/suspicious/noControlCharactersInRegex: matches terminal color codes (ESC [ … m)
+const ANSI_COLOR = /\u001b\[[0-9;]*m/g;
+
+/** The first line, without terminal colors (Playwright keeps them in its JSON report). */
+const firstLine = (message: string) => message.replace(ANSI_COLOR, '').split('\n')[0] ?? '';
 
 type VitestFile = NonNullable<VitestReport['testResults']>[number];
 

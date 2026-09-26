@@ -52,7 +52,8 @@
 
 - No `host_permissions`, static `content_scripts`, web-accessible resources, network calls, remote fonts or
   scripts, `eval` / `new Function`, or `storage.sync`.
-- Only the background registers `runtime.onMessage` and writes storage. Other contexts send commands or intents.
+- Only the background handles requests on `runtime.onMessage` and writes storage. Other contexts send commands or
+  intents; content scripts listen only for the background's pushes (`platform/listen-in-tab.ts`).
 - Treat every page and every content script as hostile ([SECURITY.md](../SECURITY.md)).
 
 ## Commits

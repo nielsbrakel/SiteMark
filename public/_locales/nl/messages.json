@@ -9,6 +9,10 @@
   "commandStartPicker": {
     "message": "Kies een element op deze pagina om te markeren"
   },
+  "commandToggleHide": {
+    "message": "Markeringen op dit tabblad tonen of verbergen",
+    "description": "Keyboard shortcut description in the browser's shortcut settings (toggle-hide command)."
+  },
   "popupTitle": {
     "message": "SiteMark"
   },
@@ -17,6 +21,14 @@
   },
   "scaffoldNotice": {
     "message": "In aanbouw. Zie docs/tasks.md voor de voortgang."
+  },
+  "markerCollapseBanner": {
+    "message": "Banner inklappen",
+    "description": "Toegankelijke naam van de pijlknop op een SiteMark-banner op een webpagina. Klapt de banner in tot een klein tabje."
+  },
+  "markerExpandBanner": {
+    "message": "Banner tonen",
+    "description": "Toegankelijke naam van het kleine tabje dat een ingeklapte SiteMark-banner op een webpagina achterlaat. Toont de volledige banner weer."
   },
   "siteGroupCount_one": {
     "message": "$COUNT$ sitegroep",
@@ -37,5 +49,177 @@
         "example": "3"
       }
     }
+  },
+  "errorPatternEmpty": {
+    "message": "Voer een URL-patroon in.",
+    "description": "Fout in URL-patroon: het patroon is leeg."
+  },
+  "errorPatternTooLong": {
+    "message": "Een patroon mag maximaal 500 tekens lang zijn.",
+    "description": "Fout in URL-patroon: het patroon is te lang."
+  },
+  "errorPatternTooManyWildcards": {
+    "message": "Een patroon mag maximaal 10 jokertekens (*) bevatten.",
+    "description": "Fout in URL-patroon: te veel *-tekens."
+  },
+  "errorPatternInvalidScheme": {
+    "message": "Gebruik http, https of * als schema.",
+    "description": "Fout in URL-patroon: het deel vóór :// is niet toegestaan."
+  },
+  "errorPatternWildcardInHost": {
+    "message": "Een jokerteken is alleen toegestaan aan het begin van de host.",
+    "description": "Fout in URL-patroon: er staat een * midden in de hostnaam."
+  },
+  "errorPatternInvalidHost": {
+    "message": "Voer een geldige hostnaam in, zoals example.com.",
+    "description": "Fout in URL-patroon: de hostnaam is ongeldig."
+  },
+  "errorPatternInvalidPort": {
+    "message": "Voer een geldig poortnummer in, zoals 8080.",
+    "description": "Fout in URL-patroon: de poort is geen geldig getal."
+  },
+  "errorPatternInvalidIpv6": {
+    "message": "Voer een geldig IPv6-adres tussen haken in, zoals [::1].",
+    "description": "Fout in URL-patroon: het IPv6-adres is ongeldig."
+  },
+  "errorPatternTooBroad": {
+    "message": "Dit patroon past op te veel sites. Gebruik een specifiek domein, zoals *.example.com.",
+    "description": "Fout in URL-patroon: het patroon omvat alle sites of een heel publiek achtervoegsel zoals *.co.uk."
+  },
+  "errorUrlTooLong": {
+    "message": "Deze URL is te lang om te controleren (meer dan 2048 tekens).",
+    "description": "Getoond als een te testen URL langer is dan 2048 tekens."
+  },
+  "errorRegexInvalid": {
+    "message": "Deze reguliere expressie is ongeldig.",
+    "description": "Fout in regex-patroon: de expressie is niet te lezen."
+  },
+  "errorRegexUnsafe": {
+    "message": "Niet toegestaan: terugverwijzingen, lookarounds, geneste kwantoren, (a|b) binnen een herhaling, of herhalingen die dezelfde tekst kunnen matchen (begin met ^ of gebruik een smallere klasse zoals [^/]+).",
+    "description": "Fout in regex-patroon: de expressie gebruikt iets waardoor matchen traag kan worden."
+  },
+  "errorRegexTooLong": {
+    "message": "Een reguliere expressie mag maximaal 500 tekens lang zijn.",
+    "description": "Fout in regex-patroon: de expressie is te lang."
+  },
+  "errorRegexNeedsOrigin": {
+    "message": "Voeg minstens één origin toe voor deze reguliere expressie, zoals *://example.com/*.",
+    "description": "Fout in regex-patroon: een regex heeft de sites (origins) nodig waarop hij mag draaien."
+  },
+  "errorRegexTooManyOrigins": {
+    "message": "Een reguliere expressie mag maximaal 20 origins hebben.",
+    "description": "Fout in regex-patroon: te veel origins."
+  },
+  "errorImportInvalidJson": {
+    "message": "Dit bestand bevat geen geldige JSON.",
+    "description": "Importfout: het bestand is niet als JSON te lezen."
+  },
+  "errorImportTooDeep": {
+    "message": "Dit bestand is te diep genest voor een SiteMark-export.",
+    "description": "Importfout: de JSON is te diep genest."
+  },
+  "errorImportTooLarge": {
+    "message": "Dit bestand is te groot om te importeren.",
+    "description": "Importfout: het bestand is groter dan de limiet."
+  },
+  "errorImportSchemaInvalid": {
+    "message": "Dit bestand is geen geldige SiteMark-export.",
+    "description": "Importfout: de JSON heeft niet het exportformaat van SiteMark."
+  },
+  "errorImportPatternInvalid": {
+    "message": "Dit bestand bevat een URL-patroon dat SiteMark niet accepteert, bijvoorbeeld een dat op te veel sites past.",
+    "description": "Importfout: een URL-patroon of uitzondering in het bestand is ongeldig, onveilig of te breed. De UI toont elk patroon met een eigen foutmelding."
+  },
+  "errorImportUnsupportedVersion": {
+    "message": "Dit bestand komt van een nieuwere of onbekende versie van SiteMark. Werk SiteMark bij en probeer het opnieuw.",
+    "description": "Importfout: de export heeft een schemaversie die deze versie niet kan lezen."
+  },
+  "errorStateReadOnly": {
+    "message": "Je gegevens komen van een nieuwere versie van SiteMark. Wijzigen is daarom uitgeschakeld, zodat er niets verloren gaat.",
+    "description": "Getoond als een wijziging wordt geweigerd omdat de opgeslagen gegevens alleen-lezen zijn."
+  },
+  "errorStateUnreadable": {
+    "message": "Je opgeslagen SiteMark-gegevens konden niet worden gelezen, dus SiteMark is gestart met de standaardinstellingen. Er is een back-up van de oude gegevens bewaard.",
+    "description": "Getoond op de optiepagina als de opgeslagen gegevens beschadigd zijn en door de standaardinstellingen zijn vervangen."
+  },
+  "errorStorageFailed": {
+    "message": "SiteMark kon je wijziging niet opslaan. Mogelijk is de opslag van je browser vol.",
+    "description": "Getoond als een wijziging niet is opgeslagen omdat de browser de gegevens niet kon wegschrijven, bijvoorbeeld omdat de opslag vol is."
+  },
+  "errorSiteGroupNeedsPattern": {
+    "message": "Voeg een URL-patroon toe voordat je deze sitegroep aanzet.",
+    "description": "Fout in sitegroep: een ingeschakelde sitegroep heeft minstens één URL-patroon nodig."
+  },
+  "errorSiteGroupNameInvalid": {
+    "message": "Vul een naam van 1 tot 40 tekens in.",
+    "description": "Fout in sitegroep: de naam van de sitegroep is leeg of langer dan 40 tekens."
+  },
+  "errorSiteGroupLimitReached": {
+    "message": "Je kunt maximaal 200 sitegroepen hebben.",
+    "description": "Fout in sitegroep: het maximale aantal sitegroepen is bereikt."
+  },
+  "errorPatternLimitReached": {
+    "message": "Een sitegroep kan maximaal 50 URL-patronen hebben.",
+    "description": "Fout in sitegroep: het maximale aantal URL-patronen is bereikt."
+  },
+  "errorExcludeLimitReached": {
+    "message": "Een sitegroep kan maximaal 50 uitsluitpatronen hebben.",
+    "description": "Fout in sitegroep: het maximale aantal uitsluitpatronen is bereikt."
+  },
+  "errorMarkLimitReached": {
+    "message": "Een sitegroep kan maximaal 50 markeringen hebben.",
+    "description": "Fout in sitegroep: het maximale aantal markeringen is bereikt."
+  },
+  "errorSiteGroupNotFound": {
+    "message": "Deze sitegroep bestaat niet meer.",
+    "description": "Fout in sitegroep: de sitegroep is verwijderd, bijvoorbeeld in een ander venster."
+  },
+  "errorPatternNotFound": {
+    "message": "Dit patroon bestaat niet meer.",
+    "description": "Fout in sitegroep: het URL- of uitsluitpatroon is verwijderd, bijvoorbeeld in een ander venster."
+  },
+  "errorMarkNotFound": {
+    "message": "Deze markering bestaat niet meer.",
+    "description": "Fout in sitegroep: de markering is verwijderd, bijvoorbeeld in een ander venster."
+  },
+  "errorMarkInvalid": {
+    "message": "Deze markering heeft instellingen die SiteMark niet kan opslaan. Controleer de effecten, kleuren en selector.",
+    "description": "Fout in sitegroep: een markering is ongeldig (bijvoorbeeld geen effect, een lege selector of een ongeldige kleur)."
+  },
+  "errorCommandProducedInvalidState": {
+    "message": "Er ging iets mis, dus je wijziging is niet opgeslagen. Probeer het opnieuw.",
+    "description": "Opdrachtfout: de wijziging zou ongeldige gegevens opleveren (een fout in SiteMark), dus er is niets opgeslagen."
+  },
+  "grantTitle": {
+    "message": "SiteMark toestaan op deze sites",
+    "description": "Kop van de toestemmingspagina, die om toegang tot de genoemde sites vraagt."
+  },
+  "grantExplanation": {
+    "message": "SiteMark heeft toegang tot deze sites nodig om je markeringen bij elk bezoek te tonen.",
+    "description": "Toestemmingspagina: waarom SiteMark om toegang vraagt."
+  },
+  "grantSites": {
+    "message": "Sites",
+    "description": "Toestemmingspagina: toegankelijke naam van de lijst met sites waarvoor SiteMark toegang vraagt."
+  },
+  "grantAllow": {
+    "message": "Toestaan",
+    "description": "Knop op de toestemmingspagina die de toestemmingsvraag van de browser opent."
+  },
+  "grantGranted": {
+    "message": "Toegang verleend. Je kunt dit tabblad sluiten.",
+    "description": "Toestemmingspagina: getoond nadat de gebruiker toegang heeft gegeven."
+  },
+  "grantDenied": {
+    "message": "Toegang is niet verleend. Je markeringen verschijnen pas op deze sites als je het toestaat.",
+    "description": "Toestemmingspagina: getoond nadat de gebruiker de toestemmingsvraag heeft geweigerd."
+  },
+  "grantFailed": {
+    "message": "SiteMark kon niet om toegang vragen. Probeer het opnieuw.",
+    "description": "Toestemmingspagina: getoond als de browser de toestemmingsvraag niet kon tonen."
+  },
+  "grantInvalid": {
+    "message": "Deze link bevat geen geldige site. Open hem opnieuw vanuit SiteMark.",
+    "description": "Toestemmingspagina: getoond als de pagina met een kapotte of gewijzigde link is geopend."
   }
 }

@@ -6,7 +6,7 @@ pre-commit:
       glob: '*.{js,mjs,ts,tsx,json,css}'
       run: pnpm exec biome check --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
     stylelint:
-      glob: 'src/**/*.css'
+      glob: '{src,website/src}/**/*.css'
       run: pnpm exec stylelint {staged_files}
     prettier:
       glob: '*.{md,yml,yaml}'

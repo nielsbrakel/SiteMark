@@ -1,0 +1,50 @@
+/* A prose page (docs/website/design.md §3): one column at the reading measure. */
+.page {
+  max-width: var(--smw-prose-max);
+  font-size: var(--sm-text-lg);
+  line-height: var(--smw-prose-line);
+}
+
+.page h1 {
+  font-size: var(--smw-text-2xl);
+  line-height: 1.25;
+}
+
+.page h2 {
+  margin-top: var(--sm-space-6);
+  font-size: var(--sm-text-xl);
+  line-height: 1.25;
+}
+
+.page h3 {
+  margin-bottom: var(--sm-space-1);
+  font-size: var(--sm-text-lg);
+}
+
+.page a {
+  color: var(--sm-accent-text);
+  text-underline-offset: 2px;
+}
+
+.lead {
+  color: var(--sm-text-muted);
+}
+
+.routes {
+  display: grid;
+  gap: var(--sm-space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.route p {
+  margin: var(--sm-space-1) 0 0;
+}
+
+.routeLink {
+  font-weight: 700;
+}
+
+.question p {
+  margin-top: 0;
+}

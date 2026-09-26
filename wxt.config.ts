@@ -18,6 +18,8 @@ export default defineConfig({
   manifest: ({ browser, mode }) => ({
     name: '__MSG_extName__',
     short_name: 'SiteMark',
+    // The website (D-256): the stores and the browser's extension page link it.
+    homepage_url: 'https://nielsbrakel.github.io/SiteMark/',
     description: '__MSG_extDescription__',
     default_locale: 'en',
     // Privacy by default: no host access at install time. Origins are
@@ -39,6 +41,8 @@ export default defineConfig({
         suggested_key: { default: 'Alt+Shift+M' },
         description: '__MSG_commandStartPicker__',
       },
+      // D-208: no default key; the user assigns one in the browser's shortcut settings.
+      'toggle-hide': { description: '__MSG_commandToggleHide__' },
     },
     // Browser floors (REQ-NFR-001).
     ...(browser === 'chrome' && { minimum_chrome_version: '120' }),

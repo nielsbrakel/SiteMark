@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
@@ -23,6 +23,23 @@ describe('REQ-THEME-002 global CSS is limited to tokens, base primitives and pag
     const global = cssFiles.filter((file) => !file.endsWith('.module.css'));
     const allowed = /^src\/styles\/(tokens|base)\.css$|^src\/entrypoints\/[\w-]+\/[\w-]+\.css$/;
     expect(global.filter((file) => !allowed.test(file))).toEqual([]);
+  });
+});
+
+const components = readdirSync('src/ui/components').filter((file) => /^[A-Z]\w*\.tsx$/.test(file));
+
+describe('REQ-A11Y-007 REQ-A11Y-003 every UI kit component keeps focus and forced colors (T-113)', () => {
+  const moduleOf = (component: string) =>
+    path.join('src/ui/components', component.replace(/\.tsx$/, '.module.css'));
+
+  it.each(components)('%s has a CSS Module with a forced-colors block', (component) => {
+    const css = existsSync(moduleOf(component)) ? readFileSync(moduleOf(component), 'utf8') : '';
+    expect(forcedColorsBlock(css), moduleOf(component)).not.toBe('');
+  });
+
+  it.each(components)('%s never removes the focus outline', (component) => {
+    const css = existsSync(moduleOf(component)) ? readFileSync(moduleOf(component), 'utf8') : '';
+    expect(css).not.toMatch(/outline(-style)?:\s*(none|0)\b/);
   });
 });
 

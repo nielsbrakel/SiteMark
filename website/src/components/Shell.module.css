@@ -1,0 +1,32 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Off-screen until it gets keyboard focus (REQ-WEBUX-005). */
+.skip {
+  position: absolute;
+  top: var(--sm-space-2);
+  left: var(--sm-space-4);
+  z-index: 1;
+  padding: var(--sm-space-2) var(--sm-space-4);
+  border-radius: var(--sm-radius-md);
+  background: var(--sm-surface);
+  color: var(--sm-text);
+  box-shadow: var(--sm-raised-sm);
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+
+.skip:focus {
+  transform: none;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--smw-page-max);
+  margin-inline: auto;
+  padding: var(--sm-space-6) var(--smw-gutter);
+}

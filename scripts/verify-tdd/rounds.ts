@@ -55,7 +55,11 @@ const INFRA = [
   /\.md$/,
   /^public\/_locales\//,
   /^(package\.json|pnpm-lock\.yaml|pnpm-workspace\.yaml|vitest\.config\.ts|playwright\.config\.ts)$/,
+  /^website\/playwright\.config\.ts$/,
   /(^|\/)tsconfig\.json$/,
+  // The website workspace (D-244) follows the same protocol.
+  /^website\/(tests|locales)\//,
+  /^website\/package\.json$/,
 ];
 
 /** Files a red commit may not touch: anything but tests, typed stubs and test infrastructure. */
@@ -63,10 +67,14 @@ export function redScopeViolations(red: Commit, isStub: (file: string) => boolea
   return red.files.filter((file) => !INFRA.some((pattern) => pattern.test(file)) && !isStub(file));
 }
 
-export function testFilesOf(red: Commit): { vitest: string[]; playwright: string[] } {
+export type TestFiles = { vitest: string[]; playwright: string[]; websitePlaywright: string[] };
+
+/** The test files a red commit adds or changes, by runner (the website e2e has its own config). */
+export function testFilesOf(red: Commit): TestFiles {
   const tests = red.files.filter((file) => TEST_FILE.test(file));
   return {
     vitest: tests.filter((file) => /\.test\.[cm]?[jt]sx?$/.test(file)),
     playwright: tests.filter((file) => /^tests\/e2e\/.*\.spec\.ts$/.test(file)),
+    websitePlaywright: tests.filter((file) => /^website\/tests\/e2e\/.*\.spec\.ts$/.test(file)),
   };
 }

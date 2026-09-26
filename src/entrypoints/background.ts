@@ -1,7 +1,8 @@
 import { defineBackground } from 'wxt/utils/define-background';
+import { startBackground } from '../platform/background-wiring';
 
-// Service worker (Chromium/Safari) / event page (Firefox).
-// Planned responsibilities (docs/plan.md §3.2): permission requests, dynamic
-// content-script registration per granted origin, `start-picker` command,
-// per-tab "hide marks" state.
-export default defineBackground(() => {});
+// Service worker (Chromium/Safari) / event page (Firefox). A composition root only: the wiring is
+// src/platform/background-wiring.ts, the behaviour src/app/background-app.ts (docs/plan.md §3).
+export default defineBackground(() => {
+  startBackground();
+});

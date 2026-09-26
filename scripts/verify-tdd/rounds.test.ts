@@ -62,6 +62,26 @@ describe('REQ-NFR-004 a red commit only adds tests, typed stubs and test infrast
     expect(redScopeViolations(red, isStub)).toEqual([]);
   });
 
+  it('treats the website workspace like the root: its tests, locales and package file', () => {
+    const red = commit('r', 'test(T-206): red — x', [
+      'website/src/i18n/catalog-source.test.ts',
+      'website/tests/build/prerender.test.ts',
+      'website/tests/unit/setup.ts',
+      'website/locales/en/messages.json',
+      'website/package.json',
+      'website/tsconfig.json',
+    ]);
+    expect(redScopeViolations(red, isStub)).toEqual([]);
+    const production = commit('r', 'test(T-206): red — x', [
+      'website/src/i18n/catalog-source.ts',
+      'website/vite.config.ts',
+    ]);
+    expect(redScopeViolations(production, isStub)).toEqual([
+      'website/src/i18n/catalog-source.ts',
+      'website/vite.config.ts',
+    ]);
+  });
+
   it('rejects production code that is not a stub', () => {
     const red = commit('r', 'test(T-032): red — x', ['src/core/url/glob.ts', 'wxt.config.ts']);
     expect(redScopeViolations(red, isStub)).toEqual(['src/core/url/glob.ts', 'wxt.config.ts']);
@@ -77,6 +97,22 @@ describe('REQ-NFR-004 a red commit only adds tests, typed stubs and test infrast
     expect(testFilesOf(red)).toEqual({
       vitest: ['src/core/url/parse.test.ts', 'tests/browser/layout.browser.test.ts'],
       playwright: ['tests/e2e/popup.spec.ts'],
+      websitePlaywright: [],
     });
+  });
+
+  it('runs website e2e specs with the website Playwright config (T-218)', () => {
+    const red = commit('r', 'test(T-218): red — x', [
+      'website/tests/e2e/navigation.spec.ts',
+      'website/tests/e2e/fixtures.ts',
+      'website/playwright.config.ts',
+      'website/src/pages/HomePage.test.tsx',
+    ]);
+    expect(testFilesOf(red)).toEqual({
+      vitest: ['website/src/pages/HomePage.test.tsx'],
+      playwright: [],
+      websitePlaywright: ['website/tests/e2e/navigation.spec.ts'],
+    });
+    expect(redScopeViolations(red, () => false)).toEqual([]);
   });
 });

@@ -1,0 +1,82 @@
+/* The hero mock browser (docs/website/design.md §3): quiet chrome, loud marks. */
+.hero {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  border-radius: var(--sm-radius-lg);
+  box-shadow: var(--sm-raised);
+  font-family: var(--sm-font);
+}
+
+.window {
+  fill: var(--sm-surface);
+  stroke: var(--sm-control-border);
+}
+
+.tab,
+.button {
+  fill: var(--sm-bg);
+  stroke: var(--sm-control-border);
+}
+
+.address,
+.skeleton {
+  fill: var(--sm-border);
+}
+
+.tabText,
+.buttonText {
+  fill: var(--sm-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.buttonText {
+  text-anchor: middle;
+}
+
+.addressText {
+  fill: var(--sm-text-muted);
+  font-size: 12px;
+}
+
+/* Marks look the same in both themes, as they do on real pages. */
+.mark {
+  fill: var(--sm-mark-red);
+}
+
+.frame,
+.outline {
+  fill: none;
+  stroke: var(--sm-mark-red);
+  stroke-width: 4;
+}
+
+.outline {
+  stroke-width: 3;
+}
+
+.markText {
+  fill: var(--sm-on-accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-anchor: middle;
+  text-transform: uppercase;
+}
+
+@media (forced-colors: active) {
+  .mark {
+    fill: CanvasText;
+  }
+
+  .frame,
+  .outline {
+    stroke: CanvasText;
+  }
+
+  .markText {
+    fill: Canvas;
+  }
+}

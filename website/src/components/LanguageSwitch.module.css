@@ -1,0 +1,42 @@
+.list {
+  display: flex;
+  gap: var(--sm-space-1);
+  margin: 0;
+  padding: var(--sm-space-1);
+  border: 1px solid transparent;
+  border-radius: var(--sm-radius-md);
+  box-shadow: var(--sm-raised-sm);
+  list-style: none;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 28px;
+  padding: 0 var(--sm-space-2);
+  border-radius: var(--sm-radius-sm);
+  color: var(--sm-text-muted);
+  font-size: var(--sm-text-sm);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--sm-text);
+}
+
+/* The current language: pressed, and underlined so the state isn't shown by shadow alone. */
+.link[aria-current='page'] {
+  color: var(--sm-text);
+  box-shadow: var(--sm-pressed);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (forced-colors: active) {
+  .list {
+    border-color: ButtonBorder;
+  }
+}

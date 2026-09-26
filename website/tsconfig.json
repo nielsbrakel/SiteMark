@@ -1,0 +1,10 @@
+{
+  // The website (D-244) uses the root strict config. Extension code is reached through the `@/` alias
+  // that the root config inherits from WXT, and only the layers D-246 allows (Biome enforces it).
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "vite/client"]
+  },
+  "include": ["src", "scripts", "tests", "*.config.ts"],
+  "exclude": ["dist"]
+}

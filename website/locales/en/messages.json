@@ -1,0 +1,352 @@
+{
+  "websiteHomeTitle": {
+    "message": "SiteMark: never confuse production with test again",
+    "description": "Browser tab title of the website home page. At most 60 characters."
+  },
+  "websiteHomeHeading": {
+    "message": "Never confuse production with test again",
+    "description": "Main heading (h1) of the website home page."
+  },
+  "websiteHomeLead": {
+    "message": "SiteMark is a browser extension that marks the websites you choose with ribbons, banners and outlines, so you always know where you are.",
+    "description": "One-sentence value proposition below the home page heading."
+  },
+  "websiteSkipToContent": {
+    "message": "Skip to content",
+    "description": "Skip link, the first thing keyboard users reach on every page. Jumps to the main content."
+  },
+  "websiteHeaderHome": {
+    "message": "SiteMark home",
+    "description": "Text alternative of the SiteMark wordmark in the header, which links to the home page."
+  },
+  "websiteNavLabel": {
+    "message": "Main",
+    "description": "Accessible name of the header navigation (screen readers announce it as a navigation landmark)."
+  },
+  "websiteNavHome": {
+    "message": "Home",
+    "description": "Link to the home page."
+  },
+  "websiteNavHelp": {
+    "message": "Help",
+    "description": "Navigation link to the help pages."
+  },
+  "websiteNavPlayground": {
+    "message": "Playground",
+    "description": "Navigation link to the playground, where visitors try marks in the browser."
+  },
+  "websiteNavSupport": {
+    "message": "Support",
+    "description": "Navigation link to the support and contact page."
+  },
+  "websiteNavPrivacy": {
+    "message": "Privacy",
+    "description": "Navigation link to the privacy policy."
+  },
+  "websiteNavChangelog": {
+    "message": "Changelog",
+    "description": "Footer link to the changelog (the list of changes per release)."
+  },
+  "websiteLanguageLabel": {
+    "message": "Language",
+    "description": "Accessible name of the language switch (EN / NL)."
+  },
+  "websiteLanguageNameEn": {
+    "message": "English",
+    "description": "Name of the English version in the language switch. Always written in English itself."
+  },
+  "websiteLanguageNameNl": {
+    "message": "Nederlands",
+    "description": "Name of the Dutch version in the language switch. Always written in Dutch itself."
+  },
+  "websiteFooterLabel": {
+    "message": "Footer",
+    "description": "Accessible name of the link list in the page footer."
+  },
+  "websiteFooterGitHub": {
+    "message": "GitHub",
+    "description": "Footer link to the SiteMark repository on GitHub."
+  },
+  "websiteFooterSitemap": {
+    "message": "Sitemap",
+    "description": "Footer link to sitemap.xml, the list of all pages for search engines."
+  },
+  "websiteFooterLicense": {
+    "message": "MIT license",
+    "description": "Footer link to the open-source license of SiteMark."
+  },
+  "websiteFooterMadeIn": {
+    "message": "Made by Niels Brakel in the Netherlands.",
+    "description": "Footer line that names the maker and controller (as in the privacy policy)."
+  },
+  "websiteThemeLabel": {
+    "message": "Theme",
+    "description": "Accessible name of the theme toggle in the header (Auto / Light / Dark)."
+  },
+  "websiteThemeAuto": {
+    "message": "Auto",
+    "description": "Theme toggle option: follow the operating system's light or dark setting. Keep it short."
+  },
+  "websiteThemeLight": {
+    "message": "Light",
+    "description": "Theme toggle option: always use the light theme. Keep it short."
+  },
+  "websiteThemeDark": {
+    "message": "Dark",
+    "description": "Theme toggle option: always use the dark theme. Keep it short."
+  },
+  "websiteHomeDescription": {
+    "message": "SiteMark marks production and other websites with ribbons, banners and outlines, so you never confuse environments. Free, private and open source.",
+    "description": "Meta description of the website home page, shown in search results. At most 160 characters."
+  },
+  "websiteSocialImageAlt": {
+    "message": "The SiteMark logo next to a browser window marked with a ribbon and a banner",
+    "description": "Text alternative of the preview image that social networks show when someone shares a website link."
+  },
+  "websitePrivacyTitle": {
+    "message": "Privacy policy · SiteMark",
+    "description": "Browser tab title of the privacy policy page. At most 60 characters."
+  },
+  "websitePrivacyDescription": {
+    "message": "The SiteMark privacy policy: the extension and the website collect no data, set no cookies and make no third-party requests.",
+    "description": "Meta description of the privacy policy page, shown in search results. At most 160 characters."
+  },
+  "websiteSupportTitle": {
+    "message": "Support and contact · SiteMark",
+    "description": "Browser tab title of the support page. At most 60 characters."
+  },
+  "websiteSupportDescription": {
+    "message": "Get help with SiteMark: report a bug or ask for a feature on GitHub, report security problems privately and read answers to common questions.",
+    "description": "Meta description of the support page, shown in search results. At most 160 characters."
+  },
+  "websiteSupportHeading": {
+    "message": "Support",
+    "description": "Main heading (h1) of the support page."
+  },
+  "websiteSupportLead": {
+    "message": "All contact goes through GitHub. SiteMark is maintained in spare time, so answers can take a few days.",
+    "description": "Introduction of the support page: contact goes through GitHub, and the response time expectation."
+  },
+  "websiteSupportCalloutTitle": {
+    "message": "Security problem? Don't open a public issue.",
+    "description": "Title of the warning box on the support page about reporting security problems privately."
+  },
+  "websiteSupportCalloutText": {
+    "message": "Anyone can read public issues. Report security problems privately through GitHub private vulnerability reporting, so they can be fixed before others learn about them.",
+    "description": "Text of the warning box on the support page. 'GitHub private vulnerability reporting' is the name of a GitHub feature."
+  },
+  "websiteSupportSecurityPolicyLink": {
+    "message": "Read the security policy",
+    "description": "Link to SECURITY.md in the repository, inside the security warning box."
+  },
+  "websiteSupportContactHeading": {
+    "message": "Contact",
+    "description": "Heading above the list of contact routes on the support page."
+  },
+  "websiteSupportBugLink": {
+    "message": "Report a bug",
+    "description": "Link to the GitHub bug report form."
+  },
+  "websiteSupportBugText": {
+    "message": "Something doesn't work as expected? Fill in the bug report form on GitHub.",
+    "description": "When to use the bug report form."
+  },
+  "websiteSupportFeatureLink": {
+    "message": "Request a feature",
+    "description": "Link to the GitHub feature request form."
+  },
+  "websiteSupportFeatureText": {
+    "message": "Missing something? Some things are out of scope on purpose: cloud sync, accounts, analytics and broad site access.",
+    "description": "When to use the feature request form, and what is deliberately out of scope."
+  },
+  "websiteSupportSecurityLink": {
+    "message": "Report a vulnerability privately",
+    "description": "Link to GitHub private vulnerability reporting for SiteMark."
+  },
+  "websiteSupportSecurityText": {
+    "message": "Found a security problem? Only the maintainer sees these reports.",
+    "description": "When to use private vulnerability reporting."
+  },
+  "websiteFaqHeading": {
+    "message": "Frequently asked questions",
+    "description": "Heading of the FAQ section on the support page."
+  },
+  "websiteFaqRestrictedQuestion": {
+    "message": "Why doesn't SiteMark work on some pages?",
+    "description": "FAQ question about restricted pages where extensions can't run."
+  },
+  "websiteFaqRestrictedAnswer": {
+    "message": "Browsers don't let extensions run on their own pages (such as settings or a new tab), on the extension stores, in the PDF viewer or on local files. On those pages the popup says that SiteMark can't run there.",
+    "description": "FAQ answer about restricted pages."
+  },
+  "websiteFaqPermissionQuestion": {
+    "message": "Why does SiteMark ask for permission when I add a URL pattern?",
+    "description": "FAQ question about the permission prompt."
+  },
+  "websiteFaqPermissionAnswer": {
+    "message": "SiteMark has no access to any website when you install it. When you add a pattern, it asks for access to just the websites that pattern matches, so it can show your marks there on every visit. If you say no, the pattern stays with an Allow button, so you can grant access later.",
+    "description": "FAQ answer about the permission prompt."
+  },
+  "websiteFaqMarksQuestion": {
+    "message": "My marks don't show up. What can I check?",
+    "description": "FAQ question about marks that don't show."
+  },
+  "websiteFaqMarksAnswer": {
+    "message": "Open the SiteMark popup on that page. It shows which site groups match, whether they are enabled and whether SiteMark has access to the website. Allow access if it asks, and reload the page. An element mark also needs its element on the page: the popup says when it isn't found.",
+    "description": "FAQ answer about marks that don't show."
+  },
+  "websiteFaqHideQuestion": {
+    "message": "How do I hide marks for a demo or a screenshot?",
+    "description": "FAQ question about hiding marks."
+  },
+  "websiteFaqHideAnswer": {
+    "message": "Choose Hide on this tab in the popup. The marks come back when you reload the page, leave the website or close the tab. You can also give this a keyboard shortcut in your browser's extension shortcut settings.",
+    "description": "FAQ answer about hiding marks on one tab."
+  },
+  "websiteFaqDataQuestion": {
+    "message": "Where are my site groups stored?",
+    "description": "FAQ question about where data lives."
+  },
+  "websiteFaqDataAnswer": {
+    "message": "Only in your browser, in the extension's local storage. SiteMark never sends them anywhere and doesn't sync them. To move them to another browser or device, use export and import on the options page.",
+    "description": "FAQ answer about where data lives."
+  },
+  "websiteFaqRemoveQuestion": {
+    "message": "How do I remove all my data?",
+    "description": "FAQ question about removing all data."
+  },
+  "websiteFaqRemoveAnswer": {
+    "message": "Use Reset everything on the options page, or remove the extension from your browser. Both delete your site groups and settings. Tab titles with a prefix can still be in your browser history; clear them there.",
+    "description": "FAQ answer about removing all data."
+  },
+  "websiteBugReportHeading": {
+    "message": "What to include in a bug report",
+    "description": "Heading of the bug report checklist on the support page."
+  },
+  "websiteBugReportBrowser": {
+    "message": "Your browser and its version, for example Chrome 131 or Firefox 142.",
+    "description": "Bug report checklist item: browser and version."
+  },
+  "websiteBugReportVersion": {
+    "message": "The SiteMark version, shown on your browser's extensions page.",
+    "description": "Bug report checklist item: SiteMark version."
+  },
+  "websiteBugReportDiagnostics": {
+    "message": "The text from Copy diagnostics on the options page: the version, browser and status of permissions and marks, without full URLs.",
+    "description": "Bug report checklist item: the Copy diagnostics text from the options page."
+  },
+  "websiteBugReportSteps": {
+    "message": "What you did, what you expected and what happened instead.",
+    "description": "Bug report checklist item: steps and expected versus actual result."
+  },
+  "websiteBugReportPrivate": {
+    "message": "No internal hostnames: prod.example.com works fine as a stand-in.",
+    "description": "Bug report checklist item: don't share private hostnames in public issues."
+  },
+  "websiteHomeHighlightsHeading": {
+    "message": "Why SiteMark",
+    "description": "Visually hidden heading above the three highlight cards on the home page."
+  },
+  "websiteHighlightUnmistakableTitle": {
+    "message": "Unmistakable",
+    "description": "Title of the first home page highlight card (marks are impossible to miss)."
+  },
+  "websiteHighlightUnmistakableText": {
+    "message": "Ribbons, banners, frames and outlines in colors you choose, so production never looks like test.",
+    "description": "One sentence on the first highlight card."
+  },
+  "websiteHighlightSimpleTitle": {
+    "message": "Simple",
+    "description": "Title of the second home page highlight card."
+  },
+  "websiteHighlightSimpleText": {
+    "message": "Add a URL pattern, pick a mark and you're done: mark a whole page or just the button that matters.",
+    "description": "One sentence on the second highlight card."
+  },
+  "websiteHighlightPrivateTitle": {
+    "message": "Private",
+    "description": "Title of the third home page highlight card."
+  },
+  "websiteHighlightPrivateText": {
+    "message": "No accounts, no tracking and no network requests, and SiteMark only runs on the websites you allow.",
+    "description": "One sentence on the third highlight card."
+  },
+  "websitePrivacySummaryHeading": {
+    "message": "Private by design",
+    "description": "Heading of the privacy summary on the home page."
+  },
+  "websitePrivacySummaryText": {
+    "message": "SiteMark collects no data. Your site groups stay in your browser, and this website sets no cookies and loads nothing from anywhere else.",
+    "description": "Privacy summary on the home page."
+  },
+  "websitePrivacySummaryLink": {
+    "message": "Read the privacy policy",
+    "description": "Link from the home page privacy summary to the privacy policy."
+  },
+  "websiteInstallLabel": {
+    "message": "Install SiteMark",
+    "description": "Accessible name of the list of install buttons (one per browser store)."
+  },
+  "websiteInstallAdd": {
+    "message": "Add to $BROWSER$",
+    "description": "Install button that links to a browser store listing. $BROWSER$ is Chrome, Edge, Firefox or Safari.",
+    "placeholders": {
+      "browser": {
+        "content": "$1",
+        "example": "Chrome"
+      }
+    }
+  },
+  "websiteInstallComingSoon": {
+    "message": "$BROWSER$: coming soon",
+    "description": "Disabled install button for a store whose listing isn't public yet.",
+    "placeholders": {
+      "browser": {
+        "content": "$1",
+        "example": "Chrome"
+      }
+    }
+  },
+  "websiteInstallComingLater": {
+    "message": "$BROWSER$: coming in v1.1",
+    "description": "Disabled install button for a store that SiteMark supports from version 1.1 (Safari).",
+    "placeholders": {
+      "browser": {
+        "content": "$1",
+        "example": "Safari"
+      }
+    }
+  },
+  "websiteHeroAlt": {
+    "message": "A production website marked by SiteMark: a red banner, frame and corner ribbon, and an outline around the Delete customer button.",
+    "description": "Text alternative of the home page hero illustration."
+  },
+  "websiteHeroTab": {
+    "message": "[PROD] Orders",
+    "description": "Tab title in the hero illustration, with the SiteMark title prefix [PROD]."
+  },
+  "websiteHeroAddress": {
+    "message": "prod.example.com/orders",
+    "description": "Address bar text in the hero illustration."
+  },
+  "websiteHeroBanner": {
+    "message": "Production",
+    "description": "Banner text in the hero illustration (shown in capitals)."
+  },
+  "websiteHeroRibbon": {
+    "message": "Prod",
+    "description": "Corner ribbon text in the hero illustration (shown in capitals). Keep it at most 5 characters."
+  },
+  "websiteHeroButton": {
+    "message": "Delete customer",
+    "description": "Button text on the sample page in the hero illustration. Keep it short."
+  },
+  "websiteNotFoundHeading": {
+    "message": "Page not found",
+    "description": "Heading of the 404 page, which shows English and Dutch together. Also part of its title."
+  },
+  "websiteNotFoundText": {
+    "message": "This page doesn't exist, or it has moved. These pages can help you on your way:",
+    "description": "Text of the 404 page, above the links to the home, help and support pages."
+  }
+}

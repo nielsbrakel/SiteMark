@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fullscreen</title>
+    <link rel="stylesheet" href="/site.css" />
+    <script src="/fullscreen.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1>Fullscreen</h1>
+      <p>The stage enters fullscreen, which puts it in the top layer (REQ-RND-006).</p>
+      <button id="enter-fullscreen" type="button">Enter fullscreen</button>
+      <section id="stage" data-testid="stage" aria-label="Stage">
+        <p>Fullscreen stage</p>
+        <button id="fullscreen-target" type="button" data-testid="fullscreen-target">Stage action</button>
+        <button id="exit-fullscreen" type="button">Exit fullscreen</button>
+      </section>
+    </main>
+  </body>
+</html>

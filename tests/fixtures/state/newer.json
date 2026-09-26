@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 2,
+  "revision": 7,
+  "siteGroups": [
+    {
+      "id": "prodGroup001",
+      "name": "Production",
+      "enabled": true,
+      "priority": 1,
+      "patterns": [{ "id": "prodPattern1", "kind": "wildcard", "value": "*://*.example.com/*" }],
+      "excludes": [],
+      "marks": []
+    }
+  ],
+  "settings": { "theme": "system", "density": "compact" }
+}

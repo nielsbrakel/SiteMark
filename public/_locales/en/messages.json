@@ -9,6 +9,10 @@
   "commandStartPicker": {
     "message": "Pick an element to mark on this page"
   },
+  "commandToggleHide": {
+    "message": "Show or hide the marks on this tab",
+    "description": "Keyboard shortcut description in the browser's shortcut settings (toggle-hide command)."
+  },
   "popupTitle": {
     "message": "SiteMark"
   },
@@ -17,6 +21,14 @@
   },
   "scaffoldNotice": {
     "message": "Under construction. See docs/tasks.md for progress."
+  },
+  "markerCollapseBanner": {
+    "message": "Collapse banner",
+    "description": "Accessible name of the chevron button on a SiteMark banner shown on a web page. Collapses the banner to a small tab."
+  },
+  "markerExpandBanner": {
+    "message": "Show banner",
+    "description": "Accessible name of the small tab a collapsed SiteMark banner leaves on a web page. Shows the full banner again."
   },
   "siteGroupCount_one": {
     "message": "$COUNT$ site group",
@@ -37,5 +49,177 @@
         "example": "3"
       }
     }
+  },
+  "errorPatternEmpty": {
+    "message": "Enter a URL pattern.",
+    "description": "URL pattern error: the pattern is empty."
+  },
+  "errorPatternTooLong": {
+    "message": "A pattern can be at most 500 characters long.",
+    "description": "URL pattern error: the pattern is too long."
+  },
+  "errorPatternTooManyWildcards": {
+    "message": "A pattern can contain at most 10 wildcards (*).",
+    "description": "URL pattern error: too many * characters."
+  },
+  "errorPatternInvalidScheme": {
+    "message": "Use http, https or * as the scheme.",
+    "description": "URL pattern error: the part before :// is not allowed."
+  },
+  "errorPatternWildcardInHost": {
+    "message": "A wildcard is only allowed at the start of the host.",
+    "description": "URL pattern error: a * appears in the middle of the host name."
+  },
+  "errorPatternInvalidHost": {
+    "message": "Enter a valid host name, such as example.com.",
+    "description": "URL pattern error: the host name is not valid."
+  },
+  "errorPatternInvalidPort": {
+    "message": "Enter a valid port number, such as 8080.",
+    "description": "URL pattern error: the port is not a valid number."
+  },
+  "errorPatternInvalidIpv6": {
+    "message": "Enter a valid IPv6 address in brackets, such as [::1].",
+    "description": "URL pattern error: the IPv6 address is not valid."
+  },
+  "errorPatternTooBroad": {
+    "message": "This pattern matches too many sites. Use a specific domain, such as *.example.com.",
+    "description": "URL pattern error: the pattern covers all sites or a whole public suffix such as *.co.uk."
+  },
+  "errorUrlTooLong": {
+    "message": "This URL is too long to check (more than 2048 characters).",
+    "description": "Shown when a URL to test is longer than 2048 characters."
+  },
+  "errorRegexInvalid": {
+    "message": "This regular expression is not valid.",
+    "description": "Regex pattern error: the expression does not parse."
+  },
+  "errorRegexUnsafe": {
+    "message": "Not allowed: backreferences, lookarounds, nested quantifiers, (a|b) inside a repeat, or repeats that can match the same text (start with ^ or use a narrower class like [^/]+).",
+    "description": "Regex pattern error: the expression uses a feature that could make matching slow."
+  },
+  "errorRegexTooLong": {
+    "message": "A regular expression can be at most 500 characters long.",
+    "description": "Regex pattern error: the expression is too long."
+  },
+  "errorRegexNeedsOrigin": {
+    "message": "Add at least one origin, such as *://example.com/*, for this regular expression.",
+    "description": "Regex pattern error: a regex needs the sites (origins) it may run on."
+  },
+  "errorRegexTooManyOrigins": {
+    "message": "A regular expression can have at most 20 origins.",
+    "description": "Regex pattern error: too many origins."
+  },
+  "errorImportInvalidJson": {
+    "message": "This file is not valid JSON.",
+    "description": "Import error: the file cannot be read as JSON."
+  },
+  "errorImportTooDeep": {
+    "message": "This file is nested too deeply to be a SiteMark export.",
+    "description": "Import error: the JSON is nested too deeply."
+  },
+  "errorImportTooLarge": {
+    "message": "This file is too large to import.",
+    "description": "Import error: the file exceeds the size limit."
+  },
+  "errorImportSchemaInvalid": {
+    "message": "This file is not a valid SiteMark export.",
+    "description": "Import error: the JSON does not have the SiteMark export format."
+  },
+  "errorImportPatternInvalid": {
+    "message": "This file contains a URL pattern SiteMark does not accept, for example one that matches too many sites.",
+    "description": "Import error: a URL pattern or exclude in the file is invalid, unsafe or too broad. The UI lists each pattern with its own error."
+  },
+  "errorImportUnsupportedVersion": {
+    "message": "This file comes from a newer or unknown version of SiteMark. Update SiteMark and try again.",
+    "description": "Import error: the export has a schema version this build cannot read."
+  },
+  "errorStateReadOnly": {
+    "message": "Your data comes from a newer version of SiteMark, so changes are turned off to keep it safe.",
+    "description": "Shown when a change is refused because the stored data is read-only."
+  },
+  "errorStateUnreadable": {
+    "message": "Your saved SiteMark data could not be read, so SiteMark started with the defaults. A backup of the old data was kept.",
+    "description": "Shown on the options page when the stored data is damaged and was replaced by the defaults."
+  },
+  "errorStorageFailed": {
+    "message": "SiteMark could not save your change. Your browser's storage may be full.",
+    "description": "Shown when a change is not saved because the browser refused to write the data, for example because storage is full."
+  },
+  "errorSiteGroupNeedsPattern": {
+    "message": "Add a URL pattern before you turn on this site group.",
+    "description": "Site group error: an enabled site group needs at least one URL pattern."
+  },
+  "errorSiteGroupNameInvalid": {
+    "message": "Enter a name of 1 to 40 characters.",
+    "description": "Site group error: the site group name is empty or longer than 40 characters."
+  },
+  "errorSiteGroupLimitReached": {
+    "message": "You can have at most 200 site groups.",
+    "description": "Site group error: the maximum number of site groups is reached."
+  },
+  "errorPatternLimitReached": {
+    "message": "A site group can have at most 50 URL patterns.",
+    "description": "Site group error: the maximum number of URL patterns is reached."
+  },
+  "errorExcludeLimitReached": {
+    "message": "A site group can have at most 50 exclude patterns.",
+    "description": "Site group error: the maximum number of exclude patterns is reached."
+  },
+  "errorMarkLimitReached": {
+    "message": "A site group can have at most 50 marks.",
+    "description": "Site group error: the maximum number of marks is reached."
+  },
+  "errorSiteGroupNotFound": {
+    "message": "This site group no longer exists.",
+    "description": "Site group error: the site group was deleted, for example in another window."
+  },
+  "errorPatternNotFound": {
+    "message": "This pattern no longer exists.",
+    "description": "Site group error: the URL or exclude pattern was removed, for example in another window."
+  },
+  "errorMarkNotFound": {
+    "message": "This mark no longer exists.",
+    "description": "Site group error: the mark was removed, for example in another window."
+  },
+  "errorMarkInvalid": {
+    "message": "This mark has settings that SiteMark can't save. Check its effects, colors and selector.",
+    "description": "Site group error: a mark failed validation (for example no effect, an empty selector or an invalid color)."
+  },
+  "errorCommandProducedInvalidState": {
+    "message": "Something went wrong, so your change was not saved. Please try again.",
+    "description": "Command error: applying the change would have produced invalid data (a SiteMark bug), so nothing was saved."
+  },
+  "grantTitle": {
+    "message": "Allow SiteMark on these sites",
+    "description": "Heading of the grant page, which asks for access to the listed sites."
+  },
+  "grantExplanation": {
+    "message": "SiteMark needs access to these sites to show your marks on every visit.",
+    "description": "Grant page: why SiteMark asks for access."
+  },
+  "grantSites": {
+    "message": "Sites",
+    "description": "Grant page: accessible name of the list of sites SiteMark asks access to."
+  },
+  "grantAllow": {
+    "message": "Allow",
+    "description": "Grant page button that opens the browser's permission prompt."
+  },
+  "grantGranted": {
+    "message": "Access granted. You can close this tab.",
+    "description": "Grant page: shown after the user allowed access."
+  },
+  "grantDenied": {
+    "message": "Access was not granted. Your marks won't show on these sites until you allow it.",
+    "description": "Grant page: shown after the user declined the browser's permission prompt."
+  },
+  "grantFailed": {
+    "message": "SiteMark couldn't ask for access. Please try again.",
+    "description": "Grant page: shown when the browser could not show its permission prompt."
+  },
+  "grantInvalid": {
+    "message": "This link doesn't name a valid site. Open it again from SiteMark.",
+    "description": "Grant page: shown when the page was opened with a broken or tampered link."
   }
 }

@@ -8,7 +8,7 @@
 | Concern         | Choice                                                                                                           | Ref          |
 | --------------- | ---------------------------------------------------------------------------------------------------------------- | ------------ |
 | Build           | Vite 8 (the same major as WXT), a client build + an SSR build, and a small prerender script (no SSG framework)   | D-245        |
-| UI              | React 19 + TypeScript, CSS Modules. `renderToString` at build time, `hydrateRoot` per page in the browser        | D-245, D-236 |
+| UI              | React 19 + TypeScript, CSS Modules. `renderToString` at build time, `hydrateRoot` per island in the browser      | D-245, D-236 |
 | Markdown        | `react-markdown` + `remark-gfm` (renders to React elements; raw HTML off), `gray-matter`-style front matter      | REQ-WEB-006  |
 | i18n            | The shared translator (`src/lib/i18n/translate.ts`) + a catalog `MessageSource`                                  | D-247        |
 | Marks           | `src/core/render/compose.ts` + `src/shared/marker-view` + the mock-browser preview from `src/ui/components`      | D-254        |
@@ -24,27 +24,29 @@ As in the extension, a library is added by the task that first needs it, never a
 ```text
 website/
 ├─ package.json          private workspace package "@sitemark/website"
-├─ vite.config.ts        base '/SiteMark/', client + SSR builds, aliases to ../src
-├─ index.html            HTML template (head slots filled by the prerender step)
+├─ vite.config.ts        base '/SiteMark/', client + SSR builds, `@/` alias to ../src
 ├─ locales/{en,nl}/messages.json          website strings (chrome.i18n format)
 ├─ content/{en,nl}/help/*.md              help topics (W2), front matter: title, description, order
 ├─ public/               copied as-is: social-preview.png, generated screenshots, favicon PNGs
 ├─ scripts/
 │  ├─ prerender.ts       routes × locales → dist/**/index.html, 404.html, sitemap.xml
+│  ├─ dev-pages.ts       `pnpm web:dev`: server-renders each route on request (same entry-server)
 │  └─ screenshots.ts     Playwright on the extension e2e build → public/screenshots (W2)
 ├─ src/
 │  ├─ routes/            routes.ts (PURE route table: slug, page, milestone, stable, nav) · urls.ts
 │  ├─ head/              seo.ts · csp.ts · json-ld.ts · sitemap.ts (pure builders, return data, not HTML strings)
-│  ├─ i18n/              catalog-source.ts (MessageSource over the merged catalogs) · website-t.ts
+│  ├─ i18n/              catalog-source.ts (MessageSource over the merged catalogs) · website-t.ts · locales.ts
 │  ├─ content/           markdown.tsx (react-markdown config) · policy.ts · help.ts · changelog.ts (build-time loaders)
 │  ├─ theme/             bootstrap.ts (inline, hash-pinned) · ThemeToggle.tsx
 │  ├─ components/        Shell · Header · Footer · LanguageSwitch · InstallButtons · Prose · Hero · …
-│  ├─ pages/             HomePage · PrivacyPage · SupportPage · HelpPage · ChangelogPage · PlaygroundPage · NotFoundPage
+│  ├─ pages/             registry.ts (page ID → component) · HomePage · PrivacyPage · SupportPage · HelpPage · …
+│  ├─ document/          Document.tsx (the whole HTML document, rendered by React: no HTML template)
 │  ├─ playground/        playground-state.ts (pure reducer) · Playground.tsx · PresetPicker.tsx (W2)
 │  ├─ config/stores.ts   store listing URLs (or null = coming soon)
 │  ├─ styles/            website-tokens.css (layout + type sizes; no colors) · prose.css
-│  ├─ entry-server.tsx   render(route, locale) → { html, head }
-│  └─ entry-client.tsx   reads <html data-route> and hydrates that page
+│  ├─ entry-server.tsx   renderPages(assets) → one { file, html } per published route × locale
+│  ├─ hydrate.tsx        hydrates the page's [data-island] parts with the <html data-locale> catalog
+│  └─ entry-client.ts    imports the global CSS and calls hydratePage(document)
 └─ tests/
    ├─ build/             assertions on dist/ (prerender, output scan, budgets, links)
    └─ e2e/               Playwright against `vite preview` at /SiteMark/
@@ -84,12 +86,15 @@ tsx scripts/prerender.ts
 → dist/client is the Pages artifact
 ```
 
-- **Hydration without a router:** each page is a normal link to a normal HTML file. `entry-client.tsx` reads
-  `document.documentElement.dataset.route` and hydrates only that page component, with the same locale catalog
-  that the server used (serialized as a static JSON asset per locale, not inline).
-- **Build-time content:** the policy, help and changelog Markdown is read by the SSR build and becomes part
-  of the rendered React tree. The client bundle imports the same Markdown modules through Vite's `?raw`
-  import, so hydration matches. W2 may split help content per page to stay within budget.
+- **Hydration without a router, islands only:** each page is a normal link to a normal HTML file. The browser
+  hydrates only the **islands**, the interactive parts wrapped in `<div data-island="<id>">` (the theme toggle
+  now, the playground in W2). `hydrate.tsx` finds them and hydrates each with `hydrateRoot`, with the catalog of
+  `<html data-locale>` (a lazily imported chunk per locale, never inline). The rest of the page is static HTML:
+  no page code runs in the browser, so Markdown pages cost no JavaScript (react-markdown alone would break the
+  80 KB budget, REQ-WEB-007). The client entry still imports the page modules, but only for their CSS and
+  images (`scripts/keep-css-modules.ts` keeps the CSS of those tree-shaken modules).
+- **Build-time content:** the policy, help and changelog Markdown is read by the SSR build (Vite `?raw` imports)
+  and becomes part of the rendered React tree. It never reaches the client bundle.
 - **Only one inline script:** the theme bootstrap (≈ 300 bytes, reads `localStorage`, sets `data-theme` before
   paint). Its SHA-256 is computed at build time and put into the CSP. There are no other inline scripts or styles.
 - **Head data** is built by pure functions (`seo.ts`, `csp.ts`, `json-ld.ts`) that return plain data. One

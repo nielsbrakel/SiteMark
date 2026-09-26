@@ -29,6 +29,8 @@ jobs:
           # progress derives task status from the full git history (D-210).
           fetch-depth: 0
       - uses: ./.github/actions/setup
+      # The container runs as another user than the checkout; progress reads git history.
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: pnpm check:ci
       - if: ${{ !cancelled() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -115,6 +117,43 @@ jobs:
             test-results/
           retention-days: 14
 
+  website:
+    name: website (build assertions, e2e)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      # The container runs as another user than the checkout; let git operate on it.
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      # Unit and component tests of the website run in `check`; this job builds it (as pages.yml
+      # deploys it) and tests the built output and the pages in Chromium.
+      - run: pnpm web:test:build
+      - run: pnpm exec playwright test --config website/playwright.config.ts
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: results-website
+          path: |
+            test-results/vitest-website-build.json
+            test-results/playwright-website.json
+          retention-days: 14
+          if-no-files-found: ignore
+      - if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report-website
+          path: |
+            playwright-report/website/
+            test-results/website-e2e/
+          retention-days: 14
+
   workflow-lint:
     name: workflow lint (actionlint, zizmor)
     runs-on: ubuntu-24.04
@@ -173,6 +212,28 @@ jobs:
             exit 1
           fi
 
+  policy-date:
+    name: policy date (a changed PRIVACY*.md has a new Last updated date)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      # Plain Node is enough: the script has no dependencies (REQ-POLICY-004).
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+      - name: Check the Last updated line of every changed policy file
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/check-policy-date.ts "$BASE" "$HEAD"
+
   verify-tdd:
     name: verify-tdd (red before green, red fails, green passes)
     if: github.event_name == 'pull_request'
@@ -198,7 +259,7 @@ jobs:
 
   traceability:
     name: traceability (every finished requirement has a passing test)
-    needs: [check, build, e2e]
+    needs: [check, build, e2e, website]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -221,7 +282,18 @@ jobs:
     name: ci-ok
     if: always()
     needs:
-      [check, build, e2e, traceability, verify-tdd, workflow-lint, dependency-review, commitlint]
+      [
+        check,
+        build,
+        e2e,
+        traceability,
+        verify-tdd,
+        workflow-lint,
+        dependency-review,
+        commitlint,
+        policy-date,
+        website,
+      ]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions: {}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "revision": -3,
+  "siteGroups": [
+    {
+      "id": "prodGroup001",
+      "name": "",
+      "enabled": true,
+      "patterns": [{ "id": "prodPattern1", "kind": "wildcard", "value": "*://*.example.com/*" }],
+      "excludes": [],
+      "marks": [
+        {
+          "id": "prodRibbon01",
+          "enabled": true,
+          "color": "red",
+          "textColor": "auto",
+          "target": { "kind": "page" },
+          "effects": { "ribbon": { "text": "PROD", "corner": "top-right" } }
+        }
+      ]
+    }
+  ],
+  "settings": { "theme": "neon" }
+}

@@ -1,0 +1,68 @@
+/* Shared look of the e2e fixture site. Plain page styles: SiteMark must not depend on any of them. */
+body {
+  margin: 0;
+  font:
+    16px / 1.5 system-ui,
+    sans-serif;
+  color: #1f2328;
+  background: #ffffff;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 24px;
+  background: #f6f8fa;
+  border-bottom: 1px solid #d0d7de;
+}
+
+main {
+  padding: 24px;
+}
+
+button {
+  font: inherit;
+  padding: 6px 14px;
+}
+
+.btn-danger {
+  color: #ffffff;
+  background: #cf222e;
+  border: 1px solid #a40e26;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 6px 12px;
+  border: 1px solid #d0d7de;
+  text-align: left;
+}
+
+.scroller {
+  overflow: auto;
+  border: 2px solid #8c959f;
+}
+
+.outer {
+  height: 240px;
+  width: 480px;
+}
+
+.inner {
+  height: 160px;
+  width: 360px;
+  margin: 200px 24px;
+}
+
+.spacer {
+  height: 400px;
+}
+
+.tall {
+  height: 200vh;
+}

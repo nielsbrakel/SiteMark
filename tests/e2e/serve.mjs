@@ -13,14 +13,38 @@ const types = {
   '.png': 'image/png',
 };
 
+// Strict page CSP with Trusted Types, sent as a real header (REQ-SEC-007). A <meta> CSP can't
+// express everything and applies too late.
+const strictCsp = [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self'",
+  "img-src 'self'",
+  "object-src 'none'",
+  "base-uri 'none'",
+  "require-trusted-types-for 'script'",
+  "trusted-types 'none'",
+].join('; ');
+const pageHeaders = { '/csp.html': { 'content-security-policy': strictCsp } };
+
+/** The SPA fixture owns /spa and everything below it, so pushState URLs survive a reload. */
+const resolvePath = (pathname) =>
+  pathname === '/spa' || pathname.startsWith('/spa/') ? '/spa.html' : pathname;
+
 createServer(async (request, response) => {
-  const { pathname } = new URL(request.url ?? '/', 'http://localhost');
+  const pathname = resolvePath(new URL(request.url ?? '/', 'http://localhost').pathname);
   const file = path.join(root, pathname.endsWith('/') ? `${pathname}index.html` : pathname);
   if (!file.startsWith(root)) return void response.writeHead(403).end();
   try {
     const body = await readFile(file);
     const type = types[path.extname(file)] ?? 'application/octet-stream';
-    response.writeHead(200, { 'content-type': type, 'cache-control': 'no-store' }).end(body);
+    response
+      .writeHead(200, {
+        'content-type': type,
+        'cache-control': 'no-store',
+        ...pageHeaders[pathname],
+      })
+      .end(body);
   } catch {
     response.writeHead(404).end('not found');
   }

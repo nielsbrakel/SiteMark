@@ -16,13 +16,17 @@ const sinks: [string, RegExp][] = [
 const dynamicCode: [string, RegExp][] = [
   ['eval()', /(?<![\w$.])eval\s*\(/],
   ['new Function()', /\bnew\s+Function\s*\(/],
-  ['Function()', /(?<![\w$.])Function\s*\(\s*["'`]/],
+  // A non-empty body: zod's `Function('')` probe runs no code, and src/core/model/zod.ts sets jitless.
+  ['Function()', /(?<![\w$.])Function\s*\(\s*(["'`])(?!\1)/],
 ];
 
 /** URL literals that are identifiers, never fetched. Anything else needs a reason here. */
 const allowedUrls = [
   /^http:\/\/www\.w3\.org\//, // XML namespaces (SVG, MathML, XLink) used by React DOM
   /^https:\/\/react\.dev\/errors\//, // production error decoder link in React's messages
+  /^https:\/\/nielsbrakel\.github\.io\/SiteMark\/$/, // manifest homepage_url (D-256), a link only
+  /^https?:\/\/json-schema\.org\//, // JSON Schema dialect IDs in zod's toJSONSchema (background)
+  /^http:\/\/\[\$\{/, // zod's IPv6 check parses `http://[${value}]` locally with URL()
 ];
 
 function files(dir: string): string[] {

@@ -30,6 +30,8 @@ export default {
       '^(sm-[a-z0-9]+(-[a-z0-9]+)*(__[a-z0-9-]+)?(--[a-z0-9-]+)?|[a-z][a-zA-Z0-9]*)$',
       { message: 'Use sm-block__element--modifier globally, camelCase in CSS Modules' },
     ],
+    // CSS Modules reach the theme attributes on <html> through :global(…) (D-236).
+    'selector-pseudo-class-no-unknown': [true, { ignorePseudoClasses: ['global'] }],
   },
   overrides: [
     {

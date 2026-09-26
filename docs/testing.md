@@ -5,17 +5,18 @@
 
 ## Commands
 
-| Command              | What it does                                                                                             |
-| -------------------- | -------------------------------------------------------------------------------------------------------- |
-| `pnpm test`          | Vitest projects `core` (node) + `dom` (happy-dom)                                                        |
-| `pnpm test:browser`  | Vitest browser mode in Chromium (`*.browser.test.ts`)                                                    |
-| `pnpm test:watch`    | Watch mode for the TDD loop                                                                              |
-| `pnpm test:coverage` | All three projects with per-glob coverage thresholds (core 90/85, platform 85, overall 80)               |
-| `pnpm test:e2e`      | Builds the e2e variant (`.output/chrome-mv3-e2e`) and runs Playwright                                    |
-| `pnpm test:build`    | Builds all three targets, then manifest, output-scan and size assertions (`tests/build`)                 |
-| `pnpm size`          | Chromium build + the gzip size budget only                                                               |
-| `pnpm check`         | typecheck + lint (Biome) + format (Biome, Prettier for Markdown/YAML) + knip + unit tests + traceability |
-| `pnpm progress`      | Progress per milestone + requirement coverage (`--verbose` lists gaps)                                   |
+| Command              | What it does                                                                                                  |
+| -------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `pnpm test`          | Vitest projects `core` (node) + `dom` (happy-dom)                                                             |
+| `pnpm test:browser`  | Vitest browser mode in Chromium (`*.browser.test.ts`)                                                         |
+| `pnpm test:watch`    | Watch mode for the TDD loop                                                                                   |
+| `pnpm test:coverage` | All three projects with per-glob coverage thresholds (core 90/85, platform 85, overall 80)                    |
+| `pnpm test:e2e`      | Builds the e2e variant (`.output/chrome-mv3-e2e`) and runs Playwright                                         |
+| `pnpm web:test:e2e`  | Builds the website and runs its Playwright suite against `vite preview` at `/SiteMark/` (`website/tests/e2e`) |
+| `pnpm test:build`    | Builds all three targets, then manifest, output-scan and size assertions (`tests/build`)                      |
+| `pnpm size`          | Chromium build + the gzip size budget only                                                                    |
+| `pnpm check`         | typecheck + lint (Biome) + format (Biome, Prettier for Markdown/YAML) + knip + unit tests + traceability      |
+| `pnpm progress`      | Progress per milestone + requirement coverage (`--verbose` lists gaps)                                        |
 
 First-time Playwright setup: `pnpm exec playwright install chromium`, or set `PW_CHROMIUM_EXECUTABLE`
 to an existing **Chromium / Chrome for Testing** (branded Chrome ≥ 137 ignores `--load-extension`).
@@ -66,7 +67,7 @@ Improve the code without changing behavior. `pnpm check` must pass. Don't make e
 - A bug fix starts with a reproducing test: `test(bug): red — …`, then `fix(bug): green — …`.
 - A requirement counts as **covered** only when a **passing** test's title (or a Playwright `@REQ-…` tag)
   names it. Comments don't count. Each Vitest run writes `test-results/vitest-<projects>.json` and Playwright
-  writes `test-results/playwright.json`; `pnpm progress --coverage` merges them, and the CI `traceability` job
+  writes `test-results/playwright.json` (the website e2e: `playwright-website.json`); `pnpm progress --coverage` merges them, and the CI `traceability` job
   fails when every task of a requirement is done but no passing test names it.
 - Keep tests fast and deterministic: fake timers, fixed `IdGen`/`Clock`, no real network.
 - PRs are **rebase-merged** (D-209), so red, green and refactor commits all stay on `main`.
@@ -76,15 +77,15 @@ Improve the code without changing behavior. `pnpm check` must pass. Don't make e
 
 ## Test layers (D-233)
 
-| Layer     | Where                          | Use it for                                                                                              |
-| --------- | ------------------------------ | ------------------------------------------------------------------------------------------------------- |
-| `core`    | Vitest, node environment       | Pure domain logic. Table tests + fast-check properties                                                  |
-| `dom`     | Vitest, happy-dom              | Use cases with in-memory fakes, adapters with the fake browser, DOM structure, React (RTL + vitest-axe) |
-| `browser` | Vitest browser mode (Chromium) | Anything needing real layout, canvas, popover, `elementsFromPoint`, CSS cascade (`*.browser.test.ts`)   |
-| e2e       | Playwright + built extension   | Real extension behavior: registration, permissions, isolated world, top layer, CSP, hostile pages       |
-| build     | Vitest (node) on `.output/**`  | Manifest privacy assertions for every target, output scan for network/eval                              |
-| mutation  | Stryker (nightly)              | `src/core` test strength                                                                                |
-| manual    | This document                  | Firefox each release (D-214), Safari from v1.1                                                          |
+| Layer     | Where                          | Use it for                                                                                               |
+| --------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| `core`    | Vitest, node environment       | Pure domain logic. Table tests + fast-check properties                                                   |
+| `dom`     | Vitest, happy-dom              | Use cases with in-memory fakes, adapters with the fake browser, DOM structure, React (RTL + vitest-axe)  |
+| `browser` | Vitest browser mode (Chromium) | Anything needing real layout, canvas, popover, `elementsFromPoint`, CSS cascade (`*.browser.test.ts`)    |
+| e2e       | Playwright + built extension   | Real extension behavior: registration, permissions, isolated world, top layer, CSP, hostile pages        |
+| build     | Vitest (node) on `.output/**`  | Manifest privacy assertions for every target, output scan for network/eval                               |
+| mutation  | Stryker (nightly)              | `src/core` test strength: `pnpm mutation` fails below a 60 % mutation score (HTML in `reports/mutation`) |
+| manual    | This document                  | Firefox each release (D-214), Safari from v1.1                                                           |
 
 **Fakes**: `tests/fakes/` provides stateful fakes for `permissions`, `scripting`, `i18n` (it reads
 `en/messages.json` and throws on unknown keys) and `commands`, which `wxt/testing`'s fake browser lacks. They are

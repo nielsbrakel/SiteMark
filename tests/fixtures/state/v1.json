@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "revision": 42,
+  "siteGroups": [
+    {
+      "id": "prodGroup001",
+      "name": "Production",
+      "enabled": true,
+      "patterns": [
+        { "id": "prodPattern1", "kind": "wildcard", "value": "*://*.example.com/*" },
+        {
+          "id": "prodPattern2",
+          "kind": "regex",
+          "value": "^https://admin\\.example\\.com/(billing|users)/",
+          "origins": ["https://admin.example.com/*"]
+        }
+      ],
+      "excludes": [{ "id": "prodExclude1", "kind": "wildcard", "value": "*://docs.example.com/*" }],
+      "marks": [
+        {
+          "id": "prodRibbon01",
+          "label": "Ribbon and banner",
+          "enabled": true,
+          "color": "#c93a2e",
+          "textColor": "auto",
+          "target": { "kind": "page" },
+          "effects": {
+            "ribbon": { "text": "PROD", "corner": "top-right" },
+            "banner": { "text": "You are on production", "edge": "top", "size": "compact" },
+            "frame": { "widthPx": 4 },
+            "titlePrefix": { "text": "[PROD]" },
+            "favicon": {}
+          }
+        },
+        {
+          "id": "prodOutline1",
+          "enabled": false,
+          "color": "#1f6feb",
+          "textColor": "#ffffff",
+          "target": { "kind": "element", "selector": "#deploy-button" },
+          "effects": { "outline": { "widthPx": 3, "style": "dashed", "pulse": true } }
+        }
+      ]
+    },
+    {
+      "id": "stagingGrp01",
+      "name": "Staging",
+      "enabled": false,
+      "patterns": [],
+      "excludes": [],
+      "marks": [
+        {
+          "id": "stagingTint1",
+          "enabled": true,
+          "color": "#2da44e",
+          "textColor": "auto",
+          "target": { "kind": "page" },
+          "effects": {
+            "tint": { "opacityPct": 5 },
+            "stripes": { "opacityPct": 10, "area": "edge" },
+            "watermark": { "text": "STAGING", "opacityPct": 6 }
+          }
+        }
+      ]
+    }
+  ],
+  "settings": { "theme": "dark" }
+}

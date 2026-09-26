@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lazy content</title>
+    <link rel="stylesheet" href="/site.css" />
+    <script src="/lazy.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1>Lazy content</h1>
+      <p>The target appears after <code>?delay=</code> milliseconds (default 1000).</p>
+      <button id="remove-target" type="button">Remove target</button>
+      <button id="add-target" type="button">Add target</button>
+      <button id="move-target" type="button">Move target</button>
+      <div id="slot-a" data-testid="slot-a"></div>
+      <div id="slot-b" data-testid="slot-b"></div>
+    </main>
+  </body>
+</html>

@@ -3,12 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <title>Fixture dashboard</title>
+    <link rel="stylesheet" href="/site.css" />
   </head>
   <body>
+    <nav aria-label="Fixture pages">
+      <a href="/">Dashboard</a>
+      <a href="/spa/">SPA</a>
+      <a href="/lazy.html">Lazy content</a>
+      <a href="/scroll.html">Nested scroll</a>
+      <a href="/dialog.html">Dialog</a>
+      <a href="/fullscreen.html">Fullscreen</a>
+      <a href="/csp.html">Strict CSP</a>
+      <a href="/hostile.html">Hostile page</a>
+    </nav>
     <main>
       <h1>Fixture dashboard</h1>
-      <p>Served as prod., test. and new.sitemark.test. Marks, the picker and hostile pages build on this (T-077).</p>
-      <button id="delete" type="button">Delete</button>
+      <p>Served as prod., test. and new.sitemark.test (tests/e2e/hosts.ts). Static, no external requests.</p>
+      <section aria-labelledby="actions-title">
+        <h2 id="actions-title">Actions</h2>
+        <button id="new-customer" type="button">New customer</button>
+        <button id="export" type="button">Export</button>
+        <button id="delete" class="btn-danger" type="button" data-testid="delete-customer">
+          Delete customer
+        </button>
+      </section>
+      <section aria-labelledby="customers-title">
+        <h2 id="customers-title">Customers</h2>
+        <table data-testid="customers">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Plan</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1001</td>
+              <td>Ada Lovelace</td>
+              <td>Enterprise</td>
+              <td>Active</td>
+            </tr>
+            <tr>
+              <td>1002</td>
+              <td>Grace Hopper</td>
+              <td>Team</td>
+              <td>Active</td>
+            </tr>
+            <tr>
+              <td>1003</td>
+              <td>Alan Turing</td>
+              <td>Free</td>
+              <td>Suspended</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </main>
   </body>
 </html>

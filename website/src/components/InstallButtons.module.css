@@ -1,0 +1,31 @@
+/* Install buttons (docs/website/design.md §4): primary accent buttons, disabled until listed. */
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm-space-3);
+  margin: var(--sm-space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  text-decoration: none;
+}
+
+/* Not listed yet: flat and muted, and the text says so, so the state isn't shown by color alone. */
+.button:disabled {
+  color: var(--sm-text-muted);
+  box-shadow: none;
+  border-color: var(--sm-border);
+  cursor: not-allowed;
+}
+
+@media (forced-colors: active) {
+  .button:disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

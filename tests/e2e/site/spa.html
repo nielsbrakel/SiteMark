@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Overview · SPA fixture</title>
+    <link rel="stylesheet" href="/site.css" />
+    <script src="/spa.js" defer></script>
+  </head>
+  <body>
+    <!-- Served for /spa, /spa/ and every /spa/* path (serve.mjs), so pushState URLs survive a reload. -->
+    <nav aria-label="SPA routes">
+      <a href="/spa/" data-route>Overview</a>
+      <a href="/spa/orders" data-route>Orders</a>
+      <a href="/spa/settings" data-route>Settings</a>
+      <a href="#details">Hash link</a>
+      <button id="replace-state" type="button">Replace state</button>
+    </nav>
+    <main id="view"></main>
+  </body>
+</html>

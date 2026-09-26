@@ -121,3 +121,25 @@ waits for the owner's approval. Store secrets live **only** in that environment:
 | Safari (v1.1)    | App Store Connect packager / Xcode, with an Apple Developer Program membership (manual)       |
 
 AMO also receives the WXT sources zip and `SOURCE_REVIEW.md` (exact Node/pnpm versions and build command).
+
+## 8. Website on GitHub Pages (D-244, D-252)
+
+The website (`website/`, [docs/website/](website/spec.md)) is deployed by `.github/workflows/pages.yml` to
+**<https://nielsbrakel.github.io/SiteMark/>**. Pull requests only build and test it (the `website` job in `ci.yml`,
+part of `ci-ok`); a push to `main` that changes the website or one of its inputs deploys it.
+
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.** Or:
+   `gh api -X POST repos/nielsbrakel/SiteMark/pages -f build_type=workflow`
+   (use `-X PUT` when Pages already exists with another source).
+2. **Settings → Environments → `github-pages`** (created by step 1): _Deployment branches and tags_ →
+   **Selected branches and tags** → add `main` only. No secrets and no reviewers: text fixes should go live
+   without waiting.
+3. **First deploy:** merge the website to `main`, or run **Actions → Pages → Run workflow** on `main`. The
+   `build` job runs `pnpm web:test:build` (build + CSP, link and budget assertions) and uploads
+   `website/dist/client`; the `deploy` job publishes it. Check that `/SiteMark/`, `/SiteMark/privacy/`,
+   `/SiteMark/nl/support/` and an unknown path (the bilingual 404 page) load.
+4. **About → Website:** set it to the website URL once the first deploy is live (section 4), for example
+   `gh repo edit nielsbrakel/SiteMark --homepage https://nielsbrakel.github.io/SiteMark/`.
+
+The repository must stay **public**: Pages on a free plan needs a public repository. The privacy policy's
+`Last updated` date is checked on every pull request that changes `PRIVACY*.md` (the `policy-date` job).

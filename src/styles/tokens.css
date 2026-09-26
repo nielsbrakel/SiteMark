@@ -19,6 +19,7 @@
   --sm-border: rgb(43 47 56 / 12%); /* decorative dividers only */
   --sm-control-border: #707784; /* inputs, switch tracks, swatches (3.7:1) */
   --sm-edge: transparent; /* dark mode highlight edge */
+  --sm-scrim: rgb(43 47 56 / 40%); /* behind modal dialogs */
 
   /* Brand accent: signal coral (kept distinct from the red mark preset) */
   --sm-accent: #b8452f; /* fills with white text (5.3:1) */
@@ -90,6 +91,7 @@
     --sm-border: rgb(231 233 238 / 10%);
     --sm-control-border: #848b9a;
     --sm-edge: rgb(255 255 255 / 8%);
+    --sm-scrim: rgb(0 0 0 / 55%);
     --sm-accent: #ff8f6b;
     --sm-accent-text: #ff8f6b;
     --sm-on-accent: #1b1d22;
@@ -112,6 +114,7 @@
   --sm-border: rgb(231 233 238 / 10%);
   --sm-control-border: #848b9a;
   --sm-edge: rgb(255 255 255 / 8%);
+  --sm-scrim: rgb(0 0 0 / 55%);
   --sm-accent: #ff8f6b;
   --sm-accent-text: #ff8f6b;
   --sm-on-accent: #1b1d22;
