@@ -1,7 +1,12 @@
 import { renderHook, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
 import { useCurrentTab } from './use-current-tab';
+
+// The fake browser starts without a focused window; the popup's window is the current one.
+beforeEach(async () => {
+  await fakeBrowser.windows.create({ focused: true });
+});
 
 const openTab = (url?: string, active = false) =>
   fakeBrowser.tabs.create(url === undefined ? { active } : { url, active });
