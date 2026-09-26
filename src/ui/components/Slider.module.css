@@ -1,0 +1,89 @@
+.slider {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--sm-space-1) var(--sm-space-3);
+}
+
+.label {
+  font-weight: 600;
+}
+
+.value {
+  min-width: 4ch;
+  color: var(--sm-text-muted);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+/* The input is the 24 px hit area; the track and thumb are drawn inside it. */
+.input {
+  grid-column: 1 / -1;
+  appearance: none;
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.input::-webkit-slider-runnable-track {
+  height: 8px;
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-inset);
+}
+
+.input::-moz-range-track {
+  height: 8px;
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-inset);
+}
+
+.input::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -7px;
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-raised-sm);
+}
+
+.input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-raised-sm);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (forced-colors: active) {
+  .input::-webkit-slider-runnable-track {
+    border-color: ButtonText;
+  }
+
+  .input::-moz-range-track {
+    border-color: ButtonText;
+  }
+
+  .input::-webkit-slider-thumb {
+    border-color: ButtonText;
+    background: ButtonFace;
+  }
+
+  .input::-moz-range-thumb {
+    border-color: ButtonText;
+    background: ButtonFace;
+  }
+}

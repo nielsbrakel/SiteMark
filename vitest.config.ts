@@ -132,9 +132,20 @@ export default defineConfig({
       },
       {
         // WxtVitest's setup module can't load in browser mode, so only the alias is shared.
-        resolve: { alias },
-        // Pre-bundled up front: discovering it mid-run makes Vite reload the page and rerun tests.
-        optimizeDeps: { include: ['wxt/browser'] },
+        resolve: { alias, dedupe: ['react', 'react-dom'] },
+        // Pre-bundled up front: discovering a dependency mid-run makes Vite reload the page, and a
+        // second React copy breaks hooks.
+        optimizeDeps: {
+          include: [
+            'wxt/browser',
+            'react',
+            'react/jsx-dev-runtime',
+            'react/jsx-runtime',
+            'react-dom',
+            'react-dom/client',
+            '@testing-library/react',
+          ],
+        },
         test: {
           ...isolation,
           name: 'browser',

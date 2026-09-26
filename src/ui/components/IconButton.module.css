@@ -1,0 +1,55 @@
+.iconButton {
+  appearance: none;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-top-color: var(--sm-edge);
+  border-left-color: var(--sm-edge);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-surface);
+  color: var(--sm-text);
+  box-shadow: var(--sm-raised-sm);
+  cursor: pointer;
+  transition: box-shadow var(--sm-duration) var(--sm-ease);
+}
+
+.iconButton:hover {
+  box-shadow: var(--sm-raised);
+}
+
+.iconButton:active,
+.iconButton[aria-pressed='true'] {
+  box-shadow: var(--sm-pressed);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.icon {
+  display: inline-flex;
+}
+
+@media (forced-colors: active) {
+  .iconButton {
+    border-color: ButtonText;
+  }
+
+  .iconButton:active,
+  .iconButton[aria-pressed='true'] {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .iconButton:disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

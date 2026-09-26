@@ -128,12 +128,13 @@ describe('REQ-THEME-002 components take their colors from the tokens', () => {
     expect(style.color).toBe(tokenColor('--sm-on-accent'));
   });
 
-  it('an active switch fills its track with the accent and moves the knob to the end', () => {
+  it('an active switch fills its track with the accent and moves the knob to the end', async () => {
     const { rerender } = render(<Switch label="On" checked={false} onChange={noop} />);
     const toggle = screen.getByRole('switch');
     const knob = toggle.firstElementChild as HTMLElement;
     const offLeft = box(knob).left;
     rerender(<Switch label="On" checked onChange={noop} />);
+    await Promise.all(document.getAnimations().map((animation) => animation.finished));
     expect(getComputedStyle(toggle).backgroundColor).toBe(tokenColor('--sm-accent'));
     expect(box(knob).left).toBeGreaterThan(offLeft);
   });

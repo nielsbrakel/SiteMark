@@ -1,0 +1,83 @@
+.button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sm-space-2);
+  min-width: 32px;
+  min-height: 32px;
+  padding: var(--sm-space-1) var(--sm-space-4);
+
+  /* Transparent border: invisible here, a real boundary in forced-colors mode. */
+  border: 1px solid transparent;
+  border-top-color: var(--sm-edge);
+  border-left-color: var(--sm-edge);
+  border-radius: var(--sm-radius-md);
+  background: var(--sm-surface);
+  color: var(--sm-text);
+  box-shadow: var(--sm-raised-sm);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: box-shadow var(--sm-duration) var(--sm-ease);
+}
+
+.button:hover {
+  box-shadow: var(--sm-raised);
+}
+
+.button:active,
+.button[aria-pressed='true'] {
+  box-shadow: var(--sm-pressed);
+}
+
+.button[data-variant='primary'] {
+  background: var(--sm-accent);
+  color: var(--sm-on-accent);
+}
+
+.button[data-variant='quiet'] {
+  border-color: transparent;
+  background: transparent;
+  color: var(--sm-accent-text);
+  box-shadow: none;
+}
+
+.button[data-variant='quiet']:hover {
+  background: var(--sm-accent-soft);
+}
+
+.button[data-variant='quiet']:active {
+  box-shadow: var(--sm-pressed);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+}
+
+@media (forced-colors: active) {
+  .button,
+  .button[data-variant='quiet'] {
+    border-color: ButtonText;
+  }
+
+  .button:active,
+  .button[aria-pressed='true'] {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
+
+  .button:disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

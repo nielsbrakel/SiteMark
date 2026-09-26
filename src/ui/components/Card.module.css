@@ -1,0 +1,29 @@
+.card {
+  border: 1px solid transparent;
+  border-top-color: var(--sm-edge);
+  border-left-color: var(--sm-edge);
+  border-radius: var(--sm-radius-lg);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-raised);
+  padding: var(--sm-space-4);
+}
+
+.card[data-tone='warning'] {
+  border-color: var(--sm-warning);
+}
+
+.card[data-tone='danger'] {
+  border-color: var(--sm-danger);
+}
+
+@media (forced-colors: active) {
+  .card {
+    border-color: ButtonBorder;
+  }
+
+  .card[data-tone='warning'],
+  .card[data-tone='danger'] {
+    border-width: 2px;
+    border-color: CanvasText;
+  }
+}

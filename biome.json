@@ -530,7 +530,40 @@
     },
     {
       "includes": ["src/ui/components/**"],
-      "plugins": ["./tools/biome/no-style-attribute.grit"]
+      "plugins": ["./tools/biome/no-style-attribute.grit"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "wxt",
+                      "wxt/**",
+                      "@webext-core/**",
+                      "**/app/**",
+                      "**/platform/**",
+                      "**/browser-source*",
+                      "**/hooks/**"
+                    ],
+                    "message": "src/ui/components is shared with the website: presentational only, data and callbacks come in through props (D-246)."
+                  },
+                  {
+                    "group": ["**/content/**", "**/entrypoints/**"],
+                    "message": "content and ui never import each other; share code through shared (D-222)."
+                  },
+                  {
+                    "group": ["**/website/**"],
+                    "message": "Nothing under src/ imports the website (D-246)."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     },
     {
       "includes": ["src/**/*.tsx", "website/src/**/*.tsx", "!**/*.test.tsx"],

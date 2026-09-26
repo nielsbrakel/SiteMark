@@ -1,5 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import { notImplemented } from '../../core/not-implemented';
+import styles from './Card.module.css';
+import { classNames } from './class-names';
 
 export type CardTone = 'neutral' | 'warning' | 'danger';
 
@@ -9,6 +10,12 @@ export type CardProps = Omit<HTMLAttributes<HTMLElement>, 'style'> & {
   readonly tone?: CardTone;
 };
 
-export function Card(_props: CardProps): ReactNode {
-  return notImplemented();
+/** A raised surface with a 20 px radius (design.md §4). */
+export function Card({
+  as: Element = 'div',
+  tone = 'neutral',
+  className,
+  ...rest
+}: CardProps): ReactNode {
+  return <Element {...rest} data-tone={tone} className={classNames(styles.card, className)} />;
 }

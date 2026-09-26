@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { notImplemented } from '../../core/not-implemented';
+import styles from './Button.module.css';
+import { classNames } from './class-names';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'quiet';
 
@@ -11,6 +12,28 @@ export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'style' 
   readonly type?: 'button' | 'submit';
 };
 
-export function Button(_props: ButtonProps): ReactNode {
-  return notImplemented();
+/** A labelled button (design.md §4). Never submits a form unless `type="submit"`. */
+export function Button({
+  variant = 'secondary',
+  icon,
+  type = 'button',
+  className,
+  children,
+  ...rest
+}: ButtonProps): ReactNode {
+  return (
+    <button
+      {...rest}
+      type={type}
+      data-variant={variant}
+      className={classNames(styles.button, className)}
+    >
+      {icon && (
+        <span className={styles.icon} aria-hidden="true">
+          {icon}
+        </span>
+      )}
+      {children}
+    </button>
+  );
 }

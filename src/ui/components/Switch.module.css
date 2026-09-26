@@ -1,0 +1,77 @@
+.switch {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: var(--sm-space-1) var(--sm-space-3);
+}
+
+.label {
+  cursor: pointer;
+}
+
+.track {
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-inset);
+  cursor: pointer;
+  transition: background var(--sm-duration) var(--sm-ease);
+}
+
+.knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-raised-sm);
+  transition: transform var(--sm-duration) var(--sm-ease);
+}
+
+.track[aria-checked='true'] {
+  background: var(--sm-accent);
+}
+
+.track[aria-checked='true'] .knob {
+  transform: translateX(20px);
+}
+
+.track:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.description {
+  grid-column: 1 / -1;
+  color: var(--sm-text-muted);
+  font-size: var(--sm-text-sm);
+}
+
+@media (forced-colors: active) {
+  .track,
+  .knob {
+    border-color: ButtonText;
+  }
+
+  .knob {
+    background: ButtonFace;
+  }
+
+  .track[aria-checked='true'] {
+    background: Highlight;
+  }
+
+  .track:disabled,
+  .track:disabled .knob {
+    border-color: GrayText;
+  }
+}
