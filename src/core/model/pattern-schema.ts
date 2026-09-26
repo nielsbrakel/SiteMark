@@ -15,7 +15,7 @@ const MAX_ORIGINS = 20;
 
 /** The canonical form the URL engine produces (REQ-URL-005): no port, never broad. */
 const originSchema = z.custom<OriginPattern>(isOriginPattern, {
-  error: 'Expected an origin pattern like https://*.example.com/*',
+  error: 'Expected an origin pattern like *://*.example.com/*',
 });
 
 const lengthMessage = `Expected 1-${MAX_LENGTH} characters`;

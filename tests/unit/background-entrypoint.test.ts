@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { browser } from 'wxt/browser';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
 import { aSiteGroup, aState, aWildcardPattern } from '../../src/core/testing/builders';
@@ -22,6 +22,11 @@ function deliver(message: unknown): Promise<unknown> {
     void fakeBrowser.runtime.onMessage.trigger(message, senders.popup(), resolve);
   });
 }
+
+beforeEach(() => {
+  // The fake browser has no access levels; Chrome 102+ does (REQ-SEC-002).
+  vi.spyOn(fakeBrowser.storage.local, 'setAccessLevel').mockResolvedValue(undefined);
+});
 
 describe('REQ-PRIV-003 REQ-SEC-003 the background registers every listener synchronously', () => {
   it('has all its listeners before main() returns', () => {
