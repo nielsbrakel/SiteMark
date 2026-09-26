@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { markerFiles } from '../../src/platform/registration';
 import { outDir, targets } from './targets';
 
 /** Every `attachShadow(…)` argument in the shipped JavaScript of a target. */
@@ -20,6 +21,15 @@ describe.each(targets())('%s built output', (target) => {
   describe('REQ-RND-001 production attaches closed shadow roots only (D-226)', () => {
     it('passes a literal mode "closed" to every attachShadow call', () => {
       const calls = attachShadowArguments(outDir(target));
+      expect(calls.filter((call) => !closedLiteral.test(call))).toEqual([]);
+    });
+
+    it('attaches a closed shadow root in the marker content script', () => {
+      const marker = markerFiles().map((file) => `${file}: `);
+      const calls = attachShadowArguments(outDir(target)).filter((call) =>
+        marker.some((prefix) => call.startsWith(prefix)),
+      );
+      expect(calls.length).toBeGreaterThan(0);
       expect(calls.filter((call) => !closedLiteral.test(call))).toEqual([]);
     });
 

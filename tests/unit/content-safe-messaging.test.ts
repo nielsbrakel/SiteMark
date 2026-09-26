@@ -12,6 +12,7 @@ const CONTENT_SAFE = [
   'src/platform/send-message.ts',
   'src/platform/listen-in-tab.ts',
   'src/platform/message-senders.ts',
+  'src/entrypoints/content.ts',
 ];
 
 const BACKGROUND_ONLY = [/zod/, /regexpp/, /\/core\/url\//, /\/core\/model\//, /compose/];
