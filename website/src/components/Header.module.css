@@ -81,10 +81,13 @@
   color: var(--sm-accent-text);
 }
 
+/* Wraps at 320 px (REQ-WEBUX-005): the theme toggle then moves below the language switch. */
 .tools {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--sm-space-3);
+  min-width: 0;
   margin-inline-start: auto;
 }
 

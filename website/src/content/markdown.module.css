@@ -1,6 +1,9 @@
 /* Long text: privacy, support, help and changelog (docs/website/design.md §4, Prose). */
 .prose {
   max-width: var(--smw-prose-max);
+
+  /* Long URLs break instead of widening the page at 320 px (REQ-WEBUX-005). */
+  overflow-wrap: break-word;
   font-size: var(--sm-text-lg);
   line-height: var(--smw-prose-line);
 }
@@ -50,7 +53,9 @@
   font-size: var(--sm-text-md);
 }
 
+/* Cells wrap anywhere, so a table fits a 320 px screen without scrolling (REQ-WEBUX-005). */
 .prose :is(th, td) {
+  overflow-wrap: anywhere;
   padding: var(--sm-space-2) var(--sm-space-3);
   border: 1px solid var(--sm-border);
   text-align: start;
