@@ -3,8 +3,10 @@ import { createInMemoryLogger } from '../../src/app/testing/in-memory-logger';
 import type { Host, HostOptions } from '../../src/content/marker/host';
 import type { RendererDeps } from '../../src/content/marker/renderer';
 import type { ViewFactory } from '../../src/content/marker/view-set';
+import type { MarkId } from '../../src/core/ids';
 import type { RenderItem, RenderPlan } from '../../src/core/render/render-plan';
 import type { EffectView, ViewContext, ViewRect } from '../../src/shared/marker-view/effect-view';
+import { anElementItem } from './marker-view';
 
 // Test support for the marker renderer (src/content/marker): a fake host in the light DOM,
 // views that record what the renderer does with them, and plans built from marker-view items.
@@ -123,4 +125,18 @@ export function rendererDeps(overrides: Partial<RendererDeps> = {}) {
     ...overrides,
   } satisfies RendererDeps;
   return { deps, hosts, views, logger, labels };
+}
+
+/** An element item of `effect` for `markId` on `selector`. */
+export function onElement(
+  selector: string,
+  markId: string,
+  effect: 'outline' | 'tint' = 'outline',
+): RenderItem {
+  const base = { key: `${markId}:${effect}`, markIds: [markId as MarkId] };
+  const item =
+    effect === 'outline'
+      ? anElementItem('outline', { widthPx: 2, style: 'solid', pulse: false }, base)
+      : anElementItem('tint', { opacityPct: 20 }, base);
+  return { ...item, target: { selector } };
 }
