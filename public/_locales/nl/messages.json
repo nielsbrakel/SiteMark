@@ -227,8 +227,8 @@
     "description": "Pop-up: toegankelijke naam van de lijst met sitegroepen waarvan de URL-patronen bij het huidige tabblad passen."
   },
   "popupGroupDisabled": {
-    "message": "Uitgeschakeld",
-    "description": "Pop-up: status van een passende sitegroep die uit staat. Gevolgd door een link \"inschakelen in instellingen\"."
+    "message": "Uitgeschakeld —",
+    "description": "Pop-up: status van een passende sitegroep die uit staat. Eindigt met een streepje en wordt gevolgd door een link \"inschakelen in instellingen\"."
   },
   "popupEnableInSettings": {
     "message": "inschakelen in instellingen",

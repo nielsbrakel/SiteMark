@@ -1,0 +1,5 @@
+.host {
+  margin: 0;
+  color: var(--sm-text-muted);
+  overflow-wrap: anywhere;
+}
