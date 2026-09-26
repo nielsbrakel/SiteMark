@@ -78,4 +78,22 @@ describe('REQ-NFR-004 verify-tdd reads how the red and green runs ended', () => 
       unexpected: ['Test timeout of 30000ms exceeded.'],
     });
   });
+
+  it('reads Playwright assertion errors through their terminal colors', () => {
+    const colored =
+      'Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual';
+    const report = {
+      suites: [
+        {
+          specs: [
+            {
+              ok: false,
+              tests: [{ results: [{ status: 'failed', error: { message: colored } }] }],
+            },
+          ],
+        },
+      ],
+    };
+    expect(playwrightOutcome(report)).toEqual({ passed: 0, failed: 1, unexpected: [] });
+  });
 });
