@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nested scroll</title>
+    <link rel="stylesheet" href="/site.css" />
+  </head>
+  <body>
+    <main class="tall">
+      <h1>Nested scroll</h1>
+      <p>The target sits in a scroll container inside another scroll container, inside a scrolling page.</p>
+      <div class="scroller outer" data-testid="outer-scroller">
+        <div class="spacer">Outer content</div>
+        <div class="scroller inner" data-testid="inner-scroller">
+          <div class="spacer">Inner content</div>
+          <button id="nested-target" type="button" data-testid="nested-target">Nested target</button>
+          <div class="spacer">More inner content</div>
+        </div>
+        <div class="spacer">More outer content</div>
+      </div>
+    </main>
+  </body>
+</html>

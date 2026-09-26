@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hostile page</title>
+    <link rel="stylesheet" href="/site.css" />
+    <link rel="stylesheet" href="/hostile.css" />
+    <!-- Not deferred: the removal loop must be running before anything is injected. -->
+    <script src="/hostile.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Hostile page</h1>
+      <p>This page fights injected UI: see hostile.js (REQ-SEC-006).</p>
+      <sitemark-root id="planted-body" data-testid="planted-body">Planted by the page</sitemark-root>
+      <button id="hostile-target" type="button" data-testid="hostile-target">Target</button>
+    </main>
+  </body>
+</html>

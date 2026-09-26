@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dialog</title>
+    <link rel="stylesheet" href="/site.css" />
+    <link rel="stylesheet" href="/dialog.css" />
+    <script src="/dialog.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1>Dialog</h1>
+      <p>A modal dialog and a page popover both enter the top layer (REQ-RND-006).</p>
+      <button id="open-dialog" type="button">Open dialog</button>
+      <button id="toggle-popover" type="button" popovertarget="page-popover">Toggle popover</button>
+      <dialog id="dialog" aria-labelledby="dialog-title">
+        <h2 id="dialog-title">Confirm deletion</h2>
+        <p>This modal covers the page.</p>
+        <button id="dialog-confirm" type="button" data-testid="dialog-confirm">Confirm</button>
+        <button id="close-dialog" type="button">Close</button>
+      </dialog>
+      <div id="page-popover" popover>Page popover</div>
+    </main>
+  </body>
+</html>

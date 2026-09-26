@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Strict CSP</title>
+    <!-- serve.mjs sends a strict Content-Security-Policy header with Trusted Types for this page. -->
+    <link rel="stylesheet" href="/site.css" />
+    <script src="/csp.js" defer></script>
+    <style>
+      #inline-probe {
+        color: rgb(255 0 0);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Strict CSP</h1>
+      <p id="inline-probe">The inline style and inline script on this page are blocked by the CSP.</p>
+      <p id="status" data-testid="csp-status">Waiting for the page script.</p>
+      <button id="csp-target" type="button" data-testid="csp-target">Protected action</button>
+    </main>
+    <script>
+      document.body.dataset.inlineScript = 'ran';
+    </script>
+  </body>
+</html>

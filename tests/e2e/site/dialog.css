@@ -1,0 +1,8 @@
+/* A page that styles every ::backdrop, which would also style SiteMark's host (REQ-RND-006). */
+::backdrop {
+  background: rgb(200 0 0 / 40%);
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 60%);
+}

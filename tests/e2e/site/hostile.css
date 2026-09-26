@@ -1,0 +1,13 @@
+/* biome-ignore-all lint/complexity/noImportantStyles: a hostile page overrides on purpose */
+/* Page styles aimed at SiteMark's host. `:host` rules are !important and win (REQ-SEC-006). */
+sitemark-root {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  z-index: -1 !important;
+  pointer-events: auto !important;
+}
+
+::backdrop {
+  background: rgb(255 0 0 / 50%) !important;
+}
