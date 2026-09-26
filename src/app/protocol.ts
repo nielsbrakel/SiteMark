@@ -2,7 +2,6 @@ import type { Command } from '../core/commands/command';
 import type { ErrorCode } from '../core/errors';
 import type { MarkId, SiteGroupId } from '../core/ids';
 import type { ElementEffects, Hex, SiteMarkState } from '../core/model/schema';
-import { notImplemented } from '../core/not-implemented';
 import type { RenderPlan } from '../core/render/render-plan';
 import type { TabStatus } from '../core/render/status';
 import type { Result } from '../core/result';
@@ -117,8 +116,9 @@ export type TabHandlers = {
 
 /** A message for a tab's content script, e.g. `tabMessage('applyPlan', plan)`. */
 export function tabMessage<K extends TabMessageType>(
-  _type: K,
-  _data: DataOf<TabProtocol, K>,
+  type: K,
+  data: DataOf<TabProtocol, K>,
 ): Envelope<TabProtocol, K> {
-  return notImplemented();
+  // TypeScript can't narrow the conditional Envelope type through the check on `data`.
+  return (data === undefined ? { type } : { type, data }) as Envelope<TabProtocol, K>;
 }

@@ -1,6 +1,8 @@
 import type { MarkId } from '../ids';
+import { idSchema } from '../model/fields';
+import { parseWith } from '../model/issues';
 import type { SchemaResult } from '../model/schema';
-import { notImplemented } from '../not-implemented';
+import { z } from '../model/zod';
 
 // What the marker in a tab reports back to the background (REQ-POP-002, REQ-POP-007, REQ-MARK-010).
 // Used by the popup, the badge and the content script. Content scripts only `import type` from
@@ -24,7 +26,18 @@ export type TabStatus = {
   readonly hidden: boolean;
 };
 
+/** 200 site groups × 50 marks: the most element marks a plan can hold. */
+const MAX_MARKS = 10_000;
+
+const tabStatusSchema = z.strictObject({
+  marks: z
+    .array(z.strictObject({ markId: idSchema<MarkId>(), found: z.boolean() }))
+    .max(MAX_MARKS, `Expected at most ${MAX_MARKS} marks`),
+  favicon: z.enum(['available', 'unavailable', 'off']),
+  hidden: z.boolean(),
+});
+
 /** Validates a status from a content script (a report or an answer); never throws (D-225). */
-export function parseTabStatus(_input: unknown): SchemaResult<TabStatus> {
-  return notImplemented();
+export function parseTabStatus(input: unknown): SchemaResult<TabStatus> {
+  return parseWith(tabStatusSchema, input);
 }

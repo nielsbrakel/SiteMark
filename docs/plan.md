@@ -134,25 +134,31 @@ focus. The panel sends a `savePick` intent; the background validates it and deci
 
 ## 4. Message protocol (`platform/messaging.ts`)
 
+Types in `app/protocol.ts`; every message travels as `{ type, data }` and the background answers with a
+`Reply<R> = Result<R, 'messageRefused' | 'handlerFailed'>`.
+
 ```ts
 // extension pages → background (sender must be an extension page)
-command(cmd: Command): Result<{ revision: number }>;
+command(cmd: Command): Result<{ revision: number; notices: CommandNotice[] }, ErrorCode>;
 getState(): SiteMarkState;                 // read-only view for popup/options
 startPicker(d: { tabId: number; repickMarkId?: MarkId }): void;
 toggleHidden(d: { tabId: number }): void;
 getTabStatus(d: { tabId: number }): TabStatus | 'not-injected' | 'restricted';
 // content script → background (sender must be a top-frame content script; origin taken from sender)
 renderPlanFor(): RenderPlan;
-reportStatus(s: MarkStatus[]): void;
+reportStatus(s: TabStatus): void;          // { marks: MarkStatus[], favicon, hidden } (core/render/status.ts)
 savePick(d: { selector: string; siteGroupId?: SiteGroupId; effects: ElementEffectKind[]; color: Hex }): Result<MarkId>;
 requestGrant(): void;                      // opens grant.html for sender origin
 openOptions(d: { route: string }): void;
-// background → content (tabs.sendMessage)
+// background → content (tabs.sendMessage; the content script accepts only SiteMark senders outside a tab)
 applyPlan(p: RenderPlan): void;
 setHidden(d: { hidden: boolean }): void;
+getStatus(): TabStatus;                    // validated by the background (REQ-SEC-003)
 ```
 
-An exhaustiveness test checks that every protocol key has a handler and a zod schema (T-065).
+An exhaustiveness test checks that every protocol key has a handler and a zod schema (T-065). The zod schemas
+live in `platform/message-payloads.ts`, which content scripts never load: they import only the protocol types,
+`send-message.ts` and `listen-in-tab.ts` (a test guards that import graph).
 
 ## 5. Test strategy (D-233)
 
