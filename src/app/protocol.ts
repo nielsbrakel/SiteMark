@@ -5,7 +5,6 @@ import type { ErrorCode } from '../core/errors';
 import type { MarkId, SiteGroupId } from '../core/ids';
 import type { SiteOrigin } from '../core/model/defaults';
 import type { ElementEffects, Hex, SiteMarkState } from '../core/model/schema';
-import { notImplemented } from '../core/not-implemented';
 import type { RenderPlan } from '../core/render/render-plan';
 import type { TabStatus } from '../core/render/status';
 import type { Result } from '../core/result';
@@ -183,8 +182,9 @@ export function tabMessage<K extends TabMessageType>(
 
 /** A message for a tab's picker, e.g. `pickerMessage('repick', { markId })`. */
 export function pickerMessage<K extends PickerMessageType>(
-  _type: K,
-  _data: DataOf<PickerProtocol, K>,
+  type: K,
+  data: DataOf<PickerProtocol, K>,
 ): Envelope<PickerProtocol, K> {
-  return notImplemented();
+  // Every picker message has data, so the envelope always carries it.
+  return { type, data } as Envelope<PickerProtocol, K>;
 }

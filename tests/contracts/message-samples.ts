@@ -49,6 +49,9 @@ export const pageTypes: readonly PageMessageType[] = [
   'startPicker',
   'toggleHidden',
   'getTabStatus',
+  'markThisSite',
+  'importPreview',
+  'importApply',
 ];
 
 export const contentTypes: readonly ContentMessageType[] = [

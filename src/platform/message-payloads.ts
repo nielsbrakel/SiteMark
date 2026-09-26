@@ -13,7 +13,6 @@ import { hexSchema, idSchema } from '../core/model/fields';
 import { parseWith } from '../core/model/issues';
 import type { SchemaResult } from '../core/model/schema';
 import { z } from '../core/model/zod';
-import { notImplemented } from '../core/not-implemented';
 import { parseTabStatus } from '../core/render/status';
 
 // A zod schema for the payload of every message the background answers (REQ-SEC-003). Background
@@ -27,17 +26,15 @@ type Parsers<K extends BackgroundMessageType> = {
 
 const MAX_SELECTOR = 500;
 const MAX_ROUTE = 500;
+/** A DNS name is at most 253 characters; the reducer checks the host itself. */
+const MAX_HOSTNAME = 253;
+/** Generous: the import itself refuses files over 1 MB with a readable error (importTooLarge). */
+const MAX_IMPORT_TEXT = 2 * 1024 * 1024;
 
 const parser =
   <Data>(schema: ZodType<Data>): Parser<Data> =>
   (data) =>
     parseWith(schema, data);
-
-/** T-071, T-073: schemas still to come. */
-const pending =
-  <Data>(): Parser<Data> =>
-  () =>
-    notImplemented();
 
 const noPayload = parser(z.undefined('Expected no payload'));
 const tabId = z.int().min(0);
@@ -58,7 +55,18 @@ const savePick = z.strictObject({
     .min(1)
     .refine((effects) => new Set(effects).size === effects.length, 'Each effect only once'),
   color: hexSchema,
+  repickMarkId: idSchema<MarkId>().exactOptional(),
 });
+
+const markThisSite = z.strictObject({
+  tabId,
+  origin: z.strictObject({
+    hostname: z.string().min(1).max(MAX_HOSTNAME),
+    port: z.string().regex(/^\d{0,5}$/, 'Expected a port number or nothing'),
+  }),
+});
+
+const importFile = { text: z.string().max(MAX_IMPORT_TEXT) };
 
 const pageParsers: Parsers<PageMessageType> = {
   command: parseCommand,
@@ -66,9 +74,9 @@ const pageParsers: Parsers<PageMessageType> = {
   startPicker: parser(z.strictObject({ tabId, repickMarkId: idSchema<MarkId>().exactOptional() })),
   toggleHidden: forTab,
   getTabStatus: forTab,
-  markThisSite: pending(),
-  importPreview: pending(),
-  importApply: pending(),
+  markThisSite: parser(markThisSite),
+  importPreview: parser(z.strictObject(importFile)),
+  importApply: parser(z.strictObject({ ...importFile, mode: z.enum(['merge', 'replace']) })),
 };
 
 const contentParsers: Parsers<ContentMessageType> = {
