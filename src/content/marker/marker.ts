@@ -35,6 +35,8 @@ const IDLE: TabStatus = { marks: [], favicon: 'off', hidden: false };
 export function startMarker(ports: MarkerPorts): Marker {
   let reported = JSON.stringify(IDLE);
   let isDisposed = false;
+  // A plan the background pushed is newer than the answer to our first request.
+  let hasPush = false;
   const report = () => {
     const status = renderer.status();
     const json = JSON.stringify(status);
@@ -50,12 +52,15 @@ export function startMarker(ports: MarkerPorts): Marker {
   };
   const renderer = ports.createRenderer({ onStatusChange: report, onHostLost: dispose });
   const unlisten = ports.listen({
-    applyPlan: (plan) => renderer.apply(plan),
+    applyPlan: (plan) => {
+      hasPush = true;
+      renderer.apply(plan);
+    },
     setHidden: ({ hidden }) => renderer.setHidden(hidden),
     getStatus: () => renderer.status(),
   });
   void ports.requestPlan().then((plan) => {
-    if (plan && !isDisposed) renderer.apply(plan);
+    if (plan && !hasPush && !isDisposed) renderer.apply(plan);
   });
   return { dispose };
 }

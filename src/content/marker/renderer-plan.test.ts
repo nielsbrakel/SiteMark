@@ -3,7 +3,8 @@ import { aPlan, rendererDeps } from '../../../tests/unit/marker-renderer';
 import { aPageItem, resetDocument } from '../../../tests/unit/marker-view';
 import type { RenderItem } from '../../core/render/render-plan';
 import { createView } from '../../shared/marker-view/create-view';
-import { createRenderer, type DocumentEffects, type Renderer } from './renderer';
+import type { DocumentEffects } from './document-effects-port';
+import { createRenderer, type Renderer } from './renderer';
 
 const renderers: Renderer[] = [];
 

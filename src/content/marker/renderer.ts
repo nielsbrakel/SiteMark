@@ -1,24 +1,18 @@
 import type { Logger } from '../../app/ports';
 import { diffPlan } from '../../core/render/diff-plan';
-import { emptyPlan, type RenderItem, type RenderPlan } from '../../core/render/render-plan';
-import type { FaviconStatus, TabStatus } from '../../core/render/status';
+import { emptyPlan, type RenderPlan } from '../../core/render/render-plan';
+import type { TabStatus } from '../../core/render/status';
 import { createView } from '../../shared/marker-view/create-view';
 import type { ViewLabels } from '../../shared/marker-view/effect-view';
+import {
+  type DocumentEffects,
+  noDocumentEffects,
+  syncDocumentEffects,
+} from './document-effects-port';
 import type { Host, HostOptions } from './host';
+import { isolate } from './isolate';
 import { openStage, type Stage } from './stage';
 import type { ViewFactory, ViewMountHook } from './view-set';
-
-/** The render items that change the document instead of being drawn (T-090, T-091). */
-export type DocumentItem = Extract<RenderItem, { readonly effect: 'titlePrefix' | 'favicon' }>;
-
-/** The owner of the title prefix and favicon (D-230). */
-export type DocumentEffects = {
-  /** The plan's current document items; `[]` strips the prefix and restores the favicon. */
-  apply(items: readonly DocumentItem[]): void;
-  faviconStatus(): FaviconStatus;
-  /** Restores the title and favicon. */
-  dispose(): void;
-};
 
 export type RendererDeps = {
   readonly createHost: (options: HostOptions) => Host;
@@ -45,12 +39,16 @@ export type Renderer = {
   dispose(): void;
 };
 
-/** Until T-090/T-091 plug in the real ones: no title prefix, no favicon. */
-const noDocumentEffects: DocumentEffects = {
-  apply: () => undefined,
-  faviconStatus: () => 'off',
-  dispose: () => undefined,
-};
+/** The stage a plan needs: none while it is empty (REQ-RND-009), else the open one or a new one. */
+function stageFor(
+  plan: RenderPlan,
+  stage: Stage | undefined,
+  open: () => Stage,
+): Stage | undefined {
+  if (plan.items.length > 0) return stage ?? open();
+  stage?.close();
+  return undefined;
+}
 
 /**
  * The marker's renderer (plan §3.3). It does nothing until a plan has items (REQ-RND-009): then
@@ -68,7 +66,7 @@ export function createRenderer(deps: RendererDeps): Renderer {
     onTargetsChange: changed,
     onLost: () => {
       stage = undefined;
-      isDisposed = true;
+      dispose();
       deps.onHostLost?.();
     },
   };
@@ -76,9 +74,12 @@ export function createRenderer(deps: RendererDeps): Renderer {
   let stage: Stage | undefined;
   let isHidden = false;
   let isDisposed = false;
-  const close = () => {
+  const dispose = () => {
+    if (isDisposed) return;
+    isDisposed = true;
     stage?.close();
     stage = undefined;
+    isolate(deps.logger, 'Restoring the document', () => documentEffects.dispose());
   };
 
   return {
@@ -86,11 +87,9 @@ export function createRenderer(deps: RendererDeps): Renderer {
       if (isDisposed) return;
       const diff = diffPlan(plan, next);
       plan = next;
-      if (next.items.length === 0) close();
-      else {
-        stage ??= openStage({ ...stageDeps, isHidden });
-        stage.apply(diff, next);
-      }
+      stage = stageFor(next, stage, () => openStage({ ...stageDeps, isHidden }));
+      stage?.apply(diff, next);
+      syncDocumentEffects(documentEffects, diff, next, deps.logger);
       changed();
     },
     setHidden(hidden) {
@@ -103,9 +102,6 @@ export function createRenderer(deps: RendererDeps): Renderer {
       favicon: documentEffects.faviconStatus(),
       hidden: isHidden,
     }),
-    dispose() {
-      isDisposed = true;
-      close();
-    },
+    dispose,
   };
 }

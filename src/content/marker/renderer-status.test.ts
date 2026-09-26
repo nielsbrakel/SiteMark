@@ -2,7 +2,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { aPlan, onElement, rendererDeps } from '../../../tests/unit/marker-renderer';
 import { aPageItem, resetDocument } from '../../../tests/unit/marker-view';
 import { emptyPlan } from '../../core/render/render-plan';
-import { createRenderer, type DocumentEffects, type Renderer } from './renderer';
+import type { DocumentEffects } from './document-effects-port';
+import { createRenderer, type Renderer } from './renderer';
 
 const renderers: Renderer[] = [];
 
