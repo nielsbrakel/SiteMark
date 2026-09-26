@@ -2,7 +2,13 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { createGlassPane, type GlassPane } from './glass-pane';
 
-const LABELS = { frameNote: 'marks the whole frame', componentNote: 'marks the component' };
+const LABELS = {
+  frameNote: 'marks the whole frame',
+  componentNote: 'marks the component',
+  paneName: 'SiteMark element picker',
+  hint: 'Click to select · ↑↓←→ navigate · Enter select · Esc cancel',
+  size: (width: number, height: number) => `${width} by ${height}`,
+};
 
 const panes: GlassPane[] = [];
 const nodes: Element[] = [];
@@ -16,18 +22,18 @@ afterEach(() => {
 function aPane() {
   const hovered: Element[] = [];
   const selected: Element[] = [];
-  const pane = createGlassPane(
-    {
-      onHover: (element) => {
-        hovered.push(element);
-        pane.highlight(element);
-      },
-      onSelect: (element) => selected.push(element),
+  const keys: string[] = [];
+  const hooks = {
+    onHover: (element: Element) => {
+      hovered.push(element);
+      pane.highlight(element);
     },
-    LABELS,
-  );
+    onSelect: (element: Element) => selected.push(element),
+    onKey: (key: string) => keys.push(key),
+  };
+  const pane = createGlassPane(hooks, LABELS);
   panes.push(pane);
-  return { pane, hovered, selected };
+  return { pane, hovered, selected, keys };
 }
 
 /** A page element at a fixed place in the viewport. */
@@ -178,5 +184,93 @@ describe('REQ-PICK-008 frames and components', () => {
     await userEvent.hover(canvas, { force: true });
     expect(hovered.at(-1)).toBe(canvas);
     expect(part('tooltip').textContent).not.toContain('marks');
+  });
+});
+
+// ── Keyboard (T-105) ──────────────────────────────────────────────────────────────────────────
+
+const focusedPart = () => hostOf().shadowRoot?.activeElement ?? null;
+
+describe('REQ-A11Y-002 the pane takes the keyboard focus', () => {
+  it('moves focus into its shadow root, on a named element', () => {
+    aPane();
+    expect(document.activeElement).toBe(hostOf());
+    expect(focusedPart()).toBe(part('pane'));
+    expect(part('pane').getAttribute('aria-label')).toBe(LABELS.paneName);
+  });
+
+  it('keeps the focus on Tab and when the page takes it', async () => {
+    const other = aButton();
+    aPane();
+    await userEvent.tab();
+    expect(focusedPart()).toBe(part('pane'));
+    other.focus();
+    await expect.poll(focusedPart).toBe(part('pane'));
+  });
+
+  it('shows the keyboard hint', () => {
+    aPane();
+    expect(part('hint')?.textContent).toBe(LABELS.hint);
+  });
+});
+
+describe('REQ-PICK-002 keys drive the picker, and the page never sees them', () => {
+  it.each([
+    ['{ArrowUp}', 'up'],
+    ['{ArrowDown}', 'down'],
+    ['{ArrowLeft}', 'left'],
+    ['{ArrowRight}', 'right'],
+    ['{Enter}', 'enter'],
+    ['{Escape}', 'escape'],
+  ])('%s → %s', async (key, reported) => {
+    const { keys } = aPane();
+    await userEvent.keyboard(key);
+    expect(keys).toEqual([reported]);
+  });
+
+  it('keeps keys from the page and from the element that had focus', async () => {
+    const button = aButton();
+    let pageKeys = 0;
+    let pageClicks = 0;
+    const onKey = () => pageKeys++;
+    document.addEventListener('keydown', onKey);
+    button.addEventListener('click', () => pageClicks++);
+    button.focus();
+    aPane();
+    await userEvent.keyboard('{Enter}{ArrowDown}x');
+    document.removeEventListener('keydown', onKey);
+    expect([pageKeys, pageClicks]).toEqual([0, 0]);
+  });
+
+  it('ignores synthetic keys', () => {
+    const { keys } = aPane();
+    const init = { key: 'Enter', bubbles: true, composed: true };
+    part('pane').dispatchEvent(new KeyboardEvent('keydown', init));
+    expect(keys).toEqual([]);
+  });
+});
+
+describe('REQ-A11Y-011 the pane announces the candidate and returns focus', () => {
+  it('announces the role, name and size in a live region', () => {
+    const button = aButton();
+    const { pane } = aPane();
+    pane.highlight(button);
+    expect(part('live')?.getAttribute('role')).toBe('status');
+    expect(part('live')?.textContent).toBe('button, Delete, 120 by 36');
+  });
+
+  it('announces an unnamed element by its tag', () => {
+    const box = place(document.createElement('div'), 'left:0; top:0; width:50px; height:20px');
+    const { pane } = aPane();
+    pane.highlight(box);
+    expect(part('live')?.textContent).toBe('div, 50 by 20');
+  });
+
+  it('gives the focus back to the page element that had it', () => {
+    const button = aButton();
+    button.focus();
+    const { pane } = aPane();
+    pane.dispose();
+    expect(document.activeElement).toBe(button);
   });
 });
