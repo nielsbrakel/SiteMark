@@ -1,5 +1,7 @@
-import { notImplemented } from '../../core/not-implemented';
 import type { RenderItem } from '../../core/render/render-plan';
+import { createTitlePrefix } from './title-prefix';
+
+type TitlePrefixItem = Extract<RenderItem, { effect: 'titlePrefix' }>;
 
 /**
  * The single owner of the two page mutations outside the host (D-230): the title prefix
@@ -14,6 +16,19 @@ export type DocumentEffects = {
   dispose(): void;
 };
 
+const isTitlePrefix = (item: RenderItem): item is TitlePrefixItem =>
+  item.target === 'page' && item.effect === 'titlePrefix';
+
 export function createDocumentEffects(): DocumentEffects {
-  return notImplemented();
+  const title = createTitlePrefix();
+  const clear = () => title.remove();
+  return {
+    apply(items) {
+      const item = items.find(isTitlePrefix);
+      if (item) title.apply(item.params.text);
+      else title.remove();
+    },
+    clear,
+    dispose: clear,
+  };
 }
