@@ -2,29 +2,20 @@ import { readFileSync } from 'node:fs';
 import { screen, within } from '@testing-library/react';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { titleOf } from '../../tests/html';
-import { type RenderedPage, renderPages } from '../entry-server';
+import { pagesForDom, showPage } from '../../tests/unit/page-dom';
+import type { RenderedPage } from '../entry-server';
 
 let pages: RenderedPage[];
 
 beforeAll(async () => {
-  // No stylesheets: the test document would try to load them.
-  pages = await renderPages({ script: 'assets/entry-client.js', styles: [] });
+  pages = await pagesForDom();
 });
 
 afterEach(() => {
   document.body.replaceChildren();
 });
 
-/** Shows the #root of a prerendered page in the test document; returns the whole HTML. */
-function show(file: string): string {
-  const page = pages.find((p) => p.file === file);
-  expect(page, `${file} is prerendered`).toBeDefined();
-  // biome-ignore lint/nursery/noJsRestrictedProperties: parses the prerendered test fixture
-  const parsed = new DOMParser().parseFromString(page?.html ?? '', 'text/html');
-  const root = parsed.getElementById('root');
-  document.body.replaceChildren(...(root ? [document.importNode(root, true)] : []));
-  return page?.html ?? '';
-}
+const show = (file: string) => showPage(pages, file);
 
 const markdownHeadings = (file: string) =>
   [...readFileSync(file, 'utf8').matchAll(/^#{1,6} (.+)$/gm)].map((m) => (m[1] ?? '').trim());

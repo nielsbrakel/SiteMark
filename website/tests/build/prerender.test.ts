@@ -23,6 +23,8 @@ const pages = [
   },
   { file: 'privacy/index.html', locale: 'en', route: 'privacy', h1: 'Privacy policy' },
   { file: 'nl/privacy/index.html', locale: 'nl', route: 'privacy', h1: 'Privacyverklaring' },
+  { file: 'support/index.html', locale: 'en', route: 'support', h1: 'Support' },
+  { file: 'nl/support/index.html', locale: 'nl', route: 'support', h1: 'Ondersteuning' },
 ];
 
 describe('REQ-WEB-002 every route is prerendered to one static HTML file', () => {
