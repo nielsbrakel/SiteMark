@@ -9,6 +9,10 @@
   "commandStartPicker": {
     "message": "Kies een element op deze pagina om te markeren"
   },
+  "commandToggleHide": {
+    "message": "Markeringen op dit tabblad tonen of verbergen",
+    "description": "Keyboard shortcut description in the browser's shortcut settings (toggle-hide command)."
+  },
   "popupTitle": {
     "message": "SiteMark"
   },

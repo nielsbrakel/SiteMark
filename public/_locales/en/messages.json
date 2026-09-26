@@ -9,6 +9,10 @@
   "commandStartPicker": {
     "message": "Pick an element to mark on this page"
   },
+  "commandToggleHide": {
+    "message": "Show or hide the marks on this tab",
+    "description": "Keyboard shortcut description in the browser's shortcut settings (toggle-hide command)."
+  },
   "popupTitle": {
     "message": "SiteMark"
   },
