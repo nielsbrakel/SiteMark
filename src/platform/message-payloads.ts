@@ -13,6 +13,7 @@ import { hexSchema, idSchema } from '../core/model/fields';
 import { parseWith } from '../core/model/issues';
 import type { SchemaResult } from '../core/model/schema';
 import { z } from '../core/model/zod';
+import { notImplemented } from '../core/not-implemented';
 import { parseTabStatus } from '../core/render/status';
 
 // A zod schema for the payload of every message the background answers (REQ-SEC-003). Background
@@ -31,6 +32,12 @@ const parser =
   <Data>(schema: ZodType<Data>): Parser<Data> =>
   (data) =>
     parseWith(schema, data);
+
+/** T-071, T-073: schemas still to come. */
+const pending =
+  <Data>(): Parser<Data> =>
+  () =>
+    notImplemented();
 
 const noPayload = parser(z.undefined('Expected no payload'));
 const tabId = z.int().min(0);
@@ -59,6 +66,9 @@ const pageParsers: Parsers<PageMessageType> = {
   startPicker: parser(z.strictObject({ tabId, repickMarkId: idSchema<MarkId>().exactOptional() })),
   toggleHidden: forTab,
   getTabStatus: forTab,
+  markThisSite: pending(),
+  importPreview: pending(),
+  importApply: pending(),
 };
 
 const contentParsers: Parsers<ContentMessageType> = {

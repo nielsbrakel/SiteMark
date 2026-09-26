@@ -28,6 +28,9 @@ export const validPayloads: Samples = {
   startPicker: { tabId: 7, repickMarkId: 'mark00000001' as MarkId },
   toggleHidden: { tabId: 7 },
   getTabStatus: { tabId: 7 },
+  markThisSite: { tabId: 7, origin: { hostname: 'prod.example.com', port: '8443' } },
+  importPreview: { text: '{"schemaVersion":1}' },
+  importApply: { text: '{"schemaVersion":1}', mode: 'merge' },
   renderPlanFor: undefined,
   reportStatus: status,
   savePick: {
@@ -37,7 +40,7 @@ export const validPayloads: Samples = {
     color: '#1f6feb' as Hex,
   },
   requestGrant: undefined,
-  openOptions: { route: 'groups/group0000001' },
+  openOptions: { route: '/groups/group0000001' },
 };
 
 export const pageTypes: readonly PageMessageType[] = [

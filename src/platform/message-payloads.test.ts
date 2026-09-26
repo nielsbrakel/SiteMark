@@ -61,6 +61,11 @@ describe('REQ-SEC-003 every message payload is validated with a schema', () => {
     expect(accepts('savePick', data)).toBe(false);
   });
 
+  it('accepts a savePick that re-picks a mark (REQ-PICK-007), with a valid mark ID only', () => {
+    expect(accepts('savePick', { ...pick, repickMarkId: 'mark00000002' })).toBe(true);
+    expect(accepts('savePick', { ...pick, repickMarkId: 'mark 2' })).toBe(false);
+  });
+
   it('accepts a savePick for a new site group (no siteGroupId)', () => {
     const { siteGroupId: _, ...forNewGroup } = pick;
     expect(accepts('savePick', forNewGroup)).toBe(true);
@@ -84,5 +89,50 @@ describe('REQ-SEC-003 every message payload is validated with a schema', () => {
     ['no hidden flag', { marks: [], favicon: 'off' }],
   ])('refuses a status report with %s', (_name, data) => {
     expect(accepts('reportStatus', data)).toBe(false);
+  });
+});
+
+describe('REQ-POP-006 REQ-SEC-003 the markThisSite payload names a tab and its origin', () => {
+  const request = validPayloads.markThisSite;
+  it('accepts the default port as an empty string', () => {
+    expect(accepts('markThisSite', { ...request, origin: { hostname: 'x.test', port: '' } })).toBe(
+      true,
+    );
+  });
+
+  it.each([
+    ['no tab', { origin: request.origin }],
+    ['no origin', { tabId: 7 }],
+    ['an empty host', { tabId: 7, origin: { hostname: '', port: '' } }],
+    ['a host over 253 characters', { tabId: 7, origin: { hostname: 'a'.repeat(254), port: '' } }],
+    ['a port that is not a number', { tabId: 7, origin: { hostname: 'x.test', port: 'http' } }],
+    ['a port over 5 digits', { tabId: 7, origin: { hostname: 'x.test', port: '123456' } }],
+    ['a URL next to the origin', { ...request, url: 'https://x.test/' }],
+    ['an extra origin key', { tabId: 7, origin: { ...request.origin, scheme: 'https' } }],
+  ])('refuses %s', (_name, data) => {
+    expect(accepts('markThisSite', data)).toBe(false);
+  });
+});
+
+describe('REQ-DATA-005 REQ-SEC-003 the import payloads carry the file text and the mode', () => {
+  it.each([
+    ['merge', true],
+    ['replace', true],
+    ['append', false],
+  ])('accepts the %s mode: %s', (mode, valid) => {
+    expect(accepts('importApply', { text: '{}', mode })).toBe(valid);
+  });
+
+  it.each([
+    ['no text', {}],
+    ['text that is not a string', { text: 42 }],
+    ['text over 2 MiB, far past the 1 MB file limit', { text: 'x'.repeat(2 * 1024 * 1024 + 1) }],
+    ['an extra key', { text: '{}', origins: ['*://x.test/*'] }],
+  ])('refuses a preview with %s', (_name, data) => {
+    expect(accepts('importPreview', data)).toBe(false);
+  });
+
+  it('refuses an apply without a mode', () => {
+    expect(accepts('importApply', { text: '{}' })).toBe(false);
   });
 });
