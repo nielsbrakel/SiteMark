@@ -23,7 +23,10 @@ export type RegexErrorCode =
   | 'regexNeedsOrigin'
   | 'regexTooManyOrigins';
 
-/** Stored state and imports (REQ-DATA-001, REQ-DATA-004, REQ-DATA-007, REQ-SEC-004). */
+/**
+ * Stored state and imports (REQ-DATA-001, REQ-DATA-004, REQ-DATA-007, REQ-SEC-004). `storageFailed`:
+ * the browser refused to save a change, e.g. a full quota.
+ */
 export type DataErrorCode =
   | 'importInvalidJson'
   | 'importTooDeep'
@@ -32,7 +35,8 @@ export type DataErrorCode =
   | 'importPatternInvalid'
   | 'importUnsupportedVersion'
   | 'stateReadOnly'
-  | 'stateUnreadable';
+  | 'stateUnreadable'
+  | 'storageFailed';
 
 /** Site group names, invariants, limits and contents (REQ-GRP-001, REQ-GRP-002, REQ-MARK-001). */
 export type SiteGroupErrorCode =

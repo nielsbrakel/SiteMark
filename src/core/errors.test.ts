@@ -28,6 +28,7 @@ const everyCode = {
   importUnsupportedVersion: true,
   stateReadOnly: true,
   stateUnreadable: true,
+  storageFailed: true,
   siteGroupNeedsPattern: true,
   siteGroupNameInvalid: true,
   siteGroupLimitReached: true,
