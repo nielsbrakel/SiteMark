@@ -35,6 +35,17 @@ function clamp(value: number, min: number, max: number): number {
   return Number.isFinite(value) ? Math.min(max, Math.max(min, value)) : min;
 }
 
+/** Sets a length in whole pixels, limited to `min…max`. */
+export function setPx(
+  el: HTMLElement,
+  name: string,
+  value: number,
+  min: number,
+  max: number,
+): void {
+  el.style.setProperty(name, `${Math.round(clamp(value, min, max))}px`);
+}
+
 /** What a view adds to the shared behaviour of `assembleView`. */
 type ViewParts<I extends DrawnItem> = {
   /** Applies an item's own settings (colors and z are already set). */
