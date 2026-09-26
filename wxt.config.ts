@@ -41,6 +41,8 @@ export default defineConfig({
         suggested_key: { default: 'Alt+Shift+M' },
         description: '__MSG_commandStartPicker__',
       },
+      // D-208: no default key; the user assigns one in the browser's shortcut settings.
+      'toggle-hide': { description: '__MSG_commandToggleHide__' },
     },
     // Browser floors (REQ-NFR-001).
     ...(browser === 'chrome' && { minimum_chrome_version: '120' }),
