@@ -1,0 +1,36 @@
+/**
+ * The glass pane (docs/design.md §5.3): an invisible cover, the neutral two-tone dashed outline
+ * (2 px `--sm-picker-dark` dashes inside 2 px `--sm-picker-light`, readable on any background) and
+ * a raised tooltip pill. Colors come from the scoped tokens (picker-host.ts).
+ */
+export const GLASS_PANE_CSS = `
+.sm-pane {
+  position: fixed;
+  inset: 0;
+  cursor: crosshair;
+  background: transparent;
+  outline: none;
+}
+.sm-outline {
+  position: fixed;
+  box-sizing: border-box;
+  pointer-events: none;
+  border: 2px dashed var(--sm-picker-dark);
+  outline: 2px solid var(--sm-picker-light);
+  forced-color-adjust: none;
+}
+.sm-tooltip {
+  position: fixed;
+  max-width: min(480px, calc(100vw - 16px));
+  overflow: hidden;
+  padding: 4px 10px;
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-raised-sm);
+  color: var(--sm-text);
+  font: 12px/1.5 var(--sm-font);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+`;

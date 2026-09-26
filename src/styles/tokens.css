@@ -76,6 +76,10 @@
   --sm-mark-amber: #f4a300;
   --sm-mark-blue: #1f6feb;
   --sm-mark-slate: #57606a;
+
+  /* Picker hover outline: neutral two-tone, readable on any page in both themes (docs/design.md §5.3). */
+  --sm-picker-light: #fff;
+  --sm-picker-dark: #1b1d22;
 }
 
 @media (prefers-color-scheme: dark) {
