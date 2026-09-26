@@ -1,9 +1,12 @@
-import { notImplemented } from '../../core/not-implemented';
 import type { RenderItem } from '../../core/render/render-plan';
 import type { FaviconStatus } from '../../core/render/status';
+import { createFaviconTint } from './favicon-tint';
 import { createTitlePrefix } from './title-prefix';
 
 type TitlePrefixItem = Extract<RenderItem, { effect: 'titlePrefix' }>;
+type FaviconItem = Extract<RenderItem, { effect: 'favicon' }>;
+
+const FAVICON_TIMEOUT_MS = 3000;
 
 /**
  * The single owner of the two page mutations outside the host (D-230): the title prefix
@@ -32,18 +35,37 @@ export type DocumentEffectsOptions = {
 
 const isTitlePrefix = (item: RenderItem): item is TitlePrefixItem =>
   item.target === 'page' && item.effect === 'titlePrefix';
+const isFavicon = (item: RenderItem): item is FaviconItem =>
+  item.target === 'page' && item.effect === 'favicon';
 
-export function createDocumentEffects(_options: DocumentEffectsOptions = {}): DocumentEffects {
+export function createDocumentEffects(options: DocumentEffectsOptions = {}): DocumentEffects {
+  let status: FaviconStatus = 'off';
+  const setStatus = (next: FaviconStatus) => {
+    if (next === status) return;
+    status = next;
+    options.onFaviconStatus?.(next);
+  };
   const title = createTitlePrefix();
-  const clear = () => title.remove();
+  const favicon = createFaviconTint(setStatus, options.faviconTimeoutMs ?? FAVICON_TIMEOUT_MS);
+  const removeFavicon = () => {
+    favicon.remove();
+    setStatus('off');
+  };
+  const clear = () => {
+    title.remove();
+    removeFavicon();
+  };
   return {
     apply(items) {
-      const item = items.find(isTitlePrefix);
-      if (item) title.apply(item.params.text);
+      const prefix = items.find(isTitlePrefix);
+      if (prefix) title.apply(prefix.params.text);
       else title.remove();
+      const tint = items.find(isFavicon);
+      if (tint) favicon.apply(tint.color);
+      else removeFavicon();
     },
     clear,
     dispose: clear,
-    faviconStatus: () => notImplemented(),
+    faviconStatus: () => status,
   };
 }
