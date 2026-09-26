@@ -1,0 +1,26 @@
+.page {
+  max-width: 560px;
+  margin: var(--sm-space-6) auto;
+  display: grid;
+  gap: var(--sm-space-4);
+  justify-items: start;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--sm-space-2);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: var(--sm-text-xl);
+}
+
+.sites {
+  margin: 0;
+  padding-inline-start: var(--sm-space-5);
+  display: grid;
+  gap: var(--sm-space-1);
+  overflow-wrap: anywhere;
+}
