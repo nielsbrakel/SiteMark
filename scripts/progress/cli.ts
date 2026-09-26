@@ -3,11 +3,11 @@
 //   pnpm progress --verbose    also list requirements without a passing test
 //   pnpm progress --strict     exit 1 on broken traceability (CI)
 //   pnpm progress --coverage   also fail finished requirements that no passing test names
-//                              (reads every test-results/vitest-*.json and playwright.json)
+//                              (reads every test-results/vitest-*.json and playwright*.json)
 //   pnpm progress --sync       rewrite the Status column of both task lists from git
 // Reads the extension docs (docs/spec.md, docs/tasks.md) and the website docs (docs/website/, W milestones).
 import { execFileSync } from 'node:child_process';
-import { existsSync, globSync, readFileSync, writeFileSync } from 'node:fs';
+import { globSync, readFileSync, writeFileSync } from 'node:fs';
 import { check, type Problem } from './check.ts';
 import { readDocs } from './docs.ts';
 import { type Milestone, parseCommits, type Requirement, taskState } from './model.ts';
@@ -40,14 +40,13 @@ function readJson(file: string): unknown {
 
 function testReports() {
   const vitest = globSync('test-results/vitest-*.json').map(readJson);
-  const playwright = existsSync('test-results/playwright.json')
-    ? readJson('test-results/playwright.json')
-    : undefined;
+  // playwright.json (extension e2e) and playwright-website.json (website e2e, T-218).
+  const playwright = globSync('test-results/playwright*.json').map(readJson);
   const titles = [
     ...vitest.flatMap((report) => passingTitles({ vitest: report })),
-    ...passingTitles({ playwright }),
+    ...playwright.flatMap((report) => passingTitles({ playwright: report })),
   ];
-  return { count: vitest.length + (playwright ? 1 : 0), covered: coveredRequirements(titles) };
+  return { count: vitest.length + playwright.length, covered: coveredRequirements(titles) };
 }
 
 function mentionedRequirements(): Set<string> {

@@ -8,7 +8,14 @@ import { existsSync, globSync, mkdtempSync, readFileSync, rmSync } from 'node:fs
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { type Outcome, playwrightOutcome, vitestOutcome } from './outcome.ts';
-import { type Commit, pairRounds, type Round, redScopeViolations, testFilesOf } from './rounds.ts';
+import {
+  type Commit,
+  pairRounds,
+  type Round,
+  redScopeViolations,
+  type TestFiles,
+  testFilesOf,
+} from './rounds.ts';
 
 const [base = '', head = ''] = process.argv.slice(2);
 if (!base || !head) {
@@ -49,48 +56,74 @@ function run(cwd: string, command: string, args: string[]): number {
   return spawnSync(command, args, { cwd, env, stdio: 'inherit' }).status ?? 1;
 }
 
+/** A Playwright suite: what to build first, its config and where its JSON report goes. */
+type PlaywrightSuite = { build: string; config: string; report: string };
+
+const EXTENSION_E2E: PlaywrightSuite = {
+  build: 'build:e2e',
+  config: 'playwright.config.ts',
+  report: 'test-results/playwright.json',
+};
+// The website e2e runs against `vite preview` of the built website (website/playwright.config.ts).
+const WEBSITE_E2E: PlaywrightSuite = {
+  build: 'web:build',
+  config: 'website/playwright.config.ts',
+  report: 'test-results/playwright-website.json',
+};
+
+function runVitest(worktree: string, files: string[]): Outcome {
+  if (files.some((file) => file.startsWith('tests/build/'))) run(worktree, 'pnpm', ['build:all']);
+  if (files.some((file) => file.startsWith('website/tests/build/')))
+    run(worktree, 'pnpm', ['web:build']);
+  // Each commit's config decides where its JSON report goes, so start clean and read what appears.
+  const results = path.join(worktree, 'test-results');
+  rmSync(results, { recursive: true, force: true });
+  const fallback = path.join(results, 'vitest-verify.json');
+  run(worktree, 'pnpm', [
+    'exec',
+    'vitest',
+    'run',
+    ...files,
+    '--reporter=json',
+    `--outputFile=${fallback}`,
+  ]);
+  const report = globSync(path.join(results, 'vitest*.json'))[0];
+  return report ? vitestOutcome(JSON.parse(readFileSync(report, 'utf8'))) : noReport();
+}
+
+function runPlaywright(worktree: string, files: string[], suite: PlaywrightSuite): Outcome {
+  const report = path.join(worktree, suite.report);
+  rmSync(report, { force: true });
+  run(worktree, 'pnpm', [suite.build]);
+  run(worktree, 'pnpm', ['exec', 'playwright', 'test', '--config', suite.config, ...files]);
+  return existsSync(report)
+    ? playwrightOutcome(JSON.parse(readFileSync(report, 'utf8')))
+    : noReport();
+}
+
+const sum = (outcomes: Outcome[]): Outcome =>
+  outcomes.reduce(
+    (total, next) => ({
+      passed: total.passed + next.passed,
+      failed: total.failed + next.failed,
+      unexpected: [...total.unexpected, ...next.unexpected],
+    }),
+    { passed: 0, failed: 0, unexpected: [] as string[] },
+  );
+
 /** Checks out `sha` in the worktree and runs the given test files; returns their outcome. */
-function runTests(worktree: string, sha: string, files: ReturnType<typeof testFilesOf>): Outcome {
+function runTests(worktree: string, sha: string, files: TestFiles): Outcome {
   git('-C', worktree, 'checkout', '--quiet', '--force', '--detach', sha);
   run(worktree, 'pnpm', ['install', '--frozen-lockfile', '--prefer-offline', '--silent']);
-  const outcome: Outcome = { passed: 0, failed: 0, unexpected: [] };
-  const merge = (next: Outcome) => {
-    outcome.passed += next.passed;
-    outcome.failed += next.failed;
-    outcome.unexpected.push(...next.unexpected);
-  };
-  const vitest = files.vitest.filter((file) => existsSync(path.join(worktree, file)));
-  if (vitest.length) {
-    if (vitest.some((file) => file.startsWith('tests/build/')))
-      run(worktree, 'pnpm', ['build:all']);
-    if (vitest.some((file) => file.startsWith('website/tests/build/')))
-      run(worktree, 'pnpm', ['web:build']);
-    // Each commit's config decides where its JSON report goes, so start clean and read what appears.
-    const results = path.join(worktree, 'test-results');
-    rmSync(results, { recursive: true, force: true });
-    const fallback = path.join(results, 'vitest-verify.json');
-    run(worktree, 'pnpm', [
-      'exec',
-      'vitest',
-      'run',
-      ...vitest,
-      '--reporter=json',
-      `--outputFile=${fallback}`,
-    ]);
-    const report = globSync(path.join(results, 'vitest*.json'))[0];
-    merge(report ? vitestOutcome(JSON.parse(readFileSync(report, 'utf8'))) : noReport());
-  }
-  const e2e = files.playwright.filter((file) => existsSync(path.join(worktree, file)));
-  if (e2e.length) {
-    rmSync(path.join(worktree, 'test-results/playwright.json'), { force: true });
-    run(worktree, 'pnpm', ['build:e2e']);
-    run(worktree, 'pnpm', ['exec', 'playwright', 'test', ...e2e]);
-    const report = path.join(worktree, 'test-results/playwright.json');
-    merge(
-      existsSync(report) ? playwrightOutcome(JSON.parse(readFileSync(report, 'utf8'))) : noReport(),
-    );
-  }
-  return outcome;
+  const existing = (list: string[]) => list.filter((file) => existsSync(path.join(worktree, file)));
+  const outcomes: Outcome[] = [];
+  const vitest = existing(files.vitest);
+  if (vitest.length) outcomes.push(runVitest(worktree, vitest));
+  const e2e = existing(files.playwright);
+  if (e2e.length) outcomes.push(runPlaywright(worktree, e2e, EXTENSION_E2E));
+  const website = existing(files.websitePlaywright);
+  if (website.length) outcomes.push(runPlaywright(worktree, website, WEBSITE_E2E));
+  return sum(outcomes);
 }
 
 const noReport = (): Outcome => ({
@@ -105,7 +138,7 @@ function verifyRound(worktree: string, round: Round): string[] {
     (file) => `${label}: the red commit changes production code that isn't a stub: ${file}`,
   );
   const files = testFilesOf(round.red);
-  if (!files.vitest.length && !files.playwright.length) {
+  if (!Object.values(files).some((list) => list.length)) {
     return [...problems, `${label}: the red commit adds no test file`];
   }
   const red = runTests(worktree, round.red.sha, files);
