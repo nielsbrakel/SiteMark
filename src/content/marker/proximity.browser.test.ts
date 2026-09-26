@@ -1,5 +1,14 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createProximityFade, type ProximityFade, type ProximityFadeOptions } from './proximity';
+import { mountViewHost } from '../../../tests/browser/marker-view-host';
+import { anElementItem, aPageItem } from '../../../tests/unit/marker-view';
+import { createBannerView } from '../../shared/marker-view/banner';
+import { createElementRibbonView, createPageRibbonView } from '../../shared/marker-view/ribbon';
+import {
+  createProximityFade,
+  fadeNodesOf,
+  type ProximityFade,
+  type ProximityFadeOptions,
+} from './proximity';
 
 let fade: ProximityFade | undefined;
 const boxes: HTMLElement[] = [];
@@ -37,6 +46,7 @@ afterEach(() => {
   fade?.dispose();
   fade = undefined;
   for (const box of boxes.splice(0)) box.remove();
+  document.body.replaceChildren();
 });
 
 describe('REQ-RND-013 proximity fade for ribbons and banners', () => {
@@ -139,5 +149,64 @@ describe('REQ-RND-013 proximity fade for ribbons and banners', () => {
     expect(banner.style.getPropertyValue('transition')).toBe('');
     await pointerAt(12, 10);
     expect(opacityOf(banner)).toBe('');
+  });
+});
+
+describe('REQ-RND-013 proximity fade per view (the renderer adds each ribbon and banner)', () => {
+  it('fades a node added with add(), without an elements option', async () => {
+    const banner = aBox(0, 0, 400, 24);
+    fade = createProximityFade({ reducedMotion: () => false });
+    const untrack = fade.add(banner);
+    await pointerAt(10, 10);
+    expect(opacityOf(banner)).toBe('0.15');
+    untrack();
+    expect(opacityOf(banner)).toBe('');
+    await pointerAt(12, 10);
+    expect(opacityOf(banner)).toBe('');
+  });
+
+  it("picks a page ribbon's corner box, not its viewport-sized root", () => {
+    const ctx = mountViewHost();
+    const view = createPageRibbonView(
+      aPageItem('ribbon', { text: 'PROD', corner: 'top-right' }),
+      ctx,
+    );
+    const nodes = fadeNodesOf(view.el);
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0]?.classList.contains('sm-ribbon')).toBe(true);
+  });
+
+  it("picks an element ribbon's corner box and its small-target dot", () => {
+    const ctx = mountViewHost();
+    const view = createElementRibbonView(
+      anElementItem('ribbon', { text: 'API', corner: 'top-left' }),
+      ctx,
+    );
+    const classes = fadeNodesOf(view.el).map((node) => node.className);
+    expect(classes).toEqual(['sm-ribbon', 'sm-ribbon__dot']);
+  });
+
+  it("picks a banner's root", () => {
+    const ctx = mountViewHost();
+    const view = createBannerView(
+      aPageItem('banner', { text: 'PROD', edge: 'top', size: 'compact' }),
+      ctx,
+    );
+    expect(fadeNodesOf(view.el)).toEqual([view.el]);
+  });
+
+  it('fades a page ribbon near its corner and not across the page', async () => {
+    const ctx = mountViewHost();
+    const view = createPageRibbonView(
+      aPageItem('ribbon', { text: 'PROD', corner: 'top-right' }),
+      ctx,
+    );
+    const fade = track({ elements: () => [] });
+    for (const node of fadeNodesOf(view.el)) fade.add(node);
+    const [corner] = fadeNodesOf(view.el);
+    await pointerAt(10, window.innerHeight - 10);
+    expect(corner && opacityOf(corner)).toBe('');
+    await pointerAt(window.innerWidth - 10, 10);
+    expect(corner && opacityOf(corner)).toBe('0.15');
   });
 });
