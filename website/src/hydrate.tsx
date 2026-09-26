@@ -1,36 +1,23 @@
 import { type HydrationOptions, hydrateRoot, type Root } from 'react-dom/client';
-import { notImplemented } from '@/core/not-implemented';
 import { isLocale } from './i18n/locales';
 import { createWebsiteTranslator, loadCatalogs } from './i18n/website-t';
-import { PageView } from './pages/PageView';
-import { pageFor, renderedRoutes } from './pages/registry';
+import { islandFor } from './islands/islands';
 
 /**
- * Hydrates the page that `<html data-route data-locale>` names, with the catalogs of that locale.
- * Resolves to undefined when the document names no known page (nothing to hydrate).
+ * Hydrates every `[data-island]` of the prerendered page, with the catalogs of `<html data-locale>`:
+ * only the interactive parts. The rest of the page is static HTML that needs no JavaScript, so the
+ * browser never loads the page content's code (REQ-WEB-002, REQ-WEB-007). Resolves to the roots.
  */
-export async function hydratePage(
+export async function hydrateIslands(
   doc: Document,
   options: HydrationOptions = {},
-): Promise<Root | undefined> {
-  const { route: pageId = '', locale } = doc.documentElement.dataset;
-  const routes = renderedRoutes();
-  const route = routes.find((r) => r.page === pageId);
-  const page = pageFor(pageId);
-  const container = doc.getElementById('root');
-  if (!route || !page || !isLocale(locale) || !container) return undefined;
-  const translator = createWebsiteTranslator(locale, await loadCatalogs(locale));
-  return hydrateRoot(
-    container,
-    <PageView route={route} page={page} locale={locale} routes={routes} translator={translator} />,
-    options,
-  );
-}
-
-/**
- * Hydrates every `[data-island]` of the prerendered page: only the interactive parts. The rest of
- * the page is static HTML that needs no JavaScript.
- */
-export function hydrateIslands(_doc: Document, _options: HydrationOptions = {}): Promise<Root[]> {
-  return notImplemented();
+): Promise<Root[]> {
+  const { locale } = doc.documentElement.dataset;
+  const hosts = [...doc.querySelectorAll<HTMLElement>('[data-island]')];
+  if (!isLocale(locale) || !hosts.length) return [];
+  const { t } = createWebsiteTranslator(locale, await loadCatalogs(locale));
+  return hosts.flatMap((host) => {
+    const Component = islandFor(host.dataset.island ?? '');
+    return Component ? [hydrateRoot(host, <Component t={t} />, options)] : [];
+  });
 }

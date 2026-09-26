@@ -56,6 +56,17 @@ describe('REQ-WEB-002 every route is prerendered to one static HTML file', () =>
     }
   });
 
+  it.each(pages)('$file is styled: its stylesheets define every class it uses', ({ file }) => {
+    // Page components never run in the browser (only islands do), yet their CSS must ship.
+    const html = read(file);
+    const css = [...html.matchAll(/<link rel="stylesheet" href="\/SiteMark\/([^"]+)"/g)]
+      .map((m) => read(m[1] ?? ''))
+      .join('\n');
+    const classes = [...html.matchAll(/class="([^"]+)"/g)].flatMap((m) => (m[1] ?? '').split(' '));
+    expect(classes.length).toBeGreaterThan(0);
+    for (const name of new Set(classes)) expect(css, `${file}: .${name}`).toContain(`.${name}`);
+  });
+
   it('ships no build manifest or server bundle', () => {
     expect(existsSync(path.join(dist, '.vite'))).toBe(false);
     expect(read('index.html')).not.toBe('');

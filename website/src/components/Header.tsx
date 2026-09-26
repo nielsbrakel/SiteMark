@@ -1,10 +1,10 @@
 import wordmarkLight from '../../../design/logo/sitemark-wordmark.svg';
 import wordmarkDark from '../../../design/logo/sitemark-wordmark-dark.svg';
 import type { Locale } from '../i18n/locales';
+import { Island } from '../islands/islands';
 import type { PageProps } from '../pages/page-props';
 import type { Route } from '../routes/routes';
 import { routePath } from '../routes/urls';
-import { ThemeToggle } from '../theme/ThemeToggle';
 import styles from './Header.module.css';
 import { LanguageSwitch } from './LanguageSwitch';
 import { pageLabel } from './page-labels';
@@ -68,7 +68,7 @@ export function Header(props: HeaderProps) {
         <Navigation {...props} />
         <div className={styles.tools}>
           <LanguageSwitch route={props.route} locale={props.locale} t={props.t} />
-          <ThemeToggle t={props.t} />
+          <Island id="themeToggle" t={props.t} />
         </div>
       </div>
     </header>

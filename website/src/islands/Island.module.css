@@ -1,0 +1,4 @@
+/* The hydration root of an island: its content lays out as if the wrapper weren't there. */
+.island {
+  display: contents;
+}

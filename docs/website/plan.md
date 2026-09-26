@@ -8,7 +8,7 @@
 | Concern         | Choice                                                                                                           | Ref          |
 | --------------- | ---------------------------------------------------------------------------------------------------------------- | ------------ |
 | Build           | Vite 8 (the same major as WXT), a client build + an SSR build, and a small prerender script (no SSG framework)   | D-245        |
-| UI              | React 19 + TypeScript, CSS Modules. `renderToString` at build time, `hydrateRoot` per page in the browser        | D-245, D-236 |
+| UI              | React 19 + TypeScript, CSS Modules. `renderToString` at build time, `hydrateRoot` per island in the browser      | D-245, D-236 |
 | Markdown        | `react-markdown` + `remark-gfm` (renders to React elements; raw HTML off), `gray-matter`-style front matter      | REQ-WEB-006  |
 | i18n            | The shared translator (`src/lib/i18n/translate.ts`) + a catalog `MessageSource`                                  | D-247        |
 | Marks           | `src/core/render/compose.ts` + `src/shared/marker-view` + the mock-browser preview from `src/ui/components`      | D-254        |
@@ -45,7 +45,7 @@ website/
 │  ├─ config/stores.ts   store listing URLs (or null = coming soon)
 │  ├─ styles/            website-tokens.css (layout + type sizes; no colors) · prose.css
 │  ├─ entry-server.tsx   renderPages(assets) → one { file, html } per published route × locale
-│  ├─ hydrate.tsx        reads <html data-route data-locale> and hydrates that page
+│  ├─ hydrate.tsx        hydrates the page's [data-island] parts with the <html data-locale> catalog
 │  └─ entry-client.ts    imports the global CSS and calls hydratePage(document)
 └─ tests/
    ├─ build/             assertions on dist/ (prerender, output scan, budgets, links)
@@ -86,12 +86,15 @@ tsx scripts/prerender.ts
 → dist/client is the Pages artifact
 ```
 
-- **Hydration without a router:** each page is a normal link to a normal HTML file. `hydrate.tsx` reads
-  `document.documentElement.dataset.route` and hydrates only that page component, with the same locale catalog
-  that the server used (a lazily imported chunk per locale, never inline).
-- **Build-time content:** the policy, help and changelog Markdown is read by the SSR build and becomes part
-  of the rendered React tree. The client bundle imports the same Markdown modules through Vite's `?raw`
-  import, so hydration matches. W2 may split help content per page to stay within budget.
+- **Hydration without a router, islands only:** each page is a normal link to a normal HTML file. The browser
+  hydrates only the **islands**, the interactive parts wrapped in `<div data-island="<id>">` (the theme toggle
+  now, the playground in W2). `hydrate.tsx` finds them and hydrates each with `hydrateRoot`, with the catalog of
+  `<html data-locale>` (a lazily imported chunk per locale, never inline). The rest of the page is static HTML:
+  no page code runs in the browser, so Markdown pages cost no JavaScript (react-markdown alone would break the
+  80 KB budget, REQ-WEB-007). The client entry still imports the page modules, but only for their CSS and
+  images (`scripts/keep-css-modules.ts` keeps the CSS of those tree-shaken modules).
+- **Build-time content:** the policy, help and changelog Markdown is read by the SSR build (Vite `?raw` imports)
+  and becomes part of the rendered React tree. It never reaches the client bundle.
 - **Only one inline script:** the theme bootstrap (≈ 300 bytes, reads `localStorage`, sets `data-theme` before
   paint). Its SHA-256 is computed at build time and put into the CSP. There are no other inline scripts or styles.
 - **Head data** is built by pure functions (`seo.ts`, `csp.ts`, `json-ld.ts`) that return plain data. One
