@@ -1,6 +1,6 @@
 import type { IdGen, MarkId, PatternId, SiteGroupId } from '../ids';
 import type { SiteOrigin } from '../model/defaults';
-import type { MarkDraft, SiteMarkState, Theme } from '../model/schema';
+import type { MarkDraft, SiteGroup, SiteMarkState, Theme } from '../model/schema';
 import type { UrlPatternDraft } from '../url/match';
 
 // Commands are the only way to change the state (D-220): an extension page sends one, and the
@@ -41,13 +41,24 @@ export type MoveSiteGroup = {
  */
 export type DuplicateSiteGroup = { readonly type: 'duplicateSiteGroup'; readonly id: SiteGroupId };
 
+/**
+ * Puts a deleted site group back at `index` (clamped), with its IDs, patterns, excludes and marks:
+ * the options page's Undo after a delete (REQ-GRP-001). Its patterns are checked again.
+ */
+export type RestoreSiteGroup = {
+  readonly type: 'restoreSiteGroup';
+  readonly group: SiteGroup;
+  readonly index: number;
+};
+
 export type SiteGroupCommand =
   | CreateSiteGroup
   | RenameSiteGroup
   | DeleteSiteGroup
   | SetSiteGroupEnabled
   | MoveSiteGroup
-  | DuplicateSiteGroup;
+  | DuplicateSiteGroup
+  | RestoreSiteGroup;
 
 /**
  * Adds a URL pattern at the end of a site group's list, in canonical form (REQ-GRP-002,

@@ -63,6 +63,15 @@ const examples: { [T in Command['type']]: Example<T> } = {
     command: { type: 'duplicateSiteGroup', id: prod.id },
     check: (o) => expect(lastGroup(o)?.name).toBe('Production copy'),
   },
+  restoreSiteGroup: {
+    command: { type: 'restoreSiteGroup', group: aSiteGroup({ name: 'Staging' }), index: 1 },
+    check: (o) =>
+      expect(o.state.siteGroups.map((group) => group.name)).toEqual([
+        'Production',
+        'Staging',
+        'Test',
+      ]),
+  },
   addPattern: {
     command: { type: 'addPattern', groupId: prod.id, draft: draft('test.example.com') },
     check: (o) =>

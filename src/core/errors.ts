@@ -48,6 +48,7 @@ export type SiteGroupErrorCode =
   | 'markLimitReached'
   | 'markInvalid'
   | 'siteGroupNotFound'
+  | 'siteGroupExists'
   | 'patternNotFound'
   | 'markNotFound';
 

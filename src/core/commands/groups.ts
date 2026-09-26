@@ -1,10 +1,10 @@
-import type { ErrorCode, SiteGroupErrorCode } from '../errors';
+import type { RegexErrorCode, SiteGroupErrorCode, UrlPatternErrorCode } from '../errors';
 import type { SiteGroupId } from '../ids';
 import type { SiteGroup, SiteMarkState } from '../model/schema';
 import { cleanText } from '../model/text';
-import { notImplemented } from '../not-implemented';
 import { err, ok, type Result } from '../result';
 import type { CommandDeps, CommandOf } from './command';
+import { recheckPatterns } from './stored-pattern';
 
 // Reducers for site groups (REQ-GRP-001…004). They leave `revision` to the dispatcher.
 
@@ -22,6 +22,11 @@ function siteGroupName(input: string): Result<string, SiteGroupErrorCode> {
 
 function indexOf(state: SiteMarkState, id: SiteGroupId): number {
   return state.siteGroups.findIndex((group) => group.id === id);
+}
+
+/** `index` clamped to the insert positions of `list` (0…length). */
+function clamped(index: number, list: readonly unknown[]): number {
+  return Math.min(Math.max(index, 0), list.length);
 }
 
 /** Replaces site group `id` with `change(group)`, or fails when the group no longer exists. */
@@ -99,23 +104,24 @@ export function moveSiteGroup(
   const group = state.siteGroups[index];
   if (!group) return err('siteGroupNotFound');
   const rest = state.siteGroups.toSpliced(index, 1);
-  const target = Math.min(Math.max(toIndex, 0), rest.length);
-  return ok({ ...state, siteGroups: rest.toSpliced(target, 0, group) });
+  return ok({ ...state, siteGroups: rest.toSpliced(clamped(toIndex, rest), 0, group) });
 }
 
 /**
- * Puts a deleted site group back at `index` (clamped), with its IDs, patterns, excludes and marks:
- * the options page's Undo after a delete (REQ-GRP-001).
+ * Puts a deleted site group back (the options page's Undo, REQ-GRP-001). Its patterns come from the
+ * page, so they are checked again; a group that is already back is refused.
  */
-export type RestoreSiteGroup = {
-  readonly type: 'restoreSiteGroup';
-  readonly group: SiteGroup;
-  readonly index: number;
-};
-
 export function restoreSiteGroup(
-  _state: SiteMarkState,
-  _command: RestoreSiteGroup,
-): Result<SiteMarkState, ErrorCode> {
-  return notImplemented();
+  state: SiteMarkState,
+  { group, index }: CommandOf<'restoreSiteGroup'>,
+): Result<SiteMarkState, SiteGroupErrorCode | UrlPatternErrorCode | RegexErrorCode> {
+  if (indexOf(state, group.id) >= 0) return err('siteGroupExists');
+  if (state.siteGroups.length >= MAX_SITE_GROUPS) return err('siteGroupLimitReached');
+  const patterns = recheckPatterns(group.patterns);
+  if (!patterns.ok) return patterns;
+  const excludes = recheckPatterns(group.excludes);
+  if (!excludes.ok) return excludes;
+  const restored = { ...group, patterns: patterns.value, excludes: excludes.value };
+  const at = clamped(index, state.siteGroups);
+  return ok({ ...state, siteGroups: state.siteGroups.toSpliced(at, 0, restored) });
 }

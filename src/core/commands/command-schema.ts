@@ -1,6 +1,7 @@
 import type { ZodType } from 'zod';
 import type { MarkId, PatternId, SiteGroupId } from '../ids';
 import { idSchema } from '../model/fields';
+import { siteGroupSchema } from '../model/group-schema';
 import { parseWith } from '../model/issues';
 import { markDraftSchema } from '../model/mark-schema';
 import type { SchemaResult } from '../model/schema';
@@ -41,6 +42,8 @@ const siteGroupCommands = [
   z.strictObject({ type: z.literal('setSiteGroupEnabled'), id, enabled: z.boolean() }),
   z.strictObject({ type: z.literal('moveSiteGroup'), id, toIndex }),
   z.strictObject({ type: z.literal('duplicateSiteGroup'), id }),
+  // The undo of a delete carries the whole group, read like a stored one.
+  z.strictObject({ type: z.literal('restoreSiteGroup'), group: siteGroupSchema, index: toIndex }),
 ] as const;
 
 const patternCommands = [

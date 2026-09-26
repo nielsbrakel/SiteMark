@@ -18,6 +18,7 @@ import {
   deleteSiteGroup,
   moveSiteGroup,
   renameSiteGroup,
+  restoreSiteGroup,
   setSiteGroupEnabled,
 } from './groups';
 import { markThisSite } from './mark-this-site';
@@ -54,6 +55,8 @@ function reduceGroup(
       return moveSiteGroup(state, command);
     case 'duplicateSiteGroup':
       return duplicateSiteGroup(state, command, deps);
+    case 'restoreSiteGroup':
+      return restoreSiteGroup(state, command);
     case 'markThisSite':
       return markThisSite(state, command, deps);
     case 'setTheme':
@@ -110,6 +113,7 @@ function reduce(state: SiteMarkState, command: Command, deps: CommandDeps): Outc
     case 'setSiteGroupEnabled':
     case 'moveSiteGroup':
     case 'duplicateSiteGroup':
+    case 'restoreSiteGroup':
     case 'markThisSite':
     case 'setTheme':
       return withoutNotices(reduceGroup(state, command, deps));

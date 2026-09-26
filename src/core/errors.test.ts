@@ -37,6 +37,7 @@ const everyCode = {
   markLimitReached: true,
   markInvalid: true,
   siteGroupNotFound: true,
+  siteGroupExists: true,
   patternNotFound: true,
   markNotFound: true,
   commandProducedInvalidState: true,

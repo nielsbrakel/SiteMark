@@ -2,8 +2,9 @@ import type { RegexErrorCode, SiteGroupErrorCode, UrlPatternErrorCode } from '..
 import type { IdGen, PatternId, SiteGroupId } from '../ids';
 import type { SiteGroup, SiteMarkState, UrlPattern } from '../model/schema';
 import { err, ok, type Result } from '../result';
-import { normalizeUrlPattern, type UrlPatternDraft, type UrlPatternValue } from '../url/match';
+import { normalizeUrlPattern, type UrlPatternDraft } from '../url/match';
 import { updateGroup } from './groups';
+import { storedPattern } from './stored-pattern';
 
 // Shared by the URL pattern and exclude reducers (REQ-GRP-002, REQ-URL-003, REQ-URL-008): both
 // lists hold 0..50 patterns, validated and canonicalized by the URL engine before they are stored.
@@ -18,12 +19,6 @@ const LIMIT_CODE = {
   patterns: 'patternLimitReached',
   excludes: 'excludeLimitReached',
 } as const satisfies Record<PatternList, SiteGroupErrorCode>;
-
-function stored(id: PatternId, pattern: UrlPatternValue): UrlPattern {
-  return pattern.kind === 'wildcard'
-    ? { id, kind: 'wildcard', value: pattern.value }
-    : { id, kind: 'regex', value: pattern.value, origins: [...pattern.origins] };
-}
 
 /**
  * The group with a new list. A group without URL patterns can't stay enabled (REQ-GRP-002), so
@@ -50,7 +45,9 @@ export function addToList(
     if (group[list].length >= MAX_PATTERNS) return err(LIMIT_CODE[list]);
     const pattern = normalizeUrlPattern(draft);
     if (!pattern.ok) return pattern;
-    return ok(withList(group, list, [...group[list], stored(idGen.patternId(), pattern.value)]));
+    return ok(
+      withList(group, list, [...group[list], storedPattern(idGen.patternId(), pattern.value)]),
+    );
   });
 }
 
@@ -66,7 +63,9 @@ export function updateInList(
     if (index < 0) return err('patternNotFound');
     const pattern = normalizeUrlPattern(draft);
     if (!pattern.ok) return pattern;
-    return ok(withList(group, list, group[list].with(index, stored(patternId, pattern.value))));
+    return ok(
+      withList(group, list, group[list].with(index, storedPattern(patternId, pattern.value))),
+    );
   });
 }
 

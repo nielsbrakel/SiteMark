@@ -24,6 +24,7 @@ const examples: { [T in Command['type']]: CommandOf<T> } = {
   setSiteGroupEnabled: { type: 'setSiteGroupEnabled', id, enabled: true },
   moveSiteGroup: { type: 'moveSiteGroup', id, toIndex: -1 },
   duplicateSiteGroup: { type: 'duplicateSiteGroup', id },
+  restoreSiteGroup: { type: 'restoreSiteGroup', group: aSiteGroup({ id }), index: 0 },
   addPattern: { type: 'addPattern', groupId, draft: wildcard },
   updatePattern: { type: 'updatePattern', groupId, patternId, draft: regex },
   removePattern: { type: 'removePattern', groupId, patternId },
