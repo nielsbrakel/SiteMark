@@ -1,5 +1,4 @@
 import type { Logger } from '../../app/ports';
-import { notImplemented } from '../../core/not-implemented';
 import { diffPlan } from '../../core/render/diff-plan';
 import { emptyPlan, type RenderItem, type RenderPlan } from '../../core/render/render-plan';
 import type { FaviconStatus, TabStatus } from '../../core/render/status';
@@ -46,45 +45,64 @@ export type Renderer = {
   dispose(): void;
 };
 
+/** Until T-090/T-091 plug in the real ones: no title prefix, no favicon. */
+const noDocumentEffects: DocumentEffects = {
+  apply: () => undefined,
+  faviconStatus: () => 'off',
+  dispose: () => undefined,
+};
+
 /**
  * The marker's renderer (plan §3.3). It does nothing until a plan has items (REQ-RND-009): then
  * it creates the host, and it removes the host again when the plan empties. Views are keyed by
  * item and every step of every view is isolated, so one failing effect never takes the others.
  */
 export function createRenderer(deps: RendererDeps): Renderer {
-  const collapsedBanners = new Set<string>();
+  const documentEffects = deps.documentEffects ?? noDocumentEffects;
+  const changed = () => deps.onStatusChange?.();
+  const stageDeps = {
+    ...deps,
+    createView: deps.createView ?? createView,
+    // One set per document: a collapsed banner stays collapsed across plans (REQ-MARK-005).
+    collapsedBanners: new Set<string>(),
+    onTargetsChange: changed,
+    onLost: () => {
+      stage = undefined;
+      isDisposed = true;
+      deps.onHostLost?.();
+    },
+  };
   let plan = emptyPlan();
   let stage: Stage | undefined;
+  let isHidden = false;
   let isDisposed = false;
-
   const close = () => {
     stage?.close();
     stage = undefined;
   };
-  const lost = () => {
-    stage = undefined;
-    isDisposed = true;
-    deps.onHostLost?.();
-  };
-  const open = (): Stage =>
-    openStage({
-      ...deps,
-      createView: deps.createView ?? createView,
-      collapsedBanners,
-      onLost: lost,
-    });
 
   return {
     apply(next) {
       if (isDisposed) return;
       const diff = diffPlan(plan, next);
       plan = next;
-      if (next.items.length === 0) return close();
-      stage ??= open();
-      stage.apply(diff);
+      if (next.items.length === 0) close();
+      else {
+        stage ??= openStage({ ...stageDeps, isHidden });
+        stage.apply(diff, next);
+      }
+      changed();
     },
-    setHidden: () => notImplemented(),
-    status: () => notImplemented(),
+    setHidden(hidden) {
+      isHidden = hidden;
+      stage?.setHidden(hidden);
+      changed();
+    },
+    status: () => ({
+      marks: stage?.marks() ?? [],
+      favicon: documentEffects.faviconStatus(),
+      hidden: isHidden,
+    }),
     dispose() {
       isDisposed = true;
       close();

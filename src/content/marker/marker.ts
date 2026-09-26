@@ -1,6 +1,5 @@
 import type { Unsubscribe } from '../../app/ports';
 import type { TabHandlers } from '../../app/protocol';
-import { notImplemented } from '../../core/not-implemented';
 import type { RenderPlan } from '../../core/render/render-plan';
 import type { TabStatus } from '../../core/render/status';
 import type { Renderer } from './renderer';
@@ -25,6 +24,38 @@ export type Marker = {
   dispose(): void;
 };
 
-export function startMarker(_ports: MarkerPorts): Marker {
-  return notImplemented();
+/** What the background assumes for a tab that never reported (REQ-RND-009: idle stays silent). */
+const IDLE: TabStatus = { marks: [], favicon: 'off', hidden: false };
+
+/**
+ * The marker content script (plan §3.3): asks for its render plan, applies it and every plan the
+ * background pushes, and reports the tab status whenever it changes (REQ-RND-005). It stops when
+ * its host goes away: a newer instance took over, or the extension is gone (REQ-RND-012).
+ */
+export function startMarker(ports: MarkerPorts): Marker {
+  let reported = JSON.stringify(IDLE);
+  let isDisposed = false;
+  const report = () => {
+    const status = renderer.status();
+    const json = JSON.stringify(status);
+    if (json === reported) return;
+    reported = json;
+    ports.reportStatus(status);
+  };
+  const dispose = () => {
+    if (isDisposed) return;
+    isDisposed = true;
+    unlisten();
+    renderer.dispose();
+  };
+  const renderer = ports.createRenderer({ onStatusChange: report, onHostLost: dispose });
+  const unlisten = ports.listen({
+    applyPlan: (plan) => renderer.apply(plan),
+    setHidden: ({ hidden }) => renderer.setHidden(hidden),
+    getStatus: () => renderer.status(),
+  });
+  void ports.requestPlan().then((plan) => {
+    if (plan && !isDisposed) renderer.apply(plan);
+  });
+  return { dispose };
 }
