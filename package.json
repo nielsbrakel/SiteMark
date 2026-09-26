@@ -46,6 +46,7 @@
     "web:build": "pnpm --filter @sitemark/website build",
     "web:preview": "pnpm --filter @sitemark/website preview",
     "web:test:build": "pnpm web:build && vitest run --project website-build",
+    "web:test:e2e": "pnpm web:build && playwright test --config website/playwright.config.ts",
     "postinstall": "wxt prepare",
     "prepare": "node scripts/install-hooks.mjs",
     "typecheck": "tsc --noEmit && tsc --noEmit -p src/core && tsc --noEmit -p tests/e2e && tsc --noEmit -p website",
@@ -77,6 +78,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@biomejs/biome": "2.5.14",
     "@changesets/cli": "^3.0.3",
     "@commitlint/cli": "21.2.3",
