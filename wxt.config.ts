@@ -18,6 +18,8 @@ export default defineConfig({
   manifest: ({ browser, mode }) => ({
     name: '__MSG_extName__',
     short_name: 'SiteMark',
+    // The website (D-256): the stores and the browser's extension page link it.
+    homepage_url: 'https://nielsbrakel.github.io/SiteMark/',
     description: '__MSG_extDescription__',
     default_locale: 'en',
     // Privacy by default: no host access at install time. Origins are

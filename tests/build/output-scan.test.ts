@@ -23,6 +23,7 @@ const dynamicCode: [string, RegExp][] = [
 const allowedUrls = [
   /^http:\/\/www\.w3\.org\//, // XML namespaces (SVG, MathML, XLink) used by React DOM
   /^https:\/\/react\.dev\/errors\//, // production error decoder link in React's messages
+  /^https:\/\/nielsbrakel\.github\.io\/SiteMark\/$/, // manifest homepage_url (D-256), a link only
 ];
 
 function files(dir: string): string[] {
