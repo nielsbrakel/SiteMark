@@ -97,6 +97,22 @@ describe('REQ-NFR-004 a red commit only adds tests, typed stubs and test infrast
     expect(testFilesOf(red)).toEqual({
       vitest: ['src/core/url/parse.test.ts', 'tests/browser/layout.browser.test.ts'],
       playwright: ['tests/e2e/popup.spec.ts'],
+      websitePlaywright: [],
     });
+  });
+
+  it('runs website e2e specs with the website Playwright config (T-218)', () => {
+    const red = commit('r', 'test(T-218): red — x', [
+      'website/tests/e2e/navigation.spec.ts',
+      'website/tests/e2e/fixtures.ts',
+      'website/playwright.config.ts',
+      'website/src/pages/HomePage.test.tsx',
+    ]);
+    expect(testFilesOf(red)).toEqual({
+      vitest: ['website/src/pages/HomePage.test.tsx'],
+      playwright: [],
+      websitePlaywright: ['website/tests/e2e/navigation.spec.ts'],
+    });
+    expect(redScopeViolations(red, () => false)).toEqual([]);
   });
 });
