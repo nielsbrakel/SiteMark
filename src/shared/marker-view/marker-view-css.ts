@@ -1,9 +1,10 @@
-import { notImplemented } from '../../core/not-implemented';
+import { BANNER_CSS } from './banner.css';
+import { BASE_CSS } from './base.css';
 
 /**
  * The static styles of every view, for the host to adopt once (D-232). The text is constant:
  * it is never built from user data (REQ-RND-011).
  */
 export function markerViewCss(): string {
-  return notImplemented();
+  return [BASE_CSS, BANNER_CSS].join('');
 }

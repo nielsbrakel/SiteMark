@@ -1,11 +1,6 @@
 import type { MarkId } from '../../src/core/ids';
 import type { Hex } from '../../src/core/model/schema';
-import type {
-  DrawnItem,
-  ElementItemOf,
-  PageItemOf,
-  ViewContext,
-} from '../../src/shared/marker-view/effect-view';
+import type { DrawnItem, PageItemOf, ViewContext } from '../../src/shared/marker-view/effect-view';
 
 // Test support for the shared marker views (src/shared/marker-view): render items and a view
 // context with a container in the document. Used by the dom and the browser tests.
@@ -37,16 +32,6 @@ export function aPageItem<E extends Effect>(
   overrides: BaseOverrides = {},
 ): PageItemOf<E> {
   return { ...base(effect, overrides), target: 'page', effect, params } as PageItemOf<E>;
-}
-
-/** An element item of one effect on `#app`, red with white text. */
-export function anElementItem<E extends Effect>(
-  effect: E,
-  params: ElementItemOf<E>['params'],
-  overrides: BaseOverrides = {},
-): ElementItemOf<E> {
-  const target = { selector: '#app' };
-  return { ...base(effect, overrides), target, effect, params } as ElementItemOf<E>;
 }
 
 /** A context whose container is a fresh `<div>` in `root` (the document body by default). */
