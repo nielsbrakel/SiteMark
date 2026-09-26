@@ -1,31 +1,35 @@
-import type { MessagingError } from '../../app/protocol';
-import type { SiteMarkState } from '../../core/model/schema';
-import { notImplemented } from '../../core/not-implemented';
-import type { Result } from '../../core/result';
+import { useEffect, useState } from 'react';
+import { browserStateSource, type StateSource } from './state-source';
+import { newerView, type SiteMarkStateView, viewOfReply, viewOfStored } from './state-view';
+
+/** Read-only data first (it never reaches getState's defaults), then the background's view. */
+async function load(source: StateSource): Promise<SiteMarkStateView> {
+  const stored = await source.readStored();
+  if (stored !== undefined) {
+    const view = viewOfStored(stored);
+    if (view.status === 'readOnly') return view;
+  }
+  return viewOfReply(await source.getState());
+}
 
 /**
- * Why there is no state to show: the background didn't answer (`MessagingError`), its reply isn't a
- * valid state (`stateInvalid`), or the stored data can't be read (`stateUnreadable`).
+ * The state for the popup and options page (plan §3): the background's `getState` view on mount,
+ * then every state the background stores, pushed through `storage.local.onChanged`. Everything is
+ * re-validated; a page never writes (D-220) and changes things with `useCommand`.
  */
-export type StateViewError = MessagingError | 'stateInvalid' | 'stateUnreadable';
-
-export type SiteMarkStateView =
-  | { readonly status: 'loading' }
-  | { readonly status: 'ready'; readonly state: SiteMarkState }
-  /** Written by a newer SiteMark: nothing can be shown or changed (REQ-DATA-007). */
-  | { readonly status: 'readOnly'; readonly schemaVersion: number }
-  | { readonly status: 'error'; readonly error: StateViewError };
-
-/** Where a page reads the state from; never writes (D-220). */
-export type StateSource = {
-  /** The background's read-only view (`getState`). */
-  getState(): Promise<Result<SiteMarkState, MessagingError>>;
-  /** The raw stored value, `undefined` when nothing is stored. */
-  readStored(): Promise<unknown>;
-  /** Calls `listener` with each newly stored raw value; returns an unsubscribe function. */
-  watch(listener: (raw: unknown) => void): () => void;
-};
-
-export function useSiteMarkState(_source?: StateSource): SiteMarkStateView {
-  return notImplemented();
+export function useSiteMarkState(source: StateSource = browserStateSource): SiteMarkStateView {
+  const [view, setView] = useState<SiteMarkStateView>({ status: 'loading' });
+  useEffect(() => {
+    let isCurrent = true;
+    const show = (next: SiteMarkStateView) => {
+      if (isCurrent) setView((current) => newerView(current, next));
+    };
+    const unwatch = source.watch((raw) => show(viewOfStored(raw)));
+    void load(source).then(show);
+    return () => {
+      isCurrent = false;
+      unwatch();
+    };
+  }, [source]);
+  return view;
 }

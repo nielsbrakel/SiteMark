@@ -5,7 +5,8 @@ import newer from '../../../tests/fixtures/state/newer.json';
 import type { SiteMarkState } from '../../core/model/schema';
 import { err, ok, type Result } from '../../core/result';
 import { aState } from '../../core/testing/builders';
-import { type StateSource, useSiteMarkState } from './use-site-mark-state';
+import type { StateSource } from './state-source';
+import { useSiteMarkState } from './use-site-mark-state';
 
 const KEY = 'sitemark:state';
 
