@@ -130,6 +130,10 @@
     "message": "Your saved SiteMark data could not be read, so SiteMark started with the defaults. A backup of the old data was kept.",
     "description": "Shown on the options page when the stored data is damaged and was replaced by the defaults."
   },
+  "errorStorageFailed": {
+    "message": "SiteMark could not save your change. Your browser's storage may be full.",
+    "description": "Shown when a change is not saved because the browser refused to write the data, for example because storage is full."
+  },
   "errorSiteGroupNeedsPattern": {
     "message": "Add a URL pattern before you turn on this site group.",
     "description": "Site group error: an enabled site group needs at least one URL pattern."

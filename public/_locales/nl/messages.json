@@ -130,6 +130,10 @@
     "message": "Je opgeslagen SiteMark-gegevens konden niet worden gelezen, dus SiteMark is gestart met de standaardinstellingen. Er is een back-up van de oude gegevens bewaard.",
     "description": "Getoond op de optiepagina als de opgeslagen gegevens beschadigd zijn en door de standaardinstellingen zijn vervangen."
   },
+  "errorStorageFailed": {
+    "message": "SiteMark kon je wijziging niet opslaan. Mogelijk is de opslag van je browser vol.",
+    "description": "Getoond als een wijziging niet is opgeslagen omdat de browser de gegevens niet kon wegschrijven, bijvoorbeeld omdat de opslag vol is."
+  },
   "errorSiteGroupNeedsPattern": {
     "message": "Voeg een URL-patroon toe voordat je deze sitegroep aanzet.",
     "description": "Fout in sitegroep: een ingeschakelde sitegroep heeft minstens één URL-patroon nodig."
