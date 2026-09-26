@@ -4,6 +4,7 @@ import { currentMilestone, type PageId, publishedRoutes, type Route } from '../r
 import { HomePage } from './HomePage';
 import { PrivacyPage } from './PrivacyPage';
 import type { PageProps } from './page-props';
+import { SupportPage } from './SupportPage';
 
 export type Page = {
   readonly Component: (props: PageProps) => ReactNode;
@@ -17,6 +18,11 @@ export type Page = {
 // build the privacy, support and later pages add them here.
 const PAGES: Partial<Record<PageId, Page>> = {
   home: { Component: HomePage, title: 'websiteHomeTitle', description: 'websiteHomeDescription' },
+  support: {
+    Component: SupportPage,
+    title: 'websiteSupportTitle',
+    description: 'websiteSupportDescription',
+  },
   privacy: {
     Component: PrivacyPage,
     title: 'websitePrivacyTitle',
