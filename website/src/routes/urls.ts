@@ -1,5 +1,5 @@
 import { type Locale, websiteLocales } from '../i18n/locales';
-import type { Route } from './routes';
+import { type PageId, type Route, routeTable } from './routes';
 
 export type Alternate = { hreflang: Locale | 'x-default'; href: string };
 
@@ -43,4 +43,11 @@ export function assetUrl(file: string): string {
 /** The absolute URL of a public file, e.g. the social preview image (REQ-SEO-004). */
 export function absoluteUrl(file: string): string {
   return `${ORIGIN}${assetUrl(file)}`;
+}
+
+/** The path of a page in a locale, e.g. the privacy page linked from the home page. */
+export function pagePath(page: PageId, locale: Locale): string {
+  const route = routeTable().find((r) => r.page === page);
+  if (!route) throw new Error(`No route for the page ${page}`);
+  return routePath(route, locale);
 }

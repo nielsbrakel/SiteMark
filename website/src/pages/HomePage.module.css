@@ -1,0 +1,63 @@
+/* Home (docs/website/design.md §3): hero text left and preview right, stacked below 720 px. */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+  gap: var(--sm-space-6);
+  align-items: center;
+}
+
+.title {
+  margin-top: 0;
+  font-size: var(--smw-text-3xl);
+  line-height: 1.1;
+}
+
+.lead {
+  margin: 0;
+  color: var(--sm-text-muted);
+  font-size: var(--sm-text-xl);
+  line-height: var(--smw-prose-line);
+}
+
+.section {
+  margin-top: var(--smw-section-gap);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--sm-space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card h3 {
+  margin: var(--sm-space-3) 0 var(--sm-space-2);
+  font-size: var(--sm-text-xl);
+}
+
+.card p {
+  margin: 0;
+  line-height: var(--smw-prose-line);
+}
+
+.icon {
+  fill: none;
+  stroke: var(--sm-accent-text);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.link {
+  color: var(--sm-accent-text);
+  font-weight: 600;
+  text-underline-offset: 2px;
+}
+
+@media (width <= 720px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

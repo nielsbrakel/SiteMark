@@ -242,5 +242,103 @@
   "websiteBugReportPrivate": {
     "message": "No internal hostnames: prod.example.com works fine as a stand-in.",
     "description": "Bug report checklist item: don't share private hostnames in public issues."
+  },
+  "websiteHomeHighlightsHeading": {
+    "message": "Why SiteMark",
+    "description": "Visually hidden heading above the three highlight cards on the home page."
+  },
+  "websiteHighlightUnmistakableTitle": {
+    "message": "Unmistakable",
+    "description": "Title of the first home page highlight card (marks are impossible to miss)."
+  },
+  "websiteHighlightUnmistakableText": {
+    "message": "Ribbons, banners, frames and outlines in colors you choose, so production never looks like test.",
+    "description": "One sentence on the first highlight card."
+  },
+  "websiteHighlightSimpleTitle": {
+    "message": "Simple",
+    "description": "Title of the second home page highlight card."
+  },
+  "websiteHighlightSimpleText": {
+    "message": "Add a URL pattern, pick a mark and you're done: mark a whole page or just the button that matters.",
+    "description": "One sentence on the second highlight card."
+  },
+  "websiteHighlightPrivateTitle": {
+    "message": "Private",
+    "description": "Title of the third home page highlight card."
+  },
+  "websiteHighlightPrivateText": {
+    "message": "No accounts, no tracking and no network requests, and SiteMark only runs on the websites you allow.",
+    "description": "One sentence on the third highlight card."
+  },
+  "websitePrivacySummaryHeading": {
+    "message": "Private by design",
+    "description": "Heading of the privacy summary on the home page."
+  },
+  "websitePrivacySummaryText": {
+    "message": "SiteMark collects no data. Your site groups stay in your browser, and this website sets no cookies and loads nothing from anywhere else.",
+    "description": "Privacy summary on the home page."
+  },
+  "websitePrivacySummaryLink": {
+    "message": "Read the privacy policy",
+    "description": "Link from the home page privacy summary to the privacy policy."
+  },
+  "websiteInstallLabel": {
+    "message": "Install SiteMark",
+    "description": "Accessible name of the list of install buttons (one per browser store)."
+  },
+  "websiteInstallAdd": {
+    "message": "Add to $BROWSER$",
+    "description": "Install button that links to a browser store listing. $BROWSER$ is Chrome, Edge, Firefox or Safari.",
+    "placeholders": {
+      "browser": {
+        "content": "$1",
+        "example": "Chrome"
+      }
+    }
+  },
+  "websiteInstallComingSoon": {
+    "message": "$BROWSER$: coming soon",
+    "description": "Disabled install button for a store whose listing isn't public yet.",
+    "placeholders": {
+      "browser": {
+        "content": "$1",
+        "example": "Chrome"
+      }
+    }
+  },
+  "websiteInstallComingLater": {
+    "message": "$BROWSER$: coming in v1.1",
+    "description": "Disabled install button for a store that SiteMark supports from version 1.1 (Safari).",
+    "placeholders": {
+      "browser": {
+        "content": "$1",
+        "example": "Safari"
+      }
+    }
+  },
+  "websiteHeroAlt": {
+    "message": "A production website marked by SiteMark: a red banner, frame and corner ribbon, and an outline around the Delete customer button.",
+    "description": "Text alternative of the home page hero illustration."
+  },
+  "websiteHeroTab": {
+    "message": "[PROD] Orders",
+    "description": "Tab title in the hero illustration, with the SiteMark title prefix [PROD]."
+  },
+  "websiteHeroAddress": {
+    "message": "prod.example.com/orders",
+    "description": "Address bar text in the hero illustration."
+  },
+  "websiteHeroBanner": {
+    "message": "Production",
+    "description": "Banner text in the hero illustration (shown in capitals)."
+  },
+  "websiteHeroRibbon": {
+    "message": "Prod",
+    "description": "Corner ribbon text in the hero illustration (shown in capitals). Keep it at most 5 characters."
+  },
+  "websiteHeroButton": {
+    "message": "Delete customer",
+    "description": "Button text on the sample page in the hero illustration. Keep it short."
   }
 }

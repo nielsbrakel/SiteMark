@@ -242,5 +242,103 @@
   "websiteBugReportPrivate": {
     "message": "Geen interne hostnamen: prod.example.com werkt prima als voorbeeld.",
     "description": "Bug report checklist item: don't share private hostnames in public issues."
+  },
+  "websiteHomeHighlightsHeading": {
+    "message": "Waarom SiteMark",
+    "description": "Visually hidden heading above the three highlight cards on the home page."
+  },
+  "websiteHighlightUnmistakableTitle": {
+    "message": "Onmiskenbaar",
+    "description": "Title of the first home page highlight card (marks are impossible to miss)."
+  },
+  "websiteHighlightUnmistakableText": {
+    "message": "Linten, banners, kaders en omlijningen in kleuren die jij kiest, zodat productie nooit op test lijkt.",
+    "description": "One sentence on the first highlight card."
+  },
+  "websiteHighlightSimpleTitle": {
+    "message": "Eenvoudig",
+    "description": "Title of the second home page highlight card."
+  },
+  "websiteHighlightSimpleText": {
+    "message": "Voeg een URL-patroon toe, kies een markering en klaar: markeer een hele pagina of alleen de knop die ertoe doet.",
+    "description": "One sentence on the second highlight card."
+  },
+  "websiteHighlightPrivateTitle": {
+    "message": "Privé",
+    "description": "Title of the third home page highlight card."
+  },
+  "websiteHighlightPrivateText": {
+    "message": "Geen accounts, geen tracking en geen netwerkverzoeken, en SiteMark werkt alleen op de websites die jij toestaat.",
+    "description": "One sentence on the third highlight card."
+  },
+  "websitePrivacySummaryHeading": {
+    "message": "Privacy voorop",
+    "description": "Heading of the privacy summary on the home page."
+  },
+  "websitePrivacySummaryText": {
+    "message": "SiteMark verzamelt geen gegevens. Je sitegroepen blijven in je browser, en deze website plaatst geen cookies en laadt niets van elders.",
+    "description": "Privacy summary on the home page."
+  },
+  "websitePrivacySummaryLink": {
+    "message": "Lees de privacyverklaring",
+    "description": "Link from the home page privacy summary to the privacy policy."
+  },
+  "websiteInstallLabel": {
+    "message": "SiteMark installeren",
+    "description": "Accessible name of the list of install buttons (one per browser store)."
+  },
+  "websiteInstallAdd": {
+    "message": "Toevoegen aan $BROWSER$",
+    "description": "Install button that links to a browser store listing. $BROWSER$ is Chrome, Edge, Firefox or Safari.",
+    "placeholders": {
+      "browser": {
+        "content": "$1",
+        "example": "Chrome"
+      }
+    }
+  },
+  "websiteInstallComingSoon": {
+    "message": "$BROWSER$: binnenkort",
+    "description": "Disabled install button for a store whose listing isn't public yet.",
+    "placeholders": {
+      "browser": {
+        "content": "$1",
+        "example": "Chrome"
+      }
+    }
+  },
+  "websiteInstallComingLater": {
+    "message": "$BROWSER$: komt in v1.1",
+    "description": "Disabled install button for a store that SiteMark supports from version 1.1 (Safari).",
+    "placeholders": {
+      "browser": {
+        "content": "$1",
+        "example": "Safari"
+      }
+    }
+  },
+  "websiteHeroAlt": {
+    "message": "Een productiewebsite gemarkeerd door SiteMark: een rode banner, een kader, een hoeklint en een omlijning rond de knop Klant verwijderen.",
+    "description": "Text alternative of the home page hero illustration."
+  },
+  "websiteHeroTab": {
+    "message": "[PROD] Bestellingen",
+    "description": "Tab title in the hero illustration, with the SiteMark title prefix [PROD]."
+  },
+  "websiteHeroAddress": {
+    "message": "prod.example.com/bestellingen",
+    "description": "Address bar text in the hero illustration."
+  },
+  "websiteHeroBanner": {
+    "message": "Productie",
+    "description": "Banner text in the hero illustration (shown in capitals)."
+  },
+  "websiteHeroRibbon": {
+    "message": "Prod",
+    "description": "Corner ribbon text in the hero illustration (shown in capitals). Keep it at most 5 characters."
+  },
+  "websiteHeroButton": {
+    "message": "Klant verwijderen",
+    "description": "Button text on the sample page in the hero illustration. Keep it short."
   }
 }
