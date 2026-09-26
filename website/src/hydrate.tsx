@@ -1,4 +1,5 @@
 import { type HydrationOptions, hydrateRoot, type Root } from 'react-dom/client';
+import { notImplemented } from '@/core/not-implemented';
 import { isLocale } from './i18n/locales';
 import { createWebsiteTranslator, loadCatalogs } from './i18n/website-t';
 import { PageView } from './pages/PageView';
@@ -24,4 +25,12 @@ export async function hydratePage(
     <PageView route={route} page={page} locale={locale} routes={routes} translator={translator} />,
     options,
   );
+}
+
+/**
+ * Hydrates every `[data-island]` of the prerendered page: only the interactive parts. The rest of
+ * the page is static HTML that needs no JavaScript.
+ */
+export function hydrateIslands(_doc: Document, _options: HydrationOptions = {}): Promise<Root[]> {
+  return notImplemented();
 }
