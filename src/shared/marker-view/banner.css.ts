@@ -1,4 +1,7 @@
-/** Banner: a full-width bar on one edge, 24 px compact or 36 px regular (REQ-MARK-005). */
+/**
+ * Banner: a full-width bar on one edge, 24 px compact or 36 px regular, whose chevron (the only
+ * part of a mark that takes input) collapses it to a 24 × 24 tab (REQ-MARK-005, REQ-RND-002).
+ */
 export const BANNER_CSS = `
 .sm-banner {
   left: 0;
@@ -7,7 +10,7 @@ export const BANNER_CSS = `
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0 8px;
+  padding: 0 0 0 8px;
   background: var(--sm-mark-color);
   color: var(--sm-mark-text);
   font-size: 12px;
@@ -38,5 +41,52 @@ export const BANNER_CSS = `
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: center;
+}
+.sm-banner__chevron {
+  flex: none;
+  align-self: stretch;
+  width: 32px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.sm-banner__chevron::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border: solid currentcolor;
+  border-width: 2px 2px 0 0;
+  transform: translateY(2px) rotate(-45deg);
+}
+.sm-banner__chevron:focus-visible {
+  outline: 2px solid var(--sm-mark-text);
+  outline-offset: -3px;
+}
+.sm-banner[data-edge='bottom'] .sm-banner__chevron::before,
+.sm-banner[data-edge='top'][data-collapsed] .sm-banner__chevron::before {
+  transform: translateY(-2px) rotate(135deg);
+}
+.sm-banner[data-edge='bottom'][data-collapsed] .sm-banner__chevron::before {
+  transform: translateY(2px) rotate(-45deg);
+}
+.sm-banner[data-collapsed] {
+  left: auto;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+}
+.sm-banner[data-collapsed] .sm-banner__glyph,
+.sm-banner[data-collapsed] .sm-banner__text {
+  display: none;
+}
+.sm-banner[data-collapsed] .sm-banner__chevron {
+  width: 24px;
 }
 `;
