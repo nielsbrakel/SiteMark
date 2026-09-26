@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { WebsiteMessageKey } from '../i18n/website-t';
 import { currentMilestone, type PageId, publishedRoutes, type Route } from '../routes/routes';
 import { HomePage } from './HomePage';
+import { PrivacyPage } from './PrivacyPage';
 import type { PageProps } from './page-props';
 
 export type Page = {
@@ -16,6 +17,11 @@ export type Page = {
 // build the privacy, support and later pages add them here.
 const PAGES: Partial<Record<PageId, Page>> = {
   home: { Component: HomePage, title: 'websiteHomeTitle', description: 'websiteHomeDescription' },
+  privacy: {
+    Component: PrivacyPage,
+    title: 'websitePrivacyTitle',
+    description: 'websitePrivacyDescription',
+  },
 };
 
 /** The page for a route's page ID, or undefined (also for anything that isn't a page ID). */

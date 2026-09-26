@@ -12,11 +12,11 @@ type PageViewProps = {
   translator: WebsiteTranslator;
 };
 
-/** Everything inside #root: the shell around the page. The server and the browser render the same. */
+/** Everything inside #root: the shell around the page, prerendered (only islands hydrate). */
 export function PageView({ route, page, locale, routes, translator }: PageViewProps) {
   return (
     <Shell route={route} locale={locale} routes={routes} t={translator.t}>
-      <page.Component t={translator.t} tp={translator.tp} />
+      <page.Component t={translator.t} tp={translator.tp} locale={locale} />
     </Shell>
   );
 }

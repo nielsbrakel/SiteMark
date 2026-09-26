@@ -102,5 +102,13 @@
   "websiteSocialImageAlt": {
     "message": "The SiteMark logo next to a browser window marked with a ribbon and a banner",
     "description": "Text alternative of the preview image that social networks show when someone shares a website link."
+  },
+  "websitePrivacyTitle": {
+    "message": "Privacy policy · SiteMark",
+    "description": "Browser tab title of the privacy policy page. At most 60 characters."
+  },
+  "websitePrivacyDescription": {
+    "message": "The SiteMark privacy policy: the extension and the website collect no data, set no cookies and make no third-party requests.",
+    "description": "Meta description of the privacy policy page, shown in search results. At most 160 characters."
   }
 }

@@ -102,5 +102,13 @@
   "websiteSocialImageAlt": {
     "message": "Het SiteMark-logo naast een browservenster met een lint en een banner",
     "description": "Text alternative of the preview image that social networks show when someone shares a website link."
+  },
+  "websitePrivacyTitle": {
+    "message": "Privacyverklaring · SiteMark",
+    "description": "Browser tab title of the privacy policy page. At most 60 characters."
+  },
+  "websitePrivacyDescription": {
+    "message": "De privacyverklaring van SiteMark: de extensie en de website verzamelen geen gegevens, plaatsen geen cookies en doen geen verzoeken aan derden.",
+    "description": "Meta description of the privacy policy page, shown in search results. At most 160 characters."
   }
 }
