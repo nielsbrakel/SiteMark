@@ -175,6 +175,28 @@ jobs:
             exit 1
           fi
 
+  policy-date:
+    name: policy date (a changed PRIVACY*.md has a new Last updated date)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      # Plain Node is enough: the script has no dependencies (REQ-POLICY-004).
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+      - name: Check the Last updated line of every changed policy file
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/check-policy-date.ts "$BASE" "$HEAD"
+
   verify-tdd:
     name: verify-tdd (red before green, red fails, green passes)
     if: github.event_name == 'pull_request'
@@ -223,7 +245,17 @@ jobs:
     name: ci-ok
     if: always()
     needs:
-      [check, build, e2e, traceability, verify-tdd, workflow-lint, dependency-review, commitlint]
+      [
+        check,
+        build,
+        e2e,
+        traceability,
+        verify-tdd,
+        workflow-lint,
+        dependency-review,
+        commitlint,
+        policy-date,
+      ]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions: {}
