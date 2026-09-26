@@ -1,17 +1,17 @@
 import { renderToString } from 'react-dom/server';
-import { notImplemented } from '@/core/not-implemented';
 import { Document } from './document/Document';
-import { contentSecurityPolicy, scriptHash } from './head/csp';
+import { inlineSecurity } from './document/inline-security';
+import { SeoTags } from './document/SeoTags';
 import { pageHead } from './head/page-head';
 import { sitemapEntries, sitemapXml } from './head/sitemap';
 import type { Locale } from './i18n/locales';
 import { websiteLocales } from './i18n/locales';
 import { createWebsiteTranslator, loadCatalogs, type WebsiteTranslator } from './i18n/website-t';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { PageView } from './pages/PageView';
 import { pageFor, renderedRoutes } from './pages/registry';
 import type { Route } from './routes/routes';
 import { assetUrl, outputFile } from './routes/urls';
-import { bootstrapScript } from './theme/bootstrap';
 
 /**
  * Built client files, relative to the client output directory (from the Vite manifest).
@@ -31,15 +31,12 @@ function renderRoute(
   const page = pageFor(route.page);
   if (!page) return [];
   const { head, jsonLd } = pageHead(route, page, locale, translator.t);
-  const bootstrap = bootstrapScript();
-  const csp = contentSecurityPolicy([scriptHash(bootstrap)], {
-    inlineStyles: assets.devServer === true,
-  });
+  const { bootstrap, csp } = inlineSecurity(assets.devServer === true);
   const html = renderToString(
     <Document
       locale={locale}
       page={route.page}
-      head={head}
+      headTags={<SeoTags head={head} />}
       csp={csp}
       jsonLd={jsonLd}
       bootstrap={bootstrap}
@@ -76,6 +73,29 @@ export function renderSitemap(): string {
 }
 
 /** 404.html (REQ-PAGE-006): one bilingual page that GitHub Pages serves for every unknown path. */
-export function renderNotFound(_assets: PageAssets): Promise<RenderedPage> {
-  return notImplemented();
+export async function renderNotFound(assets: PageAssets): Promise<RenderedPage> {
+  const en = createWebsiteTranslator('en', await loadCatalogs('en'));
+  const nl = createWebsiteTranslator('nl', await loadCatalogs('nl'));
+  const { bootstrap, csp } = inlineSecurity(assets.devServer === true);
+  const title = [en.t('websiteNotFoundHeading'), nl.t('websiteNotFoundHeading'), 'SiteMark'];
+  // English is the document language; the Dutch section says lang="nl". Not indexed, no
+  // canonical URL (it answers every unknown path) and no script (it has no islands).
+  const headTags = (
+    <>
+      <title>{title.join(' · ')}</title>
+      <meta name="robots" content="noindex" />
+    </>
+  );
+  const html = renderToString(
+    <Document
+      locale="en"
+      headTags={headTags}
+      csp={csp}
+      bootstrap={bootstrap}
+      styles={assets.styles.map(assetUrl)}
+    >
+      <NotFoundPage en={en.t} nl={nl.t} routes={renderedRoutes()} />
+    </Document>,
+  );
+  return { file: '404.html', html: `<!doctype html>${html}` };
 }

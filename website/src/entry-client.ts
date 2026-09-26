@@ -4,6 +4,7 @@ import './styles/website-tokens.css';
 // (scripts/keep-css-modules.ts keeps the CSS of these otherwise tree-shaken modules).
 import './pages/PageView';
 import './pages/registry';
+import './pages/NotFoundPage';
 import { hydrateIslands } from './hydrate';
 
 // Every page is a prerendered HTML file; this hydrates its interactive islands (no client router).

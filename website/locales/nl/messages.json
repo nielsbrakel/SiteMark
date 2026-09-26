@@ -340,5 +340,13 @@
   "websiteHeroButton": {
     "message": "Klant verwijderen",
     "description": "Button text on the sample page in the hero illustration. Keep it short."
+  },
+  "websiteNotFoundHeading": {
+    "message": "Pagina niet gevonden",
+    "description": "Heading of the 404 page, which shows English and Dutch together. Also part of its title."
+  },
+  "websiteNotFoundText": {
+    "message": "Deze pagina bestaat niet, of is verhuisd. Deze pagina's helpen je verder:",
+    "description": "Text of the 404 page, above the links to the home, help and support pages."
   }
 }

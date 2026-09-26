@@ -3,7 +3,12 @@
 import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import type { PageAssets, renderPages, renderSitemap } from '../src/entry-server.tsx';
+import type {
+  PageAssets,
+  renderNotFound,
+  renderPages,
+  renderSitemap,
+} from '../src/entry-server.tsx';
 
 type ManifestChunk = { file: string; css?: string[] };
 
@@ -34,8 +39,10 @@ const server = (await import(
 )) as {
   renderPages: typeof renderPages;
   renderSitemap: typeof renderSitemap;
+  renderNotFound: typeof renderNotFound;
 };
-const pages = await server.renderPages(clientAssets());
+const assets = clientAssets();
+const pages = [...(await server.renderPages(assets)), await server.renderNotFound(assets)];
 for (const page of pages) {
   const file = path.join(client, page.file);
   mkdirSync(path.dirname(file), { recursive: true });

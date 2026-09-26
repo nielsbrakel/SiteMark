@@ -1,0 +1,37 @@
+/* 404.html: two short sections, English then Dutch, at the reading measure. */
+.page {
+  max-width: var(--smw-prose-max);
+  margin-inline: auto;
+  padding: var(--smw-section-gap) var(--smw-gutter);
+  font-size: var(--sm-text-lg);
+  line-height: var(--smw-prose-line);
+}
+
+.section h1,
+.section h2 {
+  margin-top: 0;
+  font-size: var(--smw-text-2xl);
+  line-height: 1.25;
+}
+
+.section + .section {
+  margin-top: var(--sm-space-6);
+  padding-top: var(--sm-space-6);
+  border-top: 1px solid var(--sm-border);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm-space-2) var(--sm-space-5);
+  padding: 0;
+  list-style: none;
+}
+
+.links a {
+  display: inline-block;
+  padding-block: var(--sm-space-1);
+  color: var(--sm-accent-text);
+  font-weight: 600;
+  text-underline-offset: 2px;
+}

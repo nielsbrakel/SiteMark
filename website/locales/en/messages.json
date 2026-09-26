@@ -340,5 +340,13 @@
   "websiteHeroButton": {
     "message": "Delete customer",
     "description": "Button text on the sample page in the hero illustration. Keep it short."
+  },
+  "websiteNotFoundHeading": {
+    "message": "Page not found",
+    "description": "Heading of the 404 page, which shows English and Dutch together. Also part of its title."
+  },
+  "websiteNotFoundText": {
+    "message": "This page doesn't exist, or it has moved. These pages can help you on your way:",
+    "description": "Text of the 404 page, above the links to the home, help and support pages."
   }
 }
