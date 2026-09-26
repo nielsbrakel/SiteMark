@@ -221,5 +221,29 @@
   "grantInvalid": {
     "message": "Deze link bevat geen geldige site. Open hem opnieuw vanuit SiteMark.",
     "description": "Toestemmingspagina: getoond als de pagina met een kapotte of gewijzigde link is geopend."
+  },
+  "popupSiteGroups": {
+    "message": "Sitegroepen op deze site",
+    "description": "Pop-up: toegankelijke naam van de lijst met sitegroepen waarvan de URL-patronen bij het huidige tabblad passen."
+  },
+  "popupGroupDisabled": {
+    "message": "Uitgeschakeld",
+    "description": "Pop-up: status van een passende sitegroep die uit staat. Gevolgd door een link \"inschakelen in instellingen\"."
+  },
+  "popupEnableInSettings": {
+    "message": "inschakelen in instellingen",
+    "description": "Pop-up: link na \"Uitgeschakeld —\" die de sitegroep op de instellingenpagina opent. Begint met een kleine letter."
+  },
+  "popupNoMatch": {
+    "message": "Geen sitegroep past bij deze site",
+    "description": "Pop-up: getoond als de URL-patronen van geen enkele sitegroep bij het huidige tabblad passen."
+  },
+  "popupMarkThisSite": {
+    "message": "Deze site markeren",
+    "description": "Pop-upknop die een sitegroep voor de huidige site maakt, met een blauw lint."
+  },
+  "popupMarkThisSiteHint": {
+    "message": "Je browser vraagt of SiteMark markeringen op deze site mag tonen.",
+    "description": "Pop-up: toelichting onder de knop Deze site markeren, die de toestemmingsvraag van de browser aankondigt."
   }
 }

@@ -221,5 +221,29 @@
   "grantInvalid": {
     "message": "This link doesn't name a valid site. Open it again from SiteMark.",
     "description": "Grant page: shown when the page was opened with a broken or tampered link."
+  },
+  "popupSiteGroups": {
+    "message": "Site groups on this site",
+    "description": "Popup: accessible name of the list of site groups whose URL patterns match the current tab."
+  },
+  "popupGroupDisabled": {
+    "message": "Disabled",
+    "description": "Popup: status of a matching site group that is turned off. Followed by a link \"enable in settings\"."
+  },
+  "popupEnableInSettings": {
+    "message": "enable in settings",
+    "description": "Popup: link after \"Disabled —\" that opens the site group in the settings page. Starts lowercase."
+  },
+  "popupNoMatch": {
+    "message": "No site group matches this site",
+    "description": "Popup: shown when no site group's URL patterns match the current tab."
+  },
+  "popupMarkThisSite": {
+    "message": "Mark this site",
+    "description": "Popup button that creates a site group for the current site with a blue ribbon."
+  },
+  "popupMarkThisSiteHint": {
+    "message": "Your browser will ask to let SiteMark show marks on this site.",
+    "description": "Popup: microcopy under the Mark this site button, announcing the browser's permission prompt."
   }
 }
