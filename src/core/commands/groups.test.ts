@@ -1,9 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import type { SiteGroupId } from '../ids';
 import { emptyState } from '../model/defaults';
-import type { SiteMarkState } from '../model/schema';
+import type { SiteGroup, SiteMarkState } from '../model/schema';
 import { err } from '../result';
-import { aSiteGroup, aState, aWildcardPattern } from '../testing/builders';
+import {
+  anElementMark,
+  aPageMark,
+  aRegexPattern,
+  aSiteGroup,
+  aState,
+  aWildcardPattern,
+} from '../testing/builders';
 import { applied, frozen, MISSING_GROUP_ID as MISSING, stateWith } from '../testing/reducers';
 import { times } from '../testing/schema-results';
 import { fixedIdGen } from '../testing/test-doubles';
@@ -12,6 +19,7 @@ import {
   deleteSiteGroup,
   moveSiteGroup,
   renameSiteGroup,
+  restoreSiteGroup,
   setSiteGroupEnabled,
 } from './groups';
 
@@ -175,5 +183,64 @@ describe('REQ-GRP-004 reorder site groups: priority is list order', () => {
     const state = stateWith(aSiteGroup());
     const cmd = { type: 'moveSiteGroup', id: MISSING, toIndex: 0 } as const;
     expect(moveSiteGroup(state, cmd)).toEqual(err('siteGroupNotFound'));
+  });
+});
+
+describe('REQ-GRP-001 restore a deleted site group (undo)', () => {
+  const restore = (state: SiteMarkState, group: SiteGroup, index: number) =>
+    restoreSiteGroup(state, { type: 'restoreSiteGroup', group, index });
+  const [a, c] = [aSiteGroup({ name: 'A' }), aSiteGroup({ name: 'C' })];
+  const b = aSiteGroup({
+    name: 'B',
+    excludes: [aWildcardPattern({ value: 'https://prod.example.com/status' })],
+    marks: [aPageMark(), anElementMark()],
+  });
+
+  it('puts the group back where it was, with its IDs, patterns, excludes and marks', () => {
+    const cmd = { type: 'deleteSiteGroup', id: b.id } as const;
+    const deleted = applied(deleteSiteGroup(stateWith(a, b, c), cmd));
+    expect(applied(restore(frozen(deleted), b, 1)).siteGroups).toEqual([a, b, c]);
+  });
+
+  it.each([
+    [-1, ['B', 'A', 'C']],
+    [0, ['B', 'A', 'C']],
+    [2, ['A', 'C', 'B']],
+    [99, ['A', 'C', 'B']],
+  ])('clamps the index %i to the list', (index, names) => {
+    expect(namesOf(applied(restore(stateWith(a, c), b, index)))).toEqual(names);
+  });
+
+  it('keeps a disabled group disabled', () => {
+    const off = aSiteGroup({ enabled: false, patterns: [] });
+    expect(applied(restore(stateWith(a), off, 1)).siteGroups).toEqual([a, off]);
+  });
+
+  it('stores its patterns in canonical form, like new ones', () => {
+    const pattern = aWildcardPattern({ value: 'Prod.Example.com' });
+    const group = aSiteGroup({ patterns: [pattern] });
+    const [restored] = applied(restore(stateWith(), group, 0)).siteGroups;
+    expect(restored?.patterns).toEqual([{ ...pattern, value: '*://prod.example.com/*' }]);
+  });
+
+  it.each([
+    [
+      'a broad URL pattern',
+      { patterns: [aWildcardPattern({ value: '*.com' })] },
+      'patternTooBroad',
+    ],
+    ['an unsafe regex', { patterns: [aRegexPattern({ value: '(a+)+$' })] }, 'regexUnsafe'],
+    ['a broad exclude', { excludes: [aWildcardPattern({ value: '*.co.uk' })] }, 'patternTooBroad'],
+  ])('refuses %s', (_case, overrides, code) => {
+    expect(restore(stateWith(a), aSiteGroup(overrides), 0)).toEqual(err(code));
+  });
+
+  it('refuses a group whose ID is already in the list (a second Undo)', () => {
+    expect(restore(stateWith(a, b), b, 0)).toEqual(err('siteGroupExists'));
+  });
+
+  it('refuses when there are 200 site groups already', () => {
+    const full = stateWith(...times(200, () => aSiteGroup()));
+    expect(restore(full, b, 0)).toEqual(err('siteGroupLimitReached'));
   });
 });

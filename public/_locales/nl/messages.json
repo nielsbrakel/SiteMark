@@ -559,5 +559,9 @@
   "welcomeShortcutUnset": {
     "message": "Het kiezen van een element heeft nog geen sneltoets. Je kunt er een instellen in de sneltoetsinstellingen van je browser.",
     "description": "Welcome tab: shown when the element picker has no keyboard shortcut."
+  },
+  "errorSiteGroupExists": {
+    "message": "Deze sitegroep staat al in de lijst.",
+    "description": "Error: undoing a delete for a site group that is already back."
   }
 }

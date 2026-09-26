@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { MarkId, PatternId, SiteGroupId } from '../ids';
 import { ok } from '../result';
-import { anElementMark, aPageMark } from '../testing/builders';
+import { anElementMark, aPageMark, aSiteGroup } from '../testing/builders';
 import { pathsOf, untrusted } from '../testing/schema-results';
 import type { Command, CommandOf } from './command';
 import { parseCommand } from './command-schema';
@@ -89,5 +89,24 @@ describe('REQ-SEC-001 REQ-SEC-004 the command schema checks untrusted commands',
 
   it('says where the problem is', () => {
     expect(pathsOf(parseCommand({ ...examples.renameSiteGroup, name: 5 }))).toEqual(['name']);
+  });
+});
+
+describe('REQ-SEC-001 REQ-SEC-004 restoreSiteGroup carries a whole, valid site group', () => {
+  const group = aSiteGroup({ marks: [aPageMark()] });
+  const restore = { type: 'restoreSiteGroup', group, index: 2 };
+
+  it('accepts a site group and the index it had', () => {
+    expect(parseCommand(untrusted(restore))).toEqual(ok(restore));
+  });
+
+  it.each<[string, unknown]>([
+    ['a group with a malformed ID', { ...restore, group: { ...group, id: 'short' } }],
+    ['an enabled group without URL patterns', { ...restore, group: { ...group, patterns: [] } }],
+    ['a group with an extra key', { ...restore, group: { ...group, revision: 1 } }],
+    ['a fractional index', { ...restore, index: 0.5 }],
+    ['no index', { type: 'restoreSiteGroup', group }],
+  ])('refuses %s', (_case, input) => {
+    expect(parseCommand(input)).toMatchObject({ ok: false });
   });
 });

@@ -1,7 +1,8 @@
-import type { SiteGroupErrorCode } from '../errors';
+import type { ErrorCode, SiteGroupErrorCode } from '../errors';
 import type { SiteGroupId } from '../ids';
 import type { SiteGroup, SiteMarkState } from '../model/schema';
 import { cleanText } from '../model/text';
+import { notImplemented } from '../not-implemented';
 import { err, ok, type Result } from '../result';
 import type { CommandDeps, CommandOf } from './command';
 
@@ -100,4 +101,21 @@ export function moveSiteGroup(
   const rest = state.siteGroups.toSpliced(index, 1);
   const target = Math.min(Math.max(toIndex, 0), rest.length);
   return ok({ ...state, siteGroups: rest.toSpliced(target, 0, group) });
+}
+
+/**
+ * Puts a deleted site group back at `index` (clamped), with its IDs, patterns, excludes and marks:
+ * the options page's Undo after a delete (REQ-GRP-001).
+ */
+export type RestoreSiteGroup = {
+  readonly type: 'restoreSiteGroup';
+  readonly group: SiteGroup;
+  readonly index: number;
+};
+
+export function restoreSiteGroup(
+  _state: SiteMarkState,
+  _command: RestoreSiteGroup,
+): Result<SiteMarkState, ErrorCode> {
+  return notImplemented();
 }

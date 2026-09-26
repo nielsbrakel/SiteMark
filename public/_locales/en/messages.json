@@ -559,5 +559,9 @@
   "welcomeShortcutUnset": {
     "message": "Picking an element has no keyboard shortcut yet. You can set one in your browser's shortcut settings.",
     "description": "Welcome tab: shown when the element picker has no keyboard shortcut."
+  },
+  "errorSiteGroupExists": {
+    "message": "This site group is already in the list.",
+    "description": "Error: undoing a delete for a site group that is already back."
   }
 }
