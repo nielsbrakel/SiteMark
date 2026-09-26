@@ -8,7 +8,6 @@
         "tests/e2e/serve.mjs",
         "scripts/*.mjs",
         "scripts/*/cli.ts",
-        "scripts/check-policy-date.ts",
         "vitest.mutation.config.ts"
       ],
       "project": [

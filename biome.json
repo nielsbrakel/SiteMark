@@ -560,7 +560,7 @@
       "linter": { "rules": { "style": { "noDefaultExport": "off" } } }
     },
     {
-      "includes": ["**/*.test.ts", "**/*.test.tsx", "tests/**"],
+      "includes": ["**/*.test.ts", "**/*.test.tsx", "tests/**", "website/tests/**"],
       "linter": {
         "rules": {
           "complexity": { "noExcessiveLinesPerFunction": "off" },
