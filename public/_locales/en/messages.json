@@ -173,5 +173,37 @@
   "errorCommandProducedInvalidState": {
     "message": "Something went wrong, so your change was not saved. Please try again.",
     "description": "Command error: applying the change would have produced invalid data (a SiteMark bug), so nothing was saved."
+  },
+  "grantTitle": {
+    "message": "Allow SiteMark on these sites",
+    "description": "Heading of the grant page, which asks for access to the listed sites."
+  },
+  "grantExplanation": {
+    "message": "SiteMark needs access to these sites to show your marks on every visit.",
+    "description": "Grant page: why SiteMark asks for access."
+  },
+  "grantSites": {
+    "message": "Sites",
+    "description": "Grant page: accessible name of the list of sites SiteMark asks access to."
+  },
+  "grantAllow": {
+    "message": "Allow",
+    "description": "Grant page button that opens the browser's permission prompt."
+  },
+  "grantGranted": {
+    "message": "Access granted. You can close this tab.",
+    "description": "Grant page: shown after the user allowed access."
+  },
+  "grantDenied": {
+    "message": "Access was not granted. Your marks won't show on these sites until you allow it.",
+    "description": "Grant page: shown after the user declined the browser's permission prompt."
+  },
+  "grantFailed": {
+    "message": "SiteMark couldn't ask for access. Please try again.",
+    "description": "Grant page: shown when the browser could not show its permission prompt."
+  },
+  "grantInvalid": {
+    "message": "This link doesn't name a valid site. Open it again from SiteMark.",
+    "description": "Grant page: shown when the page was opened with a broken or tampered link."
   }
 }

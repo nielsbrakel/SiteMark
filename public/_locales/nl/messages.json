@@ -173,5 +173,37 @@
   "errorCommandProducedInvalidState": {
     "message": "Er ging iets mis, dus je wijziging is niet opgeslagen. Probeer het opnieuw.",
     "description": "Opdrachtfout: de wijziging zou ongeldige gegevens opleveren (een fout in SiteMark), dus er is niets opgeslagen."
+  },
+  "grantTitle": {
+    "message": "SiteMark toestaan op deze sites",
+    "description": "Kop van de toestemmingspagina, die om toegang tot de genoemde sites vraagt."
+  },
+  "grantExplanation": {
+    "message": "SiteMark heeft toegang tot deze sites nodig om je markeringen bij elk bezoek te tonen.",
+    "description": "Toestemmingspagina: waarom SiteMark om toegang vraagt."
+  },
+  "grantSites": {
+    "message": "Sites",
+    "description": "Toestemmingspagina: toegankelijke naam van de lijst met sites waarvoor SiteMark toegang vraagt."
+  },
+  "grantAllow": {
+    "message": "Toestaan",
+    "description": "Knop op de toestemmingspagina die de toestemmingsvraag van de browser opent."
+  },
+  "grantGranted": {
+    "message": "Toegang verleend. Je kunt dit tabblad sluiten.",
+    "description": "Toestemmingspagina: getoond nadat de gebruiker toegang heeft gegeven."
+  },
+  "grantDenied": {
+    "message": "Toegang is niet verleend. Je markeringen verschijnen pas op deze sites als je het toestaat.",
+    "description": "Toestemmingspagina: getoond nadat de gebruiker de toestemmingsvraag heeft geweigerd."
+  },
+  "grantFailed": {
+    "message": "SiteMark kon niet om toegang vragen. Probeer het opnieuw.",
+    "description": "Toestemmingspagina: getoond als de browser de toestemmingsvraag niet kon tonen."
+  },
+  "grantInvalid": {
+    "message": "Deze link bevat geen geldige site. Open hem opnieuw vanuit SiteMark.",
+    "description": "Toestemmingspagina: getoond als de pagina met een kapotte of gewijzigde link is geopend."
   }
 }
