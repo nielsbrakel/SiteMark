@@ -1,11 +1,12 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { MarkId } from '../../core/ids';
 import { emptyState } from '../../core/model/defaults';
+import type { TabStatus } from '../../core/render/status';
 import type { LoadedState } from '../ports';
 import { createInMemoryBadge } from '../testing/in-memory-badge';
 import { createInMemoryStateRepo } from '../testing/in-memory-state-repo';
 import { createInMemoryTabs } from '../testing/in-memory-tabs';
-import { reportStatus, showReadOnlyBadges, type TabRenderStatus } from './report-status';
+import { reportStatus, showReadOnlyBadges } from './report-status';
 
 const OUTLINE = 'mark-outline' as MarkId;
 const RIBBON = 'mark-ribbon1' as MarkId;
@@ -18,12 +19,13 @@ function setup(loaded?: LoadedState) {
   return { badge, deps: { badge, stateRepo } };
 }
 
-const status = (overrides: Partial<TabRenderStatus> = {}): TabRenderStatus => ({
+const status = (overrides: Partial<TabStatus> = {}): TabStatus => ({
   marks: [
     { markId: OUTLINE, found: true },
     { markId: RIBBON, found: true },
   ],
-  favicon: 'ok',
+  favicon: 'available',
+  hidden: false,
   ...overrides,
 });
 
