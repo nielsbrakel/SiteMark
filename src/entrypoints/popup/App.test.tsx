@@ -1,10 +1,12 @@
-import { render, screen, within } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
 import type { Hex } from '@/core/model/schema';
+import { err } from '@/core/result';
 import { aPageMark, aSiteGroup, aState, aWildcardPattern } from '@/core/testing/builders';
+import { fakes } from '../../../tests/fakes/install';
 import { axeViolations } from '../../../tests/unit/axe';
-import { activeTab, fakeBackground } from '../../../tests/unit/popup-harness';
+import { activeTab, fakeBackground, shown } from '../../../tests/unit/popup-harness';
 import { PopupApp } from './App';
 
 const PAGE = 'https://app.example.com:8443/orders';
@@ -98,5 +100,56 @@ describe('REQ-THEME-001 the popup follows the theme setting', () => {
     render(<PopupApp />);
     await screen.findByText('No site group matches this site');
     expect(document.documentElement).toHaveAttribute('data-theme', 'dark');
+  });
+});
+
+describe('REQ-POP-006 REQ-PRIV-002 Mark this site prompts first, then asks the background (D-229)', () => {
+  const markThisSite = async () => {
+    const button = await shown(() => screen.queryByRole('button', { name: 'Mark this site' }));
+    fireEvent.click(button);
+  };
+
+  it('requests the host synchronously in the click, then sends markThisSite for the tab', async () => {
+    const { background, tabId } = await openPopup(PAGE, elsewhere);
+    await markThisSite();
+    expect(fakes().permissions.requests).toEqual([['*://app.example.com/*']]);
+    await waitFor(() => expect(background.sent('markThisSite')).toHaveLength(1));
+    expect(background.sent('markThisSite')).toEqual([
+      {
+        type: 'markThisSite',
+        data: { tabId, origin: { hostname: 'app.example.com', port: '8443' } },
+      },
+    ]);
+    const index = background.received.findIndex(({ type }) => type === 'markThisSite');
+    expect(background.promptsBefore[index]).toBe(1);
+  });
+
+  it('does not wait for the answer to the prompt, and shows the new group once it is stored', async () => {
+    // The user hasn't answered the prompt yet.
+    vi.spyOn(fakes().permissions.api, 'request').mockReturnValue(new Promise(() => undefined));
+    const { background } = await openPopup(PAGE, elsewhere);
+    await markThisSite();
+    await waitFor(() => expect(background.sent('markThisSite')).toHaveLength(1));
+    const added = group('app.example.com', '*://app.example.com:8443/*');
+    await background.commit(aState({ revision: 1, siteGroups: [elsewhere, added] }));
+    const [item] = await items();
+    expect(item).toHaveTextContent('app.example.com');
+  });
+
+  it('explains why when the background refuses', async () => {
+    const { background } = await openPopup(PAGE, elsewhere);
+    background.markThisSite = () => err('siteGroupLimitReached');
+    await markThisSite();
+    const alert = await shown(() => screen.queryByRole('alert'));
+    expect(alert).toHaveTextContent('You can have at most 200 site groups.');
+  });
+
+  it('says so when the background does not answer', async () => {
+    await openPopup(PAGE, elsewhere);
+    await shown(() => screen.queryByRole('button', { name: 'Mark this site' }));
+    fakeBrowser.runtime.onMessage.removeAllListeners();
+    await markThisSite();
+    const alert = await shown(() => screen.queryByRole('alert'));
+    expect(alert).toHaveTextContent("SiteMark didn't respond. Close this popup and try again.");
   });
 });

@@ -245,5 +245,9 @@
   "popupMarkThisSiteHint": {
     "message": "Your browser will ask to let SiteMark show marks on this site.",
     "description": "Popup: microcopy under the Mark this site button, announcing the browser's permission prompt."
+  },
+  "popupNotResponding": {
+    "message": "SiteMark didn't respond. Close this popup and try again.",
+    "description": "Popup: shown when the extension's background did not answer a request, for example while SiteMark updates."
   }
 }

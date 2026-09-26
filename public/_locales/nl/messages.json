@@ -245,5 +245,9 @@
   "popupMarkThisSiteHint": {
     "message": "Je browser vraagt of SiteMark markeringen op deze site mag tonen.",
     "description": "Pop-up: toelichting onder de knop Deze site markeren, die de toestemmingsvraag van de browser aankondigt."
+  },
+  "popupNotResponding": {
+    "message": "SiteMark reageerde niet. Sluit deze pop-up en probeer het opnieuw.",
+    "description": "Pop-up: getoond als de achtergrond van de extensie niet op een verzoek antwoordde, bijvoorbeeld terwijl SiteMark bijwerkt."
   }
 }

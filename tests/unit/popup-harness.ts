@@ -1,4 +1,5 @@
-import { act } from '@testing-library/react';
+import { act, waitFor } from '@testing-library/react';
+import { expect } from 'vitest';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
 import type { Committed } from '../../src/app/command-queue';
 import type { InjectionError } from '../../src/app/ports';
@@ -74,6 +75,19 @@ export function fakeBackground(overrides: Partial<FakeBackground> = {}): FakeBac
     return true;
   });
   return background;
+}
+
+/**
+ * Waits until `query` finds something and returns it. Unlike `findBy…`, a timeout fails with an
+ * assertion, which is how a red test must fail (verify-tdd).
+ */
+export async function shown<T>(query: () => T | null): Promise<T> {
+  let found: T | null = null;
+  await waitFor(() => {
+    found = query();
+    expect(found).not.toBeNull();
+  });
+  return found as T;
 }
 
 /** Opens `url` in the active tab of a focused window (no URL: the browser withholds it). */
