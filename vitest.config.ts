@@ -17,7 +17,8 @@ const isolation = { mockReset: true, restoreMocks: true, unstubEnvs: true, unstu
 const browserTests = '**/*.browser.test.{ts,tsx}';
 const chromium = process.env.PW_CHROMIUM_EXECUTABLE;
 const alias = { '@': path.resolve('src') };
-// D-226: tests pierce shadow roots, like the e2e build. Projects don't inherit the root `define`.
+// D-226: tests pierce shadow roots, like the e2e build. Projects don't inherit the root `define`,
+// and browser mode ignores it (tests/browser/setup.ts sets the global there instead).
 const define = { __SHADOW_MODE__: JSON.stringify('open') };
 
 /** `vitest run --project core --project dom` → "core-dom" (+ "-chrome" per build target); a bare run → "all". */
@@ -132,10 +133,10 @@ export default defineConfig({
       {
         // WxtVitest's setup module can't load in browser mode, so only the alias is shared.
         resolve: { alias },
-        define,
         test: {
           ...isolation,
           name: 'browser',
+          setupFiles: ['tests/browser/setup.ts'],
           include: ['src/**/*.browser.test.{ts,tsx}', 'tests/browser/**/*.browser.test.ts'],
           browser: {
             enabled: true,

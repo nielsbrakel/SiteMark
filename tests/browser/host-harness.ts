@@ -36,12 +36,6 @@ export function plantedRoot(): HTMLElement {
   return planted;
 }
 
-/** Lets pending MutationObserver callbacks run. */
-export async function settle(): Promise<void> {
-  await new Promise<void>((resolve) => queueMicrotask(resolve));
-  await new Promise<void>((resolve) => queueMicrotask(resolve));
-}
-
 export function cleanUp(): void {
   for (const host of created.splice(0)) host.dispose();
   for (const node of pageNodes.splice(0)) node.parentNode?.removeChild(node);
