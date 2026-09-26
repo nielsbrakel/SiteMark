@@ -1,12 +1,14 @@
 import type { ReactNode } from 'react';
 import type { SiteMarkState } from '@/core/model/schema';
 import { matchingGroups } from '@/core/url/group-match';
+import type { PopupTab } from '@/platform/mark-this-site-click';
 import { NoMatch } from './NoMatch';
 import styles from './SiteStatus.module.css';
 import { StatusList } from './StatusList';
 
 export type SiteStatusProps = {
-  readonly url: string;
+  /** The tab the popup was opened on, with its URL (known through activeTab). */
+  readonly tab: PopupTab;
   readonly state: SiteMarkState;
 };
 
@@ -20,12 +22,12 @@ function hostOf(url: string): string | undefined {
 }
 
 /** The tab's host and the site groups that match it, or Mark this site (REQ-POP-001). */
-export function SiteStatus({ url, state }: SiteStatusProps): ReactNode {
-  const groups = matchingGroups(state, url);
+export function SiteStatus({ tab, state }: SiteStatusProps): ReactNode {
+  const groups = matchingGroups(state, tab.url);
   return (
     <>
-      <p className={styles.host}>{hostOf(url)}</p>
-      {groups.length > 0 ? <StatusList groups={groups} /> : <NoMatch />}
+      <p className={styles.host}>{hostOf(tab.url)}</p>
+      {groups.length > 0 ? <StatusList groups={groups} /> : <NoMatch tab={tab} />}
     </>
   );
 }

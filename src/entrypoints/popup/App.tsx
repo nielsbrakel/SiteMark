@@ -18,7 +18,7 @@ type BodyProps = { readonly tab: CurrentTab; readonly view: SiteMarkStateView };
 /** What the popup shows below its header, once the tab and the state are known. */
 function Body({ tab, view }: BodyProps): ReactNode {
   if (tab.status !== 'ready' || tab.url === undefined || view.status !== 'ready') return null;
-  return <SiteStatus url={tab.url} state={view.state} />;
+  return <SiteStatus tab={{ id: tab.tabId, url: tab.url }} state={view.state} />;
 }
 
 /** The toolbar popup (REQ-POP-001…007, design.md §5.1): the site groups on the current tab. */
