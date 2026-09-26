@@ -48,6 +48,8 @@ test('the dialog opens modally and the popover toggles', async ({ page }) => {
 
 test('the stage enters fullscreen', async ({ page }) => {
   await page.goto(fixtureUrl('prod', 'fullscreen.html'));
+  // The welcome tab opened on install may be the active tab; fullscreen needs a focused page.
+  await page.bringToFront();
   await page.getByRole('button', { name: 'Enter fullscreen' }).click();
   await expect.poll(() => page.evaluate(() => document.fullscreenElement?.id)).toBe('stage');
 });
