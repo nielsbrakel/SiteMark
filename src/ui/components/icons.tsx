@@ -33,6 +33,14 @@ export function CheckIcon(props: IconProps): ReactNode {
   );
 }
 
+export function CloseIcon(props: IconProps): ReactNode {
+  return (
+    <Icon {...props}>
+      <path d="M4 4l8 8M12 4l-8 8" />
+    </Icon>
+  );
+}
+
 export function WarningIcon(props: IconProps): ReactNode {
   return (
     <Icon {...props}>

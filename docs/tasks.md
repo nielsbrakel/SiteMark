@@ -163,18 +163,18 @@ Status: ☐ todo · ✅ done.
 
 ## M5 — Popup (`src/entrypoints/popup`, `src/ui`)
 
-| Task  | Description                                                                                                | REQs                                                    | Tests                          | Status |
-| ----- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------ | ------ |
-| T-113 | UI kit (CSS Modules): Button, IconButton, Switch, Card, Field, Segmented, Slider, Dialog, Toast, ColorChip | REQ-THEME-002, REQ-A11Y-003, REQ-A11Y-008, REQ-A11Y-009 | `src/ui/components/*.test.tsx` | ☐      |
-| T-114 | Hooks: `useSiteMarkState` (read-only, pushed), `useCurrentTab` (`?tabId=` e2e only), `useTheme`            | REQ-THEME-001                                           | `src/ui/hooks/*.test.tsx`      | ☐      |
-| T-115 | Status list: matching groups, disabled → "enable in settings", empty state                                 | REQ-POP-001, REQ-URL-006                                | `popup/App.test.tsx`           | ☐      |
-| T-116 | Mark this site flow (synchronous request first)                                                            | REQ-POP-006, REQ-PRIV-002                               | `popup/App.test.tsx`, e2e      | ☐      |
-| T-117 | Permission missing + Allow (+ grant page fallback)                                                         | REQ-POP-004                                             | `popup/App.test.tsx`           | ☐      |
-| T-118 | Element mark status + Re-pick + favicon-unavailable notice                                                 | REQ-POP-002                                             | `popup/App.test.tsx`           | ☐      |
-| T-119 | Actions: Pick element, Hide on this tab (+ shortcut hint), Settings                                        | REQ-POP-003, REQ-RND-008                                | `popup/App.test.tsx`           | ☐      |
-| T-120 | Can't-run page state (`executeScript` failure = truth)                                                     | REQ-POP-005, REQ-ENV-003                                | `popup/App.test.tsx`           | ☐      |
-| T-121 | Read-only / corrupt data state                                                                             | REQ-DATA-007                                            | `popup/App.test.tsx`           | ☐      |
-| T-122 | E2E popup flows + axe                                                                                      | REQ-POP-001, REQ-A11Y-004                               | `tests/e2e/popup.spec.ts`      | ☐      |
+| Task  | Description                                                                                                | REQs                                                    | Tests                                                                  | Status |
+| ----- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------- | ------ |
+| T-113 | UI kit (CSS Modules): Button, IconButton, Switch, Card, Field, Segmented, Slider, Dialog, Toast, ColorChip | REQ-THEME-002, REQ-A11Y-003, REQ-A11Y-008, REQ-A11Y-009 | `src/ui/components/*.test.tsx`, `src/ui/components/*.browser.test.tsx` | ✅     |
+| T-114 | Hooks: `useSiteMarkState` (read-only, pushed), `useCurrentTab` (`?tabId=` e2e only), `useTheme`            | REQ-THEME-001                                           | `src/ui/hooks/*.test.tsx`                                              | ☐      |
+| T-115 | Status list: matching groups, disabled → "enable in settings", empty state                                 | REQ-POP-001, REQ-URL-006                                | `popup/App.test.tsx`                                                   | ☐      |
+| T-116 | Mark this site flow (synchronous request first)                                                            | REQ-POP-006, REQ-PRIV-002                               | `popup/App.test.tsx`, e2e                                              | ☐      |
+| T-117 | Permission missing + Allow (+ grant page fallback)                                                         | REQ-POP-004                                             | `popup/App.test.tsx`                                                   | ☐      |
+| T-118 | Element mark status + Re-pick + favicon-unavailable notice                                                 | REQ-POP-002                                             | `popup/App.test.tsx`                                                   | ☐      |
+| T-119 | Actions: Pick element, Hide on this tab (+ shortcut hint), Settings                                        | REQ-POP-003, REQ-RND-008                                | `popup/App.test.tsx`                                                   | ☐      |
+| T-120 | Can't-run page state (`executeScript` failure = truth)                                                     | REQ-POP-005, REQ-ENV-003                                | `popup/App.test.tsx`                                                   | ☐      |
+| T-121 | Read-only / corrupt data state                                                                             | REQ-DATA-007                                            | `popup/App.test.tsx`                                                   | ☐      |
+| T-122 | E2E popup flows + axe                                                                                      | REQ-POP-001, REQ-A11Y-004                               | `tests/e2e/popup.spec.ts`                                              | ☐      |
 
 ## M6 — Options page (`src/entrypoints/options`)
 

@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import type { Hex } from '../../core/model/schema';
-import { notImplemented } from '../../core/not-implemented';
+import styles from './ColorChip.module.css';
+import { classNames } from './class-names';
+import { paintColor } from './paint';
 
 export type ColorChipProps = {
   readonly color: Hex;
@@ -9,6 +11,13 @@ export type ColorChipProps = {
   readonly className?: string;
 };
 
-export function ColorChip(_props: ColorChipProps): ReactNode {
-  return notImplemented();
+/** A 12 px dot in a mark color with a control-border ring (design.md §4). */
+export function ColorChip({ color, label, className }: ColorChipProps): ReactNode {
+  const paint = (element: HTMLSpanElement | null) => paintColor(element, '--sm-chip-color', color);
+  const classes = classNames(styles.chip, className);
+  return label ? (
+    <span ref={paint} role="img" aria-label={label} className={classes} />
+  ) : (
+    <span ref={paint} aria-hidden="true" className={classes} />
+  );
 }

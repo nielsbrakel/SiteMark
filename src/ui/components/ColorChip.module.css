@@ -1,0 +1,19 @@
+.chip {
+  display: inline-block;
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-chip-color, transparent);
+  vertical-align: middle;
+
+  /* A mark color is information: keep it in forced-colors mode. */
+  forced-color-adjust: none;
+}
+
+@media (forced-colors: active) {
+  .chip {
+    border-color: CanvasText;
+  }
+}
