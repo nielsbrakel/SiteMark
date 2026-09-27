@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import type { TabStatusAnswer } from '@/app/protocol';
+import type { MarkId } from '@/core/ids';
 import type { SiteMarkState } from '@/core/model/schema';
 import type { TabStatus } from '@/core/render/status';
 import { activeGroups, matchingGroups } from '@/core/url/group-match';
@@ -8,13 +9,13 @@ import type { PopupTab } from '@/platform/mark-this-site-click';
 import { WarningIcon } from '@/ui/components/icons';
 import { AccessNotice } from './AccessNotice';
 import { Actions } from './Actions';
+import { CantRun } from './CantRun';
 import { NoMatch } from './NoMatch';
 import { neededOrigins } from './needed-origins';
 import styles from './SiteStatus.module.css';
 import { StatusList } from './StatusList';
 import { startPicker } from './start-picker';
 import { useGranted } from './use-granted';
-import { useShortcuts } from './use-shortcuts';
 import { useTabStatus } from './use-tab-status';
 
 export type SiteStatusProps = {
@@ -45,9 +46,16 @@ export function SiteStatus({ tab, state }: SiteStatusProps): ReactNode {
   const origins = neededOrigins(state, tab.url);
   const granted = useGranted(origins);
   const tabStatus = useTabStatus(tab.id, state.revision);
+  // A failed injection is the ground truth: the page refuses scripts (REQ-POP-005).
+  const [isRefused, setRefused] = useState(false);
+  if (isRefused || tabStatus.status === 'restricted') return <CantRun tabId={tab.id} />;
+
   const status = reportOf(tabStatus.status);
-  const shortcuts = useShortcuts();
   const { host, hostname } = siteOf(tab.url);
+  const pick = (markId?: MarkId) =>
+    void startPicker(tab.id, markId).then((result) => {
+      if (!result.ok && result.error === 'injectionFailed') setRefused(true);
+    });
   return (
     <>
       <p className={styles.host}>{host}</p>
@@ -55,12 +63,7 @@ export function SiteStatus({ tab, state }: SiteStatusProps): ReactNode {
         <AccessNotice host={hostname} origins={origins} />
       )}
       {groups.length > 0 ? (
-        <StatusList
-          groups={groups}
-          activeIds={activeIds}
-          status={status}
-          onRepick={(markId) => void startPicker(tab.id, markId)}
-        />
+        <StatusList groups={groups} activeIds={activeIds} status={status} onRepick={pick} />
       ) : (
         <NoMatch tab={tab} />
       )}
@@ -70,7 +73,7 @@ export function SiteStatus({ tab, state }: SiteStatusProps): ReactNode {
           {t('popupFaviconUnavailable')}
         </p>
       )}
-      <Actions tabId={tab.id} status={status} shortcuts={shortcuts} onToggled={tabStatus.refresh} />
+      <Actions tabId={tab.id} status={status} onPick={() => pick()} onToggled={tabStatus.refresh} />
     </>
   );
 }

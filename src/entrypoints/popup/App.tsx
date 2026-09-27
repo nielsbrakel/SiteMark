@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import logo from '@/assets/logo.svg';
+import { isKnownRestrictedUrl } from '@/core/restricted';
 import { t } from '@/lib/i18n/browser-source';
 import { optionsPageUrl } from '@/platform/deep-links';
 import type { SiteMarkStateView } from '@/ui/hooks/state-view';
@@ -7,6 +8,7 @@ import { type CurrentTab, useCurrentTab } from '@/ui/hooks/use-current-tab';
 import { useSiteMarkState } from '@/ui/hooks/use-site-mark-state';
 import { useTheme } from '@/ui/hooks/use-theme';
 import styles from './App.module.css';
+import { CantRun } from './CantRun';
 import { SiteStatus } from './SiteStatus';
 
 export type PopupAppProps = {
@@ -18,7 +20,10 @@ type BodyProps = { readonly tab: CurrentTab; readonly view: SiteMarkStateView };
 
 /** What the popup shows below its header, once the tab and the state are known. */
 function Body({ tab, view }: BodyProps): ReactNode {
-  if (tab.status !== 'ready' || tab.url === undefined || view.status !== 'ready') return null;
+  if (tab.status !== 'ready') return null;
+  // The browser withholds the URL of pages activeTab doesn't cover: SiteMark can't run there.
+  if (tab.url === undefined || isKnownRestrictedUrl(tab.url)) return <CantRun tabId={tab.tabId} />;
+  if (view.status !== 'ready') return null;
   return <SiteStatus tab={{ id: tab.tabId, url: tab.url }} state={view.state} />;
 }
 
