@@ -4,8 +4,11 @@ import { gzipSync } from 'node:zlib';
 import { describe, expect, it } from 'vitest';
 import { outDir, targets } from './targets';
 
-/** Gzipped budgets for code injected into web pages (REQ-NFR-002). The picker joins in T-111. */
-const budgets = [{ name: 'marker', file: 'content-scripts/content.js', limitKb: 25 }];
+/** Gzipped budgets for code injected into web pages (REQ-NFR-002). */
+const budgets = [
+  { name: 'marker', file: 'content-scripts/content.js', limitKb: 25 },
+  { name: 'picker', file: 'content-scripts/picker.js', limitKb: 20 },
+];
 
 const gzipKb = (file: string) => gzipSync(readFileSync(file), { level: 9 }).length / 1024;
 

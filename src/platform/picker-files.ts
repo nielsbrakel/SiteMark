@@ -1,7 +1,7 @@
 /**
- * WXT's output for the picker entrypoint (T-111: `src/entrypoints/picker.content.ts` with
- * `registration: 'runtime'`, so it is never registered, only injected). Until it exists the
- * injection fails, which the shortcut shows as "✕".
+ * WXT's output for the picker entrypoint (`src/entrypoints/picker.content.ts` with
+ * `registration: 'runtime'`, so it is never registered, only injected). A page where the
+ * injection fails shows "✕" for the shortcut. tests/build/picker-bundle.test.ts checks the file.
  */
 const PICKER_FILES = ['content-scripts/picker.js'] as const;
 
