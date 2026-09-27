@@ -813,5 +813,105 @@
         "example": "https://example.com/status"
       }
     }
+  },
+  "optionsMarks": {
+    "message": "Marks",
+    "description": "Site group editor: heading of the list of marks."
+  },
+  "optionsAddPageMark": {
+    "message": "Add page mark",
+    "description": "Site group editor: button that adds a page mark (a ribbon with the site group's name)."
+  },
+  "optionsEditMarkLink": {
+    "message": "Edit “$MARK$”",
+    "description": "Mark list: accessible name of the link that opens a mark's editor.",
+    "placeholders": {
+      "mark": {
+        "content": "$1",
+        "example": "Page · Ribbon"
+      }
+    }
+  },
+  "optionsEdit": {
+    "message": "Edit",
+    "description": "Mark list: visible text of the link that opens a mark's editor."
+  },
+  "optionsRemoveMark": {
+    "message": "Remove “$MARK$”",
+    "description": "Mark list: accessible name of the button that removes a mark.",
+    "placeholders": {
+      "mark": {
+        "content": "$1",
+        "example": "Page · Ribbon"
+      }
+    }
+  },
+  "optionsEditMark": {
+    "message": "Edit mark",
+    "description": "Heading of the mark editor."
+  },
+  "optionsCloseMark": {
+    "message": "Close",
+    "description": "Mark editor: link that closes the editor and goes back to the site group."
+  },
+  "optionsTarget": {
+    "message": "Target",
+    "description": "Mark editor: label of the choice between marking the whole page or one element."
+  },
+  "optionsTargetPage": {
+    "message": "Page",
+    "description": "Mark target: the whole page."
+  },
+  "optionsTargetElement": {
+    "message": "Element",
+    "description": "Mark target: one element, found with a CSS selector."
+  },
+  "optionsSelector": {
+    "message": "CSS selector",
+    "description": "Mark editor: label of the field for the element's CSS selector."
+  },
+  "optionsSelectorHelp": {
+    "message": "The first element that matches is marked.",
+    "description": "Mark editor: help text below the CSS selector field."
+  },
+  "optionsSelectorInvalid": {
+    "message": "This isn't a valid CSS selector.",
+    "description": "Mark editor: the typed CSS selector has a syntax error."
+  },
+  "effectRibbon": {
+    "message": "Ribbon",
+    "description": "Mark effect: a ribbon across a corner."
+  },
+  "effectBanner": {
+    "message": "Banner",
+    "description": "Mark effect: a banner along the top or bottom edge."
+  },
+  "effectFrame": {
+    "message": "Frame",
+    "description": "Mark effect: a colored frame around the page."
+  },
+  "effectTint": {
+    "message": "Tint",
+    "description": "Mark effect: a translucent color over the page or element."
+  },
+  "effectStripes": {
+    "message": "Stripes",
+    "description": "Mark effect: diagonal warning stripes."
+  },
+  "effectWatermark": {
+    "message": "Watermark",
+    "description": "Mark effect: repeated faint text over the page."
+  },
+  "effectTitlePrefix": {
+    "message": "Title prefix",
+    "description": "Mark effect: text before the page title."
+  },
+  "effectFavicon": {
+    "message": "Favicon",
+    "description": "Mark effect: a colored dot on the tab icon."
+  },
+  "effectOutline": {
+    "message": "Outline",
+    "description": "Mark effect: an outline around the element."
   }
 }
