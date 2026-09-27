@@ -3,6 +3,7 @@ import { isExtensionAlive } from './extension-alive';
 import { buildHostElement, setPopover } from './host-element';
 import { guardHost } from './host-guard';
 import { claimInstance } from './singleton';
+import { keepOnTop } from './top-layer';
 
 export type HostOptions = {
   /** Called once when the host goes away: dispose(), a newer instance, or the orphan check. */
@@ -38,6 +39,7 @@ export function createHost(options: HostOptions = {}): Host {
     if (disposed) return;
     disposed = true;
     guard.stop();
+    top.stop();
     element.remove();
     release();
     options.onDispose?.();
@@ -48,6 +50,7 @@ export function createHost(options: HostOptions = {}): Host {
     onOrphaned: dispose,
     onReattached: () => setPopover(element, onTop),
   });
+  const top = keepOnTop(element, () => onTop && !disposed);
   const setOnTop = (open: boolean) => {
     onTop = open;
     setPopover(element, open);
