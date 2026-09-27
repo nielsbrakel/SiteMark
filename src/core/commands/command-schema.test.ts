@@ -111,3 +111,13 @@ describe('REQ-SEC-001 REQ-SEC-004 restoreSiteGroup carries a whole, valid site g
     expect(parseCommand(input)).toMatchObject({ ok: false });
   });
 });
+
+describe('REQ-SEC-001 REQ-OPT-005 resetAll carries nothing', () => {
+  it('accepts a bare resetAll command', () => {
+    expect(parseCommand(untrusted({ type: 'resetAll' }))).toEqual(ok({ type: 'resetAll' }));
+  });
+
+  it('refuses one with extra keys', () => {
+    expect(parseCommand({ type: 'resetAll', keepSettings: true })).toMatchObject({ ok: false });
+  });
+});
