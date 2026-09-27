@@ -1421,5 +1421,9 @@
   "optionsCopyFailed": {
     "message": "SiteMark kon niet naar het klembord kopiëren.",
     "description": "Settings: copying the diagnostics failed."
+  },
+  "optionsExportGroup": {
+    "message": "Sitegroep exporteren",
+    "description": "Site group editor: button that downloads an export file with only this site group."
   }
 }

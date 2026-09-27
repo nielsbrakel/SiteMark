@@ -1421,5 +1421,9 @@
   "optionsCopyFailed": {
     "message": "SiteMark couldn't copy to the clipboard.",
     "description": "Settings: copying the diagnostics failed."
+  },
+  "optionsExportGroup": {
+    "message": "Export site group",
+    "description": "Site group editor: button that downloads an export file with only this site group."
   }
 }

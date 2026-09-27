@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/rea
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
 import { buildExport } from '@/core/data/export';
+import { parseImport } from '@/core/data/import';
 import type { SiteGroup, SiteMarkState } from '@/core/model/schema';
 import { aRegexPattern, aSiteGroup, aState, aWildcardPattern } from '@/core/testing/builders';
 import type { OriginPattern } from '@/core/url/origin';
@@ -223,5 +224,25 @@ describe('REQ-OPT-005 reset everything, after a double confirmation', () => {
     await confirmTwice();
     await waitFor(() => expect(background.commands).toEqual([{ type: 'resetAll' }]));
     expect(fakes().permissions.granted).toEqual(['https://prod.example.com/*']);
+  });
+});
+
+describe('REQ-DATA-006 export a single site group', () => {
+  it('downloads an export file with only that site group, which imports like any export', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(2026, 8, 27, 9, 0));
+    const downloads = captureDownloads();
+    const [prod] = state.siteGroups;
+    const other = aSiteGroup({ name: 'Other' });
+    optionsBackground(aState({ siteGroups: [prod as SiteGroup, other] }));
+    atHash(`#/groups/${other.id}`);
+    render(<OptionsApp />);
+    await screen.findByRole('main');
+    fireEvent.click(byRole('button', { name: 'Export site group' }));
+    await waitFor(() => expect(downloads).toHaveLength(1));
+    expect(downloads[0]?.name).toBe('sitemark-site-group-2026-09-27.json');
+    const text = (await downloads[0]?.blob?.text()) ?? '';
+    expect(JSON.parse(text)).toMatchObject({ format: 'sitemark-export', siteGroups: [other] });
+    expect(parseImport(text)).toMatchObject({ ok: true, value: { siteGroups: [other] } });
   });
 });
