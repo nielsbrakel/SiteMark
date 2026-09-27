@@ -6,6 +6,11 @@ const extensionPath = path.resolve('.output/chrome-mv3-e2e');
 /** Hosts a test may reach. Everything else is aborted and fails the test (REQ-PRIV-005). */
 const allowedHost = /(^|\.)sitemark\.test$|^127\.0\.0\.1$|^localhost$/;
 
+type Options = {
+  /** The browser's locale, which `browser.i18n` follows (e.g. `nl`); unset = the default. */
+  uiLanguage: string | undefined;
+};
+
 type Fixtures = {
   context: BrowserContext;
   serviceWorker: Worker;
@@ -19,9 +24,10 @@ type Fixtures = {
  * `pnpm test:e2e` builds it first. Set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium or
  * Chrome for Testing (branded Chrome ≥ 137 ignores --load-extension and would hang).
  */
-export const test = base.extend<Fixtures>({
-  // biome-ignore lint/correctness/noEmptyPattern: Playwright fixtures must destructure their first argument
-  context: async ({}, use) => {
+export const test = base.extend<Options & Fixtures>({
+  uiLanguage: [undefined, { option: true }],
+
+  context: async ({ uiLanguage }, use) => {
     const context = await chromium.launchPersistentContext('', {
       channel: 'chromium',
       ...(process.env.PW_CHROMIUM_EXECUTABLE && {
@@ -32,6 +38,9 @@ export const test = base.extend<Fixtures>({
         `--load-extension=${extensionPath}`,
         '--host-resolver-rules=MAP *.sitemark.test 127.0.0.1',
       ],
+      // `locale` sets navigator.language; Chromium on Linux takes the UI language that
+      // browser.i18n follows from LANGUAGE.
+      ...(uiLanguage && { locale: uiLanguage, env: { ...process.env, LANGUAGE: uiLanguage } }),
     });
     await use(context);
     await context.close();

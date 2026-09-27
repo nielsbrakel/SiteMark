@@ -1,40 +1,12 @@
 import AxeBuilder from '@axe-core/playwright';
-import type { BrowserContext, Page, Worker } from '@playwright/test';
 import { expect, test } from './fixtures';
 import { fixtureUrl } from './hosts';
 import { waitForMarker } from './marker';
+import { openPopupFor, type TabsApi } from './popup-page';
 
 // The popup in the real extension (T-122). It is opened as popup.html?tabId=<id> in a tab of its
 // own, which only e2e builds honour (src/ui/hooks/use-current-tab.ts): Playwright can't click the
 // toolbar button.
-
-type TabsApi = { tabs: { query(info: object): Promise<{ id?: number; url?: string }[]> } };
-
-/** The id of the tab showing `url` (visible to the background on granted origins only). */
-async function tabIdOf(worker: Worker, url: string): Promise<number> {
-  const id = await worker.evaluate(async (wanted) => {
-    const { chrome } = globalThis as unknown as { chrome: TabsApi };
-    const tabs = await chrome.tabs.query({});
-    return tabs.find((tab) => tab.url === wanted)?.id;
-  }, url);
-  if (id === undefined) throw new Error(`No tab shows ${url}`);
-  return id;
-}
-
-/** Opens `url` in a tab and the popup for that tab in another; returns both pages. */
-async function openPopupFor(
-  context: BrowserContext,
-  worker: Worker,
-  extensionId: string,
-  url: string,
-): Promise<{ site: Page; popup: Page }> {
-  const site = await context.newPage();
-  await site.goto(url);
-  const tabId = await tabIdOf(worker, site.url());
-  const popup = await context.newPage();
-  await popup.goto(`chrome-extension://${extensionId}/popup.html?tabId=${tabId}`);
-  return { site, popup };
-}
 
 test.describe('REQ-POP-001 REQ-POP-006 the popup in the real extension', () => {
   test('Mark this site adds a group for the host, lists it and shows the ribbon', {
