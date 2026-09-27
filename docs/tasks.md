@@ -200,7 +200,7 @@ Status: ☐ todo · ✅ done.
 | T-140 | Data: reset everything (double confirm, optional revoke, unregister)                                 | REQ-OPT-005                                          | `src/core/commands/settings.test.ts`, `src/entrypoints/options/DataPanel.test.tsx`    | ✅     |
 | T-141 | Revoke unused origins prompt (after the undo window)                                                 | REQ-PRIV-004                                         | `src/entrypoints/options/RevokePrompt.test.tsx`                                       | ✅     |
 | T-142 | Corrupt/read-only banner: download backup, restore defaults                                          | REQ-DATA-001, REQ-DATA-007                           | `src/entrypoints/options/App.test.tsx`                                                | ✅     |
-| T-143 | Copy diagnostics                                                                                     | REQ-OPT-007                                          | `options/Settings.test.tsx`                                                           | ☐      |
+| T-143 | Copy diagnostics                                                                                     | REQ-OPT-007                                          | `src/entrypoints/options/Settings.test.tsx`                                           | ✅     |
 | T-144 | Export a single site group (Could)                                                                   | REQ-DATA-006                                         | `options/DataPanel.test.tsx`                                                          | ☐      |
 
 ## M7 — Polish

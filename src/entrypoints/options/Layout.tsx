@@ -52,7 +52,7 @@ function GroupPane({ route, state, group, notify, onAdded }: PaneProps): ReactNo
 function Pane(props: PaneProps): ReactNode {
   switch (props.route?.page) {
     case 'settings':
-      return <SettingsPane theme={props.state.settings.theme} notify={props.notify} />;
+      return <SettingsPane state={props.state} notify={props.notify} />;
     case 'data':
       return <DataPane state={props.state} notify={props.notify} />;
     case 'welcome':

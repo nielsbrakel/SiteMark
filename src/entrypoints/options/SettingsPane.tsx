@@ -1,20 +1,21 @@
 import { type ReactNode, useId } from 'react';
-import type { Theme } from '@/core/model/schema';
+import type { SiteMarkState, Theme } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { Segmented } from '@/ui/components/Segmented';
 import { commandErrorText } from './command-error';
+import { DiagnosticsSection } from './DiagnosticsSection';
 import type { Notify } from './notify';
 import styles from './Pane.module.css';
 import { ShortcutList } from './ShortcutList';
 import { sendTracked } from './save-status';
 
 export type SettingsPaneProps = {
-  readonly theme: Theme;
+  readonly state: SiteMarkState;
   readonly notify: Notify;
 };
 
-/** Settings (REQ-OPT-004): theme, keyboard shortcuts and help about the title prefix. */
-export function SettingsPane({ theme, notify }: SettingsPaneProps): ReactNode {
+/** Settings (REQ-OPT-004, REQ-OPT-007): theme, shortcuts, title prefix help and diagnostics. */
+export function SettingsPane({ state, notify }: SettingsPaneProps): ReactNode {
   const titleId = useId();
   const historyId = useId();
   const themes = [
@@ -32,7 +33,7 @@ export function SettingsPane({ theme, notify }: SettingsPaneProps): ReactNode {
       <Segmented
         label={t('optionsTheme')}
         options={themes}
-        value={theme}
+        value={state.settings.theme}
         onChange={(next) => void setTheme(next)}
       />
       <ShortcutList />
@@ -40,6 +41,7 @@ export function SettingsPane({ theme, notify }: SettingsPaneProps): ReactNode {
         <h3 id={historyId}>{t('optionsTitleHistory')}</h3>
         <p>{t('optionsTitleHistoryHelp')}</p>
       </section>
+      <DiagnosticsSection state={state} />
     </section>
   );
 }
