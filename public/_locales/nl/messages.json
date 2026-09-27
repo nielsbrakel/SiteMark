@@ -351,5 +351,27 @@
   "pickerComponentNote": {
     "message": "markeert het component",
     "description": "Picker tooltip note when the pointer is over a web component: the component gets the mark."
+  },
+  "pickerPaneName": {
+    "message": "SiteMark-elementkiezer",
+    "description": "Accessible name of the in-page element picker while it has the keyboard focus."
+  },
+  "pickerHint": {
+    "message": "Klik om te kiezen · ↑↓←→ navigeren · Enter kiezen · Esc annuleren",
+    "description": "Hint bar at the top of the page while picking an element."
+  },
+  "pickerSize": {
+    "message": "$WIDTH$ bij $HEIGHT$",
+    "description": "Screen reader announcement of the size of the element under the picker, in pixels.",
+    "placeholders": {
+      "width": {
+        "content": "$1",
+        "example": "120"
+      },
+      "height": {
+        "content": "$2",
+        "example": "36"
+      }
+    }
   }
 }
