@@ -58,7 +58,12 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
         <h1>{t('optionsTitle')}</h1>
         <PageNav route={route} />
       </header>
-      <Sidebar groups={state.siteGroups} selectedId={group?.id} onAdded={openNewGroup} />
+      <Sidebar
+        groups={state.siteGroups}
+        selectedId={group?.id}
+        onAdded={openNewGroup}
+        notify={setToast}
+      />
       <main className={styles.main}>
         <Pane route={route} state={state} group={group} notify={setToast} />
       </main>

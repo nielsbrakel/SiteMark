@@ -5,20 +5,22 @@ import { t } from '@/lib/i18n/browser-source';
 import { AddGroupForm } from './AddGroupForm';
 import { GroupList } from './GroupList';
 import styles from './Layout.module.css';
+import type { Notify } from './notify';
 
 export type SidebarProps = {
   readonly groups: readonly SiteGroup[];
   readonly selectedId: SiteGroupId | undefined;
   readonly onAdded: (revision: number) => void;
+  readonly notify: Notify;
 };
 
 /** The site group list with its Add form (design.md §5.2). */
-export function Sidebar({ groups, selectedId, onAdded }: SidebarProps): ReactNode {
+export function Sidebar({ groups, selectedId, onAdded, notify }: SidebarProps): ReactNode {
   const headingId = useId();
   return (
     <aside aria-labelledby={headingId} className={styles.sidebar}>
       <h2 id={headingId}>{t('optionsSiteGroups')}</h2>
-      <GroupList groups={groups} selectedId={selectedId} />
+      <GroupList groups={groups} selectedId={selectedId} notify={notify} />
       <AddGroupForm onAdded={onAdded} />
     </aside>
   );
