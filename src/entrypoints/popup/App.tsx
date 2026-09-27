@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import logo from '@/assets/logo.svg';
 import { t } from '@/lib/i18n/browser-source';
+import { optionsPageUrl } from '@/platform/deep-links';
 import type { SiteMarkStateView } from '@/ui/hooks/state-view';
 import { type CurrentTab, useCurrentTab } from '@/ui/hooks/use-current-tab';
 import { useSiteMarkState } from '@/ui/hooks/use-site-mark-state';
@@ -31,6 +32,14 @@ export function PopupApp({ search }: PopupAppProps): ReactNode {
       <header className={styles.header}>
         <img src={logo} alt="" width={32} height={32} />
         <h1>{t('popupTitle')}</h1>
+        <a
+          className={styles.settings}
+          href={optionsPageUrl({ page: 'settings' })}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {t('popupSettings')}
+        </a>
       </header>
       <Body tab={tab} view={view} />
     </main>

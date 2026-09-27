@@ -14,3 +14,9 @@
   margin: 0;
   font-size: var(--sm-text-xl);
 }
+
+.settings {
+  margin-inline-start: auto;
+  color: var(--sm-accent-text);
+  font-weight: 600;
+}

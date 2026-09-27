@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { TabStatusAnswer } from '@/app/protocol';
 import type { SiteMarkState } from '@/core/model/schema';
 import type { TabStatus } from '@/core/render/status';
 import { activeGroups, matchingGroups } from '@/core/url/group-match';
@@ -6,12 +7,14 @@ import { t } from '@/lib/i18n/browser-source';
 import type { PopupTab } from '@/platform/mark-this-site-click';
 import { WarningIcon } from '@/ui/components/icons';
 import { AccessNotice } from './AccessNotice';
+import { Actions } from './Actions';
 import { NoMatch } from './NoMatch';
 import { neededOrigins } from './needed-origins';
 import styles from './SiteStatus.module.css';
 import { StatusList } from './StatusList';
 import { startPicker } from './start-picker';
 import { useGranted } from './use-granted';
+import { useShortcuts } from './use-shortcuts';
 import { useTabStatus } from './use-tab-status';
 
 export type SiteStatusProps = {
@@ -31,7 +34,7 @@ function siteOf(url: string): { readonly host: string; readonly hostname: string
 }
 
 /** The marker's report, or `undefined` when no marker runs (or the page is restricted). */
-function reportOf(answer: ReturnType<typeof useTabStatus>): TabStatus | undefined {
+function reportOf(answer: TabStatusAnswer | undefined): TabStatus | undefined {
   return typeof answer === 'object' ? answer : undefined;
 }
 
@@ -41,7 +44,9 @@ export function SiteStatus({ tab, state }: SiteStatusProps): ReactNode {
   const activeIds = new Set(activeGroups(state, tab.url).map((group) => group.id));
   const origins = neededOrigins(state, tab.url);
   const granted = useGranted(origins);
-  const status = reportOf(useTabStatus(tab.id, state.revision));
+  const tabStatus = useTabStatus(tab.id, state.revision);
+  const status = reportOf(tabStatus.status);
+  const shortcuts = useShortcuts();
   const { host, hostname } = siteOf(tab.url);
   return (
     <>
@@ -65,6 +70,7 @@ export function SiteStatus({ tab, state }: SiteStatusProps): ReactNode {
           {t('popupFaviconUnavailable')}
         </p>
       )}
+      <Actions tabId={tab.id} status={status} shortcuts={shortcuts} onToggled={tabStatus.refresh} />
     </>
   );
 }
