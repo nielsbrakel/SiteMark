@@ -52,3 +52,23 @@
   justify-content: space-between;
   gap: var(--sm-space-3);
 }
+
+.colors {
+  display: grid;
+  gap: var(--sm-space-3);
+}
+
+.custom {
+  display: flex;
+  align-items: end;
+  gap: var(--sm-space-2);
+}
+
+.picker {
+  inline-size: 36px;
+  block-size: 36px;
+  padding: 0;
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-sm);
+  background: none;
+}

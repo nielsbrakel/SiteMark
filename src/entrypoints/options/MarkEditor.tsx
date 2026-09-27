@@ -3,12 +3,14 @@ import type { Mark, MarkDraft, SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { Segmented } from '@/ui/components/Segmented';
 import { sendCommand } from '@/ui/hooks/use-command';
+import { ColorFields } from './ColorFields';
 import { commandErrorText } from './command-error';
 import styles from './MarkEditor.module.css';
-import { asElementMark, asPageMark } from './mark-drafts';
+import { asElementMark, asPageMark, draftOf } from './mark-drafts';
 import type { Notify } from './notify';
 import { groupHref } from './routes';
 import { SelectorField } from './SelectorField';
+import { TextColorField } from './TextColorField';
 
 type TargetKind = Mark['target']['kind'];
 
@@ -38,6 +40,8 @@ export function MarkEditor({ group, mark, notify }: MarkEditorProps): ReactNode 
     const refused = await update(group, mark, asPageMark(mark, group.name));
     if (refused) notify({ text: refused });
   };
+  const save = (change: Partial<Pick<MarkDraft, 'color' | 'textColor'>>) =>
+    update(group, mark, { ...draftOf(mark), ...change });
   const options = [
     { value: 'page', label: t('optionsTargetPage') },
     { value: 'element', label: t('optionsTargetElement') },
@@ -53,6 +57,12 @@ export function MarkEditor({ group, mark, notify }: MarkEditorProps): ReactNode 
         options={options}
         value={target}
         onChange={(kind) => void chooseTarget(kind)}
+      />
+      <ColorFields color={mark.color} onSave={(color) => save({ color })} />
+      <TextColorField
+        color={mark.color}
+        textColor={mark.textColor}
+        onSave={(textColor) => save({ textColor })}
       />
       {target === 'element' && (
         <SelectorField
