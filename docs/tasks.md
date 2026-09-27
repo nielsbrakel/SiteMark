@@ -159,7 +159,7 @@ Status: ☐ todo · ✅ done.
 | T-109 | Panel: not-granted notice → Allow (grant page), temporary activeTab display                                               | REQ-PICK-006                             | `panel.test.ts`                      | ✅     |
 | T-110 | Re-pick replaces a mark's selector                                                                                        | REQ-PICK-007                             | `panel.test.ts`                      | ✅     |
 | T-111 | Picker injection from popup + `start-picker` (activeTab). Picker size budget (≤ 20 KB gzip) in `tests/build/size.test.ts` | REQ-PICK-001, REQ-CMD-001                | `tests/e2e/picker.spec.ts`           | ✅     |
-| T-112 | E2E: pick → save → overlay visible after reload                                                                           | REQ-PICK-001, REQ-PICK-005               | `tests/e2e/picker.spec.ts`           | ☐      |
+| T-112 | E2E: pick → save → overlay visible after reload                                                                           | REQ-PICK-001, REQ-PICK-005               | `tests/e2e/picker.spec.ts`           | ✅     |
 
 ## M5 — Popup (`src/entrypoints/popup`, `src/ui`)
 

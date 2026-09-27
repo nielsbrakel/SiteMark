@@ -2,6 +2,7 @@ import type { BrowserContext, Page } from '@playwright/test';
 import { sendFromPage } from './background';
 import { expect, test } from './fixtures';
 import { fixtureUrl } from './hosts';
+import { waitForMarker } from './marker';
 import { centerOf, pickerPart, startPicking, waitForPanel } from './picker';
 
 // The picker end to end (REQ-PICK-001, REQ-PICK-005): select an element, save it from the panel.
@@ -100,4 +101,31 @@ test('More options… saves and opens the options page at the new mark @REQ-PICK
   await expect
     .poll(() => opened?.url() ?? 'no tab')
     .toMatch(/options\.html#\/groups\/[\w-]{12}\/marks\/[\w-]{12}$/);
+});
+
+/** The marker's outline view sits around the element (2 px gap, its own width outside that). */
+async function expectOutlineAround(page: Page, testId: string): Promise<void> {
+  const root = await waitForMarker(page);
+  const outline = root.locator('.sm-outline');
+  await expect(outline).toHaveCount(1);
+  await expect(outline).toBeVisible();
+  const target = await page.getByTestId(testId).boundingBox();
+  const box = await outline.boundingBox();
+  expect(target && box && Math.abs(box.x - target.x)).toBeLessThanOrEqual(8);
+  expect(target && box && Math.abs(box.y - target.y)).toBeLessThanOrEqual(8);
+}
+
+test('a saved pick shows at once and after a reload @REQ-PICK-001 @REQ-PICK-005', async ({
+  context,
+  page,
+  serviceWorker,
+}) => {
+  await page.goto(fixtureUrl('prod', 'picker.html'));
+  await startPicking(context, page, serviceWorker);
+  await pick(page, 'danger');
+  await (await waitForPanel(page)).getByRole('button', { name: 'Save' }).click();
+  await expect(page.locator('sitemark-picker')).toHaveCount(0);
+  await expectOutlineAround(page, 'danger');
+  await page.reload();
+  await expectOutlineAround(page, 'danger');
 });
