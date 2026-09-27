@@ -1,10 +1,12 @@
 import type { ReactNode } from 'react';
+import { originsOfPattern } from '@/core/data/origins';
 import type { SiteGroup, UrlPattern } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { IconButton } from '@/ui/components/IconButton';
 import { CloseIcon } from '@/ui/components/icons';
 import { sendCommand } from '@/ui/hooks/use-command';
 import { commandErrorText } from './command-error';
+import { GrantStatus } from './GrantStatus';
 import type { Notify } from './notify';
 import styles from './PatternEditor.module.css';
 
@@ -39,6 +41,7 @@ export function PatternList({ group, labelledBy, notify }: PatternListProps): Re
               </span>
             )}
           </span>
+          <GrantStatus origins={originsOfPattern(pattern)} />
           <IconButton
             label={t('optionsRemovePattern', pattern.value)}
             icon={<CloseIcon />}

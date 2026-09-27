@@ -7,7 +7,8 @@ import { parseWildcard } from '../url/parse';
 // The origins that URL patterns need (REQ-URL-005), for grants (REQ-DATA-005) and registration.
 // Excludes only narrow a match, so they need no origin.
 
-function originsOfPattern(pattern: UrlPattern): readonly OriginPattern[] {
+/** The origins one URL pattern needs: a wildcard's derived origin, or a regex's own origins. */
+export function originsOfPattern(pattern: UrlPattern): readonly OriginPattern[] {
   switch (pattern.kind) {
     case 'wildcard': {
       const parsed = parseWildcard(pattern.value);
