@@ -659,5 +659,75 @@
   "optionsDuplicateGroup": {
     "message": "Duplicate site group",
     "description": "Site group editor: button that adds a copy of the site group (turned off) at the bottom of the list."
+  },
+  "optionsPatterns": {
+    "message": "URL patterns",
+    "description": "Site group editor: heading of the list of URL patterns."
+  },
+  "optionsPatternType": {
+    "message": "Pattern type",
+    "description": "Site group editor: label of the choice between a wildcard pattern and a regular expression."
+  },
+  "optionsPatternWildcard": {
+    "message": "Wildcard",
+    "description": "Pattern type: a wildcard pattern such as *.example.com."
+  },
+  "optionsPatternRegex": {
+    "message": "Regex",
+    "description": "Pattern type: a regular expression (advanced)."
+  },
+  "optionsPatternInput": {
+    "message": "URL pattern",
+    "description": "Site group editor: label of the field for a new pattern."
+  },
+  "optionsPatternHelp": {
+    "message": "For example *.example.com or https://example.com/admin/*",
+    "description": "Help text below the wildcard pattern field."
+  },
+  "optionsRegexHelp": {
+    "message": "A regular expression, tested against the full URL.",
+    "description": "Help text below the pattern field when the type is Regex."
+  },
+  "optionsOrigins": {
+    "message": "Origins",
+    "description": "Site group editor: label of the field for the sites a regular expression runs on."
+  },
+  "optionsOriginsHelp": {
+    "message": "The sites this regular expression runs on, separated by commas, such as https://example.com",
+    "description": "Help text below the Origins field."
+  },
+  "optionsAddPattern": {
+    "message": "Add pattern",
+    "description": "Site group editor: button that adds the typed pattern (and asks for access to its sites)."
+  },
+  "optionsRemovePattern": {
+    "message": "Remove “$PATTERN$”",
+    "description": "Accessible name of the button that removes a URL pattern.",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "*://example.com/*"
+      }
+    }
+  },
+  "optionsRegexOn": {
+    "message": "Regex on $ORIGINS$",
+    "description": "Pattern list: the origins a regular expression runs on.",
+    "placeholders": {
+      "origins": {
+        "content": "$1",
+        "example": "https://example.com/*"
+      }
+    }
+  },
+  "optionsAutoDisabled": {
+    "message": "“$NAME$” was turned off because it has no URL patterns left.",
+    "description": "Toast after removing a site group's last URL pattern turned the group off.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
   }
 }

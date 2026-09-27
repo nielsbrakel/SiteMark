@@ -659,5 +659,75 @@
   "optionsDuplicateGroup": {
     "message": "Sitegroep dupliceren",
     "description": "Site group editor: button that adds a copy of the site group (turned off) at the bottom of the list."
+  },
+  "optionsPatterns": {
+    "message": "URL-patronen",
+    "description": "Site group editor: heading of the list of URL patterns."
+  },
+  "optionsPatternType": {
+    "message": "Soort patroon",
+    "description": "Site group editor: label of the choice between a wildcard pattern and a regular expression."
+  },
+  "optionsPatternWildcard": {
+    "message": "Jokerteken",
+    "description": "Pattern type: a wildcard pattern such as *.example.com."
+  },
+  "optionsPatternRegex": {
+    "message": "Regex",
+    "description": "Pattern type: a regular expression (advanced)."
+  },
+  "optionsPatternInput": {
+    "message": "URL-patroon",
+    "description": "Site group editor: label of the field for a new pattern."
+  },
+  "optionsPatternHelp": {
+    "message": "Bijvoorbeeld *.example.com of https://example.com/admin/*",
+    "description": "Help text below the wildcard pattern field."
+  },
+  "optionsRegexHelp": {
+    "message": "Een reguliere expressie, getest op de volledige URL.",
+    "description": "Help text below the pattern field when the type is Regex."
+  },
+  "optionsOrigins": {
+    "message": "Origins",
+    "description": "Site group editor: label of the field for the sites a regular expression runs on."
+  },
+  "optionsOriginsHelp": {
+    "message": "De sites waarop deze reguliere expressie werkt, gescheiden door komma's, zoals https://example.com",
+    "description": "Help text below the Origins field."
+  },
+  "optionsAddPattern": {
+    "message": "Patroon toevoegen",
+    "description": "Site group editor: button that adds the typed pattern (and asks for access to its sites)."
+  },
+  "optionsRemovePattern": {
+    "message": "“$PATTERN$” verwijderen",
+    "description": "Accessible name of the button that removes a URL pattern.",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "*://example.com/*"
+      }
+    }
+  },
+  "optionsRegexOn": {
+    "message": "Regex op $ORIGINS$",
+    "description": "Pattern list: the origins a regular expression runs on.",
+    "placeholders": {
+      "origins": {
+        "content": "$1",
+        "example": "https://example.com/*"
+      }
+    }
+  },
+  "optionsAutoDisabled": {
+    "message": "“$NAME$” is uitgeschakeld omdat er geen URL-patronen meer zijn.",
+    "description": "Toast after removing a site group's last URL pattern turned the group off.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
   }
 }
