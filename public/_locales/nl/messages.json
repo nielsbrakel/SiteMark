@@ -1117,5 +1117,13 @@
         "example": "8"
       }
     }
+  },
+  "optionsPreview": {
+    "message": "Voorbeeld",
+    "description": "Mark editor: accessible name of the mock browser window that shows the mark."
+  },
+  "previewPageTitle": {
+    "message": "Voorbeeldpagina",
+    "description": "Mark preview: the title of the mock page in the mock browser tab."
   }
 }
