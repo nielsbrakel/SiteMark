@@ -51,7 +51,7 @@ function Pane(props: PaneProps): ReactNode {
     case 'settings':
       return <SettingsPane theme={props.state.settings.theme} notify={props.notify} />;
     case 'data':
-      return <DataPane state={props.state} />;
+      return <DataPane state={props.state} notify={props.notify} />;
     case 'welcome':
       return <WelcomePane />;
     default:

@@ -58,3 +58,10 @@
   padding-inline-start: var(--sm-space-5);
   overflow-wrap: anywhere;
 }
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sm-space-2);
+  min-height: 36px;
+}
