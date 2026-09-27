@@ -771,5 +771,47 @@
   "optionsTestInvalid": {
     "message": "Voer een volledige URL in, zoals https://example.com/page.",
     "description": "URL tester: the typed text is not a URL."
+  },
+  "optionsExcludes": {
+    "message": "Uitsluitpatronen",
+    "description": "Site group editor: heading of the patterns that suppress a match."
+  },
+  "optionsExcludesHelp": {
+    "message": "Pagina's die overeenkomen met een uitsluitpatroon worden niet gemarkeerd, ook als een URL-patroon overeenkomt.",
+    "description": "Site group editor: what exclude patterns do."
+  },
+  "optionsExcludeType": {
+    "message": "Soort uitsluiting",
+    "description": "Site group editor: label of the choice between a wildcard and a regular expression for a new exclude."
+  },
+  "optionsExcludeInput": {
+    "message": "Uitsluitpatroon",
+    "description": "Site group editor: label of the field for a new exclude pattern."
+  },
+  "optionsExcludeOrigins": {
+    "message": "Origins van de uitsluiting",
+    "description": "Site group editor: label of the origins field of a regular-expression exclude."
+  },
+  "optionsAddExclude": {
+    "message": "Uitsluiting toevoegen",
+    "description": "Site group editor: button that adds the typed exclude pattern."
+  },
+  "optionsTestExcluded": {
+    "message": "Komt overeen met patroon $NUMBER$, maar uitsluiting $EXCLUDE$ onderdrukt het: $PATTERN$",
+    "description": "URL tester: a URL pattern matches, but an exclude pattern suppresses the match.",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "1"
+      },
+      "exclude": {
+        "content": "$2",
+        "example": "2"
+      },
+      "pattern": {
+        "content": "$3",
+        "example": "https://example.com/status"
+      }
+    }
   }
 }

@@ -771,5 +771,47 @@
   "optionsTestInvalid": {
     "message": "Enter a full URL, such as https://example.com/page.",
     "description": "URL tester: the typed text is not a URL."
+  },
+  "optionsExcludes": {
+    "message": "Exclude patterns",
+    "description": "Site group editor: heading of the patterns that suppress a match."
+  },
+  "optionsExcludesHelp": {
+    "message": "Pages that match an exclude pattern are not marked, even when a URL pattern matches.",
+    "description": "Site group editor: what exclude patterns do."
+  },
+  "optionsExcludeType": {
+    "message": "Exclude type",
+    "description": "Site group editor: label of the choice between a wildcard and a regular expression for a new exclude."
+  },
+  "optionsExcludeInput": {
+    "message": "Exclude pattern",
+    "description": "Site group editor: label of the field for a new exclude pattern."
+  },
+  "optionsExcludeOrigins": {
+    "message": "Exclude origins",
+    "description": "Site group editor: label of the origins field of a regular-expression exclude."
+  },
+  "optionsAddExclude": {
+    "message": "Add exclude",
+    "description": "Site group editor: button that adds the typed exclude pattern."
+  },
+  "optionsTestExcluded": {
+    "message": "Matches pattern $NUMBER$, but exclude $EXCLUDE$ suppresses it: $PATTERN$",
+    "description": "URL tester: a URL pattern matches, but an exclude pattern suppresses the match.",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "1"
+      },
+      "exclude": {
+        "content": "$2",
+        "example": "2"
+      },
+      "pattern": {
+        "content": "$3",
+        "example": "https://example.com/status"
+      }
+    }
   }
 }

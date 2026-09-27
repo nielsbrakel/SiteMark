@@ -276,3 +276,70 @@ describe('REQ-URL-007 the live URL tester says which pattern matches', () => {
     );
   });
 });
+
+describe('REQ-URL-008 exclude patterns suppress a match', () => {
+  const status = aWildcardPattern({ value: 'https://prod.example.com/status' });
+  const withExclude = aSiteGroup({ name: 'Production', patterns: [wildcard], excludes: [status] });
+  const excludeList = () => byRole('list', { name: 'Exclude patterns' });
+  const excludeTexts = () =>
+    within(excludeList())
+      .queryAllByRole('listitem')
+      .map((item) => item.querySelector('code')?.textContent);
+  const excludeInput = () => byLabel('Exclude pattern');
+  const addExclude = () => byRole('button', { name: 'Add exclude' });
+
+  it('lists the excludes of the site group', async () => {
+    await openGroup(withExclude);
+    expect(excludeTexts()).toEqual(['https://prod.example.com/status']);
+  });
+
+  it('adds an exclude with its Add button, without asking for any site', async () => {
+    const { background } = await openGroup(withExclude);
+    type(excludeInput(), 'https://prod.example.com/health');
+    fireEvent.click(addExclude());
+    await waitFor(() =>
+      expect(excludeTexts()).toEqual([
+        'https://prod.example.com/status',
+        'https://prod.example.com/health',
+      ]),
+    );
+    expect(background.commands).toEqual([
+      {
+        type: 'addExclude',
+        groupId: withExclude.id,
+        draft: { kind: 'wildcard', value: 'https://prod.example.com/health' },
+      },
+    ]);
+    expect(fakes().permissions.requests).toEqual([]);
+    expect(excludeInput()).toHaveValue('');
+  });
+
+  it('shows why an invalid exclude is refused', async () => {
+    const { background } = await openGroup(withExclude);
+    type(excludeInput(), '*.com');
+    fireEvent.click(addExclude());
+    expect(excludeInput()).toHaveAccessibleDescription(
+      expect.stringContaining('This pattern matches too many sites.'),
+    );
+    expect(background.commands).toEqual([]);
+  });
+
+  it('removes an exclude', async () => {
+    const { background } = await openGroup(withExclude);
+    fireEvent.click(
+      byRole('button', { name: 'Remove “https://prod.example.com/status”' }, excludeList()),
+    );
+    await waitFor(() => expect(excludeTexts()).toEqual([]));
+    expect(background.commands).toEqual([
+      { type: 'removeExclude', groupId: withExclude.id, patternId: status.id },
+    ]);
+  });
+
+  it('shows in the URL tester when an exclude suppresses the match', async () => {
+    await openGroup(withExclude);
+    type(byLabel('Test URL'), 'https://prod.example.com/status');
+    expect(byLabel('Test URL')).toHaveAccessibleDescription(
+      'Matches pattern 1, but exclude 1 suppresses it: https://prod.example.com/status',
+    );
+  });
+});
