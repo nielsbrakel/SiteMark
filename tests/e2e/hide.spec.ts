@@ -24,26 +24,27 @@ test('hide on this tab hides the marks and the title prefix, survives SPA routes
   const page = await context.newPage();
   await page.goto(fixtureUrl('prod', 'spa/'));
   await page.bringToFront();
-  const root = await waitForMarker(page);
+  const ribbon = (await waitForMarker(page)).locator('.sm-ribbon__text');
+  await expect(ribbon).toBeVisible();
   await expect(page).toHaveTitle('PROD Overview · SPA fixture');
 
   expect(await dispatchCommand(serviceWorker, 'toggle-hide')).toBe(true);
-  await expect(root).toBeHidden();
+  await expect(ribbon).toBeHidden();
   await expect(page).toHaveTitle('Overview · SPA fixture');
 
   await page.getByRole('link', { name: 'Orders' }).click();
   await expect(page).toHaveTitle('Orders · SPA fixture');
   await page.waitForTimeout(1000);
-  await expect(root).toBeHidden();
+  await expect(ribbon).toBeHidden();
   await expect(page).toHaveTitle('Orders · SPA fixture');
 
   expect(await dispatchCommand(serviceWorker, 'toggle-hide')).toBe(true);
-  await expect(root).toBeVisible();
+  await expect(ribbon).toBeVisible();
   await expect(page).toHaveTitle('PROD Orders · SPA fixture');
 
   expect(await dispatchCommand(serviceWorker, 'toggle-hide')).toBe(true);
-  await expect(root).toBeHidden();
+  await expect(ribbon).toBeHidden();
   await page.reload();
-  await expect(await waitForMarker(page)).toBeVisible();
+  await expect((await waitForMarker(page)).locator('.sm-ribbon__text')).toBeVisible();
   await expect(page).toHaveTitle('PROD Orders · SPA fixture');
 });

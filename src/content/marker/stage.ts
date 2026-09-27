@@ -16,7 +16,7 @@ export type StageDeps = {
   readonly onViewMount?: ViewMountHook | undefined;
   /** One set per document: a collapsed banner stays collapsed across plans and hosts. */
   readonly collapsedBanners: Set<string>;
-  /** Whether the views start hidden (the hide placeholder until T-098). */
+  /** Whether the views start hidden (hide on this tab, REQ-RND-008). */
   readonly isHidden: boolean;
   /** The host went away on its own (a newer instance, or the extension is gone). */
   readonly onLost: () => void;
@@ -28,7 +28,7 @@ export type StageDeps = {
 export type Stage = {
   /** Applies the diff that leads to `plan`. */
   apply(diff: PlanDiff, plan: RenderPlan): void;
-  /** Hides or shows the view container (the hide placeholder until T-098). */
+  /** Hides or shows the view container (REQ-RND-008). */
   setHidden(hidden: boolean): void;
   /** The status of the plan's element marks. */
   marks(): MarkStatus[];

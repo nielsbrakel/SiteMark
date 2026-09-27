@@ -29,6 +29,16 @@ function isDocumentItem(item: RenderItem): item is DocumentItem {
   return item.effect === 'titlePrefix' || item.effect === 'favicon';
 }
 
+/** Hands `effects` the plan's document items, or none while the tab is hidden (REQ-RND-008). */
+export function showDocumentEffects(
+  effects: DocumentEffects,
+  plan: RenderPlan | undefined,
+  logger: Logger,
+): void {
+  const items = plan ? plan.items.filter(isDocumentItem) : [];
+  isolate(logger, 'Document effects', () => effects.apply(items));
+}
+
 /** Hands the plan's document items to `effects` when the diff touched any of them. */
 export function syncDocumentEffects(
   effects: DocumentEffects,

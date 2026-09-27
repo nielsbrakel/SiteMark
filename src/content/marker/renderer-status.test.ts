@@ -101,7 +101,7 @@ describe('REQ-RND-005 the tab reports the status of every element mark', () => {
   });
 });
 
-describe('REQ-RND-008 the hidden state (placeholder until T-098)', () => {
+describe('REQ-RND-008 the hidden state', () => {
   it('hides the view container, reports hidden and tells the marker', () => {
     const { renderer, hosts, onStatusChange } = aRenderer();
     renderer.apply(aPlan(ribbon));

@@ -7,6 +7,7 @@ import type { ViewLabels } from '../../shared/marker-view/effect-view';
 import {
   type DocumentEffects,
   noDocumentEffects,
+  showDocumentEffects,
   syncDocumentEffects,
 } from './document-effects-port';
 import type { Host, HostOptions } from './host';
@@ -32,7 +33,7 @@ export type RendererDeps = {
 export type Renderer = {
   /** Moves the tab to `plan` (keyed diff, REQ-RND-007). */
   apply(plan: RenderPlan): void;
-  /** Hides or shows every mark (placeholder until T-098: only the view container). */
+  /** Hides or shows every mark and the title prefix and favicon (REQ-RND-008). */
   setHidden(hidden: boolean): void;
   status(): TabStatus;
   /** Removes every view, the host, the document effects and all observers. Idempotent. */
@@ -48,6 +49,10 @@ function stageFor(
   if (plan.items.length > 0) return stage ?? open();
   stage?.close();
   return undefined;
+}
+
+function statusOf(stage: Stage | undefined, effects: DocumentEffects, hidden: boolean): TabStatus {
+  return { marks: stage?.marks() ?? [], favicon: effects.faviconStatus(), hidden };
 }
 
 /**
@@ -89,19 +94,18 @@ export function createRenderer(deps: RendererDeps): Renderer {
       plan = next;
       stage = stageFor(next, stage, () => openStage({ ...stageDeps, isHidden }));
       stage?.apply(diff, next);
-      syncDocumentEffects(documentEffects, diff, next, deps.logger);
+      if (!isHidden) syncDocumentEffects(documentEffects, diff, next, deps.logger);
       changed();
     },
     setHidden(hidden) {
+      if (hidden !== isHidden && !isDisposed) {
+        showDocumentEffects(documentEffects, hidden ? undefined : plan, deps.logger);
+      }
       isHidden = hidden;
       stage?.setHidden(hidden);
       changed();
     },
-    status: () => ({
-      marks: stage?.marks() ?? [],
-      favicon: documentEffects.faviconStatus(),
-      hidden: isHidden,
-    }),
+    status: () => statusOf(stage, documentEffects, isHidden),
     dispose,
   };
 }
