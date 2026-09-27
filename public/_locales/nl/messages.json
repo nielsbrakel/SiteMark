@@ -1375,5 +1375,31 @@
   "optionsRemoveAccess": {
     "message": "Toegang intrekken",
     "description": "Toast action that revokes SiteMark's access to the unused sites."
+  },
+  "optionsUnreadable": {
+    "message": "SiteMark kon zijn opgeslagen gegevens niet lezen en is met de standaardinstellingen begonnen. De onleesbare gegevens zijn bewaard als back-up.",
+    "description": "Options page banner: the stored data was unreadable (REQ-DATA-001)."
+  },
+  "optionsDownloadBackup": {
+    "message": "Back-up downloaden",
+    "description": "Unreadable-data banner: downloads the newest backup of the unreadable data."
+  },
+  "optionsRestoreDefaults": {
+    "message": "Standaardinstellingen herstellen",
+    "description": "Unreadable-data banner: saves the defaults, replacing the unreadable data for good."
+  },
+  "optionsReadOnly": {
+    "message": "Je instellingen zijn opgeslagen door een nieuwere versie van SiteMark (gegevensversie $VERSION$). Werk SiteMark bij om ze te zien en te wijzigen; tot dan wordt er niets gewijzigd.",
+    "description": "Options page banner: the stored data comes from a newer SiteMark and is read-only (REQ-DATA-007).",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "optionsDownloadCopy": {
+    "message": "Een kopie downloaden",
+    "description": "Read-only banner: downloads the stored data as it is."
   }
 }
