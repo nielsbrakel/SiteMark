@@ -1133,5 +1133,41 @@
   "optionsSaved": {
     "message": "Saved",
     "description": "Options page: the last change was saved (autosave)."
+  },
+  "optionsTheme": {
+    "message": "Theme",
+    "description": "Settings: label of the theme choice."
+  },
+  "themeSystem": {
+    "message": "System",
+    "description": "Theme: follow the operating system."
+  },
+  "themeLight": {
+    "message": "Light",
+    "description": "Theme: always light."
+  },
+  "themeDark": {
+    "message": "Dark",
+    "description": "Theme: always dark."
+  },
+  "optionsShortcuts": {
+    "message": "Keyboard shortcuts",
+    "description": "Settings: heading of the list of keyboard shortcuts."
+  },
+  "optionsShortcutUnset": {
+    "message": "Not assigned",
+    "description": "Settings: a keyboard command has no shortcut."
+  },
+  "optionsChangeShortcuts": {
+    "message": "Change shortcuts",
+    "description": "Settings: button that opens the browser's keyboard shortcut settings."
+  },
+  "optionsTitleHistory": {
+    "message": "Title prefix and history",
+    "description": "Settings: heading of the help about the title prefix."
+  },
+  "optionsTitleHistoryHelp": {
+    "message": "Browsers keep page titles in their history, so a title prefix shows up there too. Turn it on only where that's fine.",
+    "description": "Settings: why the title prefix effect is opt-in."
   }
 }

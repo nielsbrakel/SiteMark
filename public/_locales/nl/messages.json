@@ -1133,5 +1133,41 @@
   "optionsSaved": {
     "message": "Opgeslagen",
     "description": "Options page: the last change was saved (autosave)."
+  },
+  "optionsTheme": {
+    "message": "Thema",
+    "description": "Settings: label of the theme choice."
+  },
+  "themeSystem": {
+    "message": "Systeem",
+    "description": "Theme: follow the operating system."
+  },
+  "themeLight": {
+    "message": "Licht",
+    "description": "Theme: always light."
+  },
+  "themeDark": {
+    "message": "Donker",
+    "description": "Theme: always dark."
+  },
+  "optionsShortcuts": {
+    "message": "Sneltoetsen",
+    "description": "Settings: heading of the list of keyboard shortcuts."
+  },
+  "optionsShortcutUnset": {
+    "message": "Niet ingesteld",
+    "description": "Settings: a keyboard command has no shortcut."
+  },
+  "optionsChangeShortcuts": {
+    "message": "Sneltoetsen wijzigen",
+    "description": "Settings: button that opens the browser's keyboard shortcut settings."
+  },
+  "optionsTitleHistory": {
+    "message": "Titelvoorvoegsel en geschiedenis",
+    "description": "Settings: heading of the help about the title prefix."
+  },
+  "optionsTitleHistoryHelp": {
+    "message": "Browsers bewaren paginatitels in hun geschiedenis, dus een titelvoorvoegsel staat daar ook. Zet het alleen aan waar dat geen probleem is.",
+    "description": "Settings: why the title prefix effect is opt-in."
   }
 }
