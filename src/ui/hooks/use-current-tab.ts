@@ -9,11 +9,15 @@ export type CurrentTab =
 
 const NONE: CurrentTab = { status: 'none' };
 
+/** Chromium tab ids are positive 32-bit integers, often ten digits long. */
+const MAX_TAB_ID = 2 ** 31 - 1;
+
 /** `?tabId=` lets Playwright open the popup for a given tab; only e2e builds honour it (plan §5). */
 function e2eTabId(search: string): number | undefined {
   if (import.meta.env.MODE !== 'e2e') return undefined;
   const raw = new URLSearchParams(search).get('tabId') ?? '';
-  return /^\d{1,9}$/.test(raw) ? Number(raw) : undefined;
+  const id = /^\d{1,10}$/.test(raw) ? Number(raw) : Number.NaN;
+  return id <= MAX_TAB_ID ? id : undefined;
 }
 
 async function findTab(search: string): Promise<CurrentTab> {

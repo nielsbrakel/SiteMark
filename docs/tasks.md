@@ -174,7 +174,7 @@ Status: ☐ todo · ✅ done.
 | T-119 | Actions: Pick element, Hide on this tab (+ shortcut hint), Settings                                        | REQ-POP-003, REQ-RND-008                                | `src/entrypoints/popup/App.test.tsx`                                   | ✅     |
 | T-120 | Can't-run page state (`executeScript` failure = truth)                                                     | REQ-POP-005, REQ-ENV-003                                | `src/entrypoints/popup/App.test.tsx`                                   | ✅     |
 | T-121 | Read-only / corrupt data state                                                                             | REQ-DATA-007                                            | `src/entrypoints/popup/App.test.tsx`                                   | ✅     |
-| T-122 | E2E popup flows + axe                                                                                      | REQ-POP-001, REQ-A11Y-004                               | `tests/e2e/popup.spec.ts`                                              | ☐      |
+| T-122 | E2E popup flows + axe                                                                                      | REQ-POP-001, REQ-A11Y-004                               | `tests/e2e/popup.spec.ts`                                              | ✅     |
 
 ## M6 — Options page (`src/entrypoints/options`)
 
