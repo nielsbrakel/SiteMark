@@ -1,7 +1,8 @@
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { SiteGroup } from '@/core/model/schema';
-import { aPageMark, aSiteGroup, aState } from '@/core/testing/builders';
+import { aPageMark, aSiteGroup, aState, aWildcardPattern } from '@/core/testing/builders';
+import { fakes } from '../../../tests/fakes/install';
 import { axeViolations } from '../../../tests/unit/axe';
 import { atHash, optionsBackground } from '../../../tests/unit/options-background';
 import { byLabel, byRole, findRole } from '../../../tests/unit/queries';
@@ -142,5 +143,69 @@ describe('REQ-GRP-001 the site group list and editor are accessible', () => {
     const { container } = await openAt(`#/groups/${prod.id}`);
     byLabel('Name', pane());
     expect(await axeViolations(container)).toEqual([]);
+  });
+});
+
+describe('REQ-GRP-003 REQ-GRP-002 turn a site group on or off in the options page', () => {
+  const testGroup = aSiteGroup({
+    name: 'Test',
+    enabled: false,
+    patterns: [aWildcardPattern({ value: '*://test.example.com/*' })],
+  });
+  const enabled = () => byRole('switch', { name: 'Enabled' }, pane());
+  const openGroup = (group: SiteGroup) =>
+    openAt(`#/groups/${group.id}`, [prod, staging, testGroup]);
+
+  it('shows whether the site group is on, in the editor and in the list', async () => {
+    await openGroup(prod);
+    expect(enabled()).toHaveAttribute('aria-checked', 'true');
+    const rows = within(sidebar()).getAllByRole('listitem');
+    expect(rows.map((row) => within(row).queryByText(/^(On|Off)$/)?.textContent)).toEqual([
+      'On',
+      'Off',
+      'Off',
+    ]);
+  });
+
+  it('turns a site group off', async () => {
+    const { background } = await openGroup(prod);
+    fireEvent.click(enabled());
+    await waitFor(() => expect(enabled()).toHaveAttribute('aria-checked', 'false'));
+    expect(background.commands).toEqual([
+      { type: 'setSiteGroupEnabled', id: prod.id, enabled: false },
+    ]);
+    expect(fakes().permissions.requests).toEqual([]);
+  });
+
+  it("asks for the group's sites first and synchronously when turning it on (D-229)", async () => {
+    const { background } = await openGroup(testGroup);
+    fireEvent.click(enabled());
+    expect(fakes().permissions.requests).toEqual([['*://test.example.com/*']]);
+    await waitFor(() => expect(enabled()).toHaveAttribute('aria-checked', 'true'));
+    expect(background.commands).toEqual([
+      { type: 'setSiteGroupEnabled', id: testGroup.id, enabled: true },
+    ]);
+  });
+
+  it('turns it on even when the user declines the prompt', async () => {
+    fakes().permissions.answerNextRequest('deny');
+    await openGroup(testGroup);
+    fireEvent.click(enabled());
+    await waitFor(() => expect(enabled()).toHaveAttribute('aria-checked', 'true'));
+  });
+
+  it('cannot turn on a site group without URL patterns, and says why', async () => {
+    await openGroup(staging);
+    expect(enabled()).toBeDisabled();
+    expect(enabled()).toHaveAccessibleDescription(
+      'Add a URL pattern before you turn on this site group.',
+    );
+  });
+
+  it('says so when the change is refused', async () => {
+    const { background } = await openGroup(prod);
+    background.refuseNext('siteGroupNotFound');
+    fireEvent.click(enabled());
+    expect(await findRole('status')).toHaveTextContent('This site group no longer exists.');
   });
 });

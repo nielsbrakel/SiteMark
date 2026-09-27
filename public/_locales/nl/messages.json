@@ -623,5 +623,17 @@
   "optionsSendFailed": {
     "message": "SiteMark kon deze wijziging niet opslaan. Probeer het opnieuw.",
     "description": "Options page: shown when the background did not answer a change."
+  },
+  "optionsEnabled": {
+    "message": "Ingeschakeld",
+    "description": "Site group editor: label of the switch that turns the site group on or off."
+  },
+  "optionsGroupOn": {
+    "message": "Aan",
+    "description": "Site group list: the site group is turned on."
+  },
+  "optionsGroupOff": {
+    "message": "Uit",
+    "description": "Site group list: the site group is turned off."
   }
 }
