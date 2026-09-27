@@ -1,0 +1,36 @@
+.list {
+  flex-basis: 100%;
+  margin: 0;
+  padding-inline-start: var(--sm-space-5);
+  list-style: none;
+  display: grid;
+  gap: var(--sm-space-1);
+  font-size: var(--sm-text-sm);
+}
+
+.mark {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sm-space-1) var(--sm-space-2);
+}
+
+.label {
+  overflow-wrap: anywhere;
+}
+
+.found,
+.notFound {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sm-space-1);
+  font-weight: 600;
+}
+
+.found {
+  color: var(--sm-success);
+}
+
+.notFound {
+  color: var(--sm-warning);
+}
