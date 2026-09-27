@@ -619,5 +619,9 @@
   "optionsDismiss": {
     "message": "Dismiss",
     "description": "Accessible name of the button that closes a toast."
+  },
+  "optionsSendFailed": {
+    "message": "SiteMark couldn't save this change. Please try again.",
+    "description": "Options page: shown when the background did not answer a change."
   }
 }

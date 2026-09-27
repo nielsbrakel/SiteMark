@@ -1,15 +1,18 @@
-import { type ReactNode, useId } from 'react';
+import { type ReactNode, useState } from 'react';
 import logo from '@/assets/logo.svg';
 import type { SiteGroup, SiteMarkState } from '@/core/model/schema';
 import type { OptionsRoute } from '@/core/options-route';
 import { t } from '@/lib/i18n/browser-source';
+import { Toast } from '@/ui/components/Toast';
 import { GroupEditor } from './GroupEditor';
-import { GroupList } from './GroupList';
 import styles from './Layout.module.css';
+import type { Notify, OptionsToast } from './notify';
 import { PageNav } from './PageNav';
 import paneStyles from './Pane.module.css';
 import { PlaceholderPane } from './PlaceholderPane';
 import { selectedGroup } from './routes';
+import { Sidebar } from './Sidebar';
+import { useOpenNewGroup } from './use-open-new-group';
 import { WelcomePane } from './WelcomePane';
 
 export type LayoutProps = {
@@ -17,19 +20,21 @@ export type LayoutProps = {
   readonly route: OptionsRoute | undefined;
 };
 
-function GroupPane({ group }: { readonly group: SiteGroup | undefined }): ReactNode {
+type PaneProps = {
+  readonly route: OptionsRoute | undefined;
+  readonly state: SiteMarkState;
+  readonly group: SiteGroup | undefined;
+  readonly notify: Notify;
+};
+
+function GroupPane({ state, group, notify }: PaneProps): ReactNode {
   if (!group) return <p className={`sm-well ${paneStyles.pane}`}>{t('optionsNoGroups')}</p>;
-  return <GroupEditor key={group.id} group={group} />;
+  const index = state.siteGroups.indexOf(group);
+  return <GroupEditor key={group.id} group={group} index={index} notify={notify} />;
 }
 
-function Pane({
-  route,
-  group,
-}: {
-  readonly route: OptionsRoute | undefined;
-  readonly group: SiteGroup | undefined;
-}): ReactNode {
-  switch (route?.page) {
+function Pane(props: PaneProps): ReactNode {
+  switch (props.route?.page) {
     case 'settings':
       return <PlaceholderPane title={t('optionsSettings')} />;
     case 'data':
@@ -37,13 +42,14 @@ function Pane({
     case 'welcome':
       return <WelcomePane />;
     default:
-      return <GroupPane group={group} />;
+      return <GroupPane {...props} />;
   }
 }
 
 /** The options page (design.md §5.2): header with page links, site group sidebar, editor pane. */
 export function Layout({ state, route }: LayoutProps): ReactNode {
-  const sidebarId = useId();
+  const [toast, setToast] = useState<OptionsToast>();
+  const openNewGroup = useOpenNewGroup(state);
   const group = selectedGroup(route, state.siteGroups);
   return (
     <div className={styles.page}>
@@ -52,13 +58,16 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
         <h1>{t('optionsTitle')}</h1>
         <PageNav route={route} />
       </header>
-      <aside aria-labelledby={sidebarId} className={styles.sidebar}>
-        <h2 id={sidebarId}>{t('optionsSiteGroups')}</h2>
-        <GroupList groups={state.siteGroups} selectedId={group?.id} />
-      </aside>
+      <Sidebar groups={state.siteGroups} selectedId={group?.id} onAdded={openNewGroup} />
       <main className={styles.main}>
-        <Pane route={route} group={group} />
+        <Pane route={route} state={state} group={group} notify={setToast} />
       </main>
+      <Toast
+        toast={toast}
+        onDismiss={() => setToast(undefined)}
+        dismissLabel={t('optionsDismiss')}
+        {...(toast?.durationMs && { durationMs: toast.durationMs })}
+      />
     </div>
   );
 }

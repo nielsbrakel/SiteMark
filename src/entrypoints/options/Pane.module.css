@@ -26,3 +26,9 @@
   display: grid;
   gap: var(--sm-space-2);
 }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm-space-2);
+}

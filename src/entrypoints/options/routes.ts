@@ -11,6 +11,11 @@ export function groupHref(groupId: SiteGroupId): string {
   return hrefOf({ page: 'group', groupId });
 }
 
+/** Opens a route; the hash router follows the hashchange. */
+export function navigate(route: OptionsRoute): void {
+  location.hash = formatOptionsRoute(route);
+}
+
 /**
  * The site group the editor pane shows: the one in a group or mark route, else the first one, so
  * a missing route or a deleted group still opens something. `undefined` for other pages.

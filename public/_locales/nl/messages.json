@@ -619,5 +619,9 @@
   "optionsDismiss": {
     "message": "Sluiten",
     "description": "Accessible name of the button that closes a toast."
+  },
+  "optionsSendFailed": {
+    "message": "SiteMark kon deze wijziging niet opslaan. Probeer het opnieuw.",
+    "description": "Options page: shown when the background did not answer a change."
   }
 }

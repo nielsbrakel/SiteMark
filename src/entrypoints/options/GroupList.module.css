@@ -43,3 +43,9 @@
     border-color: Highlight;
   }
 }
+
+.add {
+  display: grid;
+  gap: var(--sm-space-2);
+  justify-items: start;
+}
