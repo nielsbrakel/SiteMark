@@ -27,6 +27,7 @@ const allowedUrls = [
   /^https:\/\/nielsbrakel\.github\.io\/SiteMark\/$/, // manifest homepage_url (D-256), a link only
   /^https?:\/\/json-schema\.org\//, // JSON Schema dialect IDs in zod's toJSONSchema (background)
   /^http:\/\/\[\$\{/, // zod's IPv6 check parses `http://[${value}]` locally with URL()
+  /^https:\/\/example\.com(\/|$)/, // RFC 2606 examples in options help texts and the preview's mock page
 ];
 
 function files(dir: string): string[] {

@@ -6,6 +6,7 @@ import { EnabledSwitch } from './EnabledSwitch';
 import { NameField } from './NameField';
 import type { Notify } from './notify';
 import styles from './Pane.module.css';
+import { PatternEditor } from './PatternEditor';
 
 export type GroupEditorProps = {
   readonly group: SiteGroup;
@@ -24,6 +25,7 @@ export function GroupEditor({ group, index, notify, onAdded }: GroupEditorProps)
       <h2 id={id}>{group.name}</h2>
       <EnabledSwitch group={group} notify={notify} />
       <NameField group={group} />
+      <PatternEditor group={group} notify={notify} />
       <div className={styles.actions}>
         <DuplicateGroupButton group={group} notify={notify} onAdded={onAdded} />
         <DeleteGroupButton group={group} index={index} notify={notify} />
