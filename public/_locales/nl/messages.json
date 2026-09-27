@@ -331,5 +331,13 @@
   "popupSettings": {
     "message": "Instellingen",
     "description": "Pop-uplink die de instellingenpagina van SiteMark in een nieuw tabblad opent."
+  },
+  "popupCantRun": {
+    "message": "SiteMark kan niet werken op deze pagina",
+    "description": "Pop-up: getoond op pagina's waar de browser geen extensies toelaat (browserpagina's, bestanden, pdf's, extensiewinkels)."
+  },
+  "popupCantRunReason": {
+    "message": "Browsers houden extensies weg van hun eigen pagina's, lokale bestanden, pdf's en extensiewinkels.",
+    "description": "Pop-up: uitleg onder \"SiteMark kan niet werken op deze pagina\"."
   }
 }

@@ -399,3 +399,51 @@ describe('REQ-POP-003 REQ-RND-008 the popup offers Pick element, Hide on this ta
     expect(await axeViolations(view.container)).toEqual([]);
   });
 });
+
+describe('REQ-POP-005 REQ-ENV-003 the popup says where SiteMark can not run', () => {
+  const CANT_RUN = "SiteMark can't run on this page";
+  const cantRun = () => shown(() => screen.queryByText(CANT_RUN));
+  const pickElement = () => screen.getByRole('button', { name: 'Pick element' });
+
+  it.each([
+    'chrome://extensions/',
+    'file:///home/me/notes.html',
+    'https://chromewebstore.google.com/detail/sitemark',
+    'https://app.example.com/report.pdf',
+  ])('on %s, with picking disabled', async (url) => {
+    await openPopup(url, production);
+    expect(await cantRun()).toBeInTheDocument();
+    expect(pickElement()).toBeDisabled();
+    expect(screen.queryByRole('button', { name: 'Mark this site' })).toBeNull();
+    expect(screen.queryByRole('list', { name: 'Site groups on this site' })).toBeNull();
+  });
+
+  it('on a tab whose URL the browser withholds', async () => {
+    await openPopup(undefined, production);
+    expect(await cantRun()).toBeInTheDocument();
+    expect(pickElement()).toBeDisabled();
+  });
+
+  it('when the background reports the page as restricted', async () => {
+    const { background } = await openPopup(PAGE, production);
+    background.tabStatus = 'restricted';
+    expect(await cantRun()).toBeInTheDocument();
+    expect(pickElement()).toBeDisabled();
+  });
+
+  it('once the picker fails to inject: the failed injection is the ground truth', async () => {
+    const close = vi.spyOn(window, 'close').mockImplementation(() => undefined);
+    const { background } = await openPopup(PAGE, production);
+    background.startPicker = err('injectionFailed');
+    await click('Pick element');
+    expect(await cantRun()).toBeInTheDocument();
+    expect(pickElement()).toBeDisabled();
+    expect(close).not.toHaveBeenCalled();
+  });
+
+  it('has no axe violations', async () => {
+    const { view } = await openPopup('chrome://extensions/');
+    await cantRun();
+    expect(await axeViolations(view.container)).toEqual([]);
+  });
+});

@@ -331,5 +331,13 @@
   "popupSettings": {
     "message": "Settings",
     "description": "Popup link that opens SiteMark's settings page in a new tab."
+  },
+  "popupCantRun": {
+    "message": "SiteMark can't run on this page",
+    "description": "Popup: shown on pages where the browser doesn't let extensions run (browser pages, files, PDFs, extension stores)."
+  },
+  "popupCantRunReason": {
+    "message": "Browsers keep extensions off their own pages, local files, PDFs and extension stores.",
+    "description": "Popup: explanation under \"SiteMark can't run on this page\"."
   }
 }
