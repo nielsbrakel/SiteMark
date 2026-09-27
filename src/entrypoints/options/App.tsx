@@ -4,6 +4,7 @@ import { t } from '@/lib/i18n/browser-source';
 import { useSiteMarkState } from '@/ui/hooks/use-site-mark-state';
 import { useTheme } from '@/ui/hooks/use-theme';
 import { Layout } from './Layout';
+import { ReadOnlyBanner } from './ReadOnlyBanner';
 import { useHashRoute } from './use-hash-route';
 
 /**
@@ -21,6 +22,7 @@ export function OptionsApp(): ReactNode {
     case 'ready':
       return <Layout state={view.state} route={route} />;
     case 'readOnly':
+      return <ReadOnlyBanner schemaVersion={view.schemaVersion} />;
     case 'error':
       return <p role="alert">{t('optionsUnavailable')}</p>;
     default:

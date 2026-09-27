@@ -15,7 +15,9 @@ import { selectedGroup } from './routes';
 import { SaveStatusText } from './SaveStatusText';
 import { SettingsPane } from './SettingsPane';
 import { Sidebar } from './Sidebar';
+import { UnreadableBanner } from './UnreadableBanner';
 import { useOpenNewGroup } from './use-open-new-group';
+import { useUnreadable } from './use-unreadable';
 import { WelcomePane } from './WelcomePane';
 
 export type LayoutProps = {
@@ -65,6 +67,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
   const [toast, setToast] = useState<OptionsToast>();
   const offerRevoke = useMemo(() => createOfferRevoke(setToast), []);
   const openNewGroup = useOpenNewGroup(state);
+  const isUnreadable = useUnreadable();
   const group = selectedGroup(route, state.siteGroups);
   return (
     <div className={styles.page}>
@@ -81,6 +84,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
         notify={setToast}
       />
       <main className={styles.main}>
+        {isUnreadable && <UnreadableBanner notify={setToast} />}
         <RevokeContext value={offerRevoke}>
           <Pane
             route={route}

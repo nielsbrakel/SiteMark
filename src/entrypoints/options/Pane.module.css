@@ -65,3 +65,10 @@
   gap: var(--sm-space-2);
   min-height: 36px;
 }
+
+.banner {
+  display: grid;
+  gap: var(--sm-space-3);
+  margin: 0 auto var(--sm-space-4);
+  max-width: 960px;
+}
