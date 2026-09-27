@@ -32,3 +32,23 @@
   flex-wrap: wrap;
   gap: var(--sm-space-2);
 }
+
+.shortcuts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sm-space-2);
+}
+
+.shortcuts li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sm-space-2);
+}
+
+.shortcuts kbd {
+  font-family: var(--sm-font-mono);
+  font-size: var(--sm-text-sm);
+}

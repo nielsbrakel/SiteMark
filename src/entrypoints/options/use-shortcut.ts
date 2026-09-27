@@ -1,29 +1,34 @@
 import { useEffect, useState } from 'react';
 import { browser } from 'wxt/browser';
 
-/** `loading` until the browser answers; `''` when the command has no shortcut. */
-export type ShortcutState = { readonly status: 'loading' } | { readonly shortcut: string };
+/** Shortcut per manifest command name; `''` when the command has no shortcut. */
+export type Shortcuts = ReadonlyMap<string, string>;
 
-async function shortcutOf(name: string): Promise<string> {
+async function readShortcuts(): Promise<Shortcuts> {
   try {
     const commands = await browser.commands.getAll();
-    return commands.find((command) => command.name === name)?.shortcut ?? '';
+    return new Map(
+      commands.flatMap(({ name, shortcut }) => (name ? [[name, shortcut ?? '']] : [])),
+    );
   } catch {
-    return '';
+    return new Map();
   }
 }
 
-/** The shortcut the user assigned to a manifest command, read from `commands.getAll()` (REQ-CMD-002). */
-export function useShortcut(name: string): ShortcutState {
-  const [state, setState] = useState<ShortcutState>({ status: 'loading' });
+/**
+ * The shortcuts the user assigned to the manifest commands, read live from `commands.getAll()`
+ * when the page opens (REQ-CMD-001, REQ-CMD-002). `undefined` until the browser answers.
+ */
+export function useShortcuts(): Shortcuts | undefined {
+  const [shortcuts, setShortcuts] = useState<Shortcuts>();
   useEffect(() => {
     let isCurrent = true;
-    void shortcutOf(name).then((shortcut) => {
-      if (isCurrent) setState({ shortcut });
+    void readShortcuts().then((read) => {
+      if (isCurrent) setShortcuts(read);
     });
     return () => {
       isCurrent = false;
     };
-  }, [name]);
-  return state;
+  }, []);
+  return shortcuts;
 }

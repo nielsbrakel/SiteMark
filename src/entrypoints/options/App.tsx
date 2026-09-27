@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { assertNever } from '@/core/result';
 import { t } from '@/lib/i18n/browser-source';
 import { useSiteMarkState } from '@/ui/hooks/use-site-mark-state';
+import { useTheme } from '@/ui/hooks/use-theme';
 import { Layout } from './Layout';
 import { useHashRoute } from './use-hash-route';
 
@@ -13,6 +14,7 @@ import { useHashRoute } from './use-hash-route';
 export function OptionsApp(): ReactNode {
   const view = useSiteMarkState();
   const route = useHashRoute();
+  useTheme(view.status === 'ready' ? view.state.settings.theme : undefined);
   switch (view.status) {
     case 'loading':
       return <p role="status">{t('optionsLoading')}</p>;

@@ -1,12 +1,13 @@
 import { type ReactNode, useId } from 'react';
 import { t } from '@/lib/i18n/browser-source';
 import styles from './Pane.module.css';
-import { useShortcut } from './use-shortcut';
+import { useShortcuts } from './use-shortcut';
 
 function ShortcutHint(): ReactNode {
-  const state = useShortcut('start-picker');
-  if ('status' in state) return null;
-  return <p>{state.shortcut ? t('welcomeShortcut', state.shortcut) : t('welcomeShortcutUnset')}</p>;
+  const shortcuts = useShortcuts();
+  if (!shortcuts) return null;
+  const shortcut = shortcuts.get('start-picker');
+  return <p>{shortcut ? t('welcomeShortcut', shortcut) : t('welcomeShortcutUnset')}</p>;
 }
 
 /** The welcome tab the background opens on install (REQ-OPT-001): 3 steps, pinning, the shortcut. */
