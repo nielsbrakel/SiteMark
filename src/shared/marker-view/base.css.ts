@@ -1,10 +1,12 @@
 /**
  * Every view: absolutely positioned in the container, never taking input (REQ-RND-002) and
- * immune to forced colors (REQ-A11Y-007). System fonts only, no network (REQ-PRIV-005).
+ * immune to forced colors (REQ-A11Y-007, REQ-RND-014). System fonts only, no network (REQ-PRIV-005).
  * `.sm-fill` covers the container (the viewport); `.sm-box` is placed on a target element's box.
  */
 export const BASE_CSS = `
 .sm-view {
+  /* REQ-RND-014: a 1 px keyline in the auto text color at 60 % keeps marks visible on any page. */
+  --sm-keyline: color-mix(in srgb, var(--sm-mark-text) 60%, transparent);
   position: absolute;
   box-sizing: border-box;
   margin: 0;

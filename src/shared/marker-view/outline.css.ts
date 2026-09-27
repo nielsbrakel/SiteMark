@@ -7,6 +7,13 @@ export const OUTLINE_CSS = `
   outline: 2px solid var(--sm-mark-color);
   outline-offset: 2px;
 }
+.sm-outline::after {
+  content: '';
+  position: absolute;
+  inset: calc(-3px - var(--sm-outline-width, 2px));
+  border: 1px solid var(--sm-keyline);
+  pointer-events: none;
+}
 .sm-outline[data-style='dashed'] {
   outline-style: dashed;
 }

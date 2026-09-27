@@ -30,7 +30,8 @@ describe('REQ-MARK-006 frame view', () => {
     expect(sides(style)).toEqual(['0px', '0px', '0px', '0px']);
     expect(borders(style)).toEqual(['6px', '6px', '6px', '6px']);
     expect(style.borderTopStyle).toBe('solid');
-    expect(style.boxShadow).not.toContain('px');
+    // The frame is the border; the only shadow is the 1 px keyline inside it (REQ-RND-014).
+    expect(style.boxShadow).toMatch(/^inset 0 0 0 1px /);
   });
 
   it('nests inside the frames of higher priority by insetPx', () => {

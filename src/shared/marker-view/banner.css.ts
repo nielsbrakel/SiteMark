@@ -12,6 +12,7 @@ export const BANNER_CSS = `
   gap: 8px;
   padding: 0 0 0 8px;
   background: var(--sm-mark-color);
+  box-shadow: 0 0 0 1px var(--sm-keyline);
   color: var(--sm-mark-text);
   font-size: 12px;
   font-weight: 600;

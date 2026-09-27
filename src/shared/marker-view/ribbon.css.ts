@@ -52,6 +52,7 @@ export const RIBBON_CSS = `
   align-items: center;
   justify-content: center;
   background: var(--sm-mark-color);
+  box-shadow: 0 0 0 1px var(--sm-keyline);
   color: var(--sm-mark-text);
   transform: translate(
       calc(var(--sm-ribbon-shift) * var(--sm-ribbon-x)),

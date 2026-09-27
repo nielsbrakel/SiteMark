@@ -16,6 +16,7 @@ export function createOutlineView(item: OutlineItem, ctx: ViewContext): EffectVi
   return assembleView(item, ctx, root, {
     render: ({ params }) => {
       setPx(root, 'outline-width', params.widthPx, 1, 8);
+      setPx(root, '--sm-outline-width', params.widthPx, 1, 8);
       root.dataset.style = LINE_STYLES.includes(params.style) ? params.style : 'solid';
       root.toggleAttribute('data-pulse', params.pulse === true);
     },

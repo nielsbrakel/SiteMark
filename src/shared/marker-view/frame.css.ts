@@ -3,5 +3,6 @@ export const FRAME_CSS = `
 .sm-frame {
   inset: 0;
   border: 2px solid var(--sm-mark-color);
+  box-shadow: inset 0 0 0 1px var(--sm-keyline);
 }
 `;
