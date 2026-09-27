@@ -47,6 +47,7 @@ export async function openPanel(
   // The user may have cancelled while the background answered.
   if (session.state().kind !== 'editing') return;
   createPanel(root, {
+    selection: element.getBoundingClientRect(),
     selector: generateSelector(element) ?? '',
     context: reply.ok ? reply.value : NO_CONTEXT,
     origin: location.host,

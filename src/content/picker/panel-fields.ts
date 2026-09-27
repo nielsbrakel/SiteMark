@@ -24,6 +24,7 @@ export type PanelLabels = {
   readonly save: string;
   readonly cancel: string;
   readonly moreOptions: string;
+  readonly movePanel: string;
 };
 
 /** Chip order is the order the effects are saved in. */
@@ -122,12 +123,23 @@ export function colorField(labels: PanelLabels) {
     radio.style.setProperty('--sm-swatch', color);
     return radio;
   });
+  let chosen = 0;
+  radios.forEach((radio, index) => {
+    radio.addEventListener('change', () => {
+      chosen = index;
+    });
+  });
   group.append(...radios);
   row.append(group);
   const presets = colorPresets();
-  const color = (): Hex =>
-    (presets[radios.findIndex((radio) => radio.checked)] ?? (presets[0] as ColorPreset)).color;
-  return { row, color };
+  const color = (): Hex => (presets[chosen] ?? (presets[0] as ColorPreset)).color;
+  /** Shows the chosen color again (after a blocked click). */
+  const sync = () => {
+    radios.forEach((radio, index) => {
+      radio.checked = index === chosen;
+    });
+  };
+  return { row, color, sync };
 }
 
 export function panelActions(labels: PanelLabels) {

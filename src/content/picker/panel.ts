@@ -9,13 +9,17 @@ import {
   panelActions,
   selectorField,
 } from './panel-fields';
+import { guardActivation, type TrustDeps } from './panel-guard';
+import { type Box, nextCorner, oppositeCorner, type PanelCorner } from './panel-placement';
 
 // The mini panel after a selection (REQ-PICK-005): an editable selector with a live match
 // indicator, the site group, effect chips and a color. Save hands a `savePick` intent to the
 // caller; the background decides where it goes (REQ-SEC-001). The panel never asks for a
 // permission and takes no URL pattern (REQ-SEC-005).
 
-export type PanelDeps = {
+export type PanelDeps = Partial<TrustDeps> & {
+  /** The selected element's box: the panel goes to the opposite corner (REQ-A11Y-010). */
+  readonly selection: Box;
   /** The generated selector (REQ-PICK-004); the user may edit it. */
   readonly selector: string;
   readonly context: PickerContext;
@@ -41,35 +45,57 @@ function matchText(labels: PanelLabels, count: number | undefined): string {
   return count === 1 ? `✓ ${labels.matchOne}` : labels.matchMany(count);
 }
 
-function panelShell(deps: PanelDeps): HTMLElement {
+function panelShell(deps: PanelDeps): { element: HTMLElement; move: HTMLButtonElement } {
   const element = el('section', 'sm-theme sm-panel');
   element.dataset.part = 'panel';
   element.setAttribute('role', 'dialog');
   const { theme } = deps.context;
   if (theme !== 'system') element.dataset.theme = theme;
+  const header = el('div', 'sm-panel__header');
   const title = el('h2', 'sm-panel__title', deps.labels.title);
   title.id = 'sm-panel-title';
   element.setAttribute('aria-labelledby', title.id);
-  element.append(title);
-  return element;
+  const move = el('button', 'sm-panel__icon', '⇆');
+  move.type = 'button';
+  move.setAttribute('aria-label', deps.labels.movePanel);
+  move.title = deps.labels.movePanel;
+  header.append(title, move);
+  element.append(header);
+  return { element, move };
+}
+
+/** Puts the panel in the corner opposite the selection; Move panel cycles clockwise. */
+function placePanel(element: HTMLElement, move: HTMLElement, deps: PanelDeps, onMove: () => void) {
+  const viewport = { width: innerWidth, height: innerHeight };
+  element.dataset.corner = oppositeCorner(deps.selection, viewport);
+  move.addEventListener('click', () => {
+    element.dataset.corner = nextCorner(element.dataset.corner as PanelCorner);
+    onMove();
+  });
 }
 
 /** Input on the panel stays SiteMark's: nothing bubbles on to the page's listeners. Esc cancels. */
-function isolate(element: HTMLElement, onCancel: () => void): void {
+function isolate(element: HTMLElement, trust: TrustDeps, onCancel: () => void): void {
   const stop = (event: Event) => event.stopPropagation();
   for (const type of ['keyup', 'keypress', 'pointerdown', 'mousedown', 'click', 'input']) {
     element.addEventListener(type, stop);
   }
   element.addEventListener('keydown', (event) => {
     stop(event);
-    if (event.key === 'Escape' && event.isTrusted) onCancel();
+    if (event.key === 'Escape' && trust.isTrusted(event)) onCancel();
   });
 }
 
 /** The mini panel after a selection (REQ-PICK-005). */
 export function createPanel(parent: HTMLElement, deps: PanelDeps): Panel {
   const { labels } = deps;
-  const element = panelShell(deps);
+  const trust: TrustDeps = {
+    isTrusted: deps.isTrusted ?? ((event) => event.isTrusted),
+    now: deps.now ?? Date.now,
+  };
+  const { element, move } = panelShell(deps);
+  const guard = guardActivation(element, trust, () => color.sync());
+  placePanel(element, move, deps, () => guard.rearm());
   const selector = selectorField(labels, deps.selector, () => update());
   const group = groupField(labels, deps.context, deps.origin);
   const chips = effectChips(labels, () => update());
@@ -96,7 +122,7 @@ export function createPanel(parent: HTMLElement, deps: PanelDeps): Panel {
   actions.save.addEventListener('click', () => deps.onSave(pick()));
   actions.more.addEventListener('click', () => deps.onMoreOptions(pick()));
   actions.cancel.addEventListener('click', () => deps.onCancel());
-  isolate(element, deps.onCancel);
+  isolate(element, trust, deps.onCancel);
   update();
   parent.append(element);
   selector.input.focus({ preventScroll: true });

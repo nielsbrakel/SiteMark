@@ -6,8 +6,6 @@
 export const PANEL_CSS = `
 .sm-panel {
   position: fixed;
-  right: 16px;
-  bottom: 16px;
   box-sizing: border-box;
   width: min(340px, calc(100vw - 32px));
   max-height: calc(100vh - 32px);
@@ -20,12 +18,42 @@ export const PANEL_CSS = `
   font: var(--sm-text-md)/1.4 var(--sm-font);
   color-scheme: light dark;
 }
+.sm-panel[data-corner^='top'] {
+  top: 16px;
+}
+.sm-panel[data-corner^='bottom'] {
+  bottom: 16px;
+}
+.sm-panel[data-corner$='left'] {
+  left: 16px;
+}
+.sm-panel[data-corner$='right'] {
+  right: 16px;
+}
+.sm-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sm-space-2);
+  margin-bottom: var(--sm-space-3);
+}
+.sm-panel__icon {
+  min-width: 32px;
+  min-height: 32px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: var(--sm-surface);
+  box-shadow: var(--sm-raised-sm);
+  color: var(--sm-text);
+  font: inherit;
+  cursor: pointer;
+}
 .sm-panel *,
 .sm-panel *::before {
   box-sizing: border-box;
 }
 .sm-panel__title {
-  margin: 0 0 var(--sm-space-3);
+  margin: 0;
   font-size: var(--sm-text-lg);
   font-weight: 600;
 }

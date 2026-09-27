@@ -45,5 +45,6 @@ export function panelLabels(): PanelLabels {
     save: i18n.getMessage('pickerSave'),
     cancel: i18n.getMessage('pickerCancel'),
     moreOptions: i18n.getMessage('pickerMoreOptions'),
+    movePanel: i18n.getMessage('pickerMovePanel'),
   };
 }
