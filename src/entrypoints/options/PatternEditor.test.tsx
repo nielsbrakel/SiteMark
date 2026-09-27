@@ -197,3 +197,48 @@ describe('REQ-GRP-002 removing URL patterns', () => {
     expect(await axeViolations(container)).toEqual([]);
   });
 });
+
+describe('REQ-PRIV-002 each pattern shows its grant, read live, with Allow', () => {
+  const row = (value: string) =>
+    within(patternList())
+      .getAllByRole('listitem')
+      .find((item) => item.querySelector('code')?.textContent === value) as HTMLElement;
+  const wildcardRow = () => row('https://prod.example.com/*');
+  const regexRow = () => row('^https://admin\\.example\\.com/');
+
+  it('shows Granted, or Not granted with Allow', async () => {
+    fakes().permissions.grant('https://prod.example.com/*');
+    await openGroup();
+    await waitFor(() => expect(wildcardRow()).toHaveTextContent('Granted'));
+    expect(within(wildcardRow()).queryByRole('button', { name: 'Allow' })).toBeNull();
+    await waitFor(() => expect(regexRow()).toHaveTextContent('Not granted'));
+    expect(byRole('button', { name: 'Allow' }, regexRow())).toBeEnabled();
+  });
+
+  it("Allow prompts for the pattern's origins first and synchronously (D-229)", async () => {
+    await openGroup();
+    const allow = await findRole('button', { name: 'Allow' }, regexRow());
+    fireEvent.click(allow);
+    expect(fakes().permissions.requests).toEqual([['https://admin.example.com/*']]);
+    await waitFor(() => expect(regexRow()).toHaveTextContent('Granted'));
+    expect(regexRow()).not.toHaveTextContent('Not granted');
+  });
+
+  it('stays Not granted when the user declines', async () => {
+    fakes().permissions.answerNextRequest('deny');
+    await openGroup();
+    fireEvent.click(await findRole('button', { name: 'Allow' }, regexRow()));
+    await waitFor(() => expect(fakes().permissions.requests).toHaveLength(1));
+    expect(regexRow()).toHaveTextContent('Not granted');
+  });
+
+  it('follows grants and revocations made in the browser, never cached', async () => {
+    fakes().permissions.grant('https://prod.example.com/*');
+    await openGroup();
+    await waitFor(() => expect(wildcardRow()).toHaveTextContent('Granted'));
+    fakes().permissions.revoke('https://prod.example.com/*');
+    await waitFor(() => expect(wildcardRow()).toHaveTextContent('Not granted'));
+    fakes().permissions.grant('https://prod.example.com/*');
+    await waitFor(() => expect(wildcardRow()).not.toHaveTextContent('Not granted'));
+  });
+});

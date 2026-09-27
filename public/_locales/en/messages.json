@@ -729,5 +729,17 @@
         "example": "Production"
       }
     }
+  },
+  "optionsGranted": {
+    "message": "Granted",
+    "description": "Pattern list: SiteMark has access to the pattern's sites."
+  },
+  "optionsNotGranted": {
+    "message": "Not granted",
+    "description": "Pattern list: SiteMark has no access to the pattern's sites yet; an Allow button follows."
+  },
+  "optionsAllow": {
+    "message": "Allow",
+    "description": "Pattern list: button that asks the browser for access to the pattern's sites."
   }
 }
