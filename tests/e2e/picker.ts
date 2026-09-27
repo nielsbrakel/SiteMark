@@ -42,3 +42,14 @@ export async function centerOf(locator: Locator): Promise<{ x: number; y: number
   if (!box) throw new Error('The element has no box');
   return { x: box.x + box.width / 2, y: box.y + box.height / 2 };
 }
+
+/** The panel ignores activation for 500 ms after it appears or moves (REQ-SEC-005). */
+const PANEL_ACTIVATION_DELAY_MS = 600;
+
+/** Waits for the mini panel and for its activation delay, and returns it. */
+export async function waitForPanel(page: Page): Promise<Locator> {
+  const panel = pickerPart(page, 'panel');
+  await expect(panel).toBeVisible();
+  await page.waitForTimeout(PANEL_ACTIVATION_DELAY_MS);
+  return panel;
+}

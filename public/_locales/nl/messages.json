@@ -469,5 +469,9 @@
         "example": "shop.example.com"
       }
     }
+  },
+  "pickerMovePanel": {
+    "message": "Paneel verplaatsen",
+    "description": "Picker panel: button that moves the panel to the next corner of the page (no dragging needed)."
   }
 }

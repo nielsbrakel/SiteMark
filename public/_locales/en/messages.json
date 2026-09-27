@@ -469,5 +469,9 @@
         "example": "shop.example.com"
       }
     }
+  },
+  "pickerMovePanel": {
+    "message": "Move panel",
+    "description": "Picker panel: button that moves the panel to the next corner of the page (no dragging needed)."
   }
 }

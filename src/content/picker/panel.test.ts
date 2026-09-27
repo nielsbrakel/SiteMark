@@ -19,6 +19,7 @@ const LABELS = {
   save: 'Save',
   cancel: 'Cancel',
   moreOptions: 'More options…',
+  movePanel: 'Move panel',
 };
 
 const PROD = 'grp-prod0001' as SiteGroupId;
@@ -35,9 +36,30 @@ afterEach(() => {
   document.body.replaceChildren();
 });
 
-/** A panel in a container, with spies; `matches` maps selectors to their match count. */
-function aPanel(overrides: Partial<PanelDeps> = {}, matches: Record<string, number> = {}) {
+type Box = { left: number; top: number; width: number; height: number };
+type Env = {
+  /** What the panel's trust check says about every event (default: trusted). */
+  trusted?: boolean;
+  /** Leave the clock at the moment the panel appeared (default: 1 s later, past the delay). */
+  fresh?: boolean;
+  /** The selected element's box (default: top left of the 1024 × 768 viewport). */
+  selection?: Box;
+};
+
+/**
+ * A panel in a container, with spies; `matches` maps selectors to their match count. happy-dom
+ * events are never trusted, so the trust check is replaced unless `env.trusted` is false.
+ */
+function aPanel(
+  overrides: Partial<PanelDeps> = {},
+  matches: Record<string, number> = {},
+  env: Env = {},
+) {
+  const clock = { time: 0 };
   const deps = {
+    selection: env.selection ?? { left: 10, top: 10, width: 100, height: 40 },
+    isTrusted: (_event: Event) => env.trusted ?? true,
+    now: () => clock.time,
     selector: '#delete',
     context: { groups: GROUPS, theme: 'system' as const },
     origin: 'prod.example.com',
@@ -53,7 +75,8 @@ function aPanel(overrides: Partial<PanelDeps> = {}, matches: Record<string, numb
   document.body.append(container);
   const panel = createPanel(container, deps);
   panels.push(panel);
-  return { panel, deps, ui: within(panel.element) };
+  if (!env.fresh) clock.time = 1000;
+  return { panel, deps, clock, ui: within(panel.element) };
 }
 
 type Ui = ReturnType<typeof aPanel>['ui'];
@@ -209,5 +232,84 @@ describe('REQ-THEME-001 the panel follows the theme setting', () => {
   ] as const)('%s → data-theme %s', (theme, attribute) => {
     const { panel } = aPanel({ context: { groups: GROUPS, theme } });
     expect(panel.element.getAttribute('data-theme')).toBe(attribute);
+  });
+});
+
+// ── Placement, Move and trust (T-108) ─────────────────────────────────────────────────────────
+
+const corner = (panel: Panel) => panel.element.getAttribute('data-corner');
+const moveButton = (ui: Ui) => ui.queryByRole('button', { name: 'Move panel' });
+
+describe('REQ-A11Y-010 the panel sits opposite the selection and can be moved without dragging', () => {
+  it.each([
+    [{ left: 10, top: 10, width: 100, height: 40 }, 'bottom-right'],
+    [{ left: 900, top: 10, width: 100, height: 40 }, 'bottom-left'],
+    [{ left: 10, top: 700, width: 100, height: 40 }, 'top-right'],
+    [{ left: 900, top: 700, width: 100, height: 40 }, 'top-left'],
+  ])('a selection at %o puts it %s', (selection, expected) => {
+    const { panel } = aPanel({}, {}, { selection });
+    expect(corner(panel)).toBe(expected);
+  });
+
+  it('Move panel cycles through the corners clockwise', () => {
+    const { panel, ui, clock } = aPanel();
+    const move = moveButton(ui);
+    expect(move).not.toBeNull();
+    const corners = [corner(panel)];
+    for (let i = 0; i < 4; i++) {
+      fireEvent.click(move as HTMLElement);
+      clock.time += 1000;
+      corners.push(corner(panel));
+    }
+    expect(corners).toEqual([
+      'bottom-right',
+      'bottom-left',
+      'top-left',
+      'top-right',
+      'bottom-right',
+    ]);
+  });
+});
+
+describe('REQ-SEC-005 the panel only acts on trusted input, and not right after it appears or moves', () => {
+  it('ignores untrusted clicks', () => {
+    const { ui, deps } = aPanel({}, {}, { trusted: false });
+    fireEvent.click(chip(ui, 'Ribbon'));
+    fireEvent.click(save(ui));
+    fireEvent.click(ui.getByRole('button', { name: 'Cancel' }));
+    expect(chip(ui, 'Ribbon').getAttribute('aria-pressed')).toBe('false');
+    expect(deps.onSave).not.toHaveBeenCalled();
+    expect(deps.onCancel).not.toHaveBeenCalled();
+  });
+
+  it('ignores an untrusted Escape', () => {
+    const { panel, deps } = aPanel({}, {}, { trusted: false });
+    fireEvent.keyDown(panel.element, { key: 'Escape' });
+    expect(deps.onCancel).not.toHaveBeenCalled();
+  });
+
+  it('ignores activation within 500 ms of appearing', () => {
+    const { ui, deps, clock } = aPanel({}, {}, { fresh: true });
+    clock.time = 499;
+    fireEvent.click(save(ui));
+    fireEvent.click(ui.getByRole('radio', { name: 'Blue' }));
+    expect(deps.onSave).not.toHaveBeenCalled();
+    expect((ui.getByRole('radio', { name: 'Red' }) as HTMLInputElement).checked).toBe(true);
+    clock.time = 500;
+    fireEvent.click(save(ui));
+    expect(deps.onSave).toHaveBeenCalledOnce();
+  });
+
+  it('ignores activation within 500 ms of moving', () => {
+    const { ui, deps, clock } = aPanel();
+    const move = moveButton(ui);
+    expect(move).not.toBeNull();
+    fireEvent.click(move as HTMLElement);
+    clock.time += 300;
+    fireEvent.click(save(ui));
+    expect(deps.onSave).not.toHaveBeenCalled();
+    clock.time += 200;
+    fireEvent.click(save(ui));
+    expect(deps.onSave).toHaveBeenCalledOnce();
   });
 });

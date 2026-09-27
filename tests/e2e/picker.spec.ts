@@ -2,7 +2,7 @@ import type { BrowserContext, Page } from '@playwright/test';
 import { sendFromPage } from './background';
 import { expect, test } from './fixtures';
 import { fixtureUrl } from './hosts';
-import { centerOf, pickerPart, startPicking } from './picker';
+import { centerOf, pickerPart, startPicking, waitForPanel } from './picker';
 
 // The picker end to end (REQ-PICK-001, REQ-PICK-005): select an element, save it from the panel.
 
@@ -53,8 +53,7 @@ test('Save stores the element mark and ends the pick @REQ-PICK-005', async ({
   await page.goto(fixtureUrl('prod', 'picker.html'));
   await startPicking(context, page, serviceWorker);
   await pick(page, 'danger');
-  const panel = pickerPart(page, 'panel');
-  await expect(panel).toBeVisible();
+  const panel = await waitForPanel(page);
   await panel.getByRole('button', { name: 'Ribbon' }).click();
   await panel.getByRole('button', { name: 'Save' }).click();
   await expect(page.locator('sitemark-picker')).toHaveCount(0);
@@ -75,8 +74,7 @@ test('Cancel and Esc end the pick without saving @REQ-PICK-005', async ({
   await page.goto(fixtureUrl('prod', 'picker.html'));
   await startPicking(context, page, serviceWorker);
   await pick(page, 'danger');
-  await expect(pickerPart(page, 'panel')).toBeVisible();
-  await pickerPart(page, 'panel').getByRole('button', { name: 'Cancel' }).click();
+  await (await waitForPanel(page)).getByRole('button', { name: 'Cancel' }).click();
   await expect(page.locator('sitemark-picker')).toHaveCount(0);
   await startPicking(context, page, serviceWorker);
   await pick(page, 'link');
@@ -94,9 +92,9 @@ test('More options… saves and opens the options page at the new mark @REQ-PICK
   await page.goto(fixtureUrl('prod', 'picker.html'));
   await startPicking(context, page, serviceWorker);
   await pick(page, 'danger');
-  await expect(pickerPart(page, 'panel')).toBeVisible();
+  const panel = await waitForPanel(page);
   const options = context.waitForEvent('page', { timeout: 10_000 }).catch(() => undefined);
-  await pickerPart(page, 'panel').getByRole('button', { name: 'More options…' }).click();
+  await panel.getByRole('button', { name: 'More options…' }).click();
   await expect(page.locator('sitemark-picker')).toHaveCount(0);
   const opened = await options;
   await expect
