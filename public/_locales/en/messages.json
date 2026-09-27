@@ -1125,5 +1125,13 @@
   "previewPageTitle": {
     "message": "Example page",
     "description": "Mark preview: the title of the mock page in the mock browser tab."
+  },
+  "optionsSaving": {
+    "message": "Saving…",
+    "description": "Options page: a change is on its way to being saved."
+  },
+  "optionsSaved": {
+    "message": "Saved",
+    "description": "Options page: the last change was saved (autosave)."
   }
 }
