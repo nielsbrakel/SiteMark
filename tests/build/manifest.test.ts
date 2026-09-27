@@ -31,6 +31,13 @@ describe.each(targets())('%s production manifest', (target) => {
     });
   });
 
+  describe('REQ-ENV-002 private windows', () => {
+    it('shares the site groups with private windows, where the user allows the extension', () => {
+      // `spanning` (the default) keeps one background and one storage for both kinds of window.
+      expect(manifest.incognito ?? 'spanning').toBe('spanning');
+    });
+  });
+
   describe('REQ-SEC-003 no external messaging', () => {
     it('lets no other extension or web page connect', () => {
       if (target === 'firefox') expect(manifest).not.toHaveProperty('externally_connectable');
