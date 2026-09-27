@@ -1,6 +1,7 @@
 import { type ReactNode, useId } from 'react';
 import type { SiteGroup } from '@/core/model/schema';
 import { DeleteGroupButton } from './DeleteGroupButton';
+import { EnabledSwitch } from './EnabledSwitch';
 import { NameField } from './NameField';
 import type { Notify } from './notify';
 import styles from './Pane.module.css';
@@ -18,6 +19,7 @@ export function GroupEditor({ group, index, notify }: GroupEditorProps): ReactNo
   return (
     <section className={styles.pane} aria-labelledby={id}>
       <h2 id={id}>{group.name}</h2>
+      <EnabledSwitch group={group} notify={notify} />
       <NameField group={group} />
       <div className={styles.actions}>
         <DeleteGroupButton group={group} index={index} notify={notify} />

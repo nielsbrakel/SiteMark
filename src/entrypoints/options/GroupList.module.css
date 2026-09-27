@@ -49,3 +49,13 @@
   gap: var(--sm-space-2);
   justify-items: start;
 }
+
+.state {
+  font-size: var(--sm-text-sm);
+  color: var(--sm-text-muted);
+}
+
+.state[data-on='true'] {
+  color: var(--sm-accent-text);
+  font-weight: 600;
+}

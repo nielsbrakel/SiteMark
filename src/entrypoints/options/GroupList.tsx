@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { SiteGroupId } from '@/core/ids';
 import type { SiteGroup } from '@/core/model/schema';
+import { t } from '@/lib/i18n/browser-source';
 import styles from './GroupList.module.css';
 import { groupHref } from './routes';
 
@@ -23,6 +24,9 @@ export function GroupList({ groups, selectedId }: GroupListProps): ReactNode {
           >
             {group.name}
           </a>
+          <span className={styles.state} data-on={group.enabled}>
+            {t(group.enabled ? 'optionsGroupOn' : 'optionsGroupOff')}
+          </span>
         </li>
       ))}
     </ul>
