@@ -212,7 +212,7 @@ Status: ☐ todo · ✅ done.
 | T-147 | Visual baselines (all effects, UI light/dark/forced colors) in the Playwright container        | REQ-THEME-001, REQ-A11Y-007 | `tests/e2e/visual.spec.ts` | ☐      |
 | T-148 | axe e2e, light + dark                                                                          | REQ-A11Y-004                | `tests/e2e/a11y.spec.ts`   | ☐      |
 | T-149 | 200 % zoom + 320 px reflow                                                                     | REQ-A11Y-012                | `tests/e2e/a11y.spec.ts`   | ☐      |
-| T-150 | Performance probes (no-match < 2 ms, 500 patterns < 1 ms, scroll < 1 ms/frame, marks ≤ 100 ms) | REQ-NFR-003                 | `tests/e2e/perf.spec.ts`   | ☐      |
+| T-150 | Performance probes (no-match < 2 ms, 500 patterns < 1 ms, scroll < 1 ms/frame, marks ≤ 100 ms) | REQ-NFR-003                 | `tests/e2e/perf.spec.ts`   | ✅     |
 | T-151 | Firefox manual smoke + fixes                                                                   | REQ-NFR-001                 | checklist                  | ☐      |
 
 ## M8 — Release v1.0 (Chrome / Edge / Firefox)

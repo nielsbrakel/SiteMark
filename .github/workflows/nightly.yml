@@ -34,3 +34,28 @@ jobs:
           path: reports/mutation/
           retention-days: 14
           if-no-files-found: ignore
+
+  perf:
+    name: perf probes (REQ-NFR-003, reported only)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble@sha256:eff16c30e6f3f4af0a03fa4b706120d5e9b0891c344a27d64559aff5900a4a27
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      # Runs only the @perf probes (playwright.config.ts); a miss fails this nightly job, not a PR.
+      - run: pnpm test:e2e
+        env:
+          PERF: '1'
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: perf-report
+          path: test-results/
+          retention-days: 14
+          if-no-files-found: ignore

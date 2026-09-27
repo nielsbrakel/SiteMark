@@ -14,6 +14,8 @@ export default defineConfig({
   // A test that only passes on retry is a bug, not a pass (TEST-09).
   failOnFlakyTests: ci,
   timeout: 30_000,
+  // Performance probes depend on the machine: the nightly workflow runs them with PERF=1.
+  ...(process.env.PERF ? { grep: /@perf/ } : { grepInvert: /@perf/ }),
   // playwright.json feeds requirement coverage (`pnpm progress --coverage`).
   reporter: [
     ci ? ['github'] : ['list'],
