@@ -238,3 +238,113 @@ describe('REQ-MARK-011 text color: automatic black or white, or custom', () => {
     await waitFor(() => expect(lastTextColor(background)).toBe('auto'));
   });
 });
+
+describe('REQ-OPT-003 REQ-MARK-014 effect controls for the mark’s target', () => {
+  const effects = () => byRole('group', { name: 'Effects' }, editor());
+  const toggle = (name: string) => byRole('checkbox', { name }, effects());
+  const toggleNames = () =>
+    within(effects())
+      .getAllByRole('checkbox')
+      .map((box) => box.getAttribute('aria-label') ?? box.closest('label')?.textContent);
+  const lastEffects = (background: { commands: readonly unknown[] }) =>
+    (background.commands.at(-1) as { mark?: { effects?: unknown } }).mark?.effects;
+
+  it('offers only the effects a page mark can have', async () => {
+    await openAt(markHash(ribbon.id));
+    expect(toggleNames()).toEqual([
+      'Ribbon',
+      'Banner',
+      'Frame',
+      'Tint',
+      'Stripes',
+      'Watermark',
+      'Title prefix',
+      'Favicon',
+    ]);
+  });
+
+  it('offers only the effects an element mark can have', async () => {
+    await openAt(markHash(outline.id));
+    expect(toggleNames()).toEqual(['Ribbon', 'Outline', 'Tint', 'Stripes']);
+  });
+
+  it('shows which effects are on and keeps the last one on', async () => {
+    await openAt(markHash(ribbon.id));
+    expect(toggle('Ribbon')).toBeChecked();
+    expect(toggle('Ribbon')).toBeDisabled();
+    expect(toggle('Frame')).not.toBeChecked();
+  });
+
+  it('turns an effect on with its defaults and shows its settings', async () => {
+    const { background } = await openAt(markHash(ribbon.id));
+    fireEvent.click(toggle('Frame'));
+    await waitFor(() => expect(toggle('Frame')).toBeChecked());
+    expect(lastEffects(background)).toEqual({ ...ribbon.effects, frame: { widthPx: 4 } });
+    const width = byRole('slider', { name: 'Frame width' }, effects());
+    expect(width).toHaveAttribute('min', '2');
+    expect(width).toHaveAttribute('max', '16');
+    expect(toggle('Ribbon')).toBeEnabled();
+  });
+
+  it('turns an effect off', async () => {
+    const both = aPageMark({
+      effects: { ribbon: { text: 'PROD', corner: 'top-left' }, frame: { widthPx: 6 } },
+    });
+    const group = aSiteGroup({ name: 'Both', marks: [both] });
+    const { background } = await openAt(markHash(both.id, group), group);
+    fireEvent.click(toggle('Frame'));
+    await waitFor(() => expect(toggle('Frame')).not.toBeChecked());
+    expect(lastEffects(background)).toEqual({ ribbon: { text: 'PROD', corner: 'top-left' } });
+  });
+
+  it('uses the tint range of the target: 3–15 % on a page, 5–40 % on an element', async () => {
+    const tinted = aPageMark({ effects: { tint: { opacityPct: 10 } } });
+    const tintedElement = anElementMark({ effects: { tint: { opacityPct: 30 } } });
+    const group = aSiteGroup({ name: 'Tints', marks: [tinted, tintedElement] });
+    const { background } = await openAt(markHash(tinted.id, group), group);
+    const slider = () => byRole('slider', { name: 'Tint opacity' }, effects());
+    expect([slider().getAttribute('min'), slider().getAttribute('max')]).toEqual(['3', '15']);
+    fireEvent.change(slider(), { target: { value: '12' } });
+    await waitFor(() => expect(lastEffects(background)).toEqual({ tint: { opacityPct: 12 } }));
+    act(() => atHash(markHash(tintedElement.id, group)));
+    act(() => window.dispatchEvent(new HashChangeEvent('hashchange')));
+    await waitFor(() => expect(slider()).toHaveAttribute('max', '40'));
+    expect(slider()).toHaveAttribute('min', '5');
+  });
+
+  it('saves a ribbon corner', async () => {
+    const { background } = await openAt(markHash(ribbon.id));
+    const corners = byRole('radiogroup', { name: 'Ribbon corner' }, effects());
+    fireEvent.click(byRole('radio', { name: 'Bottom left' }, corners));
+    await waitFor(() =>
+      expect(lastEffects(background)).toEqual({ ribbon: { text: 'PROD', corner: 'bottom-left' } }),
+    );
+  });
+});
+
+describe('REQ-MARK-015 ribbon and banner text is required', () => {
+  const ribbonText = () => byLabel('Ribbon text', editor());
+
+  it('saves a new ribbon text on blur, at most 16 characters', async () => {
+    const { background } = await openAt(markHash(ribbon.id));
+    expect(ribbonText()).toHaveValue('PROD');
+    expect(ribbonText()).toHaveAttribute('maxlength', '16');
+    type(ribbonText(), 'LIVE');
+    fireEvent.blur(ribbonText());
+    await waitFor(() =>
+      expect(background.commands.at(-1)).toMatchObject({
+        mark: { effects: { ribbon: { text: 'LIVE', corner: 'top-right' } } },
+      }),
+    );
+  });
+
+  it('refuses an empty text, so a mark never relies on color alone', async () => {
+    const { background } = await openAt(markHash(ribbon.id));
+    type(ribbonText(), '   ');
+    fireEvent.blur(ribbonText());
+    expect(ribbonText()).toHaveAccessibleDescription(
+      expect.stringContaining("Enter a text, so the mark doesn't rely on color alone."),
+    );
+    expect(background.commands).toEqual([]);
+  });
+});

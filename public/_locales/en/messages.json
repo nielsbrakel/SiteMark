@@ -969,5 +969,153 @@
   "optionsTextAutoBlack": {
     "message": "Automatic: black text on this color.",
     "description": "Mark editor: the automatic text color is black."
+  },
+  "optionsEffects": {
+    "message": "Effects",
+    "description": "Mark editor: the group of effect toggles and their settings."
+  },
+  "optionsRibbonText": {
+    "message": "Ribbon text",
+    "description": "Mark editor: the ribbon's text (1-16 characters)."
+  },
+  "optionsRibbonCorner": {
+    "message": "Ribbon corner",
+    "description": "Mark editor: the corner the ribbon sits in."
+  },
+  "cornerTopLeft": {
+    "message": "Top left",
+    "description": "Ribbon corner."
+  },
+  "cornerTopRight": {
+    "message": "Top right",
+    "description": "Ribbon corner."
+  },
+  "cornerBottomLeft": {
+    "message": "Bottom left",
+    "description": "Ribbon corner."
+  },
+  "cornerBottomRight": {
+    "message": "Bottom right",
+    "description": "Ribbon corner."
+  },
+  "optionsBannerText": {
+    "message": "Banner text",
+    "description": "Mark editor: the banner's text (1-60 characters)."
+  },
+  "optionsBannerEdge": {
+    "message": "Banner edge",
+    "description": "Mark editor: whether the banner sits at the top or bottom."
+  },
+  "edgeTop": {
+    "message": "Top",
+    "description": "Banner edge."
+  },
+  "edgeBottom": {
+    "message": "Bottom",
+    "description": "Banner edge."
+  },
+  "optionsBannerSize": {
+    "message": "Banner size",
+    "description": "Mark editor: the banner's height."
+  },
+  "sizeCompact": {
+    "message": "Compact",
+    "description": "Banner size: 24 px."
+  },
+  "sizeRegular": {
+    "message": "Regular",
+    "description": "Banner size: 36 px."
+  },
+  "optionsFrameWidth": {
+    "message": "Frame width",
+    "description": "Mark editor: slider for the frame's width in pixels."
+  },
+  "optionsTintOpacity": {
+    "message": "Tint opacity",
+    "description": "Mark editor: slider for the tint's opacity in percent."
+  },
+  "optionsStripesOpacity": {
+    "message": "Stripes opacity",
+    "description": "Mark editor: slider for the stripes' opacity in percent."
+  },
+  "optionsStripesArea": {
+    "message": "Stripes area",
+    "description": "Mark editor: whether stripes run along the top edge or cover the page."
+  },
+  "areaEdge": {
+    "message": "Top edge",
+    "description": "Stripes area: a 6 px strip along the top."
+  },
+  "areaFull": {
+    "message": "Whole page",
+    "description": "Stripes area: the whole viewport."
+  },
+  "optionsWatermarkText": {
+    "message": "Watermark text",
+    "description": "Mark editor: the watermark's text (1-24 characters)."
+  },
+  "optionsWatermarkOpacity": {
+    "message": "Watermark opacity",
+    "description": "Mark editor: slider for the watermark's opacity in percent."
+  },
+  "optionsTitlePrefixText": {
+    "message": "Title prefix text",
+    "description": "Mark editor: the text put before the page title (1-16 characters)."
+  },
+  "optionsTitlePrefixHelp": {
+    "message": "The prefix also shows in your browser history.",
+    "description": "Mark editor: why the title prefix is opt-in."
+  },
+  "optionsFaviconHelp": {
+    "message": "Some sites don't let SiteMark change their icon.",
+    "description": "Mark editor: why the favicon tint may be unavailable."
+  },
+  "optionsOutlineWidth": {
+    "message": "Outline width",
+    "description": "Mark editor: slider for the outline's width in pixels."
+  },
+  "optionsOutlineStyle": {
+    "message": "Outline style",
+    "description": "Mark editor: solid, dashed or dotted outline."
+  },
+  "styleSolid": {
+    "message": "Solid",
+    "description": "Outline style."
+  },
+  "styleDashed": {
+    "message": "Dashed",
+    "description": "Outline style."
+  },
+  "styleDotted": {
+    "message": "Dotted",
+    "description": "Outline style."
+  },
+  "optionsOutlinePulse": {
+    "message": "Pulse",
+    "description": "Mark editor: whether the outline glows (off under reduced motion)."
+  },
+  "optionsTextRequired": {
+    "message": "Enter a text, so the mark doesn't rely on color alone.",
+    "description": "Mark editor: a ribbon, banner, watermark or title prefix text is empty."
+  },
+  "unitPx": {
+    "message": "$VALUE$ px",
+    "description": "A size in pixels.",
+    "placeholders": {
+      "value": {
+        "content": "$1",
+        "example": "4"
+      }
+    }
+  },
+  "unitPct": {
+    "message": "$VALUE$ %",
+    "description": "An opacity in percent.",
+    "placeholders": {
+      "value": {
+        "content": "$1",
+        "example": "8"
+      }
+    }
   }
 }

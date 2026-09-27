@@ -969,5 +969,153 @@
   "optionsTextAutoBlack": {
     "message": "Automatisch: zwarte tekst op deze kleur.",
     "description": "Mark editor: the automatic text color is black."
+  },
+  "optionsEffects": {
+    "message": "Effecten",
+    "description": "Mark editor: the group of effect toggles and their settings."
+  },
+  "optionsRibbonText": {
+    "message": "Linttekst",
+    "description": "Mark editor: the ribbon's text (1-16 characters)."
+  },
+  "optionsRibbonCorner": {
+    "message": "Hoek van het lint",
+    "description": "Mark editor: the corner the ribbon sits in."
+  },
+  "cornerTopLeft": {
+    "message": "Linksboven",
+    "description": "Ribbon corner."
+  },
+  "cornerTopRight": {
+    "message": "Rechtsboven",
+    "description": "Ribbon corner."
+  },
+  "cornerBottomLeft": {
+    "message": "Linksonder",
+    "description": "Ribbon corner."
+  },
+  "cornerBottomRight": {
+    "message": "Rechtsonder",
+    "description": "Ribbon corner."
+  },
+  "optionsBannerText": {
+    "message": "Bannertekst",
+    "description": "Mark editor: the banner's text (1-60 characters)."
+  },
+  "optionsBannerEdge": {
+    "message": "Rand van de banner",
+    "description": "Mark editor: whether the banner sits at the top or bottom."
+  },
+  "edgeTop": {
+    "message": "Boven",
+    "description": "Banner edge."
+  },
+  "edgeBottom": {
+    "message": "Onder",
+    "description": "Banner edge."
+  },
+  "optionsBannerSize": {
+    "message": "Grootte van de banner",
+    "description": "Mark editor: the banner's height."
+  },
+  "sizeCompact": {
+    "message": "Compact",
+    "description": "Banner size: 24 px."
+  },
+  "sizeRegular": {
+    "message": "Normaal",
+    "description": "Banner size: 36 px."
+  },
+  "optionsFrameWidth": {
+    "message": "Breedte van het kader",
+    "description": "Mark editor: slider for the frame's width in pixels."
+  },
+  "optionsTintOpacity": {
+    "message": "Dekking van de tint",
+    "description": "Mark editor: slider for the tint's opacity in percent."
+  },
+  "optionsStripesOpacity": {
+    "message": "Dekking van de strepen",
+    "description": "Mark editor: slider for the stripes' opacity in percent."
+  },
+  "optionsStripesArea": {
+    "message": "Gebied van de strepen",
+    "description": "Mark editor: whether stripes run along the top edge or cover the page."
+  },
+  "areaEdge": {
+    "message": "Bovenrand",
+    "description": "Stripes area: a 6 px strip along the top."
+  },
+  "areaFull": {
+    "message": "Hele pagina",
+    "description": "Stripes area: the whole viewport."
+  },
+  "optionsWatermarkText": {
+    "message": "Tekst van het watermerk",
+    "description": "Mark editor: the watermark's text (1-24 characters)."
+  },
+  "optionsWatermarkOpacity": {
+    "message": "Dekking van het watermerk",
+    "description": "Mark editor: slider for the watermark's opacity in percent."
+  },
+  "optionsTitlePrefixText": {
+    "message": "Tekst voor de titel",
+    "description": "Mark editor: the text put before the page title (1-16 characters)."
+  },
+  "optionsTitlePrefixHelp": {
+    "message": "Het voorvoegsel staat ook in je browsergeschiedenis.",
+    "description": "Mark editor: why the title prefix is opt-in."
+  },
+  "optionsFaviconHelp": {
+    "message": "Sommige sites laten SiteMark hun icoon niet aanpassen.",
+    "description": "Mark editor: why the favicon tint may be unavailable."
+  },
+  "optionsOutlineWidth": {
+    "message": "Breedte van de omlijning",
+    "description": "Mark editor: slider for the outline's width in pixels."
+  },
+  "optionsOutlineStyle": {
+    "message": "Stijl van de omlijning",
+    "description": "Mark editor: solid, dashed or dotted outline."
+  },
+  "styleSolid": {
+    "message": "Doorgetrokken",
+    "description": "Outline style."
+  },
+  "styleDashed": {
+    "message": "Gestreept",
+    "description": "Outline style."
+  },
+  "styleDotted": {
+    "message": "Gestippeld",
+    "description": "Outline style."
+  },
+  "optionsOutlinePulse": {
+    "message": "Pulseren",
+    "description": "Mark editor: whether the outline glows (off under reduced motion)."
+  },
+  "optionsTextRequired": {
+    "message": "Voer een tekst in, zodat de markering niet alleen op kleur leunt.",
+    "description": "Mark editor: a ribbon, banner, watermark or title prefix text is empty."
+  },
+  "unitPx": {
+    "message": "$VALUE$ px",
+    "description": "A size in pixels.",
+    "placeholders": {
+      "value": {
+        "content": "$1",
+        "example": "4"
+      }
+    }
+  },
+  "unitPct": {
+    "message": "$VALUE$ %",
+    "description": "An opacity in percent.",
+    "placeholders": {
+      "value": {
+        "content": "$1",
+        "example": "8"
+      }
+    }
   }
 }
