@@ -1,9 +1,12 @@
 import { type ReactNode, useId } from 'react';
 import type { MarkId } from '@/core/ids';
 import type { SiteGroup } from '@/core/model/schema';
+import { t } from '@/lib/i18n/browser-source';
+import { Button } from '@/ui/components/Button';
 import { DeleteGroupButton } from './DeleteGroupButton';
 import { DuplicateGroupButton } from './DuplicateGroupButton';
 import { EnabledSwitch } from './EnabledSwitch';
+import { exportSiteGroup } from './export-file';
 import { MarkEditor } from './MarkEditor';
 import { MarkList } from './MarkList';
 import { NameField } from './NameField';
@@ -45,6 +48,7 @@ export function GroupEditor({
       </MarkList>
       <div className={styles.actions}>
         <DuplicateGroupButton group={group} notify={notify} onAdded={onAdded} />
+        <Button onClick={() => exportSiteGroup(group)}>{t('optionsExportGroup')}</Button>
         <DeleteGroupButton
           group={group}
           index={index}

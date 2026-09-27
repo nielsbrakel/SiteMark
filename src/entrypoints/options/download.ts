@@ -15,7 +15,7 @@ export function downloadText(filename: string, text: string, type = 'application
 const pad = (value: number) => String(value).padStart(2, '0');
 
 /** `<prefix>-YYYY-MM-DD.json` for the user's local date, e.g. `sitemark-backup-2026-09-27.json`. */
-function datedJsonName(prefix: string, now: Date = new Date()): string {
+export function datedJsonName(prefix: string, now: Date = new Date()): string {
   return `${prefix}-${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}.json`;
 }
 
