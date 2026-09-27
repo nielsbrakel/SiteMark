@@ -242,3 +242,37 @@ describe('REQ-PRIV-002 each pattern shows its grant, read live, with Allow', () 
     await waitFor(() => expect(wildcardRow()).not.toHaveTextContent('Not granted'));
   });
 });
+
+describe('REQ-URL-007 the live URL tester says which pattern matches', () => {
+  const testUrl = () => byLabel('Test URL');
+
+  it.each([
+    ['https://prod.example.com/orders?id=1', 'Matches pattern 1: https://prod.example.com/*'],
+    ['https://admin.example.com/users', 'Matches pattern 2: ^https://admin\\.example\\.com/'],
+    ['https://test.example.com/', 'No URL pattern matches this URL.'],
+    ['not a url', 'Enter a full URL, such as https://example.com/page.'],
+  ])('%s → %s', async (url, result) => {
+    await openGroup();
+    type(testUrl(), url);
+    expect(testUrl()).toHaveAccessibleDescription(result);
+  });
+
+  it('checks the pattern being typed before it is added', async () => {
+    await openGroup();
+    type(testUrl(), 'https://staging.example.com/');
+    type(patternInput(), '*.example.com');
+    expect(testUrl()).toHaveAccessibleDescription('The new pattern matches this URL.');
+    type(patternInput(), 'ex*ample.com');
+    expect(testUrl()).toHaveAccessibleDescription('No URL pattern matches this URL.');
+  });
+
+  it('follows the patterns as they change', async () => {
+    await openGroup();
+    type(testUrl(), 'https://staging.example.com/');
+    type(patternInput(), 'staging.example.com');
+    fireEvent.click(addButton());
+    await waitFor(() =>
+      expect(testUrl()).toHaveAccessibleDescription('Matches pattern 3: *://staging.example.com/*'),
+    );
+  });
+});

@@ -741,5 +741,35 @@
   "optionsAllow": {
     "message": "Toestaan",
     "description": "Pattern list: button that asks the browser for access to the pattern's sites."
+  },
+  "optionsTestUrl": {
+    "message": "URL testen",
+    "description": "Site group editor: label of the field where the user types a URL to see which pattern matches it."
+  },
+  "optionsTestMatch": {
+    "message": "Komt overeen met patroon $NUMBER$: $PATTERN$",
+    "description": "URL tester: the first URL pattern that matches the typed URL.",
+    "placeholders": {
+      "number": {
+        "content": "$1",
+        "example": "2"
+      },
+      "pattern": {
+        "content": "$2",
+        "example": "*://*.example.com/*"
+      }
+    }
+  },
+  "optionsTestNoMatch": {
+    "message": "Geen URL-patroon komt overeen met deze URL.",
+    "description": "URL tester: no pattern matches the typed URL."
+  },
+  "optionsTestDraftMatch": {
+    "message": "Het nieuwe patroon komt overeen met deze URL.",
+    "description": "URL tester: the pattern being typed (not added yet) matches the typed URL."
+  },
+  "optionsTestInvalid": {
+    "message": "Voer een volledige URL in, zoals https://example.com/page.",
+    "description": "URL tester: the typed text is not a URL."
   }
 }
