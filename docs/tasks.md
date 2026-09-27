@@ -220,7 +220,7 @@ Status: ☐ todo · ✅ done.
 | Task  | Description                                                                                                                                                                   | REQs                      | Tests                    | Status |
 | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------ | ------ |
 | T-152 | `PRIVACY.md` final review (drafted in website T-213, D-249), store listings (en/nl) with website URLs, permission justifications, screenshots, promo tile, `SOURCE_REVIEW.md` | REQ-PRIV-007, REQ-NFR-006 | review                   | ☐      |
-| T-153 | `release.yml`: zips, provenance + SHA256SUMS, zip manifest assertions, `wxt submit` in env `store`                                                                            | REQ-SEC-008, REQ-NFR-006  | dry run on `v0.9.0-rc.1` | ☐      |
+| T-153 | `release.yml`: zips, provenance + SHA256SUMS, zip manifest assertions, `wxt submit` in env `store`                                                                            | REQ-SEC-008, REQ-NFR-006  | dry run on `v0.9.0-rc.1` | ✅     |
 | T-154 | Changesets release → v1.0.0, store submissions                                                                                                                                | REQ-NFR-006               | release checklist        | ☐      |
 
 ## M9 — Safari v1.1

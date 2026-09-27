@@ -109,8 +109,10 @@ It is rendered from `design/social-preview.svg` by `pnpm icons`.
 
 ## 7. Store publishing (M8, D-227)
 
-`release.yml` runs on protected `v*` tags. The **zip** job (no secrets) builds, asserts manifests, attests
-provenance and writes SHA256SUMS. The **submit** job runs `wxt submit` inside environment `store`, which
+`release.yml` runs on protected `v*` tags. The **zip** job (no secrets, no dependency cache) builds the
+Chrome, Firefox (+ sources) and Edge zips, runs the build assertions, checks the manifest inside every zip
+(`scripts/check-release-zips.ts`: production permissions only, nothing from the e2e build), writes
+SHA256SUMS and attests provenance. The **submit** job runs `wxt submit` inside environment `store`, which
 waits for the owner's approval. Store secrets live **only** in that environment:
 
 | Store            | Secrets                                                                                       |
