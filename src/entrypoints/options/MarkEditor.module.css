@@ -72,3 +72,25 @@
   border-radius: var(--sm-radius-sm);
   background: none;
 }
+
+.effects {
+  display: grid;
+  gap: var(--sm-space-3);
+  margin: 0;
+  padding: var(--sm-space-3);
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-md);
+}
+
+.effect {
+  display: grid;
+  gap: var(--sm-space-2);
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sm-space-2);
+  min-height: 36px;
+  font-weight: 600;
+}

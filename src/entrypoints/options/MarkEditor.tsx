@@ -5,6 +5,7 @@ import { Segmented } from '@/ui/components/Segmented';
 import { sendCommand } from '@/ui/hooks/use-command';
 import { ColorFields } from './ColorFields';
 import { commandErrorText } from './command-error';
+import { EffectsFieldset } from './EffectsFieldset';
 import styles from './MarkEditor.module.css';
 import { asElementMark, asPageMark, draftOf } from './mark-drafts';
 import type { Notify } from './notify';
@@ -42,6 +43,10 @@ export function MarkEditor({ group, mark, notify }: MarkEditorProps): ReactNode 
   };
   const save = (change: Partial<Pick<MarkDraft, 'color' | 'textColor'>>) =>
     update(group, mark, { ...draftOf(mark), ...change });
+  const saveEffects = async (effects: Mark['effects']) => {
+    const refused = await update(group, mark, { ...draftOf(mark), effects } as MarkDraft);
+    if (refused) notify({ text: refused });
+  };
   const options = [
     { value: 'page', label: t('optionsTargetPage') },
     { value: 'element', label: t('optionsTargetElement') },
@@ -63,6 +68,12 @@ export function MarkEditor({ group, mark, notify }: MarkEditorProps): ReactNode 
         color={mark.color}
         textColor={mark.textColor}
         onSave={(textColor) => save({ textColor })}
+      />
+      <EffectsFieldset
+        target={mark.target.kind}
+        effects={mark.effects}
+        groupName={group.name}
+        onSave={(effects) => void saveEffects(effects)}
       />
       {target === 'element' && (
         <SelectorField

@@ -1,10 +1,9 @@
-import type { ElementEffects, Mark, PageEffects } from '@/core/model/schema';
+import type { Mark } from '@/core/model/schema';
 import { type MessageKey, t } from '@/lib/i18n/browser-source';
-
-type EffectName = keyof PageEffects | keyof ElementEffects;
+import type { EffectName } from './effect-catalog';
 
 /** Effect names in the order the editor shows them. */
-const EFFECT_NAMES: Readonly<Record<EffectName, MessageKey>> = {
+export const EFFECT_NAMES: Readonly<Record<EffectName, MessageKey>> = {
   ribbon: 'effectRibbon',
   banner: 'effectBanner',
   frame: 'effectFrame',

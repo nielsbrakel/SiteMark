@@ -10,12 +10,14 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
 
-/** A top-right ribbon showing the site group's name (cut to 16 characters, whole code points). */
-function nameRibbon(groupName: string): Ribbon {
-  return {
-    text: Array.from(groupName).slice(0, RIBBON_TEXT_MAX).join('').trim(),
-    corner: 'top-right',
-  };
+/** The site group's name cut to `max` characters (whole code points), for a default text. */
+export function nameText(groupName: string, max: number): string {
+  return Array.from(groupName).slice(0, max).join('').trim();
+}
+
+/** A top-right ribbon showing the site group's name. */
+export function nameRibbon(groupName: string): Ribbon {
+  return { text: nameText(groupName, RIBBON_TEXT_MAX), corner: 'top-right' };
 }
 
 /** "Add page mark": a red ribbon with the site group's name. */
