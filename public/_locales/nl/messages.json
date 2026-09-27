@@ -339,5 +339,9 @@
   "popupCantRunReason": {
     "message": "Browsers houden extensies weg van hun eigen pagina's, lokale bestanden, pdf's en extensiewinkels.",
     "description": "Pop-up: uitleg onder \"SiteMark kan niet werken op deze pagina\"."
+  },
+  "popupOpenSettings": {
+    "message": "Instellingen openen",
+    "description": "Pop-uplink onder een gegevensprobleem (alleen-lezen of onleesbare gegevens) die de pagina Gegevens van de SiteMark-instellingen opent."
   }
 }

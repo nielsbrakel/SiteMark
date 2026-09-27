@@ -16,6 +16,8 @@ import {
 import type { OriginPattern } from '@/core/url/origin';
 import { grantPageUrl } from '@/platform/grant-page';
 import { fakes } from '../../../tests/fakes/install';
+import corrupt from '../../../tests/fixtures/state/corrupt.json';
+import newer from '../../../tests/fixtures/state/newer.json';
 import { axeViolations } from '../../../tests/unit/axe';
 import { activeTab, fakeBackground, shortcuts, shown } from '../../../tests/unit/popup-harness';
 import { PopupApp } from './App';
@@ -444,6 +446,55 @@ describe('REQ-POP-005 REQ-ENV-003 the popup says where SiteMark can not run', ()
   it('has no axe violations', async () => {
     const { view } = await openPopup('chrome://extensions/');
     await cantRun();
+    expect(await axeViolations(view.container)).toEqual([]);
+  });
+});
+
+describe('REQ-DATA-007 the popup shows read-only and unreadable data', () => {
+  const READ_ONLY =
+    'Your data comes from a newer version of SiteMark, so changes are turned off to keep it safe.';
+  const UNREADABLE =
+    'Your saved SiteMark data could not be read, so SiteMark started with the defaults. A backup of the old data was kept.';
+  const dataPage = `${fakeBrowser.runtime.getURL('/options.html')}#/data`;
+  const stored = (raw: unknown) => fakeBrowser.storage.local.set({ 'sitemark:state': raw });
+
+  it('opens read-only with a notice linking to the data settings, and offers no changes', async () => {
+    await stored(newer);
+    await openPopup(PAGE, production);
+    expect(await shown(() => screen.queryByText(READ_ONLY))).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Open settings' })).toHaveAttribute('href', dataPage);
+    expect(screen.queryByRole('button', { name: 'Mark this site' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Pick element' })).toBeNull();
+    expect(screen.queryByRole('list', { name: 'Site groups on this site' })).toBeNull();
+  });
+
+  it('turns read-only when a newer SiteMark stores its data while it is open', async () => {
+    const { background } = await openPopup(PAGE, production);
+    await groupList();
+    await act(() => stored(newer));
+    expect(await shown(() => screen.queryByText(READ_ONLY))).toBeInTheDocument();
+    expect(background.sent('command')).toEqual([]);
+  });
+
+  it('says when the stored data could not be read, and keeps working with the defaults', async () => {
+    await stored(corrupt);
+    await openPopup(PAGE);
+    expect(await shown(() => screen.queryByText(UNREADABLE))).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Open settings' })).toHaveAttribute('href', dataPage);
+    expect(screen.getByRole('button', { name: 'Mark this site' })).toBeEnabled();
+  });
+
+  it('says so when the background does not answer', async () => {
+    await activeTab(PAGE);
+    render(<PopupApp />);
+    const alert = await shown(() => screen.queryByRole('alert'));
+    expect(alert).toHaveTextContent("SiteMark didn't respond. Close this popup and try again.");
+  });
+
+  it('has no axe violations', async () => {
+    await stored(newer);
+    const { view } = await openPopup(PAGE, production);
+    await shown(() => screen.queryByText(READ_ONLY));
     expect(await axeViolations(view.container)).toEqual([]);
   });
 });
