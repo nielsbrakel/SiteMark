@@ -1,3 +1,4 @@
+import { announcement } from './announce';
 import { candidateNote, describeElement } from './candidate';
 
 /** The outline sits 2 px outside the element: its border and outline are 2 px each. */
@@ -12,9 +13,19 @@ export type PaneLabels = {
   readonly frameNote: string;
   /** Tooltip note on a web component: its host gets marked (REQ-PICK-008). */
   readonly componentNote: string;
+  /** The accessible name of the focused pane. */
+  readonly paneName: string;
+  /** "Click to select · ↑↓←→ navigate · Enter select · Esc cancel". */
+  readonly hint: string;
+  /** "120 by 36", for the live region (REQ-A11Y-011). */
+  readonly size: (width: number, height: number) => string;
 };
 
-export type HighlightParts = { readonly outline: HTMLElement; readonly tooltip: HTMLElement };
+export type HighlightParts = {
+  readonly outline: HTMLElement;
+  readonly tooltip: HTMLElement;
+  readonly live: HTMLElement;
+};
 
 function px(element: HTMLElement, property: string, value: number): void {
   element.style.setProperty(property, `${Math.round(value)}px`);
@@ -37,26 +48,36 @@ function placeTooltip(tooltip: HTMLElement, rect: DOMRect): void {
   px(tooltip, 'left', Math.max(EDGE, Math.min(rect.left, maxLeft)));
 }
 
-/** The tooltip text: the element's label, plus a note for frames and components (REQ-PICK-008). */
-function tooltipText(element: Element, labels: PaneLabels): string {
+/** The frame/component note (REQ-PICK-008), or `undefined`. */
+function noteText(element: Element, labels: PaneLabels): string | undefined {
   const note = candidateNote(element);
-  const label = describeElement(element);
-  if (note === undefined) return label;
-  return `${label} · ${note === 'frame' ? labels.frameNote : labels.componentNote}`;
+  if (note === undefined) return undefined;
+  return note === 'frame' ? labels.frameNote : labels.componentNote;
 }
 
-/** Draws the outline and tooltip on `element`, or hides both. Page text goes in as text only. */
+/**
+ * Draws the outline and tooltip on `element`, or hides both, and puts the candidate in the live
+ * region. Page text (ids, classes, labels) goes in as text only.
+ */
 export function drawHighlight(
   parts: HighlightParts,
   element: Element | null,
   labels: PaneLabels,
 ): void {
-  const { outline, tooltip } = parts;
+  const { outline, tooltip, live } = parts;
   outline.hidden = element === null;
   tooltip.hidden = element === null;
-  if (element === null) return;
+  if (element === null) {
+    live.textContent = '';
+    return;
+  }
   const rect = element.getBoundingClientRect();
+  const note = noteText(element, labels);
   placeOutline(outline, rect);
-  tooltip.textContent = tooltipText(element, labels);
+  tooltip.textContent = [describeElement(element), note].filter(Boolean).join(' · ');
   placeTooltip(tooltip, rect);
+  const size = labels.size(Math.round(rect.width), Math.round(rect.height));
+  const text = announcement(element, size, note);
+  // Scrolling redraws too: only a new candidate is announced again.
+  if (live.textContent !== text) live.textContent = text;
 }
