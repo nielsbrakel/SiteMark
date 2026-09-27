@@ -1185,5 +1185,131 @@
   "optionsExport": {
     "message": "Export",
     "description": "Data page: button that downloads the export file."
+  },
+  "optionsImportHeading": {
+    "message": "Import",
+    "description": "Data page: heading of the import section."
+  },
+  "optionsChooseFile": {
+    "message": "Choose an export file",
+    "description": "Data page: label of the file picker for an import."
+  },
+  "importUpdated_one": {
+    "message": "$COUNT$ site group updated",
+    "description": "Import preview: site groups in the file that replace local ones.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "importUpdated_other": {
+    "message": "$COUNT$ site groups updated",
+    "description": "Import preview: site groups in the file that replace local ones.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "importAdded_one": {
+    "message": "$COUNT$ new site group",
+    "description": "Import preview: site groups in the file that are new.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "importAdded_other": {
+    "message": "$COUNT$ new site groups",
+    "description": "Import preview: site groups in the file that are new.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "optionsImportSummary": {
+    "message": "$UPDATED$, $ADDED$",
+    "description": "Import preview: the updated and new counts together.",
+    "placeholders": {
+      "updated": {
+        "content": "$1",
+        "example": "1 site group updated"
+      },
+      "added": {
+        "content": "$2",
+        "example": "2 new site groups"
+      }
+    }
+  },
+  "importOrigins_one": {
+    "message": "$COUNT$ new site to allow",
+    "description": "Import preview: sites the browser will ask access to, in one prompt.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "importOrigins_other": {
+    "message": "$COUNT$ new sites to allow",
+    "description": "Import preview: sites the browser will ask access to, in one prompt.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "optionsImportRegexes": {
+    "message": "Regular expressions in this file. Check them before you import:",
+    "description": "Import preview: heading of the highlighted regex patterns."
+  },
+  "optionsImportMode": {
+    "message": "Import mode",
+    "description": "Import: label of the choice between Merge and Replace."
+  },
+  "importMerge": {
+    "message": "Merge",
+    "description": "Import mode: update and add site groups, keep settings."
+  },
+  "importReplace": {
+    "message": "Replace",
+    "description": "Import mode: replace all site groups and settings."
+  },
+  "optionsImportMergeHelp": {
+    "message": "Updates site groups with the same ID and adds the others. Your settings stay.",
+    "description": "Import: what Merge does."
+  },
+  "optionsImportReplaceHelp": {
+    "message": "Replaces all your site groups and settings with the file's.",
+    "description": "Import: what Replace does."
+  },
+  "optionsImport": {
+    "message": "Import",
+    "description": "Import: button that applies the file (asks for new sites in one prompt)."
+  },
+  "optionsReplaceTitle": {
+    "message": "Replace all site groups and settings?",
+    "description": "Title of the dialog that confirms an import with Replace."
+  },
+  "optionsReplaceBody": {
+    "message": "Your current site groups and settings are removed. This can't be undone.",
+    "description": "Body of the dialog that confirms an import with Replace."
+  },
+  "optionsReplace": {
+    "message": "Replace",
+    "description": "Dialog button that confirms an import with Replace."
+  },
+  "optionsImported": {
+    "message": "Imported.",
+    "description": "Import: shown after the file was applied."
   }
 }

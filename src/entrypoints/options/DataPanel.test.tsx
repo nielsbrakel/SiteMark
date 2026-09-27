@@ -1,11 +1,14 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
-import type { SiteMarkState } from '@/core/model/schema';
-import { aSiteGroup, aState } from '@/core/testing/builders';
+import { buildExport } from '@/core/data/export';
+import type { SiteGroup, SiteMarkState } from '@/core/model/schema';
+import { aRegexPattern, aSiteGroup, aState, aWildcardPattern } from '@/core/testing/builders';
+import type { OriginPattern } from '@/core/url/origin';
+import { fakes } from '../../../tests/fakes/install';
 import { axeViolations } from '../../../tests/unit/axe';
 import { atHash, optionsBackground } from '../../../tests/unit/options-background';
-import { byRole } from '../../../tests/unit/queries';
+import { byLabel, byRole, findRole } from '../../../tests/unit/queries';
 import { OptionsApp } from './App';
 
 const state = aState({ revision: 12, siteGroups: [aSiteGroup({ name: 'Production' })] });
@@ -79,5 +82,88 @@ describe('REQ-OPT-005 REQ-DATA-003 export', () => {
     const { container } = await openData();
     byRole('button', { name: 'Export' });
     expect(await axeViolations(container)).toEqual([]);
+  });
+});
+
+describe('REQ-OPT-005 REQ-DATA-004 REQ-DATA-005 import: preview, merge or replace, one prompt', () => {
+  const [local] = state.siteGroups;
+  const regex = aRegexPattern({
+    value: '^https://admin\\.example\\.com/',
+    origins: ['https://admin.example.com/*' as OriginPattern],
+  });
+  const staging = aSiteGroup({
+    name: 'Staging',
+    enabled: false,
+    patterns: [aWildcardPattern({ value: 'https://staging.example.com/*' }), regex],
+  });
+  const fileGroups = [{ ...(local as SiteGroup), name: 'Production (file)' }, staging];
+  const exportText = buildExport(aState({ siteGroups: fileGroups, settings: { theme: 'dark' } }), {
+    appVersion: '1.2.3',
+    now: 0,
+  }).json;
+
+  const fileInput = () => byLabel('Choose an export file');
+  const importSection = () => byRole('region', { name: 'Import' });
+  const groupNames = () =>
+    within(byRole('complementary', { name: 'Site groups' }))
+      .getAllByRole('link')
+      .map((link) => link.textContent);
+
+  function chooseFile(text: string) {
+    const file = new File([text], 'sitemark-export.json', { type: 'application/json' });
+    fireEvent.change(fileInput(), { target: { files: [file] } });
+  }
+
+  it('previews what the file changes before anything is imported', async () => {
+    const { background } = await openData();
+    chooseFile(exportText);
+    await waitFor(() =>
+      expect(importSection()).toHaveTextContent('1 site group updated, 1 new site group'),
+    );
+    expect(importSection()).toHaveTextContent('2 new sites to allow');
+    expect(importSection()).toHaveTextContent('^https://admin\\.example\\.com/');
+    expect(background.imports).toEqual([]);
+    expect(background.state()).toEqual(state);
+  });
+
+  it('merges after one prompt for all new origins, asked first (D-229)', async () => {
+    const { background } = await openData();
+    chooseFile(exportText);
+    const apply = await findRole('button', { name: 'Import' }, importSection());
+    fireEvent.click(apply);
+    expect(fakes().permissions.requests).toEqual([
+      ['https://admin.example.com/*', 'https://staging.example.com/*'],
+    ]);
+    await waitFor(() => expect(groupNames()).toEqual(['Production (file)', 'Staging']));
+    expect(background.imports).toEqual(['merge']);
+    expect(background.state().settings.theme).toBe('system');
+    expect(importSection()).toHaveTextContent('Imported.');
+  });
+
+  it('asks before Replace, then replaces site groups and settings', async () => {
+    const { background } = await openData(
+      aState({ siteGroups: [aSiteGroup({ name: 'Local only' })] }),
+    );
+    chooseFile(exportText);
+    const mode = await findRole('radiogroup', { name: 'Import mode' }, importSection());
+    fireEvent.click(byRole('radio', { name: 'Replace' }, mode));
+    fireEvent.click(byRole('button', { name: 'Import' }, importSection()));
+    const dialog = byRole('dialog', { name: 'Replace all site groups and settings?' });
+    expect(background.imports).toEqual([]);
+    fireEvent.click(byRole('button', { name: 'Replace' }, dialog));
+    await waitFor(() => expect(groupNames()).toEqual(['Production (file)', 'Staging']));
+    expect(background.imports).toEqual(['replace']);
+    expect(background.state().settings.theme).toBe('dark');
+  });
+
+  it.each([
+    ['{', 'This file is not valid JSON.'],
+    ['{"format":"something-else"}', 'This file is not a valid SiteMark export.'],
+  ])('explains why %j cannot be imported and changes nothing', async (text, reason) => {
+    const { background } = await openData();
+    chooseFile(text);
+    expect(await findRole('alert', {}, importSection())).toHaveTextContent(reason);
+    expect(within(importSection()).queryByRole('button', { name: 'Import' })).toBeNull();
+    expect(background.imports).toEqual([]);
   });
 });

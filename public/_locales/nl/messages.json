@@ -1185,5 +1185,131 @@
   "optionsExport": {
     "message": "Exporteren",
     "description": "Data page: button that downloads the export file."
+  },
+  "optionsImportHeading": {
+    "message": "Importeren",
+    "description": "Data page: heading of the import section."
+  },
+  "optionsChooseFile": {
+    "message": "Kies een exportbestand",
+    "description": "Data page: label of the file picker for an import."
+  },
+  "importUpdated_one": {
+    "message": "$COUNT$ sitegroep bijgewerkt",
+    "description": "Import preview: site groups in the file that replace local ones.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "importUpdated_other": {
+    "message": "$COUNT$ sitegroepen bijgewerkt",
+    "description": "Import preview: site groups in the file that replace local ones.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "importAdded_one": {
+    "message": "$COUNT$ nieuwe sitegroep",
+    "description": "Import preview: site groups in the file that are new.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "importAdded_other": {
+    "message": "$COUNT$ nieuwe sitegroepen",
+    "description": "Import preview: site groups in the file that are new.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "optionsImportSummary": {
+    "message": "$UPDATED$, $ADDED$",
+    "description": "Import preview: the updated and new counts together.",
+    "placeholders": {
+      "updated": {
+        "content": "$1",
+        "example": "1 site group updated"
+      },
+      "added": {
+        "content": "$2",
+        "example": "2 new site groups"
+      }
+    }
+  },
+  "importOrigins_one": {
+    "message": "$COUNT$ nieuwe site om toe te staan",
+    "description": "Import preview: sites the browser will ask access to, in one prompt.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "importOrigins_other": {
+    "message": "$COUNT$ nieuwe sites om toe te staan",
+    "description": "Import preview: sites the browser will ask access to, in one prompt.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "optionsImportRegexes": {
+    "message": "Reguliere expressies in dit bestand. Controleer ze voordat je importeert:",
+    "description": "Import preview: heading of the highlighted regex patterns."
+  },
+  "optionsImportMode": {
+    "message": "Manier van importeren",
+    "description": "Import: label of the choice between Merge and Replace."
+  },
+  "importMerge": {
+    "message": "Samenvoegen",
+    "description": "Import mode: update and add site groups, keep settings."
+  },
+  "importReplace": {
+    "message": "Vervangen",
+    "description": "Import mode: replace all site groups and settings."
+  },
+  "optionsImportMergeHelp": {
+    "message": "Werkt sitegroepen met hetzelfde ID bij en voegt de andere toe. Je instellingen blijven.",
+    "description": "Import: what Merge does."
+  },
+  "optionsImportReplaceHelp": {
+    "message": "Vervangt al je sitegroepen en instellingen door die uit het bestand.",
+    "description": "Import: what Replace does."
+  },
+  "optionsImport": {
+    "message": "Importeren",
+    "description": "Import: button that applies the file (asks for new sites in one prompt)."
+  },
+  "optionsReplaceTitle": {
+    "message": "Alle sitegroepen en instellingen vervangen?",
+    "description": "Title of the dialog that confirms an import with Replace."
+  },
+  "optionsReplaceBody": {
+    "message": "Je huidige sitegroepen en instellingen worden verwijderd. Dit kan niet ongedaan worden gemaakt.",
+    "description": "Body of the dialog that confirms an import with Replace."
+  },
+  "optionsReplace": {
+    "message": "Vervangen",
+    "description": "Dialog button that confirms an import with Replace."
+  },
+  "optionsImported": {
+    "message": "Geïmporteerd.",
+    "description": "Import: shown after the file was applied."
   }
 }
