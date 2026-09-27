@@ -1401,5 +1401,25 @@
   "optionsDownloadCopy": {
     "message": "Een kopie downloaden",
     "description": "Read-only banner: downloads the stored data as it is."
+  },
+  "optionsDiagnostics": {
+    "message": "Diagnose",
+    "description": "Settings: heading of the diagnostics section."
+  },
+  "optionsDiagnosticsHelp": {
+    "message": "Kopieert technische details voor een foutmelding: versies, toegang tot sites en aantallen. Geen paginaadressen, namen of selectors.",
+    "description": "Settings: what Copy diagnostics copies."
+  },
+  "optionsCopyDiagnostics": {
+    "message": "Diagnose kopiëren",
+    "description": "Settings: button that copies the diagnostics to the clipboard."
+  },
+  "optionsDiagnosticsCopied": {
+    "message": "Diagnose gekopieerd naar het klembord.",
+    "description": "Settings: the diagnostics were copied."
+  },
+  "optionsCopyFailed": {
+    "message": "SiteMark kon niet naar het klembord kopiëren.",
+    "description": "Settings: copying the diagnostics failed."
   }
 }

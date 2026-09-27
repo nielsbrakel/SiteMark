@@ -1401,5 +1401,25 @@
   "optionsDownloadCopy": {
     "message": "Download a copy",
     "description": "Read-only banner: downloads the stored data as it is."
+  },
+  "optionsDiagnostics": {
+    "message": "Diagnostics",
+    "description": "Settings: heading of the diagnostics section."
+  },
+  "optionsDiagnosticsHelp": {
+    "message": "Copies technical details for a bug report: versions, site access and counts. No page addresses, names or selectors.",
+    "description": "Settings: what Copy diagnostics copies."
+  },
+  "optionsCopyDiagnostics": {
+    "message": "Copy diagnostics",
+    "description": "Settings: button that copies the diagnostics to the clipboard."
+  },
+  "optionsDiagnosticsCopied": {
+    "message": "Diagnostics copied to the clipboard.",
+    "description": "Settings: the diagnostics were copied."
+  },
+  "optionsCopyFailed": {
+    "message": "SiteMark couldn't copy to the clipboard.",
+    "description": "Settings: copying the diagnostics failed."
   }
 }

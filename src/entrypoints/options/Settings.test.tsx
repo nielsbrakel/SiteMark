@@ -2,8 +2,15 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/rea
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
 import type { Theme } from '@/core/model/schema';
-import { aState } from '@/core/testing/builders';
+import {
+  anElementMark,
+  aPageMark,
+  aSiteGroup,
+  aState,
+  aWildcardPattern,
+} from '@/core/testing/builders';
 import { createFakeCommands } from '../../../tests/fakes/commands';
+import { fakes } from '../../../tests/fakes/install';
 import { axeViolations } from '../../../tests/unit/axe';
 import { atHash, optionsBackground } from '../../../tests/unit/options-background';
 import { byRole, findRole } from '../../../tests/unit/queries';
@@ -85,5 +92,60 @@ describe('REQ-OPT-004 help about the title prefix and browser history', () => {
     const { container } = await openSettings();
     byRole('radiogroup', { name: 'Theme' });
     expect(await axeViolations(container)).toEqual([]);
+  });
+});
+
+describe('REQ-OPT-007 copy diagnostics to the local clipboard', () => {
+  const groups = [
+    aSiteGroup({
+      name: 'Secret intranet',
+      patterns: [aWildcardPattern({ value: 'https://prod.example.com/admin/*' })],
+      marks: [aPageMark(), anElementMark({ target: { kind: 'element', selector: '#secret' } })],
+    }),
+    aSiteGroup({
+      name: 'Test',
+      enabled: false,
+      patterns: [aWildcardPattern({ value: 'https://test.example.com/*' })],
+      marks: [],
+    }),
+  ];
+
+  function stubClipboard() {
+    const writeText = vi.fn(async (_text: string) => undefined);
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
+    return writeText;
+  }
+
+  async function openWithGroups() {
+    optionsBackground(aState({ siteGroups: groups }));
+    atHash('#/settings');
+    render(<OptionsApp />);
+    await screen.findByRole('main');
+  }
+
+  it('copies the version, browser, grants and marks, without names, paths or selectors', async () => {
+    vi.spyOn(fakeBrowser.runtime, 'getManifest').mockReturnValue({
+      manifest_version: 3,
+      name: 'SiteMark',
+      version: '1.2.3',
+    });
+    fakes().permissions.grant('https://prod.example.com/*');
+    const writeText = stubClipboard();
+    await openWithGroups();
+    fireEvent.click(byRole('button', { name: 'Copy diagnostics' }));
+    await waitFor(() => expect(writeText).toHaveBeenCalledOnce());
+    const text = writeText.mock.calls[0]?.[0] ?? '';
+    expect(text).toContain('SiteMark 1.2.3');
+    expect(text).toContain(`Browser: ${navigator.userAgent}`);
+    expect(text).toContain('Site groups: 2 (1 on)');
+    expect(text).toContain('Marks: 2 (1 page, 1 element)');
+    expect(text).toContain('https://prod.example.com/* granted');
+    expect(text).toContain('https://test.example.com/* not granted');
+    expect(text).not.toContain('Secret intranet');
+    expect(text).not.toContain('/admin/');
+    expect(text).not.toContain('#secret');
+    expect(await findRole('status', {}, byRole('main'))).toHaveTextContent(
+      'Diagnostics copied to the clipboard.',
+    );
   });
 });
