@@ -1351,5 +1351,29 @@
   "optionsResetDone": {
     "message": "SiteMark is gewist.",
     "description": "Data page: shown after the reset."
+  },
+  "optionsUnusedOrigins_one": {
+    "message": "SiteMark heeft nog toegang tot $COUNT$ site die geen sitegroep gebruikt.",
+    "description": "Toast after a pattern or site group was removed: granted sites nothing needs any more.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
+  },
+  "optionsUnusedOrigins_other": {
+    "message": "SiteMark heeft nog toegang tot $COUNT$ sites die geen sitegroep gebruikt.",
+    "description": "Toast after a pattern or site group was removed: granted sites nothing needs any more.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "optionsRemoveAccess": {
+    "message": "Toegang intrekken",
+    "description": "Toast action that revokes SiteMark's access to the unused sites."
   }
 }
