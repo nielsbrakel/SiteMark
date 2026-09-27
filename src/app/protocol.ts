@@ -11,6 +11,7 @@ import type { Result } from '../core/result';
 import type { OriginPattern } from '../core/url/origin';
 import type { Committed } from './command-queue';
 import type { InjectionError } from './ports';
+import type { PickerContext } from './use-cases/picker-context';
 
 // The message protocol between SiteMark's contexts (plan §4, REQ-SEC-001, REQ-SEC-003). Types and one
 // tiny builder, so content scripts can import it without pulling in anything: the background's
@@ -90,6 +91,8 @@ export type ContentProtocol = {
   /** The plan for the sender's own URL, and nothing else (REQ-SEC-002). */
   renderPlanFor: Message<undefined, RenderPlan>;
   reportStatus: Message<TabStatus, void>;
+  /** The picker panel's choices for the sender's own URL (REQ-PICK-005). */
+  pickerContext: Message<undefined, PickerContext>;
   savePick: Message<SavePick, Result<MarkId, ErrorCode>>;
   /** Opens grant.html for the sender's origin (D-229). */
   requestGrant: Message<undefined, void>;

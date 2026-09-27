@@ -33,6 +33,7 @@ export const validPayloads: Samples = {
   importApply: { text: '{"schemaVersion":1}', mode: 'merge' },
   renderPlanFor: undefined,
   reportStatus: status,
+  pickerContext: undefined,
   savePick: {
     selector: '#app > .header',
     siteGroupId: 'group0000001' as SiteGroupId,
@@ -57,6 +58,7 @@ export const pageTypes: readonly PageMessageType[] = [
 export const contentTypes: readonly ContentMessageType[] = [
   'renderPlanFor',
   'reportStatus',
+  'pickerContext',
   'savePick',
   'requestGrant',
   'openOptions',

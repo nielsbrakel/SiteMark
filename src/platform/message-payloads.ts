@@ -82,6 +82,7 @@ const pageParsers: Parsers<PageMessageType> = {
 const contentParsers: Parsers<ContentMessageType> = {
   renderPlanFor: noPayload,
   reportStatus: parseTabStatus,
+  pickerContext: noPayload,
   savePick: parser(savePick),
   requestGrant: noPayload,
   openOptions: parser(z.strictObject({ route: z.string().max(MAX_ROUTE) })),

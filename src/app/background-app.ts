@@ -16,6 +16,7 @@ import { type GrantDeps, watchPermissions } from './use-cases/grant';
 import { applyImportFile, type ImportDataDeps, previewImportFile } from './use-cases/import-data';
 import { type CommandName, runKeyboardCommand } from './use-cases/keyboard-command';
 import { markThisSite } from './use-cases/mark-this-site';
+import { pickerContext } from './use-cases/picker-context';
 import { pushPlans, renderPlanFor } from './use-cases/render-plan';
 import { reportStatus, showReadOnlyBadges } from './use-cases/report-status';
 import { savePick } from './use-cases/save-pick';
@@ -112,6 +113,7 @@ function contentHandlers({ ports, queue }: Wired): ContentHandlers {
   return {
     renderPlanFor: (_, sender) => renderPlanFor(stateRepo, sender.url),
     reportStatus: (status, sender) => reportStatus({ badge, stateRepo }, sender.tabId, status),
+    pickerContext: (_, sender) => pickerContext(stateRepo, sender.url),
     savePick: (pick, sender) => savePick({ queue, idGen }, pick, sender),
     requestGrant: async (_, sender) => {
       const origin = senderOrigin(sender);
