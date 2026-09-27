@@ -52,3 +52,9 @@
   font-family: var(--sm-font-mono);
   font-size: var(--sm-text-sm);
 }
+
+.regexes {
+  margin: var(--sm-space-2) 0 0;
+  padding-inline-start: var(--sm-space-5);
+  overflow-wrap: anywhere;
+}
