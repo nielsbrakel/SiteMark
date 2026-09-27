@@ -4,12 +4,12 @@ import type { SiteGroup, SiteMarkState } from '@/core/model/schema';
 import type { OptionsRoute } from '@/core/options-route';
 import { t } from '@/lib/i18n/browser-source';
 import { Toast } from '@/ui/components/Toast';
+import { DataPane } from './DataPane';
 import { GroupEditor } from './GroupEditor';
 import styles from './Layout.module.css';
 import type { Notify, OptionsToast } from './notify';
 import { PageNav } from './PageNav';
 import paneStyles from './Pane.module.css';
-import { PlaceholderPane } from './PlaceholderPane';
 import { selectedGroup } from './routes';
 import { SaveStatusText } from './SaveStatusText';
 import { SettingsPane } from './SettingsPane';
@@ -51,7 +51,7 @@ function Pane(props: PaneProps): ReactNode {
     case 'settings':
       return <SettingsPane theme={props.state.settings.theme} notify={props.notify} />;
     case 'data':
-      return <PlaceholderPane title={t('optionsData')} />;
+      return <DataPane state={props.state} />;
     case 'welcome':
       return <WelcomePane />;
     default:
