@@ -68,7 +68,7 @@ export const extensionUrl = (path: string): string => `${fakeBrowser.runtime.get
 type SenderFields = {
   id?: string | undefined;
   url?: string | undefined;
-  tab?: { id?: number | undefined } | undefined;
+  tab?: { id?: number | undefined; url?: string | undefined } | undefined;
   frameId?: number | undefined;
 };
 

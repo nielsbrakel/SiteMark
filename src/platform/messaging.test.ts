@@ -110,6 +110,35 @@ describe('REQ-SEC-003 the background answers every protocol message with its han
   });
 });
 
+describe('REQ-RND-004 content handlers get the tab’s current URL after SPA navigation', () => {
+  const stale = 'https://prod.example.com:8443/app';
+  const content = (tabUrl: string | undefined) =>
+    sender({ id: fakeBrowser.runtime.id, url: stale, tab: { id: 7, url: tabUrl }, frameId: 0 });
+
+  it('uses the tab URL of the same origin (sender.url keeps the URL the page loaded with)', async () => {
+    const { spies } = listen();
+    await deliver({ type: 'renderPlanFor' }, content('https://prod.example.com:8443/orders'));
+    expect(spies.renderPlanFor).toHaveBeenCalledWith(undefined, {
+      tabId: 7,
+      url: 'https://prod.example.com:8443/orders',
+      origin: 'https://prod.example.com:8443',
+    });
+  });
+
+  it.each([
+    ['of another origin', 'https://evil.example/'],
+    ['that is unknown', undefined],
+  ])('keeps the sender URL when the tab URL is %s', async (_name, tabUrl) => {
+    const { spies } = listen();
+    await deliver({ type: 'renderPlanFor' }, content(tabUrl));
+    expect(spies.renderPlanFor).toHaveBeenCalledWith(undefined, {
+      tabId: 7,
+      url: stale,
+      origin: 'https://prod.example.com:8443',
+    });
+  });
+});
+
 describe('REQ-SEC-003 the background refuses messages from the wrong sender', () => {
   const other = { id: 'another-extension' };
   it.each([
