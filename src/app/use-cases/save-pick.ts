@@ -1,13 +1,13 @@
 import { appendSiteGroup } from '../../core/commands/groups';
 import { addMark, updateMark } from '../../core/commands/marks';
 import type { ErrorCode } from '../../core/errors';
-import type { IdGen, MarkId } from '../../core/ids';
+import type { IdGen, MarkId, SiteGroupId } from '../../core/ids';
 import type { SiteOrigin } from '../../core/model/defaults';
 import type { ElementMark, SiteGroup, SiteMarkState } from '../../core/model/schema';
 import { err, ok, type Result } from '../../core/result';
 import { activeGroups } from '../../core/url/group-match';
 import type { CommandQueue } from '../command-queue';
-import type { ContentSender, SavePick } from '../protocol';
+import type { ContentSender, SavedPick, SavePick } from '../protocol';
 import { pickedMark, pickSiteGroup, repickedMark } from './pick-mark';
 
 // The picker's save intent (REQ-PICK-005, REQ-SEC-001). The picker runs in an untrusted page, so
@@ -22,6 +22,9 @@ export type SavePickDeps = {
 
 type Change = Result<SiteMarkState, ErrorCode>;
 
+/** Where the pick went; set by the queue transform. */
+type Target = { groupId?: SiteGroupId };
+
 /** `https://host:8443` → host and port ('' for the default port). */
 function originOf(sender: ContentSender): SiteOrigin {
   const { hostname, port } = new URL(sender.origin);
@@ -33,11 +36,18 @@ function isElementMark(mark: { readonly target: { readonly kind: string } }): ma
 }
 
 /** Re-pick (REQ-PICK-007): only an element mark of a group active on the sender's URL. */
-function repick(state: SiteMarkState, pick: SavePick, url: string, markId: MarkId): Change {
+function repick(
+  state: SiteMarkState,
+  pick: SavePick,
+  url: string,
+  markId: MarkId,
+  target: Target,
+): Change {
   for (const group of activeGroups(state, url)) {
     const mark = group.marks.find((candidate) => candidate.id === markId);
     if (mark && isElementMark(mark)) {
       const draft = repickedMark(mark, pick.selector);
+      target.groupId = group.id;
       return updateMark(state, { type: 'updateMark', groupId: group.id, markId, mark: draft });
     }
   }
@@ -54,32 +64,38 @@ function addPick(
   sender: ContentSender,
   deps: SavePickDeps,
   markId: MarkId,
+  target: Target,
 ): Change {
   const origin = originOf(sender);
   const mark = pickedMark(pick, origin.hostname);
   const idGen = { ...deps.idGen, markId: () => markId };
   const existing = targetGroup(state, pick, sender.url);
-  if (existing) return addMark(state, { type: 'addMark', groupId: existing.id, mark }, { idGen });
+  if (existing) {
+    target.groupId = existing.id;
+    return addMark(state, { type: 'addMark', groupId: existing.id, mark }, { idGen });
+  }
   const group = pickSiteGroup(origin, deps.idGen);
+  target.groupId = group.id;
   const withGroup = appendSiteGroup(state, group);
   if (!withGroup.ok) return withGroup;
   return addMark(withGroup.value, { type: 'addMark', groupId: group.id, mark }, { idGen });
 }
 
-/** Saves a pick through the queue and returns the ID of the new (or re-picked) mark. */
+/** Saves a pick through the queue and returns the new (or re-picked) mark and its group. */
 export async function savePick(
   deps: SavePickDeps,
   pick: SavePick,
   sender: ContentSender,
-): Promise<Result<MarkId, ErrorCode>> {
+): Promise<Result<SavedPick, ErrorCode>> {
   const { repickMarkId } = pick;
   let markId = repickMarkId;
+  const target: Target = {};
   const committed = await deps.queue.run((state) => {
-    if (repickMarkId) return repick(state, pick, sender.url, repickMarkId);
+    if (repickMarkId) return repick(state, pick, sender.url, repickMarkId, target);
     markId = deps.idGen.markId();
-    return addPick(state, pick, sender, deps, markId);
+    return addPick(state, pick, sender, deps, markId, target);
   });
   if (!committed.ok) return committed;
-  // The transform ran, so the ID is set.
-  return ok(markId as MarkId);
+  // The transform ran and succeeded, so both are set.
+  return ok({ markId: markId as MarkId, siteGroupId: target.groupId as SiteGroupId });
 }

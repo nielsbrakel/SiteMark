@@ -1,4 +1,4 @@
-import type { SavePick } from '../../app/protocol';
+import type { SavedPick, SavePick } from '../../app/protocol';
 import type { PickerContext } from '../../app/use-cases/picker-context';
 import { sendToBackground } from '../../platform/send-message';
 import { createPanel } from './panel';
@@ -22,9 +22,19 @@ function countMatches(selector: string): number | undefined {
   }
 }
 
-async function save(pick: SavePick, session: PickerSession): Promise<void> {
+async function save(pick: SavePick, session: PickerSession): Promise<SavedPick | undefined> {
   const reply = await sendToBackground('savePick', pick);
-  if (reply.ok && reply.value.ok) session.dispatch({ type: 'save' });
+  if (!reply.ok || !reply.value.ok) return undefined;
+  session.dispatch({ type: 'save' });
+  return reply.value.value;
+}
+
+/** "More options…": save, then open the options page at the new mark (REQ-PICK-005). */
+async function saveAndOpen(pick: SavePick, session: PickerSession): Promise<void> {
+  const saved = await save(pick, session);
+  if (!saved) return;
+  const route = `/groups/${saved.siteGroupId}/marks/${saved.markId}`;
+  await sendToBackground('openOptions', { route });
 }
 
 /** Opens the mini panel for `element` in the picker's container. */
@@ -44,6 +54,6 @@ export async function openPanel(
     countMatches,
     onSave: (pick) => void save(pick, session),
     onCancel: () => session.dispatch({ type: 'cancel' }),
-    onMoreOptions: (pick) => void save(pick, session),
+    onMoreOptions: (pick) => void saveAndOpen(pick, session),
   });
 }

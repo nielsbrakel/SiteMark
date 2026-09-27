@@ -11,7 +11,7 @@ import {
 } from '../../tests/contracts/message-samples';
 import type { BackgroundHandlers } from '../app/protocol';
 import { createInMemoryLogger } from '../app/testing/in-memory-logger';
-import type { MarkId } from '../core/ids';
+import type { MarkId, SiteGroupId } from '../core/ids';
 import { emptyState } from '../core/model/defaults';
 import { emptyPlan } from '../core/render/render-plan';
 import { err, ok } from '../core/result';
@@ -30,7 +30,7 @@ const responses = {
   renderPlanFor: emptyPlan(),
   reportStatus: undefined,
   pickerContext: { groups: [], theme: 'system' as const },
-  savePick: ok('mark00000009' as MarkId),
+  savePick: ok({ markId: 'mark00000009' as MarkId, siteGroupId: 'group0000001' as SiteGroupId }),
   requestGrant: undefined,
   openOptions: undefined,
 };

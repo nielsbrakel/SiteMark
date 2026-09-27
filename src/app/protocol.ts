@@ -40,6 +40,9 @@ export type SavePick = {
   readonly repickMarkId?: MarkId;
 };
 
+/** A saved pick: the mark and the site group it is in (the panel's "More options…" opens it). */
+export type SavedPick = { readonly markId: MarkId; readonly siteGroupId: SiteGroupId };
+
 /**
  * "Mark this site" from the popup (REQ-POP-006): the tab it was opened on and that tab's origin.
  * The background adds the group and shows it on the tab through activeTab, granted or not.
@@ -93,7 +96,7 @@ export type ContentProtocol = {
   reportStatus: Message<TabStatus, void>;
   /** The picker panel's choices for the sender's own URL (REQ-PICK-005). */
   pickerContext: Message<undefined, PickerContext>;
-  savePick: Message<SavePick, Result<MarkId, ErrorCode>>;
+  savePick: Message<SavePick, Result<SavedPick, ErrorCode>>;
   /** Opens grant.html for the sender's origin (D-229). */
   requestGrant: Message<undefined, void>;
   openOptions: Message<{ readonly route: string }, void>;
