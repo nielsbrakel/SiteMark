@@ -70,3 +70,15 @@
 .notGranted {
   color: var(--sm-warning);
 }
+
+.tester {
+  display: grid;
+  gap: var(--sm-space-2);
+}
+
+.result {
+  margin: 0;
+  min-height: 1lh;
+  font-size: var(--sm-text-sm);
+  overflow-wrap: anywhere;
+}
