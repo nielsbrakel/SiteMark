@@ -1311,5 +1311,45 @@
   "optionsImported": {
     "message": "Imported.",
     "description": "Import: shown after the file was applied."
+  },
+  "optionsResetHeading": {
+    "message": "Reset everything",
+    "description": "Data page: heading of the reset section."
+  },
+  "optionsResetHelp": {
+    "message": "Deletes all site groups, marks and settings, and stops SiteMark on every site.",
+    "description": "Data page: what Reset everything does."
+  },
+  "optionsResetRevoke": {
+    "message": "Also remove SiteMark's access to all sites",
+    "description": "Data page: checkbox to revoke every granted site during the reset."
+  },
+  "optionsReset": {
+    "message": "Reset everything",
+    "description": "Data page: button that starts (and in the second dialog confirms) the reset."
+  },
+  "optionsResetTitle": {
+    "message": "Reset everything?",
+    "description": "First reset dialog: title."
+  },
+  "optionsResetBody": {
+    "message": "All site groups, marks and settings will be deleted.",
+    "description": "First reset dialog: body."
+  },
+  "optionsContinue": {
+    "message": "Continue",
+    "description": "First reset dialog: button that goes on to the second confirmation."
+  },
+  "optionsResetConfirmTitle": {
+    "message": "Are you sure?",
+    "description": "Second reset dialog: title."
+  },
+  "optionsResetConfirmBody": {
+    "message": "This can't be undone. Export your data first if you may need it again.",
+    "description": "Second reset dialog: body."
+  },
+  "optionsResetDone": {
+    "message": "SiteMark was reset.",
+    "description": "Data page: shown after the reset."
   }
 }

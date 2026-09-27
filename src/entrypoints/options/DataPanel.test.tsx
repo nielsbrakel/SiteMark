@@ -167,3 +167,61 @@ describe('REQ-OPT-005 REQ-DATA-004 REQ-DATA-005 import: preview, merge or replac
     expect(background.imports).toEqual([]);
   });
 });
+
+describe('REQ-OPT-005 reset everything, after a double confirmation', () => {
+  const resetSection = () => byRole('region', { name: 'Reset everything' });
+  const openDialog = () =>
+    fireEvent.click(byRole('button', { name: 'Reset everything' }, resetSection()));
+  const dialog = () => byRole('dialog');
+  const revokeBox = () =>
+    byRole('checkbox', { name: "Also remove SiteMark's access to all sites" });
+
+  async function confirmTwice() {
+    openDialog();
+    expect(dialog()).toHaveAccessibleName('Reset everything?');
+    fireEvent.click(byRole('button', { name: 'Continue' }, dialog()));
+    await waitFor(() => expect(dialog()).toHaveAccessibleName('Are you sure?'));
+    fireEvent.click(byRole('button', { name: 'Reset everything' }, dialog()));
+  }
+
+  it('deletes every site group and setting once confirmed twice', async () => {
+    const { background } = await openData();
+    await confirmTwice();
+    await waitFor(() => expect(background.commands).toEqual([{ type: 'resetAll' }]));
+    await waitFor(() =>
+      expect(
+        within(byRole('complementary', { name: 'Site groups' })).queryAllByRole('link'),
+      ).toEqual([]),
+    );
+    expect(resetSection()).toHaveTextContent('SiteMark was reset.');
+  });
+
+  it.each([
+    ['the first', 0],
+    ['the second', 1],
+  ])('changes nothing when cancelled at %s step', async (_step, continues) => {
+    const { background } = await openData();
+    openDialog();
+    if (continues) fireEvent.click(byRole('button', { name: 'Continue' }, dialog()));
+    fireEvent.click(byRole('button', { name: 'Cancel' }, dialog()));
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    expect(background.commands).toEqual([]);
+  });
+
+  it('can also remove the access to every site', async () => {
+    fakes().permissions.grant('https://prod.example.com/*', '*://intranet/*');
+    await openData();
+    fireEvent.click(revokeBox());
+    await confirmTwice();
+    await waitFor(() => expect(fakes().permissions.granted).toEqual([]));
+  });
+
+  it('keeps the access to sites by default', async () => {
+    fakes().permissions.grant('https://prod.example.com/*');
+    const { background } = await openData();
+    expect(revokeBox()).not.toBeChecked();
+    await confirmTwice();
+    await waitFor(() => expect(background.commands).toEqual([{ type: 'resetAll' }]));
+    expect(fakes().permissions.granted).toEqual(['https://prod.example.com/*']);
+  });
+});
