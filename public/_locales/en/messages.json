@@ -1169,5 +1169,21 @@
   "optionsTitleHistoryHelp": {
     "message": "Browsers keep page titles in their history, so a title prefix shows up there too. Turn it on only where that's fine.",
     "description": "Settings: why the title prefix effect is opt-in."
+  },
+  "optionsExportHeading": {
+    "message": "Export",
+    "description": "Data page: heading of the export section."
+  },
+  "optionsExportHelp": {
+    "message": "Download your site groups and settings as a file, for a backup or another browser.",
+    "description": "Data page: what Export does."
+  },
+  "optionsExportWarning": {
+    "message": "Exports contain internal host names. Share the file only with people who may see them.",
+    "description": "Data page: one-line warning about what an export contains."
+  },
+  "optionsExport": {
+    "message": "Export",
+    "description": "Data page: button that downloads the export file."
   }
 }

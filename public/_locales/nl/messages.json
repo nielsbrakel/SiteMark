@@ -1169,5 +1169,21 @@
   "optionsTitleHistoryHelp": {
     "message": "Browsers bewaren paginatitels in hun geschiedenis, dus een titelvoorvoegsel staat daar ook. Zet het alleen aan waar dat geen probleem is.",
     "description": "Settings: why the title prefix effect is opt-in."
+  },
+  "optionsExportHeading": {
+    "message": "Exporteren",
+    "description": "Data page: heading of the export section."
+  },
+  "optionsExportHelp": {
+    "message": "Download je sitegroepen en instellingen als bestand, als back-up of voor een andere browser.",
+    "description": "Data page: what Export does."
+  },
+  "optionsExportWarning": {
+    "message": "Exports bevatten interne hostnamen. Deel het bestand alleen met mensen die ze mogen zien.",
+    "description": "Data page: one-line warning about what an export contains."
+  },
+  "optionsExport": {
+    "message": "Exporteren",
+    "description": "Data page: button that downloads the export file."
   }
 }
