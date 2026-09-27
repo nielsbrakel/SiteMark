@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { Command } from '@/core/commands/command';
 import { originsOfPattern } from '@/core/data/origins';
 import type { SiteGroup, UrlPattern } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
@@ -9,17 +10,26 @@ import { commandErrorText } from './command-error';
 import { GrantStatus } from './GrantStatus';
 import type { Notify } from './notify';
 import styles from './PatternEditor.module.css';
+import type { PatternListKind } from './pattern-lists';
 
 export type PatternListProps = {
   readonly group: SiteGroup;
+  readonly list: PatternListKind;
   /** The id of the heading that names the list. */
   readonly labelledBy: string;
   readonly notify: Notify;
 };
 
-async function remove(group: SiteGroup, pattern: UrlPattern, notify: Notify): Promise<void> {
-  const command = { type: 'removePattern', groupId: group.id, patternId: pattern.id } as const;
-  const result = await sendCommand(command);
+function removeCommand(list: PatternListKind, group: SiteGroup, pattern: UrlPattern): Command {
+  const target = { groupId: group.id, patternId: pattern.id };
+  return list === 'patterns'
+    ? { type: 'removePattern', ...target }
+    : { type: 'removeExclude', ...target };
+}
+
+async function remove(props: PatternListProps, pattern: UrlPattern): Promise<void> {
+  const { list, group, notify } = props;
+  const result = await sendCommand(removeCommand(list, group, pattern));
   if (!result.ok) return notify({ text: commandErrorText(result.error) });
   // REQ-GRP-002: the last pattern took the group's enabled state with it.
   if (result.value.notices.includes('siteGroupAutoDisabled')) {
@@ -27,11 +37,15 @@ async function remove(group: SiteGroup, pattern: UrlPattern, notify: Notify): Pr
   }
 }
 
-/** The site group's URL patterns (REQ-OPT-002), each with its regex origins and Remove. */
-export function PatternList({ group, labelledBy, notify }: PatternListProps): ReactNode {
+/**
+ * A site group's URL patterns or excludes (REQ-OPT-002, REQ-URL-008), each with its regex origins
+ * and Remove. URL patterns also show their grant (REQ-PRIV-002); excludes need none.
+ */
+export function PatternList(props: PatternListProps): ReactNode {
+  const { group, list, labelledBy } = props;
   return (
     <ul aria-labelledby={labelledBy} className={styles.list}>
-      {group.patterns.map((pattern) => (
+      {group[list].map((pattern) => (
         <li key={pattern.id} className={styles.item}>
           <span className={styles.value}>
             <code>{pattern.value}</code>
@@ -41,11 +55,11 @@ export function PatternList({ group, labelledBy, notify }: PatternListProps): Re
               </span>
             )}
           </span>
-          <GrantStatus origins={originsOfPattern(pattern)} />
+          {list === 'patterns' && <GrantStatus origins={originsOfPattern(pattern)} />}
           <IconButton
             label={t('optionsRemovePattern', pattern.value)}
             icon={<CloseIcon />}
-            onClick={() => void remove(group, pattern, notify)}
+            onClick={() => void remove(props, pattern)}
           />
         </li>
       ))}

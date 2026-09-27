@@ -1,5 +1,5 @@
 import { type ReactNode, useId, useState } from 'react';
-import type { UrlPattern } from '@/core/model/schema';
+import type { SiteGroup } from '@/core/model/schema';
 import { assertNever } from '@/core/result';
 import { t } from '@/lib/i18n/browser-source';
 import { Field } from '@/ui/components/Field';
@@ -15,6 +15,12 @@ function resultText(result: UrlTestResult): string {
       return t('optionsTestInvalid');
     case 'match':
       return t('optionsTestMatch', [String(result.number), result.pattern.value]);
+    case 'excluded':
+      return t('optionsTestExcluded', [
+        String(result.number),
+        String(result.excludeNumber),
+        result.exclude.value,
+      ]);
     case 'draft':
       return t('optionsTestDraftMatch');
     case 'none':
@@ -25,16 +31,16 @@ function resultText(result: UrlTestResult): string {
 }
 
 export type UrlTesterProps = {
-  readonly patterns: readonly UrlPattern[];
+  readonly group: SiteGroup;
   /** The pattern being typed in the Add form, checked too before it is added. */
   readonly draft: PatternInput;
 };
 
 /** Which pattern matches a typed URL, live while the patterns are edited (REQ-URL-007). */
-export function UrlTester({ patterns, draft }: UrlTesterProps): ReactNode {
+export function UrlTester({ group, draft }: UrlTesterProps): ReactNode {
   const [url, setUrl] = useState('');
   const resultId = useId();
-  const text = resultText(testUrl(url, patterns, draft));
+  const text = resultText(testUrl(url, group, draft));
   return (
     <div className={styles.tester}>
       <Field label={t('optionsTestUrl')}>

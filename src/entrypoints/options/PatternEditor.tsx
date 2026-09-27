@@ -1,14 +1,16 @@
-import { type ReactNode, useId } from 'react';
+import type { ReactNode } from 'react';
 import type { SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
-import { AddPatternForm } from './AddPatternForm';
 import type { Notify } from './notify';
-import styles from './PatternEditor.module.css';
-import { PatternList } from './PatternList';
+import { PatternSection } from './PatternSection';
 import { UrlTester } from './UrlTester';
 import { useAddPattern } from './use-add-pattern';
 
-/** The URL patterns of a site group: the list, the Add form and the URL tester (REQ-OPT-002). */
+/**
+ * A site group's URL patterns, the live URL tester and the excludes (REQ-OPT-002, REQ-URL-007,
+ * REQ-URL-008). Both lists are added to with an explicit Add; the tester reads the pattern being
+ * typed too.
+ */
 export function PatternEditor({
   group,
   notify,
@@ -16,14 +18,19 @@ export function PatternEditor({
   readonly group: SiteGroup;
   readonly notify: Notify;
 }): ReactNode {
-  const headingId = useId();
-  const form = useAddPattern(group.id);
+  const patterns = useAddPattern(group.id, 'patterns');
+  const excludes = useAddPattern(group.id, 'excludes');
   return (
-    <section className={styles.editor} aria-labelledby={headingId}>
-      <h3 id={headingId}>{t('optionsPatterns')}</h3>
-      <PatternList group={group} labelledBy={headingId} notify={notify} />
-      <AddPatternForm form={form} />
-      <UrlTester patterns={group.patterns} draft={form.input} />
-    </section>
+    <>
+      <PatternSection group={group} form={patterns} notify={notify}>
+        <UrlTester group={group} draft={patterns.input} />
+      </PatternSection>
+      <PatternSection
+        group={group}
+        form={excludes}
+        notify={notify}
+        intro={<p>{t('optionsExcludesHelp')}</p>}
+      />
+    </>
   );
 }

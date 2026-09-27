@@ -5,6 +5,7 @@ import { Field } from '@/ui/components/Field';
 import { Segmented } from '@/ui/components/Segmented';
 import styles from './PatternEditor.module.css';
 import type { PatternKind } from './pattern-draft';
+import { LIST_TEXT } from './pattern-lists';
 import type { AddPattern } from './use-add-pattern';
 
 const kinds = (): readonly { value: PatternKind; label: string }[] => [
@@ -12,20 +13,21 @@ const kinds = (): readonly { value: PatternKind; label: string }[] => [
   { value: 'regex', label: t('optionsPatternRegex') },
 ];
 
-/** Adds a wildcard or regex pattern with an explicit Add (REQ-OPT-002, REQ-OPT-006). */
+/** Adds a wildcard or regex pattern or exclude with an explicit Add (REQ-OPT-002, REQ-OPT-006). */
 export function AddPatternForm({ form }: { readonly form: AddPattern }): ReactNode {
   const { input, errors, change, submit } = form;
+  const text = LIST_TEXT[form.list];
   const isRegex = input.kind === 'regex';
   return (
     <form className={styles.form} onSubmit={submit}>
       <Segmented
-        label={t('optionsPatternType')}
+        label={t(text.type)}
         options={kinds()}
         value={input.kind}
         onChange={(kind) => change({ kind })}
       />
       <Field
-        label={t('optionsPatternInput')}
+        label={t(text.input)}
         description={t(isRegex ? 'optionsRegexHelp' : 'optionsPatternHelp')}
         {...(errors.pattern && { error: errors.pattern })}
       >
@@ -40,7 +42,7 @@ export function AddPatternForm({ form }: { readonly form: AddPattern }): ReactNo
       </Field>
       {isRegex && (
         <Field
-          label={t('optionsOrigins')}
+          label={t(text.origins)}
           description={t('optionsOriginsHelp')}
           {...(errors.origins && { error: errors.origins })}
         >
@@ -54,7 +56,7 @@ export function AddPatternForm({ form }: { readonly form: AddPattern }): ReactNo
           )}
         </Field>
       )}
-      <Button type="submit">{t('optionsAddPattern')}</Button>
+      <Button type="submit">{t(text.add)}</Button>
     </form>
   );
 }
