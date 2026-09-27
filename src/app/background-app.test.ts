@@ -134,7 +134,7 @@ describe('REQ-SEC-001 content intents act on the sender only', () => {
     const { app, ports } = setup();
     const pick = { selector: '#total', effects: ['outline'] as const, color: '#1f6feb' as Hex };
     const result = await app.handlers.savePick({ ...pick, siteGroupId: prod.id }, sender);
-    expect(result).toEqual({ ok: true, value: 'mark00000001' });
+    expect(result).toEqual({ ok: true, value: { markId: 'mark00000001', siteGroupId: prod.id } });
     const { state } = await ports.stateRepo.load();
     expect(state.siteGroups[0]?.marks).toHaveLength(1);
   });

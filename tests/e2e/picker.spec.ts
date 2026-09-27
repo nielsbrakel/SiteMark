@@ -85,3 +85,21 @@ test('Cancel and Esc end the pick without saving @REQ-PICK-005', async ({
   await expect(page.locator('sitemark-picker')).toHaveCount(0);
   expect(await storedGroups(context, extensionId)).toEqual([]);
 });
+
+test('More options… saves and opens the options page at the new mark @REQ-PICK-005', async ({
+  context,
+  page,
+  serviceWorker,
+}) => {
+  await page.goto(fixtureUrl('prod', 'picker.html'));
+  await startPicking(context, page, serviceWorker);
+  await pick(page, 'danger');
+  await expect(pickerPart(page, 'panel')).toBeVisible();
+  const options = context.waitForEvent('page', { timeout: 10_000 }).catch(() => undefined);
+  await pickerPart(page, 'panel').getByRole('button', { name: 'More options…' }).click();
+  await expect(page.locator('sitemark-picker')).toHaveCount(0);
+  const opened = await options;
+  await expect
+    .poll(() => opened?.url() ?? 'no tab')
+    .toMatch(/options\.html#\/groups\/[\w-]{12}\/marks\/[\w-]{12}$/);
+});

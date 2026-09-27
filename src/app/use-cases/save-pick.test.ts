@@ -41,10 +41,10 @@ const groupNamed = (state: SiteMarkState, name: string) =>
   state.siteGroups.find((group) => group.name === name);
 
 describe('REQ-PICK-005 a pick is saved to the chosen active site group', () => {
-  it('adds an element mark with the chosen color and effects, and returns its ID', async () => {
+  it('adds an element mark with the chosen color and effects, and returns its ID and group', async () => {
     const { deps, stored } = setup();
     const result = await savePick(deps, { ...pick, siteGroupId: shop.id }, sender);
-    expect(result).toEqual(ok('mark00000001'));
+    expect(result).toEqual(ok({ markId: 'mark00000001', siteGroupId: shop.id }));
     expect(groupNamed(await stored(), 'Shop')?.marks).toEqual([
       {
         id: 'mark00000001',
@@ -89,7 +89,9 @@ describe('REQ-PICK-005 a pick is saved to the chosen active site group', () => {
 describe('REQ-PICK-005 REQ-SEC-001 otherwise the pick gets a new site group for the sender origin', () => {
   it('adds an enabled group named after the host, for exactly this host and port', async () => {
     const { deps, stored } = setup();
-    expect(await savePick(deps, pick, sender)).toEqual(ok('mark00000001'));
+    expect(await savePick(deps, pick, sender)).toEqual(
+      ok({ markId: 'mark00000001', siteGroupId: 'group0000001' }),
+    );
     const state = await stored();
     expect(state.siteGroups.map((group) => group.name)).toEqual([
       'Shop',
@@ -156,7 +158,7 @@ describe('REQ-PICK-007 a re-pick replaces the selector of that mark', () => {
     const { deps, stored } = setup([withMarks]);
     const repick = { ...pick, color: '#000000' as Hex, effects: ['tint'] as const };
     const result = await savePick(deps, { ...repick, repickMarkId: lost.id }, sender);
-    expect(result).toEqual(ok(lost.id));
+    expect(result).toEqual(ok({ markId: lost.id, siteGroupId: shop.id }));
     const marks = (await stored()).siteGroups[0]?.marks;
     expect(marks).toEqual([
       banner,
