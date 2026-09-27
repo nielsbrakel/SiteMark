@@ -60,11 +60,22 @@ describe('REQ-POP-001 the popup works on the active tab of the current window', 
     });
   });
 
-  it('falls back to the active tab for an unusable ?tabId= in e2e builds', async () => {
+  it('honours a ten-digit ?tabId= in e2e builds (Chromium tab ids go up to 2^31 - 1)', async () => {
     vi.stubEnv('MODE', 'e2e');
-    const active = await openTab('https://app.example.com/', true);
-    expect(await settled('?tabId=abc')).toMatchObject({ tabId: active.id });
+    await openTab('https://app.example.com/', true);
+    const get = vi.spyOn(fakeBrowser.tabs, 'get');
+    await settled('?tabId=2055908947');
+    expect(get).toHaveBeenCalledWith(2055908947);
   });
+
+  it.each(['abc', '2147483648', '-1', '1e3'])(
+    'falls back to the active tab for the unusable ?tabId=%s in e2e builds',
+    async (tabId) => {
+      vi.stubEnv('MODE', 'e2e');
+      const active = await openTab('https://app.example.com/', true);
+      expect(await settled(`?tabId=${tabId}`)).toMatchObject({ tabId: active.id });
+    },
+  );
 
   it('reports no tab for an e2e ?tabId= that does not exist', async () => {
     vi.stubEnv('MODE', 'e2e');
