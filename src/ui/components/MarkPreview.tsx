@@ -1,0 +1,93 @@
+import { type ReactNode, type RefObject, useLayoutEffect, useRef } from 'react';
+import type { RenderItem, RenderPlan } from '../../core/render/render-plan';
+import { createView } from '../../shared/marker-view/create-view';
+import type { EffectView, ViewLabels } from '../../shared/marker-view/effect-view';
+import styles from './MarkPreview.module.css';
+import { paintColor } from './paint';
+import { previewContainer, rectIn } from './preview-shadow';
+
+export type MarkPreviewProps = {
+  /** What to draw: a render plan from `compose`, like a tab gets. */
+  readonly plan: RenderPlan;
+  /** The figure's accessible name, already translated. */
+  readonly label: string;
+  /** The mock page's title in the mock tab (a title prefix goes in front). */
+  readonly pageTitle: string;
+  /** The mock address bar's text. */
+  readonly address: string;
+  readonly labels: ViewLabels;
+};
+
+type Refs = {
+  readonly host: RefObject<HTMLDivElement | null>;
+  readonly target: RefObject<HTMLDivElement | null>;
+};
+
+/** Draws the plan's items with the shared marker views, redrawn when the plan changes. */
+function useMarkViews(plan: RenderPlan, { collapseBanner, expandBanner }: ViewLabels, refs: Refs) {
+  const collapsed = useRef(new Set<string>());
+  useLayoutEffect(() => {
+    const host = refs.host.current;
+    const target = refs.target.current;
+    if (!host || !target) return;
+    const labels = { collapseBanner, expandBanner };
+    const ctx = { container: previewContainer(host), collapsedBanners: collapsed.current, labels };
+    const views: EffectView[] = [];
+    for (const item of plan.items) {
+      const view = createView(item, ctx);
+      if (view && item.target !== 'page') view.setRect(rectIn(target, host));
+      if (view) views.push(view);
+    }
+    return () => {
+      for (const view of views) view.dispose();
+    };
+  }, [plan, collapseBanner, expandBanner, refs]);
+}
+
+type ItemOf<E extends RenderItem['effect']> = Extract<RenderItem, { effect: E }>;
+
+function itemOf<E extends RenderItem['effect']>(plan: RenderPlan, effect: E) {
+  return plan.items.find((item): item is ItemOf<E> => item.effect === effect);
+}
+
+/**
+ * A mock browser window marked like a real tab (REQ-MARK-013, D-254): the same `shared/marker-view`
+ * code draws the plan in a shadow root over a mock page, the title prefix shows in the mock tab
+ * and the favicon tint as a dot. Presentational: the caller composes the plan.
+ */
+export function MarkPreview({
+  plan,
+  label,
+  pageTitle,
+  address,
+  labels,
+}: MarkPreviewProps): ReactNode {
+  const refs = useRef<Refs>({ host: { current: null }, target: { current: null } }).current;
+  useMarkViews(plan, labels, refs);
+  const prefix = itemOf(plan, 'titlePrefix')?.params.text;
+  const favicon = itemOf(plan, 'favicon');
+  return (
+    <figure aria-label={label} className={styles.preview}>
+      <div className={styles.chrome}>
+        <span className={styles.tab}>
+          <span
+            className={styles.favicon}
+            data-tinted={favicon !== undefined}
+            ref={(dot) => paintColor(dot, '--sm-preview-favicon', favicon?.color ?? '')}
+          />
+          {prefix ? `${prefix} ${pageTitle}` : pageTitle}
+        </span>
+        <span className={styles.address}>{address}</span>
+      </div>
+      <div className={styles.viewport}>
+        <div className={styles.page} aria-hidden="true">
+          <span className={styles.line} />
+          <span className={styles.line} />
+          <div ref={refs.target} className={styles.target} />
+          <span className={styles.line} />
+        </div>
+        <div ref={refs.host} data-marker-host="" className={styles.host} />
+      </div>
+    </figure>
+  );
+}

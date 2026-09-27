@@ -1,19 +1,17 @@
-import { type ReactNode, useId, useState } from 'react';
+import { type ReactNode, useId, useMemo } from 'react';
 import type { Mark, MarkDraft, SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
-import { Segmented } from '@/ui/components/Segmented';
-import { sendCommand } from '@/ui/hooks/use-command';
+import { MarkPreview } from '@/ui/components/MarkPreview';
 import { ColorFields } from './ColorFields';
-import { commandErrorText } from './command-error';
 import { EffectsFieldset } from './EffectsFieldset';
 import styles from './MarkEditor.module.css';
-import { asElementMark, asPageMark, draftOf } from './mark-drafts';
+import { draftOf } from './mark-drafts';
+import { updateMark } from './mark-update';
 import type { Notify } from './notify';
+import { PREVIEW_ADDRESS, previewPlan } from './preview-plan';
 import { groupHref } from './routes';
-import { SelectorField } from './SelectorField';
+import { TargetFields } from './TargetFields';
 import { TextColorField } from './TextColorField';
-
-type TargetKind = Mark['target']['kind'];
 
 export type MarkEditorProps = {
   readonly group: SiteGroup;
@@ -21,48 +19,26 @@ export type MarkEditorProps = {
   readonly notify: Notify;
 };
 
-/** Sends updateMark; the refusal text, if any. */
-async function update(group: SiteGroup, mark: Mark, draft: MarkDraft): Promise<string | undefined> {
-  const command = { type: 'updateMark', groupId: group.id, markId: mark.id, mark: draft } as const;
-  const result = await sendCommand(command);
-  return result.ok ? undefined : commandErrorText(result.error);
-}
-
 /**
- * The mark editor (REQ-OPT-003): the target, and for an element its selector. A page mark becomes
- * an element mark only once it has a valid selector; an element mark becomes a page mark at once.
+ * The mark editor (REQ-OPT-003): target and selector, colors, the effects of the target, and a
+ * live preview (REQ-MARK-013). Every change is saved as an updateMark command.
  */
 export function MarkEditor({ group, mark, notify }: MarkEditorProps): ReactNode {
   const headingId = useId();
-  const [target, setTarget] = useState<TargetKind>(mark.target.kind);
-  const chooseTarget = async (kind: TargetKind) => {
-    setTarget(kind);
-    if (kind !== 'page' || mark.target.kind === 'page') return;
-    const refused = await update(group, mark, asPageMark(mark, group.name));
-    if (refused) notify({ text: refused });
-  };
-  const save = (change: Partial<Pick<MarkDraft, 'color' | 'textColor'>>) =>
-    update(group, mark, { ...draftOf(mark), ...change });
+  const plan = useMemo(() => previewPlan(group, mark), [group, mark]);
+  const save = (change: Partial<MarkDraft>) =>
+    updateMark(group, mark, { ...draftOf(mark), ...change } as MarkDraft);
   const saveEffects = async (effects: Mark['effects']) => {
-    const refused = await update(group, mark, { ...draftOf(mark), effects } as MarkDraft);
+    const refused = await save({ effects });
     if (refused) notify({ text: refused });
   };
-  const options = [
-    { value: 'page', label: t('optionsTargetPage') },
-    { value: 'element', label: t('optionsTargetElement') },
-  ] as const;
   return (
     <section className={styles.editor} aria-labelledby={headingId}>
       <div className={styles.header}>
         <h3 id={headingId}>{t('optionsEditMark')}</h3>
         <a href={groupHref(group.id)}>{t('optionsCloseMark')}</a>
       </div>
-      <Segmented
-        label={t('optionsTarget')}
-        options={options}
-        value={target}
-        onChange={(kind) => void chooseTarget(kind)}
-      />
+      <TargetFields group={group} mark={mark} notify={notify} />
       <ColorFields color={mark.color} onSave={(color) => save({ color })} />
       <TextColorField
         color={mark.color}
@@ -75,12 +51,16 @@ export function MarkEditor({ group, mark, notify }: MarkEditorProps): ReactNode 
         groupName={group.name}
         onSave={(effects) => void saveEffects(effects)}
       />
-      {target === 'element' && (
-        <SelectorField
-          selector={mark.target.kind === 'element' ? mark.target.selector : ''}
-          onSave={(selector) => update(group, mark, asElementMark(mark, selector))}
-        />
-      )}
+      <MarkPreview
+        plan={plan}
+        label={t('optionsPreview')}
+        pageTitle={t('previewPageTitle')}
+        address={PREVIEW_ADDRESS}
+        labels={{
+          collapseBanner: t('markerCollapseBanner'),
+          expandBanner: t('markerExpandBanner'),
+        }}
+      />
     </section>
   );
 }
