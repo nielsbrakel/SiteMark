@@ -2,6 +2,7 @@ import { type FormEvent, type ReactNode, useState } from 'react';
 import { t } from '@/lib/i18n/browser-source';
 import { Field } from '@/ui/components/Field';
 import { isValidSelector } from './selector';
+import { useDebounced } from './use-debounced';
 
 export type SelectorFieldProps = {
   /** The stored selector; empty for a page mark that is becoming an element mark. */
@@ -21,9 +22,10 @@ export function SelectorField({ selector, onSave }: SelectorFieldProps): ReactNo
     if (!isValidSelector(value)) return setError(t('optionsSelectorInvalid'));
     setError(value === selector ? undefined : await onSave(value));
   };
+  const autosave = useDebounced(() => void save());
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    void save();
+    autosave.flush();
   };
   return (
     <form onSubmit={submit}>
@@ -37,8 +39,11 @@ export function SelectorField({ selector, onSave }: SelectorFieldProps): ReactNo
             {...control}
             value={value}
             spellCheck={false}
-            onChange={(event) => setValue(event.target.value)}
-            onBlur={() => void save()}
+            onChange={(event) => {
+              setValue(event.target.value);
+              autosave.schedule();
+            }}
+            onBlur={autosave.flush}
           />
         )}
       </Field>

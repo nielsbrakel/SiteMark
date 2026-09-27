@@ -3,9 +3,9 @@ import type { SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
 import { Dialog } from '@/ui/components/Dialog';
-import { sendCommand } from '@/ui/hooks/use-command';
 import { commandErrorText } from './command-error';
 import { type Notify, UNDO_MS } from './notify';
+import { sendTracked } from './save-status';
 
 export type DeleteGroupButtonProps = {
   readonly group: SiteGroup;
@@ -15,12 +15,12 @@ export type DeleteGroupButtonProps = {
 };
 
 async function restore(group: SiteGroup, index: number, notify: Notify): Promise<void> {
-  const result = await sendCommand({ type: 'restoreSiteGroup', group, index });
+  const result = await sendTracked({ type: 'restoreSiteGroup', group, index });
   if (!result.ok) notify({ text: commandErrorText(result.error) });
 }
 
 async function remove({ group, index, notify }: DeleteGroupButtonProps): Promise<void> {
-  const result = await sendCommand({ type: 'deleteSiteGroup', id: group.id });
+  const result = await sendTracked({ type: 'deleteSiteGroup', id: group.id });
   if (!result.ok) return notify({ text: commandErrorText(result.error) });
   notify({
     text: t('optionsGroupDeleted', group.name),

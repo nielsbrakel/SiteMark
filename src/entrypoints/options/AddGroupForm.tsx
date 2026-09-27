@@ -2,9 +2,9 @@ import { type FormEvent, type ReactNode, useState } from 'react';
 import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
 import { Field } from '@/ui/components/Field';
-import { sendCommand } from '@/ui/hooks/use-command';
 import { commandErrorText } from './command-error';
 import styles from './GroupList.module.css';
+import { sendTracked } from './save-status';
 
 export type AddGroupFormProps = {
   /** Called with the revision that added the group, so the page can open it. */
@@ -17,7 +17,7 @@ export function AddGroupForm({ onAdded }: AddGroupFormProps): ReactNode {
   const [error, setError] = useState<string>();
   const add = async (event: FormEvent) => {
     event.preventDefault();
-    const result = await sendCommand({ type: 'createSiteGroup', name });
+    const result = await sendTracked({ type: 'createSiteGroup', name });
     if (!result.ok) return setError(commandErrorText(result.error));
     setError(undefined);
     setName('');

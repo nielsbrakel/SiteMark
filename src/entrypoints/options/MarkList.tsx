@@ -5,13 +5,13 @@ import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
 import { IconButton } from '@/ui/components/IconButton';
 import { CloseIcon } from '@/ui/components/icons';
-import { sendCommand } from '@/ui/hooks/use-command';
 import { commandErrorText } from './command-error';
 import styles from './MarkEditor.module.css';
 import { newPageMark } from './mark-drafts';
 import { markSummary } from './mark-summary';
 import type { Notify } from './notify';
 import { hrefOf } from './routes';
+import { sendTracked } from './save-status';
 
 export type MarkListProps = {
   readonly group: SiteGroup;
@@ -21,7 +21,7 @@ export type MarkListProps = {
 };
 
 async function send(command: Command, notify: Notify): Promise<void> {
-  const result = await sendCommand(command);
+  const result = await sendTracked(command);
   if (!result.ok) notify({ text: commandErrorText(result.error) });
 }
 

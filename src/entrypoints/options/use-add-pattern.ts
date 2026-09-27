@@ -5,10 +5,10 @@ import type { SiteGroupId } from '@/core/ids';
 import type { UrlPatternDraft } from '@/core/url/match';
 import { t } from '@/lib/i18n/browser-source';
 import { requestOrigins } from '@/platform/permissions';
-import { sendCommand } from '@/ui/hooks/use-command';
 import { commandErrorText } from './command-error';
 import { checkPatternInput, type PatternInput } from './pattern-draft';
 import type { PatternListKind } from './pattern-lists';
+import { sendTracked } from './save-status';
 
 type FieldErrors = { readonly pattern?: string; readonly origins?: string };
 
@@ -41,7 +41,7 @@ export function useAddPattern(groupId: SiteGroupId, list: PatternListKind): AddP
     const checked = checkPatternInput(draft);
     if (!checked.ok) return setErrors({ [checked.field]: t(errorMessageKey(checked.code)) });
     if (list === 'patterns') void requestOrigins(checked.origins);
-    const result = await sendCommand(addCommand(list, groupId, checked.draft));
+    const result = await sendTracked(addCommand(list, groupId, checked.draft));
     if (!result.ok) return setErrors({ pattern: commandErrorText(result.error) });
     setErrors({});
     setInput((current) => ({ ...current, value: '', origins: '' }));

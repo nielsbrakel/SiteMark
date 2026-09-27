@@ -5,12 +5,12 @@ import type { SiteGroup, UrlPattern } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { IconButton } from '@/ui/components/IconButton';
 import { CloseIcon } from '@/ui/components/icons';
-import { sendCommand } from '@/ui/hooks/use-command';
 import { commandErrorText } from './command-error';
 import { GrantStatus } from './GrantStatus';
 import type { Notify } from './notify';
 import styles from './PatternEditor.module.css';
 import type { PatternListKind } from './pattern-lists';
+import { sendTracked } from './save-status';
 
 export type PatternListProps = {
   readonly group: SiteGroup;
@@ -29,7 +29,7 @@ function removeCommand(list: PatternListKind, group: SiteGroup, pattern: UrlPatt
 
 async function remove(props: PatternListProps, pattern: UrlPattern): Promise<void> {
   const { list, group, notify } = props;
-  const result = await sendCommand(removeCommand(list, group, pattern));
+  const result = await sendTracked(removeCommand(list, group, pattern));
   if (!result.ok) return notify({ text: commandErrorText(result.error) });
   // REQ-GRP-002: the last pattern took the group's enabled state with it.
   if (result.value.notices.includes('siteGroupAutoDisabled')) {

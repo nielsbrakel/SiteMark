@@ -4,13 +4,13 @@ import type { SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { requestOrigins } from '@/platform/permissions';
 import { Switch } from '@/ui/components/Switch';
-import { sendCommand } from '@/ui/hooks/use-command';
 import { commandErrorText } from './command-error';
 import type { Notify } from './notify';
+import { sendTracked } from './save-status';
 
 async function setEnabled(group: SiteGroup, enabled: boolean, notify: Notify): Promise<void> {
   // biome-ignore lint/security/noSecrets: a command type, not a secret.
-  const result = await sendCommand({ type: 'setSiteGroupEnabled', id: group.id, enabled });
+  const result = await sendTracked({ type: 'setSiteGroupEnabled', id: group.id, enabled });
   if (!result.ok) notify({ text: commandErrorText(result.error) });
 }
 

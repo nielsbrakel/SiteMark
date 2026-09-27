@@ -11,6 +11,7 @@ import { PageNav } from './PageNav';
 import paneStyles from './Pane.module.css';
 import { PlaceholderPane } from './PlaceholderPane';
 import { selectedGroup } from './routes';
+import { SaveStatusText } from './SaveStatusText';
 import { Sidebar } from './Sidebar';
 import { useOpenNewGroup } from './use-open-new-group';
 import { WelcomePane } from './WelcomePane';
@@ -67,6 +68,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
       <header className={styles.header}>
         <img src={logo} alt="" width={32} height={32} />
         <h1>{t('optionsTitle')}</h1>
+        <SaveStatusText />
         <PageNav route={route} />
       </header>
       <Sidebar

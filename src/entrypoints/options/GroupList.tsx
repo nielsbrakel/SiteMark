@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 import type { SiteGroupId } from '@/core/ids';
 import type { SiteGroup } from '@/core/model/schema';
-import { sendCommand } from '@/ui/hooks/use-command';
 import { commandErrorText } from './command-error';
 import styles from './GroupList.module.css';
 import { GroupRow } from './GroupRow';
 import type { Notify } from './notify';
+import { sendTracked } from './save-status';
 import { useGroupDrag } from './use-group-drag';
 import { useMoveFocus } from './use-move-focus';
 
@@ -23,7 +23,7 @@ export type GroupListProps = {
 export function GroupList({ groups, selectedId, notify }: GroupListProps): ReactNode {
   const focus = useMoveFocus(groups);
   const move = async (id: SiteGroupId, toIndex: number) => {
-    const result = await sendCommand({ type: 'moveSiteGroup', id, toIndex });
+    const result = await sendTracked({ type: 'moveSiteGroup', id, toIndex });
     if (!result.ok) notify({ text: commandErrorText(result.error) });
   };
   const dragProps = useGroupDrag((id, toIndex) => void move(id, toIndex));

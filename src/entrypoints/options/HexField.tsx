@@ -2,6 +2,7 @@ import { type FormEvent, type ReactNode, useState } from 'react';
 import type { Hex } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { Field } from '@/ui/components/Field';
+import { useDebounced } from './use-debounced';
 
 const HEX = /^#?([0-9a-f]{6})$/i;
 
@@ -22,14 +23,21 @@ export type HexFieldProps = {
 export function HexField({ label, value, onSave }: HexFieldProps): ReactNode {
   const [text, setText] = useState<string>(value);
   const [error, setError] = useState<string>();
+  const [shown, setShown] = useState(value);
+  // A color set elsewhere (a preset, the picker) replaces the text, unless the text already is it.
+  if (value !== shown) {
+    setShown(value);
+    if (parseHex(text) !== value) setText(value);
+  }
   const save = async () => {
     const color = parseHex(text);
     if (!color) return setError(t('optionsHexInvalid'));
     setError(color === value ? undefined : await onSave(color));
   };
+  const autosave = useDebounced(() => void save());
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    void save();
+    autosave.flush();
   };
   return (
     <form onSubmit={submit}>
@@ -39,8 +47,11 @@ export function HexField({ label, value, onSave }: HexFieldProps): ReactNode {
             {...control}
             value={text}
             spellCheck={false}
-            onChange={(event) => setText(event.target.value)}
-            onBlur={() => void save()}
+            onChange={(event) => {
+              setText(event.target.value);
+              autosave.schedule();
+            }}
+            onBlur={autosave.flush}
           />
         )}
       </Field>

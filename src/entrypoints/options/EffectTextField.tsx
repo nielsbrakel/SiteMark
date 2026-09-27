@@ -1,6 +1,7 @@
 import { type FormEvent, type ReactNode, useState } from 'react';
 import { t } from '@/lib/i18n/browser-source';
 import { Field } from '@/ui/components/Field';
+import { useDebounced } from './use-debounced';
 
 export type EffectTextFieldProps = {
   readonly label: string;
@@ -27,9 +28,10 @@ export function EffectTextField({
     setError(undefined);
     if (trimmed !== value) onSave(trimmed);
   };
+  const autosave = useDebounced(save);
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    save();
+    autosave.flush();
   };
   return (
     <form onSubmit={submit}>
@@ -39,8 +41,11 @@ export function EffectTextField({
             {...control}
             value={text}
             maxLength={maxLength}
-            onChange={(event) => setText(event.target.value)}
-            onBlur={save}
+            onChange={(event) => {
+              setText(event.target.value);
+              autosave.schedule();
+            }}
+            onBlur={autosave.flush}
           />
         )}
       </Field>

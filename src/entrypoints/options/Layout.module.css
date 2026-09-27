@@ -24,8 +24,15 @@
   font-size: 28px;
 }
 
+.saveStatus {
+  margin: 0 0 0 auto;
+  min-inline-size: 5em;
+  font-size: var(--sm-text-sm);
+  color: var(--sm-text-muted);
+  text-align: end;
+}
+
 .nav {
-  margin-inline-start: auto;
   display: flex;
   flex-wrap: wrap;
   gap: var(--sm-space-2);

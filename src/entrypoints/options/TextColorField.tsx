@@ -36,12 +36,7 @@ export function TextColorField({ color, textColor, onSave }: TextColorFieldProps
       {textColor === 'auto' ? (
         <p>{t(auto === WHITE ? 'optionsTextAutoWhite' : 'optionsTextAutoBlack')}</p>
       ) : (
-        <HexField
-          key={textColor}
-          label={t('optionsCustomTextColor')}
-          value={textColor}
-          onSave={onSave}
-        />
+        <HexField label={t('optionsCustomTextColor')} value={textColor} onSave={onSave} />
       )}
     </>
   );

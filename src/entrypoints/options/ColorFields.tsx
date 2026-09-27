@@ -34,7 +34,7 @@ export function ColorFields({ color, onSave }: ColorFieldsProps): ReactNode {
         onChange={(preset) => void onSave(preset)}
       />
       <div className={styles.custom}>
-        <HexField key={color} label={t('optionsCustomColor')} value={color} onSave={onSave} />
+        <HexField label={t('optionsCustomColor')} value={color} onSave={onSave} />
         <input
           type="color"
           aria-label={t('optionsPickColor')}

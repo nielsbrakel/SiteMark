@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import type { ElementEffects, PageEffects } from '@/core/model/schema';
 import { type MessageKey, t } from '@/lib/i18n/browser-source';
 import { Segmented } from '@/ui/components/Segmented';
 import { Slider } from '@/ui/components/Slider';
+import { useDebounced } from './use-debounced';
 
 // Small building blocks of the effect settings (REQ-OPT-003): a translated segmented choice and a
 // slider with its unit.
@@ -41,14 +42,23 @@ export function Range(props: {
   readonly onChange: (value: number) => void;
 }): ReactNode {
   const [min, max] = props.range;
+  // The slider moves at once; the change is saved once it stops moving (REQ-OPT-006).
+  const [moved, setMoved] = useState<number>();
+  const autosave = useDebounced(() => {
+    if (moved !== undefined && moved !== props.value) props.onChange(moved);
+  });
+  if (moved !== undefined && moved === props.value) setMoved(undefined);
   return (
     <Slider
       label={t(props.label)}
       min={min}
       max={max}
-      value={props.value}
+      value={moved ?? props.value}
       formatValue={props.unit}
-      onChange={props.onChange}
+      onChange={(value) => {
+        setMoved(value);
+        autosave.schedule();
+      }}
     />
   );
 }
