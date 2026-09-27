@@ -3,6 +3,7 @@
  * from inside a shadow tree beat the page's important rules, so no page style can hide, move or
  * make the host clickable (REQ-SEC-006). `all: initial` also stops inherited page fonts and colors.
  * The host stays displayed while its popover is closed: z-index is the fallback (REQ-RND-006).
+ * Marks never show up on paper (REQ-RND-010).
  */
 export const HOST_CSS = `
 :host {
@@ -15,5 +16,10 @@ export const HOST_CSS = `
 }
 :host::backdrop {
   display: none !important;
+}
+@media print {
+  :host {
+    display: none !important;
+  }
 }
 `;
