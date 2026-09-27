@@ -20,6 +20,9 @@ const LABELS = {
   cancel: 'Cancel',
   moreOptions: 'More options…',
   movePanel: 'Move panel',
+  notGranted: 'Shown on this tab only. Allow SiteMark on this site to keep it.',
+  allow: 'Allow',
+  close: 'Close',
 };
 
 const PROD = 'grp-prod0001' as SiteGroupId;
@@ -69,6 +72,8 @@ function aPanel(
     onSave: vi.fn(),
     onCancel: vi.fn(),
     onMoreOptions: vi.fn(),
+    onAllow: vi.fn(),
+    onClose: vi.fn(),
     ...overrides,
   };
   const container = document.createElement('div');
@@ -311,5 +316,44 @@ describe('REQ-SEC-005 the panel only acts on trusted input, and not right after 
     clock.time += 200;
     fireEvent.click(save(ui));
     expect(deps.onSave).toHaveBeenCalledOnce();
+  });
+});
+
+// ── Not granted (T-109) ───────────────────────────────────────────────────────────────────────
+
+const notice = (panel: Panel) => panel.element.querySelector('[data-part="notice"]');
+
+describe('REQ-PICK-006 after saving on a site that is not granted', () => {
+  it('says the mark shows on this tab only and offers Allow instead of the form', () => {
+    const { panel, ui } = aPanel();
+    panel.showNotGranted();
+    expect(notice(panel)?.textContent).toContain(LABELS.notGranted);
+    expect(notice(panel)?.getAttribute('role')).toBe('status');
+    expect(ui.queryByRole('textbox', { name: 'Selector' })).toBeNull();
+    expect(ui.queryByRole('button', { name: 'Allow' })).not.toBeNull();
+    expect(ui.queryByRole('button', { name: 'Close' })).not.toBeNull();
+  });
+
+  it('Allow asks for the grant page, Close ends the pick', () => {
+    const { panel, ui, deps, clock } = aPanel();
+    panel.showNotGranted();
+    clock.time += 1000;
+    const allow = ui.queryByRole('button', { name: 'Allow' });
+    const close = ui.queryByRole('button', { name: 'Close' });
+    expect([allow, close]).not.toContain(null);
+    fireEvent.click(allow as HTMLElement);
+    fireEvent.click(close as HTMLElement);
+    expect(deps.onAllow).toHaveBeenCalledOnce();
+    expect(deps.onClose).toHaveBeenCalledOnce();
+  });
+
+  it('ignores Allow within 500 ms of the notice appearing (REQ-SEC-005)', () => {
+    const { panel, ui, deps, clock } = aPanel();
+    panel.showNotGranted();
+    clock.time += 300;
+    const allow = ui.queryByRole('button', { name: 'Allow' });
+    expect(allow).not.toBeNull();
+    fireEvent.click(allow as HTMLElement);
+    expect(deps.onAllow).not.toHaveBeenCalled();
   });
 });

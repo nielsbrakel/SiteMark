@@ -1,5 +1,6 @@
 import type { SavePick } from '../../app/protocol';
 import type { PickerContext } from '../../app/use-cases/picker-context';
+import { notImplemented } from '../../core/not-implemented';
 import {
   colorField,
   effectChips,
@@ -32,10 +33,16 @@ export type PanelDeps = Partial<TrustDeps> & {
   readonly onCancel: () => void;
   /** Save, then open the options page at the new mark. */
   readonly onMoreOptions: (pick: SavePick) => void;
+  /** "Allow" in the not-granted notice: the grant page for this site (REQ-PICK-006). */
+  readonly onAllow?: () => void;
+  /** Closes the notice: the pick is done. */
+  readonly onClose?: () => void;
 };
 
 export type Panel = {
   readonly element: HTMLElement;
+  /** After a save on a site that isn't granted: "Shown on this tab only" + Allow (REQ-PICK-006). */
+  showNotGranted(): void;
   dispose(): void;
 };
 
@@ -126,5 +133,5 @@ export function createPanel(parent: HTMLElement, deps: PanelDeps): Panel {
   update();
   parent.append(element);
   selector.input.focus({ preventScroll: true });
-  return { element, dispose: () => element.remove() };
+  return { element, showNotGranted: () => notImplemented(), dispose: () => element.remove() };
 }

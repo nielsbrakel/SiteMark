@@ -473,5 +473,17 @@
   "pickerMovePanel": {
     "message": "Move panel",
     "description": "Picker panel: button that moves the panel to the next corner of the page (no dragging needed)."
+  },
+  "pickerNotGranted": {
+    "message": "Shown on this tab only. Allow SiteMark on this site to keep it.",
+    "description": "Picker panel, after saving on a site SiteMark has no access to yet: the mark shows until the tab is reloaded."
+  },
+  "pickerAllow": {
+    "message": "Allow",
+    "description": "Picker panel button that opens SiteMark's page to grant access to this site."
+  },
+  "pickerClose": {
+    "message": "Close",
+    "description": "Picker panel button that closes the panel after saving."
   }
 }
