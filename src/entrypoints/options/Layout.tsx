@@ -28,11 +28,19 @@ type PaneProps = {
   readonly onAdded: (revision: number) => void;
 };
 
-function GroupPane({ state, group, notify, onAdded }: PaneProps): ReactNode {
+function GroupPane({ route, state, group, notify, onAdded }: PaneProps): ReactNode {
   if (!group) return <p className={`sm-well ${paneStyles.pane}`}>{t('optionsNoGroups')}</p>;
   const index = state.siteGroups.indexOf(group);
+  const markId = route?.page === 'mark' ? route.markId : undefined;
   return (
-    <GroupEditor key={group.id} group={group} index={index} notify={notify} onAdded={onAdded} />
+    <GroupEditor
+      key={group.id}
+      group={group}
+      index={index}
+      notify={notify}
+      onAdded={onAdded}
+      markId={markId}
+    />
   );
 }
 
