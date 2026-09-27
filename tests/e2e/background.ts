@@ -56,12 +56,16 @@ export async function restartServiceWorker(
       if (version.scriptURL.includes(extensionId)) statuses.push(version.runningStatus);
     }
   });
-  const reached = (status: RunningStatus) => expect.poll(() => statuses.at(-1)).toBe(status);
+  // Something may wake the worker right after it stopped: wait for each state to have happened,
+  // in order, rather than for it to be the latest one.
+  const reached = (status: RunningStatus, after = -1) =>
+    expect.poll(() => statuses.indexOf(status, after + 1)).toBeGreaterThan(after);
   await cdp.send('ServiceWorker.enable');
   await cdp.send('ServiceWorker.stopAllWorkers');
   await reached('stopped');
+  const stopped = statuses.indexOf('stopped');
   await sendFromPage(page, { type: 'getState' });
-  await reached('running');
+  await reached('running', stopped);
   await page.close();
   const worker = context
     .serviceWorkers()
