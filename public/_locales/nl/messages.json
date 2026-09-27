@@ -485,5 +485,9 @@
   "pickerClose": {
     "message": "Sluiten",
     "description": "Picker panel button that closes the panel after saving."
+  },
+  "pickerRepickTitle": {
+    "message": "Kies het element opnieuw",
+    "description": "Picker panel title when re-picking the element of an existing mark whose element was not found."
   }
 }

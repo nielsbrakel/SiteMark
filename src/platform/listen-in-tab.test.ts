@@ -4,7 +4,7 @@ import { fakeBrowser } from 'wxt/testing/fake-browser';
 import { sender, senders, status } from '../../tests/contracts/message-samples';
 import type { TabHandlers } from '../app/protocol';
 import { emptyPlan } from '../core/render/render-plan';
-import { listenForBackground } from './listen-in-tab';
+import { listenForBackground, listenForPicker } from './listen-in-tab';
 
 function listen() {
   const spies = {
@@ -88,5 +88,35 @@ describe('REQ-SEC-003 REQ-SEC-002 a content script only takes messages from the 
     expect(fakeBrowser.runtime.onMessage.hasListeners()).toBe(true);
     unsubscribe();
     expect(fakeBrowser.runtime.onMessage.hasListeners()).toBe(false);
+  });
+});
+
+describe('REQ-PICK-007 REQ-SEC-003 the picker takes repick only from the background', () => {
+  const MARK = { markId: 'mark00000001' };
+
+  it('passes a repick from the background on', async () => {
+    const repick = vi.fn();
+    const unsubscribe = listenForPicker({ repick });
+    await deliver({ type: 'repick', data: MARK }, senders.background());
+    unsubscribe();
+    expect(repick).toHaveBeenCalledExactlyOnceWith(MARK);
+  });
+
+  it.each([
+    ['a tab (a content script elsewhere)', senders.content()],
+    ['another extension', sender({ id: 'other', url: 'chrome-extension://other/background.js' })],
+  ])('ignores a repick from %s', async (_name, from) => {
+    const repick = vi.fn();
+    const unsubscribe = listenForPicker({ repick });
+    await deliver({ type: 'repick', data: MARK }, from);
+    await deliver({ type: 'applyPlan', data: emptyPlan() }, senders.background());
+    unsubscribe();
+    expect(repick).not.toHaveBeenCalled();
+  });
+
+  it('is not a marker message', async () => {
+    const { spies } = listen();
+    await deliver({ type: 'repick', data: MARK }, senders.background());
+    for (const spy of Object.values(spies)) expect(spy).not.toHaveBeenCalled();
   });
 });

@@ -1,5 +1,7 @@
 import type { SavePick } from '../../app/protocol';
 import type { PickerContext } from '../../app/use-cases/picker-context';
+import type { MarkId } from '../../core/ids';
+import { notImplemented } from '../../core/not-implemented';
 import {
   colorField,
   effectChips,
@@ -19,6 +21,8 @@ import { type Box, nextCorner, oppositeCorner, type PanelCorner } from './panel-
 // permission and takes no URL pattern (REQ-SEC-005).
 
 export type PanelDeps = Partial<TrustDeps> & {
+  /** Re-pick (REQ-PICK-007): the pick only replaces the selector of this mark. */
+  readonly repickMarkId?: MarkId;
   /** The selected element's box: the panel goes to the opposite corner (REQ-A11Y-010). */
   readonly selection: Box;
   /** The generated selector (REQ-PICK-004); the user may edit it. */
@@ -93,6 +97,11 @@ function isolate(element: HTMLElement, trust: TrustDeps, onCancel: () => void): 
   });
 }
 
+/** Re-pick: only the selector matters, so the other choices are left out (REQ-PICK-007). */
+function enterRepickMode(_element: HTMLElement, _deps: PanelDeps): void {
+  notImplemented();
+}
+
 /** Swaps the form (everything below the header) for the not-granted notice (REQ-PICK-006). */
 function showNotice(element: HTMLElement, deps: PanelDeps, guard: ActivationGuard): void {
   while (element.children.length > 1) element.lastElementChild?.remove();
@@ -121,6 +130,7 @@ export function createPanel(parent: HTMLElement, deps: PanelDeps): Panel {
   const color = colorField(labels);
   const actions = panelActions(labels);
   element.append(selector.row, group.row, chips.row, color.row, actions.row);
+  if (deps.repickMarkId) enterRepickMode(element, deps);
 
   const pick = (): SavePick => {
     const siteGroupId = group.chosen();

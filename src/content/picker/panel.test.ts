@@ -1,6 +1,6 @@
 import { fireEvent, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { SiteGroupId } from '../../core/ids';
+import type { MarkId, SiteGroupId } from '../../core/ids';
 import { createPanel, type Panel, type PanelDeps } from './panel';
 
 const LABELS = {
@@ -23,6 +23,7 @@ const LABELS = {
   notGranted: 'Shown on this tab only. Allow SiteMark on this site to keep it.',
   allow: 'Allow',
   close: 'Close',
+  repickTitle: 'Choose the element again',
 };
 
 const PROD = 'grp-prod0001' as SiteGroupId;
@@ -355,5 +356,29 @@ describe('REQ-PICK-006 after saving on a site that is not granted', () => {
     expect(allow).not.toBeNull();
     fireEvent.click(allow as HTMLElement);
     expect(deps.onAllow).not.toHaveBeenCalled();
+  });
+});
+
+// ── Re-pick (T-110) ───────────────────────────────────────────────────────────────────────────
+
+describe('REQ-PICK-007 a re-pick only replaces the selector', () => {
+  const MARK = 'mark00000042' as MarkId;
+
+  it('asks only for the selector', () => {
+    const { ui } = aPanel({ repickMarkId: MARK });
+    expect(ui.queryByRole('heading', { name: 'Choose the element again' })).not.toBeNull();
+    expect(ui.queryByRole('textbox', { name: 'Selector' })).not.toBeNull();
+    expect(ui.queryByRole('combobox', { name: 'Site group' })).toBeNull();
+    expect(ui.queryByRole('group', { name: 'Effects' })).toBeNull();
+    expect(ui.queryByRole('radiogroup', { name: 'Color' })).toBeNull();
+  });
+
+  it('sends the mark it replaces with the new selector', () => {
+    const { ui, deps } = aPanel({ repickMarkId: MARK });
+    typeSelector(ui, '#new-target');
+    fireEvent.click(save(ui));
+    expect(deps.onSave).toHaveBeenCalledWith(
+      expect.objectContaining({ selector: '#new-target', repickMarkId: MARK }),
+    );
   });
 });

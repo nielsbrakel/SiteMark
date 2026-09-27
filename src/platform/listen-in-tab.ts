@@ -1,6 +1,7 @@
 import { browser } from 'wxt/browser';
 import type { Unsubscribe } from '../app/ports';
-import type { TabHandlers, TabMessageType } from '../app/protocol';
+import type { DataOf, PickerProtocol, TabHandlers, TabMessageType } from '../app/protocol';
+import { notImplemented } from '../core/not-implemented';
 import { isExtensionPage, type MessageSender } from './message-senders';
 
 // The content script's side of `tabs.sendMessage` (plan §4). Content scripts have to listen to
@@ -41,4 +42,17 @@ export function listenForBackground(handlers: TabHandlers): Unsubscribe {
   };
   browser.runtime.onMessage.addListener(listener);
   return () => browser.runtime.onMessage.removeListener(listener);
+}
+
+/** The picker's handlers for the background's messages (PickerProtocol). */
+export type PickerHandlers = {
+  readonly repick: (data: DataOf<PickerProtocol, 'repick'>) => void;
+};
+
+/**
+ * Registers the picker's listener for `repick` (REQ-PICK-007), with the same sender rule as the
+ * marker's: SiteMark's background or an extension page, never a tab.
+ */
+export function listenForPicker(_handlers: PickerHandlers): Unsubscribe {
+  return notImplemented();
 }
