@@ -209,3 +209,58 @@ describe('REQ-GRP-003 REQ-GRP-002 turn a site group on or off in the options pag
     expect(await findRole('status')).toHaveTextContent('This site group no longer exists.');
   });
 });
+
+describe('REQ-GRP-004 REQ-A11Y-010 reorder site groups with Move up/down or drag and drop', () => {
+  const local = aSiteGroup({ name: 'Local', enabled: false, patterns: [] });
+  const openList = () => openAt(`#/groups/${prod.id}`, [prod, staging, local]);
+  const move = (name: string, direction: 'up' | 'down') =>
+    byRole('button', { name: `Move “${name}” ${direction}` }, sidebar());
+  const row = (name: string) =>
+    within(sidebar())
+      .getAllByRole('listitem')
+      .find((item) => within(item).queryByRole('link', { name })) as HTMLElement;
+
+  it('has Move up and Move down for every site group, disabled at the ends', async () => {
+    await openList();
+    expect(move('Production', 'up')).toBeDisabled();
+    expect(move('Production', 'down')).toBeEnabled();
+    expect(move('Staging', 'up')).toBeEnabled();
+    expect(move('Local', 'down')).toBeDisabled();
+  });
+
+  it('moves a site group down one place and keeps focus on the button', async () => {
+    const { background } = await openList();
+    move('Production', 'down').focus();
+    fireEvent.click(move('Production', 'down'));
+    await waitFor(() => expect(groupNames()).toEqual(['Staging', 'Production', 'Local']));
+    expect(background.commands).toEqual([{ type: 'moveSiteGroup', id: prod.id, toIndex: 1 }]);
+    await waitFor(() => expect(move('Production', 'down')).toHaveFocus());
+  });
+
+  it('moves focus to the other button when the group reaches an end', async () => {
+    const { background } = await openList();
+    move('Staging', 'up').focus();
+    fireEvent.click(move('Staging', 'up'));
+    await waitFor(() => expect(groupNames()).toEqual(['Staging', 'Production', 'Local']));
+    expect(background.commands).toEqual([{ type: 'moveSiteGroup', id: staging.id, toIndex: 0 }]);
+    await waitFor(() => expect(move('Staging', 'down')).toHaveFocus());
+  });
+
+  it('moves a site group to the row it is dropped on', async () => {
+    const { background } = await openList();
+    byRole('link', { name: 'Local' }, sidebar());
+    expect(row('Local')).toHaveAttribute('draggable', 'true');
+    fireEvent.dragStart(row('Local'));
+    fireEvent.dragOver(row('Production'));
+    fireEvent.drop(row('Production'));
+    await waitFor(() => expect(groupNames()).toEqual(['Local', 'Production', 'Staging']));
+    expect(background.commands).toEqual([{ type: 'moveSiteGroup', id: local.id, toIndex: 0 }]);
+  });
+
+  it('ignores a drop that did not start in the list', async () => {
+    const { background } = await openList();
+    byRole('link', { name: 'Local' }, sidebar());
+    fireEvent.drop(row('Production'));
+    expect(background.commands).toEqual([]);
+  });
+});

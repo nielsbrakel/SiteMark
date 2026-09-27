@@ -635,5 +635,25 @@
   "optionsGroupOff": {
     "message": "Off",
     "description": "Site group list: the site group is turned off."
+  },
+  "optionsMoveUp": {
+    "message": "Move “$NAME$” up",
+    "description": "Site group list: accessible name of the button that raises a site group's priority by one place.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
+  },
+  "optionsMoveDown": {
+    "message": "Move “$NAME$” down",
+    "description": "Site group list: accessible name of the button that lowers a site group's priority by one place.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
   }
 }
