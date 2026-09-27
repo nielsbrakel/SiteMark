@@ -28,6 +28,7 @@ export type PanelLabels = {
   readonly notGranted: string;
   readonly allow: string;
   readonly close: string;
+  readonly repickTitle: string;
 };
 
 /** Chip order is the order the effects are saved in. */

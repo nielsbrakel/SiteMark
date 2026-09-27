@@ -1,5 +1,6 @@
 import type { SavedPick, SavePick } from '../../app/protocol';
 import type { PickerAnswer } from '../../app/use-cases/picker-context';
+import type { MarkId } from '../../core/ids';
 import { sendToBackground } from '../../platform/send-message';
 import { createPanel, type Panel } from './panel';
 import type { PickerSession } from './picker';
@@ -51,11 +52,15 @@ function allow(flow: Flow): void {
   flow.session.dispatch({ type: 'save' });
 }
 
-/** Opens the mini panel for `element` in the picker's container. */
+/**
+ * Opens the mini panel for `element` in the picker's container; with `repickMarkId` it only
+ * replaces that mark's selector (REQ-PICK-007).
+ */
 export async function openPanel(
   element: Element,
   session: PickerSession,
   root: HTMLElement,
+  repickMarkId?: MarkId,
 ): Promise<void> {
   const reply = await sendToBackground('pickerContext');
   // The user may have cancelled while the background answered.
@@ -73,5 +78,6 @@ export async function openPanel(
     onMoreOptions: (pick) => void saveAndOpen(pick, flow),
     onAllow: () => allow(flow),
     onClose: () => session.dispatch({ type: 'save' }),
+    ...(repickMarkId && { repickMarkId }),
   });
 }

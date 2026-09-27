@@ -49,5 +49,6 @@ export function panelLabels(): PanelLabels {
     notGranted: i18n.getMessage('pickerNotGranted'),
     allow: i18n.getMessage('pickerAllow'),
     close: i18n.getMessage('pickerClose'),
+    repickTitle: i18n.getMessage('pickerRepickTitle'),
   };
 }

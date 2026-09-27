@@ -1,7 +1,6 @@
 import type { SavePick } from '../../app/protocol';
 import type { PickerContext } from '../../app/use-cases/picker-context';
 import type { MarkId } from '../../core/ids';
-import { notImplemented } from '../../core/not-implemented';
 import {
   colorField,
   effectChips,
@@ -98,8 +97,10 @@ function isolate(element: HTMLElement, trust: TrustDeps, onCancel: () => void): 
 }
 
 /** Re-pick: only the selector matters, so the other choices are left out (REQ-PICK-007). */
-function enterRepickMode(_element: HTMLElement, _deps: PanelDeps): void {
-  notImplemented();
+function enterRepickMode(element: HTMLElement, hidden: readonly HTMLElement[], title: string) {
+  for (const part of hidden) part.remove();
+  const heading = element.querySelector('.sm-panel__title');
+  if (heading) heading.textContent = title;
 }
 
 /** Swaps the form (everything below the header) for the not-granted notice (REQ-PICK-006). */
@@ -130,7 +131,9 @@ export function createPanel(parent: HTMLElement, deps: PanelDeps): Panel {
   const color = colorField(labels);
   const actions = panelActions(labels);
   element.append(selector.row, group.row, chips.row, color.row, actions.row);
-  if (deps.repickMarkId) enterRepickMode(element, deps);
+  if (deps.repickMarkId) {
+    enterRepickMode(element, [group.row, chips.row, color.row, actions.more], labels.repickTitle);
+  }
 
   const pick = (): SavePick => {
     const siteGroupId = group.chosen();
@@ -139,6 +142,7 @@ export function createPanel(parent: HTMLElement, deps: PanelDeps): Panel {
       ...(siteGroupId && { siteGroupId }),
       effects: chips.effects(),
       color: color.color(),
+      ...(deps.repickMarkId && { repickMarkId: deps.repickMarkId }),
     };
   };
   function update(): void {
