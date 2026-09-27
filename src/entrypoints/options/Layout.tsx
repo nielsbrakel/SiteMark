@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import logo from '@/assets/logo.svg';
 import type { SiteGroup, SiteMarkState } from '@/core/model/schema';
 import type { OptionsRoute } from '@/core/options-route';
@@ -10,6 +10,7 @@ import styles from './Layout.module.css';
 import type { Notify, OptionsToast } from './notify';
 import { PageNav } from './PageNav';
 import paneStyles from './Pane.module.css';
+import { createOfferRevoke, RevokeContext } from './revoke-prompt';
 import { selectedGroup } from './routes';
 import { SaveStatusText } from './SaveStatusText';
 import { SettingsPane } from './SettingsPane';
@@ -62,6 +63,7 @@ function Pane(props: PaneProps): ReactNode {
 /** The options page (design.md §5.2): header with page links, site group sidebar, editor pane. */
 export function Layout({ state, route }: LayoutProps): ReactNode {
   const [toast, setToast] = useState<OptionsToast>();
+  const offerRevoke = useMemo(() => createOfferRevoke(setToast), []);
   const openNewGroup = useOpenNewGroup(state);
   const group = selectedGroup(route, state.siteGroups);
   return (
@@ -79,11 +81,22 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
         notify={setToast}
       />
       <main className={styles.main}>
-        <Pane route={route} state={state} group={group} notify={setToast} onAdded={openNewGroup} />
+        <RevokeContext value={offerRevoke}>
+          <Pane
+            route={route}
+            state={state}
+            group={group}
+            notify={setToast}
+            onAdded={openNewGroup}
+          />
+        </RevokeContext>
       </main>
       <Toast
         toast={toast}
-        onDismiss={() => setToast(undefined)}
+        onDismiss={() => {
+          toast?.onExpire?.();
+          setToast(undefined);
+        }}
         dismissLabel={t('optionsDismiss')}
         {...(toast?.durationMs && { durationMs: toast.durationMs })}
       />

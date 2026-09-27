@@ -10,6 +10,7 @@ import { NameField } from './NameField';
 import type { Notify } from './notify';
 import styles from './Pane.module.css';
 import { PatternEditor } from './PatternEditor';
+import { useOfferRevoke } from './revoke-prompt';
 
 export type GroupEditorProps = {
   readonly group: SiteGroup;
@@ -31,6 +32,7 @@ export function GroupEditor({
   markId,
 }: GroupEditorProps): ReactNode {
   const id = useId();
+  const offerRevoke = useOfferRevoke();
   const mark = group.marks.find((candidate) => candidate.id === markId);
   return (
     <section className={styles.pane} aria-labelledby={id}>
@@ -43,7 +45,12 @@ export function GroupEditor({
       </MarkList>
       <div className={styles.actions}>
         <DuplicateGroupButton group={group} notify={notify} onAdded={onAdded} />
-        <DeleteGroupButton group={group} index={index} notify={notify} />
+        <DeleteGroupButton
+          group={group}
+          index={index}
+          notify={notify}
+          onUndoWindowPassed={offerRevoke}
+        />
       </div>
     </section>
   );

@@ -12,6 +12,8 @@ export type DeleteGroupButtonProps = {
   /** The group's place in the list, where Undo puts it back. */
   readonly index: number;
   readonly notify: Notify;
+  /** Runs once the undo window has passed without Undo (REQ-PRIV-004). */
+  readonly onUndoWindowPassed: () => void;
 };
 
 async function restore(group: SiteGroup, index: number, notify: Notify): Promise<void> {
@@ -19,13 +21,22 @@ async function restore(group: SiteGroup, index: number, notify: Notify): Promise
   if (!result.ok) notify({ text: commandErrorText(result.error) });
 }
 
-async function remove({ group, index, notify }: DeleteGroupButtonProps): Promise<void> {
+async function remove(props: DeleteGroupButtonProps): Promise<void> {
+  const { group, index, notify } = props;
   const result = await sendTracked({ type: 'deleteSiteGroup', id: group.id });
   if (!result.ok) return notify({ text: commandErrorText(result.error) });
+  let isUndone = false;
+  const undo = () => {
+    isUndone = true;
+    void restore(group, index, notify);
+  };
   notify({
     text: t('optionsGroupDeleted', group.name),
-    action: { label: t('optionsUndo'), onAction: () => void restore(group, index, notify) },
+    action: { label: t('optionsUndo'), onAction: undo },
     durationMs: UNDO_MS,
+    onExpire: () => {
+      if (!isUndone) props.onUndoWindowPassed();
+    },
   });
 }
 

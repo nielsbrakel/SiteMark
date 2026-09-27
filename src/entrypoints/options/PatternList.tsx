@@ -10,6 +10,7 @@ import { GrantStatus } from './GrantStatus';
 import type { Notify } from './notify';
 import styles from './PatternEditor.module.css';
 import type { PatternListKind } from './pattern-lists';
+import { type OfferRevoke, useOfferRevoke } from './revoke-prompt';
 import { sendTracked } from './save-status';
 
 export type PatternListProps = {
@@ -27,13 +28,21 @@ function removeCommand(list: PatternListKind, group: SiteGroup, pattern: UrlPatt
     : { type: 'removeExclude', ...target };
 }
 
-async function remove(props: PatternListProps, pattern: UrlPattern): Promise<void> {
+async function remove(
+  props: PatternListProps,
+  pattern: UrlPattern,
+  offerRevoke: OfferRevoke,
+): Promise<void> {
   const { list, group, notify } = props;
   const result = await sendTracked(removeCommand(list, group, pattern));
   if (!result.ok) return notify({ text: commandErrorText(result.error) });
-  // REQ-GRP-002: the last pattern took the group's enabled state with it.
+  if (list === 'excludes') return;
+  // REQ-GRP-002: the last pattern took the group's enabled state with it; the revoke offer
+  // (REQ-PRIV-004) follows that notice.
   if (result.value.notices.includes('siteGroupAutoDisabled')) {
-    notify({ text: t('optionsAutoDisabled', group.name) });
+    notify({ text: t('optionsAutoDisabled', group.name), onExpire: offerRevoke });
+  } else {
+    offerRevoke();
   }
 }
 
@@ -43,6 +52,7 @@ async function remove(props: PatternListProps, pattern: UrlPattern): Promise<voi
  */
 export function PatternList(props: PatternListProps): ReactNode {
   const { group, list, labelledBy } = props;
+  const offerRevoke = useOfferRevoke();
   return (
     <ul aria-labelledby={labelledBy} className={styles.list}>
       {group[list].map((pattern) => (
@@ -59,7 +69,7 @@ export function PatternList(props: PatternListProps): ReactNode {
           <IconButton
             label={t('optionsRemovePattern', pattern.value)}
             icon={<CloseIcon />}
-            onClick={() => void remove(props, pattern)}
+            onClick={() => void remove(props, pattern, offerRevoke)}
           />
         </li>
       ))}
