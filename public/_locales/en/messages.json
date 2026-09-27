@@ -373,5 +373,101 @@
         "example": "36"
       }
     }
+  },
+  "pickerPanelTitle": {
+    "message": "Mark this element",
+    "description": "Picker panel: title of the mini panel shown after an element was selected."
+  },
+  "pickerSelectorLabel": {
+    "message": "Selector",
+    "description": "Picker panel: label of the editable CSS selector field."
+  },
+  "pickerMatchOne": {
+    "message": "matches",
+    "description": "Picker panel: the selector finds exactly the picked element. Shown after a check mark."
+  },
+  "pickerMatchNone": {
+    "message": "no match",
+    "description": "Picker panel: the selector finds nothing on the page. Shown after a cross."
+  },
+  "pickerMatchInvalid": {
+    "message": "invalid selector",
+    "description": "Picker panel: the typed text is not a valid CSS selector. Shown after a cross."
+  },
+  "pickerSiteGroupLabel": {
+    "message": "Site group",
+    "description": "Picker panel: label of the site group choice."
+  },
+  "pickerEffectsLabel": {
+    "message": "Effects",
+    "description": "Picker panel: label of the effect chips."
+  },
+  "pickerEffectRibbon": {
+    "message": "Ribbon",
+    "description": "Picker panel: effect chip for a corner ribbon on the element."
+  },
+  "pickerEffectOutline": {
+    "message": "Outline",
+    "description": "Picker panel: effect chip for an outline around the element."
+  },
+  "pickerEffectTint": {
+    "message": "Tint",
+    "description": "Picker panel: effect chip for a color overlay on the element."
+  },
+  "pickerEffectStripes": {
+    "message": "Stripes",
+    "description": "Picker panel: effect chip for diagonal stripes over the element."
+  },
+  "pickerColorLabel": {
+    "message": "Color",
+    "description": "Picker panel: label of the color presets."
+  },
+  "pickerColorRed": {
+    "message": "Red",
+    "description": "Picker panel: accessible name of the red color preset."
+  },
+  "pickerColorAmber": {
+    "message": "Amber",
+    "description": "Picker panel: accessible name of the amber color preset."
+  },
+  "pickerColorBlue": {
+    "message": "Blue",
+    "description": "Picker panel: accessible name of the blue color preset."
+  },
+  "pickerColorSlate": {
+    "message": "Slate",
+    "description": "Picker panel: accessible name of the slate (grey) color preset."
+  },
+  "pickerSave": {
+    "message": "Save",
+    "description": "Picker panel: button that saves the mark."
+  },
+  "pickerCancel": {
+    "message": "Cancel",
+    "description": "Picker panel: button that ends the pick without saving."
+  },
+  "pickerMoreOptions": {
+    "message": "More options…",
+    "description": "Picker panel: button that saves the mark and opens it in the options page."
+  },
+  "pickerMatchMany": {
+    "message": "$COUNT$ matches, the first is marked",
+    "description": "Picker panel: the selector finds several elements; only the first gets the mark.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "pickerNewSiteGroup": {
+    "message": "New site group for $ORIGIN$",
+    "description": "Picker panel: site group choice that creates a new group for this site.",
+    "placeholders": {
+      "origin": {
+        "content": "$1",
+        "example": "shop.example.com"
+      }
+    }
   }
 }
