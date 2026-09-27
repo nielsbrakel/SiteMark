@@ -1,9 +1,17 @@
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
 import type { Hex } from '@/core/model/schema';
 import { err } from '@/core/result';
-import { aPageMark, aSiteGroup, aState, aWildcardPattern } from '@/core/testing/builders';
+import {
+  aPageMark,
+  aRegexPattern,
+  aSiteGroup,
+  aState,
+  aWildcardPattern,
+} from '@/core/testing/builders';
+import type { OriginPattern } from '@/core/url/origin';
+import { grantPageUrl } from '@/platform/grant-page';
 import { fakes } from '../../../tests/fakes/install';
 import { axeViolations } from '../../../tests/unit/axe';
 import { activeTab, fakeBackground, shown } from '../../../tests/unit/popup-harness';
@@ -34,6 +42,10 @@ const chipColor = (item: HTMLElement) =>
   item
     .querySelector<HTMLElement>('[aria-hidden="true"]')
     ?.style.getPropertyValue('--sm-chip-color');
+
+/** Clicks the button once it shows. */
+const click = async (name: string) =>
+  fireEvent.click(await shown(() => screen.queryByRole('button', { name })));
 
 afterEach(() => document.documentElement.removeAttribute('data-theme'));
 
@@ -104,14 +116,9 @@ describe('REQ-THEME-001 the popup follows the theme setting', () => {
 });
 
 describe('REQ-POP-006 REQ-PRIV-002 Mark this site prompts first, then asks the background (D-229)', () => {
-  const markThisSite = async () => {
-    const button = await shown(() => screen.queryByRole('button', { name: 'Mark this site' }));
-    fireEvent.click(button);
-  };
-
   it('requests the host synchronously in the click, then sends markThisSite for the tab', async () => {
     const { background, tabId } = await openPopup(PAGE, elsewhere);
-    await markThisSite();
+    await click('Mark this site');
     expect(fakes().permissions.requests).toEqual([['*://app.example.com/*']]);
     await waitFor(() => expect(background.sent('markThisSite')).toHaveLength(1));
     expect(background.sent('markThisSite')).toEqual([
@@ -128,7 +135,7 @@ describe('REQ-POP-006 REQ-PRIV-002 Mark this site prompts first, then asks the b
     // The user hasn't answered the prompt yet.
     vi.spyOn(fakes().permissions.api, 'request').mockReturnValue(new Promise(() => undefined));
     const { background } = await openPopup(PAGE, elsewhere);
-    await markThisSite();
+    await click('Mark this site');
     await waitFor(() => expect(background.sent('markThisSite')).toHaveLength(1));
     const added = group('app.example.com', '*://app.example.com:8443/*');
     await background.commit(aState({ revision: 1, siteGroups: [elsewhere, added] }));
@@ -139,7 +146,7 @@ describe('REQ-POP-006 REQ-PRIV-002 Mark this site prompts first, then asks the b
   it('explains why when the background refuses', async () => {
     const { background } = await openPopup(PAGE, elsewhere);
     background.markThisSite = () => err('siteGroupLimitReached');
-    await markThisSite();
+    await click('Mark this site');
     const alert = await shown(() => screen.queryByRole('alert'));
     expect(alert).toHaveTextContent('You can have at most 200 site groups.');
   });
@@ -148,8 +155,88 @@ describe('REQ-POP-006 REQ-PRIV-002 Mark this site prompts first, then asks the b
     await openPopup(PAGE, elsewhere);
     await shown(() => screen.queryByRole('button', { name: 'Mark this site' }));
     fakeBrowser.runtime.onMessage.removeAllListeners();
-    await markThisSite();
+    await click('Mark this site');
     const alert = await shown(() => screen.queryByRole('alert'));
     expect(alert).toHaveTextContent("SiteMark didn't respond. Close this popup and try again.");
+  });
+});
+
+describe('REQ-POP-004 REQ-POP-006 the popup asks for access the matching site groups need', () => {
+  const NEEDS_ACCESS =
+    'SiteMark needs access to app.example.com to show your marks on every visit.';
+  const notice = () => shown(() => screen.queryByText(NEEDS_ACCESS));
+
+  it('explains that access is missing and offers Allow', async () => {
+    await openPopup(PAGE, production);
+    expect(await notice()).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Allow' })).toBeEnabled();
+  });
+
+  it('says nothing when every origin the page needs is granted', async () => {
+    fakes().permissions.grant('https://*.example.com/*');
+    await openPopup(PAGE, production);
+    await groupList();
+    expect(screen.queryByText(NEEDS_ACCESS)).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Allow' })).not.toBeInTheDocument();
+  });
+
+  it('asks only for the origins of enabled groups whose patterns cover the page', async () => {
+    const regex = aSiteGroup({
+      name: 'Admin pages',
+      patterns: [
+        aRegexPattern({
+          value: '^https://app\\.example\\.com:8443/',
+          origins: ['https://app.example.com/*', 'https://other.example.org/*'] as OriginPattern[],
+        }),
+      ],
+    });
+    await openPopup(PAGE, production, payments, regex);
+    await click('Allow');
+    expect(fakes().permissions.requests).toEqual([
+      ['https://*.example.com/*', 'https://app.example.com/*'],
+    ]);
+  });
+
+  it('prompts synchronously on Allow, and the notice goes once access is granted', async () => {
+    await openPopup(PAGE, production);
+    await notice();
+    fireEvent.click(screen.getByRole('button', { name: 'Allow' }));
+    expect(fakes().permissions.requests).toEqual([['https://*.example.com/*']]);
+    await waitFor(() => expect(screen.queryByText(NEEDS_ACCESS)).toBeNull());
+  });
+
+  it('shows the notice again when access is revoked', async () => {
+    fakes().permissions.grant('https://*.example.com/*');
+    await openPopup(PAGE, production);
+    await groupList();
+    act(() => fakes().permissions.revoke('https://*.example.com/*'));
+    expect(await notice()).toBeInTheDocument();
+  });
+
+  it('opens the grant page when the popup cannot prompt (D-229)', async () => {
+    vi.spyOn(fakes().permissions.api, 'request').mockRejectedValue(new Error('no gesture'));
+    await openPopup(PAGE, production);
+    await click('Allow');
+    const grantPage = grantPageUrl(['https://*.example.com/*' as OriginPattern]);
+    await waitFor(async () =>
+      expect((await fakeBrowser.tabs.query({})).map((tab) => tab.url)).toContain(grantPage),
+    );
+  });
+
+  it('keeps a denied Mark this site group in the needs-access state', async () => {
+    const { background } = await openPopup(PAGE);
+    fakes().permissions.answerNextRequest('deny');
+    await click('Mark this site');
+    await waitFor(() => expect(background.sent('markThisSite')).toHaveLength(1));
+    const added = group('app.example.com', '*://app.example.com:8443/*');
+    await background.commit(aState({ revision: 1, siteGroups: [added] }));
+    expect(await notice()).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Allow' })).toBeEnabled();
+  });
+
+  it('has no axe violations', async () => {
+    const { view } = await openPopup(PAGE, production);
+    await notice();
+    expect(await axeViolations(view.container)).toEqual([]);
   });
 });

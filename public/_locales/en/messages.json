@@ -249,5 +249,19 @@
   "popupNotResponding": {
     "message": "SiteMark didn't respond. Close this popup and try again.",
     "description": "Popup: shown when the extension's background did not answer a request, for example while SiteMark updates."
+  },
+  "popupNeedsAccess": {
+    "message": "SiteMark needs access to $HOST$ to show your marks on every visit.",
+    "description": "Popup: warning when a matching site group's site isn't granted yet. Followed by an Allow button.",
+    "placeholders": {
+      "host": {
+        "content": "$1",
+        "example": "app.example.com"
+      }
+    }
+  },
+  "popupAllow": {
+    "message": "Allow",
+    "description": "Popup button that opens the browser's permission prompt for the current site."
   }
 }

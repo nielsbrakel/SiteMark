@@ -249,5 +249,19 @@
   "popupNotResponding": {
     "message": "SiteMark reageerde niet. Sluit deze pop-up en probeer het opnieuw.",
     "description": "Pop-up: getoond als de achtergrond van de extensie niet op een verzoek antwoordde, bijvoorbeeld terwijl SiteMark bijwerkt."
+  },
+  "popupNeedsAccess": {
+    "message": "SiteMark heeft toegang tot $HOST$ nodig om je markeringen bij elk bezoek te tonen.",
+    "description": "Pop-up: waarschuwing als de site van een passende sitegroep nog geen toestemming heeft. Gevolgd door een knop Toestaan.",
+    "placeholders": {
+      "host": {
+        "content": "$1",
+        "example": "app.example.com"
+      }
+    }
+  },
+  "popupAllow": {
+    "message": "Toestaan",
+    "description": "Pop-upknop die de toestemmingsvraag van de browser voor de huidige site opent."
   }
 }
