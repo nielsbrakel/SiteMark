@@ -563,5 +563,61 @@
   "errorSiteGroupExists": {
     "message": "Deze sitegroep staat al in de lijst.",
     "description": "Error: undoing a delete for a site group that is already back."
+  },
+  "optionsNewGroup": {
+    "message": "Nieuwe sitegroep",
+    "description": "Options page: label of the name field for a new site group."
+  },
+  "optionsAddGroup": {
+    "message": "Sitegroep toevoegen",
+    "description": "Options page: button that adds a site group at the bottom of the list."
+  },
+  "optionsGroupName": {
+    "message": "Naam",
+    "description": "Site group editor: label of the name field."
+  },
+  "optionsDeleteGroup": {
+    "message": "Sitegroep verwijderen",
+    "description": "Site group editor: button that deletes the site group (after confirmation)."
+  },
+  "optionsDeleteGroupTitle": {
+    "message": "“$NAME$” verwijderen?",
+    "description": "Title of the dialog that confirms deleting a site group.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
+  },
+  "optionsDeleteGroupBody": {
+    "message": "De URL-patronen en markeringen worden ook verwijderd.",
+    "description": "Body of the dialog that confirms deleting a site group."
+  },
+  "optionsCancel": {
+    "message": "Annuleren",
+    "description": "Options page: button that closes a dialog without doing anything."
+  },
+  "optionsDelete": {
+    "message": "Verwijderen",
+    "description": "Options page: button that confirms a delete."
+  },
+  "optionsGroupDeleted": {
+    "message": "“$NAME$” is verwijderd.",
+    "description": "Toast after a site group was deleted; it offers Undo for 10 seconds.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
+  },
+  "optionsUndo": {
+    "message": "Ongedaan maken",
+    "description": "Toast action that undoes the last delete."
+  },
+  "optionsDismiss": {
+    "message": "Sluiten",
+    "description": "Accessible name of the button that closes a toast."
   }
 }

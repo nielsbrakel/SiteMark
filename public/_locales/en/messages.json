@@ -563,5 +563,61 @@
   "errorSiteGroupExists": {
     "message": "This site group is already in the list.",
     "description": "Error: undoing a delete for a site group that is already back."
+  },
+  "optionsNewGroup": {
+    "message": "New site group",
+    "description": "Options page: label of the name field for a new site group."
+  },
+  "optionsAddGroup": {
+    "message": "Add site group",
+    "description": "Options page: button that adds a site group at the bottom of the list."
+  },
+  "optionsGroupName": {
+    "message": "Name",
+    "description": "Site group editor: label of the name field."
+  },
+  "optionsDeleteGroup": {
+    "message": "Delete site group",
+    "description": "Site group editor: button that deletes the site group (after confirmation)."
+  },
+  "optionsDeleteGroupTitle": {
+    "message": "Delete “$NAME$”?",
+    "description": "Title of the dialog that confirms deleting a site group.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
+  },
+  "optionsDeleteGroupBody": {
+    "message": "Its URL patterns and marks are deleted too.",
+    "description": "Body of the dialog that confirms deleting a site group."
+  },
+  "optionsCancel": {
+    "message": "Cancel",
+    "description": "Options page: button that closes a dialog without doing anything."
+  },
+  "optionsDelete": {
+    "message": "Delete",
+    "description": "Options page: button that confirms a delete."
+  },
+  "optionsGroupDeleted": {
+    "message": "Deleted “$NAME$”.",
+    "description": "Toast after a site group was deleted; it offers Undo for 10 seconds.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
+  },
+  "optionsUndo": {
+    "message": "Undo",
+    "description": "Toast action that undoes the last delete."
+  },
+  "optionsDismiss": {
+    "message": "Dismiss",
+    "description": "Accessible name of the button that closes a toast."
   }
 }
