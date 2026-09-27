@@ -913,5 +913,61 @@
   "effectOutline": {
     "message": "Omlijning",
     "description": "Mark effect: an outline around the element."
+  },
+  "optionsColor": {
+    "message": "Kleur",
+    "description": "Mark editor: label of the color presets."
+  },
+  "colorRed": {
+    "message": "Rood",
+    "description": "Color preset name (#c93a2e)."
+  },
+  "colorAmber": {
+    "message": "Amber",
+    "description": "Color preset name (#f4a300)."
+  },
+  "colorBlue": {
+    "message": "Blauw",
+    "description": "Color preset name (#1f6feb)."
+  },
+  "colorSlate": {
+    "message": "Leisteen",
+    "description": "Color preset name (#57606a)."
+  },
+  "optionsCustomColor": {
+    "message": "Eigen kleur",
+    "description": "Mark editor: label of the hex field for a custom mark color."
+  },
+  "optionsPickColor": {
+    "message": "Kies een kleur",
+    "description": "Mark editor: accessible name of the browser's native color picker."
+  },
+  "optionsHexInvalid": {
+    "message": "Voer een kleur in zoals #1f6feb.",
+    "description": "Mark editor: the typed text is not a hex color."
+  },
+  "optionsTextColor": {
+    "message": "Tekstkleur",
+    "description": "Mark editor: label of the choice between automatic and custom text color."
+  },
+  "optionsTextAuto": {
+    "message": "Automatisch",
+    "description": "Text color: black or white, whichever is easier to read."
+  },
+  "optionsTextCustom": {
+    "message": "Eigen",
+    "description": "Text color: a color the user chooses."
+  },
+  "optionsCustomTextColor": {
+    "message": "Eigen tekstkleur",
+    "description": "Mark editor: label of the hex field for a custom text color."
+  },
+  "optionsTextAutoWhite": {
+    "message": "Automatisch: witte tekst op deze kleur.",
+    "description": "Mark editor: the automatic text color is white."
+  },
+  "optionsTextAutoBlack": {
+    "message": "Automatisch: zwarte tekst op deze kleur.",
+    "description": "Mark editor: the automatic text color is black."
   }
 }

@@ -155,3 +155,86 @@ describe('REQ-OPT-003 the mark editor: target and selector', () => {
     expect(await axeViolations(container)).toEqual([]);
   });
 });
+
+describe('REQ-MARK-012 color presets, a custom hex color and the native picker', () => {
+  const swatch = (name: string) =>
+    byRole('radio', { name }, byRole('radiogroup', { name: 'Color' }, editor()));
+  const customColor = () => byLabel('Custom color', editor());
+  const lastMark = (background: { commands: readonly unknown[] }) =>
+    (background.commands.at(-1) as { mark?: { color?: string; textColor?: string } }).mark;
+
+  it('offers the four presets and checks the mark’s color', async () => {
+    await openAt(markHash(ribbon.id));
+    expect(
+      ['Red', 'Amber', 'Blue', 'Slate'].map((name) => swatch(name).getAttribute('aria-checked')),
+    ).toEqual(['true', 'false', 'false', 'false']);
+  });
+
+  it('saves a preset when it is chosen', async () => {
+    const { background } = await openAt(markHash(ribbon.id));
+    fireEvent.click(swatch('Blue'));
+    await waitFor(() => expect(swatch('Blue')).toHaveAttribute('aria-checked', 'true'));
+    expect(background.commands).toEqual([
+      { type: 'updateMark', groupId: prod.id, markId: ribbon.id, mark: expect.any(Object) },
+    ]);
+    expect(lastMark(background)).toMatchObject({ color: '#1f6feb', target: ribbon.target });
+  });
+
+  it('saves a custom hex color, lowercased, when the field loses focus', async () => {
+    const { background } = await openAt(markHash(ribbon.id));
+    expect(customColor()).toHaveValue('#c93a2e');
+    type(customColor(), '#ABCDEF');
+    fireEvent.blur(customColor());
+    await waitFor(() => expect(lastMark(background)?.color).toBe('#abcdef'));
+    await waitFor(() => expect(swatch('Red')).toHaveAttribute('aria-checked', 'false'));
+  });
+
+  it('refuses a color that is not a hex value', async () => {
+    const { background } = await openAt(markHash(ribbon.id));
+    type(customColor(), 'red');
+    fireEvent.blur(customColor());
+    expect(customColor()).toHaveAccessibleDescription(
+      expect.stringContaining('Enter a color like #1f6feb.'),
+    );
+    expect(background.commands).toEqual([]);
+  });
+
+  it('saves the color picked with the native picker', async () => {
+    const { background } = await openAt(markHash(ribbon.id));
+    type(byLabel('Pick a color', editor()), '#123456');
+    await waitFor(() => expect(lastMark(background)?.color).toBe('#123456'));
+  });
+});
+
+describe('REQ-MARK-011 text color: automatic black or white, or custom', () => {
+  const textColor = (name: 'Auto' | 'Custom') =>
+    byRole('radio', { name }, byRole('radiogroup', { name: 'Text color' }, editor()));
+  const lastTextColor = (background: { commands: readonly unknown[] }) =>
+    (background.commands.at(-1) as { mark?: { textColor?: string } }).mark?.textColor;
+
+  it('is automatic by default and says which color that gives', async () => {
+    await openAt(markHash(ribbon.id));
+    expect(textColor('Auto')).toHaveAttribute('aria-checked', 'true');
+    expect(editor()).toHaveTextContent('Automatic: white text on this color.');
+  });
+
+  it('switches to a custom text color, starting from the automatic one', async () => {
+    const { background } = await openAt(markHash(ribbon.id));
+    fireEvent.click(textColor('Custom'));
+    await waitFor(() => expect(lastTextColor(background)).toBe('#ffffff'));
+    const field = await findRole('textbox', { name: 'Custom text color' }, editor());
+    expect(field).toHaveValue('#ffffff');
+    type(field, '#000000');
+    fireEvent.blur(field);
+    await waitFor(() => expect(lastTextColor(background)).toBe('#000000'));
+  });
+
+  it('goes back to automatic', async () => {
+    const custom = aPageMark({ textColor: '#000000' as never });
+    const group = aSiteGroup({ name: 'Custom', marks: [custom] });
+    const { background } = await openAt(markHash(custom.id, group), group);
+    expect(textColor('Custom')).toHaveAttribute('aria-checked', 'true');
+    fireEvent.click(textColor('Auto'));
+    await waitFor(() => expect(lastTextColor(background)).toBe('auto'));
+  });
+});
