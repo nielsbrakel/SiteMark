@@ -1,9 +1,12 @@
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
-import type { Hex } from '@/core/model/schema';
+import type { TabStatusAnswer } from '@/app/protocol';
+import type { Hex, SiteGroup } from '@/core/model/schema';
+import type { TabStatus } from '@/core/render/status';
 import { err } from '@/core/result';
 import {
+  anElementMark,
   aPageMark,
   aRegexPattern,
   aSiteGroup,
@@ -37,7 +40,13 @@ async function openPopup(url: string | undefined, ...siteGroups: ReturnType<type
 }
 
 const groupList = () => screen.findByRole('list', { name: 'Site groups on this site' });
-const items = async () => within(await groupList()).getAllByRole('listitem');
+/** The groups' own list items (each may hold a nested list of element marks). */
+const items = async () => {
+  const list = await groupList();
+  return within(list)
+    .getAllByRole('listitem')
+    .filter((item) => item.parentElement === list);
+};
 const chipColor = (item: HTMLElement) =>
   item
     .querySelector<HTMLElement>('[aria-hidden="true"]')
@@ -237,6 +246,81 @@ describe('REQ-POP-004 REQ-POP-006 the popup asks for access the matching site gr
   it('has no axe violations', async () => {
     const { view } = await openPopup(PAGE, production);
     await notice();
+    expect(await axeViolations(view.container)).toEqual([]);
+  });
+});
+
+describe('REQ-POP-002 the popup shows whether element marks found their target', () => {
+  const deleteButton = anElementMark({ label: 'Delete button' });
+  const priceTable = anElementMark({ label: 'Price table' });
+  const unlabelled = anElementMark({ target: { kind: 'element', selector: '#totals' } });
+  const withElements = group('Production', 'https://*.example.com/*', {
+    marks: [deleteButton, priceTable, unlabelled],
+  });
+  const status = (overrides: Partial<TabStatus> = {}): TabStatus => ({
+    marks: [
+      { markId: deleteButton.id, found: true },
+      { markId: priceTable.id, found: false },
+      { markId: unlabelled.id, found: true },
+    ],
+    favicon: 'off',
+    hidden: false,
+    ...overrides,
+  });
+
+  async function openWithStatus(tabStatus: TabStatusAnswer, ...siteGroups: SiteGroup[]) {
+    fakes().permissions.grant('https://*.example.com/*', '*://app.example.com/*');
+    const opened = await openPopup(PAGE, ...siteGroups);
+    opened.background.tabStatus = tabStatus;
+    return opened;
+  }
+
+  const markList = (name: string) =>
+    shown(() => screen.queryByRole('list', { name: `Element marks of ${name}` }));
+
+  it('lists each element mark of an active group as found or not found', async () => {
+    const { background, tabId } = await openWithStatus(status(), withElements);
+    const marks = within(await markList('Production')).getAllByRole('listitem');
+    expect(marks.map((mark) => mark.textContent)).toEqual([
+      'Delete button found',
+      'Price table not found Re-pick',
+      '#totals found',
+    ]);
+    expect(background.sent('getTabStatus')).toEqual([{ type: 'getTabStatus', data: { tabId } }]);
+  });
+
+  it('shows no mark status for a disabled group', async () => {
+    const disabled = { ...withElements, name: 'Disabled one', enabled: false };
+    await openWithStatus(status(), disabled);
+    await groupList();
+    expect(screen.queryByRole('list', { name: 'Element marks of Disabled one' })).toBeNull();
+  });
+
+  it('re-picks a mark that was not found, and closes the popup', async () => {
+    const close = vi.spyOn(window, 'close').mockImplementation(() => undefined);
+    const { background, tabId } = await openWithStatus(status(), withElements);
+    await click('Re-pick Price table');
+    await waitFor(() => expect(close).toHaveBeenCalledOnce());
+    expect(background.sent('startPicker')).toEqual([
+      { type: 'startPicker', data: { tabId, repickMarkId: priceTable.id } },
+    ]);
+  });
+
+  it('says when the favicon tint is unavailable', async () => {
+    await openWithStatus(status({ favicon: 'unavailable' }), withElements);
+    const note = await shown(() => screen.queryByText('Favicon tint unavailable on this page'));
+    expect(note).toBeInTheDocument();
+  });
+
+  it('shows no status while no marker runs in the tab', async () => {
+    await openWithStatus('not-injected', withElements);
+    await groupList();
+    expect(screen.queryByText(/found/)).toBeNull();
+  });
+
+  it('has no axe violations', async () => {
+    const { view } = await openWithStatus(status({ favicon: 'unavailable' }), withElements);
+    await markList('Production');
     expect(await axeViolations(view.container)).toEqual([]);
   });
 });

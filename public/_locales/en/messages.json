@@ -263,5 +263,41 @@
   "popupAllow": {
     "message": "Allow",
     "description": "Popup button that opens the browser's permission prompt for the current site."
+  },
+  "popupElementMarks": {
+    "message": "Element marks of $GROUP$",
+    "description": "Popup: accessible name of the list of element marks under a site group.",
+    "placeholders": {
+      "group": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
+  },
+  "popupMarkFound": {
+    "message": "found",
+    "description": "Popup: status of an element mark whose element was found on the page. Lowercase."
+  },
+  "popupMarkNotFound": {
+    "message": "not found",
+    "description": "Popup: status of an element mark whose element is not on the page. Lowercase."
+  },
+  "popupRepick": {
+    "message": "Re-pick",
+    "description": "Popup button next to an element mark that wasn't found: pick its element again."
+  },
+  "popupRepickLabel": {
+    "message": "Re-pick $MARK$",
+    "description": "Popup: accessible name of the Re-pick button, naming the element mark it re-picks.",
+    "placeholders": {
+      "mark": {
+        "content": "$1",
+        "example": "Price table"
+      }
+    }
+  },
+  "popupFaviconUnavailable": {
+    "message": "Favicon tint unavailable on this page",
+    "description": "Popup: the page's favicon couldn't be read, so the favicon tint of a mark isn't shown."
   }
 }

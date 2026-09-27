@@ -263,5 +263,41 @@
   "popupAllow": {
     "message": "Toestaan",
     "description": "Pop-upknop die de toestemmingsvraag van de browser voor de huidige site opent."
+  },
+  "popupElementMarks": {
+    "message": "Elementmarkeringen van $GROUP$",
+    "description": "Pop-up: toegankelijke naam van de lijst met elementmarkeringen onder een sitegroep.",
+    "placeholders": {
+      "group": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
+  },
+  "popupMarkFound": {
+    "message": "gevonden",
+    "description": "Pop-up: status van een elementmarkering waarvan het element op de pagina is gevonden. Kleine letters."
+  },
+  "popupMarkNotFound": {
+    "message": "niet gevonden",
+    "description": "Pop-up: status van een elementmarkering waarvan het element niet op de pagina staat. Kleine letters."
+  },
+  "popupRepick": {
+    "message": "Opnieuw kiezen",
+    "description": "Pop-upknop naast een elementmarkering die niet is gevonden: kies het element opnieuw."
+  },
+  "popupRepickLabel": {
+    "message": "$MARK$ opnieuw kiezen",
+    "description": "Pop-up: toegankelijke naam van de knop Opnieuw kiezen, met de naam van de elementmarkering.",
+    "placeholders": {
+      "mark": {
+        "content": "$1",
+        "example": "Price table"
+      }
+    }
+  },
+  "popupFaviconUnavailable": {
+    "message": "Faviconkleur niet beschikbaar op deze pagina",
+    "description": "Pop-up: het favicon van de pagina kon niet worden gelezen, dus de faviconkleur van een markering wordt niet getoond."
   }
 }
