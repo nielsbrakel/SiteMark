@@ -16,6 +16,7 @@ import { type GrantDeps, watchPermissions } from './use-cases/grant';
 import { applyImportFile, type ImportDataDeps, previewImportFile } from './use-cases/import-data';
 import { type CommandName, runKeyboardCommand } from './use-cases/keyboard-command';
 import { markThisSite } from './use-cases/mark-this-site';
+import { isSenderGranted, showOnTab } from './use-cases/picked-tab';
 import { pickerContext } from './use-cases/picker-context';
 import { pushPlans, renderPlanFor } from './use-cases/render-plan';
 import { reportStatus, showReadOnlyBadges } from './use-cases/report-status';
@@ -109,12 +110,20 @@ function senderOrigin({ origin }: ContentSender): OriginPattern | undefined {
 }
 
 function contentHandlers({ ports, queue }: Wired): ContentHandlers {
-  const { stateRepo, badge, tabs, idGen } = ports;
+  const { stateRepo, badge, tabs, idGen, permissions, markerFiles } = ports;
   return {
     renderPlanFor: (_, sender) => renderPlanFor(stateRepo, sender.url),
     reportStatus: (status, sender) => reportStatus({ badge, stateRepo }, sender.tabId, status),
-    pickerContext: (_, sender) => pickerContext(stateRepo, sender.url),
-    savePick: (pick, sender) => savePick({ queue, idGen }, pick, sender),
+    pickerContext: async (_, sender) => ({
+      ...(await pickerContext(stateRepo, sender.url)),
+      isGranted: await isSenderGranted(permissions, sender),
+    }),
+    savePick: async (pick, sender) => {
+      const saved = await savePick({ queue, idGen }, pick, sender);
+      // Shown on this tab at once, granted or not (REQ-PICK-006).
+      if (saved.ok) await showOnTab({ tabs, markerFiles }, sender.tabId);
+      return saved;
+    },
     requestGrant: async (_, sender) => {
       const origin = senderOrigin(sender);
       if (origin) await tabs.create(ports.grantPageUrl([origin]));

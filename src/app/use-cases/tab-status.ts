@@ -8,7 +8,7 @@ export type TabStatusError = TabMessageError | 'invalidResponse';
 
 /** Asks the marker in `tabId` for its status and validates the answer (REQ-SEC-003). */
 export async function requestTabStatus(
-  tabs: Tabs,
+  tabs: Pick<Tabs, 'sendMessage'>,
   tabId: number,
 ): Promise<Result<TabStatus, TabStatusError>> {
   const answer = await tabs.sendMessage(tabId, tabMessage('getStatus', undefined));

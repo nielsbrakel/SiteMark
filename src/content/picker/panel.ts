@@ -1,16 +1,16 @@
 import type { SavePick } from '../../app/protocol';
 import type { PickerContext } from '../../app/use-cases/picker-context';
-import { notImplemented } from '../../core/not-implemented';
 import {
   colorField,
   effectChips,
   el,
   groupField,
+  notGrantedNotice,
   type PanelLabels,
   panelActions,
   selectorField,
 } from './panel-fields';
-import { guardActivation, type TrustDeps } from './panel-guard';
+import { type ActivationGuard, guardActivation, type TrustDeps } from './panel-guard';
 import { type Box, nextCorner, oppositeCorner, type PanelCorner } from './panel-placement';
 
 // The mini panel after a selection (REQ-PICK-005): an editable selector with a live match
@@ -93,6 +93,18 @@ function isolate(element: HTMLElement, trust: TrustDeps, onCancel: () => void): 
   });
 }
 
+/** Swaps the form (everything below the header) for the not-granted notice (REQ-PICK-006). */
+function showNotice(element: HTMLElement, deps: PanelDeps, guard: ActivationGuard): void {
+  while (element.children.length > 1) element.lastElementChild?.remove();
+  const shown = notGrantedNotice(deps.labels);
+  shown.allow.addEventListener('click', () => deps.onAllow?.());
+  shown.close.addEventListener('click', () => deps.onClose?.());
+  element.append(shown.notice, shown.row);
+  // The panel changed under the pointer: the delay starts again (REQ-SEC-005).
+  guard.rearm();
+  shown.allow.focus({ preventScroll: true });
+}
+
 /** The mini panel after a selection (REQ-PICK-005). */
 export function createPanel(parent: HTMLElement, deps: PanelDeps): Panel {
   const { labels } = deps;
@@ -133,5 +145,6 @@ export function createPanel(parent: HTMLElement, deps: PanelDeps): Panel {
   update();
   parent.append(element);
   selector.input.focus({ preventScroll: true });
-  return { element, showNotGranted: () => notImplemented(), dispose: () => element.remove() };
+  const showNotGranted = () => showNotice(element, deps, guard);
+  return { element, showNotGranted, dispose: () => element.remove() };
 }

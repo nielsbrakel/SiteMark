@@ -25,6 +25,9 @@ export type PanelLabels = {
   readonly cancel: string;
   readonly moreOptions: string;
   readonly movePanel: string;
+  readonly notGranted: string;
+  readonly allow: string;
+  readonly close: string;
 };
 
 /** Chip order is the order the effects are saved in. */
@@ -142,16 +145,29 @@ export function colorField(labels: PanelLabels) {
   return { row, color, sync };
 }
 
+function button(text: string, className: string): HTMLButtonElement {
+  const element = el('button', className, text);
+  element.type = 'button';
+  return element;
+}
+
 export function panelActions(labels: PanelLabels) {
   const row = el('div', 'sm-panel__actions');
-  const button = (text: string, className: string) => {
-    const element = el('button', className, text);
-    element.type = 'button';
-    return element;
-  };
   const more = button(labels.moreOptions, 'sm-panel__button sm-panel__button--link');
   const cancel = button(labels.cancel, 'sm-panel__button');
   const save = button(labels.save, 'sm-panel__button sm-panel__button--primary');
   row.append(more, cancel, save);
   return { row, more, cancel, save };
+}
+
+/** "Shown on this tab only…" with Allow and Close (REQ-PICK-006). */
+export function notGrantedNotice(labels: PanelLabels) {
+  const notice = el('p', 'sm-panel__notice', labels.notGranted);
+  notice.dataset.part = 'notice';
+  notice.setAttribute('role', 'status');
+  const row = el('div', 'sm-panel__actions');
+  const close = button(labels.close, 'sm-panel__button');
+  const allow = button(labels.allow, 'sm-panel__button sm-panel__button--primary');
+  row.append(close, allow);
+  return { notice, row, allow, close };
 }

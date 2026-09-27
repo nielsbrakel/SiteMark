@@ -29,7 +29,7 @@ const responses = {
   importApply: ok({ revision: 3, notices: [] }),
   renderPlanFor: emptyPlan(),
   reportStatus: undefined,
-  pickerContext: { groups: [], theme: 'system' as const },
+  pickerContext: { groups: [], theme: 'system' as const, isGranted: true },
   savePick: ok({ markId: 'mark00000009' as MarkId, siteGroupId: 'group0000001' as SiteGroupId }),
   requestGrant: undefined,
   openOptions: undefined,

@@ -128,6 +128,11 @@ export const PANEL_CSS = `
 .sm-panel__actions {
   justify-content: flex-end;
 }
+.sm-panel__notice {
+  margin: 0 0 var(--sm-space-3);
+  color: var(--sm-warning);
+  font-weight: 600;
+}
 .sm-panel__button--link {
   margin-right: auto;
   box-shadow: none;

@@ -12,6 +12,9 @@ export type PickerContext = {
   readonly theme: Theme;
 };
 
+/** The pickerContext answer: the choices, and whether the site is granted (REQ-PICK-006). */
+export type PickerAnswer = PickerContext & { readonly isGranted: boolean };
+
 /** The panel's choices for the sender's own URL, and nothing else of the state (D-221). */
 export async function pickerContext(repo: StateRepo, url: string): Promise<PickerContext> {
   // Read-only and recovered loads carry emptyState(): no groups, the system theme.
