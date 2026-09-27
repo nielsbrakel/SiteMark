@@ -1,0 +1,10 @@
+.notice {
+  display: grid;
+  gap: var(--sm-space-2);
+  justify-items: start;
+}
+
+.text {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
