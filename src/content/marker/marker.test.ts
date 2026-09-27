@@ -28,7 +28,9 @@ async function aMarker(plan: Answer = emptyPlan()) {
   const setup = rendererDeps();
   let handlers: TabHandlers | undefined;
   const unlisten = vi.fn();
-  const ports = {
+  const unwatch = vi.fn();
+  let urlChanged: () => void = () => undefined;
+  const base = {
     requestPlan: vi.fn(async () => plan),
     reportStatus: vi.fn(),
     listen: vi.fn((next: TabHandlers) => {
@@ -37,13 +39,24 @@ async function aMarker(plan: Answer = emptyPlan()) {
     }),
     createRenderer: (hooks) => createRenderer({ ...setup.deps, ...hooks }),
   } satisfies MarkerPorts;
+  const ports = {
+    ...base,
+    watchUrl: vi.fn((onChange: () => void) => {
+      urlChanged = onChange;
+      return unwatch;
+    }),
+  };
   markers.push(startMarker(ports));
   await vi.advanceTimersByTimeAsync(0);
   const tab = () => {
     if (!handlers) throw new Error('the marker did not listen');
     return handlers;
   };
-  return { ports, tab, unlisten, ...setup };
+  const navigate = async () => {
+    urlChanged();
+    await vi.advanceTimersByTimeAsync(0);
+  };
+  return { ports, tab, unlisten, unwatch, navigate, ...setup };
 }
 
 function addApp(): void {
@@ -141,5 +154,44 @@ describe('REQ-RND-007 plans pushed by the background reach the tab', () => {
     answer(aPlan(ribbon));
     await vi.advanceTimersByTimeAsync(0);
     expect(views.live().map((view) => view.item.key)).toEqual(['m0:tint']);
+  });
+});
+
+describe('REQ-RND-004 the marker asks for a new plan when the URL changes', () => {
+  it('requests and applies the plan of the new URL', async () => {
+    const { ports, navigate, views } = await aMarker(aPlan(ribbon));
+    ports.requestPlan.mockResolvedValue(aPlan(tint));
+    await navigate();
+    expect(ports.requestPlan).toHaveBeenCalledTimes(2);
+    expect(views.live().map((view) => view.item.key)).toEqual(['m0:tint']);
+  });
+
+  it('watches the URL while idle', async () => {
+    const { ports, navigate, hosts } = await aMarker(emptyPlan());
+    ports.requestPlan.mockResolvedValue(aPlan(ribbon));
+    await navigate();
+    expect(hosts.create).toHaveBeenCalledOnce();
+  });
+
+  it('keeps the newest answer when navigations overlap', async () => {
+    const { ports, navigate, views } = await aMarker(emptyPlan());
+    let answerFirst: (plan: RenderPlan) => void = () => undefined;
+    ports.requestPlan.mockReturnValueOnce(
+      new Promise((resolve) => {
+        answerFirst = resolve;
+      }),
+    );
+    await navigate();
+    ports.requestPlan.mockResolvedValueOnce(aPlan(tint));
+    await navigate();
+    answerFirst(aPlan(ribbon));
+    await vi.advanceTimersByTimeAsync(0);
+    expect(views.live().map((view) => view.item.key)).toEqual(['m0:tint']);
+  });
+
+  it('stops watching the URL when disposed', async () => {
+    const { unwatch } = await aMarker(aPlan(ribbon));
+    for (const marker of markers.splice(0)) marker.dispose();
+    expect(unwatch).toHaveBeenCalledOnce();
   });
 });

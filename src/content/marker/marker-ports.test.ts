@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fakeBrowser } from 'wxt/testing/fake-browser';
+import { aTitlePrefixItem } from '../../../tests/unit/document-items';
 import { aPlan } from '../../../tests/unit/marker-renderer';
 import { aPageItem } from '../../../tests/unit/marker-view';
 import { emptyPlan } from '../../core/render/render-plan';
@@ -65,5 +66,51 @@ describe('REQ-RND-007 the banner labels are translated', () => {
       collapseBanner: 'Collapse banner',
       expandBanner: 'Show banner',
     });
+  });
+});
+
+describe('REQ-MARK-009 the marker owns the document effects', () => {
+  it('applies the title prefix and restores the title when disposed', () => {
+    document.title = 'Dashboard';
+    const renderer = markerPorts().createRenderer({ onStatusChange: vi.fn(), onHostLost: vi.fn() });
+    renderers.push(renderer);
+    renderer.apply(aPlan(aTitlePrefixItem('PROD')));
+    expect(document.title).toBe('PROD Dashboard');
+    renderer.dispose();
+    expect(document.title).toBe('Dashboard');
+  });
+});
+
+describe('REQ-RND-013 the marker fades ribbons and banners near the pointer', () => {
+  it('listens for the pointer only once a ribbon is drawn', () => {
+    const add = vi.spyOn(window, 'addEventListener');
+    const renderer = markerPorts().createRenderer({ onStatusChange: vi.fn(), onHostLost: vi.fn() });
+    renderers.push(renderer);
+    renderer.apply(aPlan(aPageItem('tint', { opacityPct: 10 })));
+    const pointer = () => add.mock.calls.filter(([type]) => type === 'pointermove');
+    expect(pointer()).toHaveLength(0);
+    renderer.apply(aPlan(aPageItem('ribbon', { text: 'PROD', corner: 'top-right' })));
+    expect(pointer()).toHaveLength(1);
+  });
+
+  it('stops listening when the last ribbon or banner goes', () => {
+    const remove = vi.spyOn(window, 'removeEventListener');
+    const renderer = markerPorts().createRenderer({ onStatusChange: vi.fn(), onHostLost: vi.fn() });
+    renderers.push(renderer);
+    renderer.apply(aPlan(aPageItem('ribbon', { text: 'PROD', corner: 'top-right' })));
+    renderer.apply(aPlan(aPageItem('tint', { opacityPct: 10 })));
+    expect(remove.mock.calls.filter(([type]) => type === 'pointermove')).toHaveLength(1);
+  });
+});
+
+describe('REQ-RND-004 the marker watches the URL', () => {
+  it('watches the URL through its ports', () => {
+    const setInterval = vi.spyOn(window, 'setInterval');
+    type Watch = { watchUrl?: (onChange: () => void) => () => void };
+    const ports = markerPorts() as unknown as Watch;
+    expect(ports.watchUrl).toBeTypeOf('function');
+    const unwatch = ports.watchUrl?.(vi.fn());
+    expect(setInterval).toHaveBeenCalled();
+    unwatch?.();
   });
 });
