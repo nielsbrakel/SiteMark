@@ -133,6 +133,10 @@ const examples: { [T in Command['type']]: Example<T> } = {
     command: { type: 'setTheme', theme: 'dark' },
     check: (o) => expect(o.state.settings.theme).toBe('dark'),
   },
+  resetAll: {
+    command: { type: 'resetAll' },
+    check: (o) => expect(o.state.siteGroups).toEqual([]),
+  },
 };
 
 describe('REQ-SEC-001 applyCommand runs every command through its reducer', () => {

@@ -37,6 +37,7 @@ const examples: { [T in Command['type']]: CommandOf<T> } = {
   moveMark: { type: 'moveMark', groupId, markId, toIndex: 3 },
   markThisSite: { type: 'markThisSite', origin: { hostname: 'localhost', port: '3000' } },
   setTheme: { type: 'setTheme', theme: 'light' },
+  resetAll: { type: 'resetAll' },
 };
 
 describe('REQ-SEC-001 REQ-SEC-004 the command schema checks untrusted commands', () => {

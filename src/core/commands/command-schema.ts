@@ -68,6 +68,7 @@ const otherCommands = [
     origin: z.strictObject({ hostname: text, port: text }),
   }),
   z.strictObject({ type: z.literal('setTheme'), theme: settingsSchema.shape.theme }),
+  z.strictObject({ type: z.literal('resetAll') }),
 ] as const;
 
 /** Every command, discriminated by `type` (the message protocol's `command` payload). */

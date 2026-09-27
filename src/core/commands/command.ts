@@ -153,8 +153,20 @@ export type MarkThisSite = { readonly type: 'markThisSite'; readonly origin: Sit
 /** REQ-OPT-004 */
 export type SetTheme = { readonly type: 'setTheme'; readonly theme: Theme };
 
+/**
+ * Deletes every site group and restores the default settings (REQ-OPT-005, Reset everything). The
+ * background's registration sync then unregisters the marker.
+ */
+export type ResetAll = { readonly type: 'resetAll' };
+
 /** Everything an extension page can ask the background to change. */
-export type Command = SiteGroupCommand | PatternCommand | MarkCommand | MarkThisSite | SetTheme;
+export type Command =
+  | SiteGroupCommand
+  | PatternCommand
+  | MarkCommand
+  | MarkThisSite
+  | SetTheme
+  | ResetAll;
 
 /** The command with the given `type`, e.g. `CommandOf<'renameSiteGroup'>`. */
 export type CommandOf<T extends Command['type']> = Extract<Command, { readonly type: T }>;
