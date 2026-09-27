@@ -25,12 +25,15 @@ type PaneProps = {
   readonly state: SiteMarkState;
   readonly group: SiteGroup | undefined;
   readonly notify: Notify;
+  readonly onAdded: (revision: number) => void;
 };
 
-function GroupPane({ state, group, notify }: PaneProps): ReactNode {
+function GroupPane({ state, group, notify, onAdded }: PaneProps): ReactNode {
   if (!group) return <p className={`sm-well ${paneStyles.pane}`}>{t('optionsNoGroups')}</p>;
   const index = state.siteGroups.indexOf(group);
-  return <GroupEditor key={group.id} group={group} index={index} notify={notify} />;
+  return (
+    <GroupEditor key={group.id} group={group} index={index} notify={notify} onAdded={onAdded} />
+  );
 }
 
 function Pane(props: PaneProps): ReactNode {
@@ -65,7 +68,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
         notify={setToast}
       />
       <main className={styles.main}>
-        <Pane route={route} state={state} group={group} notify={setToast} />
+        <Pane route={route} state={state} group={group} notify={setToast} onAdded={openNewGroup} />
       </main>
       <Toast
         toast={toast}
