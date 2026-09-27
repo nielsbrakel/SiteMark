@@ -54,6 +54,18 @@ function panelShell(deps: PanelDeps): HTMLElement {
   return element;
 }
 
+/** Input on the panel stays SiteMark's: nothing bubbles on to the page's listeners. Esc cancels. */
+function isolate(element: HTMLElement, onCancel: () => void): void {
+  const stop = (event: Event) => event.stopPropagation();
+  for (const type of ['keyup', 'keypress', 'pointerdown', 'mousedown', 'click', 'input']) {
+    element.addEventListener(type, stop);
+  }
+  element.addEventListener('keydown', (event) => {
+    stop(event);
+    if (event.key === 'Escape' && event.isTrusted) onCancel();
+  });
+}
+
 /** The mini panel after a selection (REQ-PICK-005). */
 export function createPanel(parent: HTMLElement, deps: PanelDeps): Panel {
   const { labels } = deps;
@@ -84,7 +96,9 @@ export function createPanel(parent: HTMLElement, deps: PanelDeps): Panel {
   actions.save.addEventListener('click', () => deps.onSave(pick()));
   actions.more.addEventListener('click', () => deps.onMoreOptions(pick()));
   actions.cancel.addEventListener('click', () => deps.onCancel());
+  isolate(element, deps.onCancel);
   update();
   parent.append(element);
+  selector.input.focus({ preventScroll: true });
   return { element, dispose: () => element.remove() };
 }

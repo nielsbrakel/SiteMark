@@ -2,6 +2,7 @@ import { elementAt } from './candidate';
 import { GLASS_PANE_CSS } from './glass-pane-css';
 import { drawHighlight, type PaneLabels } from './highlight';
 import { captureFocus, listenForKeys, type PaneKey } from './pane-focus';
+import { PANEL_CSS } from './panel-css';
 import { createPart, createPickerHost } from './picker-host';
 
 // The glass pane (D-240, REQ-PICK-002, REQ-PICK-003): the picker's own top-layer host covers the
@@ -20,6 +21,8 @@ export type PaneHooks = {
 };
 
 export type GlassPane = {
+  /** The picker's container in the shadow root, where the mini panel goes. */
+  readonly root: HTMLElement;
   /** Outlines the element and shows its tooltip; `null` hides both. */
   highlight(element: Element | null): void;
   /** Removes the pane and its listeners. Idempotent. */
@@ -88,7 +91,7 @@ function buildLive(root: HTMLElement): HTMLElement {
  * picker's pointer or keyboard input, and targets are found with `elementsFromPoint`.
  */
 export function createGlassPane(hooks: PaneHooks, labels: PaneLabels): GlassPane {
-  const host = createPickerHost([GLASS_PANE_CSS]);
+  const host = createPickerHost([GLASS_PANE_CSS, PANEL_CSS]);
   const pane = buildPane(host.root, labels);
   const parts = {
     outline: createPart(host.root, 'div', 'outline'),
@@ -106,6 +109,7 @@ export function createGlassPane(hooks: PaneHooks, labels: PaneLabels): GlassPane
 
   let disposed = false;
   return {
+    root: host.root,
     highlight(element) {
       highlighted = element;
       draw();

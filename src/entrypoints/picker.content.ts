@@ -8,6 +8,6 @@ export default defineContentScript({
   matches: ['*://*/*'],
   registration: 'runtime',
   main() {
-    startPicking({ onSelect: () => undefined });
+    startPicking();
   },
 });

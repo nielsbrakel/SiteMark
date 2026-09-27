@@ -13,8 +13,8 @@ type Event = PickerEvent<Element>;
 
 export type PickerDeps = {
   readonly createPane: (hooks: PaneHooks) => GlassPane;
-  /** The user selected an element: the mini panel takes over (REQ-PICK-005). */
-  readonly onSelect: (element: Element, session: PickerSession) => void;
+  /** The user selected an element: the mini panel takes over in `root` (REQ-PICK-005). */
+  readonly onSelect: (element: Element, session: PickerSession, root: HTMLElement) => void;
   /** The session ended (cancelled or saved); the pane is already gone. */
   readonly onEnd: () => void;
 };
@@ -58,7 +58,7 @@ export function runPicker(deps: PickerDeps): PickerSession {
         return;
       case 'editing':
         pane.highlight(next.selection);
-        deps.onSelect(next.selection, session);
+        deps.onSelect(next.selection, session, pane.root);
         return;
       case 'done':
         pane.dispose();
