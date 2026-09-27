@@ -30,22 +30,19 @@ async function aMarker(plan: Answer = emptyPlan()) {
   const unlisten = vi.fn();
   const unwatch = vi.fn();
   let urlChanged: () => void = () => undefined;
-  const base = {
+  const ports = {
     requestPlan: vi.fn(async () => plan),
     reportStatus: vi.fn(),
     listen: vi.fn((next: TabHandlers) => {
       handlers = next;
       return unlisten;
     }),
-    createRenderer: (hooks) => createRenderer({ ...setup.deps, ...hooks }),
-  } satisfies MarkerPorts;
-  const ports = {
-    ...base,
     watchUrl: vi.fn((onChange: () => void) => {
       urlChanged = onChange;
       return unwatch;
     }),
-  };
+    createRenderer: (hooks) => createRenderer({ ...setup.deps, ...hooks }),
+  } satisfies MarkerPorts;
   markers.push(startMarker(ports));
   await vi.advanceTimersByTimeAsync(0);
   const tab = () => {

@@ -16,6 +16,8 @@ export type MarkerPorts = {
   readonly requestPlan: () => Promise<RenderPlan | undefined>;
   readonly reportStatus: (status: TabStatus) => void;
   readonly listen: (handlers: TabHandlers) => Unsubscribe;
+  /** Calls `onChange` whenever the tab's URL changes (SPA navigation, REQ-RND-004). */
+  readonly watchUrl: (onChange: () => void) => Unsubscribe;
   readonly createRenderer: (hooks: RendererHooks) => Renderer;
 };
 
@@ -28,15 +30,17 @@ export type Marker = {
 const IDLE: TabStatus = { marks: [], favicon: 'off', hidden: false };
 
 /**
- * The marker content script (plan §3.3): asks for its render plan, applies it and every plan the
- * background pushes, and reports the tab status whenever it changes (REQ-RND-005). It stops when
- * its host goes away: a newer instance took over, or the extension is gone (REQ-RND-012).
+ * The marker content script (plan §3.3): asks for its render plan at start and after every URL
+ * change (REQ-RND-004), applies it and every plan the background pushes, and reports the tab
+ * status whenever it changes (REQ-RND-005). It stops when its host goes away: a newer instance
+ * took over, or the extension is gone (REQ-RND-012).
  */
 export function startMarker(ports: MarkerPorts): Marker {
   let reported = JSON.stringify(IDLE);
   let isDisposed = false;
-  // A plan the background pushed is newer than the answer to our first request.
-  let hasPush = false;
+  // Bumped by every request and every push: only the answer to the newest request is applied,
+  // and a pushed plan is newer than any answer still on its way.
+  let latest = 0;
   const report = () => {
     const status = renderer.status();
     const json = JSON.stringify(status);
@@ -48,19 +52,25 @@ export function startMarker(ports: MarkerPorts): Marker {
     if (isDisposed) return;
     isDisposed = true;
     unlisten();
+    unwatch();
     renderer.dispose();
   };
   const renderer = ports.createRenderer({ onStatusChange: report, onHostLost: dispose });
   const unlisten = ports.listen({
     applyPlan: (plan) => {
-      hasPush = true;
+      latest++;
       renderer.apply(plan);
     },
     setHidden: ({ hidden }) => renderer.setHidden(hidden),
     getStatus: () => renderer.status(),
   });
-  void ports.requestPlan().then((plan) => {
-    if (plan && !hasPush && !isDisposed) renderer.apply(plan);
-  });
+  const requestPlan = () => {
+    const request = ++latest;
+    void ports.requestPlan().then((plan) => {
+      if (plan && request === latest && !isDisposed) renderer.apply(plan);
+    });
+  };
+  const unwatch = ports.watchUrl(requestPlan);
+  requestPlan();
   return { dispose };
 }

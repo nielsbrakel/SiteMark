@@ -1,5 +1,4 @@
-import { notImplemented } from '../../core/not-implemented';
-import type { ProximityFade } from './proximity';
+import { fadeNodesOf, type ProximityFade } from './proximity';
 import type { ViewMountHook } from './view-set';
 
 /**
@@ -7,6 +6,23 @@ import type { ViewMountHook } from './view-set';
  * fade (and its pointer listener) exists only while such a view is mounted, so an idle tab
  * doesn't listen at all (REQ-RND-009).
  */
-export function proximityOnMount(_create: () => ProximityFade): ViewMountHook {
-  return notImplemented();
+export function proximityOnMount(create: () => ProximityFade): ViewMountHook {
+  let fade: ProximityFade | undefined;
+  let nodes = 0;
+  const release = (remove: () => void) => {
+    remove();
+    nodes--;
+    if (nodes > 0) return;
+    fade?.dispose();
+    fade = undefined;
+  };
+  return (item, view, disposer) => {
+    if (item.effect !== 'ribbon' && item.effect !== 'banner') return;
+    fade ??= create();
+    for (const node of fadeNodesOf(view.el)) {
+      const remove = fade.add(node);
+      nodes++;
+      disposer.add(() => release(remove));
+    }
+  };
 }
