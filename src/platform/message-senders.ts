@@ -24,6 +24,16 @@ function webOrigin(url: string): string | undefined {
   }
 }
 
+/**
+ * The page's current URL: Chrome keeps `sender.url` at the URL the document loaded with, while the
+ * tab's URL follows pushState (REQ-RND-004). A tab URL of another origin is ignored: the origin
+ * always comes from `sender.url`.
+ */
+function currentUrl(sender: MessageSender, url: string, origin: string): string {
+  const tabUrl = sender.tab?.url;
+  return tabUrl !== undefined && webOrigin(tabUrl) === origin ? tabUrl : url;
+}
+
 /** The tab, URL and origin of a SiteMark content script in a top frame, or `undefined`. */
 export function contentSenderOf(sender: MessageSender): ContentSender | undefined {
   const tabId = sender.tab?.id;
@@ -32,5 +42,5 @@ export function contentSenderOf(sender: MessageSender): ContentSender | undefine
     return undefined;
   }
   const origin = webOrigin(url);
-  return origin === undefined ? undefined : { tabId, url, origin };
+  return origin === undefined ? undefined : { tabId, url: currentUrl(sender, url, origin), origin };
 }
