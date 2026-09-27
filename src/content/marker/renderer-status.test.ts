@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { aTitlePrefixItem } from '../../../tests/unit/document-items';
 import { aPlan, onElement, rendererDeps } from '../../../tests/unit/marker-renderer';
 import { aPageItem, resetDocument } from '../../../tests/unit/marker-view';
 import { emptyPlan } from '../../core/render/render-plan';
@@ -119,5 +120,51 @@ describe('REQ-RND-008 the hidden state (placeholder until T-098)', () => {
     expect(hosts.create).not.toHaveBeenCalled();
     renderer.apply(aPlan(ribbon));
     expect(hosts.hosts[0]?.root.hidden).toBe(true);
+  });
+});
+
+describe('REQ-RND-008 hide on this tab restores the title and favicon', () => {
+  function recordingEffects() {
+    const apply = vi.fn();
+    const documentEffects: DocumentEffects = {
+      apply,
+      faviconStatus: () => 'off',
+      dispose: vi.fn(),
+    };
+    const lastItems = () => apply.mock.calls.at(-1)?.[0];
+    return { documentEffects, lastItems };
+  }
+  const title = aTitlePrefixItem('PROD');
+
+  it('takes the document effects off while hidden and puts them back when shown', () => {
+    const { documentEffects, lastItems } = recordingEffects();
+    const { renderer } = aRenderer({ documentEffects });
+    renderer.apply(aPlan(title, ribbon));
+    expect(lastItems()).toEqual([title]);
+    renderer.setHidden(true);
+    expect(lastItems()).toEqual([]);
+    renderer.setHidden(false);
+    expect(lastItems()).toEqual([title]);
+  });
+
+  it('keeps them off for plans that arrive while hidden (SPA navigation)', () => {
+    const { documentEffects, lastItems } = recordingEffects();
+    const { renderer, hosts } = aRenderer({ documentEffects });
+    renderer.apply(aPlan(ribbon));
+    renderer.setHidden(true);
+    const next = aTitlePrefixItem('LIVE');
+    renderer.apply(aPlan(next, ribbon));
+    expect(lastItems() ?? []).toEqual([]);
+    expect(hosts.hosts[0]?.root.hidden).toBe(true);
+    renderer.setHidden(false);
+    expect(lastItems()).toEqual([next]);
+  });
+
+  it('starts hidden when the tab was hidden before its first plan', () => {
+    const { documentEffects, lastItems } = recordingEffects();
+    const { renderer } = aRenderer({ documentEffects });
+    renderer.setHidden(true);
+    renderer.apply(aPlan(title, ribbon));
+    expect(lastItems() ?? []).toEqual([]);
   });
 });
