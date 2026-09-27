@@ -264,3 +264,27 @@ describe('REQ-GRP-004 REQ-A11Y-010 reorder site groups with Move up/down or drag
     expect(background.commands).toEqual([]);
   });
 });
+
+describe('REQ-GRP-006 duplicate a site group', () => {
+  const duplicate = () => byRole('button', { name: 'Duplicate site group' }, pane());
+
+  it('adds a disabled copy named "<name> copy" at the bottom and opens it', async () => {
+    const { background } = await openAt(`#/groups/${prod.id}`);
+    fireEvent.click(duplicate());
+    await waitFor(() => expect(groupNames()).toEqual(['Production', 'Staging', 'Production copy']));
+    expect(background.commands).toEqual([{ type: 'duplicateSiteGroup', id: prod.id }]);
+    await waitFor(() => expect(paneTitle()).toBe('Production copy'));
+    expect(byRole('switch', { name: 'Enabled' }, pane())).toHaveAttribute('aria-checked', 'false');
+    const copy = background.state().siteGroups.at(-1);
+    expect(copy?.patterns.map((pattern) => pattern.value)).toEqual(['https://prod.example.com/*']);
+    expect(copy?.id).not.toBe(prod.id);
+  });
+
+  it('says so when the copy is refused', async () => {
+    const { background } = await openAt(`#/groups/${prod.id}`);
+    background.refuseNext('siteGroupLimitReached');
+    fireEvent.click(duplicate());
+    expect(await findRole('status')).toHaveTextContent('You can have at most 200 site groups.');
+    expect(groupNames()).toEqual(['Production', 'Staging']);
+  });
+});

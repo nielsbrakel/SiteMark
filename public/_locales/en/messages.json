@@ -655,5 +655,9 @@
         "example": "Production"
       }
     }
+  },
+  "optionsDuplicateGroup": {
+    "message": "Duplicate site group",
+    "description": "Site group editor: button that adds a copy of the site group (turned off) at the bottom of the list."
   }
 }
