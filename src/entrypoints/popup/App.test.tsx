@@ -17,7 +17,7 @@ import type { OriginPattern } from '@/core/url/origin';
 import { grantPageUrl } from '@/platform/grant-page';
 import { fakes } from '../../../tests/fakes/install';
 import { axeViolations } from '../../../tests/unit/axe';
-import { activeTab, fakeBackground, shown } from '../../../tests/unit/popup-harness';
+import { activeTab, fakeBackground, shortcuts, shown } from '../../../tests/unit/popup-harness';
 import { PopupApp } from './App';
 
 const PAGE = 'https://app.example.com:8443/orders';
@@ -321,6 +321,81 @@ describe('REQ-POP-002 the popup shows whether element marks found their target',
   it('has no axe violations', async () => {
     const { view } = await openWithStatus(status({ favicon: 'unavailable' }), withElements);
     await markList('Production');
+    expect(await axeViolations(view.container)).toEqual([]);
+  });
+});
+
+describe('REQ-POP-003 REQ-RND-008 the popup offers Pick element, Hide on this tab and Settings', () => {
+  const report = (hidden: boolean): TabStatus => ({ marks: [], favicon: 'off', hidden });
+
+  it.each([
+    ['with matching groups', [production]],
+    ['without a match', [elsewhere]],
+  ])('Pick element starts the picker on the tab and closes the popup, %s', async (_, groups) => {
+    const close = vi.spyOn(window, 'close').mockImplementation(() => undefined);
+    const { background, tabId } = await openPopup(PAGE, ...groups);
+    await click('Pick element');
+    await waitFor(() => expect(close).toHaveBeenCalledOnce());
+    expect(background.sent('startPicker')).toEqual([{ type: 'startPicker', data: { tabId } }]);
+  });
+
+  it('shows the start-picker shortcut the browser reports', async () => {
+    shortcuts({ 'start-picker': 'Alt+Shift+M', 'toggle-hide': '' });
+    await openPopup(PAGE, production);
+    expect(await shown(() => screen.queryByText('Alt+Shift+M to pick'))).toBeInTheDocument();
+  });
+
+  it('Hide on this tab toggles the marks and shows whether they are hidden', async () => {
+    const { background, tabId } = await openPopup(PAGE, production);
+    background.tabStatus = report(false);
+    const hide = await shown(() =>
+      screen.queryByRole('button', { name: 'Hide on this tab', pressed: false }),
+    );
+    // It is disabled until the marker's status arrives.
+    await waitFor(() => expect(hide).toBeEnabled());
+    fireEvent.click(hide);
+    await waitFor(() => expect(hide).toHaveAttribute('aria-pressed', 'true'));
+    expect(background.sent('toggleHidden')).toEqual([{ type: 'toggleHidden', data: { tabId } }]);
+  });
+
+  it('shows the toggle-hide shortcut only when one is assigned (D-208)', async () => {
+    shortcuts({ 'start-picker': 'Alt+Shift+M', 'toggle-hide': 'Ctrl+Shift+H' });
+    const { background } = await openPopup(PAGE, production);
+    background.tabStatus = report(false);
+    const hide = await shown(() => screen.queryByRole('button', { name: 'Hide on this tab' }));
+    await waitFor(() => expect(hide).toHaveAccessibleDescription('Shortcut: Ctrl+Shift+H'));
+  });
+
+  it('shows no toggle-hide shortcut while none is assigned', async () => {
+    shortcuts({ 'start-picker': 'Alt+Shift+M', 'toggle-hide': '' });
+    const { background } = await openPopup(PAGE, production);
+    background.tabStatus = report(false);
+    const hide = await shown(() => screen.queryByRole('button', { name: 'Hide on this tab' }));
+    await screen.findByText('Alt+Shift+M to pick');
+    expect(hide).toHaveAccessibleDescription('');
+  });
+
+  it('can not hide while no marker runs in the tab', async () => {
+    await openPopup(PAGE, production);
+    const hide = await shown(() => screen.queryByRole('button', { name: 'Hide on this tab' }));
+    expect(hide).toBeDisabled();
+  });
+
+  it('links Settings to the options page', async () => {
+    await openPopup(PAGE, production);
+    const settings = await shown(() => screen.queryByRole('link', { name: 'Settings' }));
+    expect(settings).toHaveAttribute(
+      'href',
+      `${fakeBrowser.runtime.getURL('/options.html')}#/settings`,
+    );
+    expect(settings).toHaveAttribute('target', '_blank');
+  });
+
+  it('has no axe violations', async () => {
+    shortcuts({ 'start-picker': 'Alt+Shift+M', 'toggle-hide': 'Ctrl+Shift+H' });
+    const { background, view } = await openPopup(PAGE, production);
+    background.tabStatus = report(true);
+    await shown(() => screen.queryByRole('button', { name: 'Hide on this tab', pressed: true }));
     expect(await axeViolations(view.container)).toEqual([]);
   });
 });

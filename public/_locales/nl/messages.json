@@ -299,5 +299,37 @@
   "popupFaviconUnavailable": {
     "message": "Faviconkleur niet beschikbaar op deze pagina",
     "description": "Pop-up: het favicon van de pagina kon niet worden gelezen, dus de faviconkleur van een markering wordt niet getoond."
+  },
+  "popupPickElement": {
+    "message": "Element kiezen",
+    "description": "Pop-upknop die de elementkiezer op de huidige pagina start."
+  },
+  "popupHide": {
+    "message": "Verbergen op dit tabblad",
+    "description": "Pop-up-schakelknop die alle SiteMark-markeringen op het huidige tabblad verbergt tot het herladen."
+  },
+  "popupPickShortcut": {
+    "message": "$KEY$ om te kiezen",
+    "description": "Pop-up: de sneltoets van de elementkiezer, zoals de browser die meldt.",
+    "placeholders": {
+      "key": {
+        "content": "$1",
+        "example": "Alt+Shift+M"
+      }
+    }
+  },
+  "popupShortcut": {
+    "message": "Sneltoets: $KEY$",
+    "description": "Pop-up: de sneltoets die de gebruiker aan Verbergen op dit tabblad heeft gegeven.",
+    "placeholders": {
+      "key": {
+        "content": "$1",
+        "example": "Ctrl+Shift+H"
+      }
+    }
+  },
+  "popupSettings": {
+    "message": "Instellingen",
+    "description": "Pop-uplink die de instellingenpagina van SiteMark in een nieuw tabblad opent."
   }
 }

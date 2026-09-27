@@ -8,6 +8,7 @@ import type { ErrorCode } from '../../src/core/errors';
 import type { SiteMarkState } from '../../src/core/model/schema';
 import { ok, type Result } from '../../src/core/result';
 import { aState } from '../../src/core/testing/builders';
+import { createFakeCommands } from '../fakes/commands';
 import { fakes } from '../fakes/install';
 
 // A fake background and a fake current tab for the popup's component tests (T-115…T-121). The
@@ -64,6 +65,12 @@ export function fakeBackground(overrides: Partial<FakeBackground> = {}): FakeBac
         return background.startPicker;
       case 'markThisSite':
         return background.markThisSite(data as MarkThisSiteRequest);
+      case 'toggleHidden':
+        // Like the marker: "Hide on this tab" flips, where a marker runs (REQ-RND-008).
+        if (typeof background.tabStatus === 'object') {
+          background.tabStatus = { ...background.tabStatus, hidden: !background.tabStatus.hidden };
+        }
+        return undefined;
       default:
         return undefined;
     }
@@ -98,4 +105,16 @@ export async function activeTab(url?: string): Promise<number> {
   );
   if (tab.id === undefined) throw new Error('The fake browser created a tab without an id');
   return tab.id;
+}
+
+/** The keyboard shortcuts the browser reports; `''` is an unassigned command (D-208). */
+export function shortcuts(assigned: Record<string, string>): void {
+  const commands = createFakeCommands(
+    Object.entries(assigned).map(([name, shortcut]) => ({ name, shortcut })),
+  );
+  Object.defineProperty(fakeBrowser, 'commands', {
+    value: commands.api,
+    configurable: true,
+    writable: true,
+  });
 }

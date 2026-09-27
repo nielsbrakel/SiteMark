@@ -299,5 +299,37 @@
   "popupFaviconUnavailable": {
     "message": "Favicon tint unavailable on this page",
     "description": "Popup: the page's favicon couldn't be read, so the favicon tint of a mark isn't shown."
+  },
+  "popupPickElement": {
+    "message": "Pick element",
+    "description": "Popup button that starts the element picker on the current page."
+  },
+  "popupHide": {
+    "message": "Hide on this tab",
+    "description": "Popup toggle button that hides all SiteMark marks on the current tab until reload."
+  },
+  "popupPickShortcut": {
+    "message": "$KEY$ to pick",
+    "description": "Popup: the keyboard shortcut of the element picker, as the browser reports it.",
+    "placeholders": {
+      "key": {
+        "content": "$1",
+        "example": "Alt+Shift+M"
+      }
+    }
+  },
+  "popupShortcut": {
+    "message": "Shortcut: $KEY$",
+    "description": "Popup: the keyboard shortcut the user assigned to Hide on this tab.",
+    "placeholders": {
+      "key": {
+        "content": "$1",
+        "example": "Ctrl+Shift+H"
+      }
+    }
+  },
+  "popupSettings": {
+    "message": "Settings",
+    "description": "Popup link that opens SiteMark's settings page in a new tab."
   }
 }
