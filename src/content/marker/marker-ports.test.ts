@@ -114,3 +114,36 @@ describe('REQ-RND-004 the marker watches the URL', () => {
     unwatch?.();
   });
 });
+
+describe('REQ-RND-004 the marker asks at the right moments on prerendered and restored pages', () => {
+  afterEach(() => {
+    Reflect.deleteProperty(document, 'prerendering');
+  });
+
+  it('waits until a prerendered page is shown before asking for its plan', async () => {
+    Object.defineProperty(document, 'prerendering', { value: true, configurable: true });
+    const plan = aPlan(aPageItem('ribbon', { text: 'PROD', corner: 'top-right' }));
+    const received = background(ok(plan));
+    const answer = markerPorts().requestPlan();
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(received).toEqual([]);
+    Object.defineProperty(document, 'prerendering', { value: false, configurable: true });
+    document.dispatchEvent(new Event('prerenderingchange'));
+    await expect(answer).resolves.toEqual(plan);
+    expect(received).toEqual([{ type: 'renderPlanFor' }]);
+  });
+
+  it('asks again when the page comes back from the back/forward cache', () => {
+    const onChange = vi.fn();
+    const unwatch = markerPorts().watchUrl(onChange);
+    const pageshow = (persisted: boolean) =>
+      Object.assign(new Event('pageshow'), { persisted }) as Event;
+    window.dispatchEvent(pageshow(false));
+    expect(onChange).not.toHaveBeenCalled();
+    window.dispatchEvent(pageshow(true));
+    expect(onChange).toHaveBeenCalledOnce();
+    unwatch();
+    window.dispatchEvent(pageshow(true));
+    expect(onChange).toHaveBeenCalledOnce();
+  });
+});
