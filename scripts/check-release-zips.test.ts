@@ -38,11 +38,17 @@ function zipOf(files: Record<string, string>, deflate = true): Buffer {
   return Buffer.concat([...locals, directory, end]);
 }
 
+/** The strict CSP for extension pages (tests/build/manifest.test.ts, REQ-PRIV-005). */
+const CSP =
+  "script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; connect-src 'none'";
+
 const production = {
   manifest_version: 3,
   name: '__MSG_extName__',
   permissions: ['storage', 'scripting', 'activeTab'],
   optional_host_permissions: ['*://*/*'],
+  content_security_policy: { extension_pages: CSP },
+  externally_connectable: { ids: [], matches: [] },
 };
 
 function files(manifest: object, extra: Record<string, string> = {}): Map<string, Buffer> {
@@ -76,6 +82,38 @@ describe('REQ-SEC-008 the release checks the manifest in every zip', () => {
       { ...production, optional_host_permissions: ['https://x.test/*'] },
     ],
   ] as const)('rejects install-time access in the manifest: %s', (field, manifest) => {
+    const problems = zipProblems('sitemark-chrome.zip', files(manifest));
+    expect(problems).toHaveLength(1);
+    expect(problems[0]).toContain(field);
+  });
+
+  it('accepts a manifest without externally_connectable (Firefox has no such key)', () => {
+    const { externally_connectable: _key, ...firefox } = production;
+    expect(zipProblems('sitemark-firefox.zip', files(firefox))).toEqual([]);
+  });
+
+  const withoutCsp = (({ content_security_policy: _csp, ...rest }) => rest)(production);
+
+  it.each([
+    ['content_security_policy', withoutCsp],
+    [
+      'content_security_policy',
+      { ...production, content_security_policy: { extension_pages: "script-src 'self'" } },
+    ],
+    [
+      'content_security_policy',
+      {
+        ...production,
+        content_security_policy: { extension_pages: CSP, sandbox: "script-src 'unsafe-eval'" },
+      },
+    ],
+    [
+      'externally_connectable',
+      { ...production, externally_connectable: { matches: ['https://*.example.com/*'] } },
+    ],
+    ['externally_connectable', { ...production, externally_connectable: { ids: ['*'] } }],
+    ['optional_permissions', { ...production, optional_permissions: ['tabs'] }],
+  ] as const)('rejects a weaker manifest: %s', (field, manifest) => {
     const problems = zipProblems('sitemark-chrome.zip', files(manifest));
     expect(problems).toHaveLength(1);
     expect(problems[0]).toContain(field);
