@@ -73,6 +73,9 @@ export default defineConfig({
           strict_min_version: '140.0',
           data_collection_permissions: { required: ['none'] },
         },
+        // The same package installs on Firefox for Android, where data_collection_permissions
+        // needs 142 (web-ext lint: KEY_FIREFOX_ANDROID_UNSUPPORTED_BY_MIN_VERSION).
+        gecko_android: { strict_min_version: '142.0' },
       },
     }),
   }),

@@ -40,6 +40,18 @@ To compare only the unpacked extension, `pnpm build:firefox` is enough.
 - The only third-party runtime code is React, zod and `@eslint-community/regexpp` (the regex parser behind the
   URL pattern safety checks), all in `dependencies` in `package.json`; everything else is development tooling.
 
+## web-ext lint warnings
+
+`web-ext lint` reports two kinds of warnings on the package. Neither is reachable code:
+
+- **DANGEROUS_EVAL** (`background.js` and a UI chunk): zod's `allowsEval` feature probe (`Function('')` in a
+  `try`) and its schema compiler. SiteMark runs zod in jitless mode (`z.config({ jitless: true })`, D-238, in
+  `src/core/model/zod.ts`), so the probe returns early and nothing is ever compiled; no string is evaluated as
+  code, and the extension pages' CSP (`script-src 'self'`) would block it anyway.
+- **UNSAFE_VAR_ASSIGNMENT** (`innerHTML`, in the React chunk): react-dom's `dangerouslySetInnerHTML` support and
+  its `<script>` element creation path. SiteMark never uses `dangerouslySetInnerHTML`; user text is rendered as
+  text, and the content scripts, which are plain TypeScript without React, set user text via `textContent` only.
+
 ## Tests (optional)
 
 `pnpm test` runs the unit and component tests; `pnpm test:build` builds every target and checks the manifests
