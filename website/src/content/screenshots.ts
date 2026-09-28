@@ -1,4 +1,3 @@
-import { notImplemented } from '@/core/not-implemented';
 import type { Locale } from '../i18n/locales';
 
 /** What a screenshot shows (D-251): a marked page, the popup on it, the mark editor. */
@@ -26,10 +25,10 @@ export function screenshotThemes(): readonly ScreenshotTheme[] {
  * website shows the WebP (PNG as the fallback); the store listings take the PNGs (T-152).
  */
 export function screenshotFile(
-  _scene: ScreenshotScene,
-  _theme: ScreenshotTheme,
-  _locale: Locale,
-  _format: ScreenshotFormat,
+  scene: ScreenshotScene,
+  theme: ScreenshotTheme,
+  locale: Locale,
+  format: ScreenshotFormat,
 ): string {
-  return notImplemented();
+  return `screenshots/${scene}-${theme}-${locale}.${format}`;
 }
