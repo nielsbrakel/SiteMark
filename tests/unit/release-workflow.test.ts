@@ -5,7 +5,12 @@ import { parse } from 'yaml';
 // The release workflow (REQ-SEC-008, REQ-NFR-006, D-227): zips built and checked without secrets,
 // provenance and checksums, and store submission only behind the `store` environment.
 
-type Step = { uses?: string; run?: string; with?: Record<string, unknown> };
+type Step = {
+  uses?: string;
+  run?: string;
+  with?: Record<string, unknown>;
+  env?: Record<string, string>;
+};
 type Job = {
   needs?: string | string[];
   environment?: string | { name: string };
@@ -40,6 +45,11 @@ describe('REQ-SEC-008 the release workflow', () => {
     }
     expect(script).toContain('node scripts/check-release-zips.ts');
     expect(script).toContain('vitest run --project build');
+  });
+
+  it('runs the build assertions on every store build, Edge included (D-241)', () => {
+    const step = workflow()?.jobs.zip?.steps?.find((s) => s.run?.includes('--project build'));
+    expect(step?.env?.SITEMARK_TARGETS?.split(',').sort()).toEqual(['chrome', 'edge', 'firefox']);
   });
 
   it('publishes SHA256SUMS and build-provenance attestations', () => {

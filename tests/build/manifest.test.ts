@@ -62,6 +62,7 @@ describe.each(targets())('%s production manifest', (target) => {
       expect(manifest.manifest_version).toBe(3);
       const floors = {
         chrome: { minimum_chrome_version: '120' },
+        edge: { minimum_chrome_version: '120' },
         firefox: {
           browser_specific_settings: {
             gecko: {

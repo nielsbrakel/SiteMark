@@ -13,7 +13,7 @@
 | `pnpm test:coverage` | All three projects with per-glob coverage thresholds (core 90/85, platform 85, overall 80)                    |
 | `pnpm test:e2e`      | Builds the e2e variant (`.output/chrome-mv3-e2e`) and runs Playwright                                         |
 | `pnpm web:test:e2e`  | Builds the website and runs its Playwright suite against `vite preview` at `/SiteMark/` (`website/tests/e2e`) |
-| `pnpm test:build`    | Builds all three targets, then manifest, output-scan and size assertions (`tests/build`)                      |
+| `pnpm test:build`    | Builds all four targets (Chrome, Edge, Firefox, Safari), then manifest, output-scan and size assertions       |
 | `pnpm size`          | Chromium build + the gzip size budget only                                                                    |
 | `pnpm check`         | typecheck + lint (Biome) + format (Biome, Prettier for Markdown/YAML) + knip + unit tests + traceability      |
 | `pnpm progress`      | Progress per milestone + requirement coverage (`--verbose` lists gaps)                                        |

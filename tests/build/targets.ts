@@ -1,10 +1,11 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
-export type Target = 'chrome' | 'firefox' | 'safari';
-export const ALL_TARGETS: Target[] = ['chrome', 'firefox', 'safari'];
+/** Edge is a Chromium browser with its own store zip (`wxt build -b edge`, D-241). */
+export type Target = 'chrome' | 'edge' | 'firefox' | 'safari';
+export const ALL_TARGETS: Target[] = ['chrome', 'edge', 'firefox', 'safari'];
 
-/** Targets under test: `SITEMARK_TARGETS=chrome,firefox`, or all three. CI passes its matrix entry. */
+/** Targets under test: `SITEMARK_TARGETS=chrome,firefox`, or all four. CI passes its matrix entry. */
 export function targets(): Target[] {
   const selected = process.env.SITEMARK_TARGETS?.split(',').filter(Boolean) as Target[] | undefined;
   return selected?.length ? selected : ALL_TARGETS;
