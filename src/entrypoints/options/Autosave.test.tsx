@@ -45,6 +45,16 @@ describe('REQ-OPT-006 changes save themselves, debounced, with a subtle Saved st
     await waitFor(() => expect(saved()).not.toBeNull());
   });
 
+  it('announces Saved, but not Saving… on every pause in typing (WCAG 4.1.3)', async () => {
+    await openAt(`#/groups/${prod.id}`);
+    const live = () => byRole('banner').querySelector('[aria-live]');
+    type(nameField(), 'Live');
+    fireEvent.blur(nameField());
+    expect(screen.queryByText('Saving…')).not.toBeNull();
+    expect(live()).not.toHaveTextContent('Saving…');
+    await waitFor(() => expect(live()).toHaveTextContent('Saved'));
+  });
+
   it('saves a slider once it stops moving', async () => {
     const background = await openAt(`#/groups/${prod.id}/marks/${tinted.id}`);
     const slider = byRole('slider', { name: 'Tint opacity' });
