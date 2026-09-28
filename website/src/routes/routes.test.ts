@@ -71,8 +71,8 @@ describe('REQ-WEBUX-004 English lives at the base path and Dutch under /nl/, wit
 });
 
 describe('REQ-PAGE-007 the route table hides pages of unfinished milestones', () => {
-  it('publishes the W1 pages now', () => {
-    expect(currentMilestone()).toBe('W1');
+  it('publishes the W2 pages now: help, playground and changelog as their pages arrive', () => {
+    expect(currentMilestone()).toBe('W2');
     expect(pages(publishedRoutes('W1'))).toEqual(['home', 'support', 'privacy']);
     expect(pages(publishedRoutes('W2'))).toEqual(pages(routeTable()));
   });

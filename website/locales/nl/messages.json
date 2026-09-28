@@ -376,5 +376,45 @@
   "websiteScreenshotOptionsAlt": {
     "message": "De markeringseditor in de instellingen van SiteMark: de effecten, zoals het kader, de tint en het titelvoorvoegsel, boven een live voorbeeld van het lint, het kader en de banner op een voorbeeldpagina.",
     "description": "Alt text of the settings page screenshot."
+  },
+  "websitePlaygroundTitle": {
+    "message": "Uitproberen: een markering in je browser · SiteMark",
+    "description": "Document title of the playground page. At most 60 characters."
+  },
+  "websitePlaygroundDescription": {
+    "message": "Probeer SiteMark zonder het te installeren: kies een kleur, een tekst en effecten, en zie hoe linten, banners en omlijningen een pagina markeren.",
+    "description": "Meta description of the playground page. At most 160 characters."
+  },
+  "websitePlaygroundHeading": {
+    "message": "Uitproberen",
+    "description": "Main heading of the playground page."
+  },
+  "websitePlaygroundLead": {
+    "message": "Probeer een markering voordat je SiteMark installeert. Het voorbeeld wordt getekend door de code van de extensie zelf, en niets van wat je hier doet wordt bewaard.",
+    "description": "Introduction under the playground heading."
+  },
+  "websitePlaygroundCustom": {
+    "message": "Eigen",
+    "description": "Playground: the color choice next to the four presets that uses the typed custom color."
+  },
+  "websitePlaygroundText": {
+    "message": "Tekst van de markering",
+    "description": "Playground: label of the text field whose text the ribbon, banner, watermark and title prefix show."
+  },
+  "websitePlaygroundPageEffects": {
+    "message": "Effecten op de pagina",
+    "description": "Playground: label of the group of page effects."
+  },
+  "websitePlaygroundElementEffects": {
+    "message": "Effecten op de knop Klant verwijderen",
+    "description": "Playground: label of the group of effects on the sample page's button. The button text must match websiteHeroButton."
+  },
+  "websitePlaygroundPreview": {
+    "message": "Voorbeeld van een gemarkeerde pagina",
+    "description": "Playground: accessible name of the mock browser window that shows the marks."
+  },
+  "websitePlaygroundPageTitle": {
+    "message": "Klanten",
+    "description": "Playground: title of the sample page in the mock browser tab. A title prefix goes in front of it."
   }
 }

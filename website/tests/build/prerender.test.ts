@@ -23,6 +23,8 @@ const pages = [
   },
   { file: 'privacy/index.html', locale: 'en', route: 'privacy', h1: 'Privacy policy' },
   { file: 'nl/privacy/index.html', locale: 'nl', route: 'privacy', h1: 'Privacyverklaring' },
+  { file: 'playground/index.html', locale: 'en', route: 'playground', h1: 'Playground' },
+  { file: 'nl/playground/index.html', locale: 'nl', route: 'playground', h1: 'Uitproberen' },
   { file: 'support/index.html', locale: 'en', route: 'support', h1: 'Support' },
   { file: 'nl/support/index.html', locale: 'nl', route: 'support', h1: 'Ondersteuning' },
 ];

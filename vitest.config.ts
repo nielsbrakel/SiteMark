@@ -119,6 +119,8 @@ export default defineConfig({
           environment: 'happy-dom',
           include: ['website/src/**/*.test.tsx'],
           exclude: [browserTests],
+          // Sets the shadow mode that the shared mark preview reads (D-278), like browser mode.
+          setupFiles: ['website/tests/unit/setup.ts'],
         },
       },
       {

@@ -1,7 +1,9 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import { test as base, expect, type Page } from '@playwright/test';
 import type { Locale } from '../../src/i18n/locales';
 import { currentMilestone, publishedRoutes, type Route } from '../../src/routes/routes';
-import { routePath } from '../../src/routes/urls';
+import { outputFile, routePath } from '../../src/routes/urls';
 
 type Fixtures = {
   /** Requests that left the preview server's origin; any one fails the test (REQ-WEB-003). */
@@ -50,15 +52,22 @@ export { expect };
 /** One page of the website in one language, as a visitor opens it. */
 export type RouteCase = { name: string; path: string; locale: Locale };
 
-/** Every published route in every language, plus the 404 page. */
+const dist = path.resolve(import.meta.dirname, '../../dist/client');
+
+/**
+ * Every published route in every language that the build wrote, plus the 404 page. A route of the
+ * current milestone is built once its page exists (the build tests check which files exist).
+ */
 export function routeCases(): RouteCase[] {
   const routes: readonly Route[] = publishedRoutes(currentMilestone());
   const cases = routes.flatMap((route) =>
-    (['en', 'nl'] as const).map((locale) => ({
-      name: `${route.page} (${locale})`,
-      path: routePath(route, locale),
-      locale,
-    })),
+    (['en', 'nl'] as const)
+      .filter((locale) => existsSync(path.join(dist, outputFile(route, locale))))
+      .map((locale) => ({
+        name: `${route.page} (${locale})`,
+        path: routePath(route, locale),
+        locale,
+      })),
   );
   return [...cases, { name: '404', path: '/SiteMark/404.html', locale: 'en' }];
 }

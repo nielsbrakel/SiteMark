@@ -376,5 +376,45 @@
   "websiteScreenshotOptionsAlt": {
     "message": "The mark editor in the SiteMark settings: the effects, such as the frame, tint and title prefix, above a live preview of the ribbon, frame and banner on an example page.",
     "description": "Alt text of the settings page screenshot."
+  },
+  "websitePlaygroundTitle": {
+    "message": "Playground: try a mark in your browser · SiteMark",
+    "description": "Document title of the playground page. At most 60 characters."
+  },
+  "websitePlaygroundDescription": {
+    "message": "Try SiteMark without installing it: pick a color, a text and effects, and see how ribbons, banners and outlines mark a page.",
+    "description": "Meta description of the playground page. At most 160 characters."
+  },
+  "websitePlaygroundHeading": {
+    "message": "Playground",
+    "description": "Main heading of the playground page."
+  },
+  "websitePlaygroundLead": {
+    "message": "Try a mark before you install SiteMark. The preview is drawn by the extension's own code, and nothing you do here is saved.",
+    "description": "Introduction under the playground heading."
+  },
+  "websitePlaygroundCustom": {
+    "message": "Custom",
+    "description": "Playground: the color choice next to the four presets that uses the typed custom color."
+  },
+  "websitePlaygroundText": {
+    "message": "Mark text",
+    "description": "Playground: label of the text field whose text the ribbon, banner, watermark and title prefix show."
+  },
+  "websitePlaygroundPageEffects": {
+    "message": "Effects on the page",
+    "description": "Playground: label of the group of page effects."
+  },
+  "websitePlaygroundElementEffects": {
+    "message": "Effects on the Delete customer button",
+    "description": "Playground: label of the group of effects on the sample page's button. The button text must match websiteHeroButton."
+  },
+  "websitePlaygroundPreview": {
+    "message": "Preview of a marked page",
+    "description": "Playground: accessible name of the mock browser window that shows the marks."
+  },
+  "websitePlaygroundPageTitle": {
+    "message": "Customers",
+    "description": "Playground: title of the sample page in the mock browser tab. A title prefix goes in front of it."
   }
 }

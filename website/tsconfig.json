@@ -5,6 +5,7 @@
   "compilerOptions": {
     "types": ["node", "vite/client"]
   },
-  "include": ["src", "scripts", "tests", "*.config.ts"],
+  // globals.d.ts declares __SHADOW_MODE__, which the shared mark preview uses (D-278).
+  "include": ["src", "scripts", "tests", "*.config.ts", "../src/globals.d.ts"],
   "exclude": ["dist"]
 }
