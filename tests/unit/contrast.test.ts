@@ -31,6 +31,20 @@ function hex(tokens: Record<string, string>, name: string): string {
   return value.length === 4 ? `#${[...value.slice(1)].map((c) => c + c).join('')}` : value;
 }
 
+/** A translucent `rgb(r g b / a%)` token painted over an opaque one, as `#rrggbb`. */
+function over(tokens: Record<string, string>, name: string, backdrop: string): string {
+  const match = tokens[name]?.match(/^rgb\((\d+) (\d+) (\d+) \/ (\d+)%\)$/);
+  if (!match) throw new Error(`${name} is not an rgb(r g b / a%) color: ${tokens[name]}`);
+  const alpha = Number(match[4]) / 100;
+  const base = hex(tokens, backdrop);
+  const channel = (i: number) => {
+    const under = Number.parseInt(base.slice(1 + 2 * i, 3 + 2 * i), 16);
+    const mixed = Math.round(Number(match[i + 1]) * alpha + under * (1 - alpha));
+    return mixed.toString(16).padStart(2, '0');
+  };
+  return `#${channel(0)}${channel(1)}${channel(2)}`;
+}
+
 function luminance(color: string): number {
   const [r, g, b] = [1, 3, 5].map((i) => {
     const c = Number.parseInt(color.slice(i, i + 2), 16) / 255;
@@ -66,6 +80,12 @@ describe.each(Object.entries(themes))('%s theme', (_theme, tokens) => {
 
     it('--sm-on-accent on --sm-accent', () => {
       expect(ratio('--sm-on-accent', '--sm-accent')).toBeGreaterThanOrEqual(4.5);
+    });
+
+    // The quiet button's hover and the picker's pressed chip: accent text on the soft accent fill.
+    it('--sm-accent-text on --sm-accent-soft over --sm-bg', () => {
+      const fill = over(tokens, '--sm-accent-soft', '--sm-bg');
+      expect(contrast(hex(tokens, '--sm-accent-text'), fill)).toBeGreaterThanOrEqual(4.5);
     });
   });
 
