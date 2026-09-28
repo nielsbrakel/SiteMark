@@ -5,6 +5,8 @@ const PROMOTE_MAX = 10;
 const PROMOTE_WINDOW_MS = 10_000;
 
 const CAPTURE: AddEventListenerOptions = { capture: true, passive: true };
+/** The picker's top-layer host (src/content/picker/picker-host.ts). */
+const PICKER_HOST = 'sitemark-picker';
 
 export type TopLayerGuard = { stop(): void };
 
@@ -31,6 +33,8 @@ export function keepOnTop(element: HTMLElement, wantsTop: () => boolean): TopLay
   };
   const onToggle = (event: Event) => {
     const { newState } = event as ToggleEvent;
+    // SiteMark's own picker belongs above the marks while the user picks an element.
+    if (event.target instanceof Element && event.target.localName === PICKER_HOST) return;
     // Our own promotion toggles the host too: only a page closing it needs an answer.
     if (event.target === element ? newState === 'closed' : newState === 'open') promote();
   };
