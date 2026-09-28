@@ -63,7 +63,7 @@ describe('REQ-SEC-008 the release workflow', () => {
     const attest = workflow()?.jobs.attest;
     expect(attest?.needs).toEqual(['zip']);
     expect(attest?.permissions).toEqual({ 'id-token': 'write', attestations: 'write' });
-    expect(runs(attest)).toBe('');
+    expect(attest?.steps?.filter((step) => step.run)).toEqual([]);
     const actions = uses(attest).map((action) => action.split('@')[0]);
     expect(actions).toEqual(['actions/download-artifact', 'actions/attest-build-provenance']);
     expect(attest?.steps?.[1]?.with?.['subject-path']).toMatch(/\*\.zip$/);
