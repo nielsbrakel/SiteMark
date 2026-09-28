@@ -3,7 +3,8 @@ import { defineConfig } from '@playwright/test';
 
 const ci = Boolean(process.env.CI);
 const chromium = process.env.PW_CHROMIUM_EXECUTABLE;
-const PORT = 4174;
+// `WEBSITE_E2E_PORT` lets parallel runs (e.g. several worktrees) each preview on their own port.
+const PORT = Number(process.env.WEBSITE_E2E_PORT ?? 4174);
 const repository = path.resolve(import.meta.dirname, '..');
 
 // Website e2e (docs/website/plan.md §7): Playwright against `vite preview` of the built website,

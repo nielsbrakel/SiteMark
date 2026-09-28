@@ -348,5 +348,33 @@
   "websiteNotFoundText": {
     "message": "This page doesn't exist, or it has moved. These pages can help you on your way:",
     "description": "Text of the 404 page, above the links to the home, help and support pages."
+  },
+  "websiteScreenshotsHeading": {
+    "message": "SiteMark at work",
+    "description": "Heading of the home page section with screenshots of the extension."
+  },
+  "websiteScreenshotMarkedPageCaption": {
+    "message": "The marks on a production page",
+    "description": "Caption under the screenshot of a page marked by SiteMark."
+  },
+  "websiteScreenshotMarkedPageAlt": {
+    "message": "A customer admin page marked as production: a red PROD ribbon in the top-right corner, a red frame around the page, an outline around the Delete customer button and a banner at the bottom that reads “Production: changes are live”.",
+    "description": "Alt text of the screenshot of a marked page. Describe what it shows; never say 'screenshot'."
+  },
+  "websiteScreenshotPopupCaption": {
+    "message": "The popup: what's marked on this page",
+    "description": "Caption under the screenshot of the extension's popup."
+  },
+  "websiteScreenshotPopupAlt": {
+    "message": "The SiteMark popup open over the marked page. It lists the Production site group, says the marked delete button was found, and offers Pick element and Hide on this tab.",
+    "description": "Alt text of the popup screenshot. Use the popup's own button names."
+  },
+  "websiteScreenshotOptionsCaption": {
+    "message": "The mark editor, with a live preview",
+    "description": "Caption under the screenshot of the settings page."
+  },
+  "websiteScreenshotOptionsAlt": {
+    "message": "The mark editor in the SiteMark settings: the effects, such as the frame, tint and title prefix, above a live preview of the ribbon, frame and banner on an example page.",
+    "description": "Alt text of the settings page screenshot."
   }
 }

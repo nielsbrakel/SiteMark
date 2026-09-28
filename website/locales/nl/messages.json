@@ -348,5 +348,33 @@
   "websiteNotFoundText": {
     "message": "Deze pagina bestaat niet, of is verhuisd. Deze pagina's helpen je verder:",
     "description": "Text of the 404 page, above the links to the home, help and support pages."
+  },
+  "websiteScreenshotsHeading": {
+    "message": "SiteMark aan het werk",
+    "description": "Heading of the home page section with screenshots of the extension."
+  },
+  "websiteScreenshotMarkedPageCaption": {
+    "message": "De markeringen op een productiepagina",
+    "description": "Caption under the screenshot of a page marked by SiteMark."
+  },
+  "websiteScreenshotMarkedPageAlt": {
+    "message": "Een beheerpagina met klanten, gemarkeerd als productie: een rood PROD-lint in de hoek rechtsboven, een rood kader om de pagina, een omlijning om de knop Klant verwijderen en onderaan een banner met de tekst ‘Productie: wijzigingen zijn live’.",
+    "description": "Alt text of the screenshot of a marked page. Describe what it shows; never say 'screenshot'."
+  },
+  "websiteScreenshotPopupCaption": {
+    "message": "De pop-up: wat er op deze pagina gemarkeerd is",
+    "description": "Caption under the screenshot of the extension's popup."
+  },
+  "websiteScreenshotPopupAlt": {
+    "message": "De pop-up van SiteMark, geopend boven de gemarkeerde pagina. Hij toont de sitegroep Productie, meldt dat de gemarkeerde verwijderknop gevonden is en biedt Element kiezen en Verbergen op dit tabblad.",
+    "description": "Alt text of the popup screenshot. Use the popup's own button names."
+  },
+  "websiteScreenshotOptionsCaption": {
+    "message": "De markeringseditor, met een live voorbeeld",
+    "description": "Caption under the screenshot of the settings page."
+  },
+  "websiteScreenshotOptionsAlt": {
+    "message": "De markeringseditor in de instellingen van SiteMark: de effecten, zoals het kader, de tint en het titelvoorvoegsel, boven een live voorbeeld van het lint, het kader en de banner op een voorbeeldpagina.",
+    "description": "Alt text of the settings page screenshot."
   }
 }
