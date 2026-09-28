@@ -104,6 +104,15 @@ describe('REQ-A11Y-003 REQ-THEME-002 Toast', () => {
     expect(pending).toEqual([]);
   });
 
+  it('does not keep the next toast paused after one is closed with focus inside', () => {
+    const { pending, rerender } = renderToast(saved);
+    screen.getByRole('button', { name: 'Dismiss' }).focus();
+    fireEvent.focus(screen.getByRole('button', { name: 'Dismiss' }));
+    rerender(undefined);
+    rerender({ text: 'Mark deleted' });
+    expect(pending.map((entry) => entry.ms)).toEqual([4000]);
+  });
+
   it('restarts the timer for a new toast', () => {
     const { pending, rerender } = renderToast(saved);
     rerender({ text: 'Mark deleted' });

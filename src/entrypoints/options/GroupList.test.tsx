@@ -138,6 +138,45 @@ describe('REQ-GRP-001 delete a site group, with confirmation and 10 s undo', () 
   });
 });
 
+describe('REQ-A11Y-002 REQ-GRP-001 focus after deleting a site group (WCAG 2.4.3, 2.2.1)', () => {
+  const heading = (name: string) => byRole('heading', { level: 2, name }, pane());
+
+  async function deleteProduction() {
+    await openAt(`#/groups/${prod.id}`);
+    const deleteButton = byRole('button', { name: 'Delete site group' }, pane());
+    deleteButton.focus();
+    fireEvent.click(deleteButton);
+    const dialog = byRole('dialog', { name: 'Delete “Production”?' });
+    const confirm = byRole('button', { name: 'Delete' }, dialog);
+    confirm.focus();
+    fireEvent.click(confirm);
+    await waitFor(() => expect(groupNames()).toEqual(['Staging']));
+  }
+
+  it('moves focus to Undo, so the undo toast is reached before it goes', async () => {
+    await deleteProduction();
+    await waitFor(() => expect(byRole('button', { name: 'Undo' })).toHaveFocus());
+  });
+
+  it('moves focus to the heading of the site group Undo puts back', async () => {
+    await deleteProduction();
+    const undo = await findRole('button', { name: 'Undo' });
+    undo.focus();
+    fireEvent.click(undo);
+    await waitFor(() => expect(groupNames()).toEqual(['Production', 'Staging']));
+    await waitFor(() => expect(heading('Production')).toHaveFocus());
+  });
+
+  it('moves focus to the open site group when the toast is closed from the keyboard', async () => {
+    await deleteProduction();
+    const dismiss = byRole('button', { name: 'Dismiss' }, await findRole('status'));
+    dismiss.focus();
+    fireEvent.click(dismiss);
+    await waitFor(() => expect(screen.queryByRole('button', { name: 'Undo' })).toBeNull());
+    expect(heading('Staging')).toHaveFocus();
+  });
+});
+
 describe('REQ-GRP-001 the site group list and editor are accessible', () => {
   it('has no axe violations', async () => {
     const { container } = await openAt(`#/groups/${prod.id}`);
