@@ -42,6 +42,16 @@ export async function completeGrant(deps: GrantDeps, origins: readonly string[])
   await Promise.all(targets.map((tab) => deps.tabs.inject(tab.id, deps.markerFiles)));
 }
 
+/**
+ * After an extension update the old markers are orphaned and the browser injects registered scripts
+ * only into new page loads: inject the marker into every open tab on a registered origin again.
+ */
+export async function reinjectAfterUpdate(deps: GrantDeps): Promise<void> {
+  await deps.syncRegistration();
+  const registered = (await deps.registrar.getRegistered())?.matches ?? [];
+  await completeGrant(deps, registered);
+}
+
 /** Keeps the registration in step with grants and revocations, wherever they come from. */
 export function watchPermissions(
   permissions: Pick<Permissions, 'onAdded' | 'onRemoved'>,

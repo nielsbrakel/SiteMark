@@ -12,7 +12,7 @@ import type {
   Unsubscribe,
 } from './ports';
 import type { BackgroundHandlers, ContentHandlers, ContentSender, PageHandlers } from './protocol';
-import { type GrantDeps, watchPermissions } from './use-cases/grant';
+import { type GrantDeps, reinjectAfterUpdate, watchPermissions } from './use-cases/grant';
 import { applyImportFile, type ImportDataDeps, previewImportFile } from './use-cases/import-data';
 import { type CommandName, runKeyboardCommand } from './use-cases/keyboard-command';
 import { markThisSite } from './use-cases/mark-this-site';
@@ -147,7 +147,8 @@ export function createBackgroundApp(ports: BackgroundPorts): BackgroundApp {
     },
     installed: async (reason) => {
       if (reason === 'install') await ports.openOptions('/welcome');
-      await syncRegistration();
+      if (reason === 'update') await reinjectAfterUpdate(wired.grant);
+      else await syncRegistration();
     },
     watchPermissions: () => watchPermissions(permissions, wired.grant),
   };
