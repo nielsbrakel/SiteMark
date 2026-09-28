@@ -47,6 +47,11 @@ The full requirements are in [docs/spec.md §5.14](docs/spec.md#514-security--se
   `onMessageExternal`, `externally_connectable` is empty and `window.postMessage` isn't used (REQ-SEC-003).
   The picker only accepts trusted user events (REQ-SEC-005, D-240).
 - **Untrusted text stays text.** User text is inserted with `textContent` only and colors are validated hex.
+- **Content scripts don't read storage.** They only get the render plan for their own URL (D-221). Where the
+  browser allows it, `storage.local` is also closed to content scripts with
+  `storage.setAccessLevel('TRUSTED_CONTEXTS')` (REQ-SEC-002). That only works in Chrome and Edge 140 and later:
+  older Chromium, Firefox and Safari accept an access level for `storage.session` only, so there the
+  protection is the render-plan design alone.
 - **Supply chain.** Frozen lockfile, SHA-pinned Actions, Dependabot, provenance attestations and checksums for
   release zips, and store credentials behind a protected environment with a required reviewer (REQ-SEC-008, 009).
 

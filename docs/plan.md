@@ -65,7 +65,7 @@ src/
 ```text
                         ┌──────────── storage.local ────────────┐
                         │ sitemark:state (v1, revision)          │
-                        │ sitemark:backup:{0..2}                 │  access level: TRUSTED_CONTEXTS
+                        │ sitemark:backup:{0..2}                 │  access level: TRUSTED_CONTEXTS (Chromium 140+)
                         └────────────────▲───────────────────────┘
                                          │ ONLY writer (D-220)
 ┌─────────────────────┐  intents   ┌─────┴──────────────────────────┐  commands   ┌─────────────────┐
@@ -227,6 +227,7 @@ every Must REQ of the milestone covered by a passing test, and a pre-release tag
 | Popover top layer                       | ✅           | ✅                                      | ✅                                          |
 | Navigation API in the isolated world    | ✅           | ❌ → polling                            | ❌ → polling                                |
 | `onCommand.tab`                         | ✅           | ✅                                      | ✅ (18+)                                    |
+| `storage.local.setAccessLevel`          | ⚠️ 140+ only | ❌ (`storage.session` only)             | ❌ (`storage.session` only)                 |
 | Dynamic favicon                         | ✅           | ✅                                      | ⚠️ best-effort                              |
 | E2E automation                          | Playwright   | manual (D-214)                          | manual                                      |
 
