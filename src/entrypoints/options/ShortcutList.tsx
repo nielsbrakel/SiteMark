@@ -1,6 +1,6 @@
-import { type ReactNode, useId } from 'react';
+import { type ReactNode, useId, useState } from 'react';
 import { type MessageKey, t } from '@/lib/i18n/browser-source';
-import { openShortcutSettings } from '@/platform/shortcut-settings';
+import { canOpenShortcutSettings, openShortcutSettings } from '@/platform/shortcut-settings';
 import { Button } from '@/ui/components/Button';
 import styles from './Pane.module.css';
 import { useShortcuts } from './use-shortcut';
@@ -10,6 +10,24 @@ const COMMANDS: readonly { name: string; label: MessageKey }[] = [
   { name: 'start-picker', label: 'commandStartPicker' },
   { name: 'toggle-hide', label: 'commandToggleHide' },
 ];
+
+/**
+ * Change shortcuts where the browser lets SiteMark open its shortcut settings; otherwise (Safari),
+ * or when opening them failed, where to look instead.
+ */
+function ChangeShortcuts(): ReactNode {
+  const [failed, setFailed] = useState(false);
+  if (!canOpenShortcutSettings()) return <p>{t('optionsShortcutsElsewhere')}</p>;
+  const open = async () => setFailed(!(await openShortcutSettings()));
+  return (
+    <>
+      <div>
+        <Button onClick={() => void open()}>{t('optionsChangeShortcuts')}</Button>
+      </div>
+      {failed && <p>{t('optionsShortcutsElsewhere')}</p>}
+    </>
+  );
+}
 
 /**
  * The live keyboard shortcuts (REQ-CMD-001, REQ-CMD-002), "Not assigned" where the user has none,
@@ -30,9 +48,7 @@ export function ShortcutList(): ReactNode {
             </li>
           ))}
       </ul>
-      <div>
-        <Button onClick={() => void openShortcutSettings()}>{t('optionsChangeShortcuts')}</Button>
-      </div>
+      <ChangeShortcuts />
     </section>
   );
 }
