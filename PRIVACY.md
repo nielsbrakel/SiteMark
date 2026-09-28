@@ -1,6 +1,6 @@
 # Privacy policy
 
-Last updated: 2026-09-26
+Last updated: 2026-09-28
 
 This policy covers the **SiteMark browser extension** and the **SiteMark website**
 (nielsbrakel.github.io/SiteMark). It is also available in Dutch.
@@ -54,7 +54,8 @@ that website keeps its icon), just like when your browser shows the tab. SiteMar
 
 Marks are drawn inside the pages you visit. A website can notice that they are there, and could in theory
 hide, move or copy them. SiteMark prevents mistakes; it isn't a security control. The in-page element picker
-panel is also part of the page, so the website can see what you type into it.
+panel is also part of the page, so the website can see what you type into it and the names of the site groups
+it offers (only groups that already apply to that page).
 
 ### The title prefix and your browser history
 

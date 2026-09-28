@@ -1,6 +1,6 @@
 # Privacyverklaring
 
-Laatst bijgewerkt: 2026-09-26
+Laatst bijgewerkt: 2026-09-28
 
 Deze verklaring gaat over de **browserextensie SiteMark** en de **website van SiteMark**
 (nielsbrakel.github.io/SiteMark). Ze is ook in het Engels beschikbaar.
@@ -58,7 +58,7 @@ er verder niets mee.
 Markeringen worden in de pagina's getekend die je bezoekt. Een website kan zien dat ze er zijn, en zou ze in
 theorie kunnen verbergen, verplaatsen of namaken. SiteMark voorkomt vergissingen, maar is geen
 beveiligingsmaatregel. Het kiespaneel voor elementen staat ook in de pagina, dus de website kan zien wat je
-daarin typt.
+daarin typt en welke sitegroepen het aanbiedt (alleen groepen die al voor die pagina gelden).
 
 ### Het titelvoorvoegsel en je browsergeschiedenis
 
