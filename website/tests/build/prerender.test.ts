@@ -37,6 +37,8 @@ const pages = [
     route: 'helpTopic',
     h1: 'Aan de slag',
   },
+  { file: 'changelog/index.html', locale: 'en', route: 'changelog', h1: 'Changelog' },
+  { file: 'nl/changelog/index.html', locale: 'nl', route: 'changelog', h1: 'Wijzigingen' },
   { file: 'playground/index.html', locale: 'en', route: 'playground', h1: 'Playground' },
   { file: 'nl/playground/index.html', locale: 'nl', route: 'playground', h1: 'Uitproberen' },
   { file: 'support/index.html', locale: 'en', route: 'support', h1: 'Support' },

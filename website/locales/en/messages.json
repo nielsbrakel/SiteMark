@@ -474,5 +474,25 @@
         "example": "URL patterns"
       }
     }
+  },
+  "websiteChangelogTitle": {
+    "message": "Changelog: what's new in SiteMark",
+    "description": "Document title of the changelog page. At most 60 characters."
+  },
+  "websiteChangelogDescription": {
+    "message": "Every SiteMark release and what changed in it: new features, fixes and improvements.",
+    "description": "Meta description of the changelog page. At most 160 characters."
+  },
+  "websiteChangelogHeading": {
+    "message": "Changelog",
+    "description": "Main heading of the changelog page. Must match websiteNavChangelog."
+  },
+  "websiteChangelogEnglishOnly": {
+    "message": "The changelog is only kept in English.",
+    "description": "Changelog page: the notice above the English release notes on non-English pages."
+  },
+  "websiteChangelogEmpty": {
+    "message": "No releases yet. The first one is on its way.",
+    "description": "Changelog page: shown while CHANGELOG.md has no release yet."
   }
 }
