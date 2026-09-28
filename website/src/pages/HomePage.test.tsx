@@ -1,4 +1,4 @@
-import { cleanup, render, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { pagesForDom, showPage } from '../../tests/unit/page-dom';
 import { InstallButtons } from '../components/InstallButtons';
@@ -6,6 +6,7 @@ import { type Store, stores } from '../config/stores';
 import { screenshotScenes } from '../content/screenshots';
 import type { RenderedPage } from '../entry-server';
 import { createWebsiteTranslator, loadCatalogs, type WebsiteTranslator } from '../i18n/website-t';
+import { HeroPlayground } from '../playground/HeroPlayground';
 
 let pages: RenderedPage[];
 let en: WebsiteTranslator;
@@ -47,11 +48,10 @@ describe('REQ-PAGE-001 the home page explains SiteMark in one look', () => {
     for (const [, text] of cards) expect(text).toMatch(/^[^.]+\.$|^[^.]+\. [^.]+\.$/);
   });
 
-  it('shows a static hero illustration of a marked page, with a text alternative', () => {
+  it('shows a preview of a marked page next to the value proposition', () => {
     showPage(pages, 'index.html');
-    const hero = within(main()).queryByRole('img', { name: /production website/i });
-    expect(hero?.tagName.toLowerCase()).toBe('svg');
-    expect(hero?.closest('section')?.querySelectorAll('img')).toHaveLength(0);
+    const hero = within(main()).getByRole('heading', { level: 1 }).closest('section');
+    expect(hero?.querySelector('figure[aria-label="Preview of a marked page"]')).not.toBeNull();
   });
 
   it.each([
@@ -148,5 +148,42 @@ describe('REQ-PAGE-008 the home page shows the screenshots of its language, in b
     expect(alts[0]).toBe(en.t('websiteScreenshotMarkedPageAlt'));
     expect(alts[2]).toBe(en.t('websiteScreenshotPopupAlt'));
     expect(alts[4]).toBe(en.t('websiteScreenshotOptionsAlt'));
+  });
+});
+
+describe('REQ-PLAY-004 the home hero is a small playground with the four presets', () => {
+  const hero = () => within(main()).getByRole('heading', { level: 1 }).closest('section');
+
+  it.each([
+    ['index.html', ['Red', 'Amber', 'Blue', 'Slate'], 'Try every effect in the playground'],
+    [
+      'nl/index.html',
+      ['Rood', 'Amber', 'Blauw', 'Leisteen'],
+      'Probeer alle effecten bij Uitproberen',
+    ],
+  ])(
+    '%s: the hero island offers only the presets and links the playground',
+    (file, names, link) => {
+      showPage(pages, file);
+      const island = hero()?.querySelector<HTMLElement>('[data-island="heroPlayground"]');
+      expect(island).toBeTruthy();
+      const radios = within(island ?? document.body).queryAllByRole('radio');
+      expect(radios.map((radio) => radio.closest('label')?.textContent?.trim())).toEqual(names);
+      expect(within(island ?? document.body).queryAllByRole('checkbox')).toEqual([]);
+      expect(within(island ?? document.body).queryAllByRole('textbox')).toEqual([]);
+      expect(island?.querySelector('figure')).not.toBeNull();
+      const playground = within(hero() ?? document.body).queryByRole('link', { name: link });
+      expect(playground?.getAttribute('href')).toBe(
+        file.startsWith('nl/') ? '/SiteMark/nl/playground/' : '/SiteMark/playground/',
+      );
+    },
+  );
+
+  it('switches presets from the hero', () => {
+    render(<HeroPlayground t={en.t} />);
+    expect(screen.getByRole('radio', { name: 'Red' })).toHaveProperty('checked', true);
+    fireEvent.click(screen.getByRole('radio', { name: 'Slate' }));
+    expect(screen.getByRole('radio', { name: 'Slate' })).toHaveProperty('checked', true);
+    expect(screen.getByRole('radio', { name: 'Red' })).toHaveProperty('checked', false);
   });
 });

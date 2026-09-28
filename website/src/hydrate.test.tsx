@@ -39,11 +39,14 @@ afterEach(() => {
 
 describe('REQ-WEB-002 the browser hydrates only the interactive islands of a prerendered page (D-245)', () => {
   it.each(['index.html', 'nl/index.html'])(
-    '%s: marks the theme toggle as an island in the prerendered HTML',
+    '%s: marks the theme toggle and the hero playground as islands in the prerendered HTML',
     async (file) => {
       const container = await loadPrerendered(file);
       const islands = [...container.querySelectorAll<HTMLElement>('[data-island]')];
-      expect(islands.map((island) => island.dataset.island)).toEqual(['themeToggle']);
+      expect(islands.map((island) => island.dataset.island)).toEqual([
+        'themeToggle',
+        'heroPlayground',
+      ]);
       expect(islands[0]?.querySelector('fieldset')).not.toBeNull();
     },
   );
@@ -62,7 +65,7 @@ describe('REQ-WEB-002 the browser hydrates only the interactive islands of a pre
       await act(async () => {
         roots = await hydrateIslands(document, { onRecoverableError });
       });
-      expect(roots).toHaveLength(1);
+      expect(roots).toHaveLength(2);
       expect(onRecoverableError).not.toHaveBeenCalled();
       expect(container.querySelector('h1')).toBe(serverHeading);
       expect(container.querySelector('[data-island] fieldset')).toBe(serverToggle);
@@ -89,8 +92,9 @@ describe('REQ-WEB-002 the browser hydrates only the interactive islands of a pre
 
   it('skips an island it does not know', async () => {
     const container = await loadPrerendered('index.html');
-    const island = container.querySelector<HTMLElement>('[data-island]');
-    if (island) island.dataset.island = 'nowhere';
+    for (const island of container.querySelectorAll<HTMLElement>('[data-island]')) {
+      island.dataset.island = 'nowhere';
+    }
     await expect(hydrateIslands(document)).resolves.toEqual([]);
   });
 });

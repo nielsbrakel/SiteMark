@@ -424,5 +424,9 @@
   "websitePlaygroundFallbackAlt": {
     "message": "Het voorbeeld van Uitproberen: een nagebootst browservenster met een rode PROD-banner langs de bovenkant, een rood PROD-lint in de hoek rechtsboven en een omlijning om de knop Klant verwijderen.",
     "description": "Alt text of the static image of the playground's default preview, shown without JavaScript."
+  },
+  "websiteHeroPlaygroundLink": {
+    "message": "Probeer alle effecten bij Uitproberen",
+    "description": "Home hero: link under the small playground to the full playground page."
   }
 }
