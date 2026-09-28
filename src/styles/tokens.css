@@ -25,7 +25,7 @@
   --sm-accent: #b8452f; /* fills with white text (5.3:1) */
   --sm-accent-text: #a63d28; /* accent text on --sm-bg (5.2:1) */
   --sm-on-accent: #fff;
-  --sm-accent-soft: rgb(229 72 59 / 14%);
+  --sm-accent-soft: rgb(229 72 59 / 10%); /* under --sm-accent-text (4.6:1) */
   --sm-brand-coral: #e5483b; /* decorative only (logo) */
 
   /* Status */
