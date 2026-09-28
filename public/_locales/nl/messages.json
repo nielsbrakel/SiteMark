@@ -1433,5 +1433,9 @@
   "errorRegexBudgetExceeded": {
     "message": "Samen kunnen je reguliere expressies het controleren van een pagina te traag maken. Begin ze met ^, gebruik smallere herhalingen zoals [^/]+, of verwijder er een paar.",
     "description": "Fout in regex-patroon: de reguliere expressies van alle sitegroepen samen overschrijden het budget voor het slechtste geval."
+  },
+  "optionsShortcutsElsewhere": {
+    "message": "Deze browser kan zijn sneltoetsinstellingen niet vanaf hier openen. Zoek de sneltoetsen in de eigen extensie-instellingen van de browser.",
+    "description": "Instellingen: staat in plaats van (of na) Sneltoetsen wijzigen als de browser geen sneltoetsenpagina heeft die SiteMark kan openen, zoals Safari."
   }
 }

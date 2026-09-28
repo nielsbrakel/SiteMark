@@ -77,6 +77,28 @@ describe('REQ-OPT-004 REQ-CMD-001 REQ-CMD-002 keyboard shortcuts', () => {
       expect(create).toHaveBeenCalledWith({ url: 'chrome://extensions/shortcuts' }),
     );
   });
+
+  const elsewhere =
+    "This browser can't open its shortcut settings from here. Look for keyboard shortcuts in the browser's own extension settings.";
+
+  it('explains where shortcuts change when the browser has no page for it (Safari)', async () => {
+    withCommands({ name: 'start-picker', shortcut: 'Alt+Shift+M' });
+    vi.spyOn(fakeBrowser.runtime, 'getURL').mockImplementation(
+      (path) => `safari-web-extension://abc${String(path)}`,
+    );
+    await openSettings();
+    await findRole('list', { name: 'Keyboard shortcuts' });
+    expect(screen.queryByRole('button', { name: 'Change shortcuts' })).toBeNull();
+    expect(byRole('main')).toHaveTextContent(elsewhere);
+  });
+
+  it('explains it too when the shortcut settings fail to open', async () => {
+    withCommands({ name: 'start-picker', shortcut: 'Alt+Shift+M' });
+    vi.spyOn(fakeBrowser.tabs, 'create').mockRejectedValue(new Error('Illegal URL'));
+    await openSettings();
+    fireEvent.click(byRole('button', { name: 'Change shortcuts' }));
+    await waitFor(() => expect(byRole('main')).toHaveTextContent(elsewhere));
+  });
 });
 
 describe('REQ-OPT-004 help about the title prefix and browser history', () => {

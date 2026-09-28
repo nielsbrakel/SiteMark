@@ -1,4 +1,5 @@
 import { browser } from 'wxt/browser';
+import { notImplemented } from '../core/not-implemented';
 
 /** Chromium browsers (Chrome, Edge, Brave, Opera) redirect this to their own shortcuts page. */
 const CHROMIUM_SHORTCUTS = 'chrome://extensions/shortcuts';
@@ -18,4 +19,8 @@ export async function openShortcutSettings(): Promise<void> {
     // Refused (e.g. no user gesture): fall back to the page.
   }
   await browser.tabs.create({ url: CHROMIUM_SHORTCUTS });
+}
+
+export function canOpenShortcutSettings(): boolean {
+  return notImplemented();
 }

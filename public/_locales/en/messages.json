@@ -1433,5 +1433,9 @@
   "errorRegexBudgetExceeded": {
     "message": "Together, your regular expressions could make checking a page too slow. Start them with ^, use narrower repeats like [^/]+, or remove some.",
     "description": "Regex pattern error: the regular expressions of all site groups together exceed the worst-case matching budget."
+  },
+  "optionsShortcutsElsewhere": {
+    "message": "This browser can't open its shortcut settings from here. Look for keyboard shortcuts in the browser's own extension settings.",
+    "description": "Settings: shown instead of (or after) Change shortcuts when the browser has no shortcut settings page SiteMark can open, e.g. Safari."
   }
 }
