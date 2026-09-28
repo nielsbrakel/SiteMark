@@ -120,6 +120,14 @@ describe('REQ-A11Y-008 control boundaries use --sm-control-border (3:1)', () => 
   });
 });
 
+describe('REQ-A11Y-004 the empty error live region of a field takes no space', () => {
+  it('ends the field at its control when there is no error', () => {
+    const { container } = render(<Field label="Name">{(control) => <input {...control} />}</Field>);
+    const field = container.firstElementChild as HTMLElement;
+    expect(box(field).bottom).toBe(box(screen.getByLabelText('Name')).bottom);
+  });
+});
+
 describe('REQ-THEME-002 components take their colors from the tokens', () => {
   it('a primary button fills with the accent', () => {
     render(<Button variant="primary">Go</Button>);

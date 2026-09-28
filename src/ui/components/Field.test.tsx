@@ -70,3 +70,19 @@ describe('REQ-A11Y-008 REQ-A11Y-003 Field', () => {
     expect(await axeViolations(container)).toEqual([]);
   });
 });
+
+describe('REQ-A11Y-004 Field announces its inline error (WCAG 4.1.3)', () => {
+  it('keeps a polite live region in place before any error, and shows the error in it', () => {
+    const { container, rerender } = render(<Field label="Name">{controls.input}</Field>);
+    const region = container.querySelector('[aria-live="polite"]');
+    expect(region).not.toBeNull();
+    expect(region).toBeEmptyDOMElement();
+    rerender(
+      <Field label="Name" error="Required">
+        {controls.input}
+      </Field>,
+    );
+    expect(region).toHaveTextContent('Required');
+    expect(screen.getByLabelText('Name')).toHaveAccessibleDescription('Required');
+  });
+});
