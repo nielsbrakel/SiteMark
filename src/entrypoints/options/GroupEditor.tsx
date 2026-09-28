@@ -45,7 +45,7 @@ export function GroupEditor({
       <EnabledSwitch group={group} notify={notify} />
       <NameField group={group} />
       <PatternEditor group={group} notify={notify} />
-      <MarkList group={group} notify={notify}>
+      <MarkList group={group} notify={notify} openMarkId={mark?.id}>
         {mark && <MarkEditor key={mark.id} group={group} mark={mark} notify={notify} />}
       </MarkList>
       <div className={styles.actions}>

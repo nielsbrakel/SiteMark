@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode, useId } from 'react';
 import type { Command } from '@/core/commands/command';
+import type { MarkId } from '@/core/ids';
 import type { Mark, SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
@@ -12,11 +13,14 @@ import { markSummary, markSummaryParts, SEPARATOR } from './mark-summary';
 import type { Notify } from './notify';
 import { hrefOf } from './routes';
 import { sendTracked } from './save-status';
+import { useCloseFocus } from './use-close-focus';
 import { useRemovalFocus } from './use-removal-focus';
 
 export type MarkListProps = {
   readonly group: SiteGroup;
   readonly notify: Notify;
+  /** The mark whose editor is open; closing it puts focus back on its Edit link. */
+  readonly openMarkId?: MarkId | undefined;
   /** The children render the open mark's editor under the list. */
   readonly children?: ReactNode;
 };
@@ -39,12 +43,13 @@ function SummaryText({ mark }: { readonly mark: Mark }): ReactNode {
 }
 
 /** The site group's marks (REQ-OPT-003): a line each, with Edit and Remove, and Add page mark. */
-export function MarkList({ group, notify, children }: MarkListProps): ReactNode {
+export function MarkList({ group, notify, openMarkId, children }: MarkListProps): ReactNode {
   const headingId = useId();
   const focus = useRemovalFocus(
     group.marks.map((mark) => mark.id),
     headingId,
   );
+  useCloseFocus(openMarkId, focus.listRef);
   const add = () =>
     send({ type: 'addMark', groupId: group.id, mark: newPageMark(group.name) }, notify);
   return (
@@ -62,7 +67,11 @@ export function MarkList({ group, notify, children }: MarkListProps): ReactNode 
               <span data-summary className={styles.summary}>
                 <SummaryText mark={mark} />
               </span>
-              <a href={hrefOf(route)} aria-label={t('optionsEditMarkLink', summary)}>
+              <a
+                href={hrefOf(route)}
+                data-edit={mark.id}
+                aria-label={t('optionsEditMarkLink', summary)}
+              >
                 {t('optionsEdit')}
               </a>
               <IconButton
