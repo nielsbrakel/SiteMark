@@ -208,7 +208,7 @@ Status: ☐ todo · ✅ done.
 | Task  | Description                                                                                    | REQs                        | Tests                      | Status |
 | ----- | ---------------------------------------------------------------------------------------------- | --------------------------- | -------------------------- | ------ |
 | T-145 | Dutch copy review + pseudo-locale (+40 %) visual check in the 360 px popup                     | REQ-I18N-001, REQ-I18N-004  | `tests/e2e/i18n.spec.ts`   | ✅     |
-| T-146 | User content never translated                                                                  | REQ-I18N-003                | component tests            | ☐      |
+| T-146 | User content never translated                                                                  | REQ-I18N-003                | component tests            | ✅     |
 | T-147 | Visual baselines (all effects, UI light/dark/forced colors) in the Playwright container        | REQ-THEME-001, REQ-A11Y-007 | `tests/e2e/visual.spec.ts` | ✅     |
 | T-148 | axe e2e, light + dark                                                                          | REQ-A11Y-004                | `tests/e2e/a11y.spec.ts`   | ☐      |
 | T-149 | 200 % zoom + 320 px reflow                                                                     | REQ-A11Y-012                | `tests/e2e/a11y.spec.ts`   | ☐      |

@@ -39,7 +39,9 @@ export function GroupEditor({
   const mark = group.marks.find((candidate) => candidate.id === markId);
   return (
     <section className={styles.pane} aria-labelledby={id}>
-      <h2 id={id}>{group.name}</h2>
+      <h2 id={id} translate="no">
+        {group.name}
+      </h2>
       <EnabledSwitch group={group} notify={notify} />
       <NameField group={group} />
       <PatternEditor group={group} notify={notify} />

@@ -24,11 +24,27 @@ function effectNames(mark: Mark): string {
     .join(', ');
 }
 
-/** One line for a mark in lists (REQ-OPT-003): `label · Element · #app · Outline, Ribbon`. */
-export function markSummary(mark: Mark): string {
+/** Between the parts of a summary line. */
+export const SEPARATOR = ' · ';
+
+/** A piece of a mark's summary line. User text (label, selector) is never translated (REQ-I18N-003). */
+type SummaryPart = { readonly text: string; readonly isUserText: boolean };
+
+const userText = (text: string): SummaryPart => ({ text, isUserText: true });
+const uiText = (text: string): SummaryPart => ({ text, isUserText: false });
+
+/** The pieces of a mark's line in lists (REQ-OPT-003): label, target, selector, effects. */
+export function markSummaryParts(mark: Mark): readonly SummaryPart[] {
   const target =
     mark.target.kind === 'page'
-      ? [t('optionsTargetPage')]
-      : [t('optionsTargetElement'), mark.target.selector];
-  return [...(mark.label ? [mark.label] : []), ...target, effectNames(mark)].join(' · ');
+      ? [uiText(t('optionsTargetPage'))]
+      : [uiText(t('optionsTargetElement')), userText(mark.target.selector)];
+  return [...(mark.label ? [userText(mark.label)] : []), ...target, uiText(effectNames(mark))];
+}
+
+/** One line for a mark in lists (REQ-OPT-003): `label · Element · #app · Outline, Ribbon`. */
+export function markSummary(mark: Mark): string {
+  return markSummaryParts(mark)
+    .map((part) => part.text)
+    .join(SEPARATOR);
 }

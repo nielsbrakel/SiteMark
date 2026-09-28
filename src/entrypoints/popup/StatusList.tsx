@@ -43,7 +43,9 @@ function GroupItem({ group, isActive, status, onRepick }: GroupItemProps) {
   return (
     <li className={styles.group}>
       {color && <ColorChip color={color} />}
-      <span className={styles.name}>{group.name}</span>{' '}
+      <span className={styles.name} translate="no">
+        {group.name}
+      </span>{' '}
       {!group.enabled && <DisabledNote group={group} />}
       {isActive && status && <ElementMarks group={group} status={status} onRepick={onRepick} />}
     </li>

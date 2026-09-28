@@ -58,7 +58,7 @@ export function PatternList(props: PatternListProps): ReactNode {
       {group[list].map((pattern) => (
         <li key={pattern.id} className={styles.item}>
           <span className={styles.value}>
-            <code>{pattern.value}</code>
+            <code translate="no">{pattern.value}</code>
             {pattern.kind === 'regex' && (
               <span className={styles.origins}>
                 {t('optionsRegexOn', pattern.origins.join(', '))}

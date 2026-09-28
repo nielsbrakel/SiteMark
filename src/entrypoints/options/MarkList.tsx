@@ -1,6 +1,6 @@
-import { type ReactNode, useId } from 'react';
+import { Fragment, type ReactNode, useId } from 'react';
 import type { Command } from '@/core/commands/command';
-import type { SiteGroup } from '@/core/model/schema';
+import type { Mark, SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
 import { IconButton } from '@/ui/components/IconButton';
@@ -8,7 +8,7 @@ import { CloseIcon } from '@/ui/components/icons';
 import { commandErrorText } from './command-error';
 import styles from './MarkEditor.module.css';
 import { newPageMark } from './mark-drafts';
-import { markSummary } from './mark-summary';
+import { markSummary, markSummaryParts, SEPARATOR } from './mark-summary';
 import type { Notify } from './notify';
 import { hrefOf } from './routes';
 import { sendTracked } from './save-status';
@@ -23,6 +23,17 @@ export type MarkListProps = {
 async function send(command: Command, notify: Notify): Promise<void> {
   const result = await sendTracked(command);
   if (!result.ok) notify({ text: commandErrorText(result.error) });
+}
+
+/** A mark's summary line, with its user text out of reach of page translators (REQ-I18N-003). */
+function SummaryText({ mark }: { readonly mark: Mark }): ReactNode {
+  return markSummaryParts(mark).map((part, index) => (
+    // biome-ignore lint/suspicious/noArrayIndexKey: the parts of one line never move.
+    <Fragment key={index}>
+      {index > 0 && SEPARATOR}
+      {part.isUserText ? <span translate="no">{part.text}</span> : part.text}
+    </Fragment>
+  ));
 }
 
 /** The site group's marks (REQ-OPT-003): a line each, with Edit and Remove, and Add page mark. */
@@ -41,7 +52,7 @@ export function MarkList({ group, notify, children }: MarkListProps): ReactNode 
           return (
             <li key={mark.id} className={styles.item}>
               <span data-summary className={styles.summary}>
-                {summary}
+                <SummaryText mark={mark} />
               </span>
               <a href={hrefOf(route)} aria-label={t('optionsEditMarkLink', summary)}>
                 {t('optionsEdit')}

@@ -84,7 +84,10 @@ export function groupField(labels: PanelLabels, context: PickerContext, origin: 
     element.value = value;
     return element;
   };
-  select.append(...context.groups.map((group) => option(group.name, group.id)));
+  const groupOptions = context.groups.map((group) => option(group.name, group.id));
+  // Names are user content (REQ-I18N-003): page translators leave them as typed.
+  for (const element of groupOptions) element.setAttribute('translate', 'no');
+  select.append(...groupOptions);
   select.append(option(labels.newSiteGroup(origin), ''));
   row.append(label, select);
   /** The chosen active group, or `undefined` for "New site group". */

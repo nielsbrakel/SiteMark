@@ -32,6 +32,7 @@ export function GroupRow({
         href={groupHref(group.id)}
         aria-current={isSelected ? 'page' : undefined}
         className={styles.link}
+        translate="no"
       >
         {group.name}
       </a>

@@ -25,7 +25,7 @@ function Summary({ file }: { readonly file: PreviewedFile }): ReactNode {
           <ul className={styles.regexes}>
             {regexPatterns.map(({ pattern }) => (
               <li key={pattern.id}>
-                <code>{pattern.value}</code>
+                <code translate="no">{pattern.value}</code>
               </li>
             ))}
           </ul>

@@ -30,7 +30,9 @@ function MarkItem({
   const label = mark.label ?? mark.target.selector;
   return (
     <li className={styles.mark}>
-      <span className={styles.label}>{label}</span>{' '}
+      <span className={styles.label} translate="no">
+        {label}
+      </span>{' '}
       {found ? (
         <span className={styles.found}>
           <CheckIcon />
