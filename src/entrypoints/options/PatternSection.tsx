@@ -30,7 +30,9 @@ export function PatternSection({
   const headingId = useId();
   return (
     <section className={styles.editor} aria-labelledby={headingId}>
-      <h3 id={headingId}>{t(LIST_TEXT[form.list].heading)}</h3>
+      <h3 id={headingId} tabIndex={-1}>
+        {t(LIST_TEXT[form.list].heading)}
+      </h3>
       {intro}
       <PatternList group={group} list={form.list} labelledBy={headingId} notify={notify} />
       <AddPatternForm form={form} />

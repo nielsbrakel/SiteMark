@@ -12,11 +12,12 @@ import styles from './PatternEditor.module.css';
 import type { PatternListKind } from './pattern-lists';
 import { type OfferRevoke, useOfferRevoke } from './revoke-prompt';
 import { sendTracked } from './save-status';
+import { useRemovalFocus } from './use-removal-focus';
 
 export type PatternListProps = {
   readonly group: SiteGroup;
   readonly list: PatternListKind;
-  /** The id of the heading that names the list. */
+  /** The id of the heading that names the list; it takes focus when the last row goes. */
   readonly labelledBy: string;
   readonly notify: Notify;
 };
@@ -32,10 +33,12 @@ async function remove(
   props: PatternListProps,
   pattern: UrlPattern,
   offerRevoke: OfferRevoke,
+  onRemoved: () => void,
 ): Promise<void> {
   const { list, group, notify } = props;
   const result = await sendTracked(removeCommand(list, group, pattern));
   if (!result.ok) return notify({ text: commandErrorText(result.error) });
+  onRemoved();
   if (list === 'excludes') return;
   // REQ-GRP-002: the last pattern took the group's enabled state with it; the revoke offer
   // (REQ-PRIV-004) follows that notice.
@@ -53,9 +56,13 @@ async function remove(
 export function PatternList(props: PatternListProps): ReactNode {
   const { group, list, labelledBy } = props;
   const offerRevoke = useOfferRevoke();
+  const focus = useRemovalFocus(
+    group[list].map((pattern) => pattern.id),
+    labelledBy,
+  );
   return (
-    <ul aria-labelledby={labelledBy} className={styles.list}>
-      {group[list].map((pattern) => (
+    <ul ref={focus.listRef} aria-labelledby={labelledBy} className={styles.list}>
+      {group[list].map((pattern, index) => (
         <li key={pattern.id} className={styles.item}>
           <span className={styles.value}>
             <code translate="no">{pattern.value}</code>
@@ -67,9 +74,14 @@ export function PatternList(props: PatternListProps): ReactNode {
           </span>
           {list === 'patterns' && <GrantStatus origins={originsOfPattern(pattern)} />}
           <IconButton
+            data-remove
             label={t('optionsRemovePattern', pattern.value)}
             icon={<CloseIcon />}
-            onClick={() => void remove(props, pattern, offerRevoke)}
+            onClick={() =>
+              void remove(props, pattern, offerRevoke, () =>
+                focus.removed({ id: pattern.id, index }),
+              )
+            }
           />
         </li>
       ))}
