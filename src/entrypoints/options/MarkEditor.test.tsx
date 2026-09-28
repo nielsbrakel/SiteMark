@@ -105,6 +105,23 @@ describe('REQ-A11Y-002 REQ-OPT-003 focus stays in the mark list after a Remove (
   });
 });
 
+describe('REQ-A11Y-002 REQ-OPT-003 closing the mark editor keeps focus (WCAG 2.4.3)', () => {
+  it("moves focus to the closed mark's Edit link", async () => {
+    await openAt(markHash(outline.id));
+    const close = byRole('link', { name: 'Close' }, editor());
+    expect(close).toHaveAttribute('href', groupHash());
+    close.focus();
+    act(() => {
+      atHash(groupHash());
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+    });
+    await waitFor(() => expect(screen.queryByRole('region', { name: 'Edit mark' })).toBeNull());
+    await waitFor(() =>
+      expect(byRole('link', { name: 'Edit “Element · #app · Outline”' }, markList())).toHaveFocus(),
+    );
+  });
+});
+
 describe('REQ-OPT-003 the mark editor: target and selector', () => {
   it('opens from #/groups/:id/marks/:markId with the mark’s target', async () => {
     await openAt(markHash(ribbon.id));
