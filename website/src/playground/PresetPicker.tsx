@@ -1,17 +1,11 @@
 // biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
 import { useId } from 'react';
-import { colorPresets, type PresetName } from '@/core/model/presets';
+import { colorPresets } from '@/core/model/presets';
 import { paintColor } from '@/ui/components/paint';
 import type { IslandProps } from '../islands/island-props';
 import styles from './Playground.module.css';
+import { PRESET_NAMES } from './playground-names';
 import type { PlaygroundPreset } from './playground-state';
-
-const NAMES = {
-  red: 'colorRed',
-  amber: 'colorAmber',
-  blue: 'colorBlue',
-  slate: 'colorSlate',
-} as const satisfies Record<PresetName, string>;
 
 type Props = IslandProps & {
   readonly value: PlaygroundPreset;
@@ -29,7 +23,7 @@ export function PresetPicker({ t, value, onChange, withCustom = false }: Props) 
   const presets: { preset: PlaygroundPreset; label: string; color?: string }[] = [
     ...colorPresets().map(({ name: preset, color }) => ({
       preset,
-      label: t(NAMES[preset]),
+      label: t(PRESET_NAMES[preset]),
       color,
     })),
     ...(withCustom ? [{ preset: 'custom' as const, label: t('websitePlaygroundCustom') }] : []),

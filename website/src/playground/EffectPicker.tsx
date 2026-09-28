@@ -1,21 +1,10 @@
 import type { ReactNode } from 'react';
 import type { IslandProps } from '../islands/island-props';
 import styles from './Playground.module.css';
+import { EFFECT_NAMES } from './playground-names';
 import type { ElementEffectName, PageEffectName } from './playground-state';
 
 type EffectName = PageEffectName | ElementEffectName;
-
-/** The extension's own effect names (public/_locales), as the options page shows them. */
-const NAMES = {
-  ribbon: 'effectRibbon',
-  banner: 'effectBanner',
-  frame: 'effectFrame',
-  tint: 'effectTint',
-  stripes: 'effectStripes',
-  watermark: 'effectWatermark',
-  titlePrefix: 'effectTitlePrefix',
-  outline: 'effectOutline',
-} as const satisfies Record<EffectName, string>;
 
 type Props<E extends EffectName> = IslandProps & {
   readonly legend: string;
@@ -46,7 +35,7 @@ export function EffectPicker<E extends EffectName>({
               checked={on.includes(effect)}
               onChange={(event) => onChange(effect, event.target.checked)}
             />
-            {t(NAMES[effect])}
+            {t(EFFECT_NAMES[effect])}
           </label>
         ))}
       </div>
