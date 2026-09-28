@@ -1469,5 +1469,9 @@
         "example": "Production"
       }
     }
+  },
+  "optionsLastEffectHint": {
+    "message": "Een markering heeft minstens één effect nodig.",
+    "description": "Mark editor: why the only effect that is on can't be turned off."
   }
 }

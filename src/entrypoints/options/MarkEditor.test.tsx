@@ -316,6 +316,12 @@ describe('REQ-OPT-003 REQ-MARK-014 effect controls for the mark’s target', () 
     expect(toggle('Frame')).not.toBeChecked();
   });
 
+  it('says why the last effect can’t be turned off (WCAG 1.3.1)', async () => {
+    await openAt(markHash(ribbon.id));
+    expect(toggle('Ribbon')).toHaveAccessibleDescription('A mark needs at least one effect.');
+    expect(toggle('Frame')).not.toHaveAccessibleDescription();
+  });
+
   it('turns an effect on with its defaults and shows its settings', async () => {
     const { background } = await openAt(markHash(ribbon.id));
     fireEvent.click(toggle('Frame'));
