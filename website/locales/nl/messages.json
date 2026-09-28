@@ -416,5 +416,13 @@
   "websitePlaygroundPageTitle": {
     "message": "Klanten",
     "description": "Playground: title of the sample page in the mock browser tab. A title prefix goes in front of it."
+  },
+  "websitePlaygroundNoScript": {
+    "message": "Uitproberen werkt alleen met JavaScript. Zet het aan om je eigen markeringen te proberen; tot die tijd zie je hier hoe het voorbeeld eruitziet.",
+    "description": "Playground page without JavaScript: the note above the static image of the default preview."
+  },
+  "websitePlaygroundFallbackAlt": {
+    "message": "Het voorbeeld van Uitproberen: een nagebootst browservenster met een rode PROD-banner langs de bovenkant, een rood PROD-lint in de hoek rechtsboven en een omlijning om de knop Klant verwijderen.",
+    "description": "Alt text of the static image of the playground's default preview, shown without JavaScript."
   }
 }

@@ -416,5 +416,13 @@
   "websitePlaygroundPageTitle": {
     "message": "Customers",
     "description": "Playground: title of the sample page in the mock browser tab. A title prefix goes in front of it."
+  },
+  "websitePlaygroundNoScript": {
+    "message": "The playground needs JavaScript. Turn it on to try your own marks; until then, this is how the preview looks.",
+    "description": "Playground page without JavaScript: the note above the static image of the default preview."
+  },
+  "websitePlaygroundFallbackAlt": {
+    "message": "The playground's preview: a mock browser window with a red PROD banner along the top, a red PROD ribbon in the top-right corner and an outline around the Delete customer button.",
+    "description": "Alt text of the static image of the playground's default preview, shown without JavaScript."
   }
 }
