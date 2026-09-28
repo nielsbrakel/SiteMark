@@ -271,6 +271,7 @@ describe('REQ-GRP-004 REQ-A11Y-010 reorder site groups with Move up/down or drag
     within(sidebar())
       .getAllByRole('listitem')
       .find((item) => within(item).queryByRole('link', { name })) as HTMLElement;
+  const announcement = () => sidebar().querySelector('[aria-live="polite"]');
 
   it('has Move up and Move down for every site group, disabled at the ends', async () => {
     await openList();
@@ -307,6 +308,26 @@ describe('REQ-GRP-004 REQ-A11Y-010 reorder site groups with Move up/down or drag
     fireEvent.drop(row('Production'));
     await waitFor(() => expect(groupNames()).toEqual(['Local', 'Production', 'Staging']));
     expect(background.commands).toEqual([{ type: 'moveSiteGroup', id: local.id, toIndex: 0 }]);
+  });
+
+  it('announces the new position politely after Move', async () => {
+    await openList();
+    fireEvent.click(move('Production', 'down'));
+    await waitFor(() => expect(groupNames()).toEqual(['Staging', 'Production', 'Local']));
+    await waitFor(() =>
+      expect(announcement()).toHaveTextContent('Moved “Production” to position 2 of 3.'),
+    );
+  });
+
+  it('announces the new position after a drop too', async () => {
+    await openList();
+    byRole('link', { name: 'Local' }, sidebar());
+    fireEvent.dragStart(row('Local'));
+    fireEvent.dragOver(row('Production'));
+    fireEvent.drop(row('Production'));
+    await waitFor(() =>
+      expect(announcement()).toHaveTextContent('Moved “Local” to position 1 of 3.'),
+    );
   });
 
   it('ignores a drop that did not start in the list', async () => {

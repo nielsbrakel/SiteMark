@@ -1441,5 +1441,23 @@
   "optionsDiagnosticsIncludeOrigins": {
     "message": "Include site addresses (origins)",
     "description": "Settings: checkbox, off by default, that adds the origins (e.g. https://example.com/*) of the site groups to the copied diagnostics."
+  },
+  "optionsMovedTo": {
+    "message": "Moved “$NAME$” to position $POSITION$ of $COUNT$.",
+    "description": "Site group list: announced to screen readers after Move up/down or a drop.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Production"
+      },
+      "position": {
+        "content": "$2",
+        "example": "2"
+      },
+      "count": {
+        "content": "$3",
+        "example": "3"
+      }
+    }
   }
 }

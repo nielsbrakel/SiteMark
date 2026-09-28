@@ -1441,5 +1441,23 @@
   "optionsDiagnosticsIncludeOrigins": {
     "message": "Siteadressen (origins) meenemen",
     "description": "Instellingen: selectievakje, standaard uit, dat de origins (zoals https://example.com/*) van de sitegroepen aan de gekopieerde diagnostiek toevoegt."
+  },
+  "optionsMovedTo": {
+    "message": "“$NAME$” staat nu op plaats $POSITION$ van $COUNT$.",
+    "description": "Site group list: announced to screen readers after Move up/down or a drop.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "Production"
+      },
+      "position": {
+        "content": "$2",
+        "example": "2"
+      },
+      "count": {
+        "content": "$3",
+        "example": "3"
+      }
+    }
   }
 }
