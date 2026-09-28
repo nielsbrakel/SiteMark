@@ -1,4 +1,5 @@
 import { type Locale, websiteLocales } from '../i18n/locales';
+import type { HelpTopic } from './help-topics';
 import { type PageId, type Route, routeTable } from './routes';
 
 export type Alternate = { hreflang: Locale | 'x-default'; href: string };
@@ -50,4 +51,9 @@ export function pagePath(page: PageId, locale: Locale): string {
   const route = routeTable().find((r) => r.page === page);
   if (!route) throw new Error(`No route for the page ${page}`);
   return routePath(route, locale);
+}
+
+/** The path of a help topic in a locale, e.g. `/SiteMark/nl/help/url-patterns/`. */
+export function helpTopicPath(topic: HelpTopic, locale: Locale): string {
+  return routePath({ slug: `help/${topic}/` }, locale);
 }

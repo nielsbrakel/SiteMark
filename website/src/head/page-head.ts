@@ -14,11 +14,11 @@ export function pageHead(
   locale: Locale,
   t: WebsiteTranslator['t'],
 ): PageHead {
-  const head = seoHead(route, locale, {
+  const text = page.head?.(route, locale, t) ?? {
     title: t(page.title),
     description: t(page.description),
-    imageAlt: t('websiteSocialImageAlt'),
-  });
+  };
+  const head = seoHead(route, locale, { ...text, imageAlt: t('websiteSocialImageAlt') });
   const jsonLd =
     route.page === 'home'
       ? jsonLdText(

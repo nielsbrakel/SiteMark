@@ -21,7 +21,7 @@ const TEXTS: Record<ScreenshotScene, Texts> = {
   options: { caption: 'websiteScreenshotOptionsCaption', alt: 'websiteScreenshotOptionsAlt' },
 };
 
-type Props = Omit<PageProps, 'tp'>;
+type Props = Pick<PageProps, 't' | 'locale'>;
 
 /** One scene in both themes, shown at 2× density. */
 function Screenshot({ scene, t, locale }: Props & { scene: ScreenshotScene }) {

@@ -1,0 +1,75 @@
+/* Help (docs/website/design.md §3): prose at the reading width; the topic list sits above the text
+   on small screens and in a sidebar from 960 px. */
+.page,
+.article {
+  max-inline-size: var(--smw-prose-max);
+  min-inline-size: 0;
+}
+
+.lead {
+  color: var(--sm-text-muted);
+  font-size: var(--sm-text-lg);
+  line-height: var(--smw-prose-line);
+}
+
+.index {
+  display: grid;
+  gap: var(--sm-space-5);
+  margin: var(--sm-space-6) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry p {
+  margin: var(--sm-space-1) 0 0;
+  line-height: var(--smw-prose-line);
+}
+
+.title {
+  color: var(--sm-accent-text);
+  font-size: var(--sm-text-xl);
+  font-weight: 700;
+  text-underline-offset: 2px;
+}
+
+.topicPage {
+  display: grid;
+  gap: var(--sm-space-6);
+}
+
+.topics ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm-space-2) var(--sm-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.topics a {
+  display: inline-block;
+  padding-block: var(--sm-space-1);
+  color: var(--sm-text-muted);
+  text-underline-offset: 2px;
+}
+
+.topics a[aria-current='page'] {
+  color: var(--sm-text);
+  font-weight: 700;
+}
+
+@media (width >= 960px) {
+  .topicPage {
+    grid-template-columns: 220px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .topics {
+    position: sticky;
+    top: var(--sm-space-4);
+  }
+
+  .topics ul {
+    flex-direction: column;
+  }
+}

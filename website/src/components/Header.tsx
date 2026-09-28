@@ -17,6 +17,10 @@ const HOME = { slug: '' };
 
 const current = (isCurrent: boolean) => (isCurrent ? 'page' : undefined);
 
+/** A help topic page belongs to Help in the navigation. */
+const isHelpTopicOf = (item: Route, route: Route) =>
+  item.page === 'help' && route.page === 'helpTopic';
+
 function Wordmark({ route, locale, t }: Omit<HeaderProps, 'routes'>) {
   // Both variants are in the HTML and CSS fades in the one that matches the theme (design §5). The
   // light one stays in the accessibility tree in every theme, so it alone carries the link text.
@@ -48,7 +52,7 @@ function Navigation({ route, locale, routes, t }: HeaderProps) {
             <a
               className={styles.link}
               href={routePath(item, locale)}
-              aria-current={current(item.page === route.page)}
+              aria-current={current(item.page === route.page || isHelpTopicOf(item, route))}
             >
               {t(pageLabel(item.page))}
             </a>

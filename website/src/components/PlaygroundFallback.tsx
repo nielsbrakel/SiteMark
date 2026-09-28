@@ -5,7 +5,7 @@ import type { PageProps } from '../pages/page-props';
 import styles from './PlaygroundFallback.module.css';
 import { ThemedPicture } from './ThemedPicture';
 
-type Props = Omit<PageProps, 'tp'> & {
+type Props = Pick<PageProps, 't' | 'locale'> & {
   /** The playground island, shown only with JavaScript. */
   readonly children: ReactNode;
 };

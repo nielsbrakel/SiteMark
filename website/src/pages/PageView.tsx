@@ -16,7 +16,7 @@ type PageViewProps = {
 export function PageView({ route, page, locale, routes, translator }: PageViewProps) {
   return (
     <Shell route={route} locale={locale} routes={routes} t={translator.t}>
-      <page.Component t={translator.t} tp={translator.tp} locale={locale} />
+      <page.Component t={translator.t} tp={translator.tp} locale={locale} route={route} />
     </Shell>
   );
 }

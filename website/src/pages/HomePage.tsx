@@ -58,7 +58,7 @@ function Highlights({ t }: Pick<PageProps, 't'>) {
   );
 }
 
-function PrivacySummary({ t, locale }: Omit<PageProps, 'tp'>) {
+function PrivacySummary({ t, locale }: Pick<PageProps, 't' | 'locale'>) {
   return (
     <section className={styles.section} aria-labelledby="privacy-summary">
       <h2 id="privacy-summary">{t('websitePrivacySummaryHeading')}</h2>

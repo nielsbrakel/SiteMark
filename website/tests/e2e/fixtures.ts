@@ -64,7 +64,7 @@ export function routeCases(): RouteCase[] {
     (['en', 'nl'] as const)
       .filter((locale) => existsSync(path.join(dist, outputFile(route, locale))))
       .map((locale) => ({
-        name: `${route.page} (${locale})`,
+        name: `${route.topic ? `help/${route.topic}` : route.page} (${locale})`,
         path: routePath(route, locale),
         locale,
       })),

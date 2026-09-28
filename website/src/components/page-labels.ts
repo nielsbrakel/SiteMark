@@ -5,6 +5,7 @@ import type { PageId } from '../routes/routes';
 const LABELS: Record<PageId, WebsiteMessageKey> = {
   home: 'websiteNavHome',
   help: 'websiteNavHelp',
+  helpTopic: 'websiteNavHelp',
   // biome-ignore lint/security/noSecrets: an i18n key, not a secret
   playground: 'websiteNavPlayground',
   support: 'websiteNavSupport',

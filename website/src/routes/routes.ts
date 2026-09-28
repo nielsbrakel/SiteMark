@@ -1,7 +1,16 @@
+import { type HelpTopic, helpTopics } from './help-topics';
+
 /** Website milestones (D-253): W1 before the store release, W2 after M6. */
 export type WebsiteMilestone = 'W1' | 'W2';
 
-export type PageId = 'home' | 'help' | 'playground' | 'support' | 'privacy' | 'changelog';
+export type PageId =
+  | 'home'
+  | 'help'
+  | 'helpTopic'
+  | 'playground'
+  | 'support'
+  | 'privacy'
+  | 'changelog';
 
 /** One page of the website (docs/website/spec.md §6). Pure data: no components, no URLs. */
 export type Route = {
@@ -14,6 +23,8 @@ export type Route = {
   readonly stable: boolean;
   /** Shown in the header navigation (the wordmark links home, the footer has the rest). */
   readonly nav: boolean;
+  /** The help topic of a `helpTopic` route (REQ-PAGE-004). */
+  readonly topic?: HelpTopic;
 };
 
 const MILESTONES: readonly WebsiteMilestone[] = ['W1', 'W2'];
@@ -21,6 +32,16 @@ const MILESTONES: readonly WebsiteMilestone[] = ['W1', 'W2'];
 const ROUTES: readonly Route[] = [
   { page: 'home', slug: '', milestone: 'W1', stable: false, nav: false },
   { page: 'help', slug: 'help/', milestone: 'W2', stable: false, nav: true },
+  ...helpTopics().map(
+    (topic): Route => ({
+      page: 'helpTopic',
+      slug: `help/${topic}/`,
+      milestone: 'W2',
+      stable: false,
+      nav: false,
+      topic,
+    }),
+  ),
   { page: 'playground', slug: 'playground/', milestone: 'W2', stable: false, nav: true },
   { page: 'support', slug: 'support/', milestone: 'W1', stable: true, nav: true },
   { page: 'privacy', slug: 'privacy/', milestone: 'W1', stable: true, nav: true },
