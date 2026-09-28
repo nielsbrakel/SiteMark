@@ -60,3 +60,15 @@ describe('REQ-A11Y-007 base styles keep boundaries, states and focus in forced c
     expect(block).toMatch(/aria-pressed='true'\][^{]*{[^}]*background:\s*Highlight/);
   });
 });
+
+describe('REQ-THEME-002 links take the accent text token, not the browser default blue', () => {
+  const base = readFileSync('src/styles/base.css', 'utf8');
+
+  it('colors every link with --sm-accent-text in light and dark', () => {
+    expect(base).toMatch(/(^|\n)a\s*{[^}]*color:\s*var\(--sm-accent-text\)/);
+  });
+
+  it('leaves links to the system LinkText color in forced colors', () => {
+    expect(forcedColorsBlock(base)).toMatch(/(^|\s)a\s*{[^}]*color:\s*LinkText/);
+  });
+});
