@@ -9,6 +9,20 @@ export default defineConfig({
   // One manifest version everywhere (Chromium 120+, Firefox 140+, Safari 18+).
   manifestVersion: 3,
   modules: ['@wxt-dev/module-react'],
+  // The AMO sources zip must rebuild the Firefox zip exactly (SOURCE_REVIEW.md, REQ-SEC-008): it takes
+  // .nvmrc along and leaves local test output behind (scripts/check-release-zips.ts checks both).
+  zip: {
+    includeSources: ['**/*', '.nvmrc'],
+    excludeSources: [
+      'test-results/**',
+      'playwright-report/**',
+      'coverage/**',
+      'reports/**',
+      '.stryker-tmp/**',
+      'website/dist/**',
+      '.env*',
+    ],
+  },
   // D-226: closed shadow roots in production; open in dev, test and e2e builds so tests can pierce them.
   vite: ({ mode }) => ({
     define: { __SHADOW_MODE__: JSON.stringify(mode === 'production' ? 'closed' : 'open') },

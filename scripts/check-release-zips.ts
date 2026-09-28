@@ -5,7 +5,6 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inflateRawSync } from 'node:zlib';
-import { notImplemented } from '../src/core/not-implemented.ts';
 
 const END_OF_DIRECTORY = 0x06054b50;
 const CENTRAL_ENTRY = 0x02014b50;
@@ -79,17 +78,31 @@ export function zipProblems(name: string, files: ReadonlyMap<string, Buffer>): s
   return problems;
 }
 
+/** What a reviewer needs to rebuild the Firefox zip exactly (SOURCE_REVIEW.md). */
+const BUILD_INPUTS = ['SOURCE_REVIEW.md', '.nvmrc', 'pnpm-lock.yaml', 'package.json'];
+/** Local output and secrets that must never be published with the sources. */
+const LOCAL_ONLY =
+  /^(test-results|playwright-report|coverage|reports|\.stryker-tmp|\.output|node_modules)\/|^\.env/;
+
 /** What is wrong with the Firefox sources zip for AMO review (REQ-SEC-008, SOURCE_REVIEW.md). */
-export function sourcesZipProblems(_name: string, _files: ReadonlyMap<string, Buffer>): string[] {
-  return notImplemented();
+export function sourcesZipProblems(name: string, files: ReadonlyMap<string, Buffer>): string[] {
+  const missing = BUILD_INPUTS.filter((file) => !files.has(file)).map(
+    (file) => `${name} lacks ${file}`,
+  );
+  const local = [...files.keys()]
+    .filter((file) => LOCAL_ONLY.test(file))
+    .map((file) => `${name} must not contain ${file}`);
+  return [...missing, ...local];
 }
 
 function main(zips: readonly string[]): void {
   // The Firefox sources zip (for AMO review) is source code, not an extension.
-  const extensions = zips.filter((zip) => !zip.endsWith('-sources.zip'));
-  const problems = extensions.flatMap((zip) =>
-    zipProblems(path.basename(zip), readZip(readFileSync(zip))),
-  );
+  const isSources = (zip: string) => zip.endsWith('-sources.zip');
+  const extensions = zips.filter((zip) => !isSources(zip));
+  const problems = zips.flatMap((zip) => {
+    const check = isSources(zip) ? sourcesZipProblems : zipProblems;
+    return check(path.basename(zip), readZip(readFileSync(zip)));
+  });
   for (const problem of problems) console.error(`::error::${problem}`);
   if (problems.length > 0 || extensions.length === 0) process.exit(1);
   console.log(`Checked ${extensions.length} release zip(s).`);
