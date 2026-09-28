@@ -1,4 +1,4 @@
-import AxeBuilder from '@axe-core/playwright';
+import { seriousViolations } from './axe';
 import { expect, test } from './fixtures';
 import { fixtureUrl } from './hosts';
 import { waitForMarker } from './marker';
@@ -71,8 +71,6 @@ test.describe('REQ-POP-001 REQ-POP-006 the popup in the real extension', () => {
   });
 });
 
-const WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
-
 test.describe('REQ-A11Y-004 axe finds no serious or critical issue in the popup', () => {
   for (const colorScheme of ['light', 'dark'] as const) {
     test(`in ${colorScheme}`, { tag: '@REQ-A11Y-004' }, async ({
@@ -86,11 +84,7 @@ test.describe('REQ-A11Y-004 axe finds no serious or critical issue in the popup'
       await expect(markThisSite).toBeVisible();
       await markThisSite.click();
       await expect(popup.getByRole('list', { name: 'Site groups on this site' })).toBeVisible();
-      const { violations } = await new AxeBuilder({ page: popup }).withTags(WCAG).analyze();
-      const serious = violations
-        .filter((violation) => ['serious', 'critical'].includes(violation.impact ?? ''))
-        .map(({ id, nodes }) => `${id}: ${nodes.map((node) => node.target.join(' ')).join(', ')}`);
-      expect(serious).toEqual([]);
+      expect(await seriousViolations(popup)).toEqual([]);
     });
   }
 });
