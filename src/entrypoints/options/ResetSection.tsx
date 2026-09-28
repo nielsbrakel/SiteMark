@@ -1,4 +1,4 @@
-import { type ReactNode, useId, useState } from 'react';
+import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { browser } from 'wxt/browser';
 import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
@@ -18,13 +18,18 @@ async function revokeAll(): Promise<void> {
 
 /**
  * Reset everything (REQ-OPT-005): two confirmations, then resetAll (the background unregisters the
- * marker) and, if chosen, the access to every site is removed.
+ * marker) and, if chosen, the access to every site is removed. The second step's text takes focus,
+ * so it is read out (WCAG 2.4.3).
  */
 export function ResetSection({ notify }: { readonly notify: Notify }): ReactNode {
   const headingId = useId();
   const [step, setStep] = useState<Step>('closed');
   const [revoke, setRevoke] = useState(false);
   const [isDone, setDone] = useState(false);
+  const body = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (step === 'second') body.current?.focus();
+  }, [step]);
   const reset = async () => {
     setStep('closed');
     if (revoke) await revokeAll().catch(() => undefined);
@@ -62,7 +67,9 @@ export function ResetSection({ notify }: { readonly notify: Notify }): ReactNode
           </>
         }
       >
-        <p>{t(isFirst ? 'optionsResetBody' : 'optionsResetConfirmBody')}</p>
+        <p ref={body} tabIndex={-1}>
+          {t(isFirst ? 'optionsResetBody' : 'optionsResetConfirmBody')}
+        </p>
       </Dialog>
     </section>
   );
