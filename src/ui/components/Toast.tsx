@@ -49,7 +49,10 @@ export function Toast({
   durationMs = 4000,
   timer = windowTimer,
 }: ToastProps): ReactNode {
-  const [isPaused, setPaused] = useState(false);
+  // Paused while either holds, so the pointer leaving never runs the timer out under focus.
+  const [isHovered, setHovered] = useState(false);
+  const [hasFocus, setFocus] = useState(false);
+  const isPaused = isHovered || hasFocus;
   const dismiss = useEffectEvent(onDismiss);
 
   useEffect(() => {
@@ -58,7 +61,7 @@ export function Toast({
   }, [toast, isPaused, durationMs, timer]);
 
   const onBlur = (event: FocusEvent<HTMLElement>) => {
-    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false);
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocus(false);
   };
   const runAction = (action: ToastAction) => {
     action.onAction();
@@ -72,9 +75,9 @@ export function Toast({
         // biome-ignore lint/a11y/noNoninteractiveElementInteractions: same; no action of its own.
         <div
           className={styles.toast}
-          onPointerEnter={() => setPaused(true)}
-          onPointerLeave={() => setPaused(false)}
-          onFocus={() => setPaused(true)}
+          onPointerEnter={() => setHovered(true)}
+          onPointerLeave={() => setHovered(false)}
+          onFocus={() => setFocus(true)}
           onBlur={onBlur}
         >
           <p className={styles.text}>{toast.text}</p>
