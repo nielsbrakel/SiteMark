@@ -498,3 +498,38 @@ describe('REQ-DATA-007 the popup shows read-only and unreadable data', () => {
     expect(await axeViolations(view.container)).toEqual([]);
   });
 });
+
+describe('REQ-I18N-003 the popup shows user content as typed, never translated', () => {
+  // Names that are message keys (or look like manifest placeholders) must not be looked up.
+  const asKey = anElementMark({ label: 'optionsDelete' });
+  const named = group('popupMarkThisSite', 'https://*.example.com/*', { marks: [asKey] });
+  const placeholder = group('__MSG_extName__', '*://app.example.com/*', { enabled: false });
+  const userTexts = ['popupMarkThisSite', '__MSG_extName__', 'optionsDelete'];
+
+  async function openWithUserContent() {
+    fakes().permissions.grant('https://*.example.com/*', '*://app.example.com/*');
+    const opened = await openPopup(PAGE, named, placeholder);
+    opened.background.tabStatus = {
+      marks: [{ markId: asKey.id, found: true }],
+      favicon: 'off',
+      hidden: false,
+    };
+    return opened;
+  }
+
+  it('shows group names and mark labels literally', async () => {
+    await openWithUserContent();
+    await shown(() => screen.queryByText('optionsDelete'));
+    const [first, second] = await items();
+    expect(first).toHaveTextContent(/^popupMarkThisSite optionsDelete found$/);
+    expect(second).toHaveTextContent(/^__MSG_extName__ Disabled — enable in settings$/);
+  });
+
+  it('keeps page translators away from them (translate="no")', async () => {
+    await openWithUserContent();
+    for (const text of userTexts) {
+      const element = await shown(() => screen.queryByText(text));
+      expect(element.closest('[translate="no"]'), text).not.toBeNull();
+    }
+  });
+});

@@ -382,3 +382,31 @@ describe('REQ-PICK-007 a re-pick only replaces the selector', () => {
     );
   });
 });
+
+// ── User content (T-146) ──────────────────────────────────────────────────────────────────────
+
+describe('REQ-I18N-003 the panel shows site group names as typed, never translated', () => {
+  const NAMED = [
+    { id: PROD, name: 'pickerSave' },
+    { id: ADMIN, name: '__MSG_extName__' },
+  ];
+  const groupOptions = (ui: Ui) => {
+    const select = ui.getByRole('combobox', { name: 'Site group' }) as HTMLSelectElement;
+    return [...select.options].slice(0, NAMED.length);
+  };
+
+  it('lists the names literally', () => {
+    const { ui } = aPanel({ context: { groups: NAMED, theme: 'system' } });
+    expect(groupOptions(ui).map((option) => option.text)).toEqual([
+      'pickerSave',
+      '__MSG_extName__',
+    ]);
+  });
+
+  it('keeps page translators away from them (translate="no")', () => {
+    const { ui } = aPanel({ context: { groups: NAMED, theme: 'system' } });
+    for (const option of groupOptions(ui)) {
+      expect(option.closest('[translate="no"]'), option.text).not.toBeNull();
+    }
+  });
+});
