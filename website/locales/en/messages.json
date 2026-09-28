@@ -408,5 +408,37 @@
   "websiteHeroPlaygroundLink": {
     "message": "Try every effect in the playground",
     "description": "Home hero: link under the small playground to the full playground page."
+  },
+  "websitePlaygroundSummaryPage": {
+    "message": "The page shows $EFFECTS$ in $COLOR$ with the text “$TEXT$”.",
+    "description": "Playground: read out by screen readers when the preview changes. EFFECTS is a list of lowercase effect names, COLOR a lowercase color name or a hex color.",
+    "placeholders": {
+      "effects": {
+        "content": "$1",
+        "example": "ribbon, banner"
+      },
+      "color": {
+        "content": "$2",
+        "example": "red"
+      },
+      "text": {
+        "content": "$3",
+        "example": "PROD"
+      }
+    }
+  },
+  "websitePlaygroundSummaryElement": {
+    "message": "The Delete customer button has $EFFECTS$.",
+    "description": "Playground: read out by screen readers when the preview changes. EFFECTS is a list of lowercase effect names. The button text must match websiteHeroButton.",
+    "placeholders": {
+      "effects": {
+        "content": "$1",
+        "example": "outline, stripes"
+      }
+    }
+  },
+  "websitePlaygroundSummaryNone": {
+    "message": "The preview shows no marks.",
+    "description": "Playground: read out by screen readers when every effect is off."
   }
 }

@@ -1,8 +1,10 @@
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
+import { axeViolations } from '../../../tests/unit/axe';
 import { pagesForDom, showPage } from '../../tests/unit/page-dom';
 import type { RenderedPage } from '../entry-server';
 import { createWebsiteTranslator, loadCatalogs, type WebsiteTranslator } from '../i18n/website-t';
+import { HeroPlayground } from './HeroPlayground';
 import { Playground } from './Playground';
 
 let en: WebsiteTranslator;
@@ -130,5 +132,67 @@ describe('REQ-PLAY-006 custom input shows the options page messages', () => {
   it('takes at most 16 characters of mark text, the ribbon limit', () => {
     render(<Playground t={en.t} />);
     expect(screen.getByRole('textbox', { name: 'Mark text' }).getAttribute('maxlength')).toBe('16');
+  });
+});
+
+describe('REQ-PLAY-005 the playground is accessible', () => {
+  it('has no axe violations, also while a field shows an error', async () => {
+    const { container } = render(<Playground t={en.t} />);
+    expect(await axeViolations(container)).toEqual([]);
+    fireEvent.change(screen.getByRole('textbox', { name: 'Custom color' }), {
+      target: { value: 'nope' },
+    });
+    expect(await axeViolations(container)).toEqual([]);
+  });
+
+  it('labels every control', () => {
+    const { container } = render(<Playground t={en.t} />);
+    const controls = [...container.querySelectorAll('input, select')];
+    expect(controls.length).toBeGreaterThan(15);
+    for (const control of controls) {
+      const name = control.id
+        ? container.querySelector(`label[for="${control.id}"]`)?.textContent
+        : control.closest('label')?.textContent;
+      expect(name?.trim(), `${control.tagName} ${control.getAttribute('type')}`).toBeTruthy();
+    }
+  });
+
+  it('tells assistive technology what the preview shows, in words', () => {
+    render(<Playground t={en.t} />);
+    const status = screen.queryByRole('status');
+    expect(status?.textContent).toBe(
+      'The page shows ribbon, banner in red with the text “PROD”. ' +
+        'The Delete customer button has outline.',
+    );
+    fireEvent.click(screen.getByRole('radio', { name: 'Slate' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Frame' }));
+    fireEvent.change(screen.getByRole('textbox', { name: 'Mark text' }), {
+      target: { value: 'LIVE' },
+    });
+    expect(status?.textContent).toBe(
+      'The page shows ribbon, banner, frame in slate with the text “LIVE”. ' +
+        'The Delete customer button has outline.',
+    );
+    fireEvent.change(screen.getByRole('textbox', { name: 'Custom color' }), {
+      target: { value: '#00aa55' },
+    });
+    expect(status?.textContent).toContain('in #00aa55 with');
+  });
+
+  it('says so when the preview shows no marks', () => {
+    render(<Playground t={en.t} />);
+    const page = within(group('Effects on the page'));
+    fireEvent.click(page.getByRole('checkbox', { name: 'Ribbon' }));
+    fireEvent.click(page.getByRole('checkbox', { name: 'Banner' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: 'Outline' }));
+    expect(screen.queryByRole('status')?.textContent).toBe('The preview shows no marks.');
+  });
+
+  it('describes the hero preview too, and names its presets', async () => {
+    const { container } = render(<HeroPlayground t={en.t} />);
+    expect(screen.queryByRole('status')?.textContent).toContain('in red');
+    fireEvent.click(screen.getByRole('radio', { name: 'Amber' }));
+    expect(screen.queryByRole('status')?.textContent).toContain('in amber');
+    expect(await axeViolations(container)).toEqual([]);
   });
 });

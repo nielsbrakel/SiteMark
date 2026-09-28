@@ -408,5 +408,37 @@
   "websiteHeroPlaygroundLink": {
     "message": "Probeer alle effecten bij Uitproberen",
     "description": "Home hero: link under the small playground to the full playground page."
+  },
+  "websitePlaygroundSummaryPage": {
+    "message": "De pagina toont $EFFECTS$ in $COLOR$ met de tekst ‘$TEXT$’.",
+    "description": "Playground: read out by screen readers when the preview changes. EFFECTS is a list of lowercase effect names, COLOR a lowercase color name or a hex color.",
+    "placeholders": {
+      "effects": {
+        "content": "$1",
+        "example": "ribbon, banner"
+      },
+      "color": {
+        "content": "$2",
+        "example": "red"
+      },
+      "text": {
+        "content": "$3",
+        "example": "PROD"
+      }
+    }
+  },
+  "websitePlaygroundSummaryElement": {
+    "message": "De knop Klant verwijderen heeft $EFFECTS$.",
+    "description": "Playground: read out by screen readers when the preview changes. EFFECTS is a list of lowercase effect names. The button text must match websiteHeroButton.",
+    "placeholders": {
+      "effects": {
+        "content": "$1",
+        "example": "outline, stripes"
+      }
+    }
+  },
+  "websitePlaygroundSummaryNone": {
+    "message": "Het voorbeeld toont geen markeringen.",
+    "description": "Playground: read out by screen readers when every effect is off."
   }
 }
