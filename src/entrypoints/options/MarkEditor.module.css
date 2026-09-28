@@ -94,3 +94,9 @@
   min-height: 36px;
   font-weight: 600;
 }
+
+.hint {
+  margin: 0;
+  font-size: var(--sm-text-sm);
+  color: var(--sm-text-muted);
+}

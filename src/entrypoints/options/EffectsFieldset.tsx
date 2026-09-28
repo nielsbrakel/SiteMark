@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useId } from 'react';
 import type { ElementEffects, PageEffects } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { EffectSettings } from './EffectSettings';
@@ -23,7 +23,7 @@ export type EffectsFieldsetProps = {
 
 /**
  * The effect toggles with their settings (REQ-OPT-003): only the effects of the mark's target
- * (REQ-MARK-014), and the last effect can't be turned off (REQ-MARK-001).
+ * (REQ-MARK-014), and the last effect can't be turned off (REQ-MARK-001), with a hint that says why.
  */
 export function EffectsFieldset({
   target,
@@ -31,6 +31,7 @@ export function EffectsFieldset({
   groupName,
   onSave,
 }: EffectsFieldsetProps): ReactNode {
+  const hintId = useId();
   const current: Partial<Record<EffectName, unknown>> = effects;
   const onCount = EFFECTS_BY_TARGET[target].filter((name) => current[name] !== undefined).length;
   const set = (name: EffectName, value: unknown) => {
@@ -42,19 +43,26 @@ export function EffectsFieldset({
       <legend>{t('optionsEffects')}</legend>
       {EFFECTS_BY_TARGET[target].map((name) => {
         const isOn = current[name] !== undefined;
+        const isLast = isOn && onCount === 1;
         return (
           <div key={name} className={styles.effect}>
             <label className={styles.toggle}>
               <input
                 type="checkbox"
                 checked={isOn}
-                disabled={isOn && onCount === 1}
+                disabled={isLast}
+                aria-describedby={isLast ? hintId : undefined}
                 onChange={() =>
                   set(name, isOn ? undefined : defaultEffect(name, target, groupName))
                 }
               />
               {t(EFFECT_NAMES[name])}
             </label>
+            {isLast && (
+              <p id={hintId} className={styles.hint}>
+                {t('optionsLastEffectHint')}
+              </p>
+            )}
             {isOn && (
               <EffectSettings
                 name={name}
