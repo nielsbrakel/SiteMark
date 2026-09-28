@@ -15,3 +15,22 @@
   font-size: var(--sm-text-lg);
   line-height: var(--smw-prose-line);
 }
+
+.image {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 560px;
+  block-size: auto;
+}
+
+/* Without JavaScript (no <html data-js>) the controls can't work: the image and its note show
+   instead (REQ-PLAY-003). With JavaScript it's the other way around. */
+.noScript {
+  display: grid;
+  gap: var(--sm-space-3);
+}
+
+:global(:root[data-js]) .noScript,
+:global(:root:not([data-js])) .live {
+  display: none;
+}

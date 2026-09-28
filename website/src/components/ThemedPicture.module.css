@@ -1,0 +1,23 @@
+/* The active theme's variant: the OS unless <html data-theme> overrides it. `display: none` keeps
+   the other one out of the accessibility tree, and its lazy image never loads. */
+.dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .light {
+    display: none;
+  }
+
+  :global(:root:not([data-theme='light'])) .dark {
+    display: block;
+  }
+}
+
+:global(:root[data-theme='dark']) .light {
+  display: none;
+}
+
+:global(:root[data-theme='dark']) .dark {
+  display: block;
+}

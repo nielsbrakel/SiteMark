@@ -1,8 +1,6 @@
 // The screenshot generator (D-251, T-230): the real e2e build of the extension marks a demo page, in
 // light and dark and in English and Dutch → website/public/screenshots. The PNGs are the store
 // images (T-152), the WebPs are what the website shows. Run it with `pnpm web:screenshots`.
-import { mkdirSync, writeFileSync } from 'node:fs';
-import path from 'node:path';
 import type { BrowserContext, Page, Worker } from '@playwright/test';
 import { test } from '../../tests/e2e/fixtures';
 import { waitForMarker } from '../../tests/e2e/marker';
@@ -17,9 +15,9 @@ import {
   screenshotThemes,
 } from '../src/content/screenshots';
 import { type Locale, websiteLocales } from '../src/i18n/locales';
+import { toWebp, writePublic } from './image-files';
 import { screenshotPage } from './screenshot-page';
 
-const PUBLIC = path.resolve(import.meta.dirname, '../public');
 /** A pre-granted origin of the e2e build, on the default port. */
 const ORIGIN = 'http://prod.sitemark.test';
 
@@ -134,29 +132,6 @@ async function options({ context, theme, extensionId, markRoute }: Scene): Promi
   return settle(page);
 }
 
-/** The same image as WebP, encoded by the browser (no image library needed). */
-async function toWebp(context: BrowserContext, png: Buffer): Promise<Buffer> {
-  const page = await context.newPage();
-  const base64 = await page.evaluate(async (source) => {
-    const image = new Image();
-    image.src = `data:image/png;base64,${source}`;
-    await image.decode();
-    const canvas = document.createElement('canvas');
-    canvas.width = image.naturalWidth;
-    canvas.height = image.naturalHeight;
-    canvas.getContext('2d')?.drawImage(image, 0, 0);
-    return canvas.toDataURL('image/webp', 0.82).split(',')[1] ?? '';
-  }, png.toString('base64'));
-  await page.close();
-  return Buffer.from(base64, 'base64');
-}
-
-function write(file: string, data: Buffer): void {
-  const target = path.join(PUBLIC, file);
-  mkdirSync(path.dirname(target), { recursive: true });
-  writeFileSync(target, data);
-}
-
 function capture(scene: ScreenshotScene, env: Scene): Promise<Buffer> {
   switch (scene) {
     case 'marked-page':
@@ -189,8 +164,8 @@ for (const locale of websiteLocales()) {
         const env = { context, worker: serviceWorker, extensionId, theme, markRoute };
         for (const scene of screenshotScenes()) {
           const png = await capture(scene, env);
-          write(screenshotFile(scene, theme, locale, 'png'), png);
-          write(screenshotFile(scene, theme, locale, 'webp'), await toWebp(context, png));
+          writePublic(screenshotFile(scene, theme, locale, 'png'), png);
+          writePublic(screenshotFile(scene, theme, locale, 'webp'), await toWebp(context, png));
         }
       }
     });

@@ -4,12 +4,11 @@ import {
   type ScreenshotScene,
   screenshotFile,
   screenshotScenes,
-  screenshotThemes,
 } from '../content/screenshots';
 import type { WebsiteMessageKey } from '../i18n/website-t';
 import type { PageProps } from '../pages/page-props';
-import { assetUrl } from '../routes/urls';
 import styles from './Screenshots.module.css';
+import { ThemedPicture } from './ThemedPicture';
 
 type Texts = { caption: WebsiteMessageKey; alt: WebsiteMessageKey };
 
@@ -24,28 +23,18 @@ const TEXTS: Record<ScreenshotScene, Texts> = {
 
 type Props = Omit<PageProps, 'tp'>;
 
-/** One scene in both themes; CSS shows the active theme's, and the other one never loads. */
+/** One scene in both themes, shown at 2× density. */
 function Screenshot({ scene, t, locale }: Props & { scene: ScreenshotScene }) {
   const { caption, alt } = TEXTS[scene];
   return (
     <figure className={styles.figure}>
-      {screenshotThemes().map((theme) => (
-        <picture key={theme} data-theme={theme} className={styles[theme]}>
-          <source
-            type="image/webp"
-            srcSet={assetUrl(screenshotFile(scene, theme, locale, 'webp'))}
-          />
-          <img
-            className={styles.image}
-            src={assetUrl(screenshotFile(scene, theme, locale, 'png'))}
-            alt={t(alt)}
-            width={SCREENSHOT_SIZE.width / 2}
-            height={SCREENSHOT_SIZE.height / 2}
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
-      ))}
+      <ThemedPicture
+        file={(theme, format) => screenshotFile(scene, theme, locale, format)}
+        alt={t(alt)}
+        width={SCREENSHOT_SIZE.width / 2}
+        height={SCREENSHOT_SIZE.height / 2}
+        className={styles.image}
+      />
       <figcaption className={styles.caption}>{t(caption)}</figcaption>
     </figure>
   );
