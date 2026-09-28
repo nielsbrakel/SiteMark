@@ -59,6 +59,19 @@ describe('REQ-GRP-001 add a site group at the bottom of the list', () => {
   });
 });
 
+describe('REQ-A11Y-002 REQ-GRP-001 a refused new site group moves focus to its name (WCAG 4.1.3)', () => {
+  it('focuses the name field, which reads why the name is refused', async () => {
+    await openAt('#/');
+    type(byLabel('New site group', sidebar()), '   ');
+    const add = byRole('button', { name: 'Add site group' }, sidebar());
+    add.focus();
+    fireEvent.click(add);
+    const input = byLabel('New site group', sidebar());
+    await waitFor(() => expect(input).toHaveFocus());
+    expect(input).toHaveAccessibleDescription('Enter a name of 1 to 40 characters.');
+  });
+});
+
 describe('REQ-GRP-001 rename a site group', () => {
   const nameField = () => byLabel('Name', pane());
 

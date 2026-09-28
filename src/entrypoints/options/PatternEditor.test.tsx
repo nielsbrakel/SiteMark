@@ -108,6 +108,40 @@ describe('REQ-OPT-002 REQ-URL-003 patterns are added with an explicit Add', () =
   });
 });
 
+describe('REQ-A11Y-002 REQ-OPT-006 a refused Add moves focus to the field in error (WCAG 4.1.3)', () => {
+  function submitFromButton() {
+    addButton().focus();
+    fireEvent.click(addButton());
+  }
+
+  it('focuses the pattern field, which reads its error', async () => {
+    await openGroup();
+    type(patternInput(), '*.com');
+    submitFromButton();
+    await waitFor(() => expect(patternInput()).toHaveFocus());
+    expect(patternInput()).toHaveAccessibleDescription(
+      expect.stringContaining('This pattern matches too many sites.'),
+    );
+  });
+
+  it('focuses the origins field when the origins are refused', async () => {
+    await openGroup();
+    chooseRegex();
+    type(patternInput(), '^https://shop\\.example\\.com/');
+    type(byLabel('Origins'), '');
+    submitFromButton();
+    await waitFor(() => expect(byLabel('Origins')).toHaveFocus());
+  });
+
+  it('focuses the pattern field when the background refuses the pattern', async () => {
+    const { background } = await openGroup();
+    background.refuseNext('patternLimitReached');
+    type(patternInput(), 'staging.example.com');
+    submitFromButton();
+    await waitFor(() => expect(patternInput()).toHaveFocus());
+  });
+});
+
 describe('REQ-URL-009 broad patterns are rejected', () => {
   it.each(['*.com', '*://*/*', '<all_urls>', '*.co.uk'])('rejects %s', async (value) => {
     const { background } = await openGroup();
