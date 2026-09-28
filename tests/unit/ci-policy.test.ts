@@ -65,6 +65,16 @@ describe('REQ-SEC-009 GitHub Actions are pinned and least-privilege', () => {
     expect(leaky.map(({ file }) => file)).toEqual([]);
   });
 
+  it('restores no dependency cache outside the shared setup action (cache poisoning)', () => {
+    const cached = allSteps.filter(
+      ({ file, step }) =>
+        step.uses?.startsWith('actions/setup-node@') &&
+        !file.startsWith('.github/actions/') &&
+        step.with?.['package-manager-cache'] !== false,
+    );
+    expect(cached.map(({ file }) => file)).toEqual([]);
+  });
+
   it('grants no permissions at the workflow level', () => {
     for (const { file, wf } of workflows) expect(wf.permissions, file).toEqual({});
   });

@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 
@@ -13,6 +13,7 @@ type Step = {
 };
 type Job = {
   needs?: string | string[];
+  'timeout-minutes'?: number;
   environment?: string | { name: string };
   permissions?: Record<string, string>;
   steps?: Step[];
@@ -52,26 +53,62 @@ describe('REQ-SEC-008 the release workflow', () => {
     expect(step?.env?.SITEMARK_TARGETS?.split(',').sort()).toEqual(['chrome', 'edge', 'firefox']);
   });
 
-  it('publishes SHA256SUMS and build-provenance attestations', () => {
+  it('publishes SHA256SUMS, with read access only', () => {
     const zip = workflow()?.jobs.zip;
     expect(runs(zip)).toMatch(/sha256sum .*> SHA256SUMS/);
-    expect(uses(zip).some((action) => action.startsWith('actions/attest-build-provenance@'))).toBe(
-      true,
+    expect(zip?.permissions).toEqual({ contents: 'read' });
+  });
+
+  it('attests the zips in a job of its own that installs and builds nothing', () => {
+    const attest = workflow()?.jobs.attest;
+    expect(attest?.needs).toEqual(['zip']);
+    expect(attest?.permissions).toEqual({ 'id-token': 'write', attestations: 'write' });
+    expect(runs(attest)).toBe('');
+    const actions = uses(attest).map((action) => action.split('@')[0]);
+    expect(actions).toEqual(['actions/download-artifact', 'actions/attest-build-provenance']);
+    expect(attest?.steps?.[1]?.with?.['subject-path']).toMatch(/\*\.zip$/);
+  });
+
+  it('holds the OIDC token and attestation rights in the attest job only', () => {
+    const jobs = Object.entries(workflow()?.jobs ?? {});
+    const writers = jobs.filter(([, job]) =>
+      Object.values(job.permissions ?? {}).includes('write'),
     );
-    expect(zip?.permissions).toEqual({
-      contents: 'read',
-      'id-token': 'write',
-      attestations: 'write',
-    });
+    expect(writers.map(([name]) => name)).toEqual(['attest']);
   });
 });
 
 describe('REQ-NFR-006 store submission waits for the owner', () => {
-  it('submits with wxt submit only in the store environment, after the zip job', () => {
+  /** The publish-browser-extension version the lockfile resolves (what `wxt submit` would run). */
+  const publisher = readdirSync('node_modules/.pnpm')
+    .find((dir) => dir.startsWith('publish-browser-extension@'))
+    ?.split('@')[1];
+
+  it('submits only in the store environment, after the zip and attest jobs', () => {
     const submit = workflow()?.jobs.submit;
-    expect(submit?.needs).toEqual(['zip']);
+    expect(submit?.needs).toEqual(['zip', 'attest']);
     expect(submit?.environment).toBe('store');
-    expect(runs(submit)).toContain('wxt submit');
+    expect(submit?.permissions).toEqual({ contents: 'read', attestations: 'read' });
+  });
+
+  it('runs only the pinned publish-browser-extension, not the whole workspace', () => {
+    const script = runs(workflow()?.jobs.submit);
+    expect(publisher).toMatch(/^\d+\.\d+\.\d+$/);
+    expect(script).toContain(`publish-browser-extension@${publisher}`);
+    expect(script).not.toMatch(/pnpm install|npm (ci|install)|wxt submit/);
+  });
+
+  it('verifies the checksums and the provenance of every zip before it submits', () => {
+    const steps = workflow()?.jobs.submit?.steps ?? [];
+    const verify = steps.findIndex((step) => step.run?.includes('gh attestation verify'));
+    const upload = steps.findIndex((step) => step.run?.includes('publish-browser-extension@'));
+    expect(verify).toBeGreaterThanOrEqual(0);
+    expect(verify).toBeLessThan(upload);
+    expect(steps[verify]?.run).toContain('sha256sum --check SHA256SUMS');
+    expect(steps[verify]?.run).toContain('--repo "$GITHUB_REPOSITORY"');
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: a GitHub Actions expression, not JS.
+    expect(steps[verify]?.env?.GH_TOKEN).toBe('${{ github.token }}');
+    expect(JSON.stringify(steps[verify])).not.toContain('secrets.');
   });
 
   it('keeps the store secrets in the submit job only', () => {
