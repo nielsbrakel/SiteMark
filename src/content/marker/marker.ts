@@ -16,7 +16,7 @@ export type MarkerPorts = {
   readonly requestPlan: () => Promise<RenderPlan | undefined>;
   readonly reportStatus: (status: TabStatus) => void;
   readonly listen: (handlers: TabHandlers) => Unsubscribe;
-  /** Calls `onChange` whenever the tab's URL changes (SPA navigation, REQ-RND-004). */
+  /** Calls `onChange` when the tab may need a new plan: a URL change (REQ-RND-004) or a bfcache restore. */
   readonly watchUrl: (onChange: () => void) => Unsubscribe;
   readonly createRenderer: (hooks: RendererHooks) => Renderer;
 };

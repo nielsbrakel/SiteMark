@@ -7,6 +7,7 @@ import { createDocumentEffects } from './document-effects';
 import type { DocumentEffects } from './document-effects-port';
 import { createHost } from './host';
 import type { MarkerPorts, RendererHooks } from './marker';
+import { onRestoredFromCache, whenShown } from './page-lifecycle';
 import { createProximityFade } from './proximity';
 import { proximityOnMount } from './proximity-hook';
 import { createRenderer } from './renderer';
@@ -42,6 +43,7 @@ export function markerPorts(): MarkerPorts {
   const logger = createConsoleLogger();
   return {
     requestPlan: async () => {
+      await whenShown();
       const reply = await sendToBackground('renderPlanFor');
       return reply.ok ? reply.value : undefined;
     },
@@ -51,7 +53,11 @@ export function markerPorts(): MarkerPorts {
     listen: listenForBackground,
     watchUrl: (onChange) => {
       const watch = watchUrl(onChange);
-      return () => watch.dispose();
+      const unrestore = onRestoredFromCache(onChange);
+      return () => {
+        watch.dispose();
+        unrestore();
+      };
     },
     createRenderer: (hooks) =>
       createRenderer({
