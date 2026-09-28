@@ -45,9 +45,9 @@ export const GLASS_PANE_CSS = `
   box-shadow: var(--sm-raised-sm);
   color: var(--sm-text);
   font: 12px/1.5 var(--sm-font);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-align: center;
+  /* Wraps rather than cutting off the keyboard instructions at 320 px or 400 % zoom (WCAG 1.4.10). */
+  white-space: normal;
   pointer-events: none;
 }
 .sm-live {

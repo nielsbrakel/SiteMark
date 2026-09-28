@@ -121,9 +121,15 @@ export const PANEL_CSS = `
   forced-color-adjust: none;
   cursor: pointer;
 }
+/* The selection is a ring; focus is an outline around it, so both show at once (WCAG 2.4.7). */
 .sm-panel__swatch:checked {
-  outline: 3px solid var(--sm-text);
-  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--sm-surface),
+    0 0 0 5px var(--sm-text);
+}
+.sm-panel__swatch:focus-visible {
+  outline: 2px solid var(--sm-focus-color);
+  outline-offset: 6px;
 }
 .sm-panel__actions {
   justify-content: flex-end;
@@ -146,7 +152,7 @@ export const PANEL_CSS = `
   opacity: 0.5;
   cursor: not-allowed;
 }
-.sm-panel :focus-visible {
+.sm-panel :focus-visible:not(.sm-panel__swatch) {
   outline: 2px solid var(--sm-focus-color);
   outline-offset: 2px;
 }
