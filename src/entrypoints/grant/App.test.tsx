@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { browser } from 'wxt/browser';
 import type { OriginPattern } from '@/core/url/origin';
@@ -53,6 +53,20 @@ describe('REQ-PRIV-002 REQ-PICK-006 the grant page asks for the sites in its lin
       "SiteMark couldn't ask for access. Please try again.",
     );
     expect(allow()).toBeEnabled();
+  });
+
+  it('keeps its status live region in place before Allow (WCAG 4.1.3)', () => {
+    render(<GrantApp search={searchFor(PROD)} />);
+    expect(screen.queryByRole('status')).not.toBeNull();
+    expect(screen.queryByRole('status')).toBeEmptyDOMElement();
+  });
+
+  it('moves focus to the result, since Allow goes away once access is granted (WCAG 2.4.3)', async () => {
+    render(<GrantApp search={searchFor(PROD)} />);
+    allow().focus();
+    fireEvent.click(allow());
+    await waitFor(() => expect(screen.queryByRole('status')).toHaveTextContent('Access granted.'));
+    expect(screen.queryByRole('status')).toHaveFocus();
   });
 
   it('refuses a link with anything but valid origins, without an Allow button', () => {
