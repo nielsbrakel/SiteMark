@@ -123,6 +123,7 @@ export default defineConfig({
       },
       {
         // Assertions on the built website in website/dist (`pnpm web:test:build` builds it first).
+        resolve: { alias },
         test: {
           ...isolation,
           name: 'website-build',
