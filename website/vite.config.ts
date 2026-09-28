@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { devPages } from './scripts/dev-pages.ts';
 import { keepCssModules } from './scripts/keep-css-modules.ts';
+import { slimCatalogs } from './scripts/slim-catalogs.ts';
 
 // The website (docs/website/plan.md §3): a GitHub Pages project site, so every URL carries the base
 // path. `vite build` makes the client bundle, `vite build --ssr` the renderer that
@@ -10,7 +11,7 @@ export default defineConfig(({ isSsrBuild }) => ({
   base: '/SiteMark/',
   // Multi-page: every route is its own HTML file, and there is no client-side router.
   appType: 'mpa',
-  plugins: [devPages(), keepCssModules()],
+  plugins: [devPages(), keepCssModules(), slimCatalogs()],
   // The shared mark preview (D-254, D-278) attaches its shadow root with this mode: closed, as in
   // the extension's production builds (D-226).
   define: { __SHADOW_MODE__: JSON.stringify('closed') },

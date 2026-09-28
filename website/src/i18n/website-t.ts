@@ -1,14 +1,11 @@
 import { createTranslator, type Translator } from '@/lib/i18n/translate';
-import type extensionEn from '../../../public/_locales/en/messages.json';
 import type websiteEn from '../../locales/en/messages.json';
 import { type Catalog, createCatalogSource } from './catalog-source';
 import type { Locale } from './locales';
+import type { SharedMessageKey } from './shared-keys';
 
 /** Every key in website/locales/en/messages.json. A typo is a type error. */
 export type WebsiteMessageKey = keyof typeof websiteEn;
-
-/** Keys from public/_locales, for strings that reused extension components show. */
-type SharedMessageKey = keyof typeof extensionEn;
 
 export type WebsiteTranslator = Translator<WebsiteMessageKey | SharedMessageKey>;
 

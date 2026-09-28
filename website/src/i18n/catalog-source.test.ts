@@ -43,7 +43,7 @@ describe('REQ-WEBUX-003 the website reads JSON catalogs through the shared trans
   it('translates website and shared extension keys in the route locale', async () => {
     const nl = createWebsiteTranslator('nl', await loadCatalogs('nl'));
     expect(nl.t('websiteHomeHeading')).toBe('Verwar productie nooit meer met test');
-    expect(nl.t('extName')).toBe('SiteMark');
+    expect(nl.t('effectRibbon')).toBe('Lint');
     const en = createWebsiteTranslator('en', await loadCatalogs('en'));
     expect(en.t('websiteHomeHeading')).toBe('Never confuse production with test again');
   });
