@@ -410,3 +410,42 @@ describe('REQ-I18N-003 the panel shows site group names as typed, never translat
     }
   });
 });
+
+describe('REQ-PICK-003 REQ-A11Y-011 focus stays in the panel while it is open', () => {
+  const tabbables = (panel: Panel) =>
+    [
+      ...panel.element.querySelectorAll<HTMLElement>('button, input, select, textarea, a[href]'),
+    ].filter((element) => element.tabIndex >= 0 && !(element as HTMLButtonElement).disabled);
+
+  it('is a modal dialog', () => {
+    const { panel } = aPanel();
+    expect(panel.element.getAttribute('aria-modal')).toBe('true');
+  });
+
+  it('wraps Tab from the last control to the first', () => {
+    const { panel } = aPanel();
+    const all = tabbables(panel);
+    const last = all.at(-1) as HTMLElement;
+    last.focus();
+    const tab = fireEvent.keyDown(last, { key: 'Tab' });
+    expect(tab).toBe(false);
+    expect(document.activeElement).toBe(all[0]);
+  });
+
+  it('wraps Shift+Tab from the first control to the last', () => {
+    const { panel } = aPanel();
+    const all = tabbables(panel);
+    const first = all[0] as HTMLElement;
+    first.focus();
+    const tab = fireEvent.keyDown(first, { key: 'Tab', shiftKey: true });
+    expect(tab).toBe(false);
+    expect(document.activeElement).toBe(all.at(-1));
+  });
+
+  it('leaves Tab between inner controls to the browser', () => {
+    const { panel } = aPanel();
+    const [first] = tabbables(panel);
+    first?.focus();
+    expect(fireEvent.keyDown(first as HTMLElement, { key: 'Tab' })).toBe(true);
+  });
+});
