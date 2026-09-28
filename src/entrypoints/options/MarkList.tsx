@@ -12,6 +12,7 @@ import { markSummary, markSummaryParts, SEPARATOR } from './mark-summary';
 import type { Notify } from './notify';
 import { hrefOf } from './routes';
 import { sendTracked } from './save-status';
+import { useRemovalFocus } from './use-removal-focus';
 
 export type MarkListProps = {
   readonly group: SiteGroup;
@@ -20,9 +21,10 @@ export type MarkListProps = {
   readonly children?: ReactNode;
 };
 
-async function send(command: Command, notify: Notify): Promise<void> {
+async function send(command: Command, notify: Notify, onDone?: () => void): Promise<void> {
   const result = await sendTracked(command);
-  if (!result.ok) notify({ text: commandErrorText(result.error) });
+  if (!result.ok) return notify({ text: commandErrorText(result.error) });
+  onDone?.();
 }
 
 /** A mark's summary line, with its user text out of reach of page translators (REQ-I18N-003). */
@@ -39,13 +41,19 @@ function SummaryText({ mark }: { readonly mark: Mark }): ReactNode {
 /** The site group's marks (REQ-OPT-003): a line each, with Edit and Remove, and Add page mark. */
 export function MarkList({ group, notify, children }: MarkListProps): ReactNode {
   const headingId = useId();
+  const focus = useRemovalFocus(
+    group.marks.map((mark) => mark.id),
+    headingId,
+  );
   const add = () =>
     send({ type: 'addMark', groupId: group.id, mark: newPageMark(group.name) }, notify);
   return (
     <section className={styles.marks} aria-labelledby={headingId}>
-      <h3 id={headingId}>{t('optionsMarks')}</h3>
-      <ul aria-labelledby={headingId} className={styles.list}>
-        {group.marks.map((mark) => {
+      <h3 id={headingId} tabIndex={-1}>
+        {t('optionsMarks')}
+      </h3>
+      <ul ref={focus.listRef} aria-labelledby={headingId} className={styles.list}>
+        {group.marks.map((mark, index) => {
           const summary = markSummary(mark);
           const route = { page: 'mark', groupId: group.id, markId: mark.id } as const;
           const remove = { type: 'removeMark', groupId: group.id, markId: mark.id } as const;
@@ -58,9 +66,12 @@ export function MarkList({ group, notify, children }: MarkListProps): ReactNode 
                 {t('optionsEdit')}
               </a>
               <IconButton
+                data-remove
                 label={t('optionsRemoveMark', summary)}
                 icon={<CloseIcon />}
-                onClick={() => void send(remove, notify)}
+                onClick={() =>
+                  void send(remove, notify, () => focus.removed({ id: mark.id, index }))
+                }
               />
             </li>
           );
