@@ -81,6 +81,30 @@ describe('REQ-OPT-003 the site group editor lists its marks', () => {
   });
 });
 
+describe('REQ-A11Y-002 REQ-OPT-003 focus stays in the mark list after a Remove (WCAG 2.4.3)', () => {
+  const remove = (summary: string) => byRole('button', { name: `Remove “${summary}”` }, markList());
+
+  async function removeWithKeyboard(summary: string) {
+    const button = remove(summary);
+    button.focus();
+    fireEvent.click(button);
+    await waitFor(() => expect(button.isConnected).toBe(false));
+  }
+
+  it('moves focus to the Remove button of the mark that took its place', async () => {
+    await openAt(groupHash());
+    await removeWithKeyboard('Prod ribbon · Page · Ribbon');
+    await waitFor(() => expect(remove('Element · #app · Outline')).toHaveFocus());
+  });
+
+  it('moves focus to the Marks heading when the last mark goes', async () => {
+    const single = aSiteGroup({ name: 'Production site', marks: [ribbon] });
+    await openAt(groupHash(single), single);
+    await removeWithKeyboard('Prod ribbon · Page · Ribbon');
+    await waitFor(() => expect(byRole('heading', { name: 'Marks' })).toHaveFocus());
+  });
+});
+
 describe('REQ-OPT-003 the mark editor: target and selector', () => {
   it('opens from #/groups/:id/marks/:markId with the mark’s target', async () => {
     await openAt(markHash(ribbon.id));
