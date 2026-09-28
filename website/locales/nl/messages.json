@@ -440,5 +440,39 @@
   "websitePlaygroundSummaryNone": {
     "message": "Het voorbeeld toont geen markeringen.",
     "description": "Playground: read out by screen readers when every effect is off."
+  },
+  "websiteHelpTitle": {
+    "message": "Help: zo gebruik je SiteMark",
+    "description": "Document title of the help index. At most 60 characters."
+  },
+  "websiteHelpDescription": {
+    "message": "Zo gebruik je SiteMark: aan de slag, URL-patronen, markeringen en effecten, elementen kiezen, sneltoetsen, rechten, importeren en exporteren.",
+    "description": "Meta description of the help index. At most 160 characters."
+  },
+  "websiteHelpHeading": {
+    "message": "Help",
+    "description": "Main heading of the help index."
+  },
+  "websiteHelpLead": {
+    "message": "Alles over het instellen en gebruiken van SiteMark, per onderwerp.",
+    "description": "Introduction under the help heading, above the list of topics."
+  },
+  "websiteHelpTopicsLabel": {
+    "message": "Help-onderwerpen",
+    "description": "Accessible name of the list of help topics next to a help page."
+  },
+  "websiteHelpIndexLink": {
+    "message": "Alle help-onderwerpen",
+    "description": "First link in the help topic list: back to the help index."
+  },
+  "websiteHelpTopicTitle": {
+    "message": "$TOPIC$ · Help bij SiteMark",
+    "description": "Document title of a help topic page; TOPIC is the topic's title. The whole title stays within 60 characters.",
+    "placeholders": {
+      "topic": {
+        "content": "$1",
+        "example": "URL patterns"
+      }
+    }
   }
 }

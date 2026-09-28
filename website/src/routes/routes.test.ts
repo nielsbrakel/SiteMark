@@ -17,7 +17,7 @@ describe('REQ-WEB-001 every internal URL carries the base path /SiteMark/', () =
     expect(routePath(route('help'), 'en')).toBe('/SiteMark/help/');
     for (const r of routeTable()) {
       for (const locale of websiteLocales()) {
-        expect(routePath(r, locale)).toMatch(/^\/SiteMark\/([a-z]+\/)*$/);
+        expect(routePath(r, locale)).toMatch(/^\/SiteMark\/([a-z-]+\/)*$/);
       }
     }
   });
@@ -43,8 +43,8 @@ describe('REQ-WEB-001 every internal URL carries the base path /SiteMark/', () =
   it('gives every page one unique slug', () => {
     const slugs = routeTable().map((r) => r.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
-    expect(pages(routeTable()).sort()).toEqual(
-      ['changelog', 'help', 'home', 'playground', 'privacy', 'support'].sort(),
+    expect([...new Set(pages(routeTable()))].sort()).toEqual(
+      ['changelog', 'help', 'helpTopic', 'home', 'playground', 'privacy', 'support'].sort(),
     );
   });
 });
@@ -97,5 +97,26 @@ describe('REQ-POLICY-005 the privacy and support URLs never move', () => {
 
   it('pins only those pages', () => {
     expect(pages(routeTable().filter((r) => r.stable))).toEqual(['support', 'privacy']);
+  });
+});
+
+describe('REQ-PAGE-004 every help topic has a route below help/', () => {
+  it('routes each topic to help/<topic>/, after the help index and outside the navigation', () => {
+    const topics: (Route & { topic?: string })[] = routeTable().filter(
+      (r) => (r.page as string) === 'helpTopic',
+    );
+    expect(topics.map((r) => [r.topic, r.slug, r.milestone, r.nav])).toEqual(
+      [
+        'getting-started',
+        'url-patterns',
+        'marks-and-effects',
+        'picking-an-element',
+        'hiding-marks-and-shortcuts',
+        'permissions',
+        'import-and-export',
+        'troubleshooting',
+      ].map((topic) => [topic, `help/${topic}/`, 'W2', false]),
+    );
+    expect(routePath(topics[1] ?? route('help'), 'nl')).toBe('/SiteMark/nl/help/url-patterns/');
   });
 });

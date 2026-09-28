@@ -440,5 +440,39 @@
   "websitePlaygroundSummaryNone": {
     "message": "The preview shows no marks.",
     "description": "Playground: read out by screen readers when every effect is off."
+  },
+  "websiteHelpTitle": {
+    "message": "Help: how to use SiteMark",
+    "description": "Document title of the help index. At most 60 characters."
+  },
+  "websiteHelpDescription": {
+    "message": "How to use SiteMark: getting started, URL patterns, marks and effects, picking elements, shortcuts, permissions, import and export.",
+    "description": "Meta description of the help index. At most 160 characters."
+  },
+  "websiteHelpHeading": {
+    "message": "Help",
+    "description": "Main heading of the help index."
+  },
+  "websiteHelpLead": {
+    "message": "Everything about setting up and using SiteMark, one topic at a time.",
+    "description": "Introduction under the help heading, above the list of topics."
+  },
+  "websiteHelpTopicsLabel": {
+    "message": "Help topics",
+    "description": "Accessible name of the list of help topics next to a help page."
+  },
+  "websiteHelpIndexLink": {
+    "message": "All help topics",
+    "description": "First link in the help topic list: back to the help index."
+  },
+  "websiteHelpTopicTitle": {
+    "message": "$TOPIC$ · SiteMark help",
+    "description": "Document title of a help topic page; TOPIC is the topic's title. The whole title stays within 60 characters.",
+    "placeholders": {
+      "topic": {
+        "content": "$1",
+        "example": "URL patterns"
+      }
+    }
   }
 }
