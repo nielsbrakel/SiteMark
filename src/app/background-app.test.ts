@@ -109,6 +109,28 @@ describe('REQ-OPT-001 the welcome tab opens on install', () => {
   });
 });
 
+describe('REQ-RND-012 an extension update brings the marker back to open tabs', () => {
+  it('re-injects the marker into open tabs on registered origins after an update', async () => {
+    const { app, ports } = setup({
+      tabs: [
+        { id: 4, url: 'https://prod.example.com/app' },
+        { id: 5, url: 'https://other.example.org/' },
+      ],
+    });
+    await app.installed('update');
+    expect(ports.tabs.injections).toEqual([{ tabId: 4, files: MARKER }]);
+  });
+
+  it('injects nothing on a fresh install (no open tab can be registered yet)', async () => {
+    const { app, ports } = setup({
+      granted: [],
+      tabs: [{ id: 4, url: 'https://prod.example.com/' }],
+    });
+    await app.installed('install');
+    expect(ports.tabs.injections).toEqual([]);
+  });
+});
+
 describe('REQ-SEC-001 content intents act on the sender only', () => {
   it('answers renderPlanFor with the plan for the sender URL (REQ-SEC-002)', async () => {
     const mark = anElementMark();
