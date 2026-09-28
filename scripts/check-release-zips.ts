@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { inflateRawSync } from 'node:zlib';
+import { notImplemented } from '../src/core/not-implemented.ts';
 
 const END_OF_DIRECTORY = 0x06054b50;
 const CENTRAL_ENTRY = 0x02014b50;
@@ -76,6 +77,11 @@ export function zipProblems(name: string, files: ReadonlyMap<string, Buffer>): s
       problems.push(`${name}: ${file} mentions the e2e host ${E2E_HOST}`);
   }
   return problems;
+}
+
+/** What is wrong with the Firefox sources zip for AMO review (REQ-SEC-008, SOURCE_REVIEW.md). */
+export function sourcesZipProblems(_name: string, _files: ReadonlyMap<string, Buffer>): string[] {
+  return notImplemented();
 }
 
 function main(zips: readonly string[]): void {

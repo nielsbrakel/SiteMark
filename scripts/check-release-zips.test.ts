@@ -1,6 +1,6 @@
 import { deflateRawSync } from 'node:zlib';
 import { describe, expect, it } from 'vitest';
-import { readZip, zipProblems } from './check-release-zips';
+import { readZip, sourcesZipProblems, zipProblems } from './check-release-zips';
 
 /** A minimal zip archive: every entry deflated or stored, no CRC (the reader doesn't check it). */
 function zipOf(files: Record<string, string>, deflate = true): Buffer {
@@ -89,5 +89,38 @@ describe('REQ-SEC-008 the release checks the manifest in every zip', () => {
     expect(problems).toEqual([
       'sitemark-chrome.zip: background.js mentions the e2e host sitemark.test',
     ]);
+  });
+});
+
+describe('REQ-SEC-008 the AMO sources zip rebuilds the Firefox zip and holds nothing else', () => {
+  const complete = {
+    'SOURCE_REVIEW.md': '# Build',
+    '.nvmrc': '22',
+    'package.json': '{}',
+    'pnpm-lock.yaml': 'lockfileVersion: 9',
+    'wxt.config.ts': '',
+    'src/entrypoints/background.ts': '',
+  };
+
+  it('accepts the sources, the lockfile, .nvmrc and the build instructions', () => {
+    expect(sourcesZipProblems('s.zip', readZip(zipOf(complete)))).toEqual([]);
+  });
+
+  it.each(['SOURCE_REVIEW.md', '.nvmrc', 'pnpm-lock.yaml', 'package.json'])(
+    'requires %s',
+    (file) => {
+      const { [file as keyof typeof complete]: _missing, ...rest } = complete;
+      expect(sourcesZipProblems('s.zip', readZip(zipOf(rest)))).toEqual([`s.zip lacks ${file}`]);
+    },
+  );
+
+  it.each([
+    'test-results/vitest.json',
+    'playwright-report/index.html',
+    'coverage/lcov.info',
+    '.env',
+  ])('rejects local output and secrets (%s)', (file) => {
+    const problems = sourcesZipProblems('s.zip', readZip(zipOf({ ...complete, [file]: 'x' })));
+    expect(problems).toEqual([`s.zip must not contain ${file}`]);
   });
 });
