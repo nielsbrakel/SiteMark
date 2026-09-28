@@ -1,0 +1,53 @@
+/* The home screenshots (docs/website/design.md §5): 2× images in raised frames, one per scene. */
+.section {
+  margin-top: var(--smw-section-gap);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: var(--sm-space-5);
+}
+
+.figure {
+  margin: 0;
+}
+
+.image {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  border: 1px solid var(--sm-border);
+  border-radius: var(--sm-radius-md);
+  box-shadow: var(--sm-raised-sm);
+}
+
+.caption {
+  margin-top: var(--sm-space-2);
+  color: var(--sm-text-muted);
+  font-size: var(--sm-text-md);
+}
+
+/* The active theme's variant: the OS unless <html data-theme> overrides it. `display: none` keeps
+   the other one out of the accessibility tree, and its lazy image never loads. */
+.dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .light {
+    display: none;
+  }
+
+  :global(:root:not([data-theme='light'])) .dark {
+    display: block;
+  }
+}
+
+:global(:root[data-theme='dark']) .light {
+  display: none;
+}
+
+:global(:root[data-theme='dark']) .dark {
+  display: block;
+}

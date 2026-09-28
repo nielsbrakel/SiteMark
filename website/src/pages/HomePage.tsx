@@ -1,6 +1,7 @@
 // biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
 import { HeroIllustration } from '../components/HeroIllustration';
 import { InstallButtons } from '../components/InstallButtons';
+import { Screenshots } from '../components/Screenshots';
 import { stores } from '../config/stores';
 import type { WebsiteMessageKey } from '../i18n/website-t';
 import { pagePath } from '../routes/urls';
@@ -69,7 +70,10 @@ function PrivacySummary({ t, locale }: Omit<PageProps, 'tp'>) {
   );
 }
 
-/** Home (REQ-PAGE-001): value proposition, install buttons, hero, highlights, privacy summary. */
+/**
+ * Home (REQ-PAGE-001): value proposition, install buttons, hero, highlights, screenshots
+ * (REQ-PAGE-008) and the privacy summary.
+ */
 export function HomePage({ t, locale }: PageProps) {
   return (
     <>
@@ -82,6 +86,7 @@ export function HomePage({ t, locale }: PageProps) {
         <HeroIllustration t={t} />
       </section>
       <Highlights t={t} />
+      <Screenshots t={t} locale={locale} />
       <PrivacySummary t={t} locale={locale} />
     </>
   );
