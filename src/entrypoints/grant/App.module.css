@@ -24,3 +24,8 @@
   gap: var(--sm-space-1);
   overflow-wrap: anywhere;
 }
+
+/* Empty before Allow: out of the grid (no gap), but still a live region in the accessibility tree. */
+.status:empty {
+  position: absolute;
+}

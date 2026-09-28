@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import logo from '@/assets/logo.svg';
 import type { OriginPattern } from '@/core/url/origin';
 import { type MessageKey, t } from '@/lib/i18n/browser-source';
@@ -29,8 +29,16 @@ function Sites({ origins }: { readonly origins: readonly OriginPattern[] }) {
   );
 }
 
+/**
+ * Allow and its outcome. The status live region is always in the page, so the outcome is announced,
+ * and the outcome takes focus: Allow goes away once access is granted (WCAG 2.4.3, 4.1.3).
+ */
 function Request({ origins }: { readonly origins: readonly OriginPattern[] }) {
   const [outcome, setOutcome] = useState<RequestOutcome>();
+  const status = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (outcome) status.current?.focus();
+  }, [outcome]);
   const allow = () => {
     // D-229: prompt first, synchronously inside the click; nothing may run or be awaited before it.
     const pending = requestOrigins(origins);
@@ -46,7 +54,9 @@ function Request({ origins }: { readonly origins: readonly OriginPattern[] }) {
           {t('grantAllow')}
         </button>
       )}
-      {outcome && <p role="status">{t(OUTCOME_MESSAGES[outcome])}</p>}
+      <p ref={status} role="status" tabIndex={-1} className={styles.status}>
+        {outcome && t(OUTCOME_MESSAGES[outcome])}
+      </p>
     </>
   );
 }
