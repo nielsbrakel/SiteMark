@@ -1425,5 +1425,13 @@
   "optionsExportGroup": {
     "message": "Sitegroep exporteren",
     "description": "Site group editor: button that downloads an export file with only this site group."
+  },
+  "errorRegexLimitReached": {
+    "message": "Je kunt in totaal maximaal 500 reguliere expressies hebben, URL-patronen en uitsluitpatronen van alle sitegroepen samen.",
+    "description": "Fout in regex-patroon: het maximale aantal reguliere expressies over alle sitegroepen is bereikt."
+  },
+  "errorRegexBudgetExceeded": {
+    "message": "Samen kunnen je reguliere expressies het controleren van een pagina te traag maken. Begin ze met ^, gebruik smallere herhalingen zoals [^/]+, of verwijder er een paar.",
+    "description": "Fout in regex-patroon: de reguliere expressies van alle sitegroepen samen overschrijden het budget voor het slechtste geval."
   }
 }

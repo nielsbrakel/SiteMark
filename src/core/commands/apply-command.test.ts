@@ -3,8 +3,15 @@ import type { MarkId, SiteGroupId } from '../ids';
 import { emptyState } from '../model/defaults';
 import { parseState } from '../model/schema';
 import { err } from '../result';
-import { anElementMark, aPageMark, aSiteGroup, aWildcardPattern } from '../testing/builders';
+import {
+  anElementMark,
+  aPageMark,
+  aRegexPattern,
+  aSiteGroup,
+  aWildcardPattern,
+} from '../testing/builders';
 import { frozen, stateWith } from '../testing/reducers';
+import { times } from '../testing/schema-results';
 import { fixedIdGen } from '../testing/test-doubles';
 import { applyCommand } from './apply-command';
 import type { Command, CommandNotice, CommandOf, CommandOutcome } from './command';
@@ -180,5 +187,58 @@ describe('REQ-SEC-001 applyCommand validates the new state before it can be save
     expect(applyCommand(state, examples.createSiteGroup.command, { idGen })).toEqual(
       err('commandProducedInvalidState'),
     );
+  });
+});
+
+describe('REQ-URL-004 applyCommand keeps every regex within the shared budget', () => {
+  // `a{1,2000}b` alone uses ~82 % of the budget (src/core/url/regex-budget.ts).
+  const heavyValue = 'a{1,2000}b';
+  const heavy = aRegexPattern({ value: heavyValue });
+  const cheap = aRegexPattern();
+  const withHeavy = aSiteGroup({ name: 'Heavy', patterns: [heavy], excludes: [cheap] });
+  const other = aSiteGroup({ name: 'Other', patterns: [aWildcardPattern()] });
+  const loaded = stateWith(withHeavy, other);
+  const heavyDraft = { kind: 'regex', value: heavyValue, origins: heavy.origins } as const;
+  const run = (command: Command, from = loaded) =>
+    applyCommand(from, command, { idGen: fixedIdGen() });
+  const restored = aSiteGroup({ patterns: [aRegexPattern({ value: heavyValue })] });
+
+  it.each<[string, Command]>([
+    ['addPattern', { type: 'addPattern', groupId: other.id, draft: heavyDraft }],
+    ['addExclude', { type: 'addExclude', groupId: other.id, draft: heavyDraft }],
+    [
+      'updateExclude',
+      { type: 'updateExclude', groupId: withHeavy.id, patternId: cheap.id, draft: heavyDraft },
+    ],
+    ['duplicateSiteGroup', { type: 'duplicateSiteGroup', id: withHeavy.id }],
+    ['restoreSiteGroup', { type: 'restoreSiteGroup', group: restored, index: 0 }],
+  ])('%s: refuses a second regex that would overrun the budget', (_type, command) => {
+    expect(run(command)).toEqual(err('regexBudgetExceeded'));
+  });
+
+  it('updatePattern: refuses to make a cheap regex heavy, but may replace the heavy one', () => {
+    const cheapPattern = aRegexPattern();
+    const second = aSiteGroup({ patterns: [cheapPattern] });
+    const from = stateWith(withHeavy, second);
+    const toHeavy = { type: 'updatePattern', groupId: second.id, patternId: cheapPattern.id };
+    expect(run({ ...toHeavy, draft: heavyDraft } as Command, from)).toEqual(
+      err('regexBudgetExceeded'),
+    );
+    const inPlace = { type: 'updatePattern', groupId: withHeavy.id, patternId: heavy.id };
+    expect(run({ ...inPlace, draft: heavyDraft } as Command, from).ok).toBe(true);
+  });
+
+  it('refuses a 501st regex pattern or exclude, but not another wildcard', () => {
+    const fifty = () => aSiteGroup({ patterns: times(50, () => aRegexPattern()) });
+    const full = stateWith(...times(10, fifty), other);
+    const cheapDraft = { kind: 'regex', value: cheap.value, origins: cheap.origins } as const;
+    expect(run({ type: 'addPattern', groupId: other.id, draft: cheapDraft }, full)).toEqual(
+      err('regexLimitReached'),
+    );
+    expect(run({ type: 'addExclude', groupId: other.id, draft: cheapDraft }, full)).toEqual(
+      err('regexLimitReached'),
+    );
+    const wildcard = { type: 'addPattern', groupId: other.id, draft: draft('a.example.com') };
+    expect(run(wildcard as Command, full).ok).toBe(true);
   });
 });

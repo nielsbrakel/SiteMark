@@ -115,6 +115,28 @@ describe('REQ-DATA-004 Merge upserts site groups by ID and keeps the local setti
   });
 });
 
+describe('REQ-URL-004 Merge keeps the regexes of the result within the shared budget', () => {
+  // `a{1,2000}b` alone uses ~82 % of the budget (src/core/url/regex-budget.ts).
+  const heavyGroup = () => aSiteGroup({ patterns: [aRegexPattern({ value: 'a{1,2000}b' })] });
+
+  it('refuses a merge that adds a heavy regex next to a local one', () => {
+    expect(merge(stateWith(heavyGroup()), file(heavyGroup()))).toEqual(err('regexBudgetExceeded'));
+  });
+
+  it('accepts a file group that replaces the local heavy group', () => {
+    const local = heavyGroup();
+    const update = { ...heavyGroup(), id: local.id };
+    expect(applied(merge(stateWith(local), file(update))).siteGroups).toHaveLength(1);
+  });
+
+  it('refuses a merge that ends up with more than 500 regexes', () => {
+    const fifty = () => aSiteGroup({ patterns: times(50, () => aRegexPattern()) });
+    const local = stateWith(...times(6, fifty));
+    expect(merge(local, file(...times(5, fifty)))).toEqual(err('regexLimitReached'));
+    expect(applied(merge(local, file(...times(4, fifty)))).siteGroups).toHaveLength(10);
+  });
+});
+
 describe('REQ-DATA-004 Replace takes the whole file', () => {
   it("uses the file's site groups and settings and keeps the revision", () => {
     const local = stateWith(onHost('a.test'), onHost('b.test'));

@@ -1425,5 +1425,13 @@
   "optionsExportGroup": {
     "message": "Export site group",
     "description": "Site group editor: button that downloads an export file with only this site group."
+  },
+  "errorRegexLimitReached": {
+    "message": "You can have at most 500 regular expressions in total, counting the URL patterns and exclude patterns of all site groups.",
+    "description": "Regex pattern error: the maximum number of regular expressions across all site groups is reached."
+  },
+  "errorRegexBudgetExceeded": {
+    "message": "Together, your regular expressions could make checking a page too slow. Start them with ^, use narrower repeats like [^/]+, or remove some.",
+    "description": "Regex pattern error: the regular expressions of all site groups together exceed the worst-case matching budget."
   }
 }

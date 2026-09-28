@@ -132,3 +132,22 @@ describe('REQ-URL-009 parseImport re-validates every pattern with the URL engine
     ]);
   });
 });
+
+describe('REQ-SEC-004 parseImport refuses regexes that together could stall matching', () => {
+  // Each of these passes the per-regex limit; the file as a whole must fit the shared budget.
+  const heavy = () => aRegexPattern({ value: 'a{1,2000}b' });
+
+  it('refuses a file whose regexes add up to more than the budget', () => {
+    const text = fileOf([aSiteGroup({ patterns: [heavy()] }), aSiteGroup({ excludes: [heavy()] })]);
+    expect(errorOf(parseImport(text))).toEqual({ code: 'regexBudgetExceeded' });
+    expect(importedOf(parseImport(fileOf([aSiteGroup({ patterns: [heavy()] })])))).toBeDefined();
+  });
+
+  it('refuses a file with more than 500 regex patterns and excludes', () => {
+    const groups = Array.from({ length: 11 }, () =>
+      aSiteGroup({ patterns: Array.from({ length: 50 }, () => aRegexPattern()) }),
+    );
+    expect(errorOf(parseImport(fileOf(groups)))).toEqual({ code: 'regexLimitReached' });
+    expect(importedOf(parseImport(fileOf(groups.slice(1))))).toBeDefined();
+  });
+});

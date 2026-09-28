@@ -239,6 +239,14 @@ describe('REQ-GRP-002 site group limits and the enabled invariant', () => {
     expect(pathsOf(parseState(aState({ siteGroups: tooMany })))).toEqual(['siteGroups']);
   });
 
+  it('REQ-URL-004 refuses a state whose regexes overrun the shared budget', () => {
+    const heavy = () => aSiteGroup({ patterns: [aRegexPattern({ value: 'a{1,2000}b' })] });
+    expect(parseState(aState({ siteGroups: [heavy()] })).ok).toBe(true);
+    expect(pathsOf(parseState(aState({ siteGroups: [heavy(), heavy()] })))).toEqual(['siteGroups']);
+    const fifty = () => aSiteGroup({ patterns: times(50, () => aRegexPattern()) });
+    expect(pathsOf(parseState(aState({ siteGroups: times(11, fifty) })))).toEqual(['siteGroups']);
+  });
+
   it('needs at least one pattern to be enabled', () => {
     const enabled = aSiteGroup({ enabled: true, patterns: [], excludes: [aWildcardPattern()] });
     expect(pathsOf(parseSiteGroup(enabled))).toEqual(['enabled']);
