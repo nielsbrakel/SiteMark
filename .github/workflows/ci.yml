@@ -238,7 +238,8 @@ jobs:
     name: verify-tdd (red before green, red fails, green passes)
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    # It replays every round of the pull request; large PRs need more than half an hour.
+    timeout-minutes: 60
     permissions:
       contents: read
     container:

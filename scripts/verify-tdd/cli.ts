@@ -111,10 +111,23 @@ const sum = (outcomes: Outcome[]): Outcome =>
     { passed: 0, failed: 0, unexpected: [] as string[] },
   );
 
+/** What the install depends on at `sha`: the lockfile and every package.json. */
+function dependenciesAt(sha: string): string {
+  return git('ls-tree', '-r', sha, '--', 'pnpm-lock.yaml', 'package.json', 'website/package.json');
+}
+
+// Most rounds change no dependency: installing again for each of hundreds of checkouts is what
+// made the job slow, so the worktree installs only when the dependencies differ.
+let installed: string | undefined;
+
 /** Checks out `sha` in the worktree and runs the given test files; returns their outcome. */
 function runTests(worktree: string, sha: string, files: TestFiles): Outcome {
   git('-C', worktree, 'checkout', '--quiet', '--force', '--detach', sha);
-  run(worktree, 'pnpm', ['install', '--frozen-lockfile', '--prefer-offline', '--silent']);
+  const dependencies = dependenciesAt(sha);
+  if (dependencies !== installed) {
+    run(worktree, 'pnpm', ['install', '--frozen-lockfile', '--prefer-offline', '--silent']);
+    installed = dependencies;
+  }
   const existing = (list: string[]) => list.filter((file) => existsSync(path.join(worktree, file)));
   const outcomes: Outcome[] = [];
   const vitest = existing(files.vitest);
