@@ -67,3 +67,32 @@ describe.each(targets())('%s built output', (target) => {
     });
   });
 });
+
+/** The scripts SiteMark injects into web pages: everything but the background, pages and chunks. */
+function injectedScripts(dir: string): string[] {
+  const scripts = readdirSync(dir, { recursive: true, encoding: 'utf8' }).filter(
+    (file) => /^(content-scripts\/)?[\w-]+\.js$/.test(file) && file !== 'background.js',
+  );
+  return scripts.map((file) => path.join(dir, file));
+}
+
+const pageChannels: [string, RegExp][] = [
+  ['window.postMessage', /\bpostMessage\s*\(/],
+  ['a CustomEvent', /\bnew\s+CustomEvent\s*\(/],
+  ["WXT's content-script-started event", /content-script-started/],
+];
+
+describe.each(targets())('%s scripts injected into web pages', (target) => {
+  it('REQ-SEC-003 never announce SiteMark to the page (no postMessage or DOM events)', () => {
+    const dir = outDir(target);
+    const scripts = injectedScripts(dir);
+    expect(scripts.length).toBeGreaterThanOrEqual(2);
+    const found = scripts.flatMap((file) => {
+      const text = readFileSync(file, 'utf8');
+      return pageChannels
+        .filter(([, pattern]) => pattern.test(text))
+        .map(([name]) => `${path.relative(dir, file)}: ${name}`);
+    });
+    expect(found).toEqual([]);
+  });
+});
