@@ -1,7 +1,10 @@
+import { existsSync } from 'node:fs';
 import { defineConfig } from '@playwright/test';
 import { E2E_PORT } from './tests/e2e/hosts';
 
 const ci = Boolean(process.env.CI);
+// Visual baselines are made in, and only compared in, the pinned Playwright image (it has /ms-playwright).
+const inPlaywrightImage = existsSync('/ms-playwright');
 
 // Extensions only load in a persistent Chromium context, see tests/e2e/fixtures.ts.
 // `pnpm test:e2e` builds the e2e variant first (`wxt build --mode e2e` → .output/chrome-mv3-e2e).
@@ -14,8 +17,11 @@ export default defineConfig({
   // A test that only passes on retry is a bug, not a pass (TEST-09).
   failOnFlakyTests: ci,
   timeout: 30_000,
-  // Performance probes depend on the machine: the nightly workflow runs them with PERF=1.
-  ...(process.env.PERF ? { grep: /@perf/ } : { grepInvert: /@perf/ }),
+  // Performance probes depend on the machine: the nightly workflow runs them with PERF=1. Visual
+  // baselines only run inside the Playwright image.
+  ...(process.env.PERF
+    ? { grep: /@perf/ }
+    : { grepInvert: inPlaywrightImage ? /@perf/ : /@perf|@visual/ }),
   // playwright.json feeds requirement coverage (`pnpm progress --coverage`).
   reporter: [
     ci ? ['github'] : ['list'],
