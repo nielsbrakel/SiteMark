@@ -31,7 +31,12 @@ test.describe('REQ-PAGE-008 the home page shows the screenshots of the active la
     await page.emulateMedia({ colorScheme: 'light' });
     await page.goto('/SiteMark/');
     await page.getByRole('group', { name: 'Theme' }).getByRole('button', { name: 'Dark' }).click();
-    const sources = await visibleScreenshots(page);
-    expect(sources.every((source) => source.endsWith('-dark-en.webp'))).toBe(true);
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    // The dark images start loading only once they show: poll until all three are in.
+    await expect
+      .poll(async () =>
+        (await visibleScreenshots(page)).every((src) => src.endsWith('-dark-en.webp')),
+      )
+      .toBe(true);
   });
 });
