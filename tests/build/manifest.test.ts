@@ -70,6 +70,8 @@ describe.each(targets())('%s production manifest', (target) => {
               strict_min_version: '140.0',
               data_collection_permissions: { required: ['none'] },
             },
+            // data_collection_permissions needs Firefox for Android 142 (web-ext lint).
+            gecko_android: { strict_min_version: '142.0' },
           },
         },
         safari: { browser_specific_settings: { safari: { strict_min_version: '18.0' } } },
