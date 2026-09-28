@@ -1407,7 +1407,7 @@
     "description": "Settings: heading of the diagnostics section."
   },
   "optionsDiagnosticsHelp": {
-    "message": "Copies technical details for a bug report: versions, site access and counts. No page addresses, names or selectors.",
+    "message": "Copies technical details for a bug report: versions, counts and whether site access is granted. Names, URL patterns and selectors are never included, and site addresses only if you tick the box.",
     "description": "Settings: what Copy diagnostics copies."
   },
   "optionsCopyDiagnostics": {
@@ -1437,5 +1437,9 @@
   "optionsShortcutsElsewhere": {
     "message": "This browser can't open its shortcut settings from here. Look for keyboard shortcuts in the browser's own extension settings.",
     "description": "Settings: shown instead of (or after) Change shortcuts when the browser has no shortcut settings page SiteMark can open, e.g. Safari."
+  },
+  "optionsDiagnosticsIncludeOrigins": {
+    "message": "Include site addresses (origins)",
+    "description": "Settings: checkbox, off by default, that adds the origins (e.g. https://example.com/*) of the site groups to the copied diagnostics."
   }
 }

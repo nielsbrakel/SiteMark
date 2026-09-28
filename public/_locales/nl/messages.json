@@ -1407,8 +1407,8 @@
     "description": "Settings: heading of the diagnostics section."
   },
   "optionsDiagnosticsHelp": {
-    "message": "Kopieert technische details voor een foutmelding: versies, toegang tot sites en aantallen. Geen paginaadressen, namen of selectors.",
-    "description": "Settings: what Copy diagnostics copies."
+    "message": "Kopieert technische gegevens voor een bugmelding: versies, aantallen en of sitetoegang is verleend. Namen, URL-patronen en selectors gaan nooit mee, en siteadressen alleen als je het vakje aanvinkt.",
+    "description": "Instellingen: wat Diagnostiek kopiëren kopieert."
   },
   "optionsCopyDiagnostics": {
     "message": "Diagnose kopiëren",
@@ -1437,5 +1437,9 @@
   "optionsShortcutsElsewhere": {
     "message": "Deze browser kan zijn sneltoetsinstellingen niet vanaf hier openen. Zoek de sneltoetsen in de eigen extensie-instellingen van de browser.",
     "description": "Instellingen: staat in plaats van (of na) Sneltoetsen wijzigen als de browser geen sneltoetsenpagina heeft die SiteMark kan openen, zoals Safari."
+  },
+  "optionsDiagnosticsIncludeOrigins": {
+    "message": "Siteadressen (origins) meenemen",
+    "description": "Instellingen: selectievakje, standaard uit, dat de origins (zoals https://example.com/*) van de sitegroepen aan de gekopieerde diagnostiek toevoegt."
   }
 }

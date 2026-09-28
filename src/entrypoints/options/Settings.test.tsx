@@ -13,7 +13,7 @@ import { createFakeCommands } from '../../../tests/fakes/commands';
 import { fakes } from '../../../tests/fakes/install';
 import { axeViolations } from '../../../tests/unit/axe';
 import { atHash, optionsBackground } from '../../../tests/unit/options-background';
-import { byRole, findRole } from '../../../tests/unit/queries';
+import { byLabel, byRole, findRole } from '../../../tests/unit/queries';
 import { OptionsApp } from './App';
 
 async function openSettings(theme: Theme = 'system') {
@@ -138,14 +138,20 @@ describe('REQ-OPT-007 copy diagnostics to the local clipboard', () => {
     return writeText;
   }
 
-  async function openWithGroups() {
+  async function openDiagnostics(): Promise<HTMLElement> {
     optionsBackground(aState({ siteGroups: groups }));
     atHash('#/settings');
     render(<OptionsApp />);
     await screen.findByRole('main');
+    return byRole('region', { name: 'Diagnostics' });
   }
 
-  it('copies the version, browser, grants and marks, without names, paths or selectors', async () => {
+  const groupsWithWildcard = [
+    ...groups,
+    aSiteGroup({ patterns: [aWildcardPattern({ value: '*.intranet.example.com' })] }),
+  ];
+
+  async function copied(includeOrigins = false): Promise<string> {
     vi.spyOn(fakeBrowser.runtime, 'getManifest').mockReturnValue({
       manifest_version: 3,
       name: 'SiteMark',
@@ -153,21 +159,49 @@ describe('REQ-OPT-007 copy diagnostics to the local clipboard', () => {
     });
     fakes().permissions.grant('https://prod.example.com/*');
     const writeText = stubClipboard();
-    await openWithGroups();
+    optionsBackground(aState({ siteGroups: groupsWithWildcard }));
+    atHash('#/settings');
+    render(<OptionsApp />);
+    await screen.findByRole('main');
+    const include = byLabel('Include site addresses (origins)');
+    expect(include).not.toBeChecked();
+    if (includeOrigins) fireEvent.click(include);
     fireEvent.click(byRole('button', { name: 'Copy diagnostics' }));
     await waitFor(() => expect(writeText).toHaveBeenCalledOnce());
-    const text = writeText.mock.calls[0]?.[0] ?? '';
+    return writeText.mock.calls[0]?.[0] ?? '';
+  }
+
+  it('copies the version, browser, grant counts and marks, without any address, name or selector', async () => {
+    const text = await copied();
     expect(text).toContain('SiteMark 1.2.3');
     expect(text).toContain(`Browser: ${navigator.userAgent}`);
-    expect(text).toContain('Site groups: 2 (1 on)');
+    expect(text).toContain('Site groups: 3 (2 on)');
     expect(text).toContain('Marks: 2 (1 page, 1 element)');
-    expect(text).toContain('https://prod.example.com/* granted');
-    expect(text).toContain('https://test.example.com/* not granted');
-    expect(text).not.toContain('Secret intranet');
-    expect(text).not.toContain('/admin/');
-    expect(text).not.toContain('#secret');
+    expect(text).toContain('Origins: 3 (1 granted, 2 not granted)');
+    expect(text).toContain('- https, exact host: granted');
+    expect(text).toContain('- https, exact host: not granted');
+    expect(text).toContain('- any scheme, host and subdomains: not granted');
+    for (const secret of ['example.com', 'Secret intranet', '/admin/', '#secret']) {
+      expect(text).not.toContain(secret);
+    }
     expect(await findRole('status', {}, byRole('main'))).toHaveTextContent(
       'Diagnostics copied to the clipboard.',
+    );
+  });
+
+  it('includes the origins only when the user ticks the box', async () => {
+    const text = await copied(true);
+    expect(text).toContain('Origins: 3 (1 granted, 2 not granted)');
+    expect(text).toContain('- https://prod.example.com/* granted');
+    expect(text).toContain('- https://test.example.com/* not granted');
+    expect(text).toContain('- *://*.intranet.example.com/* not granted');
+    expect(text).not.toContain('Secret intranet');
+    expect(text).not.toContain('/admin/');
+  });
+
+  it('says honestly what it copies', async () => {
+    expect(await openDiagnostics()).toHaveTextContent(
+      'Copies technical details for a bug report: versions, counts and whether site access is granted. Names, URL patterns and selectors are never included, and site addresses only if you tick the box.',
     );
   });
 });
