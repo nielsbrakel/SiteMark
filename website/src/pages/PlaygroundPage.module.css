@@ -1,0 +1,17 @@
+/* The playground page: a title and a lead above the playground, at the page width. */
+.page {
+  max-inline-size: var(--smw-page-max);
+}
+
+.title {
+  margin-top: 0;
+  font-size: var(--smw-text-2xl);
+}
+
+.lead {
+  max-inline-size: var(--smw-prose-max);
+  margin: 0 0 var(--sm-space-6);
+  color: var(--sm-text-muted);
+  font-size: var(--sm-text-lg);
+  line-height: var(--smw-prose-line);
+}

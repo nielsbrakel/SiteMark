@@ -34,7 +34,7 @@ export function routeTable(): readonly Route[] {
 
 /** The milestone the website is built for. */
 export function currentMilestone(): WebsiteMilestone {
-  return 'W1';
+  return 'W2';
 }
 
 /** Routes whose milestone is finished at `current`. */

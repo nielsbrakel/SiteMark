@@ -79,6 +79,15 @@
   background: var(--sm-control-border);
 }
 
+.button {
+  justify-self: start;
+  padding: var(--sm-space-2) var(--sm-space-4);
+  border: 2px solid var(--sm-danger);
+  border-radius: var(--sm-radius-sm);
+  color: var(--sm-danger);
+  font-weight: 700;
+}
+
 .host {
   position: absolute;
   inset: 0;
@@ -93,5 +102,10 @@
   .line,
   .target {
     background: GrayText;
+  }
+
+  .button {
+    border-color: ButtonText;
+    color: ButtonText;
   }
 }

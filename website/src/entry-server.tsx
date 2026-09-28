@@ -7,6 +7,8 @@ import { sitemapEntries, sitemapXml } from './head/sitemap';
 import type { Locale } from './i18n/locales';
 import { websiteLocales } from './i18n/locales';
 import { createWebsiteTranslator, loadCatalogs, type WebsiteTranslator } from './i18n/website-t';
+import { IslandComponentsContext } from './islands/islands';
+import { serverIslands } from './islands/server-islands';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { PageView } from './pages/PageView';
 import { pageFor, renderedRoutes } from './pages/registry';
@@ -43,13 +45,15 @@ function renderRoute(
       script={assetUrl(assets.script)}
       styles={assets.styles.map(assetUrl)}
     >
-      <PageView
-        route={route}
-        page={page}
-        locale={locale}
-        routes={renderedRoutes()}
-        translator={translator}
-      />
+      <IslandComponentsContext value={serverIslands()}>
+        <PageView
+          route={route}
+          page={page}
+          locale={locale}
+          routes={renderedRoutes()}
+          translator={translator}
+        />
+      </IslandComponentsContext>
     </Document>,
   );
   return [{ file: outputFile(route, locale), html: `<!doctype html>${html}` }];

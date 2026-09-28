@@ -1,0 +1,99 @@
+/* The playground (docs/website/design.md §3–§4): controls next to the preview, stacked below 720 px. */
+.playground {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: var(--sm-space-6);
+  align-items: start;
+}
+
+.controls {
+  display: grid;
+  gap: var(--sm-space-4);
+  padding: var(--sm-space-5);
+  border-radius: var(--sm-radius-lg);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-raised);
+}
+
+.preview {
+  position: sticky;
+  top: var(--sm-space-4);
+}
+
+.group {
+  display: grid;
+  gap: var(--sm-space-2);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.legend {
+  margin-bottom: var(--sm-space-2);
+  padding: 0;
+  font-weight: 700;
+}
+
+.presets,
+.effects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm-space-2) var(--sm-space-4);
+}
+
+.preset,
+.effect {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sm-space-2);
+  min-block-size: 24px;
+  cursor: pointer;
+}
+
+.swatch {
+  inline-size: 16px;
+  block-size: 16px;
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-preset-color, transparent);
+}
+
+/* Custom has no color of its own: a split swatch says "any color". */
+.swatch[data-custom='true'] {
+  background: linear-gradient(135deg, var(--sm-surface) 50%, var(--sm-text-muted) 50%);
+}
+
+.placement {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sm-space-2) var(--sm-space-3);
+  align-items: center;
+  margin-top: var(--sm-space-2);
+}
+
+.select {
+  min-block-size: 32px;
+  padding: 0 var(--sm-space-2);
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-sm);
+  background: var(--sm-surface);
+  color: var(--sm-text);
+  font: inherit;
+}
+
+@media (width <= 720px) {
+  .playground {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .preview {
+    position: static;
+  }
+}
+
+@media (forced-colors: active) {
+  .swatch {
+    forced-color-adjust: none;
+  }
+}

@@ -11,6 +11,9 @@ export default defineConfig(({ isSsrBuild }) => ({
   // Multi-page: every route is its own HTML file, and there is no client-side router.
   appType: 'mpa',
   plugins: [devPages(), keepCssModules()],
+  // The shared mark preview (D-254, D-278) attaches its shadow root with this mode: closed, as in
+  // the extension's production builds (D-226).
+  define: { __SHADOW_MODE__: JSON.stringify('closed') },
   resolve: {
     // Extension code is imported through `@/` only (D-246), the same alias the extension uses.
     alias: { '@': fileURLToPath(new URL('../src', import.meta.url)) },

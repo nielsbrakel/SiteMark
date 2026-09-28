@@ -16,6 +16,8 @@ export type MarkPreviewProps = {
   /** The mock address bar's text. */
   readonly address: string;
   readonly labels: ViewLabels;
+  /** The text of the element that element marks mark (the website's "Delete customer" button). */
+  readonly targetLabel?: string;
 };
 
 type Refs = {
@@ -61,6 +63,7 @@ export function MarkPreview({
   pageTitle,
   address,
   labels,
+  targetLabel,
 }: MarkPreviewProps): ReactNode {
   const refs = useRef<Refs>({ host: { current: null }, target: { current: null } }).current;
   useMarkViews(plan, labels, refs);
@@ -83,7 +86,9 @@ export function MarkPreview({
         <div className={styles.page} aria-hidden="true">
           <span className={styles.line} />
           <span className={styles.line} />
-          <div ref={refs.target} className={styles.target} />
+          <div ref={refs.target} className={targetLabel ? styles.button : styles.target}>
+            {targetLabel}
+          </div>
           <span className={styles.line} />
         </div>
         <div ref={refs.host} data-marker-host="" className={styles.host} />

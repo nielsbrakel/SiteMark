@@ -1,7 +1,9 @@
+// biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
 import type { ReactNode } from 'react';
 import type { WebsiteMessageKey } from '../i18n/website-t';
 import { currentMilestone, type PageId, publishedRoutes, type Route } from '../routes/routes';
 import { HomePage } from './HomePage';
+import { PlaygroundPage } from './PlaygroundPage';
 import { PrivacyPage } from './PrivacyPage';
 import type { PageProps } from './page-props';
 import { SupportPage } from './SupportPage';
@@ -18,6 +20,11 @@ export type Page = {
 // build the privacy, support and later pages add them here.
 const PAGES: Partial<Record<PageId, Page>> = {
   home: { Component: HomePage, title: 'websiteHomeTitle', description: 'websiteHomeDescription' },
+  playground: {
+    Component: PlaygroundPage,
+    title: 'websitePlaygroundTitle',
+    description: 'websitePlaygroundDescription',
+  },
   support: {
     Component: SupportPage,
     title: 'websiteSupportTitle',
