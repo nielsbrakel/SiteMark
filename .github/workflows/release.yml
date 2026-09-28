@@ -41,7 +41,7 @@ jobs:
       - name: Build assertions (manifest, output scan, size budget)
         run: pnpm exec vitest run --project build
         env:
-          SITEMARK_TARGETS: chrome,firefox
+          SITEMARK_TARGETS: chrome,firefox,edge
       - name: Check the manifest in every zip (REQ-SEC-008)
         run: node scripts/check-release-zips.ts .output/*.zip
       - name: Checksums

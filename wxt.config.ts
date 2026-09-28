@@ -1,6 +1,9 @@
 import { defineConfig } from 'wxt';
 import { E2E_GRANTED_ORIGINS } from './tests/e2e/hosts';
 
+/** The Chromium targets (`wxt build -b <browser>`): they share the Chrome version floor. */
+const CHROMIUM = new Set(['chrome', 'edge']);
+
 // See docs/plan.md §3 (Architecture) for why permissions look like this.
 export default defineConfig({
   srcDir: 'src',
@@ -58,8 +61,8 @@ export default defineConfig({
       // D-208: no default key; the user assigns one in the browser's shortcut settings.
       'toggle-hide': { description: '__MSG_commandToggleHide__' },
     },
-    // Browser floors (REQ-NFR-001).
-    ...(browser === 'chrome' && { minimum_chrome_version: '120' }),
+    // Browser floors (REQ-NFR-001, D-241). Edge is Chromium too and gets the same floor.
+    ...(CHROMIUM.has(browser) && { minimum_chrome_version: '120' }),
     ...(browser === 'safari' && {
       browser_specific_settings: { safari: { strict_min_version: '18.0' } },
     }),
