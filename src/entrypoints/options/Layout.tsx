@@ -16,6 +16,7 @@ import { SaveStatusText } from './SaveStatusText';
 import { SettingsPane } from './SettingsPane';
 import { Sidebar } from './Sidebar';
 import { UnreadableBanner } from './UnreadableBanner';
+import { useDocumentTitle } from './use-document-title';
 import { useOpenNewGroup } from './use-open-new-group';
 import { usePaneFocus } from './use-pane-focus';
 import { useUnreadable } from './use-unreadable';
@@ -71,6 +72,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
   const isUnreadable = useUnreadable();
   const group = selectedGroup(route, state.siteGroups);
   const pane = usePaneFocus(group?.id ?? route?.page ?? '');
+  useDocumentTitle(route, group);
   return (
     <div className={styles.page}>
       <header className={styles.header}>
