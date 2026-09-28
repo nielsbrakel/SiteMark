@@ -53,6 +53,20 @@ describe('REQ-A11Y-009 color swatches are 28 px with an 8 px gap', () => {
     expect(getComputedStyle(screen.getByRole('radio', { name: 'Amber' })).boxShadow).toBe('none');
   });
 
+  it('draws the focus ring outside the selection ring, so both show (WCAG 2.4.7)', async () => {
+    render(
+      <ColorSwatches label="Color" options={presets} value={presets[0]?.value} onChange={noop} />,
+    );
+    await userEvent.tab();
+    const red = screen.getByRole('radio', { name: 'Red' });
+    expect(red).toHaveFocus();
+    const style = getComputedStyle(red);
+    expect(style.outlineColor).toBe(tokenColor('--sm-focus-color'));
+    // The selection ring is a 4 px box-shadow spread; the outline starts past it with a gap.
+    expect(style.boxShadow).toMatch(/0px 0px 0px 4px/);
+    expect(Number.parseFloat(style.outlineOffset)).toBeGreaterThan(4);
+  });
+
   it('shows a 12 px color chip', () => {
     const { container } = render(<ColorChip color={'#1f6feb' as Hex} />);
     const chip = container.firstElementChild as HTMLElement;
