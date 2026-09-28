@@ -198,6 +198,42 @@ describe('REQ-GRP-002 removing URL patterns', () => {
   });
 });
 
+describe('REQ-A11Y-002 REQ-GRP-002 focus stays in the list after a Remove (WCAG 2.4.3)', () => {
+  const third = aWildcardPattern({ value: 'https://prod.example.com/admin/*' });
+  const three = aSiteGroup({ name: 'Production', patterns: [wildcard, regex, third] });
+  const remove = (value: string, list = patternList()) =>
+    byRole('button', { name: `Remove “${value}”` }, list);
+
+  async function removeWithKeyboard(value: string, list?: HTMLElement) {
+    const button = remove(value, list);
+    button.focus();
+    fireEvent.click(button);
+    await waitFor(() => expect(button.isConnected).toBe(false));
+  }
+
+  it('moves focus to the Remove button of the row that took its place', async () => {
+    await openGroup(three);
+    await removeWithKeyboard('^https://admin\\.example\\.com/');
+    await waitFor(() => expect(remove('https://prod.example.com/admin/*')).toHaveFocus());
+  });
+
+  it('moves focus to the row before it when the last row goes', async () => {
+    await openGroup(three);
+    await removeWithKeyboard('https://prod.example.com/admin/*');
+    await waitFor(() => expect(remove('^https://admin\\.example\\.com/')).toHaveFocus());
+  });
+
+  it('moves focus to the list heading when the list becomes empty', async () => {
+    const status = aWildcardPattern({ value: 'https://prod.example.com/status' });
+    await openGroup(aSiteGroup({ name: 'Production', patterns: [wildcard], excludes: [status] }));
+    await removeWithKeyboard(
+      'https://prod.example.com/status',
+      byRole('list', { name: 'Exclude patterns' }),
+    );
+    await waitFor(() => expect(byRole('heading', { name: 'Exclude patterns' })).toHaveFocus());
+  });
+});
+
 describe('REQ-PRIV-002 each pattern shows its grant, read live, with Allow', () => {
   const row = (value: string) =>
     within(patternList())
