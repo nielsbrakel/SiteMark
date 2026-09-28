@@ -22,6 +22,10 @@ body {
   outline-offset: 2px;
 }
 
+a {
+  color: var(--sm-accent-text);
+}
+
 /* Soft UI primitives. Components compose these; see docs/design.md §4. */
 .sm-card {
   border: 1px solid transparent;
@@ -86,6 +90,10 @@ body {
 @media (forced-colors: active) {
   :focus-visible {
     outline-color: Highlight;
+  }
+
+  a {
+    color: LinkText;
   }
 
   .sm-card,
