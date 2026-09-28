@@ -227,6 +227,19 @@ describe('REQ-OPT-005 reset everything, after a double confirmation', () => {
   });
 });
 
+describe('REQ-A11Y-002 REQ-OPT-005 the second reset step is read out (WCAG 2.4.3)', () => {
+  it('moves focus to the text of the second step when Continue is pressed', async () => {
+    await openData();
+    fireEvent.click(byRole('button', { name: 'Reset everything' }));
+    const dialog = byRole('dialog', { name: 'Reset everything?' });
+    const next = byRole('button', { name: 'Continue' }, dialog);
+    next.focus();
+    fireEvent.click(next);
+    await waitFor(() => expect(dialog).toHaveAccessibleName('Are you sure?'));
+    await waitFor(() => expect(within(dialog).queryByText(/can't be undone/)).toHaveFocus());
+  });
+});
+
 describe('REQ-DATA-006 export a single site group', () => {
   it('downloads an export file with only that site group, which imports like any export', async () => {
     vi.useFakeTimers({ toFake: ['Date'] });
