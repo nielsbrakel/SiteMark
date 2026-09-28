@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import type { Locale } from '../i18n/locales';
 import type { WebsiteMessageKey, WebsiteTranslator } from '../i18n/website-t';
 import { currentMilestone, type PageId, publishedRoutes, type Route } from '../routes/routes';
+import { ChangelogPage } from './ChangelogPage';
 import { HelpPage } from './HelpPage';
 import { HelpTopicPage, helpTopicOf } from './HelpTopicPage';
 import { HomePage } from './HomePage';
@@ -53,6 +54,11 @@ const PAGES: Partial<Record<PageId, Page>> = {
     Component: PrivacyPage,
     title: 'websitePrivacyTitle',
     description: 'websitePrivacyDescription',
+  },
+  changelog: {
+    Component: ChangelogPage,
+    title: 'websiteChangelogTitle',
+    description: 'websiteChangelogDescription',
   },
 };
 

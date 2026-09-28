@@ -1,0 +1,11 @@
+/* The changelog: release notes at the reading width. */
+.page {
+  max-inline-size: var(--smw-prose-max);
+}
+
+.notice,
+.empty {
+  color: var(--sm-text-muted);
+  font-size: var(--sm-text-lg);
+  line-height: var(--smw-prose-line);
+}
