@@ -85,6 +85,25 @@ describe('REQ-A11Y-003 REQ-THEME-002 Toast', () => {
     expect(pending).toHaveLength(1);
   });
 
+  it('stays paused while focus is inside, even after the pointer passes over it', () => {
+    const { pending } = renderToast(saved);
+    const toast = screen.getByText('Site group deleted').parentElement as HTMLElement;
+    fireEvent.focus(screen.getByRole('button', { name: 'Dismiss' }));
+    fireEvent.pointerEnter(toast);
+    fireEvent.pointerLeave(toast);
+    expect(pending).toEqual([]);
+  });
+
+  it('stays paused while hovered, even after focus leaves it', () => {
+    const { pending } = renderToast(saved);
+    const toast = screen.getByText('Site group deleted').parentElement as HTMLElement;
+    const dismiss = screen.getByRole('button', { name: 'Dismiss' });
+    fireEvent.pointerEnter(toast);
+    fireEvent.focus(dismiss);
+    fireEvent.blur(dismiss, { relatedTarget: document.body });
+    expect(pending).toEqual([]);
+  });
+
   it('restarts the timer for a new toast', () => {
     const { pending, rerender } = renderToast(saved);
     rerender({ text: 'Mark deleted' });
