@@ -11,7 +11,7 @@ import { createSyncRegistration } from './sync-registration';
 const PROD = 'https://prod.example.com/*';
 const TEST = '*://test.example.com/*';
 const ANY_SUBDOMAIN = '*://*.example.org/*';
-const FILES = ['content-scripts/content.js'];
+const FILES = ['marker.js'];
 
 const groupFor = (value: string) => aSiteGroup({ patterns: [aWildcardPattern({ value })] });
 

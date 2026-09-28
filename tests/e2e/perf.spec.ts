@@ -58,7 +58,7 @@ test('with no active group the marker finishes in < 2 ms @perf @REQ-NFR-003', as
     marks: [aRibbonMark('TEST')],
   });
   const page = await context.newPage();
-  const ms = await selfTimeIn(page, '/content-scripts/content.js', async () => {
+  const ms = await selfTimeIn(page, '/marker.js', async () => {
     await page.goto(fixtureUrl('test'));
     await page.waitForTimeout(1000);
   });

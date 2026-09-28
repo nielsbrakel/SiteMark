@@ -15,7 +15,7 @@ import { fixedIdGen } from '../../src/core/testing/test-doubles';
 // The background's ports as in-memory fakes, wired like the composition root does it, for the
 // use-case tests of T-071…T-076.
 
-export const MARKER_FILES = ['content-scripts/content.js'] as const;
+export const MARKER_FILES = ['marker.js'] as const;
 
 export type HarnessOptions = {
   readonly state?: SiteMarkState;

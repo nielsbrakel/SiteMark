@@ -4,7 +4,7 @@ import { fakes } from '../../tests/fakes/install';
 import { createInMemoryLogger } from '../app/testing/in-memory-logger';
 import { createTabs } from './tabs';
 
-const FILES = ['content-scripts/content.js'];
+const FILES = ['marker.js'];
 
 const tab = (fields: Partial<Browser.tabs.Tab>) => fields as Browser.tabs.Tab;
 

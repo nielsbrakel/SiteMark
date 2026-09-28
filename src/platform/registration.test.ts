@@ -11,7 +11,7 @@ const TEST = '*://test.example.com/*';
 const marker: RegisteredScript = {
   id: 'sitemark-marker',
   matches: [PROD],
-  js: ['content-scripts/content.js'],
+  js: ['marker.js'],
   runAt: 'document_start',
   allFrames: false,
   persistAcrossSessions: true,
@@ -25,7 +25,7 @@ const setup = () => {
 
 describe('REQ-PRIV-003 the ScriptRegistrar adapter registers the marker dynamically (D-231)', () => {
   it('runs the marker bundle WXT builds for the runtime content script', () => {
-    expect(markerFiles()).toEqual(['content-scripts/content.js']);
+    expect(markerFiles()).toEqual(['marker.js']);
   });
 
   it('registers the marker at document_start, top frame only, isolated and persistent', async () => {

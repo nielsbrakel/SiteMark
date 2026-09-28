@@ -10,7 +10,7 @@ const sender: ContentSender = {
   origin: 'https://shop.example.com:8443',
 };
 
-const MARKER = ['content-scripts/content.js'];
+const MARKER = ['marker.js'];
 
 describe('REQ-PICK-006 the panel knows whether the site is granted', () => {
   it('is granted when the host is', async () => {

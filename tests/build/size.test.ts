@@ -6,8 +6,8 @@ import { outDir, targets } from './targets';
 
 /** Gzipped budgets for code injected into web pages (REQ-NFR-002). */
 const budgets = [
-  { name: 'marker', file: 'content-scripts/content.js', limitKb: 25 },
-  { name: 'picker', file: 'content-scripts/picker.js', limitKb: 20 },
+  { name: 'marker', file: 'marker.js', limitKb: 25 },
+  { name: 'picker', file: 'picker.js', limitKb: 20 },
 ];
 
 const gzipKb = (file: string) => gzipSync(readFileSync(file), { level: 9 }).length / 1024;

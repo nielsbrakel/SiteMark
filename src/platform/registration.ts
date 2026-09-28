@@ -3,8 +3,8 @@ import type { Logger, MarkerRegistration, RegistrationError, ScriptRegistrar } f
 import { err, ok, type Result } from '../core/result';
 
 const MARKER_ID = 'sitemark-marker';
-/** WXT's output for src/entrypoints/content.ts (`registration: 'runtime'`); tests/build checks it. */
-const MARKER_FILES = ['content-scripts/content.js'] as const;
+/** WXT's output for the unlisted script src/entrypoints/marker.ts; tests/build checks it. */
+const MARKER_FILES = ['marker.js'] as const;
 
 type Script = Browser.scripting.RegisteredContentScript;
 

@@ -53,7 +53,7 @@ src/
 ├─ ui/              React, shared by popup + options: components/ · hooks/ · mount.tsx
 ├─ lib/i18n/        translate.ts (pure t(), tp(), typed MessageKey over a MessageSource) · browser-source.ts (D-247)
 ├─ styles/          tokens.css · base.css
-└─ entrypoints/     COMPOSITION ROOTS only: background.ts · content.ts · picker.ts · popup/ · options/ · grant/
+└─ entrypoints/     COMPOSITION ROOTS only: background.ts · marker.ts · picker.ts · popup/ · options/ · grant/
 ```
 
 **Dependency rule:** `core ← app ← platform | shared | content | ui ← entrypoints`. `content` and
@@ -69,7 +69,7 @@ src/
                         └────────────────▲───────────────────────┘
                                          │ ONLY writer (D-220)
 ┌─────────────────────┐  intents   ┌─────┴──────────────────────────┐  commands   ┌─────────────────┐
-│ content.ts (marker) │──────────▶ │ background                      │ ◀────────── │ popup / options │
+│ marker.ts (content) │──────────▶ │ background                      │ ◀────────── │ popup / options │
 │ per granted origin  │ ◀───────── │ • command queue → applyCommand  │ ──────────▶ │ (watch state,   │
 │ renders RenderPlan  │ renderPlan │ • renderPlanFor(url) (need-to-  │  state push │  read-only)     │
 │ reports status      │            │   know, D-221)                  │             │ permissions.req │

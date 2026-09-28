@@ -55,7 +55,7 @@ describe('REQ-CMD-001 REQ-CMD-002 keyboard commands run on the right tab', () =>
 });
 
 describe('REQ-PICK-001 the picker is its own bundle, injected on demand', () => {
-  it('lives at content-scripts/picker.js (the picker entrypoint, T-111)', () => {
-    expect(pickerFiles()).toEqual(['content-scripts/picker.js']);
+  it('lives at picker.js (the picker entrypoint, T-111)', () => {
+    expect(pickerFiles()).toEqual(['picker.js']);
   });
 });

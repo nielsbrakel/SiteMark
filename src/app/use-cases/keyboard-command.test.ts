@@ -4,7 +4,7 @@ import { createInMemoryBadge } from '../testing/in-memory-badge';
 import { createInMemoryTabs, type InMemoryTab } from '../testing/in-memory-tabs';
 import { runKeyboardCommand } from './keyboard-command';
 
-const PICKER = ['content-scripts/picker.js'];
+const PICKER = ['picker.js'];
 
 function setup(tab: InMemoryTab) {
   const tabs = createInMemoryTabs([tab]);

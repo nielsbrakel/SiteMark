@@ -16,8 +16,8 @@ import { createInMemoryStateRepo } from './testing/in-memory-state-repo';
 import { createInMemoryTabs, type InMemoryTab } from './testing/in-memory-tabs';
 
 const PROD = '*://prod.example.com/*';
-const MARKER = ['content-scripts/content.js'];
-const PICKER = ['content-scripts/picker.js'];
+const MARKER = ['marker.js'];
+const PICKER = ['picker.js'];
 const prod = aSiteGroup({ patterns: [aWildcardPattern({ value: PROD })] });
 const sender: ContentSender = {
   tabId: 4,

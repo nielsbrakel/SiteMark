@@ -5,7 +5,7 @@ import { createInMemoryBadge } from '../testing/in-memory-badge';
 import { createInMemoryTabs, type InMemoryTab } from '../testing/in-memory-tabs';
 import { flashRestricted, startPicker } from './start-picker';
 
-const PICKER = ['content-scripts/picker.js'];
+const PICKER = ['picker.js'];
 const markId = 'mark00000004' as MarkId;
 
 function setup(tab: InMemoryTab = { id: 7 }) {
