@@ -228,7 +228,7 @@ when a requirement has no task, or when a finished task has an uncovered require
 | REQ-OPT-004 | M   | Settings: theme (System / Light / Dark). Keyboard shortcuts read from `commands.getAll()`, with an **unassigned** state and a button that opens the browser's shortcut settings. Help text about the title prefix and browser history.                                    |
 | REQ-OPT-005 | M   | Data: export, import (REQ-DATA-003/004), and **Reset everything**. Reset needs a double confirmation, can optionally revoke all origins, and unregisters the content scripts.                                                                                             |
 | REQ-OPT-006 | M   | Autosave (debounced commands) with a subtle "Saved" status. Patterns are the exception: they require Add. An invalid field blocks only itself.                                                                                                                            |
-| REQ-OPT-007 | M   | **Copy diagnostics:** copies the version, browser, grant states and mark statuses (no URLs beyond origins) for GitHub issues. It only goes to the local clipboard.                                                                                                        |
+| REQ-OPT-007 | M   | **Copy diagnostics:** copies the version, browser, grant states and mark statuses for GitHub issues; origins only as their kind unless the user opts in to include them, never other URLs. It only goes to the local clipboard.                                           |
 
 ### 5.10 Commands — `CMD`
 

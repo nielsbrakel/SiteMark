@@ -73,9 +73,11 @@ wordt alleen opgeslagen waar jij kiest. Behandel het als interne informatie voor
 
 ### Diagnostiek kopiëren
 
-**Diagnostiek kopiëren** zet de versie van SiteMark, je browser, de status van de rechten en de status van de
-markeringen op je klembord, met de origins van websites maar zonder volledige URL's. Het gaat nergens heen tenzij
-je het plakt, bijvoorbeeld in een bugmelding.
+**Diagnostiek kopiëren** zet de versie van SiteMark, je browser, het aantal sitegroepen en markeringen, en per
+origin van een website alleen de soort (bijvoorbeeld "https, exact host") en of er toegang is verleend op je
+klembord. De origins zelf, zoals `https://intranet.example.com/*`, gaan alleen mee als je **Siteadressen
+(origins) meenemen** aanvinkt. Namen, URL-patronen, volledige URL's en selectors gaan nooit mee. Het gaat nergens
+heen tenzij je het plakt, bijvoorbeeld in een bugmelding.
 
 ### Extensiewinkels
 

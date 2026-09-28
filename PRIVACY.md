@@ -69,9 +69,11 @@ only saved where you choose. Treat it as internal data before you share it.
 
 ### Copy diagnostics
 
-**Copy diagnostics** copies the SiteMark version, your browser, the permission status and mark status to your
-clipboard, with website origins but no full URLs. It goes nowhere unless you paste it, for example into a
-bug report.
+**Copy diagnostics** copies the SiteMark version, your browser, counts of your site groups and marks, and for
+each website origin only its kind (for example "https, exact host") and whether access is granted. The origins
+themselves, such as `https://intranet.example.com/*`, are only included if you tick **Include site addresses**.
+Names, URL patterns, full URLs and selectors are never included. It goes nowhere unless you paste it, for
+example into a bug report.
 
 ### Browser stores
 

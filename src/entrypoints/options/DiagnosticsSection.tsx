@@ -7,7 +7,7 @@ import { diagnosticsText } from './diagnostics';
 import styles from './Pane.module.css';
 
 /** Builds the diagnostics with the live grants and puts them on the local clipboard only. */
-async function copyDiagnostics(state: SiteMarkState): Promise<boolean> {
+async function copyDiagnostics(state: SiteMarkState, includeOrigins: boolean): Promise<boolean> {
   try {
     const { origins = [] } = await browser.permissions.getAll();
     const text = diagnosticsText({
@@ -15,6 +15,7 @@ async function copyDiagnostics(state: SiteMarkState): Promise<boolean> {
       version: browser.runtime.getManifest().version,
       userAgent: navigator.userAgent,
       granted: new Set(origins),
+      includeOrigins,
     });
     await navigator.clipboard.writeText(text);
     return true;
@@ -27,11 +28,20 @@ async function copyDiagnostics(state: SiteMarkState): Promise<boolean> {
 export function DiagnosticsSection({ state }: { readonly state: SiteMarkState }): ReactNode {
   const headingId = useId();
   const [result, setResult] = useState<boolean>();
-  const copy = async () => setResult(await copyDiagnostics(state));
+  const [includeOrigins, setIncludeOrigins] = useState(false);
+  const copy = async () => setResult(await copyDiagnostics(state, includeOrigins));
   return (
     <section className={styles.pane} aria-labelledby={headingId}>
       <h3 id={headingId}>{t('optionsDiagnostics')}</h3>
       <p>{t('optionsDiagnosticsHelp')}</p>
+      <label className={styles.check}>
+        <input
+          type="checkbox"
+          checked={includeOrigins}
+          onChange={(event) => setIncludeOrigins(event.target.checked)}
+        />
+        {t('optionsDiagnosticsIncludeOrigins')}
+      </label>
       <div>
         <Button onClick={() => void copy()}>{t('optionsCopyDiagnostics')}</Button>
       </div>
