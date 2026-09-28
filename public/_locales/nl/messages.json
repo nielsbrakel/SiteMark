@@ -1459,5 +1459,15 @@
         "example": "3"
       }
     }
+  },
+  "optionsDocumentTitle": {
+    "message": "$PAGE$ – SiteMark-instellingen",
+    "description": "Options page: the browser tab's title, naming the open page (a site group's name, Settings, Data…).",
+    "placeholders": {
+      "page": {
+        "content": "$1",
+        "example": "Production"
+      }
+    }
   }
 }

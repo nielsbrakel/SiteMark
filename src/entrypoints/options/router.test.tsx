@@ -135,6 +135,31 @@ describe('REQ-OPT-001 hash routing for deep links', () => {
   });
 });
 
+describe('REQ-OPT-001 the tab title names the open page (WCAG 2.4.2)', () => {
+  it.each([
+    [`#/groups/${staging.id}`, 'Staging – SiteMark settings'],
+    [`#/groups/${prod.id}/marks/${mark.id}`, 'Production – SiteMark settings'],
+    ['#/settings', 'Settings – SiteMark settings'],
+    ['#/data', 'Data – SiteMark settings'],
+    ['#/welcome', 'Welcome to SiteMark – SiteMark settings'],
+  ])('titles %s "%s"', async (hash, title) => {
+    await openAt(hash);
+    expect(document.title).toBe(title);
+  });
+
+  it('names the site group list when there are no site groups', async () => {
+    await openAt('', []);
+    expect(document.title).toBe('Site groups – SiteMark settings');
+  });
+
+  it('follows the hash as it changes', async () => {
+    await openAt('#/');
+    expect(document.title).toBe('Production – SiteMark settings');
+    navigate('#/data');
+    expect(document.title).toBe('Data – SiteMark settings');
+  });
+});
+
 describe('REQ-OPT-001 the welcome tab (opened on install)', () => {
   it('shows three steps and the pin hint', async () => {
     await openAt('#/welcome');
