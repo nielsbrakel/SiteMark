@@ -6,6 +6,21 @@
   align-items: center;
 }
 
+.heroPreview {
+  display: grid;
+  gap: var(--sm-space-3);
+  justify-items: start;
+  min-inline-size: 0;
+}
+
+.heroPreview > * {
+  inline-size: 100%;
+}
+
+.heroPreview > a {
+  inline-size: auto;
+}
+
 .title {
   margin-top: 0;
   font-size: var(--smw-text-3xl);

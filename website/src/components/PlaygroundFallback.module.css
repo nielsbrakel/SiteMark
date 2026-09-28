@@ -1,0 +1,28 @@
+/* Without JavaScript (no <html data-js>) the playground's controls can't work: the image and its
+   note show instead (REQ-PLAY-003). With JavaScript it's the other way around. */
+.noScript {
+  display: grid;
+  gap: var(--sm-space-3);
+  min-inline-size: 0;
+}
+
+.note {
+  margin: 0;
+}
+
+.image {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 560px;
+  block-size: auto;
+  border-radius: var(--sm-radius-md);
+}
+
+.live {
+  min-inline-size: 0;
+}
+
+:global(:root[data-js]) .noScript,
+:global(:root:not([data-js])) .live {
+  display: none;
+}

@@ -1,9 +1,11 @@
 // biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
-import { HeroIllustration } from '../components/HeroIllustration';
 import { InstallButtons } from '../components/InstallButtons';
+import { PlaygroundFallback } from '../components/PlaygroundFallback';
 import { Screenshots } from '../components/Screenshots';
 import { stores } from '../config/stores';
 import type { WebsiteMessageKey } from '../i18n/website-t';
+import { Island } from '../islands/islands';
+import '../playground/playground-styles';
 import { pagePath } from '../routes/urls';
 import styles from './HomePage.module.css';
 import type { PageProps } from './page-props';
@@ -83,7 +85,14 @@ export function HomePage({ t, locale }: PageProps) {
           <p className={styles.lead}>{t('websiteHomeLead')}</p>
           <InstallButtons stores={stores()} t={t} />
         </div>
-        <HeroIllustration t={t} />
+        <div className={styles.heroPreview}>
+          <PlaygroundFallback t={t} locale={locale}>
+            <Island id="heroPlayground" t={t} />
+          </PlaygroundFallback>
+          <a className={styles.link} href={pagePath('playground', locale)}>
+            {t('websiteHeroPlaygroundLink')}
+          </a>
+        </div>
       </section>
       <Highlights t={t} />
       <Screenshots t={t} locale={locale} />

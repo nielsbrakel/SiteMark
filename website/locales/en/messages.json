@@ -317,29 +317,9 @@
       }
     }
   },
-  "websiteHeroAlt": {
-    "message": "A production website marked by SiteMark: a red banner, frame and corner ribbon, and an outline around the Delete customer button.",
-    "description": "Text alternative of the home page hero illustration."
-  },
-  "websiteHeroTab": {
-    "message": "[PROD] Orders",
-    "description": "Tab title in the hero illustration, with the SiteMark title prefix [PROD]."
-  },
-  "websiteHeroAddress": {
-    "message": "prod.example.com/orders",
-    "description": "Address bar text in the hero illustration."
-  },
-  "websiteHeroBanner": {
-    "message": "Production",
-    "description": "Banner text in the hero illustration (shown in capitals)."
-  },
-  "websiteHeroRibbon": {
-    "message": "Prod",
-    "description": "Corner ribbon text in the hero illustration (shown in capitals). Keep it at most 5 characters."
-  },
   "websiteHeroButton": {
     "message": "Delete customer",
-    "description": "Button text on the sample page in the hero illustration. Keep it short."
+    "description": "Button text on the sample page in the playground's mock browser (home hero and playground). Keep it short."
   },
   "websiteNotFoundHeading": {
     "message": "Page not found",

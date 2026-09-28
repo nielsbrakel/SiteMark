@@ -3,7 +3,7 @@ import { ThemeToggle } from '../theme/ThemeToggle';
 import styles from './Island.module.css';
 import type { IslandProps } from './island-props';
 
-export type IslandId = 'themeToggle' | 'playground';
+export type IslandId = 'themeToggle' | 'playground' | 'heroPlayground';
 export type IslandComponent = (props: IslandProps) => ReactNode;
 export type IslandComponents = Readonly<Partial<Record<IslandId, IslandComponent>>>;
 

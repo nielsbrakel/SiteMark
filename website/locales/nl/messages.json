@@ -317,29 +317,9 @@
       }
     }
   },
-  "websiteHeroAlt": {
-    "message": "Een productiewebsite gemarkeerd door SiteMark: een rode banner, een kader, een hoeklint en een omlijning rond de knop Klant verwijderen.",
-    "description": "Text alternative of the home page hero illustration."
-  },
-  "websiteHeroTab": {
-    "message": "[PROD] Bestellingen",
-    "description": "Tab title in the hero illustration, with the SiteMark title prefix [PROD]."
-  },
-  "websiteHeroAddress": {
-    "message": "prod.example.com/bestellingen",
-    "description": "Address bar text in the hero illustration."
-  },
-  "websiteHeroBanner": {
-    "message": "Productie",
-    "description": "Banner text in the hero illustration (shown in capitals)."
-  },
-  "websiteHeroRibbon": {
-    "message": "Prod",
-    "description": "Corner ribbon text in the hero illustration (shown in capitals). Keep it at most 5 characters."
-  },
   "websiteHeroButton": {
     "message": "Klant verwijderen",
-    "description": "Button text on the sample page in the hero illustration. Keep it short."
+    "description": "Button text on the sample page in the playground's mock browser (home hero and playground). Keep it short."
   },
   "websiteNotFoundHeading": {
     "message": "Pagina niet gevonden",

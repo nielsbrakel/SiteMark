@@ -129,7 +129,7 @@ describe('REQ-PAGE-008 the home page shows the screenshots of its language, in b
     '%s describes what each screenshot shows, from the catalog',
     (file) => {
       showPage(pages, file);
-      const alts = [...main().querySelectorAll('picture img')].map((img) =>
+      const alts = [...main().querySelectorAll('figure picture img')].map((img) =>
         img.getAttribute('alt'),
       );
       expect(alts).toHaveLength(screenshotScenes().length * 2);
@@ -144,7 +144,9 @@ describe('REQ-PAGE-008 the home page shows the screenshots of its language, in b
 
   it('uses the English texts on the English page', () => {
     showPage(pages, 'index.html');
-    const alts = [...main().querySelectorAll('picture img')].map((img) => img.getAttribute('alt'));
+    const alts = [...main().querySelectorAll('figure picture img')].map((img) =>
+      img.getAttribute('alt'),
+    );
     expect(alts[0]).toBe(en.t('websiteScreenshotMarkedPageAlt'));
     expect(alts[2]).toBe(en.t('websiteScreenshotPopupAlt'));
     expect(alts[4]).toBe(en.t('websiteScreenshotOptionsAlt'));
