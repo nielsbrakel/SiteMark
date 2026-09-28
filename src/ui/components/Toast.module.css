@@ -1,3 +1,5 @@
+/* Never display: none, even when empty: the live region must stay in the accessibility tree so the
+   first toast is announced. Empty, it has no height and lets the pointer through. */
 .region {
   position: fixed;
   inset-inline: 0;
@@ -7,10 +9,6 @@
   justify-content: center;
   padding-inline: var(--sm-space-4);
   pointer-events: none;
-}
-
-.region:empty {
-  display: none;
 }
 
 .toast {
