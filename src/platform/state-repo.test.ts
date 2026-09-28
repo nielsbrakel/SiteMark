@@ -162,7 +162,11 @@ describe('REQ-SEC-002 storage.local is restricted to trusted contexts where the 
     expect(logger.entries).toEqual([]);
   });
 
-  it('logs a warning instead of failing when the browser refuses', async () => {
+  const userAgent = (version: string) =>
+    vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue(`Mozilla/5.0 ${version}`);
+
+  it('logs a warning instead of failing when Chromium 140+ refuses', async () => {
+    userAgent('AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36');
     const logger = createInMemoryLogger();
     const refused = new Error('Access level not supported');
     const area = { setAccessLevel: vi.fn().mockRejectedValue(refused) };
@@ -171,4 +175,20 @@ describe('REQ-SEC-002 storage.local is restricted to trusted contexts where the 
       { level: 'warn', message: expect.stringContaining('access level'), detail: refused },
     ]);
   });
+
+  it.each([
+    ['Chrome 139', 'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'],
+    ['Safari', 'AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.2 Safari/605.1.15'],
+    ['Firefox', '(X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0'],
+  ])(
+    'stays quiet when %s refuses: it only takes an access level on storage.session',
+    async (_name, version) => {
+      userAgent(version);
+      const logger = createInMemoryLogger();
+      const area = { setAccessLevel: vi.fn().mockRejectedValue(new Error('Not supported')) };
+      await expect(restrictStorageAccess(logger, area)).resolves.toBe(false);
+      expect(area.setAccessLevel).toHaveBeenCalledOnce();
+      expect(logger.entries).toEqual([]);
+    },
+  );
 });
