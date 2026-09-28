@@ -89,6 +89,13 @@ describe('REQ-A11Y-002 REQ-A11Y-003 the dialog is modal, closes on Escape and re
   });
 });
 
+describe('REQ-A11Y-004 the empty toast live region stays in the accessibility tree', () => {
+  it('exposes role="status" before any toast, so the first one is announced (WCAG 4.1.3)', () => {
+    render(<Toast toast={undefined} onDismiss={noop} dismissLabel="Dismiss" />);
+    expect(screen.queryByRole('status')).not.toBeNull();
+  });
+});
+
 describe('REQ-THEME-002 the toast floats at the bottom center on the raised surface', () => {
   it('is centered near the bottom of the viewport', () => {
     render(<Toast toast={{ text: 'Saved' }} onDismiss={noop} dismissLabel="Dismiss" />);
