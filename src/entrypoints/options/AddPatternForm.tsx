@@ -15,7 +15,7 @@ const kinds = (): readonly { value: PatternKind; label: string }[] => [
 
 /** Adds a wildcard or regex pattern or exclude with an explicit Add (REQ-OPT-002, REQ-OPT-006). */
 export function AddPatternForm({ form }: { readonly form: AddPattern }): ReactNode {
-  const { input, errors, change, submit } = form;
+  const { input, errors, inputs, change, submit } = form;
   const text = LIST_TEXT[form.list];
   const isRegex = input.kind === 'regex';
   return (
@@ -34,6 +34,7 @@ export function AddPatternForm({ form }: { readonly form: AddPattern }): ReactNo
         {(control) => (
           <input
             {...control}
+            ref={inputs.pattern}
             value={input.value}
             spellCheck={false}
             onChange={(event) => change({ value: event.target.value })}
@@ -49,6 +50,7 @@ export function AddPatternForm({ form }: { readonly form: AddPattern }): ReactNo
           {(control) => (
             <input
               {...control}
+              ref={inputs.origins}
               value={input.origins}
               spellCheck={false}
               onChange={(event) => change({ origins: event.target.value })}
