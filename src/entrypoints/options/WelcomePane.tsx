@@ -15,7 +15,9 @@ export function WelcomePane(): ReactNode {
   const stepsId = useId();
   return (
     <section className={styles.pane} aria-labelledby={`${stepsId}-title`}>
-      <h2 id={`${stepsId}-title`}>{t('welcomeTitle')}</h2>
+      <h2 id={`${stepsId}-title`} tabIndex={-1}>
+        {t('welcomeTitle')}
+      </h2>
       <p>{t('welcomeIntro')}</p>
       <h3 id={stepsId}>{t('welcomeSteps')}</h3>
       <ol aria-labelledby={stepsId} className={styles.steps}>

@@ -17,6 +17,7 @@ import { SettingsPane } from './SettingsPane';
 import { Sidebar } from './Sidebar';
 import { UnreadableBanner } from './UnreadableBanner';
 import { useOpenNewGroup } from './use-open-new-group';
+import { usePaneFocus } from './use-pane-focus';
 import { useUnreadable } from './use-unreadable';
 import { WelcomePane } from './WelcomePane';
 
@@ -69,6 +70,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
   const openNewGroup = useOpenNewGroup(state);
   const isUnreadable = useUnreadable();
   const group = selectedGroup(route, state.siteGroups);
+  const pane = usePaneFocus(group?.id ?? route?.page ?? '');
   return (
     <div className={styles.page}>
       <header className={styles.header}>
@@ -83,7 +85,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
         onAdded={openNewGroup}
         notify={setToast}
       />
-      <main className={styles.main}>
+      <main ref={pane.mainRef} className={styles.main}>
         {isUnreadable && <UnreadableBanner notify={setToast} />}
         <RevokeContext value={offerRevoke}>
           <Pane
@@ -102,6 +104,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
           setToast(undefined);
         }}
         dismissLabel={t('optionsDismiss')}
+        onFocusLost={pane.focusPane}
         {...(toast?.durationMs && { durationMs: toast.durationMs })}
       />
     </div>

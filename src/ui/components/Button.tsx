@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 import styles from './Button.module.css';
 import { classNames } from './class-names';
 
@@ -10,6 +10,7 @@ export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'style' 
   /** A decorative icon before the label (hidden from assistive technology). */
   readonly icon?: ReactNode;
   readonly type?: 'button' | 'submit';
+  readonly ref?: Ref<HTMLButtonElement>;
 };
 
 /** A labelled button (design.md §4). Never submits a form unless `type="submit"`. */

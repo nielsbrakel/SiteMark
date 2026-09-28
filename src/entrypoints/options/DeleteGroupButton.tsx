@@ -33,6 +33,8 @@ async function remove(props: DeleteGroupButtonProps): Promise<void> {
   notify({
     text: t('optionsGroupDeleted', group.name),
     action: { label: t('optionsUndo'), onAction: undo },
+    // WCAG 2.2.1: Undo takes focus, and the 10 s only run once focus and the pointer leave it.
+    takeFocus: true,
     durationMs: UNDO_MS,
     onExpire: () => {
       if (!isUndone) props.onUndoWindowPassed();

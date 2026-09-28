@@ -29,7 +29,9 @@ export function SettingsPane({ state, notify }: SettingsPaneProps): ReactNode {
   };
   return (
     <section className={styles.pane} aria-labelledby={titleId}>
-      <h2 id={titleId}>{t('optionsSettings')}</h2>
+      <h2 id={titleId} tabIndex={-1}>
+        {t('optionsSettings')}
+      </h2>
       <Segmented
         label={t('optionsTheme')}
         options={themes}

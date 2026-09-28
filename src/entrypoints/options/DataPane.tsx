@@ -18,7 +18,9 @@ export function DataPane({
   const titleId = useId();
   return (
     <section className={styles.pane} aria-labelledby={titleId}>
-      <h2 id={titleId}>{t('optionsData')}</h2>
+      <h2 id={titleId} tabIndex={-1}>
+        {t('optionsData')}
+      </h2>
       <ExportSection state={state} />
       <ImportSection />
       <ResetSection notify={notify} />
