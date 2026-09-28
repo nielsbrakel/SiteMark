@@ -1,6 +1,7 @@
 import type { ErrorCode } from '../errors';
 import { parseState, type SiteMarkState } from '../model/schema';
 import { assertNever, err, ok, type Result } from '../result';
+import { regexBudgetError } from '../url/regex-budget';
 import type {
   Command,
   CommandDeps,
@@ -142,7 +143,8 @@ function reduce(state: SiteMarkState, command: Command, deps: CommandDeps): Outc
  * Applies `command` with its reducer, bumps `revision` by exactly 1 and validates the result with
  * the state schema, so a reducer bug is never saved: such a state is refused with
  * `commandProducedInvalidState`. The returned state is the one the schema read. Reducer refusals
- * pass through unchanged, and a refused command bumps nothing.
+ * pass through unchanged, and a refused command bumps nothing. A command that would take the
+ * regexes of all site groups past their shared budget is refused with its code (REQ-URL-004).
  */
 export function applyCommand(
   state: SiteMarkState,
@@ -151,6 +153,8 @@ export function applyCommand(
 ): Result<CommandOutcome, ErrorCode> {
   const reduced = reduce(state, command, deps);
   if (!reduced.ok) return reduced;
+  const overBudget = regexBudgetError(reduced.value.state.siteGroups);
+  if (overBudget) return err(overBudget);
   const next = parseState({ ...reduced.value.state, revision: state.revision + 1 });
   if (!next.ok) return err('commandProducedInvalidState');
   return ok({ state: next.value, notices: reduced.value.notices });

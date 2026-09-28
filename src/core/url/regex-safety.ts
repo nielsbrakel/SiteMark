@@ -50,18 +50,31 @@ function hasUnsafeSyntax(pattern: AST.Pattern): boolean {
   return unsafe;
 }
 
+/** The worst-case steps of a regex in the safe subset, or why it isn't. */
+function checkRegex(source: string): Result<number, RegexErrorCode> {
+  if (source.length > MAX_LENGTH) return err('regexTooLong');
+  const pattern = source === '' ? undefined : parse(source);
+  if (!pattern) return err('regexInvalid');
+  if (hasUnsafeSyntax(pattern)) return err('regexUnsafe');
+  const steps = regexCost(pattern);
+  return steps > MAX_STEPS ? err('regexUnsafe') : ok(steps);
+}
+
 /**
  * Validates a regex source against the safe subset (REQ-URL-004, D-211): ≤ 500 characters, parses
  * with the fixed flags, no backreferences, no lookaround, no nested quantifiers (star height ≤ 1).
  * Returns the source unchanged when it is safe.
  */
 export function validateRegex(source: string): Result<string, RegexErrorCode> {
-  if (source.length > MAX_LENGTH) return err('regexTooLong');
-  const pattern = source === '' ? undefined : parse(source);
-  if (!pattern) return err('regexInvalid');
-  if (hasUnsafeSyntax(pattern) || regexCost(pattern) > MAX_STEPS) return err('regexUnsafe');
-  return ok(source);
+  const checked = checkRegex(source);
+  return checked.ok ? ok(source) : checked;
 }
+
+/** Worst-case steps of one `test` with a stored regex; 0 when it never runs (not in the subset). */
+export const regexSteps = memoize((source: string): number => {
+  const checked = checkRegex(source);
+  return checked.ok ? checked.value : 0;
+});
 
 /** Compiles a stored regex with the fixed flags, or `undefined` when it isn't in the safe subset. */
 export const compileRegex = memoize((source: string): RegExp | undefined =>

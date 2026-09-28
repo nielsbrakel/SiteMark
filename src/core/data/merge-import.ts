@@ -3,6 +3,7 @@ import type { IdGen, SiteGroupId } from '../ids';
 import type { RegexPattern, SiteGroup, SiteMarkState } from '../model/schema';
 import { err, ok, type Result } from '../result';
 import type { OriginPattern } from '../url/origin';
+import { type RegexBudgetErrorCode, regexBudgetError } from '../url/regex-budget';
 import { idsOfSiteGroup, withFreeIds } from './free-ids';
 import type { ImportData } from './import';
 import { originsToRequest } from './origins';
@@ -27,7 +28,9 @@ export type ImportPreview = {
   readonly regexPatterns: ImportedRegex[];
 };
 
-export type MergeError = Extract<SiteGroupErrorCode, 'siteGroupLimitReached'>;
+export type MergeError =
+  | Extract<SiteGroupErrorCode, 'siteGroupLimitReached'>
+  | RegexBudgetErrorCode;
 
 const MAX_SITE_GROUPS = 200;
 
@@ -55,7 +58,8 @@ export function previewImport(local: SiteMarkState, incoming: ImportData): Impor
 /**
  * Merge: a file group with a local group's ID replaces it in place, other file groups are appended
  * at the bottom in file order, and the local settings stay (D-218). An imported item whose ID a
- * remaining local group already uses gets a fresh ID, so IDs stay unique. At most 200 site groups.
+ * remaining local group already uses gets a fresh ID, so IDs stay unique. At most 200 site groups,
+ * and the regexes of the result must fit their shared budget (REQ-URL-004).
  */
 export function mergeImport(
   local: SiteMarkState,
@@ -75,6 +79,8 @@ export function mergeImport(
   }
   const siteGroups = [...local.siteGroups.map((group) => updates.get(group.id) ?? group), ...added];
   if (siteGroups.length > MAX_SITE_GROUPS) return err('siteGroupLimitReached');
+  const overBudget = regexBudgetError(siteGroups);
+  if (overBudget) return err(overBudget);
   return ok({ ...local, siteGroups });
 }
 

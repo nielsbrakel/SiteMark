@@ -20,6 +20,8 @@ const everyCode = {
   regexTooLong: true,
   regexNeedsOrigin: true,
   regexTooManyOrigins: true,
+  regexLimitReached: true,
+  regexBudgetExceeded: true,
   importInvalidJson: true,
   importTooDeep: true,
   importTooLarge: true,

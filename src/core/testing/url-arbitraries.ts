@@ -1,7 +1,7 @@
 import fc from 'fast-check';
 import { type OriginPattern, parseOriginPattern } from '../url/origin';
 import { normalizeWildcard, type ParsedWildcard } from '../url/parse';
-import { validateRegex } from '../url/regex-safety';
+import { regexSteps, validateRegex } from '../url/regex-safety';
 
 // fast-check generators for URL patterns (T-058): messy user input for the parser, and the canonical
 // stored forms the schema-valid state generators (arbitraries.ts) build on.
@@ -80,7 +80,11 @@ const regexTail = fc.constantFrom(
   ...['\\?q=[^&]*', 'caf\\u00e9', '[^/]{1,20}$'],
 );
 
-/** A regex source in the safe subset (REQ-URL-004): anchored on a host, then a simple tail. */
+/**
+ * A regex source in the safe subset (REQ-URL-004): anchored on a host, then a simple tail. Cheap
+ * enough (≤ 10⁵ worst-case steps) that the regexes of two generated states, merged, fit their
+ * shared budget (src/core/url/regex-budget.ts).
+ */
 export const regexSource: fc.Arbitrary<string> = fc
   .tuple(
     fc.constantFrom('^https://', '^https?://', ''),
@@ -88,7 +92,7 @@ export const regexSource: fc.Arbitrary<string> = fc
     regexTail,
   )
   .map(([start, labels, tail]) => `${start}${labels.join('\\.')}${labels.length ? '/' : ''}${tail}`)
-  .filter((source) => validateRegex(source).ok);
+  .filter((source) => validateRegex(source).ok && regexSteps(source) <= 100_000);
 
 const urlFill = fc.stringMatching(/^[a-zA-Z0-9/?=.&%-]{0,6}$/);
 

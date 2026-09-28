@@ -1,6 +1,7 @@
 import type { DataErrorCode, RegexErrorCode, UrlPatternErrorCode } from '../errors';
 import type { SchemaIssue, SiteGroup, SiteMarkState } from '../model/schema';
 import { assertNever, err, ok, type Result } from '../result';
+import { type RegexBudgetErrorCode, regexBudgetError } from '../url/regex-budget';
 import { parseExportEnvelope } from './export-schema';
 import { normalizeImportedPatterns } from './import-patterns';
 import { fitsUtf8Bytes, isNestedDeeperThan } from './json-text';
@@ -26,7 +27,8 @@ export type ImportError =
   | { readonly code: Code<'importTooLarge' | 'importTooDeep' | 'importInvalidJson'> }
   | { readonly code: Code<'importUnsupportedVersion'>; readonly schemaVersion: number }
   | { readonly code: Code<'importSchemaInvalid'>; readonly issues: readonly SchemaIssue[] }
-  | { readonly code: Code<'importPatternInvalid'>; readonly issues: readonly PatternIssue[] };
+  | { readonly code: Code<'importPatternInvalid'>; readonly issues: readonly PatternIssue[] }
+  | { readonly code: RegexBudgetErrorCode };
 
 /** 1 MB (REQ-DATA-004), measured in UTF-8 bytes. */
 const MAX_BYTES = 1024 * 1024;
@@ -103,7 +105,8 @@ function readFile(json: unknown, steps?: MigrationSteps): ImportResult {
  * Reads an export file's text (REQ-DATA-004): at most 1 MB, nested at most 32 deep, valid JSON, a
  * SiteMark export of this or an older schema version (older ones are migrated), strictly valid
  * (unknown keys and `__proto__` rejected, limits enforced), and every URL pattern accepted by the URL
- * engine (REQ-URL-009). Never throws; an invalid file changes nothing.
+ * engine (REQ-URL-009), all its regexes within their shared budget (REQ-URL-004). Never throws; an
+ * invalid file changes nothing.
  */
 export function parseImport(text: string, steps?: MigrationSteps): ImportResult {
   if (!fitsUtf8Bytes(text, MAX_BYTES)) return err({ code: 'importTooLarge' });
@@ -114,5 +117,7 @@ export function parseImport(text: string, steps?: MigrationSteps): ImportResult 
   if (!data.ok) return data;
   const siteGroups = normalizeImportedPatterns(data.value.siteGroups);
   if (!siteGroups.ok) return err({ code: 'importPatternInvalid', issues: siteGroups.error });
+  const overBudget = regexBudgetError(siteGroups.value);
+  if (overBudget) return err({ code: overBudget });
   return ok({ siteGroups: siteGroups.value, settings: data.value.settings });
 }

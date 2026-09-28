@@ -1,4 +1,5 @@
-import type { ZodType } from 'zod';
+import type { core, ZodType } from 'zod';
+import { type RegexBudgetErrorCode, regexBudgetError } from '../url/regex-budget';
 import { siteGroupSchema } from './group-schema';
 import type { SiteMarkState } from './schema';
 import { reportDuplicateIds } from './unique-ids';
@@ -11,6 +12,17 @@ export const siteGroupsSchema = z
   .array(siteGroupSchema)
   .max(MAX_SITE_GROUPS, `Expected at most ${MAX_SITE_GROUPS} site groups`);
 
+const BUDGET_MESSAGE: Readonly<Record<RegexBudgetErrorCode, string>> = {
+  regexLimitReached: 'Expected at most 500 regex patterns and excludes in all site groups',
+  regexBudgetExceeded: 'Expected regex patterns that together cost at most 10^7 steps per URL',
+};
+
+/** The regexes of all site groups share one worst-case budget (REQ-URL-004). */
+function reportRegexBudget(state: SiteMarkState, ctx: core.$RefinementCtx<SiteMarkState>): void {
+  const code = regexBudgetError(state.siteGroups);
+  if (code) ctx.addIssue({ code: 'custom', path: ['siteGroups'], message: BUDGET_MESSAGE[code] });
+}
+
 export const settingsSchema = z.strictObject({ theme: z.enum(['system', 'light', 'dark']) });
 
 export const stateSchema: ZodType<SiteMarkState> = z
@@ -20,4 +32,5 @@ export const stateSchema: ZodType<SiteMarkState> = z
     siteGroups: siteGroupsSchema,
     settings: settingsSchema,
   })
-  .superRefine(reportDuplicateIds);
+  .superRefine(reportDuplicateIds)
+  .superRefine(reportRegexBudget);

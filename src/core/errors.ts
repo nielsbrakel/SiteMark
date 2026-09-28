@@ -15,13 +15,18 @@ export type UrlPatternErrorCode =
   | 'patternTooBroad'
   | 'urlTooLong';
 
-/** Regex patterns and their origins (REQ-URL-004). */
+/**
+ * Regex patterns and their origins (REQ-URL-004). `regexLimitReached` and `regexBudgetExceeded`: the
+ * regexes of all site groups together, which share one limit (src/core/url/regex-budget.ts).
+ */
 export type RegexErrorCode =
   | 'regexInvalid'
   | 'regexUnsafe'
   | 'regexTooLong'
   | 'regexNeedsOrigin'
-  | 'regexTooManyOrigins';
+  | 'regexTooManyOrigins'
+  | 'regexLimitReached'
+  | 'regexBudgetExceeded';
 
 /**
  * Stored state and imports (REQ-DATA-001, REQ-DATA-004, REQ-DATA-007, REQ-SEC-004). `storageFailed`:
