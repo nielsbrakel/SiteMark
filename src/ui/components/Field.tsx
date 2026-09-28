@@ -49,12 +49,15 @@ export function Field({ label, description, error, className, children }: FieldP
           {description}
         </p>
       )}
-      {error && (
-        <p id={errorId} className={styles.error}>
-          <WarningIcon className={styles.errorIcon} />
-          {error}
-        </p>
-      )}
+      {/* Always in the page, so an error that appears (e.g. on Enter or blur) is announced. */}
+      <div aria-live="polite" className={styles.errorRegion}>
+        {error ? (
+          <p id={errorId} className={styles.error}>
+            <WarningIcon className={styles.errorIcon} />
+            {error}
+          </p>
+        ) : null}
+      </div>
     </div>
   );
 }

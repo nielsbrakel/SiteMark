@@ -43,6 +43,11 @@ textarea.control {
   color: var(--sm-text-muted);
 }
 
+/* Empty, the live region leaves the grid (no gap) but stays in the accessibility tree. */
+.errorRegion:empty {
+  position: absolute;
+}
+
 .error {
   display: flex;
   align-items: flex-start;
