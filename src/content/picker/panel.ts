@@ -59,6 +59,7 @@ function panelShell(deps: PanelDeps): { element: HTMLElement; move: HTMLButtonEl
   const element = el('section', 'sm-theme sm-panel');
   element.dataset.part = 'panel';
   element.setAttribute('role', 'dialog');
+  element.setAttribute('aria-modal', 'true');
   const { theme } = deps.context;
   if (theme !== 'system') element.dataset.theme = theme;
   const header = el('div', 'sm-panel__header');
@@ -84,6 +85,31 @@ function placePanel(element: HTMLElement, move: HTMLElement, deps: PanelDeps, on
   });
 }
 
+const TABBABLE = 'button, input, select, textarea, a[href]';
+
+/**
+ * Keeps Tab inside the panel (REQ-PICK-003, WCAG 2.4.3): past the last control it wraps to the
+ * first and back, so the page behind the glass pane never gets the focus.
+ */
+function trapTab(element: HTMLElement, event: KeyboardEvent): void {
+  const controls = [...element.querySelectorAll<HTMLElement>(TABBABLE)].filter(
+    (control) => control.tabIndex >= 0 && !(control as HTMLButtonElement).disabled,
+  );
+  const first = controls[0];
+  const last = controls.at(-1);
+  const active = (element.getRootNode() as Document | ShadowRoot).activeElement;
+  const target = event.shiftKey
+    ? active === first
+      ? last
+      : undefined
+    : active === last
+      ? first
+      : undefined;
+  if (!target) return;
+  event.preventDefault();
+  target.focus();
+}
+
 /** Input on the panel stays SiteMark's: nothing bubbles on to the page's listeners. Esc cancels. */
 function isolate(element: HTMLElement, trust: TrustDeps, onCancel: () => void): void {
   const stop = (event: Event) => event.stopPropagation();
@@ -92,6 +118,7 @@ function isolate(element: HTMLElement, trust: TrustDeps, onCancel: () => void): 
   }
   element.addEventListener('keydown', (event) => {
     stop(event);
+    if (event.key === 'Tab') trapTab(element, event);
     if (event.key === 'Escape' && trust.isTrusted(event)) onCancel();
   });
 }
