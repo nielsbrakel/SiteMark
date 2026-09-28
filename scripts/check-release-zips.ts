@@ -9,7 +9,19 @@ import { inflateRawSync } from 'node:zlib';
 const END_OF_DIRECTORY = 0x06054b50;
 const CENTRAL_ENTRY = 0x02014b50;
 const PERMISSIONS = ['activeTab', 'scripting', 'storage'];
-const INSTALL_TIME = ['host_permissions', 'content_scripts', 'web_accessible_resources'];
+const INSTALL_TIME = [
+  'host_permissions',
+  'optional_permissions',
+  'content_scripts',
+  'web_accessible_resources',
+];
+/** REQ-PRIV-005: no remote code and no requests from extension pages (tests/build/manifest.test.ts). */
+const CSP = {
+  extension_pages:
+    "script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; connect-src 'none'",
+};
+/** REQ-SEC-003: nobody may connect. Firefox doesn't support the key, so it may be absent. */
+const CLOSED = { ids: [], matches: [] };
 /** The e2e build pre-grants `*.sitemark.test`; a release must never contain it. */
 const E2E_HOST = 'sitemark.test';
 
@@ -60,6 +72,13 @@ function manifestProblems(manifest: Record<string, unknown>): string[] {
   for (const field of INSTALL_TIME) if (field in manifest) problems.push(`declares ${field}`);
   if (JSON.stringify(manifest.optional_host_permissions) !== '["*://*/*"]') {
     problems.push('optional_host_permissions must be ["*://*/*"]');
+  }
+  if (JSON.stringify(manifest.content_security_policy) !== JSON.stringify(CSP)) {
+    problems.push(`content_security_policy must be ${JSON.stringify(CSP)}`);
+  }
+  const connectable = manifest.externally_connectable;
+  if (connectable !== undefined && JSON.stringify(connectable) !== JSON.stringify(CLOSED)) {
+    problems.push(`externally_connectable must be ${JSON.stringify(CLOSED)} or absent`);
   }
   return problems;
 }
