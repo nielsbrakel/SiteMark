@@ -35,4 +35,17 @@ describe('REQ-RND-006 the host goes back on top of what the page opens', () => {
     await settle();
     expect(promote).not.toHaveBeenCalled();
   });
+
+  it('ignores a <details> opening: it never enters the top layer', async () => {
+    const host = aHost();
+    host.show();
+    const promote = vi.spyOn(elementOf(host), 'showPopover');
+    const details = document.createElement('details');
+    details.setAttribute('data-test-popover', '');
+    details.append(document.createElement('summary'));
+    document.body.append(details);
+    details.open = true;
+    await settle();
+    expect(promote).not.toHaveBeenCalled();
+  });
 });
