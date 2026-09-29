@@ -68,6 +68,19 @@ describe('REQ-OPT-006 changes save themselves, debounced, with a subtle Saved st
     });
   });
 
+  it('saves the native color picker once it stops moving', async () => {
+    const background = await openAt(`#/groups/${prod.id}/marks/${tinted.id}`);
+    const picker = byLabel('Pick a color');
+    type(picker, '#111111', '#222222', '#333333');
+    expect(picker).toHaveValue('#333333');
+    expect(background.commands).toEqual([]);
+    await waitFor(() => expect(background.commands).toHaveLength(1), afterPause);
+    expect(background.commands[0]).toMatchObject({
+      type: 'updateMark',
+      mark: { color: '#333333' },
+    });
+  });
+
   it('lets an invalid field block only itself', async () => {
     const background = await openAt(`#/groups/${prod.id}`);
     type(nameField(), 'x'.repeat(41));
