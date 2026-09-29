@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import stylelint from 'stylelint';
 import { describe, expect, it } from 'vitest';
 
 const cssFiles = readdirSync('src', { recursive: true, encoding: 'utf8' })
@@ -70,5 +71,43 @@ describe('REQ-THEME-002 links take the accent text token, not the browser defaul
 
   it('leaves links to the system LinkText color in forced colors', () => {
     expect(forcedColorsBlock(base)).toMatch(/(^|\s)a\s*{[^}]*color:\s*LinkText/);
+  });
+});
+
+describe('REQ-WEBUX-001 the website uses the extension design system and never its own colors', () => {
+  const lintCss = async (code: string) =>
+    (
+      await stylelint.lint({ code, codeFilename: 'website/src/components/Example.module.css' })
+    ).results[0]?.warnings.map((warning) => warning.rule) ?? [];
+
+  it('loads the shared tokens and base styles before its own layout tokens', () => {
+    const entry = readFileSync('website/src/entry-client.ts', 'utf8');
+    expect(entry.indexOf("import '@/styles/base.css';")).toBe(0);
+    expect(readFileSync('src/styles/base.css', 'utf8')).toMatch(
+      /^@import url\('\.\/tokens\.css'\);/,
+    );
+  });
+
+  it('keeps colors and shadows out of the website-only tokens', () => {
+    const declarations = readFileSync('website/src/styles/website-tokens.css', 'utf8').match(
+      /--[\w-]+:[^;]+;/g,
+    );
+    expect(declarations?.length).toBeGreaterThan(0);
+    expect(declarations?.filter((d) => /color|shadow|#[0-9a-f]{3}|rgb|hsl|oklch/i.test(d))).toEqual(
+      [],
+    );
+  });
+
+  it('lets stylelint refuse raw colors in website CSS, and accept tokens', async () => {
+    expect(await lintCss('.a { color: #fff; }\n')).toContain('color-no-hex');
+    expect(await lintCss('.a { background: rgb(0 0 0); }\n')).toContain('function-disallowed-list');
+    expect(await lintCss('.a { color: red; }\n')).toContain('color-named');
+    expect(await lintCss('.a { color: var(--sm-text); }\n')).toEqual([]);
+  });
+
+  it('lints every website stylesheet (package.json)', () => {
+    const scripts = JSON.parse(readFileSync('package.json', 'utf8')).scripts;
+    expect(scripts.stylelint).toContain("'website/src/**/*.css'");
+    expect(scripts['check:ci']).toContain("'website/src/**/*.css'");
   });
 });
