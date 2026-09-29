@@ -2,6 +2,8 @@ export type Outcome = { passed: number; failed: number; unexpected: string[] };
 
 /** A red test may only fail because an expectation failed or a stub isn't implemented yet. */
 const EXPECTED_FAILURE = /^(AssertionError|NotImplementedError)\b|^Error: expect\(/;
+/** Playwright puts an assertion's custom message first: `Error: <message>\n\nexpect(received)…`. */
+const CUSTOM_MESSAGE_EXPECT = /^Error: [^\n]*\n\nexpect\(/;
 
 type VitestReport = {
   testResults?: {
@@ -62,8 +64,11 @@ function collect(suite: PlaywrightSuite, outcome: Outcome): void {
     }
     outcome.failed++;
     const results = spec.tests?.flatMap((test) => test.results ?? []) ?? [];
-    const message = firstLine(results.find((r) => r.error)?.error?.message ?? 'failed');
-    if (!EXPECTED_FAILURE.test(message)) outcome.unexpected.push(message);
+    const full = (results.find((r) => r.error)?.error?.message ?? 'failed').replace(ANSI_COLOR, '');
+    const message = firstLine(full);
+    if (!EXPECTED_FAILURE.test(message) && !CUSTOM_MESSAGE_EXPECT.test(full)) {
+      outcome.unexpected.push(message);
+    }
   }
   for (const child of suite.suites ?? []) collect(child, outcome);
 }
