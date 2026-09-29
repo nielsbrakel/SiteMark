@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { defineConfig } from '@playwright/test';
 
@@ -6,6 +7,8 @@ const chromium = process.env.PW_CHROMIUM_EXECUTABLE;
 // `WEBSITE_E2E_PORT` lets parallel runs (e.g. several worktrees) each preview on their own port.
 const PORT = Number(process.env.WEBSITE_E2E_PORT ?? 4174);
 const repository = path.resolve(import.meta.dirname, '..');
+// Visual baselines are made in, and only compared in, the pinned Playwright image (it has /ms-playwright).
+const inPlaywrightImage = existsSync('/ms-playwright');
 
 // Website e2e (docs/website/plan.md §7): Playwright against `vite preview` of the built website,
 // under the real base path /SiteMark/. `pnpm web:test:e2e` builds the website first.
@@ -16,6 +19,7 @@ export default defineConfig({
   // A test that only passes on retry is a bug, not a pass (TEST-09).
   failOnFlakyTests: ci,
   timeout: 30_000,
+  ...(!inPlaywrightImage && { grepInvert: /@visual/ }),
   // playwright-website.json feeds requirement coverage (`pnpm progress --coverage`).
   reporter: [
     ci ? ['github'] : ['list'],
