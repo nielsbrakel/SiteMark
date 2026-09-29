@@ -96,4 +96,17 @@ describe('REQ-NFR-004 verify-tdd reads how the red and green runs ended', () => 
     };
     expect(playwrightOutcome(report)).toEqual({ passed: 0, failed: 1, unexpected: [] });
   });
+
+  it('reads Playwright assertions that carry a custom message', () => {
+    const message =
+      'Error: a.js, b.js\n\nexpect(received).toBeLessThanOrEqual(expected)\n\nExpected: <= 3\nReceived:    5';
+    const report = {
+      suites: [
+        {
+          specs: [{ ok: false, tests: [{ results: [{ status: 'failed', error: { message } }] }] }],
+        },
+      ],
+    };
+    expect(playwrightOutcome(report)).toEqual({ passed: 0, failed: 1, unexpected: [] });
+  });
 });
