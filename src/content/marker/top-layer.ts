@@ -36,9 +36,19 @@ export function keepOnTop(element: HTMLElement, wantsTop: () => boolean): TopLay
     // SiteMark's own picker belongs above the marks while the user picks an element.
     if (event.target instanceof Element && event.target.localName === PICKER_HOST) return;
     // Our own promotion toggles the host too: only a page closing it needs an answer.
-    if (event.target === element ? newState === 'closed' : newState === 'open') promote();
+    if (event.target === element) {
+      if (newState === 'closed') promote();
+      return;
+    }
+    // <details> fires `toggle` too, but only popovers enter the top layer.
+    if (event.target instanceof Element && event.target.hasAttribute('popover')) {
+      if (newState === 'open') promote();
+    }
   };
-  const dialogs = new MutationObserver(promote);
+  // `open` also belongs to <details>; only a dialog that opens can land above the host.
+  const dialogs = new MutationObserver((records) => {
+    if (records.some(({ target }) => target instanceof HTMLDialogElement && target.open)) promote();
+  });
   dialogs.observe(document, { subtree: true, attributes: true, attributeFilter: ['open'] });
   document.addEventListener('toggle', onToggle, CAPTURE);
   document.addEventListener('fullscreenchange', promote, CAPTURE);
