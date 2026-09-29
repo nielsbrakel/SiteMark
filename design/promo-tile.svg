@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 280" role="img" aria-labelledby="t">
+  <title id="t">SiteMark: never confuse production with test</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f1f3f7"/>
+      <stop offset="1" stop-color="#dde1e8"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff7a6b"/>
+      <stop offset="1" stop-color="#e5483b"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="-3" dy="-3" stdDeviation="4" flood-color="#ffffff" flood-opacity=".85"/>
+      <feDropShadow dx="5" dy="5" stdDeviation="6" flood-color="#a3acbb" flood-opacity=".75"/>
+    </filter>
+    <clipPath id="card">
+      <rect width="440" height="280"/>
+    </clipPath>
+  </defs>
+
+  <!-- Store promo tile (Chrome Web Store small tile, 440 × 280): pnpm icons renders it to PNG. -->
+  <rect width="440" height="280" fill="#e6e9ef"/>
+
+  <!-- Logo -->
+  <g transform="translate(34 40) scale(0.62)">
+    <rect x="10" y="10" width="108" height="108" rx="28" fill="url(#tile)" filter="url(#soft)"/>
+    <path d="M42 24h40a6 6 0 0 1 6 6v74l-26-17-26 17V30a6 6 0 0 1 6-6z" fill="url(#ribbon)"/>
+    <path d="M70 56v34l8.5-8 6 13.5 7-3-6-13.2H97z"
+          fill="#ffffff" stroke="#2b2f38" stroke-width="3.5" stroke-linejoin="round"/>
+  </g>
+  <text x="124" y="97" font-family="ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="46" font-weight="700" letter-spacing="-1">
+    <tspan fill="#2b2f38">Site</tspan><tspan fill="#e5483b">Mark</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <g font-family="ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" fill="#2b2f38">
+    <text x="40" y="170" font-size="27" font-weight="700">Never confuse</text>
+    <text x="40" y="204" font-size="27" font-weight="700">production with test.</text>
+  </g>
+
+  <!-- Bottom banner and corner ribbon, as SiteMark draws them -->
+  <rect x="0" y="240" width="440" height="40" fill="#c93a2e"/>
+  <text x="220" y="266" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="15" font-weight="700" letter-spacing="2" fill="#ffffff">PRODUCTION · BE CAREFUL</text>
+  <g clip-path="url(#card)">
+    <g transform="translate(440 0) rotate(45)">
+      <rect x="-100" y="34" width="200" height="30" fill="#c93a2e"/>
+      <text x="0" y="55" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+            font-size="15" font-weight="800" letter-spacing="2" fill="#ffffff">PROD</text>
+    </g>
+  </g>
+</svg>

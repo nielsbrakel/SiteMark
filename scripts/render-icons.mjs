@@ -1,5 +1,6 @@
 // Renders design/logo/*.svg into the PNG toolbar/store icons in public/icon/, and
-// design/social-preview.svg into the GitHub social preview (design/social-preview.png).
+// design/social-preview.svg into the GitHub social preview (design/social-preview.png), and
+// design/promo-tile.svg into the store promo tile (design/promo-tile.png, T-152).
 // Usage: pnpm icons   (set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium)
 import { mkdir, readFile } from 'node:fs/promises';
 import { chromium } from '@playwright/test';
@@ -28,12 +29,18 @@ for (const { svg, sizes } of targets) {
   }
 }
 
-const preview = await readFile('design/social-preview.svg', 'utf8');
-await page.setViewportSize({ width: 1280, height: 640 });
-await page.setContent(
-  `<style>html,body{margin:0}svg{display:block;width:1280px;height:640px}</style>${preview}`,
-);
-await page.locator('svg').screenshot({ path: 'design/social-preview.png' });
-console.log('design/social-preview.png');
+const pictures = [
+  { name: 'social-preview', width: 1280, height: 640 },
+  { name: 'promo-tile', width: 440, height: 280 },
+];
+for (const { name, width, height } of pictures) {
+  const markup = await readFile(`design/${name}.svg`, 'utf8');
+  await page.setViewportSize({ width, height });
+  await page.setContent(
+    `<style>html,body{margin:0}svg{display:block;width:${width}px;height:${height}px}</style>${markup}`,
+  );
+  await page.locator('svg').screenshot({ path: `design/${name}.png` });
+  console.log(`design/${name}.png`);
+}
 
 await browser.close();
