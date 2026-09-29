@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import type { SiteGroup } from '@/core/model/schema';
 import type { OptionsRoute } from '@/core/options-route';
 import { assertNever } from '@/core/result';
@@ -28,7 +28,8 @@ export function useDocumentTitle(
   group: SiteGroup | undefined,
 ): void {
   const name = pageName(route, group);
-  useEffect(() => {
+  // A layout effect renames the tab in the same commit as the page, never a paint later.
+  useLayoutEffect(() => {
     document.title = t('optionsDocumentTitle', name);
   }, [name]);
 }
