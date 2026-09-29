@@ -20,7 +20,7 @@ const borders = (style: CSSStyleDeclaration) => [
 
 describeViewContract('REQ-MARK-006 frame', createFrameView, frame(), { decorative: true });
 
-describe('REQ-MARK-006 frame view', () => {
+describe('REQ-MARK-006 REQ-RND-014 frame view', () => {
   beforeEach(() => addStyles(markerViewCss()));
   afterEach(resetDocument);
 

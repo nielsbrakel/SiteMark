@@ -9,7 +9,7 @@ import {
 
 afterEach(cleanUp);
 
-describe('REQ-RND-001 a single <sitemark-root> host with a shadow root', () => {
+describe('REQ-RND-001 REQ-SEC-007 a single <sitemark-root> host with a shadow root', () => {
   it('appends <sitemark-root popover="manual"> to <html> with an open shadow root in test builds', () => {
     const host = aHost();
     const element = elementOf(host);
@@ -127,5 +127,23 @@ describe('REQ-SEC-006 the host resists page styles and planted elements', () => 
     host.dispose();
     expect(planted.isConnected).toBe(true);
     expect(planted.textContent).toBe('planted by the page');
+  });
+});
+
+describe('REQ-RND-010 marks never show up on paper', () => {
+  it('hides the host in print media, from its own shadow sheet', () => {
+    const element = elementOf(aHost());
+    const rules = (element.shadowRoot?.adoptedStyleSheets ?? []).flatMap((sheet) => [
+      ...sheet.cssRules,
+    ]);
+    const print = rules.find(
+      (rule): rule is CSSMediaRule =>
+        rule instanceof CSSMediaRule && rule.media.mediaText === 'print',
+    );
+    const host = [...(print?.cssRules ?? [])].find(
+      (rule): rule is CSSStyleRule => rule instanceof CSSStyleRule && rule.selectorText === ':host',
+    );
+    expect(host?.style.getPropertyValue('display')).toBe('none');
+    expect(host?.style.getPropertyPriority('display')).toBe('important');
   });
 });

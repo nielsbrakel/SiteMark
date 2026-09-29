@@ -23,7 +23,7 @@ const setup = () => {
   return { registrar: createScriptRegistrar(logger), logger };
 };
 
-describe('REQ-PRIV-003 the ScriptRegistrar adapter registers the marker dynamically (D-231)', () => {
+describe('REQ-PRIV-003 REQ-ENV-001 the ScriptRegistrar adapter registers the marker dynamically (D-231)', () => {
   it('runs the marker bundle WXT builds for the runtime content script', () => {
     expect(markerFiles()).toEqual(['marker.js']);
   });

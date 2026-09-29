@@ -55,7 +55,7 @@ function files(manifest: object, extra: Record<string, string> = {}): Map<string
   return readZip(zipOf({ 'manifest.json': JSON.stringify(manifest), ...extra }));
 }
 
-describe('REQ-SEC-008 the release checks the manifest in every zip', () => {
+describe('REQ-SEC-008 REQ-PRIV-001 the release checks the manifest in every zip', () => {
   it.each([true, false])('reads deflated and stored entries (deflate: %s)', (deflate) => {
     const zip = readZip(zipOf({ 'a.txt': 'alpha', 'dir/b.js': 'beta'.repeat(100) }, deflate));
     expect([...zip.keys()]).toEqual(['a.txt', 'dir/b.js']);
