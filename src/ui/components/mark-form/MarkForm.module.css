@@ -34,6 +34,12 @@
   gap: var(--sm-space-2);
 }
 
+/* The switches line up in a column, label on the left and track on the right. */
+.effect > .switch {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
 @media (forced-colors: active) {
   .effects,
   .picker {

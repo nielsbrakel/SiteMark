@@ -29,6 +29,8 @@ const rgb = (hex: string) => {
 };
 
 const band = () => marks().querySelector<HTMLElement>('.sm-ribbon__band');
+const flip = (name: string) => fireEvent.click(screen.getByRole('switch', { name }));
+
 describe('REQ-PLAY-002 the extension draws the playground marks in the mock browser', () => {
   it('draws the starting mark: a red PROD ribbon in the top-right corner', () => {
     render(createElement(Playground, { t: en.t }));
@@ -39,30 +41,35 @@ describe('REQ-PLAY-002 the extension draws the playground marks in the mock brow
     expect(marks().querySelectorAll('.sm-view')).toHaveLength(1);
   });
 
-  it('follows the preset, the custom color and the mark text', () => {
+  it('follows the color and the ribbon text', () => {
     render(createElement(Playground, { t: en.t }));
     fireEvent.click(screen.getByRole('radio', { name: 'Blue' }));
     expect(band() && getComputedStyle(band() as HTMLElement).backgroundColor).toBe(
       rgb(presetColor('blue')),
     );
-    fireEvent.click(screen.getByRole('radio', { name: 'Custom' }));
-    fireEvent.change(screen.getByRole('textbox', { name: 'Custom color' }), {
-      target: { value: '#00aa55' },
-    });
-    expect(band() && getComputedStyle(band() as HTMLElement).backgroundColor).toBe(rgb('#00aa55'));
-    fireEvent.change(screen.getByRole('textbox', { name: 'Mark text' }), {
-      target: { value: 'STAGING' },
-    });
+    const text = screen.getByRole('textbox', { name: 'Ribbon text' });
+    fireEvent.change(text, { target: { value: 'STAGING' } });
+    fireEvent.blur(text);
     expect(band()?.textContent).toBe('STAGING');
   });
 
-  it('moves the ribbon to the chosen corner', () => {
+  it('draws every page effect the mark editor offers', () => {
     render(createElement(Playground, { t: en.t }));
-    const before = band()?.getBoundingClientRect();
-    fireEvent.change(screen.getByRole('combobox', { name: 'Ribbon corner' }), {
-      target: { value: 'bottom-left' },
-    });
-    const after = band()?.getBoundingClientRect();
-    expect(before && after && after.left < before.left && after.top > before.top).toBe(true);
+    for (const name of ['Banner', 'Frame', 'Tint', 'Stripes', 'Watermark']) flip(name);
+    for (const selector of ['.sm-ribbon', '.sm-banner', '.sm-frame', '.sm-tint', '.sm-stripes']) {
+      expect(marks().querySelector(selector), selector).not.toBeNull();
+    }
+    expect(marks().querySelector('.sm-watermark__plane')).not.toBeNull();
+  });
+
+  it('outlines the sample button once its mark is on, and drops the page ribbon with its switch', () => {
+    render(createElement(Playground, { t: en.t }));
+    expect(marks().querySelector('.sm-outline')).toBeNull();
+    flip('Also mark the Delete customer button');
+    expect(marks().querySelector('.sm-outline')).not.toBeNull();
+    flip('Frame');
+    fireEvent.click(screen.getAllByRole('switch', { name: 'Ribbon' })[0] as HTMLElement);
+    expect(band()).toBeNull();
+    expect(marks().querySelector('.sm-frame')).not.toBeNull();
   });
 });

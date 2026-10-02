@@ -1,4 +1,6 @@
 import type extensionEn from '../../../public/_locales/en/messages.json';
+// biome-ignore lint/style/noRestrictedImports: vite.config loads this file under Node, which has no `@/` alias.
+import { MARK_FORM_KEYS } from '../../../src/ui/components/mark-form/mark-form-keys.ts';
 
 /**
  * The extension's messages (public/_locales) that the website shows, through the reused marker
@@ -6,32 +8,12 @@ import type extensionEn from '../../../public/_locales/en/messages.json';
  * (website/scripts/slim-catalogs.ts, REQ-WEB-007); a key missing here is a type error at its use.
  */
 export const SHARED_MESSAGE_KEYS = [
+  ...MARK_FORM_KEYS,
   'markerCollapseBanner',
   'markerExpandBanner',
-  'effectRibbon',
-  'effectBanner',
-  'effectFrame',
-  'effectTint',
-  'effectStripes',
-  'effectWatermark',
-  'effectTitlePrefix',
-  'effectOutline',
-  'optionsColor',
-  'colorRed',
-  'colorAmber',
-  'colorBlue',
-  'colorSlate',
-  'optionsCustomColor',
-  'optionsHexInvalid',
-  'optionsRibbonCorner',
-  'cornerTopLeft',
-  'cornerTopRight',
-  'cornerBottomLeft',
-  'cornerBottomRight',
-  'optionsBannerEdge',
-  'edgeTop',
-  'edgeBottom',
-  'optionsTextRequired',
+  'themeSystem',
+  'themeLight',
+  'themeDark',
 ] as const satisfies readonly (keyof typeof extensionEn)[];
 
 export type SharedMessageKey = (typeof SHARED_MESSAGE_KEYS)[number];

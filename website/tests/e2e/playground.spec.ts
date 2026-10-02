@@ -17,7 +17,7 @@ test.describe('REQ-PLAY-003 without JavaScript the playground shows an image of 
       const source = await image.evaluate((img: HTMLImageElement) => img.currentSrc);
       expect(new URL(source).pathname).toBe(`/SiteMark/playground/preview-${colorScheme}-nl.webp`);
       // The controls can't work without JavaScript, so they aren't shown.
-      await expect(page.getByRole('group', { name: 'Kleur' })).toBeHidden();
+      await expect(page.getByRole('radiogroup', { name: 'Kleur' })).toBeHidden();
       await context.close();
     });
   }
@@ -26,7 +26,7 @@ test.describe('REQ-PLAY-003 without JavaScript the playground shows an image of 
     tag: '@REQ-PLAY-003',
   }, async ({ page }) => {
     await page.goto('/SiteMark/playground/');
-    await expect(page.getByRole('group', { name: 'Color' })).toBeVisible();
+    await expect(page.getByRole('radiogroup', { name: 'Color', exact: true })).toBeVisible();
     await expect(page.getByRole('figure', { name: 'Preview of a marked page' })).toBeVisible();
     await expect(page.getByText('The playground needs JavaScript.')).toBeHidden();
     await expect(page.getByRole('img', { name: /^The playground's preview/ })).toBeHidden();

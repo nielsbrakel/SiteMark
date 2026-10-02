@@ -1,23 +1,26 @@
-import { useReducer } from 'react';
+import { useState } from 'react';
+import type { Hex } from '@/core/model/schema';
+import { ColorSwatches } from '@/ui/components/ColorSwatches';
+import { presetOptions } from '@/ui/components/mark-form/preset-options';
 import type { IslandProps } from '../islands/island-props';
 import styles from './Playground.module.css';
 import { PlaygroundPreview } from './PlaygroundPreview';
-import { PresetPicker } from './PresetPicker';
-import { initialPlaygroundState, playgroundReducer } from './playground-state';
+import { initialPlaygroundState } from './playground-state';
 
 /**
- * The home hero (REQ-PLAY-004): the playground's preview with only the four presets, built from
- * the same state, controls and preview as the playground page.
+ * The home hero (REQ-PLAY-004): the playground's preview with only the four color presets, built
+ * from the same state and preview as the playground page.
  */
 export function HeroPlayground({ t }: IslandProps) {
-  const [state, dispatch] = useReducer(playgroundReducer, undefined, initialPlaygroundState);
+  const [state, setState] = useState(initialPlaygroundState);
   return (
     <div className={styles.hero}>
       <PlaygroundPreview t={t} state={state} />
-      <PresetPicker
-        t={t}
-        value={state.preset}
-        onChange={(preset) => dispatch({ type: 'preset', preset })}
+      <ColorSwatches
+        label={t('optionsColor')}
+        options={presetOptions(t)}
+        value={state.color}
+        onChange={(color: Hex) => setState({ ...state, color })}
       />
     </div>
   );

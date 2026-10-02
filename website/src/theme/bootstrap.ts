@@ -1,5 +1,5 @@
 // The only website file that may use localStorage (D-250, REQ-WEB-004): Biome allows it here alone.
-import type { ThemeChoice } from './theme-choice';
+import type { Theme } from '@/core/model/schema';
 
 /** The website's only web storage key (REQ-WEB-004). */
 const THEME_KEY = 'sitemark-website:theme';
@@ -23,10 +23,10 @@ export function bootstrapScript(): string {
   return `(${themeBootstrap.toString()})(document.documentElement)`;
 }
 
-/** Remembers the toggle's choice under the website's only storage key; Auto forgets it. */
-export function saveThemeChoice(choice: ThemeChoice): void {
+/** Remembers the toggle's choice under the website's only storage key; System forgets it. */
+export function saveThemeChoice(choice: Theme): void {
   try {
-    if (choice === 'auto') localStorage.removeItem(THEME_KEY);
+    if (choice === 'system') localStorage.removeItem(THEME_KEY);
     else localStorage.setItem(THEME_KEY, choice);
   } catch {
     // Blocked storage: the choice lasts until the visitor leaves the page.

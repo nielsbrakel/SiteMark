@@ -41,7 +41,7 @@ website/
 │  ├─ components/        Shell · Header · Footer · LanguageSwitch · InstallButtons · Prose · Hero · …
 │  ├─ pages/             registry.ts (page ID → component) · HomePage · PrivacyPage · SupportPage · HelpPage · …
 │  ├─ document/          Document.tsx (the whole HTML document, rendered by React: no HTML template)
-│  ├─ playground/        playground-state.ts (pure reducer) · Playground.tsx · PresetPicker.tsx (W2)
+│  ├─ playground/        playground-state.ts (pure reducer) · Playground.tsx (shared mark form)
 │  ├─ config/stores.ts   store listing URLs (or null = coming soon)
 │  ├─ styles/            website-tokens.css (layout + type sizes; no colors) · prose.css
 │  ├─ entry-server.tsx   renderPages(assets) → one { file, html } per published route × locale

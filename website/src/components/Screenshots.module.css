@@ -17,9 +17,9 @@
   display: block;
   inline-size: 100%;
   block-size: auto;
-  border: 1px solid var(--sm-border);
+  border: 1px solid transparent;
   border-radius: var(--sm-radius-md);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-raised);
 }
 
 .caption {

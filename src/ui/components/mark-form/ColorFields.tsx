@@ -1,18 +1,11 @@
 import { type ReactNode, useState } from 'react';
-import { colorPresets, type PresetName } from '@/core/model/presets';
 import type { Hex } from '@/core/model/schema';
 import { ColorSwatches } from '../ColorSwatches';
 import { HexField } from './HexField';
 import styles from './MarkForm.module.css';
-import { type MarkFormKey, useT } from './translate';
+import { presetOptions } from './preset-options';
+import { useT } from './translate';
 import { useDebounced } from './use-debounced';
-
-const PRESET_NAMES: Readonly<Record<PresetName, MarkFormKey>> = {
-  red: 'colorRed',
-  amber: 'colorAmber',
-  blue: 'colorBlue',
-  slate: 'colorSlate',
-};
 
 export type ColorFieldsProps = {
   readonly color: Hex;
@@ -29,15 +22,11 @@ export function ColorFields({ color, onSave }: ColorFieldsProps): ReactNode {
     if (picked !== undefined && picked !== color) void onSave(picked);
   });
   if (picked !== undefined && picked === color) setPicked(undefined);
-  const options = colorPresets().map((preset) => ({
-    value: preset.color,
-    label: t(PRESET_NAMES[preset.name]),
-  }));
   return (
     <div className={styles.colors}>
       <ColorSwatches
         label={t('optionsColor')}
-        options={options}
+        options={presetOptions(t)}
         value={color}
         onChange={(preset) => void onSave(preset)}
       />

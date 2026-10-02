@@ -37,7 +37,7 @@ The type scale continues the extension scale (12/14/16/20/28) and only adds the 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │ [skip link]                                                                  │
-│ ▣ SiteMark      Help  Playground  Support  Privacy        [EN|NL] [◐ auto]   │  header: flat surface, bottom --sm-border
+│ ▣ SiteMark      Help  Playground  Support  Privacy        [EN|NL] [◐ ☀ ☾]   │  header: flat surface, bottom --sm-border
 ├──────────────────────────────────────────────────────────────────────────────┤
 │  Never confuse production with test again.          ┌─ mock browser ───────┐ │
 │  One sentence value proposition.                     │ ◤PROD      prod.… ✕ │ │  hero: text left, preview right
@@ -64,17 +64,17 @@ The type scale continues the extension scale (12/14/16/20/28) and only adds the 
 Reused from `src/ui/components` where one exists (button, segmented control, swatch, card, mock-browser preview).
 Website-only components live in `website/src/components` with CSS Modules.
 
-| Component        | Notes                                                                                                                             |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `Header`         | The wordmark (light/dark SVG variant chosen by CSS), nav links with `aria-current="page"`, `LanguageSwitch`, `ThemeToggle`        |
-| `LanguageSwitch` | Two links (`EN` / `NL`) with `hreflang` and `lang`. The current one is `aria-current` and uses `--sm-pressed`                     |
-| `ThemeToggle`    | The extension's segmented control: Auto / Light / Dark. Without JS it's hidden (`[data-js]` on `<html>`), and the OS decides      |
-| `InstallButtons` | Primary accent buttons per store with an inline SVG store icon + text. Coming-soon stores render as disabled buttons with a label |
-| `Prose`          | Markdown output: heading anchors, link underline, code in `--sm-font-mono` inside `--sm-inset` wells, tables with `--sm-border`   |
-| `Callout`        | A note or warning box (for example "Security issue? Don't open a public issue"), with an icon + text, never color alone           |
-| `FeatureCard`    | A raised card with an inline SVG icon, a title and one sentence                                                                   |
-| `MockBrowser`    | From `src/ui/components` (T-135): tab strip, address bar, content area, marker-view host                                          |
-| `Footer`         | Muted links; the MIT license and the "made in the Netherlands" controller line from the privacy page                              |
+| Component        | Notes                                                                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `Header`         | The wordmark (light/dark SVG variant chosen by CSS), nav links with `aria-current="page"`, `LanguageSwitch`, `ThemeToggle`               |
+| `LanguageSwitch` | Two links (`EN` / `NL`) with `hreflang` and `lang`. The current one is `aria-current` and uses `--sm-pressed`                            |
+| `ThemeToggle`    | The extension's icon-only segmented control: system / light / dark. Without JS it's hidden (`[data-js]` on `<html>`), and the OS decides |
+| `InstallButtons` | Primary accent buttons per store with an inline SVG store icon + text. Coming-soon stores render as disabled buttons with a label        |
+| `Prose`          | Markdown output: heading anchors, link underline, code in `--sm-font-mono` inside `--sm-inset` wells, tables with `--sm-border`          |
+| `Callout`        | A note or warning box (for example "Security issue? Don't open a public issue"), with an icon + text, never color alone                  |
+| `FeatureCard`    | A raised card with an inline SVG icon, a title and one sentence                                                                          |
+| `MockBrowser`    | From `src/ui/components` (T-135): tab strip, address bar, content area, marker-view host                                                 |
+| `Footer`         | Muted links; the MIT license and the "made in the Netherlands" controller line from the privacy page                                     |
 
 Every component defines the states matrix from the extension design (§4a): default, hover, focus-visible, active,
 disabled, forced colors, light and dark.

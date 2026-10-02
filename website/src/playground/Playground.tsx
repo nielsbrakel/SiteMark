@@ -1,85 +1,66 @@
 // biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
-import { useReducer } from 'react';
-import { Field } from '@/ui/components/Field';
+import { useState } from 'react';
+import { ColorFields } from '@/ui/components/mark-form/ColorFields';
+import { EffectsFieldset } from '@/ui/components/mark-form/EffectsFieldset';
+import { TextColorField } from '@/ui/components/mark-form/TextColorField';
+import { TranslateContext } from '@/ui/components/mark-form/translate';
+import { Switch } from '@/ui/components/Switch';
 import type { IslandProps } from '../islands/island-props';
-import { PlacementFields } from './PlacementFields';
 import styles from './Playground.module.css';
 import { PlaygroundPreview } from './PlaygroundPreview';
-import { PresetPicker } from './PresetPicker';
 import {
+  DEFAULT_ELEMENT_EFFECTS,
   initialPlaygroundState,
-  MARK_TEXT_MAX,
-  type PlaygroundAction,
+  PLAYGROUND_NAME,
   type PlaygroundState,
-  playgroundReducer,
 } from './playground-state';
 
-type ControlsProps = IslandProps & {
-  readonly state: PlaygroundState;
-  readonly dispatch: (action: PlaygroundAction) => void;
-};
-
-/** The custom color, which only shows while Custom is chosen (REQ-PLAY-006). */
-function CustomColorField({ t, state, dispatch }: ControlsProps) {
-  if (state.preset !== 'custom') return null;
-  const { hex } = state.errors;
-  return (
-    <Field label={t('optionsCustomColor')} {...(hex && { error: t(hex) })}>
-      {(control) => (
-        <input
-          {...control}
-          value={state.hexInput}
-          spellCheck={false}
-          onChange={(event) => dispatch({ type: 'hex', text: event.target.value })}
-        />
-      )}
-    </Field>
-  );
-}
-
-/** The mark text, with the options page's error message (REQ-PLAY-006). */
-function TextField({ t, state, dispatch }: ControlsProps) {
-  const { text } = state.errors;
-  return (
-    <Field label={t('websitePlaygroundText')} {...(text && { error: t(text) })}>
-      {(control) => (
-        <input
-          {...control}
-          value={state.textInput}
-          maxLength={MARK_TEXT_MAX}
-          onChange={(event) => dispatch({ type: 'text', text: event.target.value })}
-        />
-      )}
-    </Field>
-  );
-}
-
 /**
- * The playground (REQ-PLAY-001): labeled controls for one ribbon next to the mock browser, where
- * the extension's own code draws it. Nothing is stored (REQ-PLAY-002).
+ * The playground (REQ-PLAY-001): the options page's own mark form, for a page mark and an optional
+ * mark on the sample button, next to the mock browser where the extension's own code draws the
+ * marks. Nothing is stored (REQ-PLAY-002).
  */
 export function Playground({ t }: IslandProps) {
-  const [state, dispatch] = useReducer(playgroundReducer, undefined, initialPlaygroundState);
+  const [state, setState] = useState(initialPlaygroundState);
+  const change = async (next: Partial<PlaygroundState>): Promise<undefined> => {
+    setState((current) => ({ ...current, ...next }));
+  };
   return (
-    <div className={styles.playground}>
-      <div className={styles.controls}>
-        <PresetPicker
-          t={t}
-          value={state.preset}
-          withCustom
-          onChange={(preset) => dispatch({ type: 'preset', preset })}
-        />
-        <CustomColorField t={t} state={state} dispatch={dispatch} />
-        <TextField t={t} state={state} dispatch={dispatch} />
-        <PlacementFields
-          t={t}
-          corner={state.corner}
-          onCorner={(corner) => dispatch({ type: 'corner', corner })}
-        />
+    <TranslateContext value={t}>
+      <div className={styles.playground}>
+        <div className={styles.controls}>
+          <ColorFields color={state.color} onSave={async (color) => change({ color })} />
+          <TextColorField
+            color={state.color}
+            textColor={state.textColor}
+            onSave={async (textColor) => change({ textColor })}
+          />
+          <EffectsFieldset
+            target="page"
+            effects={state.pageEffects}
+            groupName={PLAYGROUND_NAME}
+            onSave={(pageEffects) => void change({ pageEffects })}
+          />
+          <Switch
+            label={t('websitePlaygroundElementMark')}
+            checked={Boolean(state.elementEffects)}
+            onChange={(on) =>
+              void change({ elementEffects: on ? DEFAULT_ELEMENT_EFFECTS : undefined })
+            }
+          />
+          {state.elementEffects && (
+            <EffectsFieldset
+              target="element"
+              effects={state.elementEffects}
+              groupName={PLAYGROUND_NAME}
+              onSave={(elementEffects) => void change({ elementEffects })}
+            />
+          )}
+        </div>
+        <div className={styles.preview}>
+          <PlaygroundPreview t={t} state={state} />
+        </div>
       </div>
-      <div className={styles.preview}>
-        <PlaygroundPreview t={t} state={state} />
-      </div>
-    </div>
+    </TranslateContext>
   );
 }

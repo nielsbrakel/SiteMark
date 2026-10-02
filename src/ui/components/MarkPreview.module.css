@@ -1,17 +1,17 @@
 .preview {
   margin: 0;
-  border: 1px solid var(--sm-control-border);
+  border: 1px solid transparent;
   border-radius: var(--sm-radius-md);
   overflow: hidden;
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-raised);
 }
 
 .chrome {
   display: grid;
   gap: var(--sm-space-1);
   padding: var(--sm-space-2);
-  border-bottom: 1px solid var(--sm-control-border);
+  border-bottom: 1px solid var(--sm-border);
   background: var(--sm-bg);
   font-size: var(--sm-text-xs);
 }

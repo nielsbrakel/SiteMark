@@ -89,19 +89,7 @@
   },
   "websiteThemeLabel": {
     "message": "Thema",
-    "description": "Accessible name of the theme toggle in the header (Auto / Light / Dark)."
-  },
-  "websiteThemeAuto": {
-    "message": "Automatisch",
-    "description": "Theme toggle option: follow the operating system's light or dark setting. Keep it short."
-  },
-  "websiteThemeLight": {
-    "message": "Licht",
-    "description": "Theme toggle option: always use the light theme. Keep it short."
-  },
-  "websiteThemeDark": {
-    "message": "Donker",
-    "description": "Theme toggle option: always use the dark theme. Keep it short."
+    "description": "Accessible name of the theme switch in the header (system / light / dark)."
   },
   "websiteHomeDescription": {
     "message": "SiteMark markeert productie- en andere websites met linten, banners en kaders, zodat je omgevingen nooit verwart. Gratis, privé en open source.",
@@ -377,14 +365,6 @@
     "message": "Probeer een markering voordat je SiteMark installeert. Het voorbeeld wordt getekend door de code van de extensie zelf, en niets van wat je hier doet wordt bewaard.",
     "description": "Introduction under the playground heading."
   },
-  "websitePlaygroundCustom": {
-    "message": "Eigen",
-    "description": "Playground: the color choice next to the four presets that uses the typed custom color."
-  },
-  "websitePlaygroundText": {
-    "message": "Tekst van de markering",
-    "description": "Playground: label of the text field whose text the ribbon, banner, watermark and title prefix show."
-  },
   "websitePlaygroundPreview": {
     "message": "Voorbeeld van een gemarkeerde pagina",
     "description": "Playground: accessible name of the mock browser window that shows the marks."
@@ -406,7 +386,7 @@
     "description": "Home hero: link under the small playground to the full playground page."
   },
   "websitePlaygroundSummaryPage": {
-    "message": "De pagina toont $EFFECTS$ in $COLOR$ met de tekst ‘$TEXT$’.",
+    "message": "De pagina toont $EFFECTS$ in $COLOR$.",
     "description": "Playground: read out by screen readers when the preview changes. EFFECTS is a list of lowercase effect names, COLOR a lowercase color name or a hex color.",
     "placeholders": {
       "effects": {
@@ -416,10 +396,6 @@
       "color": {
         "content": "$2",
         "example": "red"
-      },
-      "text": {
-        "content": "$3",
-        "example": "PROD"
       }
     }
   },
@@ -432,10 +408,6 @@
         "example": "outline, stripes"
       }
     }
-  },
-  "websitePlaygroundSummaryNone": {
-    "message": "Het voorbeeld toont geen markeringen.",
-    "description": "Playground: read out by screen readers when every effect is off."
   },
   "websiteHelpTitle": {
     "message": "Help: zo gebruik je SiteMark",
@@ -490,5 +462,9 @@
   "websiteChangelogEmpty": {
     "message": "Nog geen releases. De eerste komt eraan.",
     "description": "Changelog page: shown while CHANGELOG.md has no release yet."
+  },
+  "websitePlaygroundElementMark": {
+    "message": "Markeer ook de knop Klant verwijderen",
+    "description": "Playground: switch that adds a mark to the sample page's Delete customer button, with its own effects below it."
   }
 }

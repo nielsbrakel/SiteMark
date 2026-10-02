@@ -89,19 +89,7 @@
   },
   "websiteThemeLabel": {
     "message": "Theme",
-    "description": "Accessible name of the theme toggle in the header (Auto / Light / Dark)."
-  },
-  "websiteThemeAuto": {
-    "message": "Auto",
-    "description": "Theme toggle option: follow the operating system's light or dark setting. Keep it short."
-  },
-  "websiteThemeLight": {
-    "message": "Light",
-    "description": "Theme toggle option: always use the light theme. Keep it short."
-  },
-  "websiteThemeDark": {
-    "message": "Dark",
-    "description": "Theme toggle option: always use the dark theme. Keep it short."
+    "description": "Accessible name of the theme switch in the header (system / light / dark)."
   },
   "websiteHomeDescription": {
     "message": "SiteMark marks production and other websites with ribbons, banners and outlines, so you never confuse environments. Free, private and open source.",
@@ -377,14 +365,6 @@
     "message": "Try a mark before you install SiteMark. The preview is drawn by the extension's own code, and nothing you do here is saved.",
     "description": "Introduction under the playground heading."
   },
-  "websitePlaygroundCustom": {
-    "message": "Custom",
-    "description": "Playground: the color choice next to the four presets that uses the typed custom color."
-  },
-  "websitePlaygroundText": {
-    "message": "Mark text",
-    "description": "Playground: label of the text field whose text the ribbon, banner, watermark and title prefix show."
-  },
   "websitePlaygroundPreview": {
     "message": "Preview of a marked page",
     "description": "Playground: accessible name of the mock browser window that shows the marks."
@@ -406,7 +386,7 @@
     "description": "Home hero: link under the small playground to the full playground page."
   },
   "websitePlaygroundSummaryPage": {
-    "message": "The page shows $EFFECTS$ in $COLOR$ with the text “$TEXT$”.",
+    "message": "The page shows $EFFECTS$ in $COLOR$.",
     "description": "Playground: read out by screen readers when the preview changes. EFFECTS is a list of lowercase effect names, COLOR a lowercase color name or a hex color.",
     "placeholders": {
       "effects": {
@@ -416,10 +396,6 @@
       "color": {
         "content": "$2",
         "example": "red"
-      },
-      "text": {
-        "content": "$3",
-        "example": "PROD"
       }
     }
   },
@@ -432,10 +408,6 @@
         "example": "outline, stripes"
       }
     }
-  },
-  "websitePlaygroundSummaryNone": {
-    "message": "The preview shows no marks.",
-    "description": "Playground: read out by screen readers when every effect is off."
   },
   "websiteHelpTitle": {
     "message": "Help: how to use SiteMark",
@@ -490,5 +462,9 @@
   "websiteChangelogEmpty": {
     "message": "No releases yet. The first one is on its way.",
     "description": "Changelog page: shown while CHANGELOG.md has no release yet."
+  },
+  "websitePlaygroundElementMark": {
+    "message": "Also mark the Delete customer button",
+    "description": "Playground: switch that adds a mark to the sample page's Delete customer button, with its own effects below it."
   }
 }

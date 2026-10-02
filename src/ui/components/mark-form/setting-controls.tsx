@@ -2,7 +2,8 @@ import { type ReactNode, useState } from 'react';
 import type { ElementEffects, PageEffects } from '@/core/model/schema';
 import { Segmented } from '../Segmented';
 import { Slider } from '../Slider';
-import { type MarkFormKey, useT } from './translate';
+import type { MarkFormKey } from './mark-form-keys';
+import { useT } from './translate';
 import { useDebounced } from './use-debounced';
 
 // Small building blocks of the effect settings (REQ-OPT-003): a translated segmented choice and a

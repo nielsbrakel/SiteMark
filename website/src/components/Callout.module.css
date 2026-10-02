@@ -4,14 +4,19 @@
   gap: var(--sm-space-3);
   margin-block: var(--sm-space-5);
   padding: var(--sm-space-4);
-  border: 1px solid var(--sm-border);
-  border-inline-start: 4px solid var(--sm-warning);
-  border-radius: var(--sm-radius-md);
+  border: 1px solid transparent;
+  border-radius: var(--sm-radius-lg);
   background: var(--sm-surface);
+  box-shadow: var(--sm-raised);
 }
 
+/* The icon sits in a sunken round badge. */
 .icon {
   flex: none;
+  box-sizing: content-box;
+  padding: var(--sm-space-2);
+  border-radius: var(--sm-radius-pill);
+  box-shadow: var(--sm-inset);
   color: var(--sm-warning);
 }
 
@@ -25,8 +30,9 @@
 }
 
 @media (forced-colors: active) {
-  .callout {
-    border-color: CanvasText;
+  .callout,
+  .icon {
+    border: 1px solid CanvasText;
   }
 
   .icon {
