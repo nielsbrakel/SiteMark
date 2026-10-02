@@ -1,6 +1,6 @@
 import type { ElementEffects, PageEffects, Ribbon } from '@/core/model/schema';
 import { assertNever } from '@/core/result';
-import type { MarkFormKey } from './translate';
+import type { MarkFormKey } from './mark-form-keys';
 
 // The effects each target can have, in editor order, and what a newly turned-on effect starts as
 // (REQ-MARK-014: page-only and element-only effects are kept apart by type).

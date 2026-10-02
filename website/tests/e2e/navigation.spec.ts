@@ -81,20 +81,20 @@ test.describe('REQ-WEBUX-004 the language switch keeps the page', () => {
 });
 
 test.describe('REQ-WEBUX-002 the theme choice persists across pages and reloads', () => {
-  test('remembers Dark, and Auto follows the OS again', {
+  test('remembers Dark, and System follows the OS again', {
     tag: ['@REQ-WEBUX-002', '@REQ-WEB-004'],
   }, async ({ page, context }) => {
     await page.emulateMedia({ colorScheme: 'light' });
     await page.goto('/SiteMark/');
     expect(await htmlTheme(page)).toBeUndefined();
-    await page.getByRole('group', { name: 'Theme' }).getByRole('button', { name: 'Dark' }).click();
+    await page
+      .getByRole('radiogroup', { name: 'Theme' })
+      .getByRole('radio', { name: 'Dark' })
+      .click();
     expect(await htmlTheme(page)).toBe('dark');
     await page.reload();
     expect(await htmlTheme(page)).toBe('dark');
-    await expect(page.getByRole('button', { name: 'Dark' })).toHaveAttribute(
-      'aria-pressed',
-      'true',
-    );
+    await expect(page.getByRole('radio', { name: 'Dark' })).toHaveAttribute('aria-checked', 'true');
     await page.goto('/SiteMark/nl/privacy/');
     expect(await htmlTheme(page)).toBe('dark');
     // Only the theme key in web storage, and no cookies (REQ-WEB-004).
@@ -102,8 +102,8 @@ test.describe('REQ-WEBUX-002 the theme choice persists across pages and reloads'
     expect(keys).toEqual(['sitemark-website:theme']);
     expect(await context.cookies()).toEqual([]);
     await page
-      .getByRole('group', { name: 'Thema' })
-      .getByRole('button', { name: 'Automatisch' })
+      .getByRole('radiogroup', { name: 'Thema' })
+      .getByRole('radio', { name: 'Systeem' })
       .click();
     await page.reload();
     expect(await htmlTheme(page)).toBeUndefined();

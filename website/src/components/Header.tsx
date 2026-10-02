@@ -1,3 +1,4 @@
+import { classNames } from '@/ui/components/class-names';
 import wordmarkLight from '../../../design/logo/sitemark-wordmark.svg';
 import wordmarkDark from '../../../design/logo/sitemark-wordmark-dark.svg';
 import { repositoryUrl } from '../config/repository';
@@ -7,14 +8,15 @@ import type { PageProps } from '../pages/page-props';
 import type { Route } from '../routes/routes';
 import { routePath } from '../routes/urls';
 import { ExternalLink } from './ExternalLink';
+import { GitHubIcon } from './GitHubIcon';
 import styles from './Header.module.css';
 import { LanguageSwitch } from './LanguageSwitch';
 import { pageLabel } from './page-labels';
 
 type HeaderProps = { route: Route; locale: Locale; routes: readonly Route[]; t: PageProps['t'] };
 
-// The wordmark SVG is 520 × 128; width and height avoid layout shift (REQ-WEB-007).
-const WORDMARK = { width: 130, height: 32 } as const;
+// The wordmark SVG is 490 × 128; width and height avoid layout shift (REQ-WEB-007).
+const WORDMARK = { width: 123, height: 32 } as const;
 const HOME = { slug: '' };
 
 const current = (isCurrent: boolean) => (isCurrent ? 'page' : undefined);
@@ -52,7 +54,7 @@ function Navigation({ route, locale, routes, t }: HeaderProps) {
         {items.map((item) => (
           <li key={item.page}>
             <a
-              className={styles.link}
+              className={classNames('sm-nav-link', styles.link)}
               href={routePath(item, locale)}
               aria-current={current(item.page === route.page || isHelpTopicOf(item, route))}
             >
@@ -65,7 +67,7 @@ function Navigation({ route, locale, routes, t }: HeaderProps) {
   );
 }
 
-/** The wordmark, the navigation, the language switch, the theme toggle and the GitHub link. */
+/** The wordmark, the navigation, the language switch, the theme toggle and the GitHub icon. */
 export function Header(props: HeaderProps) {
   return (
     <header className={styles.header}>
@@ -76,7 +78,8 @@ export function Header(props: HeaderProps) {
           <LanguageSwitch route={props.route} locale={props.locale} t={props.t} />
           <Island id="themeToggle" t={props.t} />
           <ExternalLink className={styles.github} href={repositoryUrl()}>
-            {props.t('websiteNavGitHub')}
+            <GitHubIcon />
+            <span className="sm-visually-hidden">{props.t('websiteNavGitHub')}</span>
           </ExternalLink>
         </div>
       </div>

@@ -19,7 +19,7 @@ export type SegmentedProps<V extends string> = {
   readonly disabled?: boolean;
   /** Keeps `label` as the group's accessible name but hides it visually. */
   readonly labelHidden?: boolean;
-  readonly className?: string;
+  readonly className?: string | undefined;
 };
 
 /**

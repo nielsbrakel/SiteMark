@@ -51,29 +51,30 @@ test.describe('REQ-WEB-003 the website makes no third-party requests', () => {
 });
 
 test.describe('REQ-PLAY-005 the playground works by keyboard and without motion', () => {
-  test('changes the preset, the ribbon corner and the text with the keyboard', {
+  test('changes the color, the ribbon corner and the text with the keyboard', {
     tag: '@REQ-PLAY-005',
   }, async ({ page }) => {
     await page.goto('/SiteMark/playground/');
-    const status = page.getByRole('status');
+    const status = page.getByText(/^The page shows/);
     await expect(status).toContainText('in red');
     await page.getByRole('radio', { name: 'Red' }).focus();
     await page.keyboard.press('ArrowRight');
     await expect(page.getByRole('radio', { name: 'Amber' })).toBeChecked();
     await expect(page.getByRole('radio', { name: 'Amber' })).toBeFocused();
     await expect(status).toContainText('in amber');
-    await page.getByRole('combobox', { name: 'Ribbon corner' }).selectOption('bottom-left');
-    await expect(page.getByRole('combobox', { name: 'Ribbon corner' })).toHaveValue('bottom-left');
-    await page.getByRole('textbox', { name: 'Mark text' }).focus();
+    await page.getByRole('radio', { name: 'Top right' }).focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByRole('radio', { name: 'Bottom left' })).toBeChecked();
+    await page.getByRole('textbox', { name: 'Ribbon text' }).focus();
     await page.keyboard.press('ControlOrMeta+A');
     await page.keyboard.type('LIVE');
-    await expect(status).toContainText('“LIVE”');
+    await expect(page.getByRole('textbox', { name: 'Ribbon text' })).toHaveValue('LIVE');
   });
 
   test('moves nothing under prefers-reduced-motion', { tag: '@REQ-PLAY-005' }, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/SiteMark/playground/');
-    await expect(page.getByRole('status')).toContainText('in red');
+    await expect(page.getByText(/^The page shows/)).toContainText('in red');
     const moving = await page
       .locator('[data-island="playground"] *')
       .evaluateAll(

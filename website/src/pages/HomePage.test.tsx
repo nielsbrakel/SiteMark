@@ -170,7 +170,7 @@ describe('REQ-PLAY-004 the home hero is a small playground with the four presets
       const island = hero()?.querySelector<HTMLElement>('[data-island="heroPlayground"]');
       expect(island).toBeTruthy();
       const radios = within(island ?? document.body).queryAllByRole('radio');
-      expect(radios.map((radio) => radio.closest('label')?.textContent?.trim())).toEqual(names);
+      expect(radios.map((radio) => radio.getAttribute('aria-label'))).toEqual(names);
       expect(within(island ?? document.body).queryAllByRole('checkbox')).toEqual([]);
       expect(within(island ?? document.body).queryAllByRole('textbox')).toEqual([]);
       expect(island?.querySelector('figure')).not.toBeNull();
@@ -183,9 +183,9 @@ describe('REQ-PLAY-004 the home hero is a small playground with the four presets
 
   it('switches presets from the hero', () => {
     render(<HeroPlayground t={en.t} />);
-    expect(screen.getByRole('radio', { name: 'Red' })).toHaveProperty('checked', true);
+    expect(screen.getByRole('radio', { name: 'Red' }).getAttribute('aria-checked')).toBe('true');
     fireEvent.click(screen.getByRole('radio', { name: 'Slate' }));
-    expect(screen.getByRole('radio', { name: 'Slate' })).toHaveProperty('checked', true);
-    expect(screen.getByRole('radio', { name: 'Red' })).toHaveProperty('checked', false);
+    expect(screen.getByRole('radio', { name: 'Slate' }).getAttribute('aria-checked')).toBe('true');
+    expect(screen.getByRole('radio', { name: 'Red' }).getAttribute('aria-checked')).toBe('false');
   });
 });

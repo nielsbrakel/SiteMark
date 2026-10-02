@@ -30,7 +30,10 @@ test.describe('REQ-PAGE-008 the home page shows the screenshots of the active la
   test('follows the theme toggle', { tag: '@REQ-PAGE-008' }, async ({ page }) => {
     await page.emulateMedia({ colorScheme: 'light' });
     await page.goto('/SiteMark/');
-    await page.getByRole('group', { name: 'Theme' }).getByRole('button', { name: 'Dark' }).click();
+    await page
+      .getByRole('radiogroup', { name: 'Theme' })
+      .getByRole('radio', { name: 'Dark' })
+      .click();
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
     // The dark images start loading only once they show: poll until all three are in.
     await expect

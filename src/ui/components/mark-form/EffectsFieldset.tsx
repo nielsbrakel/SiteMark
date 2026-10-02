@@ -13,31 +13,32 @@ import styles from './MarkForm.module.css';
 import { useT } from './translate';
 
 type Effects = PageEffects & ElementEffects;
+type EffectsOf<T extends TargetKind> = { page: PageEffects; element: ElementEffects }[T];
 
-export type EffectsFieldsetProps = {
-  readonly target: TargetKind;
-  readonly effects: PageEffects | ElementEffects;
+export type EffectsFieldsetProps<T extends TargetKind> = {
+  readonly target: T;
+  readonly effects: EffectsOf<T>;
   readonly groupName: string;
   /** Saves the mark's new effects. */
-  readonly onSave: (effects: PageEffects | ElementEffects) => void;
+  readonly onSave: (effects: EffectsOf<T>) => void;
 };
 
 /**
  * The effect switches with their settings (REQ-OPT-003): only the effects of the mark's target
  * (REQ-MARK-014), and the last effect can't be turned off (REQ-MARK-001), with a hint that says why.
  */
-export function EffectsFieldset({
+export function EffectsFieldset<T extends TargetKind>({
   target,
   effects,
   groupName,
   onSave,
-}: EffectsFieldsetProps): ReactNode {
+}: EffectsFieldsetProps<T>): ReactNode {
   const t = useT();
   const current: Partial<Record<EffectName, unknown>> = effects;
   const onCount = EFFECTS_BY_TARGET[target].filter((name) => current[name] !== undefined).length;
   const set = (name: EffectName, value: unknown) => {
     const { [name]: _old, ...rest } = current;
-    onSave((value === undefined ? rest : { ...rest, [name]: value }) as Effects);
+    onSave((value === undefined ? rest : { ...rest, [name]: value }) as EffectsOf<T>);
   };
   return (
     <fieldset className={styles.effects}>
@@ -48,6 +49,7 @@ export function EffectsFieldset({
         return (
           <div key={name} className={styles.effect}>
             <Switch
+              className={styles.switch}
               label={t(EFFECT_NAMES[name])}
               checked={isOn}
               disabled={isLast}

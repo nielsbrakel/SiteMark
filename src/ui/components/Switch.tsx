@@ -10,7 +10,7 @@ export type SwitchProps = {
   readonly labelHidden?: boolean;
   readonly description?: string;
   readonly disabled?: boolean;
-  readonly className?: string;
+  readonly className?: string | undefined;
 };
 
 /**

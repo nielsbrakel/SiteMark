@@ -47,7 +47,7 @@ describe('REQ-WEB-002 the browser hydrates only the interactive islands of a pre
         'themeToggle',
         'heroPlayground',
       ]);
-      expect(islands[0]?.querySelector('fieldset')).not.toBeNull();
+      expect(islands[0]?.querySelector('[role="radiogroup"]')).not.toBeNull();
     },
   );
 
@@ -59,7 +59,7 @@ describe('REQ-WEB-002 the browser hydrates only the interactive islands of a pre
     async (file, heading) => {
       const container = await loadPrerendered(file);
       const serverHeading = container.querySelector('h1');
-      const serverToggle = container.querySelector('[data-island] fieldset');
+      const serverToggle = container.querySelector('[data-island] [role="radiogroup"]');
       expect(serverHeading?.textContent).toBe(heading);
       const onRecoverableError = vi.fn();
       await act(async () => {
@@ -68,7 +68,7 @@ describe('REQ-WEB-002 the browser hydrates only the interactive islands of a pre
       expect(roots).toHaveLength(2);
       expect(onRecoverableError).not.toHaveBeenCalled();
       expect(container.querySelector('h1')).toBe(serverHeading);
-      expect(container.querySelector('[data-island] fieldset')).toBe(serverToggle);
+      expect(container.querySelector('[data-island] [role="radiogroup"]')).toBe(serverToggle);
     },
   );
 
@@ -77,7 +77,7 @@ describe('REQ-WEB-002 the browser hydrates only the interactive islands of a pre
     await act(async () => {
       roots = await hydrateIslands(document);
     });
-    act(() => fireEvent.click(screen.getByRole('button', { name: 'Dark' })));
+    act(() => fireEvent.click(screen.getByRole('radio', { name: 'Dark' })));
     expect(document.documentElement.dataset.theme).toBe('dark');
   });
 

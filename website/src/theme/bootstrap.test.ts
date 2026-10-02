@@ -86,7 +86,7 @@ describe('REQ-WEB-004 web storage holds only the theme choice', () => {
     expect([...storage.items]).toEqual([[KEY, 'dark']]);
     saveThemeChoice('light');
     expect([...storage.items]).toEqual([[KEY, 'light']]);
-    saveThemeChoice('auto');
+    saveThemeChoice('system');
     expect([...storage.items]).toEqual([]);
     expect(new Set(storage.touched)).toEqual(new Set([KEY]));
   });
@@ -98,6 +98,6 @@ describe('REQ-WEB-004 web storage holds only the theme choice', () => {
       getItem: blocked,
     });
     expect(() => saveThemeChoice('dark')).not.toThrow();
-    expect(() => saveThemeChoice('auto')).not.toThrow();
+    expect(() => saveThemeChoice('system')).not.toThrow();
   });
 });

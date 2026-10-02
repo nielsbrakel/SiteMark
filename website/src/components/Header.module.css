@@ -20,13 +20,6 @@
 
 .home {
   display: inline-grid;
-  padding: var(--sm-space-2) var(--sm-space-3);
-  border-radius: var(--sm-radius-md);
-  box-shadow: var(--sm-raised-sm);
-}
-
-.home[aria-current='page'] {
-  box-shadow: var(--sm-pressed);
 }
 
 .home img {
@@ -71,45 +64,20 @@
   list-style: none;
 }
 
-/* Raised pills: lifted when idle, pressed in for the current page (underlined too, so the state
-   isn't shown by shadow alone). */
-.link,
-.github {
+.link {
   display: inline-flex;
   align-items: center;
   min-height: 36px;
-  padding: var(--sm-space-1) var(--sm-space-4);
-  border-radius: var(--sm-radius-md);
-  color: var(--sm-text);
-  font-weight: 600;
-  text-decoration: none;
-  box-shadow: var(--sm-raised-sm);
-  transition: box-shadow var(--sm-duration) var(--sm-ease);
 }
 
+/* The GitHub mark is a round raised icon button, like the extension's IconButton. */
 .github {
+  composes: iconButton from '../../../src/ui/components/IconButton.module.css';
   color: var(--sm-text-muted);
 }
 
-.link:hover,
-.github:hover {
-  box-shadow: var(--sm-raised);
-}
-
 .github:hover {
   color: var(--sm-text);
-}
-
-.link:active,
-.github:active,
-.link[aria-current='page'] {
-  box-shadow: var(--sm-pressed);
-}
-
-.link[aria-current='page'] {
-  color: var(--sm-accent-text);
-  text-decoration: underline;
-  text-underline-offset: 4px;
 }
 
 /* Wraps at 320 px (REQ-WEBUX-005): the theme toggle then moves below the language switch. */
@@ -133,16 +101,5 @@
 @media (forced-colors: active) {
   .header {
     border-bottom-color: CanvasText;
-  }
-
-  .home,
-  .link,
-  .github {
-    border: 1px solid ButtonBorder;
-  }
-
-  .link[aria-current='page'] {
-    background: Highlight;
-    color: HighlightText;
   }
 }
