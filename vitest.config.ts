@@ -13,6 +13,8 @@ import { WxtVitest } from 'wxt/testing/vitest-plugin';
 //   website-build — website/tests/build on the built website (`pnpm web:test:build`).
 // `pnpm test` runs core + dom; `pnpm test:coverage` runs core, dom and browser with the thresholds below.
 
+// Node ≥ 25 ships a global `localStorage` that shadows happy-dom's; switch it off so tests see happy-dom's.
+const noWebstorage = { execArgv: ['--no-experimental-webstorage'] };
 const isolation = { mockReset: true, restoreMocks: true, unstubEnvs: true, unstubGlobals: true };
 const browserTests = '**/*.browser.test.{ts,tsx}';
 const chromium = process.env.PW_CHROMIUM_EXECUTABLE;
@@ -87,6 +89,7 @@ export default defineConfig({
           ...isolation,
           name: 'dom',
           environment: 'happy-dom',
+          ...noWebstorage,
           include: ['src/**/*.test.{ts,tsx}', 'tests/{unit,fakes}/**/*.test.{ts,tsx}'],
           exclude: ['src/core/**', browserTests],
           setupFiles: ['tests/unit/setup.ts'],
@@ -117,6 +120,7 @@ export default defineConfig({
           ...isolation,
           name: 'website-dom',
           environment: 'happy-dom',
+          ...noWebstorage,
           include: ['website/src/**/*.test.tsx'],
           exclude: [browserTests],
           // Sets the shadow mode that the shared mark preview reads (D-278), like browser mode.

@@ -18,7 +18,7 @@
 | Tests           | Vitest 4 (projects: node / happy-dom / browser mode), RTL, fast-check, Stryker, Playwright                                       | D-233              |
 | Quality         | TS strict+, Biome 2 (lint + format, zones, GritQL plugins), Prettier (Markdown/YAML only), stylelint, knip, commitlint, lefthook | D-234–D-237, D-243 |
 | Release         | Changesets, `wxt zip` / `wxt submit` behind the `store` environment                                                              | D-227, D-228       |
-| Package manager | pnpm 10 (policies in `pnpm-workspace.yaml`), Node 22                                                                             | D-238              |
+| Package manager | pnpm 10 (policies in `pnpm-workspace.yaml`), Node 26                                                                             | D-238              |
 
 A library is added by the task that first needs it, never ahead of time.
 

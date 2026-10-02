@@ -18,7 +18,7 @@ decision log, `D-xxx`) before changing code. By participating you agree to the
 
 ## Setup
 
-You need Node 22 (see `.nvmrc`) and pnpm via Corepack.
+You need Node 26 (see `.nvmrc`) and pnpm via Corepack.
 
 ```bash
 corepack enable && pnpm install

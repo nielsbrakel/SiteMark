@@ -133,7 +133,7 @@ describe('REQ-SEC-008 REQ-PRIV-001 the release checks the manifest in every zip'
 describe('REQ-SEC-008 the AMO sources zip rebuilds the Firefox zip and holds nothing else', () => {
   const complete = {
     'SOURCE_REVIEW.md': '# Build',
-    '.nvmrc': '22',
+    '.nvmrc': '26',
     'package.json': '{}',
     'pnpm-lock.yaml': 'lockfileVersion: 9',
     'wxt.config.ts': '',
