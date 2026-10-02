@@ -46,6 +46,8 @@ export default defineConfig({
       include: ['src/**/*.{ts,tsx}', 'website/src/**/*.{ts,tsx}'],
       exclude: [
         '**/*.test.*',
+        // Test doubles and arbitraries are tooling, not product code.
+        'src/**/testing/**',
         // Composition roots: covered by e2e and the wiring test (T-076), not by unit coverage.
         'src/entrypoints/*.ts',
         'src/entrypoints/**/main.tsx',
