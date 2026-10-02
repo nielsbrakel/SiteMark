@@ -84,3 +84,5 @@ threat model: SiteMark prevents _accidental_ confusion and is not a security con
 ## License
 
 [MIT](LICENSE)
+
+CI runs on every pull request; see `.github/workflows/ci.yml`.
