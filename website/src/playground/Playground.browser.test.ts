@@ -62,11 +62,11 @@ describe('REQ-PLAY-002 the extension draws the playground marks in the mock brow
     expect(marks().querySelector('.sm-watermark__plane')).not.toBeNull();
   });
 
-  it('outlines the sample button once its mark is on, and drops the page ribbon with its switch', () => {
+  it('outlines the sample button until its mark is off, and drops the page ribbon with its switch', () => {
     render(createElement(Playground, { t: en.t }));
-    expect(marks().querySelector('.sm-outline')).toBeNull();
-    flip('Also mark the Delete customer button');
     expect(marks().querySelector('.sm-outline')).not.toBeNull();
+    flip('Also mark the Delete customer button');
+    expect(marks().querySelector('.sm-outline')).toBeNull();
     flip('Frame');
     fireEvent.click(screen.getAllByRole('switch', { name: 'Ribbon' })[0] as HTMLElement);
     expect(band()).toBeNull();
