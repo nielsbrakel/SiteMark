@@ -14,7 +14,7 @@ Deze verklaring gaat over de **browserextensie SiteMark** en de **website van Si
 
 ## Wie is verantwoordelijk
 
-SiteMark is een opensourceproject van **Niels Brakel, Nederland**, die verwerkingsverantwoordelijke is voor
+SiteMark is een opensourceproject van **Niels van Brakel, Nederland**, die verwerkingsverantwoordelijke is voor
 deze verklaring. SiteMark wordt in de vrije tijd onderhouden en is geen bedrijf.
 
 ## De extensie

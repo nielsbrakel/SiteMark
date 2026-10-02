@@ -56,7 +56,7 @@
 
 .viewport {
   position: relative;
-  block-size: 220px;
+  block-size: var(--sm-preview-height, 220px);
   overflow: hidden;
 }
 
@@ -64,6 +64,10 @@
   display: grid;
   gap: var(--sm-space-3);
   padding: var(--sm-space-6) var(--sm-space-5);
+}
+
+.sample {
+  block-size: 100%;
 }
 
 .line {

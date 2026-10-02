@@ -1,10 +1,12 @@
 import wordmarkLight from '../../../design/logo/sitemark-wordmark.svg';
 import wordmarkDark from '../../../design/logo/sitemark-wordmark-dark.svg';
+import { repositoryUrl } from '../config/repository';
 import type { Locale } from '../i18n/locales';
 import { Island } from '../islands/islands';
 import type { PageProps } from '../pages/page-props';
 import type { Route } from '../routes/routes';
 import { routePath } from '../routes/urls';
+import { ExternalLink } from './ExternalLink';
 import styles from './Header.module.css';
 import { LanguageSwitch } from './LanguageSwitch';
 import { pageLabel } from './page-labels';
@@ -63,7 +65,7 @@ function Navigation({ route, locale, routes, t }: HeaderProps) {
   );
 }
 
-/** The wordmark (links home), the navigation, the language switch and the theme toggle. */
+/** The wordmark, the navigation, the language switch, the theme toggle and the GitHub link. */
 export function Header(props: HeaderProps) {
   return (
     <header className={styles.header}>
@@ -73,6 +75,9 @@ export function Header(props: HeaderProps) {
         <div className={styles.tools}>
           <LanguageSwitch route={props.route} locale={props.locale} t={props.t} />
           <Island id="themeToggle" t={props.t} />
+          <ExternalLink className={styles.github} href={repositoryUrl()}>
+            {props.t('websiteNavGitHub')}
+          </ExternalLink>
         </div>
       </div>
     </header>

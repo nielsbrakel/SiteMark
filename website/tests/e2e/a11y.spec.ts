@@ -51,7 +51,7 @@ test.describe('REQ-WEB-003 the website makes no third-party requests', () => {
 });
 
 test.describe('REQ-PLAY-005 the playground works by keyboard and without motion', () => {
-  test('changes the preset, the effects and the text with the keyboard', {
+  test('changes the preset, the ribbon corner and the text with the keyboard', {
     tag: '@REQ-PLAY-005',
   }, async ({ page }) => {
     await page.goto('/SiteMark/playground/');
@@ -62,10 +62,8 @@ test.describe('REQ-PLAY-005 the playground works by keyboard and without motion'
     await expect(page.getByRole('radio', { name: 'Amber' })).toBeChecked();
     await expect(page.getByRole('radio', { name: 'Amber' })).toBeFocused();
     await expect(status).toContainText('in amber');
-    await page.getByRole('checkbox', { name: 'Frame' }).focus();
-    await page.keyboard.press('Space');
-    await expect(page.getByRole('checkbox', { name: 'Frame' })).toBeChecked();
-    await expect(status).toContainText('frame');
+    await page.getByRole('combobox', { name: 'Ribbon corner' }).selectOption('bottom-left');
+    await expect(page.getByRole('combobox', { name: 'Ribbon corner' })).toHaveValue('bottom-left');
     await page.getByRole('textbox', { name: 'Mark text' }).focus();
     await page.keyboard.press('ControlOrMeta+A');
     await page.keyboard.type('LIVE');

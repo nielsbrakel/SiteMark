@@ -140,7 +140,7 @@ files (for example `SECURITY.md`) are rewritten to their GitHub URLs.
   banned in `website/**` and in reused components by a Biome rule, because prerendered `style` attributes need `'unsafe-inline'`.
 - **No network code:** the extension's bans (`fetch`, `XMLHttpRequest`, `WebSocket`, `sendBeacon`, `innerHTML`, `eval`) also apply to `website/**`.
 - **Output scan** (T-211): no `http(s)://` in `src`/`href` of loaded resources except the website origin; external
-  links only to an allowlist (github.com/nielsbrakel/SiteMark, the store domains, GitHub's privacy statement);
+  links only to an allowlist (github.com/nielsbrakel/SiteMark, the maker's portfolio nielsvanbrakel.com, the store domains, GitHub's privacy statement);
   no inline `<script>` except the hashed bootstrap and JSON-LD; no `style=` attributes; no `on*=` handlers.
 
 ## 7. Test strategy (same layers as D-233)

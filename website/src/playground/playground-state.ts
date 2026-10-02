@@ -74,8 +74,8 @@ export function initialPlaygroundState(): PlaygroundState {
     textInput: 'PROD',
     corner: 'top-right',
     edge: 'top',
-    pageEffects: ['ribbon', 'banner'],
-    elementEffects: ['outline'],
+    pageEffects: ['ribbon'],
+    elementEffects: [],
     errors: {},
   };
 }

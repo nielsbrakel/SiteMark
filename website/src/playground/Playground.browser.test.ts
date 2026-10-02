@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { createElement } from 'react';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { presetColor } from '@/core/model/presets';
@@ -29,23 +29,14 @@ const rgb = (hex: string) => {
 };
 
 const band = () => marks().querySelector<HTMLElement>('.sm-ribbon__band');
-const tabTitle = () => screen.getByRole('figure').textContent ?? '';
-
 describe('REQ-PLAY-002 the extension draws the playground marks in the mock browser', () => {
-  it('draws the starting marks: a red PROD ribbon, a PROD banner and an outlined button', () => {
+  it('draws the starting mark: a red PROD ribbon in the top-right corner', () => {
     render(createElement(Playground, { t: en.t }));
     expect(band()?.textContent).toBe('PROD');
     expect(band() && getComputedStyle(band() as HTMLElement).backgroundColor).toBe(
       rgb(presetColor('red')),
     );
-    expect(marks().querySelector('[role="note"]')?.textContent).toContain('PROD');
-    const outline = marks().querySelector<HTMLElement>('.sm-outline');
-    const button = screen.getByText('Delete customer');
-    expect(outline).not.toBeNull();
-    const [box, target] = [outline?.getBoundingClientRect(), button.getBoundingClientRect()];
-    // The outline sits around the sample button.
-    expect(box && box.left <= target.left && box.right >= target.right).toBe(true);
-    expect(box && box.top <= target.top && box.bottom >= target.bottom).toBe(true);
+    expect(marks().querySelectorAll('.sm-view')).toHaveLength(1);
   });
 
   it('follows the preset, the custom color and the mark text', () => {
@@ -54,6 +45,7 @@ describe('REQ-PLAY-002 the extension draws the playground marks in the mock brow
     expect(band() && getComputedStyle(band() as HTMLElement).backgroundColor).toBe(
       rgb(presetColor('blue')),
     );
+    fireEvent.click(screen.getByRole('radio', { name: 'Custom' }));
     fireEvent.change(screen.getByRole('textbox', { name: 'Custom color' }), {
       target: { value: '#00aa55' },
     });
@@ -64,23 +56,13 @@ describe('REQ-PLAY-002 the extension draws the playground marks in the mock brow
     expect(band()?.textContent).toBe('STAGING');
   });
 
-  it('adds and removes effects, and shows the title prefix in the mock tab', () => {
+  it('moves the ribbon to the chosen corner', () => {
     render(createElement(Playground, { t: en.t }));
-    fireEvent.click(screen.getByRole('checkbox', { name: 'Frame' }));
-    expect(marks().querySelector('.sm-frame')).not.toBeNull();
-    fireEvent.click(screen.getByRole('checkbox', { name: 'Banner' }));
-    expect(marks().querySelector('[role="note"]')).toBeNull();
-    expect(tabTitle()).not.toContain('PROD Customers');
-    fireEvent.click(screen.getByRole('checkbox', { name: 'Title prefix' }));
-    expect(tabTitle()).toContain('PROD Customers');
-  });
-
-  it('draws nothing when every effect is off', () => {
-    render(createElement(Playground, { t: en.t }));
-    const page = within(screen.getByRole('group', { name: 'Effects on the page' }));
-    fireEvent.click(page.getByRole('checkbox', { name: 'Ribbon' }));
-    fireEvent.click(page.getByRole('checkbox', { name: 'Banner' }));
-    fireEvent.click(screen.getByRole('checkbox', { name: 'Outline' }));
-    expect(marks().querySelectorAll('.sm-view')).toHaveLength(0);
+    const before = band()?.getBoundingClientRect();
+    fireEvent.change(screen.getByRole('combobox', { name: 'Ribbon corner' }), {
+      target: { value: 'bottom-left' },
+    });
+    const after = band()?.getBoundingClientRect();
+    expect(before && after && after.left < before.left && after.top > before.top).toBe(true);
   });
 });

@@ -157,11 +157,11 @@ describe('REQ-PLAY-004 the home hero is a small playground with the four presets
   const hero = () => within(main()).getByRole('heading', { level: 1 }).closest('section');
 
   it.each([
-    ['index.html', ['Red', 'Amber', 'Blue', 'Slate'], 'Try every effect in the playground'],
+    ['index.html', ['Red', 'Amber', 'Blue', 'Slate'], 'Try your own mark in the playground'],
     [
       'nl/index.html',
       ['Rood', 'Amber', 'Blauw', 'Leisteen'],
-      'Probeer alle effecten bij Uitproberen',
+      'Probeer je eigen markering bij Uitproberen',
     ],
   ])(
     '%s: the hero island offers only the presets and links the playground',
