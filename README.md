@@ -20,8 +20,7 @@
 
 ---
 
-> **Status:** 🚧 Foundation (M0) is done and the plan has been reviewed ([review](docs/reviews/2026-09-25-plan-review.md)).
-> Next: M0.5 hardening, then M1. Run `pnpm progress` or see [docs/tasks.md](docs/tasks.md).
+> **Status:** in development. Run `pnpm progress` or see [docs/tasks.md](docs/tasks.md) for what is done and what is next.
 
 ## Why
 
@@ -32,9 +31,9 @@ either on the whole page or on one element you pick (a logo, a header, that scar
 - 🎀 **Marks:** corner ribbons, banners, viewport frames, outlines, tints, hazard stripes,
   watermarks, `[PROD]` tab-title prefix and a favicon dot
 - 🎯 **Picker:** hover and click any element, with an auto-generated stable CSS selector you can edit
-- 🔒 **Private:** no install-time site access, no network requests, data stays in local storage.
+- 🔒 **Private:** no install-time site access, no network requests of its own, data stays in local storage.
   Move it between devices with JSON import/export
-- 🌗 **Soft UI:** a neumorphic popup and options page in light and dark, English and Dutch
+- 🌗 **Soft UI:** a soft, raised popup and options page in light and dark, English and Dutch
 - 🧭 **Everywhere:** Chrome, Edge and Firefox in v1.0, Safari in v1.1 (Manifest V3)
 - 🎨 **Colorblind-safe:** preset colors stay distinguishable, and marks always carry text
 
