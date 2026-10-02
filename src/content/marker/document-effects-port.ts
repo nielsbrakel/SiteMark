@@ -5,7 +5,7 @@ import type { FaviconStatus } from '../../core/render/status';
 import { isolate } from './isolate';
 
 /** The render items that change the document instead of being drawn (T-090, T-091). */
-export type DocumentItem = Extract<RenderItem, { readonly effect: 'titlePrefix' | 'favicon' }>;
+type DocumentItem = Extract<RenderItem, { readonly effect: 'titlePrefix' | 'favicon' }>;
 
 /**
  * The single owner of the title prefix and the favicon (plan §3.3, D-230), plugged into the

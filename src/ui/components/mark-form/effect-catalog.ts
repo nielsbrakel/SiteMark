@@ -38,7 +38,7 @@ export const RANGES = {
 const RIBBON_TEXT_MAX = 16;
 
 /** The site group's name cut to `max` characters (whole code points), for a default text. */
-export function nameText(groupName: string, max: number): string {
+function nameText(groupName: string, max: number): string {
   return Array.from(groupName).slice(0, max).join('').trim();
 }
 

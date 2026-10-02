@@ -5,7 +5,7 @@ import { err, ok, type Result } from '../result';
 // One migration pipeline for stored state and imports (REQ-DATA-002, D-224).
 
 /** Turns data of schema version N into version N + 1. Must not mutate its input. */
-export type MigrationStep = (data: unknown) => unknown;
+type MigrationStep = (data: unknown) => unknown;
 /** `steps[N]` migrates version N to N + 1. */
 export type MigrationSteps = Readonly<Record<number, MigrationStep>>;
 

@@ -68,7 +68,7 @@ export type ImportSummary = {
 export type ImportFailure = ImportError | { readonly code: ErrorCode };
 
 /** Extension pages (popup, options, grant) → background. */
-export type PageProtocol = {
+type PageProtocol = {
   command: Message<Command, Result<Committed, ErrorCode>>;
   /** A read-only view for the popup and options page. */
   getState: Message<undefined, SiteMarkState>;
@@ -90,7 +90,7 @@ export type PageProtocol = {
 };
 
 /** Top-frame content scripts (marker, picker) → background: narrow intents only (REQ-SEC-001). */
-export type ContentProtocol = {
+type ContentProtocol = {
   /** The plan for the sender's own URL, and nothing else (REQ-SEC-002). */
   renderPlanFor: Message<undefined, RenderPlan>;
   reportStatus: Message<TabStatus, void>;
@@ -138,7 +138,7 @@ export type Envelope<P, K extends keyof P> =
  * Why the background did not answer a message: `messageRefused` (unknown type, wrong sender or
  * invalid payload) or `handlerFailed` (the handler threw; details stay in the background's log).
  */
-export type Refusal = 'messageRefused' | 'handlerFailed';
+type Refusal = 'messageRefused' | 'handlerFailed';
 
 /** What the background sends back for every message. */
 export type Reply<R> = Result<R, Refusal>;

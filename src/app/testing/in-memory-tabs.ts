@@ -12,8 +12,8 @@ export type InMemoryTab = {
   readonly restricted?: boolean;
 };
 
-export type SentMessage = { readonly tabId: number; readonly message: unknown };
-export type Injection = { readonly tabId: number; readonly files: readonly string[] };
+type SentMessage = { readonly tabId: number; readonly message: unknown };
+type Injection = { readonly tabId: number; readonly files: readonly string[] };
 
 export type InMemoryTabs = Tabs & {
   /** Messages that reached a content script. */

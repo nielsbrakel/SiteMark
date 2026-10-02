@@ -3,7 +3,7 @@ import path from 'node:path';
 
 /** Edge is a Chromium browser with its own store zip (`wxt build -b edge`, D-241). */
 export type Target = 'chrome' | 'edge' | 'firefox' | 'safari';
-export const ALL_TARGETS: Target[] = ['chrome', 'edge', 'firefox', 'safari'];
+const ALL_TARGETS: Target[] = ['chrome', 'edge', 'firefox', 'safari'];
 
 /** Targets under test: `SITEMARK_TARGETS=chrome,firefox`, or all four. CI passes its matrix entry. */
 export function targets(): Target[] {

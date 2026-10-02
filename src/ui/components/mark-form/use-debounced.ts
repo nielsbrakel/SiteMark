@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 
 /** How long autosave waits after the last keystroke or slider move (REQ-OPT-006). */
-export const AUTOSAVE_MS = 500;
+const AUTOSAVE_MS = 500;
 
 export type Debounced = {
   /** Runs the action once no call came for `delayMs`. */

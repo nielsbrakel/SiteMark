@@ -7,7 +7,7 @@ import { assertNever, type Result } from '../../core/result';
  * Why there is no state to show: the background didn't answer (`MessagingError`), its reply isn't a
  * valid state (`stateInvalid`), or the stored data can't be read (`stateUnreadable`).
  */
-export type StateViewError = MessagingError | 'stateInvalid' | 'stateUnreadable';
+type StateViewError = MessagingError | 'stateInvalid' | 'stateUnreadable';
 
 export type SiteMarkStateView =
   | { readonly status: 'loading' }

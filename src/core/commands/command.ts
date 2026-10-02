@@ -8,18 +8,18 @@ import type { UrlPatternDraft } from '../url/match';
 // Reducers never mutate their input and return a Result with an error code (D-225).
 
 /** Adds an empty, disabled site group at the bottom of the list (REQ-GRP-001). */
-export type CreateSiteGroup = { readonly type: 'createSiteGroup'; readonly name: string };
+type CreateSiteGroup = { readonly type: 'createSiteGroup'; readonly name: string };
 
-export type RenameSiteGroup = {
+type RenameSiteGroup = {
   readonly type: 'renameSiteGroup';
   readonly id: SiteGroupId;
   readonly name: string;
 };
 
-export type DeleteSiteGroup = { readonly type: 'deleteSiteGroup'; readonly id: SiteGroupId };
+type DeleteSiteGroup = { readonly type: 'deleteSiteGroup'; readonly id: SiteGroupId };
 
 /** Enabling needs at least one URL pattern (REQ-GRP-002, REQ-GRP-003). */
-export type SetSiteGroupEnabled = {
+type SetSiteGroupEnabled = {
   readonly type: 'setSiteGroupEnabled';
   readonly id: SiteGroupId;
   readonly enabled: boolean;
@@ -29,7 +29,7 @@ export type SetSiteGroupEnabled = {
  * Moves a site group so that it ends up at `toIndex`, clamped to the list (REQ-GRP-004). Move up/down
  * is `index - 1` / `index + 1`; drag and drop sends the drop position.
  */
-export type MoveSiteGroup = {
+type MoveSiteGroup = {
   readonly type: 'moveSiteGroup';
   readonly id: SiteGroupId;
   readonly toIndex: number;
@@ -39,13 +39,13 @@ export type MoveSiteGroup = {
  * Copies a site group to the bottom of the list with new IDs, named `<name> copy` (REQ-GRP-006).
  * The copy starts disabled: its origins may not be granted yet.
  */
-export type DuplicateSiteGroup = { readonly type: 'duplicateSiteGroup'; readonly id: SiteGroupId };
+type DuplicateSiteGroup = { readonly type: 'duplicateSiteGroup'; readonly id: SiteGroupId };
 
 /**
  * Puts a deleted site group back at `index` (clamped), with its IDs, patterns, excludes and marks:
  * the options page's Undo after a delete (REQ-GRP-001). Its patterns are checked again.
  */
-export type RestoreSiteGroup = {
+type RestoreSiteGroup = {
   readonly type: 'restoreSiteGroup';
   readonly group: SiteGroup;
   readonly index: number;
@@ -64,14 +64,14 @@ export type SiteGroupCommand =
  * Adds a URL pattern at the end of a site group's list, in canonical form (REQ-GRP-002,
  * REQ-URL-003, REQ-URL-009). Adding a pattern does not enable the group.
  */
-export type AddPattern = {
+type AddPattern = {
   readonly type: 'addPattern';
   readonly groupId: SiteGroupId;
   readonly draft: UrlPatternDraft;
 };
 
 /** Replaces a URL pattern in place; it keeps its ID. */
-export type UpdatePattern = {
+type UpdatePattern = {
   readonly type: 'updatePattern';
   readonly groupId: SiteGroupId;
   readonly patternId: PatternId;
@@ -79,27 +79,27 @@ export type UpdatePattern = {
 };
 
 /** Removing the last URL pattern disables an enabled group, with a notice (REQ-GRP-002). */
-export type RemovePattern = {
+type RemovePattern = {
   readonly type: 'removePattern';
   readonly groupId: SiteGroupId;
   readonly patternId: PatternId;
 };
 
 /** Exclude patterns suppress a match (REQ-URL-008); same rules as URL patterns. */
-export type AddExclude = {
+type AddExclude = {
   readonly type: 'addExclude';
   readonly groupId: SiteGroupId;
   readonly draft: UrlPatternDraft;
 };
 
-export type UpdateExclude = {
+type UpdateExclude = {
   readonly type: 'updateExclude';
   readonly groupId: SiteGroupId;
   readonly patternId: PatternId;
   readonly draft: UrlPatternDraft;
 };
 
-export type RemoveExclude = {
+type RemoveExclude = {
   readonly type: 'removeExclude';
   readonly groupId: SiteGroupId;
   readonly patternId: PatternId;
@@ -114,28 +114,28 @@ export type PatternCommand =
   | RemoveExclude;
 
 /** Adds a mark at the end of a site group's list; the background gives it an ID. */
-export type AddMark = {
+type AddMark = {
   readonly type: 'addMark';
   readonly groupId: SiteGroupId;
   readonly mark: MarkDraft;
 };
 
 /** Replaces the whole mark (it may change its target); the mark keeps its ID. */
-export type UpdateMark = {
+type UpdateMark = {
   readonly type: 'updateMark';
   readonly groupId: SiteGroupId;
   readonly markId: MarkId;
   readonly mark: MarkDraft;
 };
 
-export type RemoveMark = {
+type RemoveMark = {
   readonly type: 'removeMark';
   readonly groupId: SiteGroupId;
   readonly markId: MarkId;
 };
 
 /** Moves a mark to `toIndex` within its group, clamped (like `MoveSiteGroup`; REQ-GRP-005). */
-export type MoveMark = {
+type MoveMark = {
   readonly type: 'moveMark';
   readonly groupId: SiteGroupId;
   readonly markId: MarkId;

@@ -7,7 +7,7 @@ import type { ElementEffects, Hex, PageEffects } from '../model/schema';
 type Params<Effects, K extends keyof Effects> = Required<Effects>[K];
 
 /** An effect on the page, with its settings from the mark (spec §7). */
-export type PageEffectItem =
+type PageEffectItem =
   | { readonly effect: 'ribbon'; readonly params: Params<PageEffects, 'ribbon'> }
   /** Banners on the same edge are merged: texts joined with ` · `, the first banner's style. */
   | { readonly effect: 'banner'; readonly params: Params<PageEffects, 'banner'> }
@@ -29,7 +29,7 @@ export type PageEffectItem =
   | { readonly effect: 'favicon'; readonly params: Params<PageEffects, 'favicon'> };
 
 /** An effect on the first element that matches the selector (REQ-RND-005). */
-export type ElementEffectItem =
+type ElementEffectItem =
   | { readonly effect: 'ribbon'; readonly params: Params<ElementEffects, 'ribbon'> }
   | { readonly effect: 'outline'; readonly params: Params<ElementEffects, 'outline'> }
   | { readonly effect: 'tint'; readonly params: Params<ElementEffects, 'tint'> }

@@ -8,9 +8,9 @@ export type RegisteredScript = {
   world?: 'ISOLATED' | 'MAIN';
 };
 
-export type Injection = { tabId: number; files?: string[] };
+type Injection = { tabId: number; files?: string[] };
 
-export type FakeScriptingApi = {
+type FakeScriptingApi = {
   registerContentScripts(scripts: RegisteredScript[]): Promise<void>;
   updateContentScripts(scripts: RegisteredScript[]): Promise<void>;
   unregisterContentScripts(filter?: { ids?: string[] }): Promise<void>;

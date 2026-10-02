@@ -6,7 +6,7 @@ import { type Alternate, absoluteUrl, alternates, canonicalUrl } from '../routes
 export type PageText = { title: string; description: string; imageAlt: string };
 
 /** `<meta property>` (Open Graph) or `<meta name>` (Twitter) with its content. */
-export type MetaTag = { key: string; content: string };
+type MetaTag = { key: string; content: string };
 
 /** Everything search engines and link previews read from one route (REQ-SEO-001…004). */
 export type SeoHead = {

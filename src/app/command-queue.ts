@@ -17,7 +17,7 @@ export type Committed = {
 };
 
 /** Changes the state without being a Command, e.g. an import merge (T-073). */
-export type Transform<E> = (state: SiteMarkState) => Result<SiteMarkState, E>;
+type Transform<E> = (state: SiteMarkState) => Result<SiteMarkState, E>;
 
 export type CommandQueueDeps = {
   readonly repo: StateRepo;

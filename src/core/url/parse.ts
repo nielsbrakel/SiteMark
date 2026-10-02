@@ -4,7 +4,7 @@ import { isPublicSuffix } from './broad';
 import { isIpAddress, normalizeHost, parsePort, splitHostPort } from './host';
 
 /** `*` means http or https (REQ-URL-001). */
-export type WildcardScheme = 'http' | 'https' | '*';
+type WildcardScheme = 'http' | 'https' | '*';
 
 /** A validated wildcard pattern (REQ-URL-001, REQ-URL-002). */
 export type ParsedWildcard = {

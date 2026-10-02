@@ -1,6 +1,6 @@
 import type { Logger } from '../ports';
 
-export type LogEntry = {
+type LogEntry = {
   readonly level: 'warn' | 'error';
   readonly message: string;
   readonly detail?: unknown;

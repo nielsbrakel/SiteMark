@@ -7,7 +7,7 @@ export type MessageSource = {
 };
 
 /** Plural base keys: `files` for a catalog with `files_one`/`files_other`. */
-export type PluralKey<K extends string> = K extends `${infer Base}_other` ? Base : never;
+type PluralKey<K extends string> = K extends `${infer Base}_other` ? Base : never;
 
 export type Translator<K extends string> = {
   t(key: K, substitutions?: string | readonly string[]): string;
