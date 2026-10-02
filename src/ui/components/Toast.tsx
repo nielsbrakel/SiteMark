@@ -11,7 +11,7 @@ import { IconButton } from './IconButton';
 import { CloseIcon } from './icons';
 import styles from './Toast.module.css';
 
-export type ToastAction = {
+type ToastAction = {
   readonly label: string;
   readonly onAction: () => void;
 };

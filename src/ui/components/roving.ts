@@ -4,7 +4,7 @@ import { type KeyboardEvent, useRef } from 'react';
  * Roving focus in a radio group (WAI-ARIA APG): the option an arrow, Home or End key moves to,
  * wrapping around; `undefined` for any other key.
  */
-export function rovingIndex(key: string, index: number, count: number): number | undefined {
+function rovingIndex(key: string, index: number, count: number): number | undefined {
   switch (key) {
     case 'ArrowRight':
     case 'ArrowDown':

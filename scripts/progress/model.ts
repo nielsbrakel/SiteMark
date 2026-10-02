@@ -1,8 +1,8 @@
-export type Priority = 'M' | 'S' | 'C';
+type Priority = 'M' | 'S' | 'C';
 export type Requirement = { id: string; priority: Priority };
-export type Task = { id: string; reqs: string[]; tests: string[]; done: boolean };
+type Task = { id: string; reqs: string[]; tests: string[]; done: boolean };
 export type Milestone = { id: string; name: string; tasks: Task[] };
-export type Phase = 'red' | 'green' | 'refactor' | 'chore';
+type Phase = 'red' | 'green' | 'refactor' | 'chore';
 export type TaskCommit = { sha: string; task: string; phase: Phase };
 export type TaskState = 'todo' | 'red' | 'done';
 

@@ -1,8 +1,8 @@
 import { createEvent, type FakeEvent } from './event';
 
-export type Permissions = { permissions?: string[]; origins?: string[] };
+type Permissions = { permissions?: string[]; origins?: string[] };
 
-export type FakePermissionsApi = {
+type FakePermissionsApi = {
   request(permissions: Permissions): Promise<boolean>;
   contains(permissions: Permissions): Promise<boolean>;
   remove(permissions: Permissions): Promise<boolean>;

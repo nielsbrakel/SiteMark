@@ -4,7 +4,7 @@ import { activeGroups } from '../../core/url/group-match';
 import type { StateRepo } from '../ports';
 
 /** A site group the panel offers: one that is active on the sender's URL. */
-export type PickerGroup = { readonly id: SiteGroupId; readonly name: string };
+type PickerGroup = { readonly id: SiteGroupId; readonly name: string };
 
 /** What the picker's mini panel needs from the state (REQ-PICK-005, REQ-THEME-001). */
 export type PickerContext = {

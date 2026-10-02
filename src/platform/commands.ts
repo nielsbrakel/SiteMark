@@ -7,7 +7,7 @@ import type { CommandName } from '../app/use-cases/keyboard-command';
 // Pressing the shortcut grants activeTab on that tab, which is what lets the picker be injected.
 
 /** The tab `commands.onCommand` passes along; missing in some browsers and contexts. */
-export type CommandTab = { readonly id?: number | undefined };
+type CommandTab = { readonly id?: number | undefined };
 
 /** Runs a command by its manifest name, on the given tab or else the active one. */
 export type CommandDispatcher = (name: string, tab?: CommandTab) => Promise<void>;

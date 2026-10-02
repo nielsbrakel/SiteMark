@@ -2,7 +2,7 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import styles from './Card.module.css';
 import { classNames } from './class-names';
 
-export type CardTone = 'neutral' | 'warning' | 'danger';
+type CardTone = 'neutral' | 'warning' | 'danger';
 
 export type CardProps = Omit<HTMLAttributes<HTMLElement>, 'style'> & {
   readonly as?: 'div' | 'section' | 'article' | 'aside';

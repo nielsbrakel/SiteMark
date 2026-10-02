@@ -61,7 +61,7 @@ export type SiteGroupErrorCode =
  * The command dispatcher (REQ-SEC-001): a reducer produced a state that fails the schema, which is a
  * SiteMark bug. Nothing is saved.
  */
-export type CommandErrorCode = 'commandProducedInvalidState';
+type CommandErrorCode = 'commandProducedInvalidState';
 
 export type ErrorCode =
   | UrlPatternErrorCode

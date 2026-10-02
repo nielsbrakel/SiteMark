@@ -11,7 +11,7 @@ import { anElementItem } from './marker-view';
 // Test support for the marker renderer (src/content/marker): a fake host in the light DOM,
 // views that record what the renderer does with them, and plans built from marker-view items.
 
-export type FakeHost = Host & {
+type FakeHost = Host & {
   readonly element: HTMLElement;
   readonly options: HostOptions;
   readonly adopted: string[][];
@@ -48,7 +48,7 @@ function aFakeHost(options: HostOptions): FakeHost {
 }
 
 /** A createHost that records every host it made. */
-export function fakeHosts() {
+function fakeHosts() {
   const hosts: FakeHost[] = [];
   const create = vi.fn((options: HostOptions) => {
     const host = aFakeHost(options);
@@ -58,7 +58,7 @@ export function fakeHosts() {
   return { create, hosts };
 }
 
-export type RecordedView = EffectView & {
+type RecordedView = EffectView & {
   readonly item: RenderItem;
   readonly ctx: ViewContext;
   readonly updates: RenderItem[];

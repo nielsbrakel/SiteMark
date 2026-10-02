@@ -65,7 +65,7 @@ export const contentTypes: readonly ContentMessageType[] = [
 ];
 
 /** `chrome-extension://test-extension-id/` in the fake browser. */
-export const extensionUrl = (path: string): string => `${fakeBrowser.runtime.getURL('/')}${path}`;
+const extensionUrl = (path: string): string => `${fakeBrowser.runtime.getURL('/')}${path}`;
 
 type SenderFields = {
   id?: string | undefined;

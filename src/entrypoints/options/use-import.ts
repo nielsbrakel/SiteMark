@@ -9,7 +9,7 @@ import { sendToBackground } from '@/platform/send-message';
 /** A file the background previewed; Apply sends its text again (the background keeps nothing). */
 export type PreviewedFile = { readonly text: string; readonly summary: ImportSummary };
 
-export type ImportState =
+type ImportState =
   | { readonly status: 'idle' }
   | { readonly status: 'error'; readonly message: string }
   | { readonly status: 'previewed'; readonly file: PreviewedFile }

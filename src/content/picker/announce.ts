@@ -47,7 +47,7 @@ function lookup(table: Readonly<Record<string, string>>, key: string): string | 
 }
 
 /** The explicit role, the implicit one, or else the tag name. */
-export function roleOf(element: Element): string {
+function roleOf(element: Element): string {
   const explicit = element.getAttribute('role')?.trim().split(/\s+/)[0];
   if (explicit) return explicit;
   const tag = element.localName;
@@ -67,7 +67,7 @@ function labelledBy(element: Element): string {
 }
 
 /** aria-label, aria-labelledby, alt, title or placeholder; the text for buttons, links… */
-export function nameOf(element: Element, role: string): string {
+function nameOf(element: Element, role: string): string {
   const attribute = (name: string) => element.getAttribute(name);
   const named =
     clean(attribute('aria-label')) ||

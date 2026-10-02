@@ -1,7 +1,7 @@
 import { assertNever } from './result';
 
 /** How the current candidate was reached: the pointer, or ↑ ↓ ← → from the keyboard (REQ-PICK-002). */
-export type PickerMode = 'pointer' | 'keyboard';
+type PickerMode = 'pointer' | 'keyboard';
 
 /**
  * The picker's state (plan §3.4). `C` is an opaque handle for a page element; core never looks inside

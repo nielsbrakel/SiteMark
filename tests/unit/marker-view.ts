@@ -13,7 +13,7 @@ type ElementItemOf<E extends Effect> = Extract<
 type BaseOverrides = Partial<Pick<DrawnItem, 'key' | 'markIds' | 'color' | 'textColor' | 'z'>>;
 
 export const RED = '#c93a2e' as Hex;
-export const WHITE = '#ffffff' as Hex;
+const WHITE = '#ffffff' as Hex;
 export const BLUE = '#1f6feb' as Hex;
 
 const MARK = 'mark00000001' as MarkId;

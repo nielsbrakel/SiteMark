@@ -4,7 +4,7 @@ import type { ViewRect } from '../../shared/marker-view/effect-view';
 export type TrackedView = { setRect(rect: ViewRect | null): void };
 
 /** A view and its resolved target (`undefined` while the target is missing). */
-export type TrackEntry = {
+type TrackEntry = {
   readonly target: Element | undefined;
   readonly view: TrackedView;
 };

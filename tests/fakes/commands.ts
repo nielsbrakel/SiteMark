@@ -1,9 +1,9 @@
 import { createEvent, type FakeEvent } from './event';
 
 export type Command = { name: string; shortcut: string; description?: string };
-export type CommandTab = { id: number; url?: string };
+type CommandTab = { id: number; url?: string };
 
-export type FakeCommandsApi = {
+type FakeCommandsApi = {
   getAll(): Promise<Command[]>;
   onCommand: FakeEvent<[name: string, tab?: CommandTab]>;
 };

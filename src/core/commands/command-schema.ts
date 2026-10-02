@@ -72,7 +72,7 @@ const otherCommands = [
 ] as const;
 
 /** Every command, discriminated by `type` (the message protocol's `command` payload). */
-export const commandSchema: ZodType<Command> = z.discriminatedUnion('type', [
+const commandSchema: ZodType<Command> = z.discriminatedUnion('type', [
   ...siteGroupCommands,
   ...patternCommands,
   ...markCommands,

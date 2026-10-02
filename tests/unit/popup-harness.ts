@@ -16,7 +16,7 @@ import { fakes } from '../fakes/install';
 // storage, so both are driven here the way the real background would.
 
 /** A message the popup sent, as it arrived. */
-export type Received = { readonly type: string; readonly data?: unknown };
+type Received = { readonly type: string; readonly data?: unknown };
 
 export type FakeBackground = {
   readonly received: Received[];

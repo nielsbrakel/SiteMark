@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 import styles from './Button.module.css';
 import { classNames } from './class-names';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'quiet';
+type ButtonVariant = 'primary' | 'secondary' | 'quiet';
 
 export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'style' | 'type'> & {
   /** `primary` = accent fill, `secondary` = raised surface (default), `quiet` = no chrome. */
