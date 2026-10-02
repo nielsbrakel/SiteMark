@@ -57,12 +57,13 @@ describe('REQ-PAGE-007 every page has a skip link, a header and a footer', () =>
     expect(within(home).getAllByRole('img').length).toBeGreaterThan(0);
   });
 
-  it('shows Help, Playground, Support and Privacy and marks the current page', () => {
+  it('shows Home, Playground, Help, Support and Privacy and marks the current page', () => {
     renderShell('support');
     const nav = screen.getByRole('navigation', { name: 'Main' });
     expect(linksIn(nav)).toEqual([
-      ['Help', '/SiteMark/help/'],
+      ['Home', '/SiteMark/'],
       ['Playground', '/SiteMark/playground/'],
+      ['Help', '/SiteMark/help/'],
       ['Support', '/SiteMark/support/'],
       ['Privacy', '/SiteMark/privacy/'],
     ]);
@@ -76,6 +77,7 @@ describe('REQ-PAGE-007 every page has a skip link, a header and a footer', () =>
     renderShell('home', 'nl', publishedRoutes('W1'));
     const nav = screen.getByRole('navigation', { name: 'Hoofdmenu' });
     expect(linksIn(nav)).toEqual([
+      ['Home', '/SiteMark/nl/'],
       ['Ondersteuning', '/SiteMark/nl/support/'],
       ['Privacy', '/SiteMark/nl/privacy/'],
     ]);
@@ -95,8 +97,9 @@ describe('REQ-PAGE-007 every page has a skip link, a header and a footer', () =>
       ['Support', '/SiteMark/support/'],
       ['Sitemap', '/SiteMark/sitemap.xml'],
       ['MIT license', 'https://github.com/nielsbrakel/SiteMark/blob/main/LICENSE'],
+      ['Portfolio', 'https://nielsvanbrakel.com/'],
     ]);
-    expect(footer.textContent).toContain('Made by Niels Brakel in the Netherlands.');
+    expect(footer.textContent).toContain('Made by Niels van Brakel in the Netherlands.');
   });
 
   it('leaves unfinished pages out of the footer too', () => {

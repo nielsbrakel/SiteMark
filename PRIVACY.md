@@ -14,7 +14,7 @@ This policy covers the **SiteMark browser extension** and the **SiteMark website
 
 ## Who is responsible
 
-SiteMark is an open-source project made by **Niels Brakel, the Netherlands**, who is the controller for this
+SiteMark is an open-source project made by **Niels van Brakel, the Netherlands**, who is the controller for this
 policy. SiteMark is maintained in spare time and isn't a company.
 
 ## The extension

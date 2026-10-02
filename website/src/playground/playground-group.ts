@@ -29,7 +29,7 @@ function elementEffects({ corner, elementEffects: on }: PlaygroundState): Elemen
 }
 
 /** The address the mock browser shows, which the playground's site group matches. */
-export const PLAYGROUND_ADDRESS = 'https://admin.example.com/customers';
+export const PLAYGROUND_ADDRESS = 'https://shop.example.com/';
 /** The selector of the sample page's button (the preview has one element target). */
 const BUTTON_SELECTOR = '#delete-customer';
 
@@ -50,7 +50,7 @@ export function playgroundGroup(state: PlaygroundState): SiteGroup {
     name: 'Playground',
     enabled: true,
     patterns: [
-      { id: 'playPatt0001' as PatternId, kind: 'wildcard', value: '*://admin.example.com/*' },
+      { id: 'playPatt0001' as PatternId, kind: 'wildcard', value: '*://shop.example.com/*' },
     ],
     excludes: [],
     marks,

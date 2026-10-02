@@ -27,6 +27,7 @@ const gzipped = (file: string) => gzipSync(readFileSync(path.join(dist, file))).
 /** Where links may leave the website (docs/website/plan.md §6). */
 const EXTERNAL_LINKS = [
   /^https:\/\/github\.com\/nielsbrakel\/SiteMark(?:[/?#][^\s]*)?$/,
+  /^https:\/\/nielsvanbrakel\.com\/$/,
   /^https:\/\/chromewebstore\.google\.com\//,
   /^https:\/\/microsoftedge\.microsoft\.com\/addons\//,
   /^https:\/\/addons\.mozilla\.org\//,

@@ -4,4 +4,5 @@
 // prerender build test fails when a class in a page has no style.
 import '@/ui/components/Field.module.css';
 import '@/ui/components/MarkPreview.module.css';
+import './MockShop.module.css';
 import './Playground.module.css';

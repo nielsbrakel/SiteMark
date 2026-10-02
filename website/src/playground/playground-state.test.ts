@@ -15,7 +15,7 @@ const run = (...actions: PlaygroundAction[]): PlaygroundState =>
   actions.reduce(playgroundReducer, initialPlaygroundState());
 
 describe('REQ-PLAY-001 the playground state: presets, custom hex, mark text and effects', () => {
-  it('starts with a red PROD ribbon, a top banner and an outlined button', () => {
+  it('starts with a red PROD ribbon only', () => {
     const state = initialPlaygroundState();
     expect(state).toMatchObject({
       preset: 'red',
@@ -25,8 +25,8 @@ describe('REQ-PLAY-001 the playground state: presets, custom hex, mark text and 
       textInput: 'PROD',
       corner: 'top-right',
       edge: 'top',
-      pageEffects: ['ribbon', 'banner'],
-      elementEffects: ['outline'],
+      pageEffects: ['ribbon'],
+      elementEffects: [],
       errors: {},
     });
   });
@@ -73,7 +73,12 @@ describe('REQ-PLAY-001 the playground state: presets, custom hex, mark text and 
 
   it('builds one site group from the state: a page mark and an element mark', () => {
     const group = playgroundGroup(
-      run({ type: 'pageEffect', effect: 'titlePrefix', on: true }, { type: 'text', text: 'LIVE' }),
+      run(
+        { type: 'pageEffect', effect: 'banner', on: true },
+        { type: 'pageEffect', effect: 'titlePrefix', on: true },
+        { type: 'elementEffect', effect: 'outline', on: true },
+        { type: 'text', text: 'LIVE' },
+      ),
     );
     const [page, element] = group.marks;
     expect(group.enabled).toBe(true);
@@ -90,11 +95,12 @@ describe('REQ-PLAY-001 the playground state: presets, custom hex, mark text and 
   it('leaves out a mark without effects', () => {
     const noPage = run(
       { type: 'pageEffect', effect: 'ribbon', on: false },
-      { type: 'pageEffect', effect: 'banner', on: false },
+      { type: 'elementEffect', effect: 'outline', on: true },
     );
     expect(playgroundGroup(noPage).marks.map((mark) => mark.target.kind)).toEqual(['element']);
-    const noElement = run({ type: 'elementEffect', effect: 'outline', on: false });
-    expect(playgroundGroup(noElement).marks.map((mark) => mark.target.kind)).toEqual(['page']);
+    expect(playgroundGroup(initialPlaygroundState()).marks.map((mark) => mark.target.kind)).toEqual(
+      ['page'],
+    );
   });
 
   it('always builds a site group that the core schema accepts, whatever the controls say', () => {

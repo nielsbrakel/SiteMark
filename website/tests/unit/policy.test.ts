@@ -67,7 +67,7 @@ const REQUIRED: { en: string; nl: string; says: RegExp[] }[] = [
     ],
   },
   { en: 'GitHub Issues are public', nl: 'GitHub Issues zijn openbaar', says: [/GitHub/] },
-  { en: 'Who is responsible', nl: 'Wie is verantwoordelijk', says: [/Niels Brakel/] },
+  { en: 'Who is responsible', nl: 'Wie is verantwoordelijk', says: [/Niels van Brakel/] },
   {
     en: 'Contact',
     nl: 'Contact',
@@ -124,8 +124,8 @@ describe('REQ-POLICY-002 REQ-PRIV-007 the policy covers the extension and the we
 
 describe('REQ-POLICY-003 the policy names the controller and contact goes through GitHub only', () => {
   it.each([
-    ['en', en, 'Niels Brakel, the Netherlands'],
-    ['nl', nl, 'Niels Brakel, Nederland'],
+    ['en', en, 'Niels van Brakel, the Netherlands'],
+    ['nl', nl, 'Niels van Brakel, Nederland'],
   ])('%s names the controller', (_locale, source, controller) => {
     expect(source()).toContain(controller);
   });

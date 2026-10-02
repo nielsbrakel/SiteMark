@@ -47,6 +47,10 @@
     "message": "Changelog",
     "description": "Footer link to the changelog (the list of changes per release)."
   },
+  "websiteNavGitHub": {
+    "message": "GitHub",
+    "description": "Header link to the open-source repository of SiteMark on GitHub."
+  },
   "websiteLanguageLabel": {
     "message": "Language",
     "description": "Accessible name of the language switch (EN / NL)."
@@ -75,8 +79,12 @@
     "message": "MIT license",
     "description": "Footer link to the open-source license of SiteMark."
   },
+  "websiteFooterPortfolio": {
+    "message": "Portfolio",
+    "description": "Footer link to the maker's portfolio website, nielsvanbrakel.com."
+  },
   "websiteFooterMadeIn": {
-    "message": "Made by Niels Brakel in the Netherlands.",
+    "message": "Made by Niels van Brakel in the Netherlands.",
     "description": "Footer line that names the maker and controller (as in the privacy policy)."
   },
   "websiteThemeLabel": {
@@ -317,10 +325,6 @@
       }
     }
   },
-  "websiteHeroButton": {
-    "message": "Delete customer",
-    "description": "Button text on the sample page in the playground's mock browser (home hero and playground). Keep it short."
-  },
   "websiteNotFoundHeading": {
     "message": "Page not found",
     "description": "Heading of the 404 page, which shows English and Dutch together. Also part of its title."
@@ -362,7 +366,7 @@
     "description": "Document title of the playground page. At most 60 characters."
   },
   "websitePlaygroundDescription": {
-    "message": "Try SiteMark without installing it: pick a color, a text and effects, and see how ribbons, banners and outlines mark a page.",
+    "message": "Try SiteMark without installing it: pick a color and a text, and see how a ribbon marks a page.",
     "description": "Meta description of the playground page. At most 160 characters."
   },
   "websitePlaygroundHeading": {
@@ -381,20 +385,12 @@
     "message": "Mark text",
     "description": "Playground: label of the text field whose text the ribbon, banner, watermark and title prefix show."
   },
-  "websitePlaygroundPageEffects": {
-    "message": "Effects on the page",
-    "description": "Playground: label of the group of page effects."
-  },
-  "websitePlaygroundElementEffects": {
-    "message": "Effects on the Delete customer button",
-    "description": "Playground: label of the group of effects on the sample page's button. The button text must match websiteHeroButton."
-  },
   "websitePlaygroundPreview": {
     "message": "Preview of a marked page",
     "description": "Playground: accessible name of the mock browser window that shows the marks."
   },
   "websitePlaygroundPageTitle": {
-    "message": "Customers",
+    "message": "Leaf & Lamp",
     "description": "Playground: title of the sample page in the mock browser tab. A title prefix goes in front of it."
   },
   "websitePlaygroundNoScript": {
@@ -402,11 +398,11 @@
     "description": "Playground page without JavaScript: the note above the static image of the default preview."
   },
   "websitePlaygroundFallbackAlt": {
-    "message": "The playground's preview: a mock browser window with a red PROD banner along the top, a red PROD ribbon in the top-right corner and an outline around the Delete customer button.",
+    "message": "The playground's preview: a mock browser window with a sample web shop and a red PROD ribbon in the top-right corner.",
     "description": "Alt text of the static image of the playground's default preview, shown without JavaScript."
   },
   "websiteHeroPlaygroundLink": {
-    "message": "Try every effect in the playground",
+    "message": "Try your own mark in the playground",
     "description": "Home hero: link under the small playground to the full playground page."
   },
   "websitePlaygroundSummaryPage": {
@@ -429,7 +425,7 @@
   },
   "websitePlaygroundSummaryElement": {
     "message": "The Delete customer button has $EFFECTS$.",
-    "description": "Playground: read out by screen readers when the preview changes. EFFECTS is a list of lowercase effect names. The button text must match websiteHeroButton.",
+    "description": "Playground: read out by screen readers when the preview changes. EFFECTS is a list of lowercase effect names.",
     "placeholders": {
       "effects": {
         "content": "$1",

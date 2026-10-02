@@ -47,6 +47,10 @@
     "message": "Wijzigingen",
     "description": "Footer link to the changelog (the list of changes per release)."
   },
+  "websiteNavGitHub": {
+    "message": "GitHub",
+    "description": "Header link to the open-source repository of SiteMark on GitHub."
+  },
   "websiteLanguageLabel": {
     "message": "Taal",
     "description": "Accessible name of the language switch (EN / NL)."
@@ -75,8 +79,12 @@
     "message": "MIT-licentie",
     "description": "Footer link to the open-source license of SiteMark."
   },
+  "websiteFooterPortfolio": {
+    "message": "Portfolio",
+    "description": "Footer link to the maker's portfolio website, nielsvanbrakel.com."
+  },
   "websiteFooterMadeIn": {
-    "message": "Gemaakt door Niels Brakel in Nederland.",
+    "message": "Gemaakt door Niels van Brakel in Nederland.",
     "description": "Footer line that names the maker and controller (as in the privacy policy)."
   },
   "websiteThemeLabel": {
@@ -317,10 +325,6 @@
       }
     }
   },
-  "websiteHeroButton": {
-    "message": "Klant verwijderen",
-    "description": "Button text on the sample page in the playground's mock browser (home hero and playground). Keep it short."
-  },
   "websiteNotFoundHeading": {
     "message": "Pagina niet gevonden",
     "description": "Heading of the 404 page, which shows English and Dutch together. Also part of its title."
@@ -362,7 +366,7 @@
     "description": "Document title of the playground page. At most 60 characters."
   },
   "websitePlaygroundDescription": {
-    "message": "Probeer SiteMark zonder het te installeren: kies een kleur, een tekst en effecten, en zie hoe linten, banners en omlijningen een pagina markeren.",
+    "message": "Probeer SiteMark zonder het te installeren: kies een kleur en een tekst, en zie hoe een lint een pagina markeert.",
     "description": "Meta description of the playground page. At most 160 characters."
   },
   "websitePlaygroundHeading": {
@@ -381,20 +385,12 @@
     "message": "Tekst van de markering",
     "description": "Playground: label of the text field whose text the ribbon, banner, watermark and title prefix show."
   },
-  "websitePlaygroundPageEffects": {
-    "message": "Effecten op de pagina",
-    "description": "Playground: label of the group of page effects."
-  },
-  "websitePlaygroundElementEffects": {
-    "message": "Effecten op de knop Klant verwijderen",
-    "description": "Playground: label of the group of effects on the sample page's button. The button text must match websiteHeroButton."
-  },
   "websitePlaygroundPreview": {
     "message": "Voorbeeld van een gemarkeerde pagina",
     "description": "Playground: accessible name of the mock browser window that shows the marks."
   },
   "websitePlaygroundPageTitle": {
-    "message": "Klanten",
+    "message": "Leaf & Lamp",
     "description": "Playground: title of the sample page in the mock browser tab. A title prefix goes in front of it."
   },
   "websitePlaygroundNoScript": {
@@ -402,11 +398,11 @@
     "description": "Playground page without JavaScript: the note above the static image of the default preview."
   },
   "websitePlaygroundFallbackAlt": {
-    "message": "Het voorbeeld van Uitproberen: een nagebootst browservenster met een rode PROD-banner langs de bovenkant, een rood PROD-lint in de hoek rechtsboven en een omlijning om de knop Klant verwijderen.",
+    "message": "Het voorbeeld van Uitproberen: een nagebootst browservenster met een voorbeeldwebshop en een rood PROD-lint in de hoek rechtsboven.",
     "description": "Alt text of the static image of the playground's default preview, shown without JavaScript."
   },
   "websiteHeroPlaygroundLink": {
-    "message": "Probeer alle effecten bij Uitproberen",
+    "message": "Probeer je eigen markering bij Uitproberen",
     "description": "Home hero: link under the small playground to the full playground page."
   },
   "websitePlaygroundSummaryPage": {
@@ -429,7 +425,7 @@
   },
   "websitePlaygroundSummaryElement": {
     "message": "De knop Klant verwijderen heeft $EFFECTS$.",
-    "description": "Playground: read out by screen readers when the preview changes. EFFECTS is a list of lowercase effect names. The button text must match websiteHeroButton.",
+    "description": "Playground: read out by screen readers when the preview changes. EFFECTS is a list of lowercase effect names.",
     "placeholders": {
       "effects": {
         "content": "$1",

@@ -21,7 +21,7 @@ export type Route = {
   readonly milestone: WebsiteMilestone;
   /** Store listings link here, so the URL never moves (REQ-POLICY-005). */
   readonly stable: boolean;
-  /** Shown in the header navigation (the wordmark links home, the footer has the rest). */
+  /** Shown in the header navigation (Home first, then Playground; the footer has the rest). */
   readonly nav: boolean;
   /** The help topic of a `helpTopic` route (REQ-PAGE-004). */
   readonly topic?: HelpTopic;
@@ -30,7 +30,8 @@ export type Route = {
 const MILESTONES: readonly WebsiteMilestone[] = ['W1', 'W2'];
 
 const ROUTES: readonly Route[] = [
-  { page: 'home', slug: '', milestone: 'W1', stable: false, nav: false },
+  { page: 'home', slug: '', milestone: 'W1', stable: false, nav: true },
+  { page: 'playground', slug: 'playground/', milestone: 'W2', stable: false, nav: true },
   { page: 'help', slug: 'help/', milestone: 'W2', stable: false, nav: true },
   ...helpTopics().map(
     (topic): Route => ({
@@ -42,7 +43,6 @@ const ROUTES: readonly Route[] = [
       topic,
     }),
   ),
-  { page: 'playground', slug: 'playground/', milestone: 'W2', stable: false, nav: true },
   { page: 'support', slug: 'support/', milestone: 'W1', stable: true, nav: true },
   { page: 'privacy', slug: 'privacy/', milestone: 'W1', stable: true, nav: true },
   { page: 'changelog', slug: 'changelog/', milestone: 'W2', stable: false, nav: false },

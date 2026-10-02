@@ -26,6 +26,11 @@
   top: var(--sm-space-4);
 }
 
+/* The mock browser is a little taller than the options page's, to fit the sample shop. */
+.mock {
+  --sm-preview-height: 300px;
+}
+
 .group {
   display: grid;
   gap: var(--sm-space-2);
@@ -41,15 +46,13 @@
   font-weight: 700;
 }
 
-.presets,
-.effects {
+.presets {
   display: flex;
   flex-wrap: wrap;
   gap: var(--sm-space-2) var(--sm-space-4);
 }
 
-.preset,
-.effect {
+.preset {
   display: inline-flex;
   align-items: center;
   gap: var(--sm-space-2);
@@ -72,20 +75,83 @@
 
 .placement {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--sm-space-2) var(--sm-space-3);
-  align-items: center;
-  margin-top: var(--sm-space-2);
+  gap: var(--sm-space-1);
 }
 
+.placement label {
+  font-weight: 600;
+}
+
+/* Soft inputs: the Field and select controls sink into the card (inset), with no hard outline.
+   Their edge is the shadow pair; an invalid one gets a danger ring, and forced-colors mode gets a
+   real border back. Element selectors beat the shared Field class on purpose (website only). */
+.controls input:not([type='radio']),
 .select {
-  min-block-size: 32px;
-  padding: 0 var(--sm-space-2);
-  border: 1px solid var(--sm-control-border);
-  border-radius: var(--sm-radius-sm);
+  inline-size: 100%;
+  min-block-size: 44px;
+  padding: 0 var(--sm-space-4);
+  border: 1px solid transparent;
+  border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
   color: var(--sm-text);
+  box-shadow: var(--sm-inset);
   font: inherit;
+  transition: box-shadow var(--sm-duration) var(--sm-ease);
+}
+
+.controls input[aria-invalid='true'] {
+  border-color: var(--sm-danger);
+}
+
+/* The select's a CSS-only chevron (the CSP allows no data: images). */
+.select {
+  padding-inline-end: var(--sm-space-6);
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--sm-text-muted) 50%),
+    linear-gradient(135deg, var(--sm-text-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 50%,
+    calc(100% - 15px) 50%;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+/* Radios as soft knobs: raised when off, sunk with an accent dot when on. */
+.preset input[type='radio'] {
+  display: grid;
+  flex: none;
+  place-content: center;
+  inline-size: 22px;
+  block-size: 22px;
+  margin: 0;
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-raised-sm);
+  appearance: none;
+  cursor: pointer;
+  transition: box-shadow var(--sm-duration) var(--sm-ease);
+}
+
+.preset input[type='radio']::before {
+  content: '';
+  inline-size: 10px;
+  block-size: 10px;
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-accent);
+  transform: scale(0);
+  transition: transform var(--sm-duration) var(--sm-ease);
+}
+
+.preset input[type='radio']:checked {
+  box-shadow: var(--sm-pressed);
+}
+
+.preset input[type='radio']:checked::before {
+  transform: scale(1);
 }
 
 @media (width <= 720px) {
@@ -101,5 +167,18 @@
 @media (forced-colors: active) {
   .swatch {
     forced-color-adjust: none;
+  }
+
+  .controls input:not([type='radio']),
+  .select {
+    border-color: ButtonText;
+  }
+
+  .preset input[type='radio'] {
+    border: 1px solid ButtonText;
+  }
+
+  .preset input[type='radio']::before {
+    background: Highlight;
   }
 }

@@ -2,6 +2,7 @@ import { type ReactNode, type RefObject, useLayoutEffect, useRef } from 'react';
 import type { RenderItem, RenderPlan } from '../../core/render/render-plan';
 import { createView } from '../../shared/marker-view/create-view';
 import type { EffectView, ViewLabels } from '../../shared/marker-view/effect-view';
+import { classNames } from './class-names';
 import styles from './MarkPreview.module.css';
 import { paintColor } from './paint';
 import { previewContainer, rectIn } from './preview-shadow';
@@ -18,6 +19,10 @@ export type MarkPreviewProps = {
   readonly labels: ViewLabels;
   /** The text of the element that element marks mark (the website's "Delete customer" button). */
   readonly targetLabel?: string;
+  /** Replaces the default placeholder page (the website draws a sample shop). Decorative. */
+  readonly children?: ReactNode;
+  /** Extra class for the figure, e.g. to set `--sm-preview-height`. */
+  readonly className?: string | undefined;
 };
 
 type Refs = {
@@ -31,13 +36,13 @@ function useMarkViews(plan: RenderPlan, { collapseBanner, expandBanner }: ViewLa
   useLayoutEffect(() => {
     const host = refs.host.current;
     const target = refs.target.current;
-    if (!host || !target) return;
+    if (!host) return;
     const labels = { collapseBanner, expandBanner };
     const ctx = { container: previewContainer(host), collapsedBanners: collapsed.current, labels };
     const views: EffectView[] = [];
     for (const item of plan.items) {
       const view = createView(item, ctx);
-      if (view && item.target !== 'page') view.setRect(rectIn(target, host));
+      if (view && item.target !== 'page' && target) view.setRect(rectIn(target, host));
       if (view) views.push(view);
     }
     return () => {
@@ -64,13 +69,15 @@ export function MarkPreview({
   address,
   labels,
   targetLabel,
+  children,
+  className,
 }: MarkPreviewProps): ReactNode {
   const refs = useRef<Refs>({ host: { current: null }, target: { current: null } }).current;
   useMarkViews(plan, labels, refs);
   const prefix = itemOf(plan, 'titlePrefix')?.params.text;
   const favicon = itemOf(plan, 'favicon');
   return (
-    <figure aria-label={label} className={styles.preview}>
+    <figure aria-label={label} className={classNames(styles.preview, className)}>
       <div className={styles.chrome}>
         <span className={styles.tab}>
           <span
@@ -83,13 +90,17 @@ export function MarkPreview({
         <span className={styles.address}>{address}</span>
       </div>
       <div className={styles.viewport}>
-        <div className={styles.page} aria-hidden="true">
-          <span className={styles.line} />
-          <span className={styles.line} />
-          <div ref={refs.target} className={targetLabel ? styles.button : styles.target}>
-            {targetLabel}
-          </div>
-          <span className={styles.line} />
+        <div className={children ? styles.sample : styles.page} aria-hidden="true">
+          {children ?? (
+            <>
+              <span className={styles.line} />
+              <span className={styles.line} />
+              <div ref={refs.target} className={targetLabel ? styles.button : styles.target}>
+                {targetLabel}
+              </div>
+              <span className={styles.line} />
+            </>
+          )}
         </div>
         <div ref={refs.host} data-marker-host="" className={styles.host} />
       </div>

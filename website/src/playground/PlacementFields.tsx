@@ -10,22 +10,14 @@ const CORNERS = [
   ['bottom-right', 'cornerBottomRight'],
 ] as const;
 
-const EDGES = [
-  ['top', 'edgeTop'],
-  ['bottom', 'edgeBottom'],
-] as const;
-
 type Props = IslandProps & {
   readonly corner: Corner;
-  readonly edge: 'top' | 'bottom';
   readonly onCorner: (corner: Corner) => void;
-  readonly onEdge: (edge: 'top' | 'bottom') => void;
 };
 
-/** Where the ribbon and the banner go: native selects with the options page's labels. */
-export function PlacementFields({ t, corner, edge, onCorner, onEdge }: Props) {
+/** Where the ribbon goes: a select with the options page's labels. */
+export function PlacementFields({ t, corner, onCorner }: Props) {
   const cornerId = useId();
-  const edgeId = useId();
   return (
     <div className={styles.placement}>
       <label htmlFor={cornerId}>{t('optionsRibbonCorner')}</label>
@@ -36,19 +28,6 @@ export function PlacementFields({ t, corner, edge, onCorner, onEdge }: Props) {
         onChange={(event) => onCorner(event.target.value as Corner)}
       >
         {CORNERS.map(([value, label]) => (
-          <option key={value} value={value}>
-            {t(label)}
-          </option>
-        ))}
-      </select>
-      <label htmlFor={edgeId}>{t('optionsBannerEdge')}</label>
-      <select
-        id={edgeId}
-        className={styles.select}
-        value={edge}
-        onChange={(event) => onEdge(event.target.value as 'top' | 'bottom')}
-      >
-        {EDGES.map(([value, label]) => (
           <option key={value} value={value}>
             {t(label)}
           </option>

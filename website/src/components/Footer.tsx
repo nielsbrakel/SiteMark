@@ -1,3 +1,4 @@
+import { portfolioUrl } from '../config/maker';
 import { repositoryFileUrl, repositoryUrl } from '../config/repository';
 import type { Locale } from '../i18n/locales';
 import type { PageProps } from '../pages/page-props';
@@ -12,7 +13,7 @@ type FooterProps = { locale: Locale; routes: readonly Route[]; t: PageProps['t']
 /** The pages the footer links, in this order, once they have a page. */
 const FOOTER_PAGES: readonly PageId[] = ['changelog', 'privacy', 'support'];
 
-/** Repository, changelog, privacy, support, sitemap (REQ-SEO-003) and license (REQ-PAGE-007). */
+/** Repository, changelog, privacy, support, sitemap (REQ-SEO-003), license (REQ-PAGE-007), portfolio. */
 export function Footer({ locale, routes, t }: FooterProps) {
   const pages = FOOTER_PAGES.flatMap((page) => routes.filter((route) => route.page === page));
   return (
@@ -39,6 +40,11 @@ export function Footer({ locale, routes, t }: FooterProps) {
           <li>
             <ExternalLink className={styles.link} href={repositoryFileUrl('LICENSE')}>
               {t('websiteFooterLicense')}
+            </ExternalLink>
+          </li>
+          <li>
+            <ExternalLink className={styles.link} href={portfolioUrl()}>
+              {t('websiteFooterPortfolio')}
             </ExternalLink>
           </li>
         </ul>
