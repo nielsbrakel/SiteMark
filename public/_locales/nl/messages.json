@@ -17,7 +17,7 @@
     "message": "SiteMark"
   },
   "optionsTitle": {
-    "message": "SiteMark-instellingen"
+    "message": "SiteMark"
   },
   "scaffoldNotice": {
     "message": "In aanbouw. Zie docs/tasks.md voor de voortgang."
@@ -1126,10 +1126,6 @@
     "message": "Voorbeeldpagina",
     "description": "Mark preview: the title of the mock page in the mock browser tab."
   },
-  "optionsSaving": {
-    "message": "Opslaan…",
-    "description": "Options page: a change is on its way to being saved."
-  },
   "optionsSaved": {
     "message": "Opgeslagen",
     "description": "Options page: the last change was saved (autosave)."
@@ -1461,7 +1457,7 @@
     }
   },
   "optionsDocumentTitle": {
-    "message": "$PAGE$ – SiteMark-instellingen",
+    "message": "$PAGE$ – SiteMark",
     "description": "Options page: the browser tab's title, naming the open page (a site group's name, Settings, Data…).",
     "placeholders": {
       "page": {
@@ -1473,5 +1469,17 @@
   "optionsLastEffectHint": {
     "message": "Een markering heeft minstens één effect nodig.",
     "description": "Mark editor: why the only effect that is on can't be turned off."
+  },
+  "footerWebsite": {
+    "message": "Website",
+    "description": "Footer link (popup and options page) to the SiteMark website."
+  },
+  "footerGitHub": {
+    "message": "GitHub",
+    "description": "Footer link to the SiteMark source code on GitHub."
+  },
+  "footerPrivacy": {
+    "message": "Privacybeleid",
+    "description": "Footer link to the privacy policy on the website."
   }
 }

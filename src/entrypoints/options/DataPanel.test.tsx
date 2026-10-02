@@ -174,8 +174,7 @@ describe('REQ-OPT-005 reset everything, after a double confirmation', () => {
   const openDialog = () =>
     fireEvent.click(byRole('button', { name: 'Reset everything' }, resetSection()));
   const dialog = () => byRole('dialog');
-  const revokeBox = () =>
-    byRole('checkbox', { name: "Also remove SiteMark's access to all sites" });
+  const revokeBox = () => byRole('switch', { name: "Also remove SiteMark's access to all sites" });
 
   async function confirmTwice() {
     openDialog();

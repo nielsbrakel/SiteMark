@@ -1,0 +1,18 @@
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sm-space-1) var(--sm-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--sm-text-sm);
+}
+
+.links a {
+  color: var(--sm-text-muted);
+}
+
+.links a:hover {
+  color: var(--sm-accent-text);
+}

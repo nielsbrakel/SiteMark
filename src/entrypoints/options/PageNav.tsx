@@ -35,7 +35,12 @@ export function PageNav({ route }: { readonly route: OptionsRoute | undefined })
   return (
     <nav aria-label={t('optionsPages')} className={styles.nav}>
       {PAGES.map(({ page, href, label }) => (
-        <a key={page} href={href} aria-current={page === current ? 'page' : undefined}>
+        <a
+          key={page}
+          href={href}
+          className="sm-nav-link"
+          aria-current={page === current ? 'page' : undefined}
+        >
           {t(label)}
         </a>
       ))}

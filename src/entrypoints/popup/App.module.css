@@ -6,6 +6,7 @@
 
 .header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--sm-space-2);
 }
@@ -17,6 +18,5 @@
 
 .settings {
   margin-inline-start: auto;
-  color: var(--sm-accent-text);
-  font-weight: 600;
+  padding-inline: 0;
 }

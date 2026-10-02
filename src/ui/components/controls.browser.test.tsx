@@ -91,9 +91,11 @@ describe('REQ-A11Y-008 control boundaries use --sm-control-border (3:1)', () => 
     expect(getComputedStyle(screen.getByRole('switch')).borderTopWidth).toBe('1px');
   });
 
-  it('the field control', () => {
+  it('the field control is a soft inset well: no outline, the shadow pair is its edge', () => {
     render(<Field label="Name">{(control) => <input {...control} />}</Field>);
-    expect(getComputedStyle(screen.getByLabelText('Name')).borderTopColor).toBe(border());
+    const style = getComputedStyle(screen.getByLabelText('Name'));
+    expect(style.borderTopColor).toBe('rgba(0, 0, 0, 0)');
+    expect(style.boxShadow).toContain('inset');
   });
 
   it('the segmented group', () => {

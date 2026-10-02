@@ -3,6 +3,7 @@ import { browser } from 'wxt/browser';
 import type { SiteMarkState } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
+import { Switch } from '@/ui/components/Switch';
 import { diagnosticsText } from './diagnostics';
 import styles from './Pane.module.css';
 
@@ -34,14 +35,11 @@ export function DiagnosticsSection({ state }: { readonly state: SiteMarkState })
     <section className={styles.pane} aria-labelledby={headingId}>
       <h3 id={headingId}>{t('optionsDiagnostics')}</h3>
       <p>{t('optionsDiagnosticsHelp')}</p>
-      <label className={styles.check}>
-        <input
-          type="checkbox"
-          checked={includeOrigins}
-          onChange={(event) => setIncludeOrigins(event.target.checked)}
-        />
-        {t('optionsDiagnosticsIncludeOrigins')}
-      </label>
+      <Switch
+        label={t('optionsDiagnosticsIncludeOrigins')}
+        checked={includeOrigins}
+        onChange={setIncludeOrigins}
+      />
       <div>
         <Button onClick={() => void copy()}>{t('optionsCopyDiagnostics')}</Button>
       </div>

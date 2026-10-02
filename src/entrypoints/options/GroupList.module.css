@@ -32,9 +32,8 @@
 }
 
 .link[aria-current='page'] {
-  border-color: var(--sm-control-border);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-pressed);
   font-weight: 600;
 }
 

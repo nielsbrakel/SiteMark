@@ -18,7 +18,7 @@ test('extension pages render without console errors under the strict CSP', async
   await page.goto(`chrome-extension://${extensionId}/popup.html`);
   await expect(page.getByRole('heading', { name: 'SiteMark' })).toBeVisible();
   await page.goto(`chrome-extension://${extensionId}/options.html`);
-  await expect(page.getByRole('heading', { name: 'SiteMark settings' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'SiteMark' })).toBeVisible();
   expect(errors).toEqual([]);
 });
 

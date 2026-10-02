@@ -7,6 +7,8 @@ import styles from './Segmented.module.css';
 export type SegmentedOption<V extends string> = {
   readonly value: V;
   readonly label: string;
+  /** Shown instead of the label (which stays the accessible name and tooltip). */
+  readonly icon?: ReactNode;
 };
 
 export type SegmentedProps<V extends string> = {
@@ -15,12 +17,15 @@ export type SegmentedProps<V extends string> = {
   readonly value: V;
   readonly onChange: (value: V) => void;
   readonly disabled?: boolean;
+  /** Keeps `label` as the group's accessible name but hides it visually. */
+  readonly labelHidden?: boolean;
   readonly className?: string;
 };
 
 /**
  * A segmented control with radio group semantics (design.md §4): arrow keys, Home and End move the
- * selection. The selected segment is raised and carries a check mark, so it isn't shown by shadow alone.
+ * selection. The selected segment is raised and carries a check mark, so it isn't shown by shadow alone;
+ * a segment with an icon shows only the icon, and the selected one is pressed in, not raised.
  */
 export function Segmented<V extends string>({
   label,
@@ -28,6 +33,7 @@ export function Segmented<V extends string>({
   value,
   onChange,
   disabled = false,
+  labelHidden = false,
   className,
 }: SegmentedProps<V>): ReactNode {
   const labelId = useId();
@@ -39,7 +45,7 @@ export function Segmented<V extends string>({
   const roving = useRovingFocus(options.length, select, disabled);
   return (
     <div className={classNames(styles.segmented, className)}>
-      <span id={labelId} className={styles.label}>
+      <span id={labelId} className={labelHidden ? 'sm-visually-hidden' : styles.label}>
         {label}
       </span>
       <div role="radiogroup" aria-labelledby={labelId} className={styles.group}>
@@ -54,11 +60,20 @@ export function Segmented<V extends string>({
             tabIndex={rovingTabIndex(index, selectedIndex)}
             disabled={disabled}
             className={styles.segment}
+            title={option.icon ? option.label : undefined}
+            aria-label={option.icon ? option.label : undefined}
             onClick={() => select(index)}
             onKeyDown={roving.onKeyDown(index)}
           >
-            {index === selectedIndex && <CheckIcon className={styles.check} />}
-            {option.label}
+            {option.icon ??
+              (index === selectedIndex ? (
+                <>
+                  <CheckIcon className={styles.check} />
+                  {option.label}
+                </>
+              ) : (
+                option.label
+              ))}
           </button>
         ))}
       </div>

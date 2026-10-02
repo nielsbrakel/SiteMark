@@ -150,7 +150,7 @@ every visit", with **Allow**.
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────┐
-│ [logo] SiteMark settings                  Site groups · Settings · Data  │
+│ [logo] SiteMark             Site groups · Settings · Data   [🖥][☀][🌙] │
 ├───────────────────────┬──────────────────────────────────────────────────┤
 │ Site groups     [+]   │  ● Production                         [●━━ On]   │
 │ ╭───────────────────╮ │  Name  [ Production            ]                  │
