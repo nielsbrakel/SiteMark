@@ -3,6 +3,7 @@ import { browser } from 'wxt/browser';
 import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
 import { Dialog } from '@/ui/components/Dialog';
+import { Switch } from '@/ui/components/Switch';
 import { commandErrorText } from './command-error';
 import type { Notify } from './notify';
 import styles from './Pane.module.css';
@@ -42,14 +43,7 @@ export function ResetSection({ notify }: { readonly notify: Notify }): ReactNode
     <section className={styles.pane} aria-labelledby={headingId}>
       <h3 id={headingId}>{t('optionsResetHeading')}</h3>
       <p>{t('optionsResetHelp')}</p>
-      <label className={styles.check}>
-        <input
-          type="checkbox"
-          checked={revoke}
-          onChange={(event) => setRevoke(event.target.checked)}
-        />
-        {t('optionsResetRevoke')}
-      </label>
+      <Switch label={t('optionsResetRevoke')} checked={revoke} onChange={setRevoke} />
       <div>
         <Button onClick={() => setStep('first')}>{t('optionsReset')}</Button>
       </div>

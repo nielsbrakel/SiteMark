@@ -26,6 +26,24 @@ a {
   color: var(--sm-accent-text);
 }
 
+/* Header links: plain text, the current page in the accent color and underlined (never shadow alone). */
+.sm-nav-link {
+  padding: var(--sm-space-1) var(--sm-space-2);
+  color: var(--sm-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sm-nav-link:hover {
+  color: var(--sm-accent-text);
+}
+
+.sm-nav-link[aria-current='page'] {
+  color: var(--sm-accent-text);
+  text-decoration: underline 2px;
+  text-underline-offset: 6px;
+}
+
 /* Soft UI primitives. Components compose these; see docs/design.md §4. */
 .sm-card {
   border: 1px solid transparent;
@@ -38,7 +56,7 @@ a {
 }
 
 .sm-well {
-  border: 1px solid var(--sm-control-border);
+  border: 1px solid transparent;
   background: var(--sm-surface);
   border-radius: var(--sm-radius-md);
   box-shadow: var(--sm-inset);

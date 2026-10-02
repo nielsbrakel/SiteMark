@@ -137,11 +137,11 @@ describe('REQ-OPT-001 hash routing for deep links', () => {
 
 describe('REQ-OPT-001 the tab title names the open page (WCAG 2.4.2)', () => {
   it.each([
-    [`#/groups/${staging.id}`, 'Staging – SiteMark settings'],
-    [`#/groups/${prod.id}/marks/${mark.id}`, 'Production – SiteMark settings'],
-    ['#/settings', 'Settings – SiteMark settings'],
-    ['#/data', 'Data – SiteMark settings'],
-    ['#/welcome', 'Welcome to SiteMark – SiteMark settings'],
+    [`#/groups/${staging.id}`, 'Staging – SiteMark'],
+    [`#/groups/${prod.id}/marks/${mark.id}`, 'Production – SiteMark'],
+    ['#/settings', 'Settings – SiteMark'],
+    ['#/data', 'Data – SiteMark'],
+    ['#/welcome', 'Welcome to SiteMark – SiteMark'],
   ])('titles %s "%s"', async (hash, title) => {
     await openAt(hash);
     expect(document.title).toBe(title);
@@ -149,14 +149,14 @@ describe('REQ-OPT-001 the tab title names the open page (WCAG 2.4.2)', () => {
 
   it('names the site group list when there are no site groups', async () => {
     await openAt('', []);
-    expect(document.title).toBe('Site groups – SiteMark settings');
+    expect(document.title).toBe('Site groups – SiteMark');
   });
 
   it('follows the hash as it changes', async () => {
     await openAt('#/');
-    expect(document.title).toBe('Production – SiteMark settings');
+    expect(document.title).toBe('Production – SiteMark');
     navigate('#/data');
-    expect(document.title).toBe('Data – SiteMark settings');
+    expect(document.title).toBe('Data – SiteMark');
   });
 });
 

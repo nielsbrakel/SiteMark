@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { axeViolations } from '../../../tests/unit/axe';
 import { Segmented, type SegmentedOption } from './Segmented';
+import { themeOptions } from './theme-options';
 
 type Corner = 'tl' | 'tr' | 'bl' | 'br';
 
@@ -107,6 +108,28 @@ describe('REQ-A11Y-003 REQ-A11Y-008 Segmented', () => {
 
   it('has no axe violations', async () => {
     const { container } = render(<Harness />);
+    expect(await axeViolations(container)).toEqual([]);
+  });
+
+  it('shows only the icon of an icon segment, named by its label, with the group name hidden', async () => {
+    const onChange = vi.fn();
+    const labels = { system: 'System', light: 'Light', dark: 'Dark' };
+    const { container } = render(
+      <Segmented
+        labelHidden
+        label="Theme"
+        options={themeOptions(labels)}
+        value="light"
+        onChange={onChange}
+      />,
+    );
+    const light = screen.getByRole('radio', { name: 'Light' });
+    expect(light).toHaveTextContent('');
+    expect(light).toHaveAttribute('title', 'Light');
+    expect(light).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByText('Theme')).toHaveClass('sm-visually-hidden');
+    fireEvent.click(screen.getByRole('radio', { name: 'Dark' }));
+    expect(onChange).toHaveBeenCalledWith('dark');
     expect(await axeViolations(container)).toEqual([]);
   });
 });

@@ -4,6 +4,7 @@ import type { SiteGroup, SiteMarkState } from '@/core/model/schema';
 import type { OptionsRoute } from '@/core/options-route';
 import { t } from '@/lib/i18n/browser-source';
 import { Toast } from '@/ui/components/Toast';
+import { SiteLinks } from '@/ui/SiteLinks';
 import { DataPane } from './DataPane';
 import { GroupEditor } from './GroupEditor';
 import styles from './Layout.module.css';
@@ -15,6 +16,7 @@ import { selectedGroup } from './routes';
 import { SaveStatusText } from './SaveStatusText';
 import { SettingsPane } from './SettingsPane';
 import { Sidebar } from './Sidebar';
+import { ThemeControl } from './ThemeControl';
 import { UnreadableBanner } from './UnreadableBanner';
 import { useDocumentTitle } from './use-document-title';
 import { useOpenNewGroup } from './use-open-new-group';
@@ -54,7 +56,7 @@ function GroupPane({ route, state, group, notify, onAdded }: PaneProps): ReactNo
 function Pane(props: PaneProps): ReactNode {
   switch (props.route?.page) {
     case 'settings':
-      return <SettingsPane state={props.state} notify={props.notify} />;
+      return <SettingsPane state={props.state} />;
     case 'data':
       return <DataPane state={props.state} notify={props.notify} />;
     case 'welcome':
@@ -80,6 +82,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
         <h1>{t('optionsTitle')}</h1>
         <SaveStatusText />
         <PageNav route={route} />
+        <ThemeControl theme={state.settings.theme} notify={setToast} />
       </header>
       <Sidebar
         groups={state.siteGroups}
@@ -99,6 +102,9 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
           />
         </RevokeContext>
       </main>
+      <footer className={styles.footer}>
+        <SiteLinks />
+      </footer>
       <Toast
         toast={toast}
         onDismiss={() => {

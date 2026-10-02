@@ -54,9 +54,19 @@
   cursor: not-allowed;
 }
 
-.check {
+.check,
+.segment > svg:only-child {
   flex: none;
   color: var(--sm-accent-text);
+}
+
+/* An icon-only segment (the theme switch) is a square knob: dim until selected. */
+.segment:has(> svg:only-child) {
+  padding-inline: var(--sm-space-2);
+}
+
+.segment:not([aria-checked='true']) > svg:only-child {
+  color: var(--sm-text-muted);
 }
 
 @media (forced-colors: active) {
@@ -70,7 +80,7 @@
     color: HighlightText;
   }
 
-  .segment[aria-checked='true'] .check {
+  .segment[aria-checked='true'] svg {
     color: HighlightText;
   }
 

@@ -5,6 +5,7 @@ import { optionsPageUrl } from '@/platform/deep-links';
 import { useCurrentTab } from '@/ui/hooks/use-current-tab';
 import { useSiteMarkState } from '@/ui/hooks/use-site-mark-state';
 import { useTheme } from '@/ui/hooks/use-theme';
+import { SiteLinks } from '@/ui/SiteLinks';
 import styles from './App.module.css';
 import { PopupBody } from './PopupBody';
 import { useStoredUnreadable } from './use-stored-unreadable';
@@ -26,7 +27,7 @@ export function PopupApp({ search }: PopupAppProps): ReactNode {
         <img src={logo} alt="" width={32} height={32} />
         <h1>{t('popupTitle')}</h1>
         <a
-          className={styles.settings}
+          className={`sm-nav-link ${styles.settings}`}
           href={optionsPageUrl({ page: 'settings' })}
           target="_blank"
           rel="noreferrer"
@@ -35,6 +36,7 @@ export function PopupApp({ search }: PopupAppProps): ReactNode {
         </a>
       </header>
       <PopupBody tab={tab} view={view} isUnreadable={isUnreadable} />
+      <SiteLinks />
     </main>
   );
 }

@@ -24,7 +24,8 @@ const dynamicCode: [string, RegExp][] = [
 const allowedUrls = [
   /^http:\/\/www\.w3\.org\//, // XML namespaces (SVG, MathML, XLink) used by React DOM
   /^https:\/\/react\.dev\/errors\//, // production error decoder link in React's messages
-  /^https:\/\/nielsbrakel\.github\.io\/SiteMark\/$/, // manifest homepage_url (D-256), a link only
+  /^https:\/\/nielsbrakel\.github\.io\/SiteMark\/(nl\/)?(privacy\/)?$/, // homepage_url (D-256) and the footer links, links only
+  /^https:\/\/github\.com\/nielsbrakel\/SiteMark$/, // the footer's GitHub link
   /^https?:\/\/json-schema\.org\//, // JSON Schema dialect IDs in zod's toJSONSchema (background)
   /^http:\/\/\[\$\{/, // zod's IPv6 check parses `http://[${value}]` locally with URL()
   /^https:\/\/example\.com(\/|$)/, // RFC 2606 examples in options help texts and the preview's mock page
