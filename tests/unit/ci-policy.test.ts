@@ -101,7 +101,7 @@ describe('REQ-SEC-009 dependencies are frozen, pinned and cooled down', () => {
   it('pins Node exactly and satisfies the engines range', () => {
     const nvmrc = readFileSync('.nvmrc', 'utf8').trim();
     expect(nvmrc).toMatch(/^\d+\.\d+\.\d+$/);
-    expect(pkg.engines.node).toMatch(/^\^22\./);
+    expect(pkg.engines.node).toMatch(/^\^26\./);
     expect(pkg.packageManager).toMatch(/^pnpm@\d+\.\d+\.\d+$/);
   });
 

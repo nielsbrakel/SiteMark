@@ -30,7 +30,7 @@
   ],
   "packageManager": "pnpm@10.33.0",
   "engines": {
-    "node": "^22.18.0"
+    "node": "^26.0.0"
   },
   "scripts": {
     "dev": "wxt",
@@ -93,7 +93,7 @@
     "@stryker-mutator/vitest-runner": "10.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
-    "@types/node": "^22.0.0",
+    "@types/node": "^26.0.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitest/browser-playwright": "4.1.11",

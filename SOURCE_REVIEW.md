@@ -6,7 +6,7 @@ These steps rebuild the Firefox package from this sources zip. The result matche
 ## Requirements
 
 - Linux, macOS or Windows (WSL); the release is built on Ubuntu 24.04.
-- **Node.js 22.22.2** (the exact version is in `.nvmrc`).
+- **Node.js 26.10.0** (the exact version is in `.nvmrc`).
 - **pnpm 10.33.0** (the exact version is in the `packageManager` field of `package.json`). With Node's Corepack,
   `corepack enable` picks it up automatically.
 
