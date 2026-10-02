@@ -1,7 +1,7 @@
 import { type FormEvent, type ReactNode, useState } from 'react';
 import type { Hex } from '@/core/model/schema';
-import { t } from '@/lib/i18n/browser-source';
-import { Field } from '@/ui/components/Field';
+import { Field } from '../Field';
+import { useT } from './translate';
 import { useDebounced } from './use-debounced';
 
 const HEX = /^#?([0-9a-f]{6})$/i;
@@ -21,6 +21,7 @@ export type HexFieldProps = {
 
 /** A hex color field, saved on blur or Enter; a wrong value stays with the reason below it. */
 export function HexField({ label, value, onSave }: HexFieldProps): ReactNode {
+  const t = useT();
   const [text, setText] = useState<string>(value);
   const [error, setError] = useState<string>();
   const [shown, setShown] = useState(value);

@@ -1,7 +1,7 @@
-import { t } from '@/lib/i18n/browser-source';
 import { EffectTextField } from './EffectTextField';
 import { RANGES } from './effect-catalog';
-import { Choice, type Effects, pct, Range, type SetEffect } from './setting-controls';
+import { Choice, type Effects, Range, type SetEffect } from './setting-controls';
+import { useT } from './translate';
 
 // Settings of the effects with a required text (REQ-MARK-015): ribbon, banner, watermark and title
 // prefix.
@@ -20,6 +20,7 @@ export function RibbonSettings({
   readonly value: NonNullable<Effects['ribbon']>;
   readonly set: SetEffect<typeof value>;
 }) {
+  const t = useT();
   return (
     <>
       <EffectTextField
@@ -45,6 +46,7 @@ export function BannerSettings({
   readonly value: NonNullable<Effects['banner']>;
   readonly set: SetEffect<typeof value>;
 }) {
+  const t = useT();
   return (
     <>
       <EffectTextField
@@ -82,6 +84,7 @@ export function WatermarkSettings({
   readonly value: NonNullable<Effects['watermark']>;
   readonly set: SetEffect<typeof value>;
 }) {
+  const t = useT();
   return (
     <>
       <EffectTextField
@@ -94,7 +97,7 @@ export function WatermarkSettings({
         label="optionsWatermarkOpacity"
         range={RANGES.watermark}
         value={value.opacityPct}
-        unit={pct}
+        unit="unitPct"
         onChange={(opacityPct) => set({ ...value, opacityPct })}
       />
     </>
@@ -108,6 +111,7 @@ export function TitlePrefixSettings({
   readonly value: NonNullable<Effects['titlePrefix']>;
   readonly set: SetEffect<typeof value>;
 }) {
+  const t = useT();
   return (
     <>
       <EffectTextField

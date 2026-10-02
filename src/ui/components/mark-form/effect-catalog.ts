@@ -1,11 +1,24 @@
-import type { ElementEffects, PageEffects } from '@/core/model/schema';
+import type { ElementEffects, PageEffects, Ribbon } from '@/core/model/schema';
 import { assertNever } from '@/core/result';
-import { nameRibbon, nameText } from './mark-drafts';
+import type { MarkFormKey } from './translate';
 
 // The effects each target can have, in editor order, and what a newly turned-on effect starts as
 // (REQ-MARK-014: page-only and element-only effects are kept apart by type).
 
 export type EffectName = keyof PageEffects | keyof ElementEffects;
+
+/** Effect names in the order the editor shows them. */
+export const EFFECT_NAMES: Readonly<Record<EffectName, MarkFormKey>> = {
+  ribbon: 'effectRibbon',
+  banner: 'effectBanner',
+  frame: 'effectFrame',
+  outline: 'effectOutline',
+  tint: 'effectTint',
+  stripes: 'effectStripes',
+  watermark: 'effectWatermark',
+  titlePrefix: 'effectTitlePrefix',
+  favicon: 'effectFavicon',
+};
 export type TargetKind = 'page' | 'element';
 
 export const EFFECTS_BY_TARGET: Readonly<Record<TargetKind, readonly EffectName[]>> = {
@@ -21,6 +34,18 @@ export const RANGES = {
   stripes: [5, 40],
   watermark: [4, 12],
 } as const;
+
+const RIBBON_TEXT_MAX = 16;
+
+/** The site group's name cut to `max` characters (whole code points), for a default text. */
+export function nameText(groupName: string, max: number): string {
+  return Array.from(groupName).slice(0, max).join('').trim();
+}
+
+/** A top-right ribbon showing the site group's name. */
+export function nameRibbon(groupName: string): Ribbon {
+  return { text: nameText(groupName, RIBBON_TEXT_MAX), corner: 'top-right' };
+}
 
 /** An effect as it starts when turned on; texts start as the site group's name. */
 export function defaultEffect(name: EffectName, target: TargetKind, groupName: string): unknown {

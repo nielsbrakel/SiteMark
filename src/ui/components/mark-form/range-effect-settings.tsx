@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 import type { ElementEffects, PageEffects } from '@/core/model/schema';
-import { t } from '@/lib/i18n/browser-source';
-import { Switch } from '@/ui/components/Switch';
+import { Switch } from '../Switch';
 import { RANGES, type TargetKind } from './effect-catalog';
-import { Choice, type Effects, pct, px, Range, type SetEffect } from './setting-controls';
+import { Choice, type Effects, Range, type SetEffect } from './setting-controls';
+import { useT } from './translate';
 
 // Settings of the effects without text: frame, tint, stripes and outline, with the ranges of
 // spec §7 (tint's depends on the target).
@@ -20,7 +20,7 @@ export function FrameSettings({
       label="optionsFrameWidth"
       range={RANGES.frame}
       value={value.widthPx}
-      unit={px}
+      unit="unitPx"
       onChange={(widthPx) => set({ widthPx })}
     />
   );
@@ -40,7 +40,7 @@ export function TintSettings({
       label="optionsTintOpacity"
       range={RANGES.tint[target]}
       value={value.opacityPct}
-      unit={pct}
+      unit="unitPct"
       onChange={(opacityPct) => set({ opacityPct })}
     />
   );
@@ -61,7 +61,7 @@ export function StripesSettings({
         label="optionsStripesOpacity"
         range={RANGES.stripes}
         value={value.opacityPct}
-        unit={pct}
+        unit="unitPct"
         onChange={(opacityPct) => set({ ...value, opacityPct })}
       />
       {target === 'page' && 'area' in value && (
@@ -86,6 +86,7 @@ export function OutlineSettings({
   readonly value: NonNullable<Effects['outline']>;
   readonly set: SetEffect<typeof value>;
 }) {
+  const t = useT();
   const styles = [
     ['solid', 'styleSolid'],
     ['dashed', 'styleDashed'],
@@ -97,7 +98,7 @@ export function OutlineSettings({
         label="optionsOutlineWidth"
         range={RANGES.outline}
         value={value.widthPx}
-        unit={px}
+        unit="unitPx"
         onChange={(widthPx) => set({ ...value, widthPx })}
       />
       <Choice

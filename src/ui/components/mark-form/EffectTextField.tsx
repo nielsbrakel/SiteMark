@@ -1,6 +1,6 @@
 import { type FormEvent, type ReactNode, useState } from 'react';
-import { t } from '@/lib/i18n/browser-source';
-import { Field } from '@/ui/components/Field';
+import { Field } from '../Field';
+import { useT } from './translate';
 import { useDebounced } from './use-debounced';
 
 export type EffectTextFieldProps = {
@@ -20,6 +20,7 @@ export function EffectTextField({
   maxLength,
   onSave,
 }: EffectTextFieldProps): ReactNode {
+  const t = useT();
   const [text, setText] = useState(value);
   const [error, setError] = useState<string>();
   const save = () => {

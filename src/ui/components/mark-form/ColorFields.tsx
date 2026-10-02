@@ -1,13 +1,13 @@
 import { type ReactNode, useState } from 'react';
 import { colorPresets, type PresetName } from '@/core/model/presets';
 import type { Hex } from '@/core/model/schema';
-import { type MessageKey, t } from '@/lib/i18n/browser-source';
-import { ColorSwatches } from '@/ui/components/ColorSwatches';
+import { ColorSwatches } from '../ColorSwatches';
 import { HexField } from './HexField';
-import styles from './MarkEditor.module.css';
+import styles from './MarkForm.module.css';
+import { type MarkFormKey, useT } from './translate';
 import { useDebounced } from './use-debounced';
 
-const PRESET_NAMES: Readonly<Record<PresetName, MessageKey>> = {
+const PRESET_NAMES: Readonly<Record<PresetName, MarkFormKey>> = {
   red: 'colorRed',
   amber: 'colorAmber',
   blue: 'colorBlue',
@@ -22,6 +22,7 @@ export type ColorFieldsProps = {
 
 /** The mark color (REQ-MARK-012): four presets, a custom hex value and the native picker. */
 export function ColorFields({ color, onSave }: ColorFieldsProps): ReactNode {
+  const t = useT();
   // The native picker fires on every move while dragging; the color is saved once it stops moving.
   const [picked, setPicked] = useState<Hex>();
   const autosave = useDebounced(() => {

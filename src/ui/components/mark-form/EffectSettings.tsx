@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 import { assertNever } from '@/core/result';
-import { t } from '@/lib/i18n/browser-source';
 import type { EffectName, TargetKind } from './effect-catalog';
 import {
   FrameSettings,
@@ -15,6 +14,7 @@ import {
   TitlePrefixSettings,
   WatermarkSettings,
 } from './text-effect-settings';
+import { useT } from './translate';
 
 export type EffectSettingsProps = {
   readonly name: EffectName;
@@ -25,6 +25,7 @@ export type EffectSettingsProps = {
 
 /** The settings of one turned-on effect (REQ-OPT-003), with the ranges of spec §7. */
 export function EffectSettings({ name, effects, target, set }: EffectSettingsProps): ReactNode {
+  const t = useT();
   const e = effects;
   switch (name) {
     case 'ribbon':

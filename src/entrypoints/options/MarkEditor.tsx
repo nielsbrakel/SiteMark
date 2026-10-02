@@ -2,8 +2,9 @@ import { type ReactNode, useId, useMemo } from 'react';
 import type { Mark, MarkDraft, SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { MarkPreview } from '@/ui/components/MarkPreview';
-import { ColorFields } from './ColorFields';
-import { EffectsFieldset } from './EffectsFieldset';
+import { ColorFields } from '@/ui/components/mark-form/ColorFields';
+import { EffectsFieldset } from '@/ui/components/mark-form/EffectsFieldset';
+import { TextColorField } from '@/ui/components/mark-form/TextColorField';
 import styles from './MarkEditor.module.css';
 import { draftOf } from './mark-drafts';
 import { updateMark } from './mark-update';
@@ -11,7 +12,6 @@ import type { Notify } from './notify';
 import { PREVIEW_ADDRESS, previewPlan } from './preview-plan';
 import { groupHref } from './routes';
 import { TargetFields } from './TargetFields';
-import { TextColorField } from './TextColorField';
 
 export type MarkEditorProps = {
   readonly group: SiteGroup;
