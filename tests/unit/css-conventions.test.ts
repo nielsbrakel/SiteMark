@@ -108,6 +108,6 @@ describe('REQ-WEBUX-001 the website uses the extension design system and never i
   it('lints every website stylesheet (package.json)', () => {
     const scripts = JSON.parse(readFileSync('package.json', 'utf8')).scripts;
     expect(scripts.stylelint).toContain("'website/src/**/*.css'");
-    expect(scripts['check:ci']).toContain("'website/src/**/*.css'");
+    expect(scripts['check:static']).toContain("'website/src/**/*.css'");
   });
 });
