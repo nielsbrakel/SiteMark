@@ -1,6 +1,6 @@
 # Privacy policy
 
-Last updated: 2026-09-28
+Last updated: 2026-10-02
 
 This policy covers the **SiteMark browser extension** and the **SiteMark website**
 (nielsbrakel.github.io/SiteMark). It is also available in Dutch.
