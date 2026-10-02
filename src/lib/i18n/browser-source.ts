@@ -1,9 +1,8 @@
 import { browser } from 'wxt/browser';
-import type en from '../../../public/_locales/en/messages.json';
+import type { MessageKey } from './message-key';
 import { createTranslator, type MessageSource } from './translate';
 
-/** Every key in public/_locales/en/messages.json. A typo is a type error. */
-export type MessageKey = keyof typeof en;
+export type { MessageKey };
 
 /** The browser.i18n adapter (extension only; the website uses a catalog source). */
 export const browserSource: MessageSource = {

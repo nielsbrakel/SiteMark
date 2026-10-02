@@ -1,8 +1,8 @@
 import { type FormEvent, type ReactNode, useState } from 'react';
 import { t } from '@/lib/i18n/browser-source';
 import { Field } from '@/ui/components/Field';
+import { useDebounced } from '@/ui/components/mark-form/use-debounced';
 import { isValidSelector } from './selector';
-import { useDebounced } from './use-debounced';
 
 export type SelectorFieldProps = {
   /** The stored selector; empty for a page mark that is becoming an element mark. */

@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 import { autoTextColor } from '@/core/model/color';
 import type { Hex, MarkBase } from '@/core/model/schema';
-import { t } from '@/lib/i18n/browser-source';
-import { Segmented } from '@/ui/components/Segmented';
+import { Segmented } from '../Segmented';
 import { HexField } from './HexField';
+import { useT } from './translate';
 
 export type TextColorFieldProps = {
   readonly color: Hex;
@@ -19,6 +19,7 @@ const WHITE = '#ffffff';
  * better on the mark color) or a custom hex value, which starts from the automatic one.
  */
 export function TextColorField({ color, textColor, onSave }: TextColorFieldProps): ReactNode {
+  const t = useT();
   const auto = autoTextColor(color);
   const options = [
     { value: 'auto', label: t('optionsTextAuto') },

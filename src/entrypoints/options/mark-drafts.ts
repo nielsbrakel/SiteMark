@@ -1,23 +1,12 @@
 import { presetColor } from '@/core/model/presets';
-import type { ElementEffects, Mark, MarkDraft, PageEffects, Ribbon } from '@/core/model/schema';
+import type { ElementEffects, Mark, MarkDraft, PageEffects } from '@/core/model/schema';
+import { nameRibbon } from '@/ui/components/mark-form/effect-catalog';
 
 // Mark drafts the options page builds (REQ-OPT-003): new page marks, and a mark moved to the other
 // target with only the effects that target has (REQ-MARK-001; ranges differ per target).
 
-const RIBBON_TEXT_MAX = 16;
-
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
-}
-
-/** The site group's name cut to `max` characters (whole code points), for a default text. */
-export function nameText(groupName: string, max: number): string {
-  return Array.from(groupName).slice(0, max).join('').trim();
-}
-
-/** A top-right ribbon showing the site group's name. */
-export function nameRibbon(groupName: string): Ribbon {
-  return { text: nameText(groupName, RIBBON_TEXT_MAX), corner: 'top-right' };
 }
 
 /** "Add page mark": a red ribbon with the site group's name. */

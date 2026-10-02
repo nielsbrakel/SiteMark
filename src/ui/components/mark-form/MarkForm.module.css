@@ -1,0 +1,42 @@
+.colors {
+  display: grid;
+  gap: var(--sm-space-3);
+}
+
+.custom {
+  display: flex;
+  align-items: end;
+  gap: var(--sm-space-2);
+}
+
+.picker {
+  inline-size: 36px;
+  block-size: 44px;
+  padding: var(--sm-space-1);
+  border: 1px solid transparent;
+  border-radius: var(--sm-radius-md);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-inset);
+}
+
+.effects {
+  display: grid;
+  gap: var(--sm-space-3);
+  margin: 0;
+  padding: var(--sm-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--sm-radius-md);
+  box-shadow: var(--sm-inset);
+}
+
+.effect {
+  display: grid;
+  gap: var(--sm-space-2);
+}
+
+@media (forced-colors: active) {
+  .effects,
+  .picker {
+    border-color: ButtonText;
+  }
+}

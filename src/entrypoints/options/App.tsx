@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { assertNever } from '@/core/result';
 import { t } from '@/lib/i18n/browser-source';
+import { TranslateContext } from '@/ui/components/mark-form/translate';
 import { useSiteMarkState } from '@/ui/hooks/use-site-mark-state';
 import { useTheme } from '@/ui/hooks/use-theme';
 import { Layout } from './Layout';
@@ -20,7 +21,11 @@ export function OptionsApp(): ReactNode {
     case 'loading':
       return <p role="status">{t('optionsLoading')}</p>;
     case 'ready':
-      return <Layout state={view.state} route={route} />;
+      return (
+        <TranslateContext value={t}>
+          <Layout state={view.state} route={route} />
+        </TranslateContext>
+      );
     case 'readOnly':
       return <ReadOnlyBanner schemaVersion={view.schemaVersion} />;
     case 'error':

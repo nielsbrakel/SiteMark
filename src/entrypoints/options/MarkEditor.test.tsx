@@ -282,11 +282,11 @@ describe('REQ-MARK-011 text color: automatic black or white, or custom', () => {
 
 describe('REQ-OPT-003 REQ-MARK-014 effect controls for the mark’s target', () => {
   const effects = () => byRole('group', { name: 'Effects' }, editor());
-  const toggle = (name: string) => byRole('checkbox', { name }, effects());
+  const toggle = (name: string) => byRole('switch', { name }, effects());
   const toggleNames = () =>
     within(effects())
-      .getAllByRole('checkbox')
-      .map((box) => box.getAttribute('aria-label') ?? box.closest('label')?.textContent);
+      .getAllByRole('switch')
+      .map((box) => box.closest('span')?.querySelector('label')?.textContent);
   const lastEffects = (background: { commands: readonly unknown[] }) =>
     (background.commands.at(-1) as { mark?: { effects?: unknown } }).mark?.effects;
 
@@ -306,7 +306,7 @@ describe('REQ-OPT-003 REQ-MARK-014 effect controls for the mark’s target', () 
 
   it('offers only the effects an element mark can have', async () => {
     await openAt(markHash(outline.id));
-    expect(toggleNames()).toEqual(['Ribbon', 'Outline', 'Tint', 'Stripes']);
+    expect(toggleNames()).toEqual(['Ribbon', 'Outline', 'Pulse', 'Tint', 'Stripes']);
   });
 
   it('shows which effects are on and keeps the last one on', async () => {

@@ -2,9 +2,9 @@ import { type FormEvent, type ReactNode, useState } from 'react';
 import type { SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { Field } from '@/ui/components/Field';
+import { useDebounced } from '@/ui/components/mark-form/use-debounced';
 import { commandErrorText } from './command-error';
 import { sendTracked } from './save-status';
-import { useDebounced } from './use-debounced';
 
 /**
  * The site group's name (REQ-GRP-001), saved when the field loses focus or on Enter. A refused
