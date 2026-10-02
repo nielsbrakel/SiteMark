@@ -1,6 +1,6 @@
 # Privacyverklaring
 
-Laatst bijgewerkt: 2026-09-28
+Laatst bijgewerkt: 2026-10-02
 
 Deze verklaring gaat over de **browserextensie SiteMark** en de **website van SiteMark**
 (nielsbrakel.github.io/SiteMark). Ze is ook in het Engels beschikbaar.
