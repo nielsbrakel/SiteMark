@@ -44,7 +44,16 @@ describe('REQ-WEB-001 every internal URL carries the base path /SiteMark/', () =
     const slugs = routeTable().map((r) => r.slug);
     expect(new Set(slugs).size).toBe(slugs.length);
     expect([...new Set(pages(routeTable()))].sort()).toEqual(
-      ['changelog', 'help', 'helpTopic', 'home', 'playground', 'privacy', 'support'].sort(),
+      [
+        'agents',
+        'changelog',
+        'help',
+        'helpTopic',
+        'home',
+        'playground',
+        'privacy',
+        'support',
+      ].sort(),
     );
   });
 });
