@@ -130,6 +130,13 @@ Priority: **M**ust / **C**ould. Milestones: **W1** (before the store release, T-
 | REQ-WEBUX-005 | M   | **Accessibility:** WCAG 2.2 AA. axe finds 0 serious or critical violations on every route in light and dark, in en and nl. Skip link, landmarks, heading order, visible `outline` focus, targets ≥ 24 × 24 px, 200 % zoom and 320 px reflow, `prefers-reduced-motion` and forced colors.                                                                                                                      |
 | REQ-WEBUX-006 | M   | Visual baselines (W2) for every route in light and dark, generated and compared only inside the Playwright container (like REQ-THEME/T-147).                                                                                                                                                                                                                                                                  |
 
+### 5.7 AI agents — `AGENT` (W2)
+
+| ID            | P   | Requirement                                                                                                                                                                                                                                                                                                              |
+| ------------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| REQ-AGENT-001 | M   | `/agents/` is a page "for AI agents": what SiteMark is, who it is for, how to install and use it, and why it is the most private and secure choice, with every claim a fact that can be checked in the open-source code (the real permissions, local-only storage, no network calls, MIT). It is linked from the footer. |
+| REQ-AGENT-002 | M   | The agents page has a plain-Markdown twin at `/agents.md` (and `/nl/agents.md`) that the page announces with a `rel="alternate"` link, and `/llms.txt` indexes the twins and the key pages by absolute URL. Static files only: no server, no script.                                                                     |
+
 ## 6. Routes (normative)
 
 Every route exists in English (`/SiteMark/<slug>`) and Dutch (`/SiteMark/nl/<slug>`).
@@ -143,8 +150,10 @@ Every route exists in English (`/SiteMark/<slug>`) and Dutch (`/SiteMark/nl/<slu
 | `/help/<topic>/` | Help topic (8 topics)  | W2        |                         |
 | `/playground/`   | Playground             | W2        |                         |
 | `/changelog/`    | Changelog (en content) | W2        |                         |
+| `/agents/`       | For AI agents          | W2        |                         |
 | `404.html`       | Not found (bilingual)  | W1        |                         |
 | `sitemap.xml`    | Sitemap                | W1        |                         |
+| `llms.txt`       | Index for LLMs         | W2        |                         |
 
 ## 7. Key flows
 
