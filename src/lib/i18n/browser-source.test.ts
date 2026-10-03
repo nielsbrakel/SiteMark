@@ -1,6 +1,6 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { browser } from 'wxt/browser';
-import { applyDocumentLocale, browserSource, t, tp } from './browser-source';
+import { applyDocumentLocale, applyLanguage, browserSource, t, tp } from './browser-source';
 
 describe('REQ-I18N-001 the extension reads UI strings through browser.i18n', () => {
   it('returns the message for a key', () => {
@@ -30,5 +30,29 @@ describe('REQ-I18N-004 plurals and document locale in the extension', () => {
     applyDocumentLocale(document);
     expect(document.documentElement.lang).toBe('nl');
     expect(document.documentElement.dir).toBe('ltr');
+  });
+});
+
+describe('REQ-I18N-006 the in-app language overrides the browser language', () => {
+  afterEach(() => applyLanguage('auto'));
+
+  it('reads the bundled Dutch catalog, with plurals and the locale', async () => {
+    await applyLanguage('nl');
+    expect(t('optionsTheme')).toBe('Thema');
+    expect(tp('siteGroupCount', 3)).toBe('3 sitegroepen');
+    expect(browserSource.locale).toBe('nl');
+  });
+
+  it('reads the bundled English catalog whatever the browser language is', async () => {
+    vi.spyOn(browser.i18n, 'getUILanguage').mockReturnValue('nl');
+    await applyLanguage('en');
+    expect(t('optionsTheme')).toBe('Theme');
+    expect(browserSource.locale).toBe('en');
+  });
+
+  it.each(['auto', undefined] as const)('follows the browser again for %s', async (language) => {
+    await applyLanguage('nl');
+    await applyLanguage(language);
+    expect(t('optionsTheme')).toBe('Theme');
   });
 });

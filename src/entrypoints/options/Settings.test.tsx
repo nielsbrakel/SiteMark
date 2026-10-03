@@ -50,6 +50,25 @@ describe('REQ-OPT-004 REQ-THEME-001 the theme setting', () => {
   });
 });
 
+describe('REQ-I18N-006 the language setting', () => {
+  const languageChoice = (name: string) =>
+    byRole('radio', { name }, byRole('radiogroup', { name: 'Language' }));
+  const reload = () => vi.spyOn(window.location, 'reload').mockImplementation(() => undefined);
+
+  it('shows the browser language by default', async () => {
+    await openSettings();
+    expect(languageChoice('Browser language')).toHaveAttribute('aria-checked', 'true');
+  });
+
+  it('saves a new language and reloads the page to apply it', async () => {
+    const reloaded = reload();
+    const { background } = await openSettings();
+    fireEvent.click(languageChoice('Nederlands'));
+    await waitFor(() => expect(reloaded).toHaveBeenCalledOnce());
+    expect(background.commands).toEqual([{ type: 'setLanguage', language: 'nl' }]);
+  });
+});
+
 describe('REQ-OPT-004 REQ-CMD-001 REQ-CMD-002 keyboard shortcuts', () => {
   const shortcuts = () => byRole('list', { name: 'Keyboard shortcuts' });
 
