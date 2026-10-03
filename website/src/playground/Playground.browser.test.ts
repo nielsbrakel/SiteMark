@@ -30,6 +30,8 @@ const rgb = (hex: string) => {
 
 const band = () => marks().querySelector<HTMLElement>('.sm-ribbon__band');
 const flip = (name: string) => fireEvent.click(screen.getByRole('switch', { name }));
+const shown = () =>
+  document.querySelector('[data-marker-host]')?.shadowRoot?.querySelector('.sm-view');
 
 describe('REQ-PLAY-002 the extension draws the playground marks in the mock browser', () => {
   it('draws the starting mark: a red PROD ribbon in the top-right corner', () => {
@@ -71,5 +73,17 @@ describe('REQ-PLAY-002 the extension draws the playground marks in the mock brow
     fireEvent.click(screen.getAllByRole('switch', { name: 'Ribbon' })[0] as HTMLElement);
     expect(band()).toBeNull();
     expect(marks().querySelector('.sm-frame')).not.toBeNull();
+  });
+});
+
+describe('REQ-PLAY-002 the SiteMark switch shows the page with and without the marks', () => {
+  it('removes every mark while it is off and draws them again when it is on', () => {
+    render(createElement(Playground, { t: en.t }));
+    const toggle = screen.queryByRole('switch', { name: 'SiteMark on this page' });
+    expect(toggle).not.toBeNull();
+    fireEvent.click(toggle as HTMLElement);
+    expect(shown() ?? null).toBeNull();
+    fireEvent.click(toggle as HTMLElement);
+    expect(band()?.textContent).toBe('PROD');
   });
 });

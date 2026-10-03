@@ -73,6 +73,17 @@ describe('REQ-PLAY-001 the playground is the options page’s mark form next to 
     expect(effects()).toHaveLength(1);
   });
 
+  it('has a SiteMark switch that turns every mark off and on, like the extension does for a page', () => {
+    render(<Playground t={en.t} />);
+    const toggle = screen.queryByRole('switch', { name: 'SiteMark on this page' });
+    expect(toggle?.getAttribute('aria-checked')).toBe('true');
+    fireEvent.click(toggle as HTMLElement);
+    expect(toggle?.getAttribute('aria-checked')).toBe('false');
+    expect(screen.queryByText('SiteMark is off, so the page shows no marks.')).not.toBeNull();
+    fireEvent.click(toggle as HTMLElement);
+    expect(status()).toBe('The page shows ribbon in red.');
+  });
+
   it('shows a mock browser: tab title, sample address and a sample web shop', () => {
     render(<Playground t={en.t} />);
     const preview = screen.getByRole('figure', { name: 'Preview of a marked page' });
