@@ -253,6 +253,7 @@ when a requirement has no task, or when a finished task has an uncovered require
 | REQ-I18N-003 | M   | User content (group names, mark texts) is never translated.                                                                                                                                                                                            |
 | REQ-I18N-004 | M   | Plurals use `Intl.PluralRules` with `_one`/`_other` keys. `lang` and `dir` are set on `<html>` from the resolved locale. Placeholders are named and have translator descriptions. A pseudo-locale test with +40 % text length guards against overflow. |
 | REQ-I18N-005 | M   | Store texts stay within store limits (Chrome description ≤ 132 characters), tested for every locale.                                                                                                                                                   |
+| REQ-I18N-006 | M   | An **in-app language** setting (Browser / English / Nederlands) in the options header overrides the browser language in the popup and options page; "Browser" is the default and follows `browser.i18n`.                                               |
 
 ### 5.13 Accessibility — `A11Y`
 
@@ -391,5 +392,5 @@ The zod schemas use `.strict()`, so unknown keys are rejected. Export envelope:
 ## 9. Later (not in v1)
 
 An environment preset chooser with hostname guessing; per-mark URL path filters; site group
-search and filtering; starter templates; an in-app language override; more languages; mobile
+search and filtering; starter templates; more languages; mobile
 (Firefox Android, Safari iOS); optional encrypted sync; automated e2e for Firefox and Safari.
