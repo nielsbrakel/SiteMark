@@ -1,8 +1,10 @@
 // biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
 import type { ReactNode } from 'react';
+import { agentsContentFor } from '../content/agents';
 import type { Locale } from '../i18n/locales';
 import type { WebsiteMessageKey, WebsiteTranslator } from '../i18n/website-t';
 import { currentMilestone, type PageId, publishedRoutes, type Route } from '../routes/routes';
+import { AgentsPage } from './AgentsPage';
 import { ChangelogPage } from './ChangelogPage';
 import { HelpPage } from './HelpPage';
 import { HelpTopicPage, helpTopicOf } from './HelpTopicPage';
@@ -59,6 +61,12 @@ const PAGES: Partial<Record<PageId, Page>> = {
     Component: ChangelogPage,
     title: 'websiteChangelogTitle',
     description: 'websiteChangelogDescription',
+  },
+  agents: {
+    Component: AgentsPage,
+    title: 'websiteNavAgents',
+    description: 'websiteNavAgents',
+    head: (_route, locale) => agentsContentFor(locale),
   },
 };
 
