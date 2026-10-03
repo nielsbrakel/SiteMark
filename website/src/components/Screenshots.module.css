@@ -1,16 +1,74 @@
-/* The home screenshots (docs/website/design.md §5): 2× images in raised frames, one per scene. */
+/* The home screenshots (docs/website/design.md §5): a tour, one 2× scene at a time in a raised frame. */
 .section {
   margin-top: var(--smw-section-gap);
 }
 
-.list {
+.tour {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  justify-items: center;
   gap: var(--sm-space-5);
 }
 
+/* The segmented pill of the extension: a native radio group, so the choice needs no JavaScript. */
+.picker {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--sm-space-1);
+  padding: 3px;
+  border: 1px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-md);
+  box-shadow: var(--sm-inset);
+}
+
+.radio {
+  position: absolute;
+  opacity: 0;
+}
+
+.label {
+  padding: var(--sm-space-1) var(--sm-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--sm-radius-sm);
+  color: var(--sm-text-muted);
+  cursor: pointer;
+  transition: box-shadow var(--sm-duration) var(--sm-ease);
+}
+
+.label:hover {
+  color: var(--sm-text);
+}
+
+.radio:checked + .label {
+  border-top-color: var(--sm-edge);
+  border-left-color: var(--sm-edge);
+  background: var(--sm-surface);
+  color: var(--sm-text);
+  box-shadow: var(--sm-raised-sm);
+  font-weight: 600;
+}
+
+.radio:focus-visible + .label {
+  outline: 2px solid var(--sm-focus-color);
+  outline-offset: 2px;
+}
+
 .figure {
+  display: none;
+  inline-size: 100%;
+  max-inline-size: 960px;
   margin: 0;
+}
+
+.tour:has([value='marked-page']:checked) [data-scene='marked-page'],
+.tour:has([value='popup']:checked) [data-scene='popup'],
+.tour:has([value='options']:checked) [data-scene='options'] {
+  display: block;
+}
+
+@supports not selector(:has(*)) {
+  .figure {
+    display: block;
+  }
 }
 
 .image {
@@ -26,4 +84,17 @@
   margin-top: var(--sm-space-2);
   color: var(--sm-text-muted);
   font-size: var(--sm-text-md);
+  text-align: center;
+}
+
+@media (forced-colors: active) {
+  .picker {
+    border-color: ButtonText;
+  }
+
+  .radio:checked + .label {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+  }
 }

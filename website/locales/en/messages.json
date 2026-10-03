@@ -401,6 +401,22 @@
     "message": "The mark editor in the SiteMark settings: the effects, such as the frame, tint and title prefix, above a live preview of the ribbon, frame and banner on an example page.",
     "description": "Alt text of the settings page screenshot."
   },
+  "websiteScreenshotsPicker": {
+    "message": "Choose a scene",
+    "description": "Accessible name of the radio group that picks which screenshot the home page shows."
+  },
+  "websiteScreenshotMarkedPageTab": {
+    "message": "On the page",
+    "description": "Label of the choice that shows the marked page screenshot. Keep it short."
+  },
+  "websiteScreenshotPopupTab": {
+    "message": "In the popup",
+    "description": "Label of the choice that shows the popup screenshot. Keep it short."
+  },
+  "websiteScreenshotOptionsTab": {
+    "message": "In the editor",
+    "description": "Label of the choice that shows the mark editor screenshot. Keep it short."
+  },
   "websitePlaygroundTitle": {
     "message": "Playground: try a mark in your browser · SiteMark",
     "description": "Document title of the playground page. At most 60 characters."
