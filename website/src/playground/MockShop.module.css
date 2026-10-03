@@ -74,14 +74,6 @@
   inline-size: 60%;
 }
 
-.cta {
-  inline-size: 84px;
-  block-size: 24px;
-  margin-top: var(--sm-space-2);
-  border-radius: var(--sm-radius-pill);
-  background: var(--sm-text);
-}
-
 .picture {
   block-size: 84px;
   border-radius: var(--sm-radius-md);
@@ -125,7 +117,6 @@
   .link,
   .headline,
   .headlineShort,
-  .cta,
   .picture,
   .thumb,
   .name,

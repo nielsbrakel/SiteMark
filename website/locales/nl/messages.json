@@ -466,5 +466,9 @@
   "websitePlaygroundElementMark": {
     "message": "Markeer ook de knop Klant verwijderen",
     "description": "Playground: switch that adds a mark to the sample page's Delete customer button, with its own effects below it."
+  },
+  "websitePlaygroundDeleteButton": {
+    "message": "Klant verwijderen",
+    "description": "Playground: the text of the sample page's button that the element mark marks."
   }
 }
