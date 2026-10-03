@@ -1,6 +1,6 @@
+import { type Catalog, createCatalogSource } from '@/lib/i18n/catalog-source';
 import { createTranslator, type Translator } from '@/lib/i18n/translate';
 import type websiteEn from '../../locales/en/messages.json';
-import { type Catalog, createCatalogSource } from './catalog-source';
 import type { Locale } from './locales';
 import type { SharedMessageKey } from './shared-keys';
 

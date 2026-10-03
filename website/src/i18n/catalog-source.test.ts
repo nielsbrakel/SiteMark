@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { type Catalog, createCatalogSource, duplicateKeys } from '@/lib/i18n/catalog-source';
 import { createTranslator } from '@/lib/i18n/translate';
-import { type Catalog, createCatalogSource, duplicateKeys } from './catalog-source';
 import { createWebsiteTranslator, loadCatalogs } from './website-t';
 
 const website: Catalog = {

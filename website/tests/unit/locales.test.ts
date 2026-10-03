@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
+import { type Catalog, type CatalogEntry, duplicateKeys } from '@/lib/i18n/catalog-source';
 import extensionEn from '../../../public/_locales/en/messages.json';
 import extensionNl from '../../../public/_locales/nl/messages.json';
 import en from '../../locales/en/messages.json';
 import nl from '../../locales/nl/messages.json';
-import { type Catalog, type CatalogEntry, duplicateKeys } from '../../src/i18n/catalog-source';
 
 type Entry = CatalogEntry & {
   placeholders?: Record<string, { content: string; example?: string }>;
