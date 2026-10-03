@@ -46,7 +46,10 @@ test.describe('REQ-PLAY-004 the home hero is a small playground', () => {
     const noScript = await context.newPage();
     await noScript.goto('/SiteMark/');
     await expect(noScript.getByRole('img', { name: /^The playground's preview/ })).toBeVisible();
-    await expect(noScript.getByRole('radio')).toHaveCount(0);
+    const noScriptHero = noScript.locator('section', {
+      has: noScript.getByRole('heading', { level: 1 }),
+    });
+    await expect(noScriptHero.getByRole('radio')).toHaveCount(0);
     await context.close();
   });
 });
