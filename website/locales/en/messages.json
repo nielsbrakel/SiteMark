@@ -477,6 +477,14 @@
       }
     }
   },
+  "websitePlaygroundSwitch": {
+    "message": "SiteMark on this page",
+    "description": "Playground: label of the switch above the preview that turns every mark on or off."
+  },
+  "websitePlaygroundSummaryOff": {
+    "message": "SiteMark is off, so the page shows no marks.",
+    "description": "Playground: read out by screen readers when the SiteMark switch is off."
+  },
   "websiteHelpTitle": {
     "message": "Help: how to use SiteMark",
     "description": "Document title of the help index. At most 60 characters."

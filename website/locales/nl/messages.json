@@ -477,6 +477,14 @@
       }
     }
   },
+  "websitePlaygroundSwitch": {
+    "message": "SiteMark op deze pagina",
+    "description": "Playground: label of the switch above the preview that turns every mark on or off."
+  },
+  "websitePlaygroundSummaryOff": {
+    "message": "SiteMark staat uit, dus de pagina toont geen markeringen.",
+    "description": "Playground: read out by screen readers when the SiteMark switch is off."
+  },
   "websiteHelpTitle": {
     "message": "Help: zo gebruik je SiteMark",
     "description": "Document title of the help index. At most 60 characters."

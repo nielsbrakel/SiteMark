@@ -16,7 +16,11 @@ const names = (t: T, effects: object) =>
  * What the preview shows, in words (REQ-PLAY-005): the marks are drawn in a shadow root and are
  * decorative, so a status line tells assistive technology what changed.
  */
-export function playgroundSummary({ color, pageEffects, elementEffects }: PlaygroundState, t: T) {
+export function playgroundSummary(
+  { enabled, color, pageEffects, elementEffects }: PlaygroundState,
+  t: T,
+) {
+  if (!enabled) return t('websitePlaygroundSummaryOff');
   const preset = colorPresets().find((candidate) => candidate.color === color);
   const colorName = preset ? t(PRESET_NAMES[preset.name]) : color;
   const page = t('websitePlaygroundSummaryPage', [

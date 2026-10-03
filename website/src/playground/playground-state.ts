@@ -9,6 +9,8 @@ import { nameRibbon } from '@/ui/components/mark-form/effect-catalog';
 export const PLAYGROUND_NAME = 'PROD';
 
 export type PlaygroundState = {
+  /** The SiteMark switch: with it off, the page has no marks at all. */
+  readonly enabled: boolean;
   readonly color: Hex;
   readonly textColor: MarkBase['textColor'];
   readonly pageEffects: PageEffects;
@@ -18,6 +20,7 @@ export type PlaygroundState = {
 
 export function initialPlaygroundState(): PlaygroundState {
   return {
+    enabled: true,
     color: presetColor('red'),
     textColor: 'auto',
     pageEffects: { ribbon: nameRibbon(PLAYGROUND_NAME) },
