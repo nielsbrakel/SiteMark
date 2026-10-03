@@ -1134,6 +1134,22 @@
     "message": "Theme",
     "description": "Settings: label of the theme choice."
   },
+  "optionsLanguage": {
+    "message": "Language",
+    "description": "Settings: label of the language choice."
+  },
+  "languageAuto": {
+    "message": "Browser language",
+    "description": "Language: follow the browser language."
+  },
+  "languageEn": {
+    "message": "English",
+    "description": "Language: English, always written in English."
+  },
+  "languageNl": {
+    "message": "Nederlands",
+    "description": "Language: Dutch, always written in Dutch."
+  },
   "themeSystem": {
     "message": "System",
     "description": "Theme: follow the operating system."

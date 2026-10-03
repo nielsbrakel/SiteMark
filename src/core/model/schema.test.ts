@@ -65,6 +65,19 @@ describe('REQ-SEC-004 strict state schema with readable issue paths', () => {
     expect(pathsOf(parseState(state))[0]).toMatch(new RegExp(`^${key}`));
   });
 
+  it.each(['auto', 'en', 'nl'])('accepts language %s', (language) => {
+    const state = { ...(untrusted(aState()) as object), settings: { theme: 'dark', language } };
+    expect(okValue(parseState(state)).settings.language).toBe(language);
+  });
+
+  it('rejects an unknown language', () => {
+    const state = {
+      ...(untrusted(aState()) as object),
+      settings: { theme: 'dark', language: 'fr' },
+    };
+    expect(pathsOf(parseState(state))[0]).toBe('settings.language');
+  });
+
   it.each(['system', 'light', 'dark'])('accepts theme %s', (theme) => {
     const state = { ...(untrusted(aState()) as object), settings: { theme } };
     expect(okValue(parseState(state)).settings.theme).toBe(theme);

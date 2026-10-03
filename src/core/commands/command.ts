@@ -1,6 +1,6 @@
 import type { IdGen, MarkId, PatternId, SiteGroupId } from '../ids';
 import type { SiteOrigin } from '../model/defaults';
-import type { MarkDraft, SiteGroup, SiteMarkState, Theme } from '../model/schema';
+import type { Language, MarkDraft, SiteGroup, SiteMarkState, Theme } from '../model/schema';
 import type { UrlPatternDraft } from '../url/match';
 
 // Commands are the only way to change the state (D-220): an extension page sends one, and the
@@ -153,6 +153,9 @@ export type MarkThisSite = { readonly type: 'markThisSite'; readonly origin: Sit
 /** REQ-OPT-004 */
 export type SetTheme = { readonly type: 'setTheme'; readonly theme: Theme };
 
+/** REQ-I18N-006 */
+export type SetLanguage = { readonly type: 'setLanguage'; readonly language: Language };
+
 /**
  * Deletes every site group and restores the default settings (REQ-OPT-005, Reset everything). The
  * background's registration sync then unregisters the marker.
@@ -166,6 +169,7 @@ export type Command =
   | MarkCommand
   | MarkThisSite
   | SetTheme
+  | SetLanguage
   | ResetAll;
 
 /** The command with the given `type`, e.g. `CommandOf<'renameSiteGroup'>`. */

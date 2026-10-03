@@ -11,6 +11,14 @@ export function setTheme(
   return ok({ ...state, settings: { ...state.settings, theme } });
 }
 
+/** REQ-I18N-006: the popup and options language. */
+export function setLanguage(
+  state: SiteMarkState,
+  { language }: CommandOf<'setLanguage'>,
+): Result<SiteMarkState, never> {
+  return ok({ ...state, settings: { ...state.settings, language } });
+}
+
 /**
  * REQ-OPT-005 Reset everything: no site groups and the default settings. The revision stays for
  * the dispatcher to bump, so pages see the reset as a newer state.

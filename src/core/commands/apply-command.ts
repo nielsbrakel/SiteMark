@@ -10,6 +10,7 @@ import type {
   MarkThisSite,
   PatternCommand,
   ResetAll,
+  SetLanguage,
   SetTheme,
   SiteGroupCommand,
 } from './command';
@@ -26,7 +27,7 @@ import {
 import { markThisSite } from './mark-this-site';
 import { addMark, moveMark, removeMark, updateMark } from './marks';
 import { addPattern, removePattern, updatePattern } from './patterns';
-import { resetAll, setTheme } from './settings';
+import { resetAll, setLanguage, setTheme } from './settings';
 
 // The single entry point for changing the state (D-220, REQ-SEC-001). The background's command
 // queue calls it with the fresh state and saves what it returns.
@@ -40,7 +41,7 @@ function withoutNotices(result: StateResult): OutcomeResult {
 
 function reduceGroup(
   state: SiteMarkState,
-  command: SiteGroupCommand | MarkThisSite | SetTheme | ResetAll,
+  command: SiteGroupCommand | MarkThisSite | SetTheme | SetLanguage | ResetAll,
   deps: CommandDeps,
 ): StateResult {
   switch (command.type) {
@@ -63,6 +64,8 @@ function reduceGroup(
       return markThisSite(state, command, deps);
     case 'setTheme':
       return setTheme(state, command);
+    case 'setLanguage':
+      return setLanguage(state, command);
     case 'resetAll':
       return resetAll(state, command);
     default:
@@ -120,6 +123,7 @@ function reduce(state: SiteMarkState, command: Command, deps: CommandDeps): Outc
     case 'restoreSiteGroup':
     case 'markThisSite':
     case 'setTheme':
+    case 'setLanguage':
     case 'resetAll':
       return withoutNotices(reduceGroup(state, command, deps));
     case 'addPattern':
