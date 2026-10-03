@@ -19,6 +19,8 @@ export type SeoHead = {
   openGraph: readonly MetaTag[];
   /** `<meta name="twitter:…">`. */
   twitter: readonly MetaTag[];
+  /** The plain-Markdown twin of the page, when it has one (REQ-AGENT-002). */
+  markdownAlternate?: string;
 };
 
 const OG_LOCALES: Record<Locale, string> = { en: 'en_US', nl: 'nl_NL' };
