@@ -27,8 +27,16 @@ const STORE_HOSTS =
 
 describe('REQ-PAGE-001 the home page explains SiteMark in one look', () => {
   it.each([
-    ['index.html', 'Never confuse production with test again', /^SiteMark is a browser extension/],
-    ['nl/index.html', 'Verwar productie nooit meer met test', /^SiteMark is een browserextensie/],
+    [
+      'index.html',
+      'Never confuse production with test again',
+      /^SiteMark is a private browser extension/,
+    ],
+    [
+      'nl/index.html',
+      'Verwar productie nooit meer met test',
+      /^SiteMark is een privacyvriendelijke browserextensie/,
+    ],
   ])('%s leads with the value proposition', (file, h1, lead) => {
     showPage(pages, file);
     const heading = within(main()).getByRole('heading', { level: 1 });
