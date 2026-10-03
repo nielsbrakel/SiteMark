@@ -11,6 +11,7 @@ const LABELS: Record<PageId, WebsiteMessageKey> = {
   support: 'websiteNavSupport',
   privacy: 'websiteNavPrivacy',
   changelog: 'websiteNavChangelog',
+  agents: 'websiteNavAgents',
 };
 
 /** The link text of a page in the header and the footer. */

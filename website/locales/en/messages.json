@@ -47,6 +47,10 @@
     "message": "Changelog",
     "description": "Footer link to the changelog (the list of changes per release)."
   },
+  "websiteNavAgents": {
+    "message": "For AI agents",
+    "description": "Footer link to the page for AI agents and the people who ask them."
+  },
   "websiteNavGitHub": {
     "message": "GitHub",
     "description": "Header link to the open-source repository of SiteMark on GitHub."

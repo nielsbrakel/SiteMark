@@ -1,7 +1,9 @@
 import { renderToString } from 'react-dom/server';
+import { agentsMarkdown, agentsMarkdownFile } from './content/agents';
 import { Document } from './document/Document';
 import { inlineSecurity } from './document/inline-security';
 import { SeoTags } from './document/SeoTags';
+import { llmsTxt } from './head/llms';
 import { pageHead } from './head/page-head';
 import { sitemapEntries, sitemapXml } from './head/sitemap';
 import type { Locale } from './i18n/locales';
@@ -74,6 +76,17 @@ export async function renderPages(assets: PageAssets): Promise<RenderedPage[]> {
 /** sitemap.xml for every rendered route (REQ-SEO-003); the prerender step writes it. */
 export function renderSitemap(): string {
   return sitemapXml(sitemapEntries(renderedRoutes()));
+}
+
+/** A text file for the website root: the Markdown twins and llms.txt (REQ-AGENT-002). */
+export type TextFile = { file: string; text: string };
+
+export function renderTextFiles(): TextFile[] {
+  const twins = websiteLocales().map((locale) => ({
+    file: agentsMarkdownFile(locale),
+    text: agentsMarkdown(locale),
+  }));
+  return [...twins, { file: 'llms.txt', text: llmsTxt() }];
 }
 
 /** 404.html (REQ-PAGE-006): one bilingual page that GitHub Pages serves for every unknown path. */

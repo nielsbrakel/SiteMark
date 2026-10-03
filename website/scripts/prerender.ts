@@ -8,6 +8,7 @@ import type {
   renderNotFound,
   renderPages,
   renderSitemap,
+  renderTextFiles,
 } from '../src/entry-server.tsx';
 
 type ManifestChunk = { file: string; css?: string[] };
@@ -39,6 +40,7 @@ const server = (await import(
 )) as {
   renderPages: typeof renderPages;
   renderSitemap: typeof renderSitemap;
+  renderTextFiles: typeof renderTextFiles;
   renderNotFound: typeof renderNotFound;
 };
 const assets = clientAssets();
@@ -47,6 +49,10 @@ for (const page of pages) {
   const file = path.join(client, page.file);
   mkdirSync(path.dirname(file), { recursive: true });
   writeFileSync(file, page.html);
+}
+for (const { file, text } of server.renderTextFiles()) {
+  mkdirSync(path.dirname(path.join(client, file)), { recursive: true });
+  writeFileSync(path.join(client, file), text);
 }
 writeFileSync(path.join(client, 'sitemap.xml'), server.renderSitemap());
 for (const [from, to] of COPIES) copyFileSync(path.join(repository, from), path.join(client, to));

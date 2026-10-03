@@ -10,6 +10,9 @@ export function SeoTags({ head }: { head: SeoHead }) {
       {head.alternates.map(({ hreflang, href }) => (
         <link key={hreflang} rel="alternate" hrefLang={hreflang} href={href} />
       ))}
+      {head.markdownAlternate && (
+        <link rel="alternate" type="text/markdown" href={head.markdownAlternate} />
+      )}
       {head.openGraph.map(({ key, content }) => (
         <meta key={`${key}=${content}`} property={key} content={content} />
       ))}
