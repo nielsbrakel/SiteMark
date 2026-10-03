@@ -214,7 +214,7 @@ Status: ☐ todo · ✅ done.
 | T-149 | 200 % zoom + 320 px reflow                                                                             | REQ-A11Y-012                | `tests/e2e/a11y.spec.ts`                                                                                                 | ✅     |
 | T-150 | Performance probes (no-match < 2 ms, 500 patterns < 1 ms, scroll < 1 ms/frame, marks ≤ 100 ms)         | REQ-NFR-003                 | `tests/e2e/perf.spec.ts`                                                                                                 | ✅     |
 | T-151 | Firefox manual smoke + fixes                                                                           | REQ-NFR-001                 | checklist                                                                                                                | ☐      |
-| T-158 | In-app language override: `settings.language`, `setLanguage` command, runtime catalogs, EN / NL switch | REQ-I18N-006                | `src/core/commands/settings.test.ts`, `src/lib/i18n/browser-source.test.ts`, `src/entrypoints/options/Settings.test.tsx` | ☐      |
+| T-158 | In-app language override: `settings.language`, `setLanguage` command, runtime catalogs, EN / NL switch | REQ-I18N-006                | `src/core/commands/settings.test.ts`, `src/lib/i18n/browser-source.test.ts`, `src/entrypoints/options/Settings.test.tsx` | ✅     |
 
 ## M8 — Release v1.0 (Chrome / Edge / Firefox)
 
