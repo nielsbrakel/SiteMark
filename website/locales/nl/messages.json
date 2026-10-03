@@ -279,6 +279,58 @@
     "message": "Lees de privacyverklaring",
     "description": "Link from the home page privacy summary to the privacy policy."
   },
+  "websitePrivacyFactOpenTitle": {
+    "message": "Open source",
+    "description": "Title of a privacy fact card on the home page."
+  },
+  "websitePrivacyFactOpenText": {
+    "message": "MIT-licentie en openbaar op GitHub: de extensie en deze website, dus iedereen kan nagaan wat SiteMark doet.",
+    "description": "One sentence on a privacy fact card on the home page."
+  },
+  "websitePrivacyFactNoAnalyticsTitle": {
+    "message": "Geen analytics",
+    "description": "Title of a privacy fact card on the home page."
+  },
+  "websitePrivacyFactNoAnalyticsText": {
+    "message": "Geen accounts, trackers, crashrapporten of eigen servers. Er wordt niets over jou verzameld.",
+    "description": "One sentence on a privacy fact card on the home page."
+  },
+  "websitePrivacyFactLocalTitle": {
+    "message": "Blijft in je browser",
+    "description": "Title of a privacy fact card on the home page."
+  },
+  "websitePrivacyFactLocalText": {
+    "message": "Je sitegroepen staan in de lokale opslag van de extensie en worden nooit gesynchroniseerd met een cloudaccount.",
+    "description": "One sentence on a privacy fact card on the home page."
+  },
+  "websitePrivacyFactNoRequestsTitle": {
+    "message": "Geen netwerkverzoeken",
+    "description": "Title of a privacy fact card on the home page."
+  },
+  "websitePrivacyFactNoRequestsText": {
+    "message": "Geen verzoeken en geen code van buitenaf. De enige uitzondering is de favicon-tint: standaard uit, en alleen het icoon van de site waar je bent wordt geladen.",
+    "description": "One sentence on a privacy fact card on the home page."
+  },
+  "websitePrivacyPermissionsHeading": {
+    "message": "De rechten die SiteMark gebruikt",
+    "description": "Heading or permission explanation in the home page privacy section."
+  },
+  "websitePrivacyPermissionStorage": {
+    "message": "Bewaart je sitegroepen en instellingen in je browser.",
+    "description": "Heading or permission explanation in the home page privacy section."
+  },
+  "websitePrivacyPermissionScripting": {
+    "message": "Toont markeringen op pagina's die bij je URL-patronen passen.",
+    "description": "Heading or permission explanation in the home page privacy section."
+  },
+  "websitePrivacyPermissionActiveTab": {
+    "message": "Laat je een element kiezen of een site markeren, alleen nadat je op SiteMark klikt of de sneltoets gebruikt.",
+    "description": "Heading or permission explanation in the home page privacy section."
+  },
+  "websitePrivacyPermissionHosts": {
+    "message": "Toegang tot websites: nooit verleend bij installatie. SiteMark vraagt om één website tegelijk, wanneer je het URL-patroon toevoegt.",
+    "description": "Heading or permission explanation in the home page privacy section."
+  },
   "websiteInstallLabel": {
     "message": "SiteMark installeren",
     "description": "Accessible name of the list of install buttons (one per browser store)."

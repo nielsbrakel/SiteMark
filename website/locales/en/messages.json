@@ -279,6 +279,58 @@
     "message": "Read the privacy policy",
     "description": "Link from the home page privacy summary to the privacy policy."
   },
+  "websitePrivacyFactOpenTitle": {
+    "message": "Open source",
+    "description": "Title of a privacy fact card on the home page."
+  },
+  "websitePrivacyFactOpenText": {
+    "message": "MIT-licensed and public on GitHub: the extension and this website, so anyone can check what SiteMark does.",
+    "description": "One sentence on a privacy fact card on the home page."
+  },
+  "websitePrivacyFactNoAnalyticsTitle": {
+    "message": "No analytics",
+    "description": "Title of a privacy fact card on the home page."
+  },
+  "websitePrivacyFactNoAnalyticsText": {
+    "message": "No accounts, trackers, crash reports or servers of its own. Nothing about you is collected.",
+    "description": "One sentence on a privacy fact card on the home page."
+  },
+  "websitePrivacyFactLocalTitle": {
+    "message": "Stays in your browser",
+    "description": "Title of a privacy fact card on the home page."
+  },
+  "websitePrivacyFactLocalText": {
+    "message": "Your site groups live in the extension's local storage and are never synced to a cloud account.",
+    "description": "One sentence on a privacy fact card on the home page."
+  },
+  "websitePrivacyFactNoRequestsTitle": {
+    "message": "No network requests",
+    "description": "Title of a privacy fact card on the home page."
+  },
+  "websitePrivacyFactNoRequestsText": {
+    "message": "No requests and no remote code. The one exception is the favicon tint: off by default, and it only loads the icon of the site you are on.",
+    "description": "One sentence on a privacy fact card on the home page."
+  },
+  "websitePrivacyPermissionsHeading": {
+    "message": "The permissions SiteMark uses",
+    "description": "Heading or permission explanation in the home page privacy section."
+  },
+  "websitePrivacyPermissionStorage": {
+    "message": "Keeps your site groups and settings in your browser.",
+    "description": "Heading or permission explanation in the home page privacy section."
+  },
+  "websitePrivacyPermissionScripting": {
+    "message": "Shows marks on the pages that match your URL patterns.",
+    "description": "Heading or permission explanation in the home page privacy section."
+  },
+  "websitePrivacyPermissionActiveTab": {
+    "message": "Lets you pick an element or mark a site, only after you click SiteMark or use its shortcut.",
+    "description": "Heading or permission explanation in the home page privacy section."
+  },
+  "websitePrivacyPermissionHosts": {
+    "message": "Access to websites: never granted at install. SiteMark asks for one website at a time, when you add its URL pattern.",
+    "description": "Heading or permission explanation in the home page privacy section."
+  },
   "websiteInstallLabel": {
     "message": "Install SiteMark",
     "description": "Accessible name of the list of install buttons (one per browser store)."

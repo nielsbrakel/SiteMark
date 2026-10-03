@@ -43,6 +43,7 @@ describe('REQ-PAGE-001 the home page explains SiteMark in one look', () => {
     showPage(pages, file);
     const cards = within(main())
       .queryAllByRole('heading', { level: 3 })
+      .slice(0, 3)
       .map((heading) => [heading.textContent, heading.nextElementSibling?.textContent ?? '']);
     expect(cards.map(([title]) => title)).toEqual(titles);
     for (const [, text] of cards) expect(text).toMatch(/^[^.]+\.$|^[^.]+\. [^.]+\.$/);
@@ -62,6 +63,25 @@ describe('REQ-PAGE-001 the home page explains SiteMark in one look', () => {
     const privacy = within(main()).queryByRole('link', { name: link });
     expect(privacy?.getAttribute('href')).toBe(href);
     expect(privacy?.closest('section')?.textContent).toMatch(/SiteMark (collects|verzamelt)/);
+  });
+});
+
+describe('REQ-PAGE-001 the home page privacy section', () => {
+  it.each([
+    ['index.html', ['Open source', 'No analytics', 'Stays in your browser', 'No network requests']],
+    [
+      'nl/index.html',
+      ['Open source', 'Geen analytics', 'Blijft in je browser', 'Geen netwerkverzoeken'],
+    ],
+  ])('%s states the facts and lists every permission', (file, facts) => {
+    showPage(pages, file);
+    const section = within(main()).getByRole('region', {
+      name: /Private by design|Privacy voorop/,
+    });
+    const titles = within(section).getAllByRole('heading', { level: 3 });
+    expect(titles.slice(0, facts.length).map((title) => title.textContent)).toEqual(facts);
+    const permissions = [...section.querySelectorAll('dt code')].map((code) => code.textContent);
+    expect(permissions).toEqual(['storage', 'scripting', 'activeTab', '*://*/*']);
   });
 });
 

@@ -8,6 +8,7 @@ import { Island } from '../islands/islands';
 import '../playground/playground-styles';
 import { pagePath } from '../routes/urls';
 import styles from './HomePage.module.css';
+import { PrivacySection } from './PrivacySection';
 import type { PageProps } from './page-props';
 
 type Highlight = { icon: string; title: WebsiteMessageKey; text: WebsiteMessageKey };
@@ -58,23 +59,9 @@ function Highlights({ t }: Pick<PageProps, 't'>) {
   );
 }
 
-function PrivacySummary({ t, locale }: Pick<PageProps, 't' | 'locale'>) {
-  return (
-    <section className={styles.section} aria-labelledby="privacy-summary">
-      <h2 id="privacy-summary">{t('websitePrivacySummaryHeading')}</h2>
-      <p>{t('websitePrivacySummaryText')}</p>
-      <p>
-        <a className={styles.link} href={pagePath('privacy', locale)}>
-          {t('websitePrivacySummaryLink')}
-        </a>
-      </p>
-    </section>
-  );
-}
-
 /**
  * Home (REQ-PAGE-001): value proposition, install buttons, hero, highlights, screenshots
- * (REQ-PAGE-008) and the privacy summary.
+ * (REQ-PAGE-008) and the privacy section.
  */
 export function HomePage({ t, locale }: PageProps) {
   return (
@@ -96,7 +83,7 @@ export function HomePage({ t, locale }: PageProps) {
       </section>
       <Highlights t={t} />
       <Screenshots t={t} locale={locale} />
-      <PrivacySummary t={t} locale={locale} />
+      <PrivacySection t={t} locale={locale} />
     </>
   );
 }
