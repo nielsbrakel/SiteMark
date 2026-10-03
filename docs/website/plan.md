@@ -35,7 +35,7 @@ website/
 ├─ src/
 │  ├─ routes/            routes.ts (PURE route table: slug, page, milestone, stable, nav) · urls.ts
 │  ├─ head/              seo.ts · csp.ts · json-ld.ts · sitemap.ts (pure builders, return data, not HTML strings)
-│  ├─ i18n/              catalog-source.ts (MessageSource over the merged catalogs) · website-t.ts · locales.ts
+│  ├─ i18n/              ../../src/lib/i18n/catalog-source.ts (MessageSource over the merged catalogs) · website-t.ts · locales.ts
 │  ├─ content/           markdown.tsx (react-markdown config) · policy.ts · help.ts · changelog.ts (build-time loaders)
 │  ├─ theme/             bootstrap.ts (inline, hash-pinned) · ThemeToggle.tsx
 │  ├─ components/        Shell · Header · Footer · LanguageSwitch · InstallButtons · Prose · Hero · …
@@ -108,7 +108,7 @@ interface MessageSource { get(key: string, substitutions: readonly string[]): st
 createTranslator(source) → { t(key, subs?), tp(key, count, subs?) }   // throws on unknown keys in dev/test
 
 // extension: src/lib/i18n/browser-source.ts → browser.i18n.getMessage + getUILanguage
-// website:   website/src/i18n/catalog-source.ts → merged JSON catalogs for the route's locale
+// website:   src/lib/i18n/catalog-source.ts → merged JSON catalogs for the route's locale
 ```
 
 - **Catalogs:** `website/locales/{en,nl}/messages.json` holds the website strings (the `website*` key prefix).
