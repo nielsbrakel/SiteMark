@@ -104,6 +104,13 @@ describe('REQ-WEB-006 Markdown links are safe and point to real places', () => {
     expect(linkTo('too far').getAttribute('href')).toBe(`${blob}/x.md`);
   });
 
+  it('keeps links to the website itself inside the website', () => {
+    show('[Privacy](https://nielsbrakel.github.io/SiteMark/nl/privacy/#data)');
+    const link = linkTo('Privacy');
+    expect(link.getAttribute('href')).toBe('/SiteMark/nl/privacy/#data');
+    expect(link.getAttribute('target')).toBeNull();
+  });
+
   it('keeps links to a section of the same page', () => {
     show('[Jump](#what-we-collect)');
     expect(linkTo('Jump').getAttribute('href')).toBe('#what-we-collect');
