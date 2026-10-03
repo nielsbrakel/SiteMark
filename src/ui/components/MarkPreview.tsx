@@ -19,8 +19,11 @@ export type MarkPreviewProps = {
   readonly labels: ViewLabels;
   /** The text of the element that element marks mark (the website's "Delete customer" button). */
   readonly targetLabel?: string;
-  /** Replaces the default placeholder page (the website draws a sample shop). Decorative. */
-  readonly children?: ReactNode;
+  /**
+   * Replaces the default placeholder page (the website draws a sample shop). Decorative. A function
+   * gets the element that element marks mark, to place it in the page.
+   */
+  readonly children?: ReactNode | ((target: ReactNode) => ReactNode);
   /** Extra class for the figure, e.g. to set `--sm-preview-height`. */
   readonly className?: string | undefined;
 };
@@ -76,6 +79,11 @@ export function MarkPreview({
   useMarkViews(plan, labels, refs);
   const prefix = itemOf(plan, 'titlePrefix')?.params.text;
   const favicon = itemOf(plan, 'favicon');
+  const targetElement = (
+    <div ref={refs.target} className={targetLabel ? styles.button : styles.target}>
+      {targetLabel}
+    </div>
+  );
   return (
     <figure aria-label={label} className={classNames(styles.preview, className)}>
       <div className={styles.chrome}>
@@ -91,16 +99,16 @@ export function MarkPreview({
       </div>
       <div className={styles.viewport}>
         <div className={children ? styles.sample : styles.page} aria-hidden="true">
-          {children ?? (
-            <>
-              <span className={styles.line} />
-              <span className={styles.line} />
-              <div ref={refs.target} className={targetLabel ? styles.button : styles.target}>
-                {targetLabel}
-              </div>
-              <span className={styles.line} />
-            </>
-          )}
+          {typeof children === 'function'
+            ? children(targetElement)
+            : (children ?? (
+                <>
+                  <span className={styles.line} />
+                  <span className={styles.line} />
+                  {targetElement}
+                  <span className={styles.line} />
+                </>
+              ))}
         </div>
         <div ref={refs.host} data-marker-host="" className={styles.host} />
       </div>

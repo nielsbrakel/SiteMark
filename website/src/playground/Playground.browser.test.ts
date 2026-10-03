@@ -29,7 +29,8 @@ const rgb = (hex: string) => {
 };
 
 const band = () => marks().querySelector<HTMLElement>('.sm-ribbon__band');
-const flip = (name: string) => fireEvent.click(screen.getByRole('switch', { name }));
+const flip = (name: string) =>
+  fireEvent.click(screen.getAllByRole('switch', { name })[0] as HTMLElement);
 
 describe('REQ-PLAY-002 the extension draws the playground marks in the mock browser', () => {
   it('draws the starting mark: a red PROD ribbon in the top-right corner', () => {
@@ -38,7 +39,8 @@ describe('REQ-PLAY-002 the extension draws the playground marks in the mock brow
     expect(band() && getComputedStyle(band() as HTMLElement).backgroundColor).toBe(
       rgb(presetColor('red')),
     );
-    expect(marks().querySelectorAll('.sm-view')).toHaveLength(1);
+    // The ribbon and the outline on the sample button.
+    expect(marks().querySelectorAll('.sm-view')).toHaveLength(2);
   });
 
   it('follows the color and the ribbon text', () => {
@@ -64,7 +66,13 @@ describe('REQ-PLAY-002 the extension draws the playground marks in the mock brow
 
   it('outlines the sample button until its mark is off, and drops the page ribbon with its switch', () => {
     render(createElement(Playground, { t: en.t }));
-    expect(marks().querySelector('.sm-outline')).not.toBeNull();
+    const outline = marks().querySelector('.sm-outline')?.getBoundingClientRect();
+    const button = screen.getByText('Delete customer').getBoundingClientRect();
+    expect(button.width).toBeGreaterThan(0);
+    expect(outline?.left).toBeLessThanOrEqual(button.left);
+    expect(outline?.top).toBeLessThanOrEqual(button.top);
+    expect(outline?.right).toBeGreaterThanOrEqual(button.right);
+    expect(outline?.bottom).toBeGreaterThanOrEqual(button.bottom);
     flip('Also mark the Delete customer button');
     expect(marks().querySelector('.sm-outline')).toBeNull();
     flip('Frame');
