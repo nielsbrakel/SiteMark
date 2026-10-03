@@ -11,7 +11,7 @@ import { pageLabel } from './page-labels';
 type FooterProps = { locale: Locale; routes: readonly Route[]; t: PageProps['t'] };
 
 /** The pages the footer links, in this order, once they have a page. */
-const FOOTER_PAGES: readonly PageId[] = ['changelog', 'privacy', 'support'];
+const FOOTER_PAGES: readonly PageId[] = ['changelog', 'privacy', 'agents', 'support'];
 
 /** Repository, changelog, privacy, support, sitemap (REQ-SEO-003), license (REQ-PAGE-007), portfolio. */
 export function Footer({ locale, routes, t }: FooterProps) {

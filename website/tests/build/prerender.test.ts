@@ -41,6 +41,8 @@ const pages = [
   { file: 'nl/changelog/index.html', locale: 'nl', route: 'changelog', h1: 'Wijzigingen' },
   { file: 'playground/index.html', locale: 'en', route: 'playground', h1: 'Playground' },
   { file: 'nl/playground/index.html', locale: 'nl', route: 'playground', h1: 'Uitproberen' },
+  { file: 'agents/index.html', locale: 'en', route: 'agents', h1: 'SiteMark for AI agents' },
+  { file: 'nl/agents/index.html', locale: 'nl', route: 'agents', h1: 'SiteMark voor AI-agents' },
   { file: 'support/index.html', locale: 'en', route: 'support', h1: 'Support' },
   { file: 'nl/support/index.html', locale: 'nl', route: 'support', h1: 'Ondersteuning' },
 ];
@@ -100,5 +102,22 @@ describe('REQ-WEB-002 every route is prerendered to one static HTML file', () =>
   it('ships no build manifest or server bundle', () => {
     expect(existsSync(path.join(dist, '.vite'))).toBe(false);
     expect(read('index.html')).not.toBe('');
+  });
+});
+
+describe('REQ-AGENT-002 the agents page has Markdown twins and llms.txt', () => {
+  it('announces the twin in the page head', () => {
+    expect(read('agents/index.html')).toContain(
+      '<link rel="alternate" type="text/markdown" href="https://nielsbrakel.github.io/SiteMark/agents.md"/>',
+    );
+    expect(read('nl/agents/index.html')).toContain('SiteMark/nl/agents.md"');
+  });
+
+  it.each([
+    ['agents.md', '# SiteMark for AI agents'],
+    ['nl/agents.md', '# SiteMark voor AI-agents'],
+    ['llms.txt', '# SiteMark'],
+  ])('writes %s', (file, start) => {
+    expect(read(file).startsWith(start)).toBe(true);
   });
 });

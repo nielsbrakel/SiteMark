@@ -77,7 +77,7 @@ describe('REQ-SEO-002 every route has a canonical URL, hreflang alternates and <
         links.filter((link) => link.rel === 'canonical'),
         file,
       ).toEqual([{ rel: 'canonical', href: `${ORIGIN}${path}` }]);
-      const alternates = links.filter((link) => link.rel === 'alternate');
+      const alternates = links.filter((link) => link.rel === 'alternate' && link.hreflang);
       expect(alternates.map((link) => link.hreflang).sort(), file).toEqual([
         'en',
         'nl',

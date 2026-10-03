@@ -10,7 +10,8 @@ export type PageId =
   | 'playground'
   | 'support'
   | 'privacy'
-  | 'changelog';
+  | 'changelog'
+  | 'agents';
 
 /** One page of the website (docs/website/spec.md §6). Pure data: no components, no URLs. */
 export type Route = {
@@ -46,6 +47,7 @@ const ROUTES: readonly Route[] = [
   { page: 'support', slug: 'support/', milestone: 'W1', stable: true, nav: true },
   { page: 'privacy', slug: 'privacy/', milestone: 'W1', stable: true, nav: true },
   { page: 'changelog', slug: 'changelog/', milestone: 'W2', stable: false, nav: false },
+  { page: 'agents', slug: 'agents/', milestone: 'W2', stable: false, nav: false },
 ];
 
 /** Every route, in navigation order. */

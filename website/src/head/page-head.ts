@@ -1,7 +1,9 @@
+import { agentsMarkdownFile } from '../content/agents';
 import type { Locale } from '../i18n/locales';
 import type { WebsiteTranslator } from '../i18n/website-t';
 import type { Page } from '../pages/registry';
 import type { Route } from '../routes/routes';
+import { absoluteUrl } from '../routes/urls';
 import { jsonLdText, softwareApplication } from './json-ld';
 import { type SeoHead, seoHead } from './seo';
 
@@ -18,7 +20,11 @@ export function pageHead(
     title: t(page.title),
     description: t(page.description),
   };
-  const head = seoHead(route, locale, { ...text, imageAlt: t('websiteSocialImageAlt') });
+  const seo = seoHead(route, locale, { ...text, imageAlt: t('websiteSocialImageAlt') });
+  const head =
+    route.page === 'agents'
+      ? { ...seo, markdownAlternate: absoluteUrl(agentsMarkdownFile(locale)) }
+      : seo;
   const jsonLd =
     route.page === 'home'
       ? jsonLdText(

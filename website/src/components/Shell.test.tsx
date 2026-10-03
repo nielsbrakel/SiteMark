@@ -87,13 +87,14 @@ describe('REQ-PAGE-007 every page has a skip link, a header and a footer', () =>
     expect(home.getAttribute('aria-current')).toBe('page');
   });
 
-  it('has a footer with the repository, changelog, privacy, support, sitemap and license', () => {
+  it('has a footer with the repository, changelog, privacy, agents, support, sitemap and license', () => {
     renderShell('home');
     const footer = screen.getByRole('contentinfo');
     expect(linksIn(footer)).toEqual([
       ['GitHub', 'https://github.com/nielsbrakel/SiteMark'],
       ['Changelog', '/SiteMark/changelog/'],
       ['Privacy', '/SiteMark/privacy/'],
+      ['For AI agents', '/SiteMark/agents/'],
       ['Support', '/SiteMark/support/'],
       ['Sitemap', '/SiteMark/sitemap.xml'],
       ['MIT license', 'https://github.com/nielsbrakel/SiteMark/blob/main/LICENSE'],
