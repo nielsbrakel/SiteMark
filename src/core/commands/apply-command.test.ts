@@ -140,6 +140,10 @@ const examples: { [T in Command['type']]: Example<T> } = {
     command: { type: 'setTheme', theme: 'dark' },
     check: (o) => expect(o.state.settings.theme).toBe('dark'),
   },
+  setLanguage: {
+    command: { type: 'setLanguage', language: 'nl' },
+    check: (o) => expect(o.state.settings.language).toBe('nl'),
+  },
   resetAll: {
     command: { type: 'resetAll' },
     check: (o) => expect(o.state.siteGroups).toEqual([]),

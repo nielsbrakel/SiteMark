@@ -17,13 +17,17 @@ export type Hex = Brand<string, 'Hex'>;
 
 export type Theme = 'system' | 'light' | 'dark';
 
+/** The popup and options language: the browser's, or one of ours. */
+export type Language = 'auto' | 'en' | 'nl';
+
 export type SiteMarkState = {
   schemaVersion: 1;
   /** +1 per applied command. */
   revision: number;
   /** ≤ 200; order = priority (index 0 = highest). */
   siteGroups: SiteGroup[];
-  settings: { theme: Theme };
+  /** `language` is absent until the user picks one, which means `auto`. */
+  settings: { theme: Theme; language?: Language | undefined };
 };
 
 export type SiteGroup = {

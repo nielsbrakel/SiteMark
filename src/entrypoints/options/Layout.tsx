@@ -7,6 +7,7 @@ import { Toast } from '@/ui/components/Toast';
 import { SiteLinks } from '@/ui/SiteLinks';
 import { DataPane } from './DataPane';
 import { GroupEditor } from './GroupEditor';
+import { LanguageControl } from './LanguageControl';
 import styles from './Layout.module.css';
 import type { Notify, OptionsToast } from './notify';
 import { PageNav } from './PageNav';
@@ -82,6 +83,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
         <h1>{t('optionsTitle')}</h1>
         <SaveStatusText />
         <PageNav route={route} />
+        <LanguageControl language={state.settings.language ?? 'auto'} notify={setToast} />
         <ThemeControl theme={state.settings.theme} notify={setToast} />
       </header>
       <Sidebar

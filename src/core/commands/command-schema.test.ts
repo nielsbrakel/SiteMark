@@ -37,6 +37,7 @@ const examples: { [T in Command['type']]: CommandOf<T> } = {
   moveMark: { type: 'moveMark', groupId, markId, toIndex: 3 },
   markThisSite: { type: 'markThisSite', origin: { hostname: 'localhost', port: '3000' } },
   setTheme: { type: 'setTheme', theme: 'light' },
+  setLanguage: { type: 'setLanguage', language: 'nl' },
   resetAll: { type: 'resetAll' },
 };
 
@@ -56,6 +57,7 @@ describe('REQ-SEC-001 REQ-SEC-004 the command schema checks untrusted commands',
     ['a fractional index', { ...examples.moveSiteGroup, toIndex: 1.5 }],
     ['a non-boolean', { ...examples.setSiteGroupEnabled, enabled: 'true' }],
     ['an unknown theme', { type: 'setTheme', theme: 'neon' }],
+    ['an unknown language', { type: 'setLanguage', language: 'fr' }],
     ['an unknown pattern kind', { ...examples.addPattern, draft: { kind: 'glob', value: 'x' } }],
     ['a regex without origins', { ...examples.addPattern, draft: { kind: 'regex', value: '^' } }],
     [

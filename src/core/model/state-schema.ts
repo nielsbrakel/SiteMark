@@ -23,7 +23,10 @@ function reportRegexBudget(state: SiteMarkState, ctx: core.$RefinementCtx<SiteMa
   if (code) ctx.addIssue({ code: 'custom', path: ['siteGroups'], message: BUDGET_MESSAGE[code] });
 }
 
-export const settingsSchema = z.strictObject({ theme: z.enum(['system', 'light', 'dark']) });
+export const settingsSchema = z.strictObject({
+  theme: z.enum(['system', 'light', 'dark']),
+  language: z.enum(['auto', 'en', 'nl']).optional(),
+});
 
 export const stateSchema: ZodType<SiteMarkState> = z
   .strictObject({
