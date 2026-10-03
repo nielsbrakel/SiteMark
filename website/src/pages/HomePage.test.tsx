@@ -173,6 +173,21 @@ describe('REQ-PAGE-008 the home page shows the screenshots of its language, in b
   });
 });
 
+describe('REQ-PAGE-008 the screenshots are a tour that shows one scene at a time', () => {
+  it.each([
+    ['index.html', 'Choose a scene', ['On the page', 'In the popup', 'In the editor']],
+    ['nl/index.html', 'Kies een scène', ['Op de pagina', 'In de pop-up', 'In de editor']],
+  ])('%s: a radio group picks the scene, and the first scene shows', (file, group, labels) => {
+    showPage(pages, file);
+    const scenes = within(main()).queryByRole('radiogroup', { name: group });
+    expect(scenes).not.toBeNull();
+    const radios = within(scenes ?? document.body).queryAllByRole<HTMLInputElement>('radio');
+    expect(radios.map((radio) => radio.labels?.[0]?.textContent)).toEqual(labels);
+    expect(radios.map((radio) => radio.value)).toEqual([...screenshotScenes()]);
+    expect(radios.map((radio) => radio.checked)).toEqual([true, false, false]);
+  });
+});
+
 describe('REQ-PLAY-004 the home hero is a small playground with the four presets', () => {
   const hero = () => within(main()).getByRole('heading', { level: 1 }).closest('section');
 
