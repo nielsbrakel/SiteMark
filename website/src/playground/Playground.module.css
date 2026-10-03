@@ -26,6 +26,11 @@
   top: var(--sm-space-4);
 }
 
+/* The SiteMark switch sits above the preview, like the extension's own on/off. */
+.master {
+  margin-block-end: var(--sm-space-3);
+}
+
 /* The mock browser is a little taller than the options page's, to fit the sample shop. */
 .mock {
   --sm-preview-height: 300px;

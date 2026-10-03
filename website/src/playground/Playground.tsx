@@ -58,6 +58,12 @@ export function Playground({ t }: IslandProps) {
           )}
         </div>
         <div className={styles.preview}>
+          <Switch
+            label={t('websitePlaygroundSwitch')}
+            checked={state.enabled}
+            onChange={(enabled) => void change({ enabled })}
+            className={styles.master}
+          />
           <PlaygroundPreview t={t} state={state} />
         </div>
       </div>

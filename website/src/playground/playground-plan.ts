@@ -12,7 +12,7 @@ export function playgroundPlan(state: PlaygroundState): RenderPlan {
   const siteMarkState: SiteMarkState = {
     schemaVersion: 1,
     revision: 0,
-    siteGroups: [playgroundGroup(state)],
+    siteGroups: state.enabled ? [playgroundGroup(state)] : [],
     settings: { theme: 'system' },
   };
   return compose(PLAYGROUND_ADDRESS, siteMarkState);
