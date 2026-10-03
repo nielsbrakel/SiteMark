@@ -1,4 +1,4 @@
-import type { MessageSource } from '@/lib/i18n/translate';
+import type { MessageSource } from './translate';
 
 /** One message in the `chrome.i18n` messages.json format (D-247). */
 export type CatalogEntry = {

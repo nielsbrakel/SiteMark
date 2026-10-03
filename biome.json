@@ -402,7 +402,7 @@
       }
     },
     {
-      "includes": ["src/lib/i18n/translate.ts"],
+      "includes": ["src/lib/i18n/translate.ts", "src/lib/i18n/catalog-source.ts"],
       "linter": {
         "rules": {
           "style": {
@@ -453,9 +453,10 @@
                       "!@/shared/**",
                       "!@/ui/components/**",
                       "!@/lib/i18n/translate",
+                      "!@/lib/i18n/catalog-source",
                       "!@/styles/**"
                     ],
-                    "message": "The website imports only core, shared, ui/components, lib/i18n/translate and styles from the extension (D-246)."
+                    "message": "The website imports only core, shared, ui/components, lib/i18n/{translate,catalog-source} and styles from the extension (D-246)."
                   },
                   {
                     "group": ["wxt", "wxt/**", "@webext-core/**"],
@@ -484,9 +485,10 @@
                       "!@/shared/**",
                       "!@/ui/components/**",
                       "!@/lib/i18n/translate",
+                      "!@/lib/i18n/catalog-source",
                       "!@/styles/**"
                     ],
-                    "message": "The website imports only core, shared, ui/components, lib/i18n/translate and styles from the extension (D-246)."
+                    "message": "The website imports only core, shared, ui/components, lib/i18n/{translate,catalog-source} and styles from the extension (D-246)."
                   },
                   {
                     "group": ["wxt", "wxt/**", "@webext-core/**"],
