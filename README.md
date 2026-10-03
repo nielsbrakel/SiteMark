@@ -5,7 +5,7 @@
 <p align="center">
   <b>Never confuse production with test again.</b><br>
   A private, cross-browser extension that marks the websites you choose with ribbons, banners,
-  outlines, stripes and more.<br>
+  outlines, stripes and more. It collects nothing and only runs on the sites you allow.<br>
   <a href="https://nielsbrakel.github.io/SiteMark/"><b>Website</b></a> ·
   <a href="https://nielsbrakel.github.io/SiteMark/privacy/">Privacy</a> ·
   <a href="https://nielsbrakel.github.io/SiteMark/support/">Support</a>
@@ -31,11 +31,25 @@ either on the whole page or on one element you pick (a logo, a header, that scar
 - 🎀 **Marks:** corner ribbons, banners, viewport frames, outlines, tints, hazard stripes,
   watermarks, `[PROD]` tab-title prefix and a favicon dot
 - 🎯 **Picker:** hover and click any element, with an auto-generated stable CSS selector you can edit
-- 🔒 **Private:** no install-time site access, no network requests of its own, data stays in local storage.
-  Move it between devices with JSON import/export
+- 🔒 **Private:** collects nothing, no accounts or analytics, [no install-time site access](#privacy). Your data
+  stays in local storage; move it between devices with JSON import/export
 - 🌗 **Soft UI:** a soft, raised popup and options page in light and dark, English and Dutch
 - 🧭 **Everywhere:** Chrome, Edge and Firefox in v1.0, Safari in v1.1 (Manifest V3)
 - 🎨 **Colorblind-safe:** preset colors stay distinguishable, and marks always carry text
+
+## Privacy
+
+Privacy is a feature, and each claim is checked by a test (the requirement IDs are in [docs/spec.md](docs/spec.md#56-privacy--permissions--priv)):
+
+- **Collects nothing:** no accounts, analytics, servers or crash reporting. Data lives in `storage.local`, never `storage.sync`.
+- **Runs only where you allow:** no `host_permissions` and no static `content_scripts`. Access is requested for one
+  website at a time, when you add its URL pattern, and you can revoke it. The only permissions are `storage`,
+  `scripting` and `activeTab`.
+- **No network requests of its own:** no remote code, fonts or CDNs, and the extension pages' CSP has `connect-src 'none'`.
+  The one exception is the opt-in favicon tint, which loads the icon of the page you are on.
+- **Open source:** MIT, and the website is just as clean: no cookies, no third parties.
+
+Read the full [privacy policy](PRIVACY.md) ([Nederlands](PRIVACY.nl.md)).
 
 ## Documentation
 
@@ -59,13 +73,14 @@ publishes the [privacy policy](PRIVACY.md) and the support routes.
 ## Development
 
 ```bash
-corepack enable && pnpm install
+corepack enable && pnpm install   # Node 26, see .nvmrc
 pnpm dev            # Chromium + HMR   (pnpm dev:firefox for Firefox)
 pnpm test:watch     # unit/component tests (TDD loop)
 pnpm test:e2e       # Playwright against the built extension
 pnpm check          # everything CI checks except e2e
 pnpm format         # Biome (code, JSON, CSS) + Prettier (Markdown, YAML)
 pnpm progress       # progress + requirement traceability
+pnpm web:dev        # the website (website/)
 ```
 
 Stack: [WXT](https://wxt.dev) · React 19 · TypeScript · Vitest · Testing Library · Playwright · Biome · pnpm.

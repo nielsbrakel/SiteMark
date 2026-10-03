@@ -8,7 +8,7 @@
     "description": "Main heading (h1) of the website home page."
   },
   "websiteHomeLead": {
-    "message": "SiteMark is a browser extension that marks the websites you choose with ribbons, banners and outlines, so you always know where you are.",
+    "message": "SiteMark is a private browser extension that marks the websites you choose with ribbons, banners and outlines, so you always know where you are. It collects nothing and only runs on the sites you allow.",
     "description": "One-sentence value proposition below the home page heading."
   },
   "websiteSkipToContent": {

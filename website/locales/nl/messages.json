@@ -8,7 +8,7 @@
     "description": "Main heading (h1) of the website home page."
   },
   "websiteHomeLead": {
-    "message": "SiteMark is een browserextensie die de websites die je kiest markeert met linten, banners en kaders, zodat je altijd weet waar je bent.",
+    "message": "SiteMark is een privacyvriendelijke browserextensie die de websites die je kiest markeert met linten, banners en kaders, zodat je altijd weet waar je bent. Er wordt niets verzameld en SiteMark draait alleen op de sites die je toestaat.",
     "description": "One-sentence value proposition below the home page heading."
   },
   "websiteSkipToContent": {

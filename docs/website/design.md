@@ -40,7 +40,7 @@ The type scale continues the extension scale (12/14/16/20/28) and only adds the 
 │ ▣ SiteMark      Help  Playground  Support  Privacy        [EN|NL] [◐ ☀ ☾]   │  header: flat surface, bottom --sm-border
 ├──────────────────────────────────────────────────────────────────────────────┤
 │  Never confuse production with test again.          ┌─ mock browser ───────┐ │
-│  One sentence value proposition.                     │ ◤PROD      prod.… ✕ │ │  hero: text left, preview right
+│  Value proposition (private).                        │ ◤PROD      prod.… ✕ │ │  hero: text left, preview right
 │  [Add to Chrome] [Firefox] [Edge] [Safari · v1.1]    │ ▔▔▔▔▔ banner ▔▔▔▔▔▔ │ │  (stacks below 720 px)
 │                                                      └──────────────────────┘ │
 │  ┌ card ────────┐ ┌ card ────────┐ ┌ card ────────┐                            │  highlights: 3 raised cards
