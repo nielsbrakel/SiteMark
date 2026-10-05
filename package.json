@@ -2,7 +2,7 @@
   "name": "sitemark",
   "description": "Mark production (or any) websites with ribbons, banners and outlines so you never confuse environments.",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "license": "MIT",
   "author": "Niels van Brakel (https://github.com/nielsbrakel)",
