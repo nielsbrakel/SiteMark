@@ -21,7 +21,7 @@ describe('REQ-SEO-006 the website is linked from the package, the manifests, the
   });
 
   it('fills the website, privacy and support fields of the store listings (T-152)', () => {
-    const listing = read('docs/store-listing.md');
+    const listing = read('store/listing.md');
     for (const url of [
       WEBSITE,
       `${WEBSITE}privacy/`,
