@@ -1,6 +1,7 @@
 # Store listings
 
-The fields every store listing shares (D-256). T-152 writes the listing texts, permission justifications and
+The content every store listing shares (D-256), kept here so it is version controlled: copy it into each
+store's dashboard. T-152 writes the listing texts, permission justifications and
 screenshots and fills in the rest; T-157 does the same for the App Store. Everything that points to the web
 uses the **website**, never the repository, so the URLs stay stable (REQ-POLICY-005).
 
@@ -9,6 +10,7 @@ uses the **website**, never the repository, so the URLs stay stable (REQ-POLICY-
 | Field                          | English                                         | Dutch                                              |
 | ------------------------------ | ----------------------------------------------- | -------------------------------------------------- |
 | Website / homepage             | https://nielsbrakel.github.io/SiteMark/         | https://nielsbrakel.github.io/SiteMark/nl/         |
+| Source code                    | https://github.com/nielsbrakel/SiteMark         | https://github.com/nielsbrakel/SiteMark            |
 | Privacy policy                 | https://nielsbrakel.github.io/SiteMark/privacy/ | https://nielsbrakel.github.io/SiteMark/nl/privacy/ |
 | Support (App Store, AMO, Edge) | https://nielsbrakel.github.io/SiteMark/support/ | https://nielsbrakel.github.io/SiteMark/nl/support/ |
 
@@ -28,8 +30,13 @@ the website's install button for that store then turns from "Coming soon" into a
 
 ## Listing texts
 
-Name: **SiteMark** (all stores, both languages). Category: _Developer Tools_ (Chrome, Edge), _Other_ /
-_Web Development_ (AMO).
+Name: **SiteMark** (all stores, both languages).
+
+| Store                  | Category          | Languages |
+| ---------------------- | ----------------- | --------- |
+| Chrome Web Store       | _Developer Tools_ | en, nl    |
+| Microsoft Edge Add-ons | _Developer tools_ | en, nl    |
+| Firefox Add-ons (AMO)  | _Web Development_ | en, nl    |
 
 ### Short description (≤ 132 characters)
 
@@ -102,15 +109,20 @@ Matching [PRIVACY.md](../PRIVACY.md#permissions-and-why-sitemark-needs-them).
 
 ## Images
 
-All images are generated, never made by hand (D-251): `pnpm web:screenshots` writes the screenshots and
-`pnpm icons` the icons and the promo tile.
+All images are generated, never made by hand (D-251): `pnpm web:screenshots` writes the website screenshots,
+and `pnpm icons` renders the icons and tiles and collects everything in [`images/`](images/).
 
-| Image                           | Size       | Files                                                                             |
-| ------------------------------- | ---------- | --------------------------------------------------------------------------------- |
-| Store icon                      | 128 × 128  | `public/icon/128.png` (also in the package)                                       |
-| Screenshots (Chrome, Edge, AMO) | 1280 × 800 | `website/public/screenshots/{marked-page,popup,options}-{light,dark}-{en,nl}.png` |
-| Small promo tile (Chrome, Edge) | 440 × 280  | `design/promo-tile.png` (from `design/promo-tile.svg`)                            |
+| File in `images/`                            | Size       | Chrome | Edge | Firefox |
+| -------------------------------------------- | ---------- | :----: | :--: | :-----: |
+| `icon-128.png` (store icon)                  | 128 × 128  |   ✓    |      |    ✓    |
+| `icon-300.png` (store logo)                  | 300 × 300  |        |  ✓   |         |
+| `screenshots/{en,nl}/1…5-*.png`              | 1280 × 800 |   ✓    |  ✓   |    ✓    |
+| `promo-small-440x280.png` (small promo tile) | 440 × 280  |   ✓    |  ✓   |         |
+| `promo-marquee-1400x560.png` (marquee tile)  | 1400 × 560 |   ✓    |  ✓   |         |
 
-Upload the three light screenshots first (the marked page, the popup, then the options page) and the dark
-ones after them, in the listing's language: `-en` for English and `-nl` for Dutch. The promo tile is English
-only and serves the Dutch listing too. The Chrome marquee tile (1400 × 560) is optional and not made.
+- Screenshots are 24-bit PNG without alpha, numbered in upload order: the marked page, the popup and the options
+  page in light, then the marked page and the popup in dark. Chrome allows 5 per language, so `en` and `nl` are
+  each a complete set. Upload `nl` as the localised set of the Dutch listing.
+- Chrome's **global** screenshots are the `en` set. Edge and Firefox take one set per listing language.
+- The tiles are English only and serve the Dutch listing too. Firefox has no promo tiles.
+- Firefox takes its icon from the package. The icon PNGs have an alpha channel, which stores allow for icons.

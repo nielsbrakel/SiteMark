@@ -56,19 +56,19 @@ Read the full [privacy policy](PRIVACY.md) ([Nederlands](PRIVACY.nl.md)).
 For users: the **[SiteMark website](https://nielsbrakel.github.io/SiteMark/)** explains the extension, and it
 publishes the [privacy policy](PRIVACY.md) and the support routes.
 
-| Doc                                            | What                                                      |
-| ---------------------------------------------- | --------------------------------------------------------- |
-| [docs/spec.md](docs/spec.md)                   | Product specification with requirement IDs                |
-| [docs/plan.md](docs/plan.md)                   | Architecture, test strategy, milestones                   |
-| [docs/tasks.md](docs/tasks.md)                 | TDD task list: the progress tracker                       |
-| [docs/design.md](docs/design.md)               | Design system, screens, marker specs, logo                |
-| [docs/decisions.md](docs/decisions.md)         | Decision log                                              |
-| [docs/testing.md](docs/testing.md)             | How to test, the TDD protocol, manual smoke checklist     |
-| [docs/conventions.md](docs/conventions.md)     | Code conventions and layering rules                       |
-| [docs/repo-setup.md](docs/repo-setup.md)       | GitHub repository setup and store publishing              |
-| [docs/reviews/](docs/reviews/)                 | Specialist plan reviews and what happened to each finding |
-| [docs/website/](docs/website/spec.md)          | The website: spec, plan, design and tasks                 |
-| [docs/store-listing.md](docs/store-listing.md) | Store listing fields and their website URLs               |
+| Doc                                        | What                                                      |
+| ------------------------------------------ | --------------------------------------------------------- |
+| [docs/spec.md](docs/spec.md)               | Product specification with requirement IDs                |
+| [docs/plan.md](docs/plan.md)               | Architecture, test strategy, milestones                   |
+| [docs/tasks.md](docs/tasks.md)             | TDD task list: the progress tracker                       |
+| [docs/design.md](docs/design.md)           | Design system, screens, marker specs, logo                |
+| [docs/decisions.md](docs/decisions.md)     | Decision log                                              |
+| [docs/testing.md](docs/testing.md)         | How to test, the TDD protocol, manual smoke checklist     |
+| [docs/conventions.md](docs/conventions.md) | Code conventions and layering rules                       |
+| [docs/repo-setup.md](docs/repo-setup.md)   | GitHub repository setup and store publishing              |
+| [docs/reviews/](docs/reviews/)             | Specialist plan reviews and what happened to each finding |
+| [docs/website/](docs/website/spec.md)      | The website: spec, plan, design and tasks                 |
+| [store/listing.md](store/listing.md)       | Store listing texts, URLs and images (version controlled) |
 
 ## Development
 
