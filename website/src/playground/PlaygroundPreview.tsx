@@ -27,12 +27,13 @@ export function PlaygroundPreview({ t, state }: Props) {
         pageTitle={t('websitePlaygroundPageTitle')}
         address={PLAYGROUND_ADDRESS}
         className={styles.mock}
+        targetLabel={t('websitePlaygroundDeleteButton')}
         labels={{
           collapseBanner: t('markerCollapseBanner'),
           expandBanner: t('markerExpandBanner'),
         }}
       >
-        <MockShop brand={t('websitePlaygroundPageTitle')} />
+        {(button) => <MockShop brand={t('websitePlaygroundPageTitle')} button={button} />}
       </MarkPreview>
       <p role="status" className="sm-visually-hidden">
         {playgroundSummary(state, t)}
