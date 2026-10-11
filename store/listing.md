@@ -47,41 +47,42 @@ Name: **SiteMark** (all stores, both languages).
 
 ### Long description
 
+Plain paragraphs only: the store dashboards don't format text, so there are no lists, bold or code spans.
+
 **en**
 
-> Ever changed something on production while you thought you were on test? SiteMark makes the difference
-> impossible to miss.
->
-> - **Site groups:** group the sites that belong together (say "Production") with URL patterns, from simple
->   wildcards like `*.example.com` to careful regular expressions.
-> - **Marks on the page:** a corner ribbon, a banner, a frame around the window, a tint, stripes or a
->   watermark, in the color you choose.
-> - **Marks on elements:** pick the button that deletes customers and give it an outline or a ribbon. The mark
->   follows the element while you scroll.
-> - **In the tab bar too:** an optional title prefix and a tinted favicon.
-> - **Hide on this tab** when you need a clean screenshot, with an optional keyboard shortcut.
-> - **Private by design:** SiteMark asks for access per website, only when you add it, and runs nowhere else.
->   No accounts, no analytics, no servers; your settings stay in your browser. Export and import them as a
->   file.
-> - Keyboard friendly, light and dark, in English and Dutch. Open source (MIT).
+```text
+Ever changed something on production while you thought you were on test? SiteMark makes the difference impossible to miss.
+
+Group the sites that belong together, say "Production", with URL patterns, from simple wildcards like *.example.com to careful regular expressions. SiteMark then marks every matching page with a corner ribbon, a banner, a frame around the window, a tint, stripes or a watermark, in the color you choose.
+
+You can also mark a single element: pick the button that deletes customers and give it an outline or a ribbon. The mark follows the element while you scroll. In the tab bar, an optional title prefix and a tinted favicon keep the difference visible there too, and you can hide the marks on one tab when you need a clean screenshot, with an optional keyboard shortcut.
+
+SiteMark is private by design. It asks for access per website, only when you add it, and runs nowhere else. There are no accounts, no analytics and no servers, and your settings stay in your browser. You can export and import them as a file.
+
+It works with the keyboard, in light and dark, in English and Dutch. SiteMark is open source (MIT).
+```
 
 **nl**
 
-> Ooit iets op productie aangepast terwijl je dacht dat je op test zat? Met SiteMark zie je het verschil
-> meteen.
->
-> - **Sitegroepen:** groepeer de sites die bij elkaar horen (bijvoorbeeld "Productie") met URL-patronen, van
->   eenvoudige jokertekens zoals `*.example.com` tot zorgvuldige reguliere expressies.
-> - **Markeringen op de pagina:** een lint in de hoek, een banner, een kader rond het venster, een tint, strepen
->   of een watermerk, in de kleur die jij kiest.
-> - **Markeringen op elementen:** kies de knop waarmee je klanten verwijdert en geef hem een kader of een lint.
->   De markering volgt het element terwijl je scrolt.
-> - **Ook in de tabbalk:** een optioneel voorvoegsel in de titel en een gekleurd favicon.
-> - **Verbergen op dit tabblad** voor een schone schermafbeelding, met een optionele sneltoets.
-> - **Privé als uitgangspunt:** SiteMark vraagt per website om toegang, alleen als je die toevoegt, en draait
->   nergens anders. Geen accounts, geen analytics, geen servers; je instellingen blijven in je browser. Exporteer
->   en importeer ze als bestand.
-> - Goed met het toetsenbord te bedienen, licht en donker, in het Engels en Nederlands. Open source (MIT).
+```text
+Ooit iets op productie aangepast terwijl je dacht dat je op test zat? Met SiteMark zie je het verschil meteen.
+
+Groepeer de sites die bij elkaar horen, bijvoorbeeld "Productie", met URL-patronen, van eenvoudige jokertekens zoals *.example.com tot zorgvuldige reguliere expressies. SiteMark markeert daarna elke pagina die erbij past met een lint in de hoek, een banner, een kader rond het venster, een tint, strepen of een watermerk, in de kleur die jij kiest.
+
+Je kunt ook één element markeren: kies de knop waarmee je klanten verwijdert en geef hem een kader of een lint. De markering volgt het element terwijl je scrolt. In de tabbalk houden een optioneel voorvoegsel in de titel en een gekleurd favicon het verschil ook zichtbaar, en op één tabblad kun je de markeringen verbergen voor een schone schermafbeelding, met een optionele sneltoets.
+
+SiteMark is privé als uitgangspunt. Het vraagt per website om toegang, alleen als je die toevoegt, en draait nergens anders. Er zijn geen accounts, geen analytics en geen servers, en je instellingen blijven in je browser. Je kunt ze exporteren en importeren als bestand.
+
+Goed met het toetsenbord te bedienen, licht en donker, in het Engels en Nederlands. SiteMark is open source (MIT).
+```
+
+### Search terms (Edge)
+
+Edge takes up to 7 terms of at most 30 characters each, and at most 21 separate words across all terms.
+
+- **en** (14 words): `production warning`, `environment marker`, `test environment`, `staging banner`, `site ribbon`, `website labels`, `developer tools`
+- **nl** (11 words): `productie waarschuwing`, `omgevingsmarkering`, `testomgeving`, `staging banner`, `site lint`, `website markeren`, `ontwikkelaarstools`
 
 ## Single purpose (Chrome Web Store)
 
@@ -112,17 +113,27 @@ Matching [PRIVACY.md](../PRIVACY.md#permissions-and-why-sitemark-needs-them).
 All images are generated, never made by hand (D-251): `pnpm web:screenshots` writes the website screenshots,
 and `pnpm icons` renders the icons and tiles and collects everything in [`images/`](images/).
 
-| File in `images/`                            | Size       | Chrome | Edge | Firefox |
-| -------------------------------------------- | ---------- | :----: | :--: | :-----: |
-| `icon-128.png` (store icon)                  | 128 × 128  |   ✓    |      |    ✓    |
-| `icon-300.png` (store logo)                  | 300 × 300  |        |  ✓   |         |
-| `screenshots/{en,nl}/1…5-*.png`              | 1280 × 800 |   ✓    |  ✓   |    ✓    |
-| `promo-small-440x280.png` (small promo tile) | 440 × 280  |   ✓    |  ✓   |         |
-| `promo-marquee-1400x560.png` (marquee tile)  | 1400 × 560 |   ✓    |  ✓   |         |
+| File in `images/`                              | Size       | Chrome | Edge | Firefox |
+| ---------------------------------------------- | ---------- | :----: | :--: | :-----: |
+| `icon-128.png` (store icon)                    | 128 × 128  |   ✓    |      |    ✓    |
+| `icon-300.png` (store logo)                    | 300 × 300  |        |  ✓   |         |
+| `{en,nl}/1…5-*.png` (screenshots)              | 1280 × 800 |   ✓    |  ✓   |    ✓    |
+| `{en,nl}/promo-small-440x280.png` (small tile) | 440 × 280  |   ✓    |  ✓   |         |
+| `{en,nl}/promo-marquee-1400x560.png` (marquee) | 1400 × 560 |   ✓    |  ✓   |         |
 
-- Screenshots are 24-bit PNG without alpha, numbered in upload order: the marked page, the popup and the options
-  page in light, then the marked page and the popup in dark. Chrome allows 5 per language, so `en` and `nl` are
-  each a complete set. Upload `nl` as the localised set of the Dutch listing.
-- Chrome's **global** screenshots are the `en` set. Edge and Firefox take one set per listing language.
-- The tiles are English only and serve the Dutch listing too. Firefox has no promo tiles.
-- Firefox takes its icon from the package. The icon PNGs have an alpha channel, which stores allow for icons.
+- Everything in `en/` and `nl/` is localised: screenshots, promo tiles and the captions below. Upload `nl` to the
+  Dutch listing and `en` to the English one.
+- Screenshots are 24-bit PNG without alpha, numbered in upload order. Chrome allows 5 per language, so `en` and
+  `nl` are each a complete set. Chrome's **global** screenshots are the `en` set.
+- Firefox has no promo tiles. It takes its icon from the package. The icon PNGs have an alpha channel, which
+  stores allow for icons.
+
+### Screenshot captions
+
+| #   | File                  | en                                                                  | nl                                                                  |
+| --- | --------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| 1   | `1-marked-page-light` | A marked page: ribbon and banner make production impossible to miss | Een gemarkeerde pagina: lint en banner maken productie onmiskenbaar |
+| 2   | `2-popup-light`       | Mark the current site from the toolbar popup                        | Markeer de huidige site vanuit het pop-upvenster                    |
+| 3   | `3-options-light`     | Manage site groups, URL patterns and marks                          | Beheer sitegroepen, URL-patronen en markeringen                     |
+| 4   | `4-marked-page-dark`  | The same marks on a dark page                                       | Dezelfde markeringen op een donkere pagina                          |
+| 5   | `5-popup-dark`        | The popup in dark mode                                              | De pop-up in donkere modus                                          |
