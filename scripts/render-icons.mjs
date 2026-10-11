@@ -1,7 +1,7 @@
 // Renders design/logo/*.svg into the PNG toolbar/store icons in public/icon/, and
 // design/social-preview.svg into the GitHub social preview (design/social-preview.png), and
-// design/{promo,marquee}-tile.svg into the store promo tiles (design/*-tile.png, T-152). It then
-// collects every store image into store/images/ (store/listing.md says which store takes which).
+// design/{promo,marquee}-tile.svg into the localised store promo tiles (T-152). It then collects
+// every store image into store/images/ (store/listing.md says which store takes which).
 // Usage: pnpm icons   (set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium)
 import { copyFile, mkdir, readFile } from 'node:fs/promises';
 import { chromium } from '@playwright/test';
@@ -30,19 +30,36 @@ for (const { svg, sizes } of targets) {
   }
 }
 
-const pictures = [
-  { name: 'social-preview', width: 1280, height: 640 },
-  { name: 'promo-tile', width: 440, height: 280 },
-  { name: 'marquee-tile', width: 1400, height: 560 },
+await page.setViewportSize({ width: 1280, height: 640 });
+await page.setContent(
+  `<style>html,body{margin:0}svg{display:block;width:1280px;height:640px}</style>${await readFile('design/social-preview.svg', 'utf8')}`,
+);
+await page.locator('svg').screenshot({ path: 'design/social-preview.png' });
+console.log('design/social-preview.png');
+
+// The store tiles are localised: the English SVG text is swapped for the Dutch text.
+const dutch = [
+  ['Never confuse', 'Verwar productie'],
+  ['production with test.', 'nooit met test.'],
+  ['PRODUCTION · BE CAREFUL', 'PRODUCTIE · PAS OP'],
+  ['Private by design. Nothing leaves your browser.', 'Privé ontworpen. Niets verlaat je browser.'],
 ];
-for (const { name, width, height } of pictures) {
-  const markup = await readFile(`design/${name}.svg`, 'utf8');
-  await page.setViewportSize({ width, height });
-  await page.setContent(
-    `<style>html,body{margin:0}svg{display:block;width:${width}px;height:${height}px}</style>${markup}`,
-  );
-  await page.locator('svg').screenshot({ path: `design/${name}.png` });
-  console.log(`design/${name}.png`);
+const tiles = [
+  { name: 'promo-tile', file: 'promo-small-440x280', width: 440, height: 280 },
+  { name: 'marquee-tile', file: 'promo-marquee-1400x560', width: 1400, height: 560 },
+];
+for (const lang of ['en', 'nl']) {
+  await mkdir(`store/images/${lang}`, { recursive: true });
+  for (const { name, file, width, height } of tiles) {
+    let markup = await readFile(`design/${name}.svg`, 'utf8');
+    if (lang === 'nl') for (const [from, to] of dutch) markup = markup.replaceAll(from, to);
+    await page.setViewportSize({ width, height });
+    await page.setContent(
+      `<style>html,body{margin:0}svg{display:block;width:${width}px;height:${height}px}</style>${markup}`,
+    );
+    await page.locator('svg').screenshot({ path: `store/images/${lang}/${file}.png` });
+    console.log(`store/images/${lang}/${file}.png`);
+  }
 }
 
 // Edge asks for a 300 × 300 logo; the package doesn't ship it.
@@ -62,20 +79,11 @@ const shots = [
   'marked-page-dark',
   'popup-dark',
 ];
-const files = [
-  ['public/icon/128.png', 'icon-128.png'],
-  ['design/promo-tile.png', 'promo-small-440x280.png'],
-  ['design/marquee-tile.png', 'promo-marquee-1400x560.png'],
-];
+const files = [['public/icon/128.png', 'icon-128.png']];
 for (const lang of ['en', 'nl']) {
   shots.forEach((shot, i) => {
-    files.push([
-      `website/public/screenshots/${shot}-${lang}.png`,
-      `screenshots/${lang}/${i + 1}-${shot}.png`,
-    ]);
+    files.push([`website/public/screenshots/${shot}-${lang}.png`, `${lang}/${i + 1}-${shot}.png`]);
   });
 }
-for (const lang of ['en', 'nl'])
-  await mkdir(`store/images/screenshots/${lang}`, { recursive: true });
 for (const [from, to] of files) await copyFile(from, `store/images/${to}`);
-console.log(`store/images: ${files.length + 1} files`);
+console.log(`store/images: ${files.length} files copied`);
