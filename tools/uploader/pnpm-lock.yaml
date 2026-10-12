@@ -1,0 +1,45 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      publish-browser-extension:
+        specifier: 6.1.1
+        version: 6.1.1
+
+packages:
+
+  '@topcli/prompts@4.0.0':
+    resolution: {integrity: sha512-kkKYPb4k/6kRdnESt77B5vJrrYnYHIYczwv0P1c+tfN/IWEx3KZeKEHoUq7sImIyBEXWdA2uakIroD9pmRJziQ==}
+    engines: {node: '>=22.0.0'}
+
+  cac@7.1.0:
+    resolution: {integrity: sha512-LMDU/U2yA4IPIY8KT0NsNPWEYZvAMkbgyspxJ6btJaYV+WMDOHAZCmB0lsTObiHaRS1V/ztKAl7+TSkTqXyeoA==}
+    engines: {node: '>=20.19.0'}
+
+  publish-browser-extension@6.1.1:
+    resolution: {integrity: sha512-ovfBOz+cZIOBHZ+oxTfpv1kSGU7ruzy8CXoFGvhXsUbJuty45srGzf1ufEePs69virOWXfFbhZRoNQUdgPvwXA==}
+    engines: {node: '>=22.0.0'}
+    hasBin: true
+
+  tasuku@2.3.0:
+    resolution: {integrity: sha512-9Jtk+XAnttslCw4i9RceSZGr2PT5TLn0vUyWnoP2SdlSYzkiYRY6kB5qnPi5IQ/Em8e4oBow1rpaA39iijTIrA==}
+
+snapshots:
+
+  '@topcli/prompts@4.0.0': {}
+
+  cac@7.1.0: {}
+
+  publish-browser-extension@6.1.1:
+    dependencies:
+      '@topcli/prompts': 4.0.0
+      cac: 7.1.0
+      tasuku: 2.3.0
+
+  tasuku@2.3.0: {}

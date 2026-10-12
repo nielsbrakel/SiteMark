@@ -1,0 +1,8 @@
+{
+  "name": "sitemark-uploader",
+  "private": true,
+  "description": "The store uploader that release.yml runs next to the store secrets, with its own lockfile so only these dependencies are installed there (D-227).",
+  "dependencies": {
+    "publish-browser-extension": "6.1.1"
+  }
+}
