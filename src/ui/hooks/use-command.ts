@@ -9,6 +9,16 @@ import { sendToBackground } from '../../platform/send-message';
 /** Why a command didn't commit: the core refused it (`ErrorCode`) or the message failed. */
 export type CommandError = ErrorCode | MessagingError;
 
+const MESSAGING_ERRORS: Readonly<Record<MessagingError, true>> = {
+  messageRefused: true,
+  handlerFailed: true,
+  noReceiver: true,
+};
+
+/** The message failed (as opposed to the core refusing the command). */
+export const isMessagingError = (error: CommandError): error is MessagingError =>
+  Object.hasOwn(MESSAGING_ERRORS, error);
+
 export type CommandRunner = {
   readonly send: (command: Command) => Promise<Result<Committed, CommandError>>;
   /** True while at least one command is on its way. */

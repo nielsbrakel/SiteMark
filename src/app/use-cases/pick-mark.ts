@@ -1,7 +1,4 @@
-import { NAME_MAX } from '../../core/commands/groups';
-import type { IdGen } from '../../core/ids';
-import type { SiteOrigin } from '../../core/model/defaults';
-import type { ElementEffects, ElementMark, MarkDraft, SiteGroup } from '../../core/model/schema';
+import type { ElementEffects, ElementMark, MarkDraft } from '../../core/model/schema';
 import { assertNever } from '../../core/result';
 import type { ElementEffectKind, SavePick } from '../protocol';
 
@@ -42,20 +39,4 @@ export function pickedMark(pick: SavePick, hostname: string): MarkDraft {
 /** The same mark on a new element: a re-pick keeps everything else (REQ-PICK-007). */
 export function repickedMark({ id: _, ...mark }: ElementMark, selector: string): MarkDraft {
   return { ...mark, target: { kind: 'element', selector } };
-}
-
-/**
- * "New site group for <origin>" (REQ-PICK-005): enabled, named after the host and matching exactly
- * this host and port, like "Mark this site" (D-201), but without the ribbon: the pick is its mark.
- */
-export function pickSiteGroup({ hostname, port }: SiteOrigin, idGen: IdGen): SiteGroup {
-  const hostAndPort = port ? `${hostname}:${port}` : hostname;
-  return {
-    id: idGen.siteGroupId(),
-    name: hostname.slice(0, NAME_MAX),
-    enabled: true,
-    patterns: [{ id: idGen.patternId(), kind: 'wildcard', value: `*://${hostAndPort}/*` }],
-    excludes: [],
-    marks: [],
-  };
 }

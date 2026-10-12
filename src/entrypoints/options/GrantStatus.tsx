@@ -4,8 +4,9 @@ import { t } from '@/lib/i18n/browser-source';
 import { requestOrigins } from '@/platform/permissions';
 import { Button } from '@/ui/components/Button';
 import { CheckIcon, WarningIcon } from '@/ui/components/icons';
+import { useGranted } from '@/ui/hooks/use-granted';
+import { optionsPermissions } from './options-ports';
 import styles from './PatternEditor.module.css';
-import { useGranted } from './use-granted';
 
 /**
  * A pattern's grant (REQ-PRIV-002): Granted, or Not granted with Allow, which prompts first and
@@ -16,7 +17,7 @@ export function GrantStatus({
 }: {
   readonly origins: readonly OriginPattern[];
 }): ReactNode {
-  const granted = useGranted(origins);
+  const granted = useGranted(optionsPermissions, origins);
   if (granted === undefined) return null;
   if (granted) {
     return (

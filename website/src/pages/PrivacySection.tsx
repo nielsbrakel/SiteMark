@@ -1,14 +1,14 @@
 // biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
+import { type CardItem, CardList } from '../components/CardList';
 import type { WebsiteMessageKey } from '../i18n/website-t';
 import { pagePath } from '../routes/urls';
 import styles from './HomePage.module.css';
 import type { PageProps } from './page-props';
 
-type Fact = { icon: string; title: WebsiteMessageKey; text: WebsiteMessageKey };
 type Permission = { name: string; text: WebsiteMessageKey };
 
 /** What a visitor can check in the code: license, analytics, storage and network (see PRIVACY.md). */
-const FACTS: readonly Fact[] = [
+const FACTS: readonly CardItem[] = [
   {
     icon: 'M8 8 3 12l5 4M16 8l5 4-5 4M14 5l-4 14',
     title: 'websitePrivacyFactOpenTitle',
@@ -45,23 +45,7 @@ export function PrivacySection({ t, locale }: Pick<PageProps, 't' | 'locale'>) {
     <section className={styles.section} aria-labelledby="privacy-summary">
       <h2 id="privacy-summary">{t('websitePrivacySummaryHeading')}</h2>
       <p>{t('websitePrivacySummaryText')}</p>
-      <ul className={styles.cards}>
-        {FACTS.map(({ icon, title, text }) => (
-          <li key={title} className={`sm-card ${styles.card}`}>
-            <svg
-              className={styles.icon}
-              viewBox="0 0 24 24"
-              width="28"
-              height="28"
-              aria-hidden="true"
-            >
-              <path d={icon} />
-            </svg>
-            <h3>{t(title)}</h3>
-            <p>{t(text)}</p>
-          </li>
-        ))}
-      </ul>
+      <CardList items={FACTS} t={t} />
       <div className={`sm-well ${styles.permissions}`}>
         <h3>{t('websitePrivacyPermissionsHeading')}</h3>
         <dl>

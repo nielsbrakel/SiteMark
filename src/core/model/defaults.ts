@@ -29,11 +29,8 @@ function hostRibbon(hostname: string, idGen: IdGen): PageMark {
   };
 }
 
-/**
- * "Mark this site" (REQ-POP-006, D-201): a group named after the host that matches exactly this host
- * and port on http and https, with one blue page ribbon showing the host (D-203: ribbon only).
- */
-export function markThisSiteGroup({ hostname, port }: SiteOrigin, idGen: IdGen): SiteGroup {
+/** An enabled group named after the host that matches exactly this host and port on http and https. */
+export function hostSiteGroup({ hostname, port }: SiteOrigin, idGen: IdGen): SiteGroup {
   const hostAndPort = port ? `${hostname}:${port}` : hostname;
   return {
     id: idGen.siteGroupId(),
@@ -41,6 +38,11 @@ export function markThisSiteGroup({ hostname, port }: SiteOrigin, idGen: IdGen):
     enabled: true,
     patterns: [{ id: idGen.patternId(), kind: 'wildcard', value: `*://${hostAndPort}/*` }],
     excludes: [],
-    marks: [hostRibbon(hostname, idGen)],
+    marks: [],
   };
+}
+
+/** "Mark this site" (REQ-POP-006, D-201): the host group with one blue page ribbon (D-203). */
+export function markThisSiteGroup(origin: SiteOrigin, idGen: IdGen): SiteGroup {
+  return { ...hostSiteGroup(origin, idGen), marks: [hostRibbon(origin.hostname, idGen)] };
 }
