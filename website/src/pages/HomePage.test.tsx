@@ -23,7 +23,7 @@ afterEach(() => {
 
 const main = () => screen.getByRole('main');
 const STORE_HOSTS =
-  /chromewebstore\.google\.com|microsoftedge\.microsoft\.com|addons\.mozilla\.org|apps\.apple\.com/;
+  /chrome\.google\.com|chromewebstore\.google\.com|microsoftedge\.microsoft\.com|addons\.mozilla\.org|apps\.apple\.com/;
 
 describe('REQ-PAGE-001 the home page explains SiteMark in one look', () => {
   it.each([
@@ -94,25 +94,23 @@ describe('REQ-PAGE-001 the home page privacy section', () => {
 });
 
 describe('REQ-PAGE-002 install buttons never link to a store that has no listing yet', () => {
-  it('shows Chrome, Edge and Firefox as coming soon and Safari as coming in v1.1', () => {
+  it('links Chrome and Firefox, and disables Edge (coming soon) and Safari (coming in v1.1)', () => {
     showPage(pages, 'index.html');
     const install = within(main()).queryByRole('list', { name: 'Install SiteMark' });
     expect(install).not.toBeNull();
     const buttons = within(install as HTMLElement).getAllByRole('button');
     expect(buttons.map((button) => button.textContent)).toEqual([
-      'Chrome: coming soon',
       'Edge: coming soon',
-      'Firefox: coming soon',
       'Safari: coming in v1.1',
     ]);
     for (const button of buttons) expect((button as HTMLButtonElement).disabled).toBe(true);
     const links = within(main()).queryAllByRole('link');
-    expect(links.filter((link) => STORE_HOSTS.test(link.getAttribute('href') ?? ''))).toEqual([]);
+    const stores = links.filter((link) => STORE_HOSTS.test(link.getAttribute('href') ?? ''));
+    expect(stores.map((link) => link.textContent)).toEqual(['Add to Chrome', 'Add to Firefox']);
   });
 
   it('links a store as soon as its listing URL is configured', () => {
-    const chrome =
-      'https://chromewebstore.google.com/detail/sitemark/abcdefghijklmnopabcdefghijklmnop';
+    const chrome = 'https://chrome.google.com/webstore/detail/abcdefghijklmnopabcdefghijklmnop';
     const configured: Store[] = stores().map((store) =>
       store.id === 'chrome' ? { ...store, url: chrome } : store,
     );
@@ -120,7 +118,7 @@ describe('REQ-PAGE-002 install buttons never link to a store that has no listing
     const link = screen.getByRole('link', { name: 'Add to Chrome' });
     expect(link.getAttribute('href')).toBe(chrome);
     expect(link.getAttribute('rel')).toBe('noopener noreferrer');
-    expect(screen.getAllByRole('button')).toHaveLength(3);
+    expect(screen.getAllByRole('button')).toHaveLength(2);
   });
 });
 

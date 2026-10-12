@@ -20,7 +20,7 @@
 
 ---
 
-> **Status:** version 1.0 is complete and waiting for its first store review. Run `pnpm progress` or see [docs/tasks.md](docs/tasks.md) for what is done and what is next.
+> **Status:** version 1.0 is complete: install it from the Chrome Web Store or Firefox Add-ons (Firefox is in review). Run `pnpm progress` or see [docs/tasks.md](docs/tasks.md) for what is done and what is next.
 
 ## Why
 
@@ -34,7 +34,7 @@ either on the whole page or on one element you pick (a logo, a header, that scar
 - 🔒 **Private:** collects nothing, no accounts or analytics, [no install-time site access](#privacy). Your data
   stays in local storage; move it between devices with JSON import/export
 - 🌗 **Soft UI:** a soft, raised popup and options page in light and dark, English and Dutch
-- 🧭 **Everywhere:** Chrome, Edge and Firefox in v1.0, Safari in v1.1 (Manifest V3)
+- 🧭 **Everywhere:** [Chrome](https://chrome.google.com/webstore/detail/kbpbafjebhbanajcefmkfhknbmgbndpg) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/sitemark/) now, Edge soon, Safari in v1.1 (Manifest V3)
 - 🎨 **Colorblind-safe:** preset colors stay distinguishable, and marks always carry text
 
 ## Privacy
