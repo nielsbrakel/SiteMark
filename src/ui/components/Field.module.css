@@ -12,8 +12,8 @@
   min-height: 44px;
   padding: var(--sm-space-1) var(--sm-space-4);
 
-  /* Soft inset: the shadow pair is the edge; the transparent border is a boundary in forced colors. */
-  border: 1px solid transparent;
+  /* Soft inset plus a 3:1 border (WCAG 1.4.11); forced colors swap the border for ButtonText. */
+  border: 1px solid var(--sm-control-border);
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
   color: var(--sm-text);
