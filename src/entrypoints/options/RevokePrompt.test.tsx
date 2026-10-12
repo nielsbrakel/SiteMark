@@ -72,8 +72,10 @@ describe('REQ-PRIV-004 offer to revoke origins nothing uses any more', () => {
     fireEvent.click(byRole('button', { name: 'Delete' }, byRole('dialog')));
     await findRole('button', { name: 'Undo' });
     expect(prompt()).toBeNull();
-    const [endOfUndo] = timers.mock.calls.findLast(([, ms]) => ms === 10_000) ?? [];
-    act(() => (endOfUndo as () => void)());
+    // The undo timer starts in an effect, which can run a moment after the Undo button is on screen.
+    const undoTimer = () => timers.mock.calls.findLast(([, ms]) => ms === 10_000)?.[0];
+    await waitFor(() => expect(undoTimer()).toBeTypeOf('function'));
+    act(() => (undoTimer() as () => void)());
     await waitFor(() =>
       expect(byRole('status')).toHaveTextContent(
         'SiteMark can still access 1 site that no site group uses.',
