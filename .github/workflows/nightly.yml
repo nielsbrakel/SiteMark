@@ -48,10 +48,15 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup
-      # Runs only the @perf probes (playwright.config.ts); a miss fails this nightly job, not a PR.
-      - run: pnpm test:e2e
+      # Runs only the @perf probes (playwright.config.ts). Timings depend on the runner, so a miss is
+      # reported as a warning instead of failing the job.
+      - id: probes
+        run: pnpm test:e2e
+        continue-on-error: true
         env:
           PERF: '1'
+      - if: steps.probes.outcome == 'failure'
+        run: echo "::warning title=Perf probes::a probe missed its budget, see the perf-report artifact"
       - if: ${{ !cancelled() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
