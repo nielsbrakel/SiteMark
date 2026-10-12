@@ -109,15 +109,17 @@ It is rendered from `design/social-preview.svg` by `pnpm icons`.
 
 ## 7. Store publishing (M8, D-227)
 
-`release.yml` runs on protected `v*` tags. The **zip** job (read access only, no secrets, no dependency cache)
+`release.yml` runs on protected `v*` tags. The **guard** job refuses a tag that is not `v<package.json version>`
+or a commit whose `ci-ok` check has not passed. The **zip** job (read access only, no secrets, no dependency cache)
 builds the Chrome, Firefox (+ sources) and Edge zips, runs the build assertions on the Chrome, Firefox and Edge
 builds, checks the manifest inside every zip (`scripts/check-release-zips.ts`: production permissions, the
 strict CSP, closed `externally_connectable`, nothing from the e2e build) and writes SHA256SUMS. The **attest**
 job only downloads the zips and attests their build provenance (it holds the OIDC token, but runs no project
 code). The **submit** job runs inside environment `store`, which waits for the owner's approval: it verifies the
-checksums and each zip's attestation (`gh attestation verify`), then runs only the pinned
-`publish-browser-extension` (what `wxt submit` uses) via `npx`, without installing the workspace. Store secrets
-live **only** in that environment:
+checksums and each zip's attestation (`gh attestation verify`), then runs only `publish-browser-extension`
+(what `wxt submit` uses), installed without install scripts from the lockfile in `tools/uploader/` and never from
+the workspace. A **release** job (no secrets, no project code) attaches the zips and SHA256SUMS to a GitHub
+Release. Store secrets live **only** in the `store` environment:
 
 | Store            | Secrets                                                                                       |
 | ---------------- | --------------------------------------------------------------------------------------------- |

@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 
@@ -35,6 +35,14 @@ const uses = (job: Job | undefined) => (job?.steps ?? []).map((step) => step.use
 describe('REQ-SEC-008 the release workflow', () => {
   it('runs only for pushed v* tags', () => {
     expect(workflow()?.on).toEqual({ push: { tags: ['v*'] } });
+  });
+
+  it('refuses a tag that is not the package.json version or a commit without a green ci-ok', () => {
+    const guard = workflow()?.jobs.guard;
+    expect(workflow()?.jobs.zip?.needs).toEqual(['guard']);
+    expect(guard?.permissions).toEqual({ contents: 'read', checks: 'read' });
+    expect(runs(guard)).toContain("require('./package.json').version");
+    expect(runs(guard)).toContain('check_name=ci-ok');
   });
 
   it('builds every store zip without secrets and checks each manifest', () => {
@@ -74,16 +82,24 @@ describe('REQ-SEC-008 the release workflow', () => {
     const writers = jobs.filter(([, job]) =>
       Object.values(job.permissions ?? {}).includes('write'),
     );
-    expect(writers.map(([name]) => name)).toEqual(['attest']);
+    expect(writers.map(([name]) => name)).toEqual(['attest', 'release']);
+    expect(workflow()?.jobs.attest?.permissions).toEqual({
+      'id-token': 'write',
+      attestations: 'write',
+    });
+  });
+
+  it('publishes a GitHub Release of the attested zips, without secrets or project code', () => {
+    const release = workflow()?.jobs.release;
+    expect(release?.needs).toEqual(['attest']);
+    expect(release?.permissions).toEqual({ contents: 'write' });
+    expect(JSON.stringify(release ?? null)).not.toContain('secrets.');
+    expect(uses(release).filter(Boolean)).toHaveLength(1);
+    expect(runs(release)).toContain('gh release create');
   });
 });
 
 describe('REQ-NFR-006 store submission waits for the owner', () => {
-  /** The publish-browser-extension version the lockfile resolves (what `wxt submit` would run). */
-  const publisher = readdirSync('node_modules/.pnpm')
-    .find((dir) => dir.startsWith('publish-browser-extension@'))
-    ?.split('@')[1];
-
   it('submits only in the store environment, after the zip and attest jobs', () => {
     const submit = workflow()?.jobs.submit;
     expect(submit?.needs).toEqual(['zip', 'attest']);
@@ -91,17 +107,26 @@ describe('REQ-NFR-006 store submission waits for the owner', () => {
     expect(submit?.permissions).toEqual({ contents: 'read', attestations: 'read' });
   });
 
-  it('runs only the pinned publish-browser-extension, not the whole workspace', () => {
+  it('runs only the uploader that tools/uploader locks, not the whole workspace', () => {
     const script = runs(workflow()?.jobs.submit);
-    expect(publisher).toMatch(/^\d+\.\d+\.\d+$/);
-    expect(script).toContain(`publish-browser-extension@${publisher}`);
-    expect(script).not.toMatch(/pnpm install|npm (ci|install)|wxt submit/);
+    expect(script).toContain('pnpm install --frozen-lockfile --ignore-workspace --ignore-scripts');
+    expect(script).toContain('pnpm exec publish-browser-extension');
+    expect(script).not.toMatch(/\bnpx\b|\bnpm (ci|install)|wxt submit/);
+  });
+
+  it('locks the same publish-browser-extension version that wxt resolves', () => {
+    const version = (name: string) =>
+      readFileSync(name, 'utf8').match(/^ {2}publish-browser-extension@([\d.]+):/m)?.[1];
+    expect(version('tools/uploader/pnpm-lock.yaml')).toMatch(/^\d+\.\d+\.\d+$/);
+    expect(version('tools/uploader/pnpm-lock.yaml')).toBe(version('pnpm-lock.yaml'));
   });
 
   it('verifies the checksums and the provenance of every zip before it submits', () => {
     const steps = workflow()?.jobs.submit?.steps ?? [];
     const verify = steps.findIndex((step) => step.run?.includes('gh attestation verify'));
-    const upload = steps.findIndex((step) => step.run?.includes('publish-browser-extension@'));
+    const upload = steps.findIndex((step) =>
+      step.run?.includes('pnpm exec publish-browser-extension'),
+    );
     expect(verify).toBeGreaterThanOrEqual(0);
     expect(verify).toBeLessThan(upload);
     expect(steps[verify]?.run).toContain('sha256sum --check SHA256SUMS');

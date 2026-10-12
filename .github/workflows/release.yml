@@ -2,7 +2,7 @@ name: Release
 
 # Runs for protected v* tags only (docs/repo-setup.md §7, D-227). The zip job builds with read access
 # only; the attest job holds the OIDC token but runs no project code; the submit job waits in the
-# `store` environment for the owner's approval and runs only the pinned store uploader.
+# `store` environment for the owner's approval and runs only the locked store uploader.
 on:
   push:
     tags: ['v*']
@@ -15,8 +15,31 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # A tag that does not match package.json, or a commit whose CI did not pass, never gets built.
+  guard:
+    name: guard (tag matches version, CI green)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      checks: read # the ci-ok check run of the tagged commit
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: The tag is v<package.json version> and CI passed on that commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="v$(node -p "require('./package.json').version")"
+          [ "$GITHUB_REF_NAME" = "$version" ] || { echo "::error::tag $GITHUB_REF_NAME is not $version"; exit 1; }
+          passed=$(gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/check-runs?check_name=ci-ok" \
+            --jq '[.check_runs[] | select(.conclusion == "success")] | length')
+          [ "$passed" -gt 0 ] || { echo "::error::ci-ok has not passed on $GITHUB_SHA"; exit 1; }
+
   zip:
     name: zip (build, check, checksums)
+    needs: [guard]
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
@@ -76,6 +99,23 @@ jobs:
         with:
           subject-path: release/*.zip
 
+  # The GitHub Release carries the checked zips and checksums. It has no secrets and runs no project code.
+  release:
+    name: release (GitHub Release)
+    needs: [attest]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write # creates the release
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release
+          path: release
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" release/*.zip release/SHA256SUMS --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes
+
   submit:
     name: submit (Chrome Web Store, Edge Add-ons, Firefox AMO)
     needs: [zip, attest]
@@ -90,6 +130,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: .nvmrc
@@ -107,11 +148,14 @@ jobs:
             gh attestation verify "$zip" --repo "$GITHUB_REPOSITORY" \
               --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/release.yml"
           done
-      # publish-browser-extension is what `wxt submit` runs; the version is the one pnpm-lock.yaml
-      # resolves (tests/unit/release-workflow.test.ts keeps them in step). No install scripts run.
+      # publish-browser-extension is what `wxt submit` runs. tools/uploader has its own lockfile, so only
+      # it and its dependencies are installed here, without install scripts and without the store secrets.
+      - name: Install the store uploader from its lockfile
+        working-directory: tools/uploader
+        run: pnpm install --frozen-lockfile --ignore-workspace --ignore-scripts
       - name: Submit the checked zips for review
+        working-directory: tools/uploader
         env:
-          npm_config_ignore_scripts: 'true'
           CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
           CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
           CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
@@ -123,8 +167,8 @@ jobs:
           EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
           EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
         run: |
-          npx --yes publish-browser-extension@6.1.1 \
-            --chrome-zip release/*-chrome.zip \
-            --firefox-zip release/*-firefox.zip \
-            --firefox-sources-zip release/*-sources.zip \
-            --edge-zip release/*-edge.zip
+          pnpm exec publish-browser-extension \
+            --chrome-zip ../../release/*-chrome.zip \
+            --firefox-zip ../../release/*-firefox.zip \
+            --firefox-sources-zip ../../release/*-sources.zip \
+            --edge-zip ../../release/*-edge.zip
