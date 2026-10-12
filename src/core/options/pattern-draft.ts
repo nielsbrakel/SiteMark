@@ -1,8 +1,8 @@
-import type { RegexErrorCode, UrlPatternErrorCode } from '@/core/errors';
-import { assertNever } from '@/core/result';
-import { normalizeUrlPattern, type UrlPatternDraft } from '@/core/url/match';
-import { type OriginPattern, parseOriginPattern, validateRegexOrigins } from '@/core/url/origin';
-import { validateRegex } from '@/core/url/regex-safety';
+import type { RegexErrorCode, UrlPatternErrorCode } from '../errors';
+import { assertNever } from '../result';
+import { normalizeUrlPattern, type UrlPatternDraft } from '../url/match';
+import { type OriginPattern, parseOriginPattern, validateRegexOrigins } from '../url/origin';
+import { validateRegex } from '../url/regex-safety';
 
 // What the Add button checks before it prompts (REQ-URL-003, REQ-URL-004, REQ-URL-009). The
 // background checks again; checking here first puts the reason next to the right field and never

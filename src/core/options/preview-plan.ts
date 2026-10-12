@@ -1,7 +1,7 @@
-import type { PatternId } from '@/core/ids';
-import type { Mark, SiteGroup, SiteMarkState } from '@/core/model/schema';
-import { compose } from '@/core/render/compose';
-import type { RenderPlan } from '@/core/render/render-plan';
+import type { PatternId } from '../ids';
+import type { Mark, SiteGroup, SiteMarkState } from '../model/schema';
+import { compose } from '../render/compose';
+import type { RenderPlan } from '../render/render-plan';
 
 /** The mock page the preview shows (REQ-MARK-013). */
 export const PREVIEW_ADDRESS = 'https://example.com/';

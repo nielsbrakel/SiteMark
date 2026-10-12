@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
+import type { PatternKind } from '@/core/options/pattern-draft';
 import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
 import { Field } from '@/ui/components/Field';
 import { Segmented } from '@/ui/components/Segmented';
 import styles from './PatternEditor.module.css';
-import type { PatternKind } from './pattern-draft';
 import { LIST_TEXT } from './pattern-lists';
 import type { AddPattern } from './use-add-pattern';
 

@@ -1,7 +1,7 @@
-import type { SiteGroup, UrlPattern } from '@/core/model/schema';
-import { firstMatchingPattern } from '@/core/url/group-match';
-import { matchUrlPattern, type UrlPatternValue } from '@/core/url/match';
-import { parseUrl, type UrlParts } from '@/core/url/url-parts';
+import type { SiteGroup, UrlPattern } from '../model/schema';
+import { firstMatchingPattern } from '../url/group-match';
+import { matchUrlPattern, type UrlPatternValue } from '../url/match';
+import { parseUrl, type UrlParts } from '../url/url-parts';
 import { checkPatternInput, type PatternInput } from './pattern-draft';
 
 /** What the live URL tester shows (REQ-URL-007). `number` counts from 1. */

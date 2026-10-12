@@ -2,11 +2,11 @@ import { type FormEvent, type RefObject, useRef, useState } from 'react';
 import type { Command } from '@/core/commands/command';
 import { errorMessageKey } from '@/core/errors';
 import type { SiteGroupId } from '@/core/ids';
+import { checkPatternInput, type PatternInput } from '@/core/options/pattern-draft';
 import type { UrlPatternDraft } from '@/core/url/match';
 import { t } from '@/lib/i18n/browser-source';
 import { requestOrigins } from '@/platform/permissions';
 import { commandErrorText } from './command-error';
-import { checkPatternInput, type PatternInput } from './pattern-draft';
 import type { PatternListKind } from './pattern-lists';
 import { sendTracked } from './save-status';
 

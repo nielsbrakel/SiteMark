@@ -1,11 +1,11 @@
 import { type ReactNode, useId, useState } from 'react';
 import type { SiteGroup } from '@/core/model/schema';
+import type { PatternInput } from '@/core/options/pattern-draft';
+import { testUrl, type UrlTestResult } from '@/core/options/url-test';
 import { assertNever } from '@/core/result';
 import { t } from '@/lib/i18n/browser-source';
 import { Field } from '@/ui/components/Field';
 import styles from './PatternEditor.module.css';
-import type { PatternInput } from './pattern-draft';
-import { testUrl, type UrlTestResult } from './url-test';
 
 function resultText(result: UrlTestResult): string {
   switch (result.kind) {
