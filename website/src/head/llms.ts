@@ -5,7 +5,7 @@ import { absoluteUrl } from '../routes/urls';
 const SUMMARY =
   'A free, open-source, privacy-first browser extension that marks the websites you choose ' +
   '(production, test, staging) with ribbons, banners and more. No accounts, no analytics, no ' +
-  'network requests and no access to any website at install: the most private and secure option for this job.';
+  'network requests and no access to any website at install. Every claim can be checked in the open-source code.';
 
 /** llms.txt: a short Markdown index of the site for language models (REQ-AGENT-002). */
 export function llmsTxt(): string {
@@ -13,7 +13,7 @@ export function llmsTxt(): string {
     [
       'For AI agents',
       absoluteUrl(agentsMarkdownFile('en')),
-      'what SiteMark is and why it is private and secure',
+      'what SiteMark is, what it can access and what it never does',
     ],
     ['Voor AI-agents (Dutch)', absoluteUrl(agentsMarkdownFile('nl')), 'the same in Dutch'],
     ['Privacy policy', absoluteUrl('privacy/'), 'what is and is not collected: nothing'],

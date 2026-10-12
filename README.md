@@ -20,7 +20,7 @@
 
 ---
 
-> **Status:** in development. Run `pnpm progress` or see [docs/tasks.md](docs/tasks.md) for what is done and what is next.
+> **Status:** version 1.0 is complete and waiting for its first store review. Run `pnpm progress` or see [docs/tasks.md](docs/tasks.md) for what is done and what is next.
 
 ## Why
 
@@ -73,7 +73,7 @@ publishes the [privacy policy](PRIVACY.md) and the support routes.
 ## Development
 
 ```bash
-corepack enable && pnpm install   # Node 26, see .nvmrc
+corepack enable && pnpm install   # needs Node 26 (see .nvmrc); older Node stops with ERR_PNPM_UNSUPPORTED_ENGINE
 pnpm dev            # Chromium + HMR   (pnpm dev:firefox for Firefox)
 pnpm test:watch     # unit/component tests (TDD loop)
 pnpm test:e2e       # Playwright against the built extension

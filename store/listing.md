@@ -41,9 +41,9 @@ Name: **SiteMark** (all stores, both languages).
 ### Short description (≤ 132 characters)
 
 - **en:** Mark production and test sites with ribbons, banners and outlines, so you never mix them up. Private:
-  nothing leaves your browser.
-- **nl:** Markeer productie- en testsites met linten, banners en kaders, zodat je ze nooit verwart. Privé: niets
-  verlaat je browser.
+  it collects no data.
+- **nl:** Markeer productie- en testsites met linten, banners en kaders, zodat je ze nooit verwart. Privé:
+  het verzamelt geen gegevens.
 
 ### Long description
 
