@@ -5,7 +5,8 @@
 //   pnpm progress --coverage   also fail finished requirements that no passing test names
 //                              (reads every test-results/vitest-*.json and playwright*.json)
 //   pnpm progress --sync       rewrite the Status column of both task lists from git
-// Reads the extension docs (docs/spec.md, docs/tasks.md) and the website docs (docs/website/, W milestones).
+// Reads the extension docs (docs/spec.md, docs/tasks.md and docs/archive/tasks.md for the finished
+// milestones) and the website docs (docs/website/, W milestones).
 import { execFileSync } from 'node:child_process';
 import { globSync, readFileSync, writeFileSync } from 'node:fs';
 import { check, type Problem } from './check.ts';
@@ -13,7 +14,8 @@ import { readDocs } from './docs.ts';
 import { type Milestone, parseCommits, type Requirement, taskState } from './model.ts';
 import { coveredRequirements, passingTitles } from './results.ts';
 
-const DOCS = [
+const DOCS: { spec?: string; tasks: string }[] = [
+  { tasks: 'docs/archive/tasks.md' },
   { spec: 'docs/spec.md', tasks: 'docs/tasks.md' },
   { spec: 'docs/website/spec.md', tasks: 'docs/website/tasks.md' },
 ];
@@ -120,7 +122,7 @@ function main(): void {
   }
   const docs = readDocs(
     DOCS.map((doc) => ({
-      spec: readFileSync(doc.spec, 'utf8'),
+      spec: doc.spec ? readFileSync(doc.spec, 'utf8') : '',
       tasks: readFileSync(doc.tasks, 'utf8'),
     })),
   );
