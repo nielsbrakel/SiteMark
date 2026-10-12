@@ -10,12 +10,20 @@ export type Store = {
 /** What an install button shows: a link, "Coming soon" (v1.0) or "Coming in v1.1". */
 export type InstallState = 'live' | 'comingSoon' | 'comingLater';
 
-// The one place for listing URLs. T-152 fills in Chrome, Edge and Firefox once the listings are
-// public; Safari follows in M9. The build's link allowlist already accepts these store domains.
+// The one place for listing URLs. Chrome and Firefox are live; Edge follows once its listing is
+// public and Safari in M9. The build's link allowlist already accepts these store domains.
 const STORES: readonly Store[] = [
-  { id: 'chrome', release: 'v1.0', url: null },
+  {
+    id: 'chrome',
+    release: 'v1.0',
+    url: 'https://chrome.google.com/webstore/detail/kbpbafjebhbanajcefmkfhknbmgbndpg',
+  },
   { id: 'edge', release: 'v1.0', url: null },
-  { id: 'firefox', release: 'v1.0', url: null },
+  {
+    id: 'firefox',
+    release: 'v1.0',
+    url: 'https://addons.mozilla.org/en-US/firefox/addon/sitemark/',
+  },
   { id: 'safari', release: 'v1.1', url: null },
 ];
 
