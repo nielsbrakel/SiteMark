@@ -1,9 +1,9 @@
 // biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
+import { type CardItem, CardList } from '../components/CardList';
 import { InstallButtons } from '../components/InstallButtons';
 import { PlaygroundFallback } from '../components/PlaygroundFallback';
 import { Screenshots } from '../components/Screenshots';
 import { stores } from '../config/stores';
-import type { WebsiteMessageKey } from '../i18n/website-t';
 import { Island } from '../islands/islands';
 import '../playground/playground-styles';
 import { pagePath } from '../routes/urls';
@@ -11,10 +11,8 @@ import styles from './HomePage.module.css';
 import { PrivacySection } from './PrivacySection';
 import type { PageProps } from './page-props';
 
-type Highlight = { icon: string; title: WebsiteMessageKey; text: WebsiteMessageKey };
-
 /** The three extension goals (REQ-PAGE-001), each with a small inline icon (an SVG path). */
-const HIGHLIGHTS: readonly Highlight[] = [
+const HIGHLIGHTS: readonly CardItem[] = [
   {
     icon: 'M4 4h16v4H4zM4 10l8 10 8-10',
     title: 'websiteHighlightUnmistakableTitle',
@@ -38,23 +36,7 @@ function Highlights({ t }: Pick<PageProps, 't'>) {
       <h2 id="highlights" className="sm-visually-hidden">
         {t('websiteHomeHighlightsHeading')}
       </h2>
-      <ul className={styles.cards}>
-        {HIGHLIGHTS.map(({ icon, title, text }) => (
-          <li key={title} className={`sm-card ${styles.card}`}>
-            <svg
-              className={styles.icon}
-              viewBox="0 0 24 24"
-              width="28"
-              height="28"
-              aria-hidden="true"
-            >
-              <path d={icon} />
-            </svg>
-            <h3>{t(title)}</h3>
-            <p>{t(text)}</p>
-          </li>
-        ))}
-      </ul>
+      <CardList items={HIGHLIGHTS} t={t} />
     </section>
   );
 }

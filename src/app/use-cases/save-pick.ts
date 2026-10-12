@@ -2,13 +2,13 @@ import { appendSiteGroup } from '../../core/commands/groups';
 import { addMark, updateMark } from '../../core/commands/marks';
 import type { ErrorCode } from '../../core/errors';
 import type { IdGen, MarkId, SiteGroupId } from '../../core/ids';
-import type { SiteOrigin } from '../../core/model/defaults';
+import { hostSiteGroup, type SiteOrigin } from '../../core/model/defaults';
 import type { ElementMark, SiteGroup, SiteMarkState } from '../../core/model/schema';
 import { err, ok, type Result } from '../../core/result';
 import { activeGroups } from '../../core/url/group-match';
 import type { CommandQueue } from '../command-queue';
 import type { ContentSender, SavedPick, SavePick } from '../protocol';
-import { pickedMark, pickSiteGroup, repickedMark } from './pick-mark';
+import { pickedMark, repickedMark } from './pick-mark';
 
 // The picker's save intent (REQ-PICK-005, REQ-SEC-001). The picker runs in an untrusted page, so
 // the background decides everything from the sender: the pick goes to the chosen site group only
@@ -74,7 +74,7 @@ function addPick(
     target.groupId = existing.id;
     return addMark(state, { type: 'addMark', groupId: existing.id, mark }, { idGen });
   }
-  const group = pickSiteGroup(origin, deps.idGen);
+  const group = hostSiteGroup(origin, deps.idGen);
   target.groupId = group.id;
   const withGroup = appendSiteGroup(state, group);
   if (!withGroup.ok) return withGroup;

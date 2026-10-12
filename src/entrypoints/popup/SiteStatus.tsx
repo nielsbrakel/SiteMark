@@ -7,15 +7,16 @@ import { activeGroups, matchingGroups } from '@/core/url/group-match';
 import { t } from '@/lib/i18n/browser-source';
 import type { PopupTab } from '@/platform/mark-this-site-click';
 import { WarningIcon } from '@/ui/components/icons';
+import { useGranted } from '@/ui/hooks/use-granted';
 import { AccessNotice } from './AccessNotice';
 import { Actions } from './Actions';
 import { CantRun } from './CantRun';
 import { NoMatch } from './NoMatch';
 import { neededOrigins } from './needed-origins';
+import { popupPermissions } from './popup-ports';
 import styles from './SiteStatus.module.css';
 import { StatusList } from './StatusList';
 import { startPicker } from './start-picker';
-import { useGranted } from './use-granted';
 import { useTabStatus } from './use-tab-status';
 
 export type SiteStatusProps = {
@@ -44,7 +45,7 @@ export function SiteStatus({ tab, state }: SiteStatusProps): ReactNode {
   const groups = matchingGroups(state, tab.url);
   const activeIds = new Set(activeGroups(state, tab.url).map((group) => group.id));
   const origins = neededOrigins(state, tab.url);
-  const granted = useGranted(origins);
+  const granted = useGranted(popupPermissions, origins);
   const tabStatus = useTabStatus(tab.id, state.revision);
   // A failed injection is the ground truth: the page refuses scripts (REQ-POP-005).
   const [isRefused, setRefused] = useState(false);
