@@ -18,7 +18,7 @@ What to expect:
 
 ## Supported versions
 
-SiteMark is pre-1.0. Only the **latest release** in the browser stores receives security fixes.
+SiteMark 1.0 is waiting for its first store review. Only the **latest release** in the browser stores receives security fixes.
 
 ## Threat model
 

@@ -18,7 +18,7 @@ decision log, `D-xxx`) before changing code. By participating you agree to the
 
 ## Setup
 
-You need Node 26 (see `.nvmrc`) and pnpm via Corepack.
+You need Node 26 (see `.nvmrc`) and pnpm via Corepack. On an older Node, `pnpm install` stops with `ERR_PNPM_UNSUPPORTED_ENGINE`.
 
 ```bash
 corepack enable && pnpm install
