@@ -94,19 +94,20 @@ describe('REQ-PAGE-001 the home page privacy section', () => {
 });
 
 describe('REQ-PAGE-002 install buttons never link to a store that has no listing yet', () => {
-  it('links Chrome and Firefox, and disables Edge (coming soon) and Safari (coming in v1.1)', () => {
+  it('links Chrome, Edge and Firefox, and disables Safari (coming in v1.1)', () => {
     showPage(pages, 'index.html');
     const install = within(main()).queryByRole('list', { name: 'Install SiteMark' });
     expect(install).not.toBeNull();
     const buttons = within(install as HTMLElement).getAllByRole('button');
-    expect(buttons.map((button) => button.textContent)).toEqual([
-      'Edge: coming soon',
-      'Safari: coming in v1.1',
-    ]);
+    expect(buttons.map((button) => button.textContent)).toEqual(['Safari: coming in v1.1']);
     for (const button of buttons) expect((button as HTMLButtonElement).disabled).toBe(true);
     const links = within(main()).queryAllByRole('link');
     const stores = links.filter((link) => STORE_HOSTS.test(link.getAttribute('href') ?? ''));
-    expect(stores.map((link) => link.textContent)).toEqual(['Add to Chrome', 'Add to Firefox']);
+    expect(stores.map((link) => link.textContent)).toEqual([
+      'Add to Chrome',
+      'Add to Edge',
+      'Add to Firefox',
+    ]);
   });
 
   it('links a store as soon as its listing URL is configured', () => {
@@ -118,7 +119,7 @@ describe('REQ-PAGE-002 install buttons never link to a store that has no listing
     const link = screen.getByRole('link', { name: 'Add to Chrome' });
     expect(link.getAttribute('href')).toBe(chrome);
     expect(link.getAttribute('rel')).toBe('noopener noreferrer');
-    expect(screen.getAllByRole('button')).toHaveLength(2);
+    expect(screen.getAllByRole('button')).toHaveLength(1);
   });
 });
 
