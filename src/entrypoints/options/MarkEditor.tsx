@@ -1,5 +1,6 @@
 import { type ReactNode, useId, useMemo } from 'react';
 import type { Mark, MarkDraft, SiteGroup } from '@/core/model/schema';
+import { PREVIEW_ADDRESS, previewPlan } from '@/core/options/preview-plan';
 import { t } from '@/lib/i18n/browser-source';
 import { MarkPreview } from '@/ui/components/MarkPreview';
 import { ColorFields } from '@/ui/components/mark-form/ColorFields';
@@ -9,7 +10,6 @@ import styles from './MarkEditor.module.css';
 import { draftOf } from './mark-drafts';
 import { updateMark } from './mark-update';
 import type { Notify } from './notify';
-import { PREVIEW_ADDRESS, previewPlan } from './preview-plan';
 import { groupHref } from './routes';
 import { TargetFields } from './TargetFields';
 
