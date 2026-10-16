@@ -101,6 +101,8 @@ Builders (`aSiteGroup()`, `aMark()`, `aState()`) always produce schema-valid dat
   (`blockedRequests` lists them). Helpers arrive with their features: `dispatchCommand()` (T-074),
   `restartServiceWorker()` (T-076), `waitForMarker()` (T-078).
 - Visual baselines (T-147) are generated and compared only inside the Playwright Docker image.
+  A PR that changes what a page looks like updates its baselines in the same PR (copy the `*-actual.png` files from the
+  failed `playwright-report-website` or `playwright-report` artifact), and merges only after `ci-ok` is green.
 
 ## Manual smoke checklist
 
