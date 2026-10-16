@@ -98,6 +98,6 @@ threat model: SiteMark prevents _accidental_ confusion and is not a security con
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) for the code. The SiteMark name and logo are not covered, see [TRADEMARKS.md](TRADEMARKS.md).
 
 CI runs on every pull request; see `.github/workflows/ci.yml`.
