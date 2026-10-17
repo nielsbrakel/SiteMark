@@ -27,6 +27,14 @@ a {
   color: var(--sm-accent-text);
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--sm-font-display);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
 /* Header links: plain text, the current page in the accent color and underlined (never shadow alone). */
 .sm-nav-link {
   padding: var(--sm-space-1) var(--sm-space-2);

@@ -26,9 +26,9 @@
   align-items: center;
   gap: var(--sm-space-3);
   padding: var(--sm-space-2) var(--sm-space-3);
-  border: 1px solid transparent;
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-md);
-  background: var(--sm-surface);
+  background: var(--sm-surface-2);
   box-shadow: var(--sm-lift-sm);
 }
 
@@ -42,8 +42,9 @@
   display: grid;
   gap: var(--sm-space-3);
   padding: var(--sm-space-4);
-  border: 1px solid transparent;
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-lg);
+  background: var(--sm-surface-2);
   box-shadow: var(--sm-lift);
 }
 
