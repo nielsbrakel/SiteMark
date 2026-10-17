@@ -12,7 +12,7 @@ export function scriptHash(source: string): string {
 
 /**
  * The policy of REQ-WEB-005 (D-250), set by a meta tag because GitHub Pages can't send headers:
- * nothing by default, scripts from the website plus the given inline hashes, styles and images
+ * nothing by default, scripts from the website plus the given inline hashes, styles, images and fonts
  * from the website only, no requests from scripts, no <base> and no form posts.
  */
 export function contentSecurityPolicy(
@@ -25,6 +25,7 @@ export function contentSecurityPolicy(
     ["script-src 'self'", ...scriptHashes].join(' '),
     `style-src ${styles}`,
     "img-src 'self'",
+    "font-src 'self'",
     "connect-src 'none'",
     "base-uri 'none'",
     "form-action 'none'",
