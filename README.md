@@ -33,7 +33,7 @@ either on the whole page or on one element you pick (a logo, a header, that scar
 - 🎯 **Picker:** hover and click any element, with an auto-generated stable CSS selector you can edit
 - 🔒 **Private:** collects nothing, no accounts or analytics, [no install-time site access](#privacy). Your data
   stays in local storage; move it between devices with JSON import/export
-- 🌗 **Soft UI:** a soft, raised popup and options page in light and dark, English and Dutch
+- 🌗 **Scrapbook look:** paper sheets on a kraft board (a plum board in dark), handwriting type, popup and options page in light and dark, English and Dutch
 - 🧭 **Everywhere:** [Chrome](https://chrome.google.com/webstore/detail/kbpbafjebhbanajcefmkfhknbmgbndpg), [Edge](https://microsoftedge.microsoft.com/addons/detail/sitemark/edfcmbpeagdkacfidejninkikjiffojn) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/sitemark/) now, Safari in v1.1 (Manifest V3)
 - 🎨 **Colorblind-safe:** preset colors stay distinguishable, and marks always carry text
 
