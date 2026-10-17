@@ -2,9 +2,7 @@
   width: min(480px, calc(100vw - 2 * var(--sm-space-4)));
   max-height: calc(100vh - 2 * var(--sm-space-4));
   padding: var(--sm-space-5);
-  border: 1px solid transparent;
-  border-top-color: var(--sm-paper-edge);
-  border-left-color: var(--sm-paper-edge);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-lg);
   background: var(--sm-surface);
   color: var(--sm-text);

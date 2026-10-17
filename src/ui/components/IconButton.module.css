@@ -6,29 +6,37 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  border: 1px solid transparent;
-  border-top-color: var(--sm-paper-edge);
-  border-left-color: var(--sm-paper-edge);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
-  background: var(--sm-surface);
+  background: var(--sm-surface-2);
   color: var(--sm-text);
   box-shadow: var(--sm-lift-sm);
   cursor: pointer;
-  transition: box-shadow var(--sm-duration) var(--sm-ease);
+  transition:
+    transform var(--sm-duration) var(--sm-ease),
+    box-shadow var(--sm-duration) var(--sm-ease);
 }
 
 .iconButton:hover {
-  box-shadow: var(--sm-lift);
+  transform: translateY(-1px);
+  box-shadow: 1px 4px 0 var(--sm-text);
 }
 
 .iconButton:active,
 .iconButton[aria-pressed='true'] {
-  box-shadow: var(--sm-pressed);
+  transform: translate(1px, 3px);
+  box-shadow: none;
+}
+
+.iconButton[aria-pressed='true'] {
+  background: var(--sm-tape-1);
+  color: var(--sm-on-tape);
 }
 
 .iconButton:disabled {
   opacity: 0.5;
   box-shadow: none;
+  transform: none;
   cursor: not-allowed;
 }
 

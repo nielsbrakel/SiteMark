@@ -1,6 +1,6 @@
 .preview {
   margin: 0;
-  border: 1px solid transparent;
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-md);
   overflow: hidden;
   background: var(--sm-surface);

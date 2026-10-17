@@ -29,17 +29,17 @@
 
 .input::-webkit-slider-runnable-track {
   height: 8px;
-  border: 1px solid var(--sm-control-border);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
-  background: var(--sm-surface);
+  background: var(--sm-soft);
   box-shadow: var(--sm-well);
 }
 
 .input::-moz-range-track {
   height: 8px;
-  border: 1px solid var(--sm-control-border);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
-  background: var(--sm-surface);
+  background: var(--sm-soft);
   box-shadow: var(--sm-well);
 }
 
@@ -48,18 +48,18 @@
   width: 20px;
   height: 20px;
   margin-top: -7px;
-  border: 1px solid var(--sm-control-border);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
-  background: var(--sm-surface);
+  background: var(--sm-surface-2);
   box-shadow: var(--sm-lift-sm);
 }
 
 .input::-moz-range-thumb {
   width: 20px;
   height: 20px;
-  border: 1px solid var(--sm-control-border);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
-  background: var(--sm-surface);
+  background: var(--sm-surface-2);
   box-shadow: var(--sm-lift-sm);
 }
 

@@ -1,7 +1,5 @@
 .card {
-  border: 1px solid transparent;
-  border-top-color: var(--sm-paper-edge);
-  border-left-color: var(--sm-paper-edge);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-lg);
   background: var(--sm-surface);
   box-shadow: var(--sm-lift);
@@ -10,10 +8,12 @@
 
 .card[data-tone='warning'] {
   border-color: var(--sm-warning);
+  border-width: 3px;
 }
 
 .card[data-tone='danger'] {
   border-color: var(--sm-danger);
+  border-width: 3px;
 }
 
 @media (forced-colors: active) {
