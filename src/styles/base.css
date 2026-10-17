@@ -45,11 +45,9 @@ a {
   text-underline-offset: 6px;
 }
 
-/* Soft UI primitives. Components compose these; see docs/design.md §4. */
+/* Paper primitives. Components compose these; see docs/design.md §4. */
 .sm-card {
-  border: 1px solid transparent;
-  border-top-color: var(--sm-paper-edge);
-  border-left-color: var(--sm-paper-edge);
+  border: 1.5px solid var(--sm-control-border);
   background: var(--sm-surface);
   border-radius: var(--sm-radius-lg);
   box-shadow: var(--sm-lift);
@@ -57,8 +55,8 @@ a {
 }
 
 .sm-well {
-  border: 1px solid transparent;
-  background: var(--sm-surface);
+  border: 1.5px solid var(--sm-control-border);
+  background: var(--sm-soft);
   border-radius: var(--sm-radius-md);
   box-shadow: var(--sm-well);
   padding: var(--sm-space-3);
@@ -66,25 +64,24 @@ a {
 
 .sm-button {
   appearance: none;
-
-  /* Transparent border keeps a visible boundary in forced-colors mode. */
-  border: 1px solid transparent;
-  border-top-color: var(--sm-paper-edge);
-  border-left-color: var(--sm-paper-edge);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-md);
-  background: var(--sm-surface);
+  background: var(--sm-surface-2);
   color: var(--sm-text);
   box-shadow: var(--sm-lift-sm);
   padding: var(--sm-space-2) var(--sm-space-4);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: box-shadow var(--sm-duration) var(--sm-ease);
+  transition:
+    transform var(--sm-duration) var(--sm-ease),
+    box-shadow var(--sm-duration) var(--sm-ease);
 }
 
 .sm-button:active,
 .sm-button[aria-pressed='true'] {
-  box-shadow: var(--sm-pressed);
+  transform: translate(1px, 3px);
+  box-shadow: none;
 }
 
 .sm-button--primary {

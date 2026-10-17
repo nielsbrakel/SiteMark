@@ -17,9 +17,7 @@
   gap: var(--sm-space-2);
   max-width: 480px;
   padding: var(--sm-space-2) var(--sm-space-2) var(--sm-space-2) var(--sm-space-4);
-  border: 1px solid transparent;
-  border-top-color: var(--sm-paper-edge);
-  border-left-color: var(--sm-paper-edge);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
   color: var(--sm-text);

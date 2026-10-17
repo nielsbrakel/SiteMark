@@ -11,22 +11,20 @@
   width: 100%;
   min-height: 44px;
   padding: var(--sm-space-1) var(--sm-space-4);
-
-  /* Soft inset: the shadow pair is the edge; the transparent border is a boundary in forced colors. */
-  border: 1px solid transparent;
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-md);
-  background: var(--sm-surface);
+  background: var(--sm-surface-2);
   color: var(--sm-text);
   box-shadow: var(--sm-well);
   font: inherit;
   transition: box-shadow var(--sm-duration) var(--sm-ease);
 }
 
-/* A file input's native button becomes the raised button of the rest of the UI. */
+/* A file input's native button becomes the outlined button of the rest of the UI. */
 .control::file-selector-button {
   margin-inline: calc(var(--sm-space-4) * -0.5) var(--sm-space-3);
   padding: var(--sm-space-1) var(--sm-space-4);
-  border: 1px solid transparent;
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
   color: var(--sm-text);
@@ -47,6 +45,7 @@ textarea.control {
 
 .control[aria-invalid='true'] {
   border-color: var(--sm-danger);
+  border-width: 3px;
 }
 
 .control:disabled {

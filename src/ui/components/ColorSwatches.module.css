@@ -23,7 +23,7 @@
   width: 28px;
   height: 28px;
   padding: 0;
-  border: 1px solid var(--sm-control-border);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
   background: var(--sm-swatch-color, transparent);
   color: var(--sm-swatch-on, currentColor);
