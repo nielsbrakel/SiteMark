@@ -99,6 +99,15 @@ describe.each(Object.entries(themes))('%s theme', (_theme, tokens) => {
   });
 });
 
+describe.each(Object.entries(themes))('REQ-A11Y-001 %s tape fills', (_theme, tokens) => {
+  it.each(['--sm-tape-1', '--sm-tape-2', '--sm-tape-3', '--sm-tape-4'])(
+    '--sm-on-tape on %s',
+    (tape) => {
+      expect(contrast(hex(tokens, '--sm-on-tape'), hex(tokens, tape))).toBeGreaterThanOrEqual(4.5);
+    },
+  );
+});
+
 describe('REQ-A11Y-001 the two dark-theme blocks stay identical', () => {
   it('uses the same values for the OS preference and data-theme="dark"', () => {
     expect(darkMedia).toEqual(darkForced);
