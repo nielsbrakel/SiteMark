@@ -35,7 +35,7 @@ h3 {
   line-height: 1.1;
 }
 
-/* Header links: plain text, the current page in the accent color and underlined (never shadow alone). */
+/* Header links: plain ink text (they sit on the board too), the current page underlined (never shadow or color alone). */
 .sm-nav-link {
   padding: var(--sm-space-1) var(--sm-space-2);
   color: var(--sm-text);
@@ -44,11 +44,11 @@ h3 {
 }
 
 .sm-nav-link:hover {
-  color: var(--sm-accent-text);
+  text-decoration: underline 1px;
+  text-underline-offset: 6px;
 }
 
 .sm-nav-link[aria-current='page'] {
-  color: var(--sm-accent-text);
   text-decoration: underline 2px;
   text-underline-offset: 6px;
 }
