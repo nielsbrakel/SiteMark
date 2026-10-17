@@ -20,7 +20,7 @@
   border: 1px solid transparent;
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
 }
 
 .value {

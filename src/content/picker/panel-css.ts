@@ -13,7 +13,7 @@ export const PANEL_CSS = `
   padding: var(--sm-space-4);
   border-radius: var(--sm-radius-lg);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised);
+  box-shadow: var(--sm-lift);
   color: var(--sm-text);
   font: var(--sm-text-md)/1.4 var(--sm-font);
   color-scheme: light dark;
@@ -43,7 +43,7 @@ export const PANEL_CSS = `
   border: 1px solid transparent;
   border-radius: 50%;
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
   color: var(--sm-text);
   font: inherit;
   cursor: pointer;
@@ -74,7 +74,7 @@ export const PANEL_CSS = `
   border: 1px solid var(--sm-control-border);
   border-radius: var(--sm-radius-sm);
   background: var(--sm-bg);
-  box-shadow: var(--sm-inset);
+  box-shadow: var(--sm-well);
   color: var(--sm-text);
   font: inherit;
 }
@@ -99,7 +99,7 @@ export const PANEL_CSS = `
   border: 1px solid transparent;
   border-radius: var(--sm-radius-pill);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
   color: var(--sm-text);
   font: inherit;
   cursor: pointer;

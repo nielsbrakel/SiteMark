@@ -18,12 +18,12 @@
   max-width: 480px;
   padding: var(--sm-space-2) var(--sm-space-2) var(--sm-space-2) var(--sm-space-4);
   border: 1px solid transparent;
-  border-top-color: var(--sm-edge);
-  border-left-color: var(--sm-edge);
+  border-top-color: var(--sm-paper-edge);
+  border-left-color: var(--sm-paper-edge);
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
   color: var(--sm-text);
-  box-shadow: var(--sm-raised);
+  box-shadow: var(--sm-lift);
   pointer-events: auto;
   animation: rise var(--sm-duration) var(--sm-ease);
 }

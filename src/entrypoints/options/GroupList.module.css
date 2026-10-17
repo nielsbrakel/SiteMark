@@ -28,7 +28,7 @@
 }
 
 .link:hover {
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
 }
 
 .link[aria-current='page'] {

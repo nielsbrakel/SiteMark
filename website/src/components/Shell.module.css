@@ -14,7 +14,7 @@
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
   color: var(--sm-text);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
   font-weight: 600;
   transform: translateY(-200%);
 }

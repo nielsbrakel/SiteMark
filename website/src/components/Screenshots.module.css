@@ -17,7 +17,7 @@
   padding: 3px;
   border: 1px solid var(--sm-control-border);
   border-radius: var(--sm-radius-md);
-  box-shadow: var(--sm-inset);
+  box-shadow: var(--sm-well);
 }
 
 .radio {
@@ -39,11 +39,11 @@
 }
 
 .radio:checked + .label {
-  border-top-color: var(--sm-edge);
-  border-left-color: var(--sm-edge);
+  border-top-color: var(--sm-paper-edge);
+  border-left-color: var(--sm-paper-edge);
   background: var(--sm-surface);
   color: var(--sm-text);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
   font-weight: 600;
 }
 
@@ -77,7 +77,7 @@
   block-size: auto;
   border: 1px solid transparent;
   border-radius: var(--sm-radius-md);
-  box-shadow: var(--sm-raised);
+  box-shadow: var(--sm-lift);
 }
 
 .caption {

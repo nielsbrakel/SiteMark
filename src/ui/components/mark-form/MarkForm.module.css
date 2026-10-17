@@ -16,7 +16,7 @@
   border: 1px solid transparent;
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
-  box-shadow: var(--sm-inset);
+  box-shadow: var(--sm-well);
 }
 
 .effects {
@@ -26,7 +26,7 @@
   padding: var(--sm-space-3);
   border: 1px solid transparent;
   border-radius: var(--sm-radius-md);
-  box-shadow: var(--sm-inset);
+  box-shadow: var(--sm-well);
 }
 
 .effect {

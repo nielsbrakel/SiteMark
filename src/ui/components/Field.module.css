@@ -17,7 +17,7 @@
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
   color: var(--sm-text);
-  box-shadow: var(--sm-inset);
+  box-shadow: var(--sm-well);
   font: inherit;
   transition: box-shadow var(--sm-duration) var(--sm-ease);
 }
@@ -30,14 +30,14 @@
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
   color: var(--sm-text);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
 }
 
 .control::file-selector-button:hover {
-  box-shadow: var(--sm-raised);
+  box-shadow: var(--sm-lift);
 }
 
 textarea.control {
