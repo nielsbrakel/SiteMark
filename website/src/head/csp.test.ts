@@ -22,7 +22,7 @@ describe('REQ-WEB-005 every page pins its one inline script in a CSP meta tag', 
 
   it('builds the policy of REQ-WEB-005', () => {
     expect(contentSecurityPolicy(["'sha256-abc='"])).toBe(
-      "default-src 'none'; script-src 'self' 'sha256-abc='; style-src 'self'; img-src 'self'; " +
+      "default-src 'none'; script-src 'self' 'sha256-abc='; style-src 'self'; img-src 'self'; font-src 'self'; " +
         "connect-src 'none'; base-uri 'none'; form-action 'none'",
     );
   });
