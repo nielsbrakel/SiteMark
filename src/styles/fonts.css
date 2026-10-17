@@ -1,0 +1,18 @@
+/* Handwriting faces (D-289), bundled as local files: nothing is fetched. Latin covers English and Dutch.
+   Both are SIL OFL 1.1; the licences sit next to the files in src/assets/fonts. Not imported by tokens.css:
+   the picker inlines that file into web pages, where these files are not reachable. */
+@font-face {
+  font-family: 'Caveat Brush';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/caveat-brush-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Patrick Hand';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/patrick-hand-latin.woff2') format('woff2');
+}
