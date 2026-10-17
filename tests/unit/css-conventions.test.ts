@@ -22,7 +22,8 @@ function forcedColorsBlock(css: string): string {
 describe('REQ-THEME-002 global CSS is limited to tokens, base primitives and page shells (D-236)', () => {
   it('uses CSS Modules for component styles', () => {
     const global = cssFiles.filter((file) => !file.endsWith('.module.css'));
-    const allowed = /^src\/styles\/(tokens|base)\.css$|^src\/entrypoints\/[\w-]+\/[\w-]+\.css$/;
+    const allowed =
+      /^src\/styles\/(tokens|base|fonts)\.css$|^src\/entrypoints\/[\w-]+\/[\w-]+\.css$/;
     expect(global.filter((file) => !allowed.test(file))).toEqual([]);
   });
 });
