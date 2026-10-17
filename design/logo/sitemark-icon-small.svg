@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-labelledby="t">
   <title id="t">SiteMark</title>
-  <!-- 32px toolbar (2x): no tile; ribbon plus a bold cursor. -->
+  <!-- 32px toolbar (2x): no note; ribbon plus a bold cursor, ink outline. -->
   <path d="M7 2h16a2 2 0 0 1 2 2v26l-10-7-10 7V4a2 2 0 0 1 2-2z"
-        fill="#e5483b" stroke="#8a2a22" stroke-width="1.2" stroke-linejoin="round"/>
+        fill="#e8664d" stroke="#33261b" stroke-width="1.6" stroke-linejoin="round"/>
   <path d="M17 12v16l3.6-3.4 2.6 5.8 3-1.3-2.6-5.7H29z"
-        fill="#ffffff" stroke="#1b1d22" stroke-width="1.8" stroke-linejoin="round"/>
+        fill="#ffffff" stroke="#33261b" stroke-width="1.8" stroke-linejoin="round"/>
 </svg>

@@ -6,6 +6,11 @@
 import { copyFile, mkdir, readFile } from 'node:fs/promises';
 import { chromium } from '@playwright/test';
 
+// The promo art sets its lettering in the bundled handwriting fonts (D-289).
+const fontFace = async (family, file) =>
+  `@font-face{font-family:'${family}';src:url(data:font/woff2;base64,${(await readFile(`src/assets/fonts/${file}`)).toString('base64')})}`;
+const fonts = `${await fontFace('Caveat Brush', 'caveat-brush-latin.woff2')}${await fontFace('Patrick Hand', 'patrick-hand-latin.woff2')}`;
+
 const targets = [
   { svg: 'design/logo/sitemark-icon-16.svg', sizes: [16] },
   { svg: 'design/logo/sitemark-icon-small.svg', sizes: [32] },
@@ -32,7 +37,7 @@ for (const { svg, sizes } of targets) {
 
 await page.setViewportSize({ width: 1280, height: 640 });
 await page.setContent(
-  `<style>html,body{margin:0}svg{display:block;width:1280px;height:640px}</style>${await readFile('design/social-preview.svg', 'utf8')}`,
+  `<style>${fonts}html,body{margin:0}svg{display:block;width:1280px;height:640px}</style>${await readFile('design/social-preview.svg', 'utf8')}`,
 );
 await page.locator('svg').screenshot({ path: 'design/social-preview.png' });
 console.log('design/social-preview.png');
@@ -55,7 +60,7 @@ for (const lang of ['en', 'nl']) {
     if (lang === 'nl') for (const [from, to] of dutch) markup = markup.replaceAll(from, to);
     await page.setViewportSize({ width, height });
     await page.setContent(
-      `<style>html,body{margin:0}svg{display:block;width:${width}px;height:${height}px}</style>${markup}`,
+      `<style>${fonts}html,body{margin:0}svg{display:block;width:${width}px;height:${height}px}</style>${markup}`,
     );
     await page.locator('svg').screenshot({ path: `store/images/${lang}/${file}.png` });
     console.log(`store/images/${lang}/${file}.png`);
