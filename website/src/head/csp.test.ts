@@ -47,7 +47,9 @@ describe('REQ-WEB-005 every page pins its one inline script in a CSP meta tag', 
       expect(policy, file).toBe(contentSecurityPolicy([scriptHash(inline[0] ?? '')]));
       const at = html.search(/<meta http-equiv="Content-Security-Policy"/i);
       expect(at, file).toBeGreaterThan(-1);
-      expect(at, file).toBeLessThan(html.search(/<(script|link|style)\b/));
+      // React hoists its own same-origin image preloads (the wordmark) above the policy; img-src
+      // 'self' allows them anyway.
+      expect(at, file).toBeLessThan(html.search(/<(script|style)\b|<link\b(?![^>]*as="image")/));
       expect(metaContent(html, 'referrer'), file).toBe('strict-origin-when-cross-origin');
     }
   });

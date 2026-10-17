@@ -3,8 +3,8 @@
   max-width: var(--smw-page-max);
   margin-inline: auto;
   padding: var(--sm-space-5) var(--smw-gutter);
-  border-top: 1px solid var(--sm-border);
-  color: var(--sm-text-muted);
+  border-top: 1.5px dashed var(--sm-text);
+  color: var(--sm-text);
 }
 
 .list {
@@ -19,11 +19,11 @@
 .link {
   display: inline-block;
   padding-block: var(--sm-space-1);
-  color: var(--sm-text-muted);
+  color: var(--sm-text);
 }
 
 .link:hover {
-  color: var(--sm-text);
+  text-decoration-thickness: 2px;
 }
 
 .note {

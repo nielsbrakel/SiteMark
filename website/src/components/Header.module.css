@@ -1,9 +1,6 @@
-/* A paper strip on the board: it casts its shadow down onto the page. */
+/* The header sits directly on the board, so its text is --sm-text. */
 .header {
   position: relative;
-  border-bottom: 1px solid var(--sm-paper-edge);
-  background: var(--sm-bg);
-  box-shadow: 0 6px 12px -4px var(--sm-shade);
 }
 
 .bar {
@@ -71,10 +68,6 @@
 /* The GitHub mark is a round raised icon button, like the extension's IconButton. */
 .github {
   composes: iconButton from '../../../src/ui/components/IconButton.module.css';
-  color: var(--sm-text-muted);
-}
-
-.github:hover {
   color: var(--sm-text);
 }
 
@@ -93,11 +86,5 @@
   .nav {
     flex-basis: 100%;
     order: 3;
-  }
-}
-
-@media (forced-colors: active) {
-  .header {
-    border-bottom-color: CanvasText;
   }
 }
