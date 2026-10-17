@@ -1,8 +1,12 @@
 /* 404.html: two short sections, English then Dutch, at the reading measure. */
 .page {
   max-width: var(--smw-prose-max);
-  margin-inline: auto;
+  margin: var(--sm-space-5) auto;
   padding: var(--smw-section-gap) var(--smw-gutter);
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-lg);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-lift);
   font-size: var(--sm-text-lg);
   line-height: var(--smw-prose-line);
 }
