@@ -161,6 +161,7 @@ describe('REQ-WEB-005 only the hashed bootstrap and JSON-LD are inline, and no i
       'script-src': ["'self'", hash],
       'style-src': ["'self'"],
       'img-src': ["'self'"],
+      'font-src': ["'self'"],
       'connect-src': ["'none'"],
       'base-uri': ["'none'"],
       'form-action': ["'none'"],
