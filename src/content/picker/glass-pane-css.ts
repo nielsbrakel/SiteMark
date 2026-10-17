@@ -26,7 +26,7 @@ export const GLASS_PANE_CSS = `
   padding: 4px 10px;
   border-radius: var(--sm-radius-pill);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
   color: var(--sm-text);
   font: 12px/1.5 var(--sm-font);
   white-space: nowrap;
@@ -42,7 +42,7 @@ export const GLASS_PANE_CSS = `
   padding: 6px 14px;
   border-radius: var(--sm-radius-pill);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
   color: var(--sm-text);
   font: 12px/1.5 var(--sm-font);
   text-align: center;

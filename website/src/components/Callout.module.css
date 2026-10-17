@@ -7,7 +7,7 @@
   border: 1px solid transparent;
   border-radius: var(--sm-radius-lg);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised);
+  box-shadow: var(--sm-lift);
 }
 
 /* The icon sits in a sunken round badge. */
@@ -16,7 +16,7 @@
   box-sizing: content-box;
   padding: var(--sm-space-2);
   border-radius: var(--sm-radius-pill);
-  box-shadow: var(--sm-inset);
+  box-shadow: var(--sm-well);
   color: var(--sm-warning);
 }
 

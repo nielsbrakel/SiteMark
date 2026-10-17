@@ -32,7 +32,7 @@
   border: 1px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
   background: var(--sm-surface);
-  box-shadow: var(--sm-inset);
+  box-shadow: var(--sm-well);
 }
 
 .input::-moz-range-track {
@@ -40,7 +40,7 @@
   border: 1px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
   background: var(--sm-surface);
-  box-shadow: var(--sm-inset);
+  box-shadow: var(--sm-well);
 }
 
 .input::-webkit-slider-thumb {
@@ -51,7 +51,7 @@
   border: 1px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
 }
 
 .input::-moz-range-thumb {
@@ -60,7 +60,7 @@
   border: 1px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
 }
 
 .input:disabled {

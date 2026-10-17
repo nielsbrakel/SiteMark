@@ -12,7 +12,7 @@
   padding: var(--sm-space-5);
   border-radius: var(--sm-radius-lg);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised);
+  box-shadow: var(--sm-lift);
 }
 
 /* The home hero: the preview with the presets below it. */

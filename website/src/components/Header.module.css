@@ -1,11 +1,9 @@
-/* A soft raised bar: it casts its shadow down onto the page, like the rest of the soft UI. */
+/* A paper strip on the board: it casts its shadow down onto the page. */
 .header {
   position: relative;
-  border-bottom: 1px solid var(--sm-edge);
+  border-bottom: 1px solid var(--sm-paper-edge);
   background: var(--sm-bg);
-  box-shadow:
-    0 6px 12px -4px var(--sm-shadow-dark),
-    0 -1px 0 var(--sm-shadow-light);
+  box-shadow: 0 6px 12px -4px var(--sm-shade);
 }
 
 .bar {

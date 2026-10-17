@@ -47,11 +47,11 @@ a {
 /* Soft UI primitives. Components compose these; see docs/design.md §4. */
 .sm-card {
   border: 1px solid transparent;
-  border-top-color: var(--sm-edge);
-  border-left-color: var(--sm-edge);
+  border-top-color: var(--sm-paper-edge);
+  border-left-color: var(--sm-paper-edge);
   background: var(--sm-surface);
   border-radius: var(--sm-radius-lg);
-  box-shadow: var(--sm-raised);
+  box-shadow: var(--sm-lift);
   padding: var(--sm-space-4);
 }
 
@@ -59,7 +59,7 @@ a {
   border: 1px solid transparent;
   background: var(--sm-surface);
   border-radius: var(--sm-radius-md);
-  box-shadow: var(--sm-inset);
+  box-shadow: var(--sm-well);
   padding: var(--sm-space-3);
 }
 
@@ -68,12 +68,12 @@ a {
 
   /* Transparent border keeps a visible boundary in forced-colors mode. */
   border: 1px solid transparent;
-  border-top-color: var(--sm-edge);
-  border-left-color: var(--sm-edge);
+  border-top-color: var(--sm-paper-edge);
+  border-left-color: var(--sm-paper-edge);
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface);
   color: var(--sm-text);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
   padding: var(--sm-space-2) var(--sm-space-4);
   font: inherit;
   font-weight: 600;

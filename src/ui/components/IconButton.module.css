@@ -7,18 +7,18 @@
   height: 32px;
   padding: 0;
   border: 1px solid transparent;
-  border-top-color: var(--sm-edge);
-  border-left-color: var(--sm-edge);
+  border-top-color: var(--sm-paper-edge);
+  border-left-color: var(--sm-paper-edge);
   border-radius: var(--sm-radius-pill);
   background: var(--sm-surface);
   color: var(--sm-text);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
   cursor: pointer;
   transition: box-shadow var(--sm-duration) var(--sm-ease);
 }
 
 .iconButton:hover {
-  box-shadow: var(--sm-raised);
+  box-shadow: var(--sm-lift);
 }
 
 .iconButton:active,

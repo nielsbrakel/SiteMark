@@ -57,7 +57,7 @@ Light is **Kraft & Coral**. Dark is the same look on a plum board (D-289). Text 
 | `--sm-paper-edge`     | `#d9ccb0`                                  | `#1a1428`                                  | The thickness line under a sheet (decorative)                               |
 | `--sm-accent`         | `#ef7a60`                                  | `#ff9a7a`                                  | Primary buttons, active switches (coral, ≠ mark red)                        |
 | `--sm-on-accent`      | `#33261b`                                  | `#231c38`                                  | Text on accent (5.3:1 / 7.8:1)                                              |
-| `--sm-accent-text`    | `#a63d28`                                  | `#ff9a7a`                                  | Accent text, links, focus outline (5.9:1 / 6.8:1)                           |
+| `--sm-accent-text`    | `#a63d28`                                  | `#ff9a7a`                                  | Accent text and links on paper (5.9:1 / 6.8:1); focus is `--sm-text`        |
 | `--sm-success`        | `#17692e`                                  | `#6fd68c`                                  | "found" (6.3:1 / 7.8:1 on paper)                                            |
 | `--sm-warning`        | `#7d5400`                                  | `#e0b44a`                                  | "not found", "not granted" (6.2:1 / 7.2:1)                                  |
 | `--sm-danger`         | `#a63d28`                                  | `#ff9a8a`                                  | Errors (5.9:1 / 6.9:1)                                                      |

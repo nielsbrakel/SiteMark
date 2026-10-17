@@ -20,7 +20,7 @@
   border: 1px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
   background: var(--sm-surface);
-  box-shadow: var(--sm-inset);
+  box-shadow: var(--sm-well);
   cursor: pointer;
   transition: background var(--sm-duration) var(--sm-ease);
 }
@@ -34,7 +34,7 @@
   border: 1px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
   background: var(--sm-surface);
-  box-shadow: var(--sm-raised-sm);
+  box-shadow: var(--sm-lift-sm);
   transition: transform var(--sm-duration) var(--sm-ease);
 }
 
