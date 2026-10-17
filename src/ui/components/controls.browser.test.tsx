@@ -91,10 +91,10 @@ describe('REQ-A11Y-008 control boundaries use --sm-control-border (3:1)', () => 
     expect(getComputedStyle(screen.getByRole('switch')).borderTopWidth).toBe('1px');
   });
 
-  it('the field control is a soft inset well: no outline, the shadow pair is its edge', () => {
+  it('the field control is an inset paper well with an ink outline', () => {
     render(<Field label="Name">{(control) => <input {...control} />}</Field>);
     const style = getComputedStyle(screen.getByLabelText('Name'));
-    expect(style.borderTopColor).toBe('rgba(0, 0, 0, 0)');
+    expect(style.borderTopColor).toBe(border());
     expect(style.boxShadow).toContain('inset');
   });
 
@@ -138,18 +138,18 @@ describe('REQ-THEME-002 components take their colors from the tokens', () => {
     expect(style.color).toBe(tokenColor('--sm-on-accent'));
   });
 
-  it('an active switch fills its track with the accent and moves the knob to the end', async () => {
+  it('an active switch fills its track with green tape and moves the knob to the end', async () => {
     const { rerender } = render(<Switch label="On" checked={false} onChange={noop} />);
     const toggle = screen.getByRole('switch');
     const knob = toggle.firstElementChild as HTMLElement;
     const offLeft = box(knob).left;
     rerender(<Switch label="On" checked onChange={noop} />);
     await Promise.all(document.getAnimations().map((animation) => animation.finished));
-    expect(getComputedStyle(toggle).backgroundColor).toBe(tokenColor('--sm-accent'));
+    expect(getComputedStyle(toggle).backgroundColor).toBe(tokenColor('--sm-tape-3'));
     expect(box(knob).left).toBeGreaterThan(offLeft);
   });
 
-  it('a card sits on the surface color with a large radius', () => {
+  it('a card sits on the paper surface with the small paper radius', () => {
     render(
       <Card>
         <p>Content</p>
@@ -157,6 +157,6 @@ describe('REQ-THEME-002 components take their colors from the tokens', () => {
     );
     const style = getComputedStyle(screen.getByText('Content').parentElement as HTMLElement);
     expect(style.backgroundColor).toBe(tokenColor('--sm-surface'));
-    expect(style.borderTopLeftRadius).toBe('20px');
+    expect(style.borderTopLeftRadius).toBe('3px');
   });
 });
