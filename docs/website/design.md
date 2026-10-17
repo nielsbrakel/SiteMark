@@ -6,14 +6,17 @@
 
 ## 1. Principles
 
-1. **Same product, bigger canvas.** The website uses the extension's calm neumorphic chrome, coral accent and
-   system rounded type. A visitor who installs SiteMark should recognize the popup from the website.
+1. **Same product, bigger canvas.** The website uses the extension's paper-on-board scrapbook chrome, coral accent and
+   handwriting type (D-289). A visitor who installs SiteMark should recognize the popup from the website.
 2. **Show the marks.** As in the extension, the chrome is quiet and the marks are loud. The hero and the
    playground show real marks from the real marker code (D-254).
-3. **Accessible soft UI**, unchanged: AA text contrast, 3:1 control boundaries, an `outline` focus ring, state
+3. **Accessible paper UI**, unchanged in substance: AA text contrast, 3:1 control boundaries, an `outline` focus ring, state
    shown by more than shadow, forced-colors support.
-4. **No network.** System fonts only, inline SVG icons, images self-hosted (REQ-WEB-003).
-5. **Reading first.** Privacy, support and help are long text, so prose gets a comfortable measure and rhythm.
+4. **No network.** Local fonts only, inline SVG icons, images self-hosted (REQ-WEB-003).
+5. **Reading first.** Privacy, support and help are long text, so prose gets a comfortable measure and rhythm,
+   and long text sits on plain paper without tilt.
+6. **Notebook page.** The home page is a ruled notebook sheet with a red margin on the kraft board. The three highlight
+   cards are taped and tilted ±1.5°, and the install buttons are the only coral fills. Tilt is off under reduced motion and forced colors.
 
 ## 2. Website tokens (`website/src/styles/website-tokens.css`)
 
@@ -56,8 +59,8 @@ The type scale continues the extension scale (12/14/16/20/28) and only adds the 
   and 320 px (REQ-WEBUX-005 reflow).
 - **Prose pages** (privacy, support, help, changelog): one centered column at `--smw-prose-max`. Help adds a
   topic list above the text on narrow screens and in a sidebar at ≥ 960 px.
-- **Surfaces:** the page background is `--sm-bg`. Neumorphic `--sm-raised` is only for cards, the hero preview
-  and the playground panel (not for body text blocks), so long pages stay flat and readable.
+- **Surfaces:** the page background is the board (`--sm-bg`). Paper sheets (`--sm-surface` with `--sm-lift`) are only for
+  cards, the hero preview and the playground panel. Prose pages are one plain sheet with no tape or tilt, so long pages stay readable.
 
 ## 4. Components
 
