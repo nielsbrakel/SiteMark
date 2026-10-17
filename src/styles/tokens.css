@@ -55,13 +55,18 @@
   --sm-space-5: 24px;
   --sm-space-6: 32px;
 
-  /* Type: system fonts only, no network requests (privacy) */
-  --sm-font: ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', roboto, sans-serif;
+  /* Type: bundled handwriting faces (src/styles/fonts.css) with system fallbacks, no network requests (privacy) */
+  --sm-font:
+    'Patrick Hand', ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', roboto,
+    sans-serif;
+  --sm-font-display:
+    'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, -apple-system, 'Segoe UI', roboto,
+    sans-serif;
   --sm-font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', menlo, consolas, monospace;
-  --sm-text-xs: 12px; /* minimum UI text size */
-  --sm-text-sm: 12px;
-  --sm-text-md: 14px;
-  --sm-text-lg: 16px;
+  --sm-text-xs: 14px; /* minimum UI text size: handwriting has a small x-height */
+  --sm-text-sm: 14px;
+  --sm-text-md: 16px;
+  --sm-text-lg: 18px;
   --sm-text-xl: 20px;
 
   /* Elevation: paper on a board */
