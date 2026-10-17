@@ -25,7 +25,10 @@ export function Shell({ route, locale, routes, t, children }: ShellProps) {
         {t('websiteSkipToContent')}
       </a>
       <Header route={route} locale={locale} routes={routes} t={t} />
-      <main id="main" className={styles.main}>
+      <main
+        id="main"
+        className={route.page === 'home' ? `${styles.main} ${styles.notebook}` : styles.main}
+      >
         {children}
       </main>
       <Footer locale={locale} routes={routes} t={t} />

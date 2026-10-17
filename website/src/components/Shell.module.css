@@ -23,10 +23,30 @@
   transform: none;
 }
 
+/* One paper sheet on the board; long text sits on it without tape or tilt. */
 .main {
   flex: 1;
-  width: 100%;
-  max-width: var(--smw-page-max);
-  margin-inline: auto;
+  box-sizing: border-box;
+  width: min(100% - 2 * var(--smw-gutter), var(--smw-page-max));
+  margin: var(--sm-space-5) auto;
   padding: var(--sm-space-6) var(--smw-gutter);
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-lg);
+  background: var(--sm-surface);
+  box-shadow: var(--sm-lift);
+}
+
+/* The home page is a ruled notebook page with a coral margin line. */
+.notebook {
+  background:
+    linear-gradient(90deg, transparent 47px, var(--sm-accent) 47px 49px, transparent 49px),
+    repeating-linear-gradient(transparent 0 31px, var(--sm-border) 31px 32px), var(--sm-surface);
+  padding-inline-start: calc(var(--smw-gutter) + 40px);
+}
+
+@media (width <= 720px) {
+  .notebook {
+    background: var(--sm-surface);
+    padding-inline-start: var(--smw-gutter);
+  }
 }

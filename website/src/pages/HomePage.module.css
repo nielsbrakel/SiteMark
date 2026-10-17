@@ -43,8 +43,34 @@
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: var(--sm-space-5);
   margin: 0;
-  padding: 0;
+  padding: var(--sm-space-3) 0 0;
   list-style: none;
+}
+
+/* Taped notes, tilted in turns; --sm-tilt is 0deg under reduced motion and forced colors. */
+.card {
+  position: relative;
+  background: var(--sm-surface-2);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: -12px auto auto 50%;
+  width: 72px;
+  height: 22px;
+  margin-inline-start: -36px;
+  border: 1.5px solid var(--sm-control-border);
+  background: var(--sm-tape-1);
+  transform: rotate(-3deg);
+}
+
+.card:nth-child(odd) {
+  transform: rotate(var(--sm-tilt));
+}
+
+.card:nth-child(even) {
+  transform: rotate(calc(-1 * var(--sm-tilt)));
 }
 
 .card h3 {
