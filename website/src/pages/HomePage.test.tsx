@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { pagesForDom, showPage } from '../../tests/unit/page-dom';
@@ -108,6 +110,27 @@ describe('REQ-PAGE-002 install buttons never link to a store that has no listing
       'Add to Edge',
       'Add to Firefox',
     ]);
+  });
+
+  it.each([
+    ['index.html', 'Open this page on a computer to install SiteMark.'],
+    ['nl/index.html', 'Open deze pagina op een computer om SiteMark te installeren.'],
+  ])('%s tells iPhone visitors to continue on a computer', (file, hint) => {
+    showPage(pages, file);
+    const install = within(main()).getByRole('list', {
+      name: /Install SiteMark|SiteMark installeren/,
+    });
+    expect(within(install).queryByText(hint)).not.toBeNull();
+  });
+
+  it("leads with one big button: the visitor's store, Chrome when the browser isn't recognised", () => {
+    const file = path.resolve('website/src/components/InstallButtons.module.css');
+    const css = existsSync(file) ? readFileSync(file, 'utf8') : '';
+    const lead = String.raw`:global\(:root:not\(\[data-browser\]\)\) \.chrome,\s*:global\(:root\[data-browser='edge'\]\) \.edge,\s*:global\(:root\[data-browser='firefox'\]\) \.firefox`;
+    expect(css).toMatch(new RegExp(`${lead}\\s*\\{[^}]*flex-basis:\\s*100%`));
+    expect(css).toMatch(
+      /:global\(:root\[data-browser='safari'\]\) \.safari\s*\{[^}]*flex-basis:\s*100%/,
+    );
   });
 
   it('links a store as soon as its listing URL is configured', () => {
