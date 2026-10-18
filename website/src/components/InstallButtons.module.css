@@ -15,7 +15,7 @@
   text-decoration: none;
 }
 
-/* Every live store is flat; the bootstrap's <html data-browser> (Firefox, Edge; else Chrome) picks the accent one. */
+/* Every live store is flat; the bootstrap's <html data-browser> (Firefox, Edge; Safari has no store yet; else Chrome) picks the accent one. */
 .button:not(:disabled) {
   box-shadow: none;
   background: transparent;
@@ -27,6 +27,12 @@
   background: var(--sm-accent);
   color: var(--sm-on-accent);
   box-shadow: var(--sm-lift-sm);
+}
+
+/* Safari can't install from the other stores: its coming-soon note stands out instead. */
+:global(:root[data-browser='safari']) .safari {
+  border-color: var(--sm-accent);
+  color: var(--sm-text);
 }
 
 /* Not listed yet: flat and muted, and the text says so, so the state isn't shown by color alone. */
