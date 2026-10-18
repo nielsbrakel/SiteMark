@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 
 const css = (file: string) => readFileSync(`src/entrypoints/${file}.module.css`, 'utf8');
 const sheet =
-  /border:\s*1\.5px solid var\(--sm-control-border\)[^}]*background:\s*var\(--sm-surface\)/;
+  /border:\s*1\.5px solid var\(--sm-control-border\)[^}]*background:\s*var\(--sm-paper\)/;
 
 describe('REQ-THEME-001 screens are paper sheets on the board', () => {
   it.each(['popup/App', 'grant/App'])('%s draws its page as an outlined sheet', (file) => {
