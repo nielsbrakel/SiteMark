@@ -39,3 +39,15 @@ describe('REQ-WEB-003 the wordmark is outlined lettering, not a font reference',
     expect(markup).toContain('#ff9a7a');
   });
 });
+
+describe('REQ-THEME-001 the wordmark carries the full torn-note logo and a highlighter stroke', () => {
+  it.each(wordmarks)('%s draws the paper note behind the ribbon', (file) => {
+    expect(svg(file)).toMatch(/<g transform="rotate\(-5 64 64\)"><path d="M16 14l46-2/);
+  });
+
+  it('puts "Mark" in coral on a mustard stroke in the light wordmark', () => {
+    const markup = svg('design/logo/sitemark-wordmark.svg');
+    expect(markup).toMatch(/<rect x="289"[^>]*fill="#f5cf5a"/);
+    expect(markup).toMatch(/<path aria-hidden="true" fill="#e8664d"/);
+  });
+});
