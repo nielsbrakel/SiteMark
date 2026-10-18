@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 // The website is paper sheets on the kraft board; every page is a ruled notebook page (D-289, docs/website/design.md §1, §3).
@@ -98,5 +98,23 @@ describe('REQ-WEBUX-001 cards and control panels stand out from the ruled sheet'
   it('the header controls share one height', () => {
     expect(rule('components/Header', '\\.tools > \\*')).toMatch(/height:\s*var\(--smw-control\)/);
     expect(rule('theme/ThemeToggle', '\\.toggle')).toMatch(/height:\s*var\(--smw-control\)/);
+  });
+});
+
+describe('REQ-PAGE-009 the three notes sit in a row, and the switch adds their marks', () => {
+  // The component's styles do not exist before the green step.
+  const notes = existsSync('website/src/components/AtWork.module.css')
+    ? css('components/AtWork')
+    : '';
+
+  it('three columns, one column when narrow', () => {
+    expect(notes).toMatch(/\.notes\s*{[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/);
+    expect(notes).toMatch(/@media \(width <= 760px\)\s*{[^}]*\.notes\s*{[^}]*minmax\(0, 1fr\)/);
+  });
+
+  it('the marks show only while the switch is checked, with no script', () => {
+    expect(notes).toMatch(/\.scene:has\(\.switch:checked\)/);
+    expect(notes).toMatch(/\.switch:checked/);
+    expect(notes).toMatch(/--sm-tilt/);
   });
 });
