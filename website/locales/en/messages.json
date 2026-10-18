@@ -389,6 +389,98 @@
     "message": "SiteMark at work",
     "description": "Heading of the home page section with screenshots of the extension."
   },
+  "websiteAtWorkHeading": {
+    "message": "SiteMark at work",
+    "description": "Heading of the home page section that shows SiteMark at work."
+  },
+  "websiteAtWorkLead": {
+    "message": "Same production tab, three kinds of marks. Flip the switch to see what SiteMark adds.",
+    "description": "Lead under the heading of the SiteMark at work section."
+  },
+  "websiteAtWorkSwitch": {
+    "message": "SiteMark",
+    "description": "Label of the on/off switch of the SiteMark at work notes. Keep the product name."
+  },
+  "websiteAtWorkQuestionOff": {
+    "message": "Is this the production tab?",
+    "description": "Line above the three notes while the switch is off."
+  },
+  "websiteAtWorkQuestionOn": {
+    "message": "Yes, and that is just three of many ways.",
+    "description": "Line above the three notes once the switch is on."
+  },
+  "websiteAtWorkFaviconTitle": {
+    "message": "The favicon",
+    "description": "Title of the first note: the browser tab."
+  },
+  "websiteAtWorkFaviconText": {
+    "message": "A coloured dot on the tab icon and a prefix in front of the title. Find the right tab among dozens at a glance.",
+    "description": "Caption of the favicon note."
+  },
+  "websiteAtWorkFaviconAlt": {
+    "message": "A browser with several tabs. With SiteMark on, the production tab gets a red dot on its icon and a PROD prefix, so it stands out from the others.",
+    "description": "Description of the favicon note. Never say screenshot."
+  },
+  "websiteAtWorkPageTitle": {
+    "message": "The page",
+    "description": "Title of the second note: the whole page."
+  },
+  "websiteAtWorkPageText": {
+    "message": "A ribbon, a banner, a frame, a tint, stripes or a watermark. Combine them in one of four colours or your own.",
+    "description": "Caption of the page note."
+  },
+  "websiteAtWorkPageAlt": {
+    "message": "A page with a red frame, a PROD ribbon in the corner and a Production banner along the bottom edge, shown when SiteMark is on.",
+    "description": "Description of the page note. Never say screenshot."
+  },
+  "websiteAtWorkComponentTitle": {
+    "message": "The component",
+    "description": "Title of the third note: one element on the page."
+  },
+  "websiteAtWorkComponentText": {
+    "message": "An outline, a tint, stripes or a ribbon on one button, field or panel, so the risky part stands out.",
+    "description": "Caption of the component note."
+  },
+  "websiteAtWorkComponentAlt": {
+    "message": "A delete dialog. With SiteMark on, it gets a red outline and a PROD ribbon, so the risky part stands out.",
+    "description": "Description of the component note. Never say screenshot."
+  },
+  "websiteAtWorkTabAdmin": {
+    "message": "Admin",
+    "description": "Decorative title of the active tab in the favicon note."
+  },
+  "websiteAtWorkTabMail": {
+    "message": "Mail",
+    "description": "Decorative title of a second tab in the favicon note."
+  },
+  "websiteAtWorkTabDocs": {
+    "message": "Docs",
+    "description": "Decorative title of a third tab in the favicon note."
+  },
+  "websiteAtWorkTabShop": {
+    "message": "Shop",
+    "description": "Decorative title of a fourth tab in the favicon note."
+  },
+  "websiteAtWorkMarkProd": {
+    "message": "PROD",
+    "description": "Short text of the ribbons and the title prefix in the notes. Keep it short and capitalised."
+  },
+  "websiteAtWorkMarkProduction": {
+    "message": "Production",
+    "description": "Text of the banner in the page note."
+  },
+  "websiteAtWorkDialogTitle": {
+    "message": "Delete 1,284 customers?",
+    "description": "Title of the example confirmation dialog in the component note."
+  },
+  "websiteAtWorkDialogCancel": {
+    "message": "Cancel",
+    "description": "Cancel button of the example dialog (decorative)."
+  },
+  "websiteAtWorkDialogConfirm": {
+    "message": "Delete all",
+    "description": "Confirm button of the example dialog (decorative)."
+  },
   "websiteScreenshotMarkedPageCaption": {
     "message": "The marks on a production page",
     "description": "Caption under the screenshot of a page marked by SiteMark."

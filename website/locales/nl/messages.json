@@ -389,6 +389,98 @@
     "message": "SiteMark aan het werk",
     "description": "Heading of the home page section with screenshots of the extension."
   },
+  "websiteAtWorkHeading": {
+    "message": "SiteMark aan het werk",
+    "description": "Heading of the home page section that shows SiteMark at work."
+  },
+  "websiteAtWorkLead": {
+    "message": "Hetzelfde productietabblad, drie soorten markeringen. Zet de schakelaar om en zie wat SiteMark toevoegt.",
+    "description": "Lead under the heading of the SiteMark at work section."
+  },
+  "websiteAtWorkSwitch": {
+    "message": "SiteMark",
+    "description": "Label of the on/off switch of the SiteMark at work notes. Keep the product name."
+  },
+  "websiteAtWorkQuestionOff": {
+    "message": "Is dit het productietabblad?",
+    "description": "Line above the three notes while the switch is off."
+  },
+  "websiteAtWorkQuestionOn": {
+    "message": "Ja, en dit zijn nog maar drie van de vele manieren.",
+    "description": "Line above the three notes once the switch is on."
+  },
+  "websiteAtWorkFaviconTitle": {
+    "message": "Het favicon",
+    "description": "Title of the first note: the browser tab."
+  },
+  "websiteAtWorkFaviconText": {
+    "message": "Een gekleurd bolletje op het tabbladicoon en een voorvoegsel voor de titel. Vind het juiste tabblad tussen tientallen in één blik.",
+    "description": "Caption of the favicon note."
+  },
+  "websiteAtWorkFaviconAlt": {
+    "message": "Een browser met meerdere tabbladen. Met SiteMark aan krijgt het productietabblad een rood bolletje op het icoon en het voorvoegsel PROD, zodat het opvalt tussen de andere.",
+    "description": "Description of the favicon note. Never say screenshot."
+  },
+  "websiteAtWorkPageTitle": {
+    "message": "De pagina",
+    "description": "Title of the second note: the whole page."
+  },
+  "websiteAtWorkPageText": {
+    "message": "Een lint, een banner, een kader, een tint, strepen of een watermerk. Combineer ze in een van de vier kleuren of je eigen kleur.",
+    "description": "Caption of the page note."
+  },
+  "websiteAtWorkPageAlt": {
+    "message": "Een pagina met een rood kader, een PROD-lint in de hoek en een banner Productie langs de onderrand, zichtbaar als SiteMark aan staat.",
+    "description": "Description of the page note. Never say screenshot."
+  },
+  "websiteAtWorkComponentTitle": {
+    "message": "Het onderdeel",
+    "description": "Title of the third note: one element on the page."
+  },
+  "websiteAtWorkComponentText": {
+    "message": "Een omlijning, een tint, strepen of een lint op één knop, veld of paneel, zodat het riskante deel opvalt.",
+    "description": "Caption of the component note."
+  },
+  "websiteAtWorkComponentAlt": {
+    "message": "Een verwijderdialoog. Met SiteMark aan krijgt die een rode omlijning en een PROD-lint, zodat het riskante deel opvalt.",
+    "description": "Description of the component note. Never say screenshot."
+  },
+  "websiteAtWorkTabAdmin": {
+    "message": "Beheer",
+    "description": "Decorative title of the active tab in the favicon note."
+  },
+  "websiteAtWorkTabMail": {
+    "message": "Mail",
+    "description": "Decorative title of a second tab in the favicon note."
+  },
+  "websiteAtWorkTabDocs": {
+    "message": "Docs",
+    "description": "Decorative title of a third tab in the favicon note."
+  },
+  "websiteAtWorkTabShop": {
+    "message": "Winkel",
+    "description": "Decorative title of a fourth tab in the favicon note."
+  },
+  "websiteAtWorkMarkProd": {
+    "message": "PROD",
+    "description": "Short text of the ribbons and the title prefix in the notes. Keep it short and capitalised."
+  },
+  "websiteAtWorkMarkProduction": {
+    "message": "Productie",
+    "description": "Text of the banner in the page note."
+  },
+  "websiteAtWorkDialogTitle": {
+    "message": "1.284 klanten verwijderen?",
+    "description": "Title of the example confirmation dialog in the component note."
+  },
+  "websiteAtWorkDialogCancel": {
+    "message": "Annuleren",
+    "description": "Cancel button of the example dialog (decorative)."
+  },
+  "websiteAtWorkDialogConfirm": {
+    "message": "Alles verwijderen",
+    "description": "Confirm button of the example dialog (decorative)."
+  },
   "websiteScreenshotMarkedPageCaption": {
     "message": "De markeringen op een productiepagina",
     "description": "Caption under the screenshot of a page marked by SiteMark."

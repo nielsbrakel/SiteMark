@@ -218,6 +218,71 @@ describe('REQ-PAGE-008 the screenshots are a tour that shows one scene at a time
   });
 });
 
+describe('REQ-PAGE-009 the home page shows SiteMark at work as three notes with one switch', () => {
+  const section = (heading: string) =>
+    (within(main()).queryByRole('heading', { level: 2, name: heading })?.closest('section') ??
+      main()) as HTMLElement;
+  const CASES = [
+    ['index.html', 'SiteMark at work', ['The favicon', 'The page', 'The component']],
+    ['nl/index.html', 'SiteMark aan het werk', ['Het favicon', 'De pagina', 'Het onderdeel']],
+  ] as const;
+
+  it.each(CASES)('%s: a SiteMark switch, off at first, comes before the notes', (file, heading) => {
+    showPage(pages, file);
+    const scene = section(heading);
+    const toggle = within(scene).queryByRole<HTMLInputElement>('switch', { name: 'SiteMark' });
+    const notes = within(scene).queryByRole('list');
+    expect(toggle?.checked).toBe(false);
+    expect(toggle?.compareDocumentPosition(notes ?? scene)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+
+  it.each(CASES)(
+    '%s: three notes in a row, each with a title and a described image',
+    (file, heading, titles) => {
+      showPage(pages, file);
+      const notes = [...(within(section(heading)).queryByRole('list')?.children ?? [])];
+      expect(notes.map((note) => note.querySelector('h3')?.textContent)).toEqual(titles);
+      const names = notes.map((note) =>
+        note.querySelector('[role="img"]')?.getAttribute('aria-label'),
+      );
+      for (const name of names) {
+        expect(name?.length).toBeGreaterThan(40);
+        expect(name).not.toMatch(/screenshot|schermafbeelding/i);
+      }
+      expect(new Set(names).size).toBe(3);
+    },
+  );
+
+  it.each(CASES)(
+    '%s: the notes are taped cards, and no screenshot tour is left',
+    (file, heading) => {
+      showPage(pages, file);
+      const scene = section(heading);
+      const notes = within(scene).queryAllByRole('listitem');
+      expect(notes).toHaveLength(3);
+      for (const note of notes) {
+        expect(note.classList.contains('sm-card')).toBe(true);
+        expect(note.classList.contains('sm-tape')).toBe(true);
+        expect(note.textContent).not.toMatch(/PRODUCTION|PRODUCTIE/);
+      }
+      expect(scene.querySelector('picture, figure, img')).toBeNull();
+      expect(within(scene).queryByRole('radiogroup')).toBeNull();
+    },
+  );
+
+  it('uses the English texts on the English page', () => {
+    showPage(pages, 'index.html');
+    const names = within(section('SiteMark at work'))
+      .queryAllByRole('img')
+      .map((img) => img.getAttribute('aria-label'));
+    expect(names).toEqual([
+      en.t('websiteAtWorkFaviconAlt'),
+      en.t('websiteAtWorkPageAlt'),
+      en.t('websiteAtWorkComponentAlt'),
+    ]);
+  });
+});
+
 describe('REQ-PLAY-004 the home hero is a small playground with the four presets', () => {
   const hero = () => within(main()).getByRole('heading', { level: 1 }).closest('section');
 
