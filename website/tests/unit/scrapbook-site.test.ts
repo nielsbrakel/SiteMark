@@ -57,3 +57,12 @@ describe('REQ-A11Y-001 text on the board is --sm-text only', () => {
     expect(rule('pages/NotFoundPage', '\\.page')).toMatch(/background:\s*var\(--sm-surface\)/);
   });
 });
+
+describe('REQ-WEBUX-001 the notebook page keeps its ruled lines on a phone', () => {
+  it('the narrow layout moves the margin line in and keeps the rules', () => {
+    const narrow =
+      css('components/Shell').match(/@media \(width <= 720px\)\s*{([\s\S]*)}\s*$/)?.[1] ?? '';
+    expect(narrow).not.toMatch(/background:\s*var\(--sm-surface\)/);
+    expect(narrow).toMatch(/--margin-line/);
+  });
+});
