@@ -7,12 +7,14 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--sm-space-3) var(--sm-space-5);
-  padding-block: var(--sm-space-4);
+  gap: 0 var(--sm-space-5);
 }
 
+/* The header is two rules tall (one more for the wrapped navigation), so the page text below starts on a rule. */
 .home {
   display: inline-grid;
+  align-content: center;
+  min-height: calc(var(--smw-rule) * 2);
 }
 
 .home img {
@@ -45,7 +47,10 @@
 }
 
 .nav {
+  display: flex;
   flex: 1;
+  align-items: center;
+  min-height: calc(var(--smw-rule) * 2);
 }
 
 .list {
@@ -60,16 +65,15 @@
 .link {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
+  min-height: var(--smw-rule);
 }
 
 /* The GitHub mark is a one-segment group, like the theme and language switches. */
 .github {
   display: inline-grid;
   place-items: center;
-  min-width: 28px;
-  min-height: 28px;
-  padding: var(--sm-space-1) var(--sm-space-2);
+  min-width: var(--smw-control);
+  padding: 0 var(--sm-space-2);
   border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-md);
   background: var(--sm-surface-2);
@@ -94,7 +98,14 @@
   align-items: center;
   gap: var(--sm-space-3);
   min-width: 0;
+  min-height: calc(var(--smw-rule) * 2);
   margin-inline-start: auto;
+}
+
+/* The three controls (language, theme, GitHub) share one height. */
+.tools > * {
+  box-sizing: border-box;
+  height: var(--smw-control);
 }
 
 /* No hamburger menu: below 720 px the navigation wraps into its own row (design §3). */
@@ -102,5 +113,6 @@
   .nav {
     flex-basis: 100%;
     order: 3;
+    min-height: var(--smw-rule);
   }
 }

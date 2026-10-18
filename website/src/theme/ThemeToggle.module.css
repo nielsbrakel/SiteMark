@@ -1,3 +1,17 @@
+/* The switch fills the header control height, like the language switch and the GitHub link. */
+.toggle {
+  height: var(--smw-control);
+}
+
+.toggle > div:last-child {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.toggle button {
+  min-height: 0;
+}
+
 /* Without JavaScript the toggle can't work: the bootstrap sets data-js, and the OS decides. */
 :global(:root:not([data-js])) .toggle {
   display: none;

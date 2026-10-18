@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
   gap: var(--sm-space-6);
-  align-items: center;
+  align-items: start;
 }
 
 .heroPreview {
@@ -24,11 +24,11 @@
 .title {
   margin-top: 0;
   font-size: var(--smw-text-3xl);
-  line-height: 1.1;
+  line-height: calc(var(--smw-rule) * 2);
 }
 
 .title mark {
-  background: linear-gradient(transparent 50%, var(--sm-tape-1) 50% 92%, transparent 92%);
+  background: linear-gradient(transparent 50%, var(--sm-highlight) 50% 92%, transparent 92%);
   color: inherit;
 }
 
@@ -36,7 +36,7 @@
   margin: 0;
   color: var(--sm-text-muted);
   font-size: var(--sm-text-xl);
-  line-height: var(--smw-prose-line);
+  line-height: var(--smw-rule);
 }
 
 .section {
@@ -49,6 +49,7 @@
   gap: var(--sm-space-5);
   margin: 0;
   padding: var(--sm-space-3) 0 0;
+  line-height: var(--smw-card-line);
   list-style: none;
 }
 
@@ -57,7 +58,7 @@
   --tape: var(--sm-tape-1);
 
   position: relative;
-  background: var(--sm-surface-2);
+  background: var(--sm-panel);
 }
 
 .card:nth-child(3n + 2) {
@@ -83,7 +84,7 @@
 
 .card p {
   margin: 0;
-  line-height: var(--smw-prose-line);
+  line-height: var(--smw-card-line);
 }
 
 .disc {
@@ -125,6 +126,7 @@
 }
 
 .permissions {
+  line-height: var(--smw-card-line);
   margin-top: var(--sm-space-5);
   background: var(--sm-tape-1);
   color: var(--sm-on-tape);
@@ -147,5 +149,5 @@
 
 .permissions dd {
   margin: 0;
-  line-height: var(--smw-prose-line);
+  line-height: var(--smw-card-line);
 }

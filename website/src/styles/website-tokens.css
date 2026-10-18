@@ -4,9 +4,18 @@
   --smw-page-max: 1120px;
   --smw-prose-max: 68ch;
   --smw-gutter: clamp(16px, 4vw, 32px);
-  --smw-section-gap: clamp(48px, 8vw, 96px);
+  --smw-rule: 32px; /* one ruled line of the paper (--sm-paper): text and blocks snap to it */
+  --smw-control: 36px; /* header controls: language, theme, GitHub */
+  --smw-section-gap: calc(var(--smw-rule) * 3);
   --smw-text-xl: 26px;
   --smw-text-2xl: 32px;
   --smw-text-3xl: clamp(40px, 6vw, 62px);
-  --smw-prose-line: 1.6;
+  --smw-prose-line: var(--smw-rule);
+  --smw-card-line: 1.5;
+}
+
+@media (width <= 720px) {
+  :root {
+    --smw-section-gap: calc(var(--smw-rule) * 2);
+  }
 }

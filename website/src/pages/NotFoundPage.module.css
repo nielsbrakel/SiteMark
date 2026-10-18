@@ -15,7 +15,7 @@
 .section h2 {
   margin-top: 0;
   font-size: var(--smw-text-2xl);
-  line-height: 1.25;
+  line-height: calc(var(--smw-rule) * 2);
 }
 
 .section + .section {

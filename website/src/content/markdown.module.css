@@ -9,7 +9,6 @@
 }
 
 .prose :is(h1, h2, h3, h4) {
-  line-height: 1.25;
   scroll-margin-top: var(--sm-space-4);
 }
 
@@ -18,7 +17,6 @@
 }
 
 .prose h2 {
-  margin-top: var(--sm-space-6);
   font-size: var(--sm-text-xl);
 }
 
@@ -34,11 +32,12 @@
   box-shadow: var(--sm-well);
   font-family: var(--sm-font-mono);
   font-size: 0.9em;
+  line-height: 1; /* inline code must not stretch its line off the ruled rows */
 }
 
 .prose pre {
   overflow-x: auto;
-  padding: var(--sm-space-3);
+  padding-inline: var(--sm-space-3);
   border-radius: var(--sm-radius-md);
   box-shadow: var(--sm-well);
 }
@@ -56,8 +55,9 @@
 /* Cells wrap anywhere, so a table fits a 320 px screen without scrolling (REQ-WEBUX-005). */
 .prose :is(th, td) {
   overflow-wrap: anywhere;
-  padding: var(--sm-space-2) var(--sm-space-3);
-  border: 1px solid var(--sm-border);
+  padding: 0 var(--sm-space-3);
+  border: 0;
+  box-shadow: inset 0 -1px var(--sm-border);
   text-align: start;
   vertical-align: top;
 }
