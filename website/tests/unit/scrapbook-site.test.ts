@@ -11,11 +11,11 @@ const rule = (file: string, selector: string) => {
 };
 
 describe('REQ-WEBUX-001 pages are one paper sheet on the board', () => {
-  it('main is an outlined sheet with the paper lift', () => {
-    const main = rule('components/Shell', '\\.main');
-    expect(main).toMatch(/border:\s*1\.5px solid var\(--sm-control-border\)/);
-    expect(main).toMatch(/background:\s*var\(--sm-surface\)/);
-    expect(main).toMatch(/box-shadow:\s*var\(--sm-lift\)/);
+  it('the sheet that holds the header and the page is outlined with the paper lift', () => {
+    const sheet = rule('components/Shell', '\\.sheet');
+    expect(sheet).toMatch(/border:\s*1\.5px solid var\(--sm-control-border\)/);
+    expect(sheet).toMatch(/background:\s*var\(--sm-surface\)/);
+    expect(sheet).toMatch(/box-shadow:\s*var\(--sm-lift\)/);
   });
 
   it('the home page sheet is ruled with a coral margin line', () => {
@@ -35,7 +35,9 @@ describe('REQ-WEBUX-001 pages are one paper sheet on the board', () => {
 describe('REQ-WEBUX-001 highlight cards are taped and tilted', () => {
   it('each card carries a tape strip and alternating tilts that follow --sm-tilt', () => {
     const home = css('pages/HomePage');
-    expect(home).toMatch(/\.card::before\s*{[^}]*var\(--sm-tape-1\)/);
+    expect(home).toMatch(/\.card\s*{[^}]*--tape:\s*var\(--sm-tape-1\)/);
+    expect(home).toMatch(/\.card:nth-child\(3n \+ 2\)\s*{[^}]*--tape:\s*var\(--sm-tape-2\)/);
+    expect(home).toMatch(/\.card:nth-child\(3n\)\s*{[^}]*--tape:\s*var\(--sm-tape-3\)/);
     expect(home).toMatch(/\.card:nth-child\(odd\)\s*{[^}]*rotate\(var\(--sm-tilt\)\)/);
     expect(home).toMatch(
       /\.card:nth-child\(even\)\s*{[^}]*rotate\(calc\(-1 \* var\(--sm-tilt\)\)\)/,

@@ -58,3 +58,41 @@ describe('REQ-A11Y-007 tilt is decoration and switches off', () => {
     },
   );
 });
+
+describe('REQ-THEME-001 the type scale and controls follow the concept', () => {
+  it('sets handwriting text at the concept sizes', () => {
+    expect(tokens).toMatch(/--sm-text-md:\s*18px;/);
+    expect(tokens).toMatch(/--sm-text-lg:\s*20px;/);
+  });
+
+  it('has no inset wells: paper controls are outlined, not sunken', () => {
+    expect(tokens).toMatch(/--sm-well:\s*none;/);
+  });
+
+  it('draws the switch as a 62 × 34 track with a solid ink thumb', () => {
+    const css = moduleCss('Switch');
+    expect(css).toMatch(/\.track\s*{[^}]*width:\s*62px;[^}]*height:\s*34px;/);
+    expect(css).toMatch(
+      /\.knob\s*{[^}]*width:\s*22px;[^}]*background:\s*var\(--sm-control-border\)/,
+    );
+  });
+
+  it('divides the segmented control with ink lines and fills the selected segment', () => {
+    const css = moduleCss('Segmented');
+    expect(css).toMatch(/border-inline-end:\s*1\.5px solid var\(--sm-control-border\)/);
+    expect(css).not.toMatch(/box-shadow:\s*var\(--sm-well\)/);
+  });
+});
+
+describe('REQ-THEME-001 washi tape is striped, not solid', () => {
+  const base = read('src/styles/base.css');
+
+  it('defines the stripe overlay as a token', () => {
+    expect(tokens).toMatch(/--sm-tape-stripes:\s*repeating-linear-gradient\(\s*45deg/);
+  });
+
+  it('draws .sm-tape strips from the stripes over a tape color, and hides them in forced colors', () => {
+    expect(base).toMatch(/\.sm-tape::before\s*{[^}]*var\(--sm-tape-stripes\), var\(--tape/);
+    expect(base).toMatch(/forced-colors: active\)[^@]*\.sm-tape::before\s*{\s*display:\s*none/);
+  });
+});
