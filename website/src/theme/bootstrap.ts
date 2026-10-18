@@ -19,11 +19,13 @@ export function themeBootstrap(root: HTMLElement): void {
   } catch {}
   try {
     const agent = navigator.userAgent;
-    if (/Edg/.test(agent)) root.dataset.browser = 'edge';
-    else if (/Firefox/.test(agent)) root.dataset.browser = 'firefox';
-    else if (/Safari/.test(agent) && !/Chrom|CriOS|FxiOS|Android/.test(agent)) {
+    if (
+      /iP(hone|ad|od)/.test(agent) ||
+      (/Safari/.test(agent) && !/Chrom|Firefox|Android/.test(agent))
+    ) {
       root.dataset.browser = 'safari';
-    }
+    } else if (/Edg/.test(agent)) root.dataset.browser = 'edge';
+    else if (/Firefox/.test(agent)) root.dataset.browser = 'firefox';
   } catch {}
 }
 
