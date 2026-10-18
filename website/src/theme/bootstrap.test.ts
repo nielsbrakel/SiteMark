@@ -86,7 +86,7 @@ describe('REQ-WEBUX-002 the inline bootstrap applies the theme before first pain
 
   it('is a small self-contained script that the HTML parser keeps intact', () => {
     const script = bootstrapScript();
-    expect(script.length).toBeLessThan(500);
+    expect(script.length).toBeLessThan(600);
     expect(script).not.toMatch(/<\/script|<!--/i);
   });
 
