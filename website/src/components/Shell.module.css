@@ -42,15 +42,24 @@
 
 /* The home page is a ruled notebook page with a coral margin line. */
 .notebook {
+  --margin-line: 47px;
+
   background:
-    linear-gradient(90deg, transparent 47px, var(--sm-accent) 47px 49px, transparent 49px),
+    linear-gradient(
+      90deg,
+      transparent var(--margin-line),
+      var(--sm-accent) var(--margin-line) calc(var(--margin-line) + 2px),
+      transparent calc(var(--margin-line) + 2px)
+    ),
     repeating-linear-gradient(transparent 0 31px, var(--sm-border) 31px 32px), var(--sm-surface);
   padding-inline-start: calc(var(--smw-gutter) + 40px);
 }
 
+/* On a phone the margin line moves in so the text keeps its width; the rules stay. */
 @media (width <= 720px) {
   .notebook {
-    background: var(--sm-surface);
-    padding-inline-start: var(--smw-gutter);
+    --margin-line: 10px;
+
+    padding-inline-start: calc(var(--smw-gutter) + 8px);
   }
 }
