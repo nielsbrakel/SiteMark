@@ -31,9 +31,10 @@ const blocked = () => {
 };
 
 /** Runs the exact inline script in an empty realm: only `document` and `localStorage` exist. */
-function runInline(storage: object | 'blocked') {
+function runInline(storage: object | 'blocked', userAgent?: string) {
   const root = { dataset: {} as Record<string, string> };
   const context: Record<string, unknown> = { document: { documentElement: root } };
+  if (userAgent) context.navigator = { userAgent };
   if (storage === 'blocked') Object.defineProperty(context, 'localStorage', { get: blocked });
   else context.localStorage = storage;
   runInNewContext(bootstrapScript(), context);
@@ -42,6 +43,23 @@ function runInline(storage: object | 'blocked') {
 
 afterEach(() => {
   vi.unstubAllGlobals();
+});
+
+describe("REQ-PAGE-002 the inline bootstrap marks the visitor's browser", () => {
+  it.each([
+    ['Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0', 'firefox'],
+    [
+      'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 Chrome/130.0 Safari/537.36 Edg/130.0',
+      'edge',
+    ],
+  ])('sets data-browser for %s', (agent, browser) => {
+    expect(runInline(fakeStorage(), agent)).toEqual({ js: '', browser });
+  });
+
+  it('leaves Chrome, Safari and unknown browsers on the default', () => {
+    expect(runInline(fakeStorage(), 'Mozilla/5.0 Chrome/130.0 Safari/537.36')).toEqual({ js: '' });
+    expect(runInline(fakeStorage())).toEqual({ js: '' });
+  });
 });
 
 describe('REQ-WEBUX-002 the inline bootstrap applies the theme before first paint', () => {
@@ -60,7 +78,7 @@ describe('REQ-WEBUX-002 the inline bootstrap applies the theme before first pain
 
   it('is a small self-contained script that the HTML parser keeps intact', () => {
     const script = bootstrapScript();
-    expect(script.length).toBeLessThan(400);
+    expect(script.length).toBeLessThan(500);
     expect(script).not.toMatch(/<\/script|<!--/i);
   });
 
