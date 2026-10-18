@@ -24,7 +24,7 @@ export function Shell({ route, locale, routes, t, children }: ShellProps) {
       <a className={styles.skip} href="#main">
         {t('websiteSkipToContent')}
       </a>
-      <div className={route.page === 'home' ? `${styles.sheet} ${styles.notebook}` : styles.sheet}>
+      <div className={styles.sheet}>
         <Header route={route} locale={locale} routes={routes} t={t} />
         <main id="main" className={styles.main}>
           {children}

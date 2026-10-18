@@ -15,7 +15,7 @@
 4. **No network.** Local fonts only, inline SVG icons, images self-hosted (REQ-WEB-003).
 5. **Reading first.** Privacy, support and help are long text, so prose gets a comfortable measure and rhythm,
    and long text sits on plain paper without tilt.
-6. **Notebook page.** The home page is a ruled notebook sheet with a red margin on the kraft board. The three highlight
+6. **Notebook page.** Every page is a ruled notebook sheet (and the extension popup and options page use the same ruled paper) with a coral margin on the website on the kraft board. The three highlight
    cards are taped and tilted ±1.5°, and the install buttons are the only coral fills. Tilt is off under reduced motion and forced colors.
 
 ## 2. Website tokens (`website/src/styles/website-tokens.css`)
