@@ -41,6 +41,7 @@
   --sm-tape-3: #9bd6a8;
   --sm-tape-4: #f4a3b5;
   --sm-on-tape: #33261b; /* ink on any tape fill, both themes */
+  --sm-on-mark: #fff; /* text on the red demo marks of the website, both themes */
   --sm-tape-stripes: repeating-linear-gradient(
     45deg,
     rgb(255 255 255 / 40%) 0 5px,

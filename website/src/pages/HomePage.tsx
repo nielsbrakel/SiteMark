@@ -1,8 +1,8 @@
 // biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
+import { AtWork } from '../components/AtWork';
 import { type CardItem, CardList } from '../components/CardList';
 import { InstallButtons } from '../components/InstallButtons';
 import { PlaygroundFallback } from '../components/PlaygroundFallback';
-import { Screenshots } from '../components/Screenshots';
 import { stores } from '../config/stores';
 import { Island } from '../islands/islands';
 import '../playground/playground-styles';
@@ -57,8 +57,8 @@ function Heading({ t }: Pick<PageProps, 't'>) {
 }
 
 /**
- * Home (REQ-PAGE-001): value proposition, install buttons, hero, highlights, screenshots
- * (REQ-PAGE-008) and the privacy section.
+ * Home (REQ-PAGE-001): value proposition, install buttons, hero, highlights, SiteMark at work
+ * (REQ-PAGE-009) and the privacy section.
  */
 export function HomePage({ t, locale }: PageProps) {
   return (
@@ -79,7 +79,7 @@ export function HomePage({ t, locale }: PageProps) {
         </div>
       </section>
       <Highlights t={t} />
-      <Screenshots t={t} locale={locale} />
+      <AtWork t={t} />
       <PrivacySection t={t} locale={locale} />
     </>
   );
