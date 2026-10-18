@@ -45,7 +45,7 @@ const TEXT: Record<Locale, Text> = {
 const PALETTE: Record<ScreenshotTheme, string> = {
   light:
     '--bg:#fbf6e8;--text:#33261b;--muted:#5c4a3a;--line:rgb(51 38 27/18%);--block:#33261b;--thumb:#a89883;--danger:#a63d28',
-  dark: '--bg:#2e2745;--text:#f6efe0;--muted:#c2b8d6;--line:rgb(246 239 224/14%);--block:#f6efe0;--thumb:#6b6285;--danger:#ff9a8a',
+  dark: '--bg:#241d33;--text:#f7f0e3;--muted:#cdc3dd;--line:rgb(247 240 227/14%);--block:#f7f0e3;--thumb:#6b6285;--danger:#ff9c8c',
 };
 
 const STYLE = `body{margin:0;font:18px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--text)}

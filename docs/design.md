@@ -43,25 +43,25 @@
 
 ### Color: UI chrome
 
-Light is **Kraft & Coral**. Dark is the same look on a plum board (D-289). Text on the board uses `--sm-text` only.
+Light is **Kraft & Coral**. Dark is the same look on a deep plum board (D-289, refined in D-290; every sheet is ruled notebook paper, `--sm-paper`). Text on the board uses `--sm-text` only.
 
 | Token                 | Light                                      | Dark                                       | Use                                                                         |
 | --------------------- | ------------------------------------------ | ------------------------------------------ | --------------------------------------------------------------------------- |
-| `--sm-bg`             | `#c9a77c`                                  | `#231c38`                                  | The board behind everything                                                 |
-| `--sm-surface`        | `#fbf6e8`                                  | `#2e2745`                                  | Paper sheets: cards, dialogs, the popup body                                |
-| `--sm-surface-2`      | `#fffdf4`                                  | `#382f52`                                  | Inputs and raised notes                                                     |
-| `--sm-soft`           | `#efe4cb`                                  | `#3a3256`                                  | Switch track, segmented background, hover fill                              |
-| `--sm-text`           | `#33261b`                                  | `#f6efe0`                                  | Ink: body text on paper (13.6:1 / 12.3:1) and on the board (6.5:1 / 14.2:1) |
-| `--sm-text-muted`     | `#5c4a3a`                                  | `#c2b8d6`                                  | Secondary text, on paper only (7.8:1 / 7.5:1)                               |
-| `--sm-control-border` | `#33261b`                                  | `#f6efe0`                                  | Every outline: inputs, switches, segmented controls, swatches (≥ 3:1)       |
-| `--sm-paper-edge`     | `#d9ccb0`                                  | `#1a1428`                                  | The thickness line under a sheet (decorative)                               |
-| `--sm-accent`         | `#ef7a60`                                  | `#ff9a7a`                                  | Primary buttons, active switches (coral, ≠ mark red)                        |
-| `--sm-on-accent`      | `#33261b`                                  | `#231c38`                                  | Text on accent (5.3:1 / 7.8:1)                                              |
-| `--sm-accent-text`    | `#a63d28`                                  | `#ff9a7a`                                  | Accent text and links on paper (5.9:1 / 6.8:1); focus is `--sm-text`        |
-| `--sm-success`        | `#17692e`                                  | `#6fd68c`                                  | "found" (6.3:1 / 7.8:1 on paper)                                            |
-| `--sm-warning`        | `#7d5400`                                  | `#e0b44a`                                  | "not found", "not granted" (6.2:1 / 7.2:1)                                  |
-| `--sm-danger`         | `#a63d28`                                  | `#ff9a8a`                                  | Errors (5.9:1 / 6.9:1)                                                      |
-| `--sm-tape-1` … `-4`  | `#f5cf5a`, `#8fc8e8`, `#9bd6a8`, `#f4a3b5` | `#ffe08a`, `#b9a8ff`, `#8fd9c8`, `#ff8fb0` | Tape, pins, sticker fills (decorative, never the only signal)               |
+| `--sm-bg`             | `#c9a77c`                                  | `#17121f`                                  | The board behind everything                                                 |
+| `--sm-surface`        | `#fbf6e8`                                  | `#241d33`                                  | Paper sheets: cards, dialogs, the popup body                                |
+| `--sm-surface-2`      | `#fffdf4`                                  | `#2f2742`                                  | Inputs and raised notes                                                     |
+| `--sm-soft`           | `#efe4cb`                                  | `#3a3150`                                  | Switch track, segmented background, hover fill                              |
+| `--sm-text`           | `#33261b`                                  | `#f7f0e3`                                  | Ink: body text on paper (13.6:1 / 12.3:1) and on the board (6.5:1 / 14.2:1) |
+| `--sm-text-muted`     | `#5c4a3a`                                  | `#cdc3dd`                                  | Secondary text, on paper only (7.8:1 / 7.5:1)                               |
+| `--sm-control-border` | `#33261b`                                  | `#9a8fb8`                                  | Every outline: inputs, switches, segmented controls, swatches (≥ 3:1)       |
+| `--sm-paper-edge`     | `#d9ccb0`                                  | `#3d3454`                                  | The thickness line under a sheet (decorative)                               |
+| `--sm-accent`         | `#ef7a60`                                  | `#ff9d80`                                  | Primary buttons, active switches (coral, ≠ mark red)                        |
+| `--sm-on-accent`      | `#33261b`                                  | `#17121f`                                  | Text on accent (5.3:1 / 7.8:1)                                              |
+| `--sm-accent-text`    | `#a63d28`                                  | `#ff9d80`                                  | Accent text and links on paper (5.9:1 / 6.8:1); focus is `--sm-text`        |
+| `--sm-success`        | `#17692e`                                  | `#7be09a`                                  | "found" (6.3:1 / 7.8:1 on paper)                                            |
+| `--sm-warning`        | `#7d5400`                                  | `#f0c35a`                                  | "not found", "not granted" (6.2:1 / 7.2:1)                                  |
+| `--sm-danger`         | `#a63d28`                                  | `#ff9c8c`                                  | Errors (5.9:1 / 6.9:1)                                                      |
+| `--sm-tape-1` … `-4`  | `#f5cf5a`, `#8fc8e8`, `#9bd6a8`, `#f4a3b5` | `#f5cf5a`, `#b9a8ff`, `#8fd9c8`, `#ff8fb0` | Tape, pins, sticker fills (decorative, never the only signal)               |
 | `--sm-brand-coral`    | `#e8664d`                                  | —                                          | Logo only (decorative)                                                      |
 
 ### Color: mark presets (D-205, colorblind-safe)

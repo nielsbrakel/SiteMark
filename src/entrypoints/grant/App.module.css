@@ -8,7 +8,7 @@
   justify-items: start;
   border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-lg);
-  background: var(--sm-surface);
+  background: var(--sm-paper);
   box-shadow: var(--sm-lift);
 }
 
