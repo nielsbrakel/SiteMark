@@ -7,7 +7,7 @@ const THEME_KEY = 'sitemark-website:theme';
 /**
  * Runs inline in <head> before first paint (REQ-WEBUX-002): marks JavaScript as available (the theme
  * toggle shows), applies a stored light or dark theme (blocked storage means the OS decides) and
- * marks Firefox or Edge as <html data-browser>, so the install button of the visitor's store stands out.
+ * marks Firefox, Edge or Safari as <html data-browser>, so the install button of the visitor's store stands out.
  * It is serialized with toString(), so it must stay self-contained: no imports, no outer names
  * (hence the key is written out), no comments inside.
  */
@@ -18,8 +18,12 @@ export function themeBootstrap(root: HTMLElement): void {
     if (theme === 'light' || theme === 'dark') root.dataset.theme = theme;
   } catch {}
   try {
-    const match = /Edg|Firefox/.exec(navigator.userAgent);
-    if (match) root.dataset.browser = match[0] === 'Edg' ? 'edge' : 'firefox';
+    const agent = navigator.userAgent;
+    if (/Edg/.test(agent)) root.dataset.browser = 'edge';
+    else if (/Firefox/.test(agent)) root.dataset.browser = 'firefox';
+    else if (/Safari/.test(agent) && !/Chrom|CriOS|FxiOS|Android/.test(agent)) {
+      root.dataset.browser = 'safari';
+    }
   } catch {}
 }
 

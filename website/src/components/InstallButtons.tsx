@@ -32,7 +32,7 @@ function InstallButton({ store, t }: { store: Store; t: PageProps['t'] }) {
   // Not listed yet: a disabled button, never a dead link (REQ-PAGE-002).
   const coming = state === 'comingLater' ? COMING.comingLater : COMING.comingSoon;
   return (
-    <button type="button" className={`sm-button ${styles.button}`} disabled>
+    <button type="button" className={`sm-button ${styles.button} ${styles[store.id]}`} disabled>
       {t(coming, [name])}
     </button>
   );
