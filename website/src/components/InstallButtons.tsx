@@ -24,7 +24,7 @@ function InstallButton({ store, t }: { store: Store; t: PageProps['t'] }) {
   const name = NAMES[store.id];
   if (state === 'live' && store.url !== null) {
     return (
-      <ExternalLink className={`sm-button ${styles.button} ${styles[store.id]}`} href={store.url}>
+      <ExternalLink className={`sm-button ${styles.button}`} href={store.url}>
         {t('websiteInstallAdd', [name])}
       </ExternalLink>
     );
@@ -32,21 +32,27 @@ function InstallButton({ store, t }: { store: Store; t: PageProps['t'] }) {
   // Not listed yet: a disabled button, never a dead link (REQ-PAGE-002).
   const coming = state === 'comingLater' ? COMING.comingLater : COMING.comingSoon;
   return (
-    <button type="button" className={`sm-button ${styles.button} ${styles[store.id]}`} disabled>
+    <button type="button" className={`sm-button ${styles.button}`} disabled>
       {t(coming, [name])}
     </button>
   );
 }
 
-/** One button per store (the visitor's browser gets the accent one, Chrome by default): a link to the listing, or a disabled coming-soon button (REQ-PAGE-002). */
+/**
+ * One item per store: a link to the listing, or a disabled coming-soon button (REQ-PAGE-002). The
+ * CSS turns the visitor's store into the one big button (Chrome when the browser isn't recognised)
+ * and the others into plain links; the last item only shows to iOS visitors.
+ */
 export function InstallButtons({ stores, t }: InstallButtonsProps) {
   return (
     <ul className={styles.list} aria-label={t('websiteInstallLabel')}>
       {stores.map((store) => (
-        <li key={store.id}>
+        <li key={store.id} className={styles[store.id]}>
           <InstallButton store={store} t={t} />
         </li>
       ))}
+      {/* biome-ignore lint/security/noSecrets: an i18n key, not a secret */}
+      <li className={styles.computer}>{t('websiteInstallOnComputer')}</li>
     </ul>
   );
 }

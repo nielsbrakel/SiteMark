@@ -1,8 +1,9 @@
-/* Install buttons (docs/website/design.md §4): the visitor's store is the accent button, the others are flat; disabled until listed. */
+/* Install buttons (docs/website/design.md §4): the visitor's store is the one big button, the others are plain links; disabled until listed. */
 .list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sm-space-3);
+  align-items: center;
+  gap: var(--sm-space-2) var(--sm-space-4);
   margin: var(--smw-rule) 0 0;
   padding: 0;
   list-style: none;
@@ -11,36 +12,85 @@
 .button {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
+  justify-content: center;
+  min-height: 44px;
+  padding-inline: 0;
   text-decoration: none;
 }
 
-/* Every live store is flat; the bootstrap's <html data-browser> (Firefox, Edge; Safari has no store yet; else Chrome) picks the accent one. */
+/* Every store is a link until it leads. */
 .button:not(:disabled) {
-  box-shadow: none;
+  border-color: transparent;
   background: transparent;
-}
-
-:global(:root:not([data-browser])) .chrome,
-:global(:root[data-browser='edge']) .edge,
-:global(:root[data-browser='firefox']) .firefox {
-  background: var(--sm-accent);
-  color: var(--sm-on-accent);
-  box-shadow: var(--sm-lift-sm);
-}
-
-/* Safari can't install from the other stores: its coming-soon note stands out instead. */
-:global(:root[data-browser='safari']) .safari {
-  border-color: var(--sm-accent);
-  color: var(--sm-text);
+  box-shadow: none;
+  color: var(--sm-accent-text);
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* Not listed yet: flat and muted, and the text says so, so the state isn't shown by color alone. */
 .button:disabled {
   color: var(--sm-text-muted);
+  background: transparent;
   box-shadow: none;
-  border-color: var(--sm-border);
+  border-color: transparent;
   cursor: not-allowed;
+}
+
+/* The lead: the bootstrap's <html data-browser> (Firefox, Edge, Safari) picks it; any other browser, and no JavaScript, gets Chrome. */
+:global(:root:not([data-browser])) .chrome,
+:global(:root[data-browser='edge']) .edge,
+:global(:root[data-browser='firefox']) .firefox {
+  order: -1;
+  flex-basis: 100%;
+}
+
+:global(:root[data-browser='safari']) .safari {
+  order: -1;
+  flex-basis: 100%;
+}
+
+:global(:root:not([data-browser])) .chrome .button,
+:global(:root[data-browser='edge']) .edge .button,
+:global(:root[data-browser='firefox']) .firefox .button {
+  width: 100%;
+  max-width: 22rem;
+  min-height: 56px;
+  font-size: var(--sm-text-xl);
+}
+
+/* Safari has no listing: its note leads, big, with an accent outline. */
+:global(:root[data-browser='safari']) .safari .button {
+  width: 100%;
+  max-width: 22rem;
+  min-height: 56px;
+  border-color: var(--sm-accent);
+  color: var(--sm-text);
+  font-size: var(--sm-text-xl);
+}
+
+:global(:root:not([data-browser])) .chrome .button:not(:disabled),
+:global(:root[data-browser='edge']) .edge .button:not(:disabled),
+:global(:root[data-browser='firefox']) .firefox .button:not(:disabled) {
+  background: var(--sm-accent);
+  border-color: var(--sm-control-border);
+  box-shadow: var(--sm-lift-sm);
+  color: var(--sm-on-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* iPhones and iPads can't install extensions: after the lead, the hint says where to go. */
+.computer {
+  display: none;
+  order: -1;
+  flex-basis: 100%;
+  color: var(--sm-text-muted);
+}
+
+:global(:root[data-browser='safari']) .computer {
+  display: block;
 }
 
 @media (forced-colors: active) {

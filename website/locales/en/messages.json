@@ -373,6 +373,10 @@
       }
     }
   },
+  "websiteInstallOnComputer": {
+    "message": "Open this page on a computer to install SiteMark.",
+    "description": "Hint under the install buttons, shown to iPhone and iPad visitors: extensions can't be installed there."
+  },
   "websiteNotFoundHeading": {
     "message": "Page not found",
     "description": "Heading of the 404 page, which shows English and Dutch together. Also part of its title."
