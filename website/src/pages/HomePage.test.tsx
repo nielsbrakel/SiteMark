@@ -5,7 +5,6 @@ import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { pagesForDom, showPage } from '../../tests/unit/page-dom';
 import { InstallButtons } from '../components/InstallButtons';
 import { type Store, stores } from '../config/stores';
-import { screenshotScenes } from '../content/screenshots';
 import type { RenderedPage } from '../entry-server';
 import { createWebsiteTranslator, loadCatalogs, type WebsiteTranslator } from '../i18n/website-t';
 import { HeroPlayground } from '../playground/HeroPlayground';
@@ -143,78 +142,6 @@ describe('REQ-PAGE-002 install buttons never link to a store that has no listing
     expect(link.getAttribute('href')).toBe(chrome);
     expect(link.getAttribute('rel')).toBe('noopener noreferrer');
     expect(screen.getAllByRole('button')).toHaveLength(1);
-  });
-});
-
-describe('REQ-PAGE-008 the home page shows the screenshots of its language, in both themes', () => {
-  it.each([
-    ['index.html', 'en', 'SiteMark at work'],
-    ['nl/index.html', 'nl', 'SiteMark aan het werk'],
-  ])('%s shows every scene, in light and dark, with the WebP first', (file, locale, heading) => {
-    showPage(pages, file);
-    const title = within(main()).queryByRole('heading', { level: 2, name: heading });
-    expect(title).not.toBeNull();
-    const figures = [...(title?.closest('section')?.querySelectorAll('figure') ?? [])];
-    expect(figures).toHaveLength(screenshotScenes().length);
-    figures.forEach((figure, index) => {
-      const scene = screenshotScenes()[index];
-      const pictures = [...figure.querySelectorAll('picture')];
-      expect(pictures.map((picture) => picture.dataset.theme)).toEqual(['light', 'dark']);
-      for (const picture of pictures) {
-        const shot = `/SiteMark/screenshots/${scene}-${picture.dataset.theme}-${locale}`;
-        const source = picture.querySelector('source');
-        expect(source?.getAttribute('type')).toBe('image/webp');
-        expect(source?.getAttribute('srcset')).toBe(`${shot}.webp`);
-        const img = picture.querySelector('img');
-        expect(img?.getAttribute('src')).toBe(`${shot}.png`);
-        // 1280 × 800 files at 2× density, lazy, so the hidden theme's image never loads.
-        expect([img?.getAttribute('width'), img?.getAttribute('height')]).toEqual(['640', '400']);
-        expect(img?.getAttribute('loading')).toBe('lazy');
-      }
-      expect(figure.querySelector('figcaption')?.textContent).not.toBe('');
-    });
-  });
-
-  it.each(['index.html', 'nl/index.html'])(
-    '%s describes what each screenshot shows, from the catalog',
-    (file) => {
-      showPage(pages, file);
-      const alts = [...main().querySelectorAll('figure picture img')].map((img) =>
-        img.getAttribute('alt'),
-      );
-      expect(alts).toHaveLength(screenshotScenes().length * 2);
-      for (const alt of alts) {
-        expect(alt?.length).toBeGreaterThan(40);
-        expect(alt).not.toMatch(/screenshot|schermafbeelding/i);
-      }
-      // Both themes of a scene share their text; the scenes differ.
-      expect(new Set(alts).size).toBe(screenshotScenes().length);
-    },
-  );
-
-  it('uses the English texts on the English page', () => {
-    showPage(pages, 'index.html');
-    const alts = [...main().querySelectorAll('figure picture img')].map((img) =>
-      img.getAttribute('alt'),
-    );
-    expect(alts[0]).toBe(en.t('websiteScreenshotMarkedPageAlt'));
-    expect(alts[2]).toBe(en.t('websiteScreenshotPopupAlt'));
-    expect(alts[4]).toBe(en.t('websiteScreenshotOptionsAlt'));
-  });
-});
-
-describe('REQ-PAGE-008 the screenshots are a tour that shows one scene at a time', () => {
-  it.each([
-    ['index.html', 'Choose a scene', ['On the page', 'In the popup', 'In the editor']],
-    ['nl/index.html', 'Kies een scène', ['Op de pagina', 'In de pop-up', 'In de editor']],
-  ])('%s: a radio group picks the scene, and the first scene shows', (file, group, labels) => {
-    showPage(pages, file);
-    const scenes = within(main()).queryByRole('radiogroup', { name: group });
-    expect(scenes).not.toBeNull();
-    const radios = within(scenes ?? document.body).queryAllByRole<HTMLInputElement>('radio');
-    expect(radios.map((radio) => radio.labels?.[0]?.textContent)).toEqual(labels);
-    expect(radios.map((radio) => radio.value)).toEqual([...screenshotScenes()]);
-    expect(radios.map((radio) => radio.checked)).toEqual([true, false, false]);
   });
 });
 

@@ -385,10 +385,6 @@
     "message": "This page doesn't exist, or it has moved. These pages can help you on your way:",
     "description": "Text of the 404 page, above the links to the home, help and support pages."
   },
-  "websiteScreenshotsHeading": {
-    "message": "SiteMark at work",
-    "description": "Heading of the home page section with screenshots of the extension."
-  },
   "websiteAtWorkHeading": {
     "message": "SiteMark at work",
     "description": "Heading of the home page section that shows SiteMark at work."
@@ -480,46 +476,6 @@
   "websiteAtWorkDialogConfirm": {
     "message": "Delete all",
     "description": "Confirm button of the example dialog (decorative)."
-  },
-  "websiteScreenshotMarkedPageCaption": {
-    "message": "The marks on a production page",
-    "description": "Caption under the screenshot of a page marked by SiteMark."
-  },
-  "websiteScreenshotMarkedPageAlt": {
-    "message": "A web shop page marked as production: a red PROD ribbon in the top-right corner, a red frame around the page, an outline around the Delete customer button and a banner at the bottom that reads “Production: changes are live”.",
-    "description": "Alt text of the screenshot of a marked page. Describe what it shows; never say 'screenshot'."
-  },
-  "websiteScreenshotPopupCaption": {
-    "message": "The popup: what's marked on this page",
-    "description": "Caption under the screenshot of the extension's popup."
-  },
-  "websiteScreenshotPopupAlt": {
-    "message": "The SiteMark popup open over the marked page. It lists the Production site group, says the marked delete button was found, and offers Pick element and Hide on this tab.",
-    "description": "Alt text of the popup screenshot. Use the popup's own button names."
-  },
-  "websiteScreenshotOptionsCaption": {
-    "message": "The mark editor, with a live preview",
-    "description": "Caption under the screenshot of the settings page."
-  },
-  "websiteScreenshotOptionsAlt": {
-    "message": "The mark editor in the SiteMark settings: the effects, such as the frame, tint and title prefix, above a live preview of the ribbon, frame and banner on an example page.",
-    "description": "Alt text of the settings page screenshot."
-  },
-  "websiteScreenshotsPicker": {
-    "message": "Choose a scene",
-    "description": "Accessible name of the radio group that picks which screenshot the home page shows."
-  },
-  "websiteScreenshotMarkedPageTab": {
-    "message": "On the page",
-    "description": "Label of the choice that shows the marked page screenshot. Keep it short."
-  },
-  "websiteScreenshotPopupTab": {
-    "message": "In the popup",
-    "description": "Label of the choice that shows the popup screenshot. Keep it short."
-  },
-  "websiteScreenshotOptionsTab": {
-    "message": "In the editor",
-    "description": "Label of the choice that shows the mark editor screenshot. Keep it short."
   },
   "websitePlaygroundTitle": {
     "message": "Playground: try a mark in your browser · SiteMark",

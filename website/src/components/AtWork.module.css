@@ -1,0 +1,136 @@
+/* SiteMark at work (REQ-PAGE-009, D-291): three taped notes in a row. One checkbox switch adds the marks to all of them. */
+.section {
+  margin-top: var(--smw-section-gap);
+}
+
+.lead {
+  margin: 0 0 var(--smw-rule);
+  max-inline-size: var(--smw-prose-max);
+  color: var(--sm-text-muted);
+  font-size: var(--sm-text-xl);
+  line-height: var(--smw-rule);
+}
+
+.switchRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sm-space-3);
+  font-size: var(--smw-text-xl);
+  line-height: var(--smw-rule);
+}
+
+.switch {
+  appearance: none;
+  position: relative;
+  flex: none;
+  inline-size: 62px;
+  block-size: 34px;
+  margin: 0;
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-soft);
+  cursor: pointer;
+  transition: background var(--sm-duration) var(--sm-ease);
+}
+
+.switch::after {
+  content: '';
+  position: absolute;
+  inset: 4px auto auto 4px;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-control-border);
+  transition: transform var(--sm-duration) var(--sm-ease);
+}
+
+.switch:checked {
+  background: var(--sm-tape-3);
+}
+
+.switch:checked::after {
+  transform: translateX(28px);
+}
+
+.switch:focus-visible {
+  outline: 2px solid var(--sm-focus-color);
+  outline-offset: 2px;
+}
+
+.question {
+  margin: 0 0 var(--smw-rule);
+  font-size: var(--smw-text-xl);
+  line-height: var(--smw-rule);
+}
+
+.on,
+.scene:has(.switch:checked) .off {
+  display: none;
+}
+
+.scene:has(.switch:checked) .on {
+  display: inline;
+  color: var(--sm-accent-text);
+}
+
+.notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sm-space-5);
+  margin: 0;
+  padding: var(--sm-space-3) 0 0;
+  list-style: none;
+}
+
+/* Taped notes like the highlight cards, tilted in turns; --sm-tilt is 0deg under reduced motion. */
+.note {
+  --tape: var(--sm-tape-1);
+
+  position: relative;
+  background: var(--sm-panel);
+  line-height: var(--smw-card-line);
+}
+
+.note:nth-child(2) {
+  --tape: var(--sm-tape-2);
+}
+
+.note:nth-child(3) {
+  --tape: var(--sm-tape-3);
+}
+
+.note:nth-child(odd) {
+  transform: rotate(var(--sm-tilt));
+}
+
+.note:nth-child(even) {
+  transform: rotate(calc(-1 * var(--sm-tilt)));
+}
+
+.note h3 {
+  margin: var(--sm-space-3) 0 var(--sm-space-2);
+  font-size: var(--smw-text-xl);
+  text-align: center;
+}
+
+.note p {
+  margin: 0;
+  text-align: center;
+}
+
+@media (width <= 760px) {
+  .notes {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--smw-rule);
+  }
+}
+
+@media (forced-colors: active) {
+  .switch {
+    border-color: ButtonText;
+  }
+
+  .switch:checked {
+    background: Highlight;
+  }
+}
