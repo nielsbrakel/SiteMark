@@ -49,7 +49,8 @@ The type scale continues the extension scale (12/14/16/20/28) and only adds the 
 │  ┌ card ────────┐ ┌ card ────────┐ ┌ card ────────┐                            │  highlights: 3 raised cards
 │  │ Unmistakable │ │ Simple       │ │ Private      │                            │
 │  └──────────────┘ └──────────────┘ └──────────────┘                            │
-│  Screenshots (W2) · Privacy summary → /privacy/                                │
+│  SiteMark at work: switch + 3 taped notes (favicon · page · component)         │
+│  Privacy summary → /privacy/                                                   │
 ├──────────────────────────────────────────────────────────────────────────────┤
 │ GitHub · Changelog · Privacy · Support · Sitemap · MIT license                 │  footer: muted text
 └──────────────────────────────────────────────────────────────────────────────┘
@@ -85,8 +86,8 @@ disabled, forced colors, light and dark.
 ## 5. Imagery
 
 - **Logo:** `sitemark-wordmark.svg` / `sitemark-wordmark-dark.svg` in the header. The favicon is the 32 px PNG and the icon SVG.
-- **Screenshots** (W2, D-251): generated, 2× density, WebP with PNG fallback, in the same framing as the store
-  images. Each has a real `alt` text from the catalog (what the screenshot shows, not "screenshot").
+- **Screenshots** (W2, D-251): generated for the store listings (2× density, WebP with PNG fallback). The home
+  page shows **SiteMark at work** instead (D-291): three taped notes in HTML and CSS, each described from the catalog.
 - **Social preview:** `design/social-preview.png` (1280 × 640), shared with the repository.
 - **Icons:** inline SVG with `currentColor`, `aria-hidden` when next to text.
 
