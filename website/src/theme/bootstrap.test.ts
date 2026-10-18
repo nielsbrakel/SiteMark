@@ -49,14 +49,22 @@ describe("REQ-PAGE-002 the inline bootstrap marks the visitor's browser", () => 
   it.each([
     ['Mozilla/5.0 (X11; Linux x86_64; rv:130.0) Gecko/20100101 Firefox/130.0', 'firefox'],
     [
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1',
+      'safari',
+    ],
+    [
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 CriOS/130.0 Mobile/15E148 Safari/604.1',
+      undefined,
+    ],
+    [
       'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 Chrome/130.0 Safari/537.36 Edg/130.0',
       'edge',
     ],
   ])('sets data-browser for %s', (agent, browser) => {
-    expect(runInline(fakeStorage(), agent)).toEqual({ js: '', browser });
+    expect(runInline(fakeStorage(), agent)).toEqual(browser ? { js: '', browser } : { js: '' });
   });
 
-  it('leaves Chrome, Safari and unknown browsers on the default', () => {
+  it('leaves Chrome and unknown browsers on the default', () => {
     expect(runInline(fakeStorage(), 'Mozilla/5.0 Chrome/130.0 Safari/537.36')).toEqual({ js: '' });
     expect(runInline(fakeStorage())).toEqual({ js: '' });
   });
