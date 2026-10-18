@@ -27,6 +27,11 @@
   line-height: 1.1;
 }
 
+.title mark {
+  background: linear-gradient(transparent 50%, var(--sm-tape-1) 50% 92%, transparent 92%);
+  color: inherit;
+}
+
 .lead {
   margin: 0;
   color: var(--sm-text-muted);
@@ -49,20 +54,18 @@
 
 /* Taped notes, tilted in turns; --sm-tilt is 0deg under reduced motion and forced colors. */
 .card {
+  --tape: var(--sm-tape-1);
+
   position: relative;
   background: var(--sm-surface-2);
 }
 
-.card::before {
-  content: '';
-  position: absolute;
-  inset: -12px auto auto 50%;
-  width: 72px;
-  height: 22px;
-  margin-inline-start: -36px;
-  border: 1.5px solid var(--sm-control-border);
-  background: var(--sm-tape-1);
-  transform: rotate(-3deg);
+.card:nth-child(3n + 2) {
+  --tape: var(--sm-tape-2);
+}
+
+.card:nth-child(3n) {
+  --tape: var(--sm-tape-3);
 }
 
 .card:nth-child(odd) {
@@ -75,7 +78,7 @@
 
 .card h3 {
   margin: var(--sm-space-3) 0 var(--sm-space-2);
-  font-size: var(--sm-text-xl);
+  font-size: var(--smw-text-xl);
 }
 
 .card p {
@@ -83,9 +86,27 @@
   line-height: var(--smw-prose-line);
 }
 
+.disc {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-tape-1);
+}
+
+.card:nth-child(3n + 2) .disc {
+  background: var(--sm-accent);
+}
+
+.card:nth-child(3n) .disc {
+  background: var(--sm-tape-3);
+}
+
 .icon {
   fill: none;
-  stroke: var(--sm-accent-text);
+  stroke: var(--sm-on-tape);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -105,6 +126,9 @@
 
 .permissions {
   margin-top: var(--sm-space-5);
+  background: var(--sm-tape-1);
+  color: var(--sm-on-tape);
+  transform: rotate(0.4deg);
 }
 
 .permissions h3 {

@@ -23,17 +23,21 @@
   transform: none;
 }
 
-/* One paper sheet on the board; long text sits on it without tape or tilt. */
-.main {
+/* One paper sheet on the board holds the header and the page; long text sits on it without tape or tilt. */
+.sheet {
   flex: 1;
   box-sizing: border-box;
   width: min(100% - 2 * var(--smw-gutter), var(--smw-page-max));
   margin: var(--sm-space-5) auto;
-  padding: var(--sm-space-6) var(--smw-gutter);
+  padding: 0 var(--smw-gutter);
   border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-lg);
   background: var(--sm-surface);
   box-shadow: var(--sm-lift);
+}
+
+.main {
+  padding-block: var(--sm-space-4) var(--sm-space-6);
 }
 
 /* The home page is a ruled notebook page with a coral margin line. */

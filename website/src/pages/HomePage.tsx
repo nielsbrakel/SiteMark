@@ -41,6 +41,21 @@ function Highlights({ t }: Pick<PageProps, 't'>) {
   );
 }
 
+/** The heading with its key word (the production environment) on a highlighter stroke. */
+function Heading({ t }: Pick<PageProps, 't'>) {
+  const heading = t('websiteHomeHeading');
+  const word = t('websiteHomeHeadingMark');
+  const at = heading.indexOf(word);
+  if (at < 0) return <h1 className={styles.title}>{heading}</h1>;
+  return (
+    <h1 className={styles.title}>
+      {heading.slice(0, at)}
+      <mark>{word}</mark>
+      {heading.slice(at + word.length)}
+    </h1>
+  );
+}
+
 /**
  * Home (REQ-PAGE-001): value proposition, install buttons, hero, highlights, screenshots
  * (REQ-PAGE-008) and the privacy section.
@@ -50,7 +65,7 @@ export function HomePage({ t, locale }: PageProps) {
     <>
       <section className={styles.hero}>
         <div className={styles.heroText}>
-          <h1 className={styles.title}>{t('websiteHomeHeading')}</h1>
+          <Heading t={t} />
           <p className={styles.lead}>{t('websiteHomeLead')}</p>
           <InstallButtons stores={stores()} t={t} />
         </div>

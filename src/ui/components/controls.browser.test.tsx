@@ -91,11 +91,11 @@ describe('REQ-A11Y-008 control boundaries use --sm-control-border (3:1)', () => 
     expect(getComputedStyle(screen.getByRole('switch')).borderTopWidth).toBe('1px');
   });
 
-  it('the field control is an inset paper well with an ink outline', () => {
+  it('the field control is an outlined paper field with no inset well', () => {
     render(<Field label="Name">{(control) => <input {...control} />}</Field>);
     const style = getComputedStyle(screen.getByLabelText('Name'));
     expect(style.borderTopColor).toBe(border());
-    expect(style.boxShadow).toContain('inset');
+    expect(style.boxShadow).toBe('none');
   });
 
   it('the segmented group', () => {

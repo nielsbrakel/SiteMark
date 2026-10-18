@@ -11,12 +11,10 @@
 .group {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: var(--sm-space-1);
-  padding: 3px;
+  overflow: hidden;
   border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-md);
-  background: var(--sm-soft);
-  box-shadow: var(--sm-well);
+  background: var(--sm-surface-2);
 }
 
 .segment {
@@ -26,25 +24,28 @@
   gap: var(--sm-space-1);
   min-width: 28px;
   min-height: 28px;
-  padding: 2px var(--sm-space-3);
-  border: 1px solid transparent;
-  border-radius: var(--sm-radius-sm);
+  justify-content: center;
+  padding: var(--sm-space-1) var(--sm-space-3);
+  border: 0;
+  border-inline-end: 1.5px solid var(--sm-control-border);
   background: transparent;
-  color: var(--sm-text-muted);
+  color: var(--sm-text);
   font: inherit;
   cursor: pointer;
   transition: box-shadow var(--sm-duration) var(--sm-ease);
 }
 
+.segment:last-child {
+  border-inline-end: 0;
+}
+
 .segment:hover {
-  color: var(--sm-text);
+  background: var(--sm-soft);
 }
 
 .segment[aria-checked='true'] {
-  border-color: var(--sm-control-border);
   background: var(--sm-tape-1);
   color: var(--sm-on-tape);
-  box-shadow: var(--sm-lift-sm);
   font-weight: 600;
 }
 
@@ -59,7 +60,7 @@
   color: var(--sm-on-tape);
 }
 
-/* An icon-only segment (the theme switch) is a square knob: dim until selected. */
+/* An icon-only segment (the theme switch) is dim until selected. */
 .segment:has(> svg:only-child) {
   padding-inline: var(--sm-space-2);
 }

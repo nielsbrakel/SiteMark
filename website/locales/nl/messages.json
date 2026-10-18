@@ -7,6 +7,10 @@
     "message": "Verwar productie nooit meer met test",
     "description": "Main heading (h1) of the website home page."
   },
+  "websiteHomeHeadingMark": {
+    "message": "productie",
+    "description": "The word of the home page heading (h1) that sits on a highlighter stroke. It must appear in the heading as written."
+  },
   "websiteHomeLead": {
     "message": "SiteMark is een privacyvriendelijke browserextensie die de websites die je kiest markeert met linten, banners en kaders, zodat je altijd weet waar je bent. Er wordt niets verzameld en SiteMark draait alleen op de sites die je toestaat.",
     "description": "One-sentence value proposition below the home page heading."
@@ -386,7 +390,7 @@
     "description": "Caption under the screenshot of a page marked by SiteMark."
   },
   "websiteScreenshotMarkedPageAlt": {
-    "message": "Een beheerpagina met klanten, gemarkeerd als productie: een rood PROD-lint in de hoek rechtsboven, een rood kader om de pagina, een omlijning om de knop Klant verwijderen en onderaan een banner met de tekst ‘Productie: wijzigingen zijn live’.",
+    "message": "Een webshoppagina, gemarkeerd als productie: een rood PROD-lint in de hoek rechtsboven, een rood kader om de pagina, een omlijning om de knop Klant verwijderen en onderaan een banner met de tekst ‘Productie: wijzigingen zijn live’.",
     "description": "Alt text of the screenshot of a marked page. Describe what it shows; never say 'screenshot'."
   },
   "websiteScreenshotPopupCaption": {

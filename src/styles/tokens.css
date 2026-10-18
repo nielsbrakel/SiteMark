@@ -36,6 +36,11 @@
   --sm-tape-3: #9bd6a8;
   --sm-tape-4: #f4a3b5;
   --sm-on-tape: #33261b; /* ink on any tape fill, both themes */
+  --sm-tape-stripes: repeating-linear-gradient(
+    45deg,
+    rgb(255 255 255 / 40%) 0 5px,
+    transparent 5px 10px
+  );
 
   /* Status */
   --sm-success: #17692e; /* 6.3:1 on paper */
@@ -64,16 +69,16 @@
     'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, -apple-system, 'Segoe UI', roboto,
     sans-serif;
   --sm-font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', menlo, consolas, monospace;
-  --sm-text-xs: 14px; /* minimum UI text size: handwriting has a small x-height */
-  --sm-text-sm: 14px;
-  --sm-text-md: 16px;
-  --sm-text-lg: 18px;
-  --sm-text-xl: 20px;
+  --sm-text-xs: 15px; /* minimum UI text size: handwriting has a small x-height */
+  --sm-text-sm: 16px;
+  --sm-text-md: 18px;
+  --sm-text-lg: 20px;
+  --sm-text-xl: 22px;
 
   /* Elevation: paper on a board */
   --sm-lift: 0 3px 0 var(--sm-paper-edge), 0 10px 16px -6px var(--sm-shade);
   --sm-lift-sm: 1px 3px 0 var(--sm-text);
-  --sm-well: inset 0 2px 3px var(--sm-shade);
+  --sm-well: none; /* paper has no inset wells: controls are outlined, not sunken */
   --sm-pressed: inset 0 2px 3px var(--sm-shade);
 
   /* Focus: always show a real ring, in ink. Drawn with `outline`

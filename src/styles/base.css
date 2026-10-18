@@ -39,6 +39,7 @@ h3 {
 .sm-nav-link {
   padding: var(--sm-space-1) var(--sm-space-2);
   color: var(--sm-text);
+  font-size: var(--sm-text-lg);
   font-weight: 600;
   text-decoration: none;
 }
@@ -97,6 +98,27 @@ h3 {
   color: var(--sm-on-accent);
 }
 
+/* Washi tape across the top edge of a sheet: striped, translucent, decoration only. Set --tape to
+   one of the --sm-tape-* colors. Tilt is part of the strip, so it stays on in the popup too. */
+.sm-tape {
+  position: relative;
+}
+
+.sm-tape::before {
+  content: '';
+  position: absolute;
+  inset: -12px auto auto 50%;
+  z-index: 1;
+  width: 84px;
+  height: 24px;
+  margin-inline-start: -42px;
+  background: var(--sm-tape-stripes), var(--tape, var(--sm-tape-1));
+  box-shadow: 0 1px 2px var(--sm-shade);
+  opacity: 0.92;
+  transform: rotate(-3deg);
+  pointer-events: none;
+}
+
 .sm-visually-hidden {
   position: absolute;
   width: 1px;
@@ -124,6 +146,10 @@ h3 {
   .sm-well,
   .sm-button {
     border-color: ButtonBorder;
+  }
+
+  .sm-tape::before {
+    display: none;
   }
 
   .sm-button:active,
