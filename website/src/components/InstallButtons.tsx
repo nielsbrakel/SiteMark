@@ -19,23 +19,12 @@ const COMING: Record<'comingSoon' | 'comingLater', WebsiteMessageKey> = {
   comingLater: 'websiteInstallComingLater',
 };
 
-function InstallButton({
-  store,
-  primary,
-  t,
-}: {
-  store: Store;
-  primary: boolean;
-  t: PageProps['t'];
-}) {
+function InstallButton({ store, t }: { store: Store; t: PageProps['t'] }) {
   const state = installState(store);
   const name = NAMES[store.id];
   if (state === 'live' && store.url !== null) {
     return (
-      <ExternalLink
-        className={`sm-button ${primary ? 'sm-button--primary' : ''} ${styles.button}`}
-        href={store.url}
-      >
+      <ExternalLink className={`sm-button ${styles.button} ${styles[store.id]}`} href={store.url}>
         {t('websiteInstallAdd', [name])}
       </ExternalLink>
     );
@@ -49,13 +38,13 @@ function InstallButton({
   );
 }
 
-/** One button per store (the first is the accent one): a link to the listing, or a disabled coming-soon button (REQ-PAGE-002). */
+/** One button per store (the visitor's browser gets the accent one, Chrome by default): a link to the listing, or a disabled coming-soon button (REQ-PAGE-002). */
 export function InstallButtons({ stores, t }: InstallButtonsProps) {
   return (
     <ul className={styles.list} aria-label={t('websiteInstallLabel')}>
-      {stores.map((store, index) => (
+      {stores.map((store) => (
         <li key={store.id}>
-          <InstallButton store={store} primary={index === 0} t={t} />
+          <InstallButton store={store} t={t} />
         </li>
       ))}
     </ul>

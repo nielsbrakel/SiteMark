@@ -1,4 +1,4 @@
-/* Install buttons (docs/website/design.md §4): primary accent buttons, disabled until listed. */
+/* Install buttons (docs/website/design.md §4): the visitor's store is the accent button, the others are flat; disabled until listed. */
 .list {
   display: flex;
   flex-wrap: wrap;
@@ -13,6 +13,20 @@
   align-items: center;
   min-height: 40px;
   text-decoration: none;
+}
+
+/* Every live store is flat; the bootstrap's <html data-browser> (Firefox, Edge; else Chrome) picks the accent one. */
+.button:not(:disabled) {
+  box-shadow: none;
+  background: transparent;
+}
+
+:global(:root:not([data-browser])) .chrome,
+:global(:root[data-browser='edge']) .edge,
+:global(:root[data-browser='firefox']) .firefox {
+  background: var(--sm-accent);
+  color: var(--sm-on-accent);
+  box-shadow: var(--sm-lift-sm);
 }
 
 /* Not listed yet: flat and muted, and the text says so, so the state isn't shown by color alone. */
