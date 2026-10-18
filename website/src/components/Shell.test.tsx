@@ -49,14 +49,10 @@ describe('REQ-PAGE-007 every page has a skip link, a header and a footer', () =>
     expect(within(main).getByRole('heading', { level: 1 }).textContent).toBe('Page content');
   });
 
-  it('turns the sheet that holds the header and the page into a ruled notebook page on the home page only', () => {
-    renderShell('home');
-    const sheet = () => screen.getByRole('main').parentElement;
-    expect(sheet()?.className).toMatch(/notebook/);
-    expect(sheet()?.contains(screen.getByRole('banner'))).toBe(true);
-    cleanup();
+  it('holds the header and the page on one sheet', () => {
     renderShell('privacy');
-    expect(sheet()?.className).not.toMatch(/notebook/);
+    const sheet = screen.getByRole('main').parentElement;
+    expect(sheet?.contains(screen.getByRole('banner'))).toBe(true);
   });
 
   it('links the wordmark to the home page of the current language', () => {

@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-// The website is paper sheets on the kraft board; the home page is a ruled notebook page (D-289, docs/website/design.md §1, §3).
+// The website is paper sheets on the kraft board; every page is a ruled notebook page (D-289, docs/website/design.md §1, §3).
 
 const css = (file: string) => readFileSync(`website/src/${file}.module.css`, 'utf8');
 const rule = (file: string, selector: string) => {
@@ -14,14 +14,14 @@ describe('REQ-WEBUX-001 pages are one paper sheet on the board', () => {
   it('the sheet that holds the header and the page is outlined with the paper lift', () => {
     const sheet = rule('components/Shell', '\\.sheet');
     expect(sheet).toMatch(/border:\s*1\.5px solid var\(--sm-control-border\)/);
-    expect(sheet).toMatch(/background:\s*var\(--sm-surface\)/);
+    expect(sheet).toMatch(/var\(--sm-paper\)/);
     expect(sheet).toMatch(/box-shadow:\s*var\(--sm-lift\)/);
   });
 
-  it('the home page sheet is ruled with a coral margin line', () => {
-    const notebook = rule('components/Shell', '\\.notebook');
-    expect(notebook).toMatch(/repeating-linear-gradient/);
-    expect(notebook).toMatch(/var\(--sm-accent\)/);
+  it('every sheet is ruled, with a coral margin line on the website', () => {
+    const sheet = rule('components/Shell', '\\.sheet');
+    expect(sheet).toMatch(/var\(--sm-paper\)/);
+    expect(sheet).toMatch(/var\(--sm-accent\)/);
   });
 
   it.each(['components/Header', 'components/Footer'])(

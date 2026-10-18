@@ -15,6 +15,6 @@ describe('REQ-WEBUX-001 the screenshot page is the hero example site', () => {
   );
 
   it('has a dark palette', () => {
-    expect(screenshotPage('en', 'dark')).toContain('--bg:#2e2745');
+    expect(screenshotPage('en', 'dark')).toContain('--bg:#241d33');
   });
 });

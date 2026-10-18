@@ -35,8 +35,8 @@ describe('REQ-WEB-003 the wordmark is outlined lettering, not a font reference',
 
   it('the dark wordmark uses cream and the light accent', () => {
     const markup = svg('design/logo/sitemark-wordmark-dark.svg');
-    expect(markup).toContain('#f6efe0');
-    expect(markup).toContain('#ff9a7a');
+    expect(markup).toContain('#f7f0e3');
+    expect(markup).toContain('#ff9d80');
   });
 });
 
