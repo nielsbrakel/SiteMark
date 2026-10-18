@@ -2,11 +2,12 @@
 .callout {
   display: flex;
   gap: var(--sm-space-3);
-  margin-block: var(--sm-space-5);
-  padding: var(--sm-space-4);
-  border: 1px solid transparent;
+  margin-block: 0 var(--smw-rule);
+  padding: 15px var(--sm-space-4);
+  border: 1px solid var(--sm-control-border);
   border-radius: var(--sm-radius-lg);
-  background: var(--sm-surface);
+  background: var(--sm-panel);
+  line-height: var(--smw-rule);
   box-shadow: var(--sm-lift);
 }
 
@@ -21,12 +22,12 @@
 }
 
 .title {
-  margin: 0 0 var(--sm-space-2);
+  margin: 0;
   font-weight: 700;
 }
 
-.callout p:last-child {
-  margin-bottom: 0;
+.callout p {
+  margin: 0;
 }
 
 @media (forced-colors: active) {

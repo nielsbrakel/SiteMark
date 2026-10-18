@@ -6,11 +6,12 @@
 .title {
   margin-top: 0;
   font-size: var(--smw-text-2xl);
+  line-height: calc(var(--smw-rule) * 2);
 }
 
 .lead {
   max-inline-size: var(--smw-prose-max);
-  margin: 0 0 var(--sm-space-6);
+  margin: 0 0 calc(var(--smw-rule) * 2);
   color: var(--sm-text-muted);
   font-size: var(--sm-text-lg);
   line-height: var(--smw-prose-line);

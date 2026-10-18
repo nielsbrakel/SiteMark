@@ -7,17 +7,13 @@
 
 .page h1 {
   font-size: var(--smw-text-2xl);
-  line-height: 1.25;
 }
 
 .page h2 {
-  margin-top: var(--sm-space-6);
   font-size: var(--sm-text-xl);
-  line-height: 1.25;
 }
 
 .page h3 {
-  margin-bottom: var(--sm-space-1);
   font-size: var(--sm-text-lg);
 }
 
@@ -32,13 +28,14 @@
 
 .routes {
   display: grid;
-  gap: var(--sm-space-3);
+  gap: var(--smw-rule);
+  margin-block: 0;
   padding: 0;
   list-style: none;
 }
 
 .route p {
-  margin: var(--sm-space-1) 0 0;
+  margin: 0;
 }
 
 .routeLink {
@@ -46,5 +43,5 @@
 }
 
 .question p {
-  margin-top: 0;
+  margin-block: 0;
 }

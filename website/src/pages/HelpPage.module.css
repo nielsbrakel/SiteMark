@@ -14,14 +14,14 @@
 
 .index {
   display: grid;
-  gap: var(--sm-space-5);
-  margin: var(--sm-space-6) 0 0;
+  gap: var(--smw-rule);
+  margin: var(--smw-rule) 0 0;
   padding: 0;
   list-style: none;
 }
 
 .entry p {
-  margin: var(--sm-space-1) 0 0;
+  margin: 0;
   line-height: var(--smw-prose-line);
 }
 
@@ -40,7 +40,7 @@
 .topics ul {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sm-space-2) var(--sm-space-4);
+  gap: 0 var(--sm-space-4);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -48,7 +48,6 @@
 
 .topics a {
   display: inline-block;
-  padding-block: var(--sm-space-1);
   color: var(--sm-text-muted);
   text-underline-offset: 2px;
 }

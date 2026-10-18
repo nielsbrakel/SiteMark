@@ -46,8 +46,24 @@
   box-shadow: var(--sm-lift);
 }
 
+/* The text sits on the ruled lines: every line is one rule tall, and blocks start and end on a rule. */
 .main {
-  padding-block: var(--sm-space-4) var(--sm-space-6);
+  padding-block: var(--smw-rule);
+  line-height: var(--smw-rule);
+}
+
+.main :is(p, ul, ol, dl, pre, table, blockquote) {
+  margin-block: 0 var(--smw-rule);
+}
+
+.main :is(h1, h2, h3, h4) {
+  margin-block: var(--smw-rule) 0;
+  line-height: var(--smw-rule);
+}
+
+.main h1 {
+  margin-top: 0;
+  line-height: calc(var(--smw-rule) * 2);
 }
 
 /* On a phone the margin line moves in so the text keeps its width; the rules stay. */
