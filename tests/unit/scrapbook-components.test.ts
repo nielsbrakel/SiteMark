@@ -77,9 +77,10 @@ describe('REQ-THEME-001 the type scale and controls follow the concept', () => {
     );
   });
 
-  it('divides the segmented control with ink lines and fills the selected segment', () => {
+  it('divides the segmented control with ink lines, also when it wraps, and fills the selected segment', () => {
     const css = moduleCss('Segmented');
-    expect(css).toMatch(/border-inline-end:\s*1\.5px solid var\(--sm-control-border\)/);
+    expect(css).toMatch(/border-inline-start:\s*1\.5px solid var\(--sm-control-border\)/);
+    expect(css).toMatch(/border-block-start:\s*1\.5px solid var\(--sm-control-border\)/);
     expect(css).not.toMatch(/box-shadow:\s*var\(--sm-well\)/);
   });
 });
