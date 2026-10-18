@@ -21,8 +21,11 @@
   gap: var(--sm-space-4);
 }
 
+/* The mock browser shrinks with its column instead of widening the page. */
 .frame {
   --tape: var(--sm-tape-4);
+
+  min-inline-size: 0;
 }
 
 .preview {
