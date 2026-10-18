@@ -18,7 +18,7 @@ export type SidebarProps = {
 export function Sidebar({ groups, selectedId, onAdded, notify }: SidebarProps): ReactNode {
   const headingId = useId();
   return (
-    <aside aria-labelledby={headingId} className={styles.sidebar}>
+    <aside aria-labelledby={headingId} className={`sm-tape ${styles.sidebar}`}>
       <h2 id={headingId}>{t('optionsSiteGroups')}</h2>
       <GroupList groups={groups} selectedId={selectedId} notify={notify} />
       <AddGroupForm onAdded={onAdded} />

@@ -22,7 +22,7 @@ export function PopupApp({ search }: PopupAppProps): ReactNode {
   const isUnreadable = useStoredUnreadable();
   useTheme(view.status === 'ready' ? view.state.settings.theme : undefined);
   return (
-    <main className={styles.popup}>
+    <main className={`sm-tape ${styles.popup}`}>
       <header className={styles.header}>
         <img src={logo} alt="" width={32} height={32} />
         <h1>{t('popupTitle')}</h1>

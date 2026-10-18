@@ -92,7 +92,7 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
         onAdded={openNewGroup}
         notify={setToast}
       />
-      <main ref={pane.mainRef} className={styles.main}>
+      <main ref={pane.mainRef} className={`sm-tape ${styles.main}`}>
         {isUnreadable && <UnreadableBanner notify={setToast} />}
         <RevokeContext value={offerRevoke}>
           <Pane

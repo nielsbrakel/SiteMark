@@ -21,20 +21,22 @@ export function PlaygroundPreview({ t, state }: Props) {
   const plan = useMemo(() => playgroundPlan(state), [state]);
   return (
     <>
-      <MarkPreview
-        plan={plan}
-        label={t('websitePlaygroundPreview')}
-        pageTitle={t('websitePlaygroundPageTitle')}
-        address={PLAYGROUND_ADDRESS}
-        className={styles.mock}
-        targetLabel={t('websitePlaygroundDeleteButton')}
-        labels={{
-          collapseBanner: t('markerCollapseBanner'),
-          expandBanner: t('markerExpandBanner'),
-        }}
-      >
-        {(button) => <MockShop brand={t('websitePlaygroundPageTitle')} button={button} />}
-      </MarkPreview>
+      <div className={`sm-tape ${styles.frame}`}>
+        <MarkPreview
+          plan={plan}
+          label={t('websitePlaygroundPreview')}
+          pageTitle={t('websitePlaygroundPageTitle')}
+          address={PLAYGROUND_ADDRESS}
+          className={styles.mock}
+          targetLabel={t('websitePlaygroundDeleteButton')}
+          labels={{
+            collapseBanner: t('markerCollapseBanner'),
+            expandBanner: t('markerExpandBanner'),
+          }}
+        >
+          {(button) => <MockShop brand={t('websitePlaygroundPageTitle')} button={button} />}
+        </MarkPreview>
+      </div>
       <p role="status" className="sm-visually-hidden">
         {playgroundSummary(state, t)}
       </p>

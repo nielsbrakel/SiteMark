@@ -7,6 +7,10 @@
     "message": "Never confuse production with test again",
     "description": "Main heading (h1) of the website home page."
   },
+  "websiteHomeHeadingMark": {
+    "message": "production",
+    "description": "The word of the home page heading (h1) that sits on a highlighter stroke. It must appear in the heading as written."
+  },
   "websiteHomeLead": {
     "message": "SiteMark is a private browser extension that marks the websites you choose with ribbons, banners and outlines, so you always know where you are. It collects nothing and only runs on the sites you allow.",
     "description": "One-sentence value proposition below the home page heading."
@@ -386,7 +390,7 @@
     "description": "Caption under the screenshot of a page marked by SiteMark."
   },
   "websiteScreenshotMarkedPageAlt": {
-    "message": "A customer admin page marked as production: a red PROD ribbon in the top-right corner, a red frame around the page, an outline around the Delete customer button and a banner at the bottom that reads “Production: changes are live”.",
+    "message": "A web shop page marked as production: a red PROD ribbon in the top-right corner, a red frame around the page, an outline around the Delete customer button and a banner at the bottom that reads “Production: changes are live”.",
     "description": "Alt text of the screenshot of a marked page. Describe what it shows; never say 'screenshot'."
   },
   "websiteScreenshotPopupCaption": {

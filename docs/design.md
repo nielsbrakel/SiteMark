@@ -83,7 +83,7 @@ protanopia, deuteranopia and tritanopia. They always come with text (REQ-MARK-01
 | -------------- | ------------------------------------------------------ | ------------------------------------------ |
 | `--sm-lift`    | 1/2/2 + 0/10/16 shade, plus the `--sm-paper-edge` line | Sheets (cards, dialogs, the popup)         |
 | `--sm-lift-sm` | 1/3/0 `--sm-text` (hard ink)                           | Buttons, chips, switch knob                |
-| `--sm-well`    | inset 0/2/0 shade at 12 %                              | Inputs, switch track, segmented background |
+| `--sm-well`    | none (paper has no sunken wells)                       | Inputs, switch track, segmented background |
 | `--sm-pressed` | the control moves 3 px down, no shadow                 | Active/pressed buttons                     |
 
 Shadows, tape and tilt are **decoration only**. Boundaries come from `--sm-control-border`, or from transparent borders
@@ -91,24 +91,24 @@ that become visible in forced-colors mode. Tilt (±2°) applies to titles and ca
 
 - **Radii:** 3 (sheets, buttons, inputs, chips), pill (switches, swatches).
 - **Spacing:** 4 px grid (4/8/12/16/24/32).
-- **Type:** Patrick Hand for text at 16/18/20 px and Caveat Brush for titles at 24 px and up (D-289), both bundled locally with a system fallback. **14 px minimum** (handwriting has a small x-height). One weight each.
+- **Type:** Patrick Hand for text at 16/18/20/22 px (body 18 px) and Caveat Brush for titles at 24 px and up (D-289), both bundled locally with a system fallback. **15 px minimum** (handwriting has a small x-height). One weight each.
 - **Targets:** ≥ 24 × 24 px (popup buttons 32 px, options 36 px, swatches 28 px with 8 px gaps).
 
 ## 4. Components (`src/ui/components`, CSS Modules)
 
-| Component  | Anatomy / behavior                                                                                                                    |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Button     | Ink outline, `--sm-lift-sm`; pressed moves down 3 px on `:active`. `primary` = accent fill. Icon + label                              |
-| IconButton | 32 × 32 round, outlined, **must** have `aria-label`                                                                                   |
-| Switch     | Pill track with an ink outline, round knob. On = sage track + knob right. `role="switch"`, visible label ("Ingeschakeld" / "Enabled") |
-| Card       | A paper sheet: `--sm-surface`, outline, `--sm-lift`, radius 3, padding 16. Optional tape strip on top (decorative, `aria-hidden`)     |
-| Field      | Label above, `--sm-surface-2` input with an ink outline, helper/error below (`aria-describedby`). Error = warning/danger text + icon  |
-| Segmented  | Outlined container; the selected segment is filled with tape yellow (radio group)                                                     |
-| Slider     | Outlined track, round thumb, value bubble, keyboard steps                                                                             |
-| ColorField | 4 preset swatches (28 px, check mark when selected, `forced-color-adjust: none` + border), custom hex, native picker                  |
-| Dialog     | A paper sheet over a 40 % scrim, focus trapped, Esc closes                                                                            |
-| Toast      | Bottom center, a small sheet, auto-dismiss after 4 s (paused on hover/focus), action button (Undo)                                    |
-| ColorChip  | 12 px circle in the mark color with a 1 px control-border ring                                                                        |
+| Component  | Anatomy / behavior                                                                                                                                                                                                 |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Button     | Ink outline, `--sm-lift-sm`; pressed moves down 3 px on `:active`. `primary` = accent fill. Icon + label                                                                                                           |
+| IconButton | 32 × 32 round, outlined, **must** have `aria-label`                                                                                                                                                                |
+| Switch     | 62 × 34 pill track with an ink outline, solid ink 22 px thumb. On = sage track + knob right. `role="switch"`, visible label ("Ingeschakeld" / "Enabled")                                                           |
+| Card       | A paper sheet: `--sm-surface`, outline, `--sm-lift`, radius 3, padding 16. Optional **striped** tape strip on top (`.sm-tape`: `--sm-tape-stripes` over a `--sm-tape-*` fill; decorative, hidden in forced colors) |
+| Field      | Label above, `--sm-surface-2` input with an ink outline, helper/error below (`aria-describedby`). Error = warning/danger text + icon                                                                               |
+| Segmented  | Outlined container divided by ink lines; the selected segment is filled with tape yellow (radio group)                                                                                                             |
+| Slider     | Outlined track, round thumb, value bubble, keyboard steps                                                                                                                                                          |
+| ColorField | 4 preset swatches (28 px, check mark when selected, `forced-color-adjust: none` + border), custom hex, native picker                                                                                               |
+| Dialog     | A paper sheet over a 40 % scrim, focus trapped, Esc closes                                                                                                                                                         |
+| Toast      | Bottom center, a small sheet, auto-dismiss after 4 s (paused on hover/focus), action button (Undo)                                                                                                                 |
+| ColorChip  | 12 px circle in the mark color with a 1 px control-border ring                                                                                                                                                     |
 
 ### 4a. States matrix (each component must define all of these)
 

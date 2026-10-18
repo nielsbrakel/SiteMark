@@ -21,6 +21,10 @@
   gap: var(--sm-space-4);
 }
 
+.frame {
+  --tape: var(--sm-tape-4);
+}
+
 .preview {
   position: sticky;
   top: var(--sm-space-4);

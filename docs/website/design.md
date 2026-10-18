@@ -33,7 +33,7 @@ These are only sizes and layout. **Colors, shadows and radii always come from `t
 | `--smw-prose-line`  | `1.6`                    | Prose line height                         |
 
 The type scale continues the extension scale (12/14/16/20/28) and only adds the hero size. Body prose uses
-16 px (`--sm-text-lg`), UI chrome uses 14 px, and the minimum stays 12 px.
+16 px (`--sm-text-lg`), UI chrome uses 15 px, and the minimum stays 12 px.
 
 ## 3. Layout
 

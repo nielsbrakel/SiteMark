@@ -17,20 +17,19 @@ export type ShellProps = {
   children: ReactNode;
 };
 
-/** The frame of every page: skip link, header, main and footer (REQ-PAGE-007). */
+/** The frame of every page: skip link, one paper sheet with the header and main, and the footer (REQ-PAGE-007). */
 export function Shell({ route, locale, routes, t, children }: ShellProps) {
   return (
     <div className={styles.shell}>
       <a className={styles.skip} href="#main">
         {t('websiteSkipToContent')}
       </a>
-      <Header route={route} locale={locale} routes={routes} t={t} />
-      <main
-        id="main"
-        className={route.page === 'home' ? `${styles.main} ${styles.notebook}` : styles.main}
-      >
-        {children}
-      </main>
+      <div className={route.page === 'home' ? `${styles.sheet} ${styles.notebook}` : styles.sheet}>
+        <Header route={route} locale={locale} routes={routes} t={t} />
+        <main id="main" className={styles.main}>
+          {children}
+        </main>
+      </div>
       <Footer locale={locale} routes={routes} t={t} />
     </div>
   );

@@ -49,6 +49,8 @@
 }
 
 .sidebar {
+  --tape: var(--sm-tape-4);
+
   grid-area: sidebar;
   display: grid;
   gap: var(--sm-space-3);

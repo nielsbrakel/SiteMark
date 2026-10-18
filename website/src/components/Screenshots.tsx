@@ -37,7 +37,7 @@ type Props = Pick<PageProps, 't' | 'locale'>;
 function Screenshot({ scene, t, locale }: Props & { scene: ScreenshotScene }) {
   const { caption, alt } = TEXTS[scene];
   return (
-    <figure className={styles.figure} data-scene={scene}>
+    <figure className={`sm-tape ${styles.figure}`} data-scene={scene}>
       <ThemedPicture
         file={(theme, format) => screenshotFile(scene, theme, locale, format)}
         alt={t(alt)}

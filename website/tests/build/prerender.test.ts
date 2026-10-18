@@ -56,7 +56,9 @@ describe('REQ-WEB-002 every route is prerendered to one static HTML file', () =>
 
   it.each(pages)('$file carries its content, so it reads without JavaScript', ({ file, h1 }) => {
     const root = read(file).match(/<div id="root">([\s\S]*)<\/div>/)?.[1] ?? '';
-    expect(root).toMatch(new RegExp(`<h1( [^>]*)?>${h1}</h1>`));
+    // The home heading carries a <mark> on its key word, so compare the text.
+    const heading = root.match(/<h1( [^>]*)?>(.*?)<\/h1>/)?.[2]?.replace(/<[^>]+>/g, '');
+    expect(heading).toBe(h1);
     expect(root).not.toContain('<script');
   });
 

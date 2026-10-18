@@ -1,6 +1,8 @@
 .popup {
-  /* A paper sheet on the kraft board; the board shows around it. */
-  margin: var(--sm-space-2);
+  /* A paper sheet on the kraft board; the board shows around it, with room above for the tape. */
+  --tape: var(--sm-tape-2);
+
+  margin: var(--sm-space-4) var(--sm-space-2) var(--sm-space-2);
   padding: var(--sm-space-4);
   display: grid;
   gap: var(--sm-space-3);

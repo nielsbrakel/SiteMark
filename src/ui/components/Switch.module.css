@@ -14,27 +14,24 @@
   appearance: none;
   position: relative;
   flex: none;
-  width: 44px;
-  height: 24px;
+  width: 62px;
+  height: 34px;
   padding: 0;
   border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
   background: var(--sm-soft);
-  box-shadow: var(--sm-well);
   cursor: pointer;
   transition: background var(--sm-duration) var(--sm-ease);
 }
 
 .knob {
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 18px;
-  height: 18px;
-  border: 1.5px solid var(--sm-control-border);
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
   border-radius: var(--sm-radius-pill);
-  background: var(--sm-surface-2);
-  box-shadow: var(--sm-lift-sm);
+  background: var(--sm-control-border);
   transition: transform var(--sm-duration) var(--sm-ease);
 }
 
@@ -43,7 +40,7 @@
 }
 
 .track[aria-checked='true'] .knob {
-  transform: translateX(20px);
+  transform: translateX(28px);
 }
 
 .track:disabled {
@@ -58,21 +55,23 @@
 }
 
 @media (forced-colors: active) {
-  .track,
-  .knob {
+  .track {
     border-color: ButtonText;
   }
 
   .knob {
-    background: ButtonFace;
+    background: ButtonText;
   }
 
   .track[aria-checked='true'] {
     background: Highlight;
   }
 
-  .track:disabled,
-  .track:disabled .knob {
+  .track:disabled {
     border-color: GrayText;
+  }
+
+  .track:disabled .knob {
+    background: GrayText;
   }
 }

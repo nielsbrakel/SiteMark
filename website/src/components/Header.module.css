@@ -1,4 +1,4 @@
-/* The header sits directly on the board, so its text is --sm-text. */
+/* The header is the top of the page's paper sheet; its text is --sm-text. */
 .header {
   position: relative;
 }
@@ -8,9 +8,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--sm-space-3) var(--sm-space-5);
-  max-width: var(--smw-page-max);
-  margin-inline: auto;
-  padding: var(--sm-space-3) var(--smw-gutter);
+  padding-block: var(--sm-space-4);
 }
 
 .home {

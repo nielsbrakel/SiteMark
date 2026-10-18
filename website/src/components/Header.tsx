@@ -15,8 +15,8 @@ import { pageLabel } from './page-labels';
 
 type HeaderProps = { route: Route; locale: Locale; routes: readonly Route[]; t: PageProps['t'] };
 
-// The wordmark SVG is 490 × 128; width and height avoid layout shift (REQ-WEB-007).
-const WORDMARK = { width: 123, height: 32 } as const;
+// The wordmark SVG is 510 × 128; width and height avoid layout shift (REQ-WEB-007).
+const WORDMARK = { width: 175, height: 44 } as const;
 const HOME = { slug: '' };
 
 const current = (isCurrent: boolean) => (isCurrent ? 'page' : undefined);
