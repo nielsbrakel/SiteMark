@@ -66,3 +66,37 @@ describe('REQ-WEBUX-001 the notebook page keeps its ruled lines on a phone', () 
     expect(narrow).toMatch(/--margin-line/);
   });
 });
+
+describe('REQ-WEBUX-001 text sits on the ruled lines of the paper', () => {
+  const tokens = readFileSync('website/src/styles/website-tokens.css', 'utf8');
+  const paper = readFileSync('src/styles/tokens.css', 'utf8');
+
+  it('one rule is as tall as the ruled row of the paper, and prose lines are one rule', () => {
+    expect(tokens).toMatch(/--smw-rule:\s*32px/);
+    expect(tokens).toMatch(/--smw-prose-line:\s*var\(--smw-rule\)/);
+    expect(paper).toMatch(/transparent 0 31px, var\(--sm-border\) 31px 32px/);
+  });
+
+  it('the page text and the header start and end on a rule', () => {
+    expect(rule('components/Shell', '\\.main')).toMatch(/line-height:\s*var\(--smw-rule\)/);
+    expect(rule('components/Header', '\\.nav')).toMatch(
+      /min-height:\s*calc\(var\(--smw-rule\) \* 2\)/,
+    );
+  });
+});
+
+describe('REQ-WEBUX-001 cards and control panels stand out from the ruled sheet', () => {
+  it.each([
+    'pages/HomePage|\\.card',
+    'playground/Playground|\\.controls',
+    'components/Callout|\\.callout',
+  ])('%s is an outlined panel, not a ruled line', (entry) => {
+    const [file = '', selector = ''] = entry.split('|');
+    expect(rule(file, selector)).toMatch(/background:\s*var\(--sm-panel\)/);
+  });
+
+  it('the header controls share one height', () => {
+    expect(rule('components/Header', '\\.tools > \\*')).toMatch(/height:\s*var\(--smw-control\)/);
+    expect(rule('theme/ThemeToggle', '\\.toggle')).toMatch(/height:\s*var\(--smw-control\)/);
+  });
+});
