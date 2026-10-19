@@ -117,4 +117,13 @@ describe('REQ-PAGE-009 the three notes sit in a row, and the switch adds their m
     expect(notes).toMatch(/\.switch:checked/);
     expect(notes).toMatch(/--sm-tilt/);
   });
+
+  it('toggling the switch never moves the notes: both answers keep their space', () => {
+    expect(notes).toMatch(/\.question\s*{[^}]*display:\s*grid/);
+    expect(notes).not.toMatch(/display:\s*none/);
+  });
+
+  it('the favicon keeps the site icon and adds a dot to it', () => {
+    expect(css('components/AtWorkTabs')).toMatch(/\.current \.icon::after\s*{[^}]*border-radius/);
+  });
 });
