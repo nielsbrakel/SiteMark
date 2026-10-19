@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 560" role="img" aria-labelledby="t">
+  <defs><pattern id="s" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="5" height="10" fill="#fff" fill-opacity=".4"/></pattern></defs>
   <title id="t">SiteMark: never confuse production with test</title>
   <!-- Fonts: Caveat Brush and Patrick Hand (bundled, OFL). pnpm icons injects them before rendering. -->
   <rect width="1400" height="560" fill="#c9a77c"/>
@@ -11,7 +12,7 @@
   <text x="260" y="180" font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="110" fill="#33261b">Site<tspan fill="#a63d28">Mark</tspan></text>
   <g font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="66" fill="#33261b"><text x="90" y="320">Never confuse</text><text x="90" y="392">production with test.</text></g>
   <text x="90" y="452" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="32" fill="#33261b">Private by design. Nothing leaves your browser.</text>
-  <rect x="1040" y="56" width="150" height="38" transform="rotate(4 1115 75)" fill="#f5cf5a" stroke="#33261b" stroke-width="2"/>
+  <g transform="rotate(-3 1115 90)" opacity=".92"><rect x="1040" y="71" width="150" height="38" fill="#f5cf5a"/><rect x="1040" y="71" width="150" height="38" fill="url(#s)"/></g>
   <clipPath id="w"><rect x="800" y="90" width="520" height="380"/></clipPath>
   <rect x="806" y="98" width="520" height="380" fill="#33261b"/>
   <rect x="800" y="90" width="520" height="380" fill="#fbf6e8"/>
@@ -19,8 +20,9 @@
     <rect x="800" y="90" width="520" height="52" fill="#efe4cb"/>
     <path d="M800 142h520" stroke="#33261b" stroke-width="2"/>
     <circle cx="830" cy="116.0" r="7" fill="#c93a2e"/><circle cx="854" cy="116.0" r="7" fill="#f4a300"/><circle cx="878" cy="116.0" r="7" fill="#57606a"/>
-    <rect x="902" y="102.0" width="380" height="28" rx="14" fill="#fbf6e8" stroke="#33261b" stroke-width="1.5"/>
-    <rect x="840" y="176" width="200" height="22" rx="7" fill="#d9ccb0"/><rect x="840" y="204" width="420" height="14" rx="7" fill="#d9ccb0"/><rect x="840" y="232" width="380" height="14" rx="7" fill="#d9ccb0"/><rect x="840" y="260" width="400" height="14" rx="7" fill="#d9ccb0"/><rect x="840" y="330" width="150" height="44" fill="#e8664d" stroke="#c93a2e" stroke-width="3" stroke-dasharray="8 5"/><rect x="800" y="420" width="520" height="50" fill="#c93a2e"/><text x="1060" y="452.0" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="20" letter-spacing="3" fill="#fff">PRODUCTION · BE CAREFUL</text><g transform="translate(1320 90) rotate(45)"><rect x="-110.0" y="40" width="220" height="36" fill="#c93a2e"/><text x="0" y="61.92" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="19" letter-spacing="3" fill="#fff">PROD</text></g>
+    <rect x="902" y="102.0" width="340" height="28" rx="14" fill="#fbf6e8" stroke="#33261b" stroke-width="1.5"/>
+    <rect x="840" y="176" width="200" height="22" rx="7" fill="#d9ccb0"/><rect x="840" y="204" width="420" height="14" rx="7" fill="#d9ccb0"/><rect x="840" y="232" width="380" height="14" rx="7" fill="#d9ccb0"/><rect x="840" y="260" width="400" height="14" rx="7" fill="#d9ccb0"/><rect x="840" y="330" width="150" height="44" fill="#e8664d" stroke="#c93a2e" stroke-width="3" stroke-dasharray="8 5"/><rect x="800" y="420" width="520" height="50" fill="#c93a2e"/><text x="1060" y="452.0" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="20" letter-spacing="3" fill="#fff">PRODUCTION · BE CAREFUL</text>
   </g>
   <rect x="800" y="90" width="520" height="380" fill="none" stroke="#33261b" stroke-width="3"/>
+  <g transform="translate(1292 118) rotate(45)"><rect x="-80" y="-17" width="160" height="34" fill="#c93a2e" stroke="#33261b" stroke-width="2"/><text x="0" y="6" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="19" letter-spacing="3" fill="#fff">PROD</text></g>
 </svg>

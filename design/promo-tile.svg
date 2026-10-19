@@ -11,5 +11,5 @@
   <text x="124" y="100" font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="52" fill="#33261b">Site<tspan fill="#a63d28">Mark</tspan></text>
   <g font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="30" fill="#33261b"><text x="40" y="170">Never confuse</text><text x="40" y="206">production with test.</text></g>
   <rect x="0" y="240" width="440" height="40" fill="#c93a2e"/><text x="220" y="265.25" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="15" letter-spacing="3" fill="#fff">PRODUCTION · BE CAREFUL</text>
-  <clipPath id="c"><rect width="440" height="280"/></clipPath><g clip-path="url(#c)"><g transform="translate(440 0) rotate(45)"><rect x="-100.0" y="30" width="200" height="30" fill="#c93a2e"/><text x="0" y="51.6" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="15" letter-spacing="3" fill="#fff">PROD</text></g></g>
+  <g transform="translate(386 54) rotate(45)"><rect x="-62" y="-14" width="124" height="28" fill="#c93a2e" stroke="#33261b" stroke-width="2"/><text x="0" y="5.5" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="15" letter-spacing="3" fill="#fff">PROD</text></g>
 </svg>
