@@ -1,17 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" role="img" aria-labelledby="t">
   <title id="t">SiteMark: never confuse production with test again</title>
   <!-- Fonts: Caveat Brush and Patrick Hand (bundled, OFL). pnpm icons injects them before rendering. -->
+  <defs><pattern id="s" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="5" height="10" fill="#fff" fill-opacity=".4"/></pattern></defs>
   <rect width="1280" height="640" fill="#c9a77c"/>
   <g transform="translate(80 70) scale(1.3)">
     <g transform="rotate(-5 64 64)"><path d="M16 14l46-2 50 3-2 48 3 52-50 2-48-3 2-50z" fill="#fbf6e8" stroke="#33261b" stroke-width="3" stroke-linejoin="round"/></g>
     <path d="M42 24h40a6 6 0 0 1 6 6v74l-26-17-26 17V30a6 6 0 0 1 6-6z" fill="#e8664d" stroke="#33261b" stroke-width="3.5" stroke-linejoin="round"/>
-    <rect x="34" y="12" width="56" height="18" transform="rotate(-4 62 21)" fill="#f5cf5a" stroke="#33261b" stroke-width="2"/>
+    <g transform="rotate(-4 62 12)" opacity=".92"><rect x="34" y="3" width="56" height="18" fill="#f5cf5a"/><rect x="34" y="3" width="56" height="18" fill="url(#s)"/></g>
     <path d="M70 56v34l8.5-8 6 13.5 7-3-6-13.2H97z" fill="#fff" stroke="#33261b" stroke-width="3.5" stroke-linejoin="round"/>
   </g>
   <text x="270" y="190" font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="120" fill="#33261b">Site<tspan fill="#a63d28">Mark</tspan></text>
   <g font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="58" fill="#33261b"><text x="106" y="350">Never confuse</text><text x="106" y="414">production with test.</text></g>
   <g font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" fill="#33261b"><text x="106" y="476" font-size="30">Ribbons, banners and outlines</text><text x="106" y="514" font-size="30">on the sites you choose.</text><text x="106" y="566" font-size="26" fill="#a63d28">Private · Chrome · Edge · Firefox · Safari</text></g>
-  <rect x="900" y="86" width="140" height="36" transform="rotate(4 970 104)" fill="#f5cf5a" stroke="#33261b" stroke-width="2"/>
+  <g transform="rotate(-3 970 120)" opacity=".92"><rect x="900" y="102" width="140" height="36" fill="#f5cf5a"/><rect x="900" y="102" width="140" height="36" fill="url(#s)"/></g>
   <clipPath id="w"><rect x="740" y="120" width="460" height="400"/></clipPath>
   <rect x="746" y="128" width="460" height="400" fill="#33261b"/>
   <rect x="740" y="120" width="460" height="400" fill="#fbf6e8"/>
@@ -19,8 +20,9 @@
     <rect x="740" y="120" width="460" height="52" fill="#efe4cb"/>
     <path d="M740 172h460" stroke="#33261b" stroke-width="2"/>
     <circle cx="770" cy="146.0" r="7" fill="#c93a2e"/><circle cx="794" cy="146.0" r="7" fill="#f4a300"/><circle cx="818" cy="146.0" r="7" fill="#57606a"/>
-    <rect x="842" y="132.0" width="320" height="28" rx="14" fill="#fbf6e8" stroke="#33261b" stroke-width="1.5"/>
-    <rect x="772" y="204" width="170" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="228" width="250" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="252" width="220" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="276" width="236" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="326" width="190" height="124" fill="#efe4cb" stroke="#d9ccb0" stroke-width="2"/><rect x="978" y="326" width="190" height="124" fill="#efe4cb" stroke="#d9ccb0" stroke-width="2"/><rect x="1012" y="386" width="124" height="48" fill="none" stroke="#c93a2e" stroke-width="4" stroke-dasharray="10 6"/><text x="1074" y="417" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="20" fill="#a63d28">Delete</text><rect x="740" y="476" width="460" height="44" fill="#c93a2e"/><text x="970" y="504.3" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="18" letter-spacing="3" fill="#fff">PRODUCTION · BE CAREFUL</text><g transform="translate(1200 172) rotate(45)"><rect x="-110.0" y="34" width="220" height="34" fill="#c93a2e"/><text x="0" y="58.48" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="18" letter-spacing="3" fill="#fff">PROD</text></g>
+    <rect x="842" y="132.0" width="300" height="28" rx="14" fill="#fbf6e8" stroke="#33261b" stroke-width="1.5"/>
+    <rect x="772" y="204" width="170" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="228" width="250" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="252" width="220" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="276" width="236" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="326" width="190" height="124" fill="#efe4cb" stroke="#d9ccb0" stroke-width="2"/><rect x="978" y="326" width="190" height="124" fill="#efe4cb" stroke="#d9ccb0" stroke-width="2"/><rect x="1012" y="386" width="124" height="48" fill="none" stroke="#c93a2e" stroke-width="4" stroke-dasharray="10 6"/><text x="1074" y="417" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="20" fill="#a63d28">Delete</text><rect x="740" y="476" width="460" height="44" fill="#c93a2e"/><text x="970" y="504.3" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="18" letter-spacing="3" fill="#fff">PRODUCTION · BE CAREFUL</text>
   </g>
   <rect x="740" y="120" width="460" height="400" fill="none" stroke="#33261b" stroke-width="3"/>
+  <g transform="translate(1176 144) rotate(45)"><rect x="-75" y="-15" width="150" height="30" fill="#c93a2e" stroke="#33261b" stroke-width="2"/><text x="0" y="6.5" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="18" letter-spacing="3" fill="#fff">PROD</text></g>
 </svg>
