@@ -62,4 +62,4 @@ be added to every language. Want to add a language? Open an issue first.
 
 ## License
 
-By contributing you agree that your contributions are licensed under the [MIT License](LICENSE).
+By contributing you agree to the contribution terms in the [LICENSE](LICENSE): you keep your name on the commit, and the copyright holder may use and relicense your contribution.

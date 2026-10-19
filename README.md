@@ -13,7 +13,7 @@
 
 <p align="center">
   <a href="https://github.com/nielsbrakel/SiteMark/actions/workflows/ci.yml"><img src="https://github.com/nielsbrakel/SiteMark/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/nielsbrakel/SiteMark" alt="MIT license"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/nielsbrakel/SiteMark" alt="license: all rights reserved"></a>
   <img src="https://img.shields.io/badge/manifest-v3-1f6feb" alt="Manifest V3">
   <img src="https://img.shields.io/badge/browsers-Chrome%20%C2%B7%20Edge%20%C2%B7%20Firefox%20%C2%B7%20Safari-57606a" alt="Chrome, Edge, Firefox, Safari">
 </p>
@@ -47,7 +47,7 @@ Privacy is a feature, and each claim is checked by a test (the requirement IDs a
   `scripting` and `activeTab`.
 - **No network requests of its own:** no remote code, fonts or CDNs, and the extension pages' CSP has `connect-src 'none'`.
   The one exception is the opt-in favicon tint, which loads the icon of the page you are on.
-- **Open source:** MIT, and the website is just as clean: no cookies, no third parties.
+- **Source available:** the code is public to read and check, and the website is just as clean: no cookies, no third parties.
 
 Read the full [privacy policy](PRIVACY.md) ([Nederlands](PRIVACY.nl.md)).
 
@@ -98,6 +98,6 @@ threat model: SiteMark prevents _accidental_ confusion and is not a security con
 
 ## License
 
-[MIT](LICENSE) for the code. The SiteMark name and logo are not covered, see [TRADEMARKS.md](TRADEMARKS.md).
+All rights reserved, see [LICENSE](LICENSE). The code is public to read, not to copy or resell. Name and logo: [TRADEMARKS.md](TRADEMARKS.md).
 
 CI runs on every pull request; see `.github/workflows/ci.yml`.

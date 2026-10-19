@@ -4,7 +4,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --ssr src/entry-server.tsx && node scripts/prerender.ts",
