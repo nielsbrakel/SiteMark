@@ -58,18 +58,25 @@
 }
 
 .question {
+  display: grid;
   margin: 0 0 var(--smw-rule);
   font-size: var(--smw-text-xl);
   line-height: var(--smw-rule);
 }
 
+/* Both answers share one grid cell, so the taller one reserves the height and toggling never shifts the notes. */
+.off,
+.on {
+  grid-area: 1 / 1;
+}
+
 .on,
 .scene:has(.switch:checked) .off {
-  display: none;
+  visibility: hidden;
 }
 
 .scene:has(.switch:checked) .on {
-  display: inline;
+  visibility: visible;
   color: var(--sm-accent-text);
 }
 
