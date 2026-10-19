@@ -130,6 +130,16 @@ Release. Store secrets live **only** in the `store` environment:
 
 AMO also receives the WXT sources zip and `SOURCE_REVIEW.md` (exact Node/pnpm versions and build command).
 
+### Renewing store credentials
+
+If the **submit** job fails with an auth error for one store, its credential has expired or been revoked. Fix it, update the secret in the `store` environment, and re-run the failed job.
+
+| Store            | Credential and lifetime                                                                                      | How to renew                                                                                                                                                                                      |
+| ---------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Edge Add-ons     | `EDGE_API_KEY` **expires**. Current key: **2026-12-30 16:39** (set a reminder two weeks before)              | Partner Center → Microsoft Edge → **Publish API** → create a new key → replace `EDGE_API_KEY`. `EDGE_CLIENT_ID` and `EDGE_PRODUCT_ID` do not change.                                              |
+| Chrome Web Store | Service account keys have no expiry by default (API v1.1 and its refresh token were shut down on 2026-10-15) | If revoked: Google Cloud → IAM & Admin → Service Accounts → the account → Keys → add a JSON key → replace `CHROME_SERVICE_ACCOUNT_PRIVATE_KEY` (`jq -r .private_key key.json`, real line breaks). |
+| Firefox AMO      | JWT issuer and secret have no expiry unless revoked                                                          | addons.mozilla.org/developers/addon/api/key → generate new credentials → replace `FIREFOX_JWT_ISSUER` and `FIREFOX_JWT_SECRET`.                                                                   |
+
 ## 8. Website on GitHub Pages (D-244, D-252)
 
 The website (`website/`, [docs/website/](website/spec.md)) is deployed by `.github/workflows/pages.yml` to
