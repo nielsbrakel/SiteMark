@@ -4,7 +4,7 @@ import { socialPreviewUrl } from './seo';
 
 type SoftwareApplicationInput = { locale: Locale; description: string; url: string };
 
-/** The browsers with a store listing (Safari follows in v1.1, M9). */
+/** The browsers with a store listing (Safari follows later). */
 const BROWSERS = ['Chrome', 'Edge', 'Firefox'];
 
 /** schema.org SoftwareApplication data for the home routes (REQ-SEO-005). */

@@ -104,7 +104,7 @@ It is rendered from `design/social-preview.svg` by `pnpm icons`.
 - Commits: `test(T-xxx): red — …`, `feat(T-xxx): green — …`, `refactor(T-xxx): …`, `chore(T-xxx): …`,
   `docs: …`, `fix(bug): …`. Enforced by commitlint (T-021).
 - One PR per task group, e.g. `M1: URL engine (T-032…T-039)`. User-facing PRs add a **changeset** (D-228).
-- Pre-release tag per milestone: `v0.1.0` = M1 … `v1.0.0` = M8, `v1.1.0` = Safari (M9).
+- Pre-release tag per milestone: `v0.1.0` = M1 … `v1.0.0` = M8, `v1.1.0` = style refactor, Safari later.
 - The plan reviews live in [`docs/reviews/`](reviews/).
 
 ## 7. Store publishing (M8, D-227)
@@ -126,7 +126,7 @@ Release. Store secrets live **only** in the `store` environment:
 | Chrome Web Store | `CHROME_EXTENSION_ID`, `CHROME_PUBLISHER_ID`, `CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL`, `CHROME_SERVICE_ACCOUNT_PRIVATE_KEY` (API v2; v1.1 is shut down) |
 | Firefox AMO      | `FIREFOX_EXTENSION_ID` (= `sitemark@nielsbrakel`), `FIREFOX_JWT_ISSUER`, `FIREFOX_JWT_SECRET`                                                         |
 | Edge Add-ons     | `EDGE_PRODUCT_ID`, `EDGE_CLIENT_ID`, `EDGE_API_KEY`                                                                                                   |
-| Safari (v1.1)    | App Store Connect packager / Xcode, with an Apple Developer Program membership (manual)                                                               |
+| Safari (later)   | App Store Connect packager / Xcode, with an Apple Developer Program membership (manual)                                                               |
 
 AMO also receives the WXT sources zip and `SOURCE_REVIEW.md` (exact Node/pnpm versions and build command).
 

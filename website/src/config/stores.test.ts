@@ -20,12 +20,12 @@ describe('REQ-PAGE-002 the install buttons come from one config file', () => {
     expect(stores().map((s) => s.id)).toEqual(['chrome', 'edge', 'firefox', 'safari']);
   });
 
-  it('ships Chrome, Edge and Firefox in v1.0 and Safari in v1.1 (M9)', () => {
+  it('ships Chrome, Edge and Firefox in v1.0 and Safari later', () => {
     expect(Object.fromEntries(stores().map((s) => [s.id, s.release]))).toEqual({
       chrome: 'v1.0',
       edge: 'v1.0',
       firefox: 'v1.0',
-      safari: 'v1.1',
+      safari: 'later',
     });
   });
 
