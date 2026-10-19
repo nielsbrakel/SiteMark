@@ -35,6 +35,14 @@ for (const { svg, sizes } of targets) {
   }
 }
 
+// iOS fills transparent corners with black, so the home-screen icon is the logo on the kraft board.
+await page.setViewportSize({ width: 180, height: 180 });
+await page.setContent(
+  `<style>html,body{margin:0;background:#c9a77c}svg{display:block;width:180px;height:180px;padding:20px;box-sizing:border-box}</style>${await readFile('design/logo/sitemark-icon.svg', 'utf8')}`,
+);
+await page.screenshot({ path: 'design/apple-touch-icon.png' });
+console.log('design/apple-touch-icon.png');
+
 await page.setViewportSize({ width: 1280, height: 640 });
 await page.setContent(
   `<style>${fonts}html,body{margin:0}svg{display:block;width:1280px;height:640px}</style>${await readFile('design/social-preview.svg', 'utf8')}`,

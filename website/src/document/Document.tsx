@@ -23,6 +23,9 @@ type DocumentProps = {
   children: ReactNode;
 };
 
+/** The board colour behind the paper in each theme (--sm-bg in src/styles/tokens.css). */
+const THEME_COLORS = { light: '#c9a77c', dark: '#17121f' } as const;
+
 /**
  * The whole HTML document, rendered by React at build time so every attribute and text is escaped
  * by one renderer. `data-route` and `data-locale` tell the client what to hydrate.
@@ -37,10 +40,22 @@ export function Document(props: DocumentProps) {
         <meta httpEquiv="Content-Security-Policy" content={csp} />
         <meta name="referrer" content={referrerPolicy()} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="light dark" />
+        {/* The browser's own toolbar; the theme toggle keeps these in step (theme-choice.ts). */}
+        {(['light', 'dark'] as const).map((scheme) => (
+          <meta
+            key={scheme}
+            name="theme-color"
+            content={THEME_COLORS[scheme]}
+            data-color={THEME_COLORS[scheme]}
+            media={`(prefers-color-scheme: ${scheme})`}
+          />
+        ))}
         {headTags}
         {/* Copied from design/logo and public/icon by the prerender step (design §5). */}
         <link rel="icon" href={assetUrl('favicon.svg')} type="image/svg+xml" />
         <link rel="icon" href={assetUrl('favicon-32.png')} sizes="32x32" type="image/png" />
+        <link rel="apple-touch-icon" href={assetUrl('apple-touch-icon.png')} />
         {styles.map((href) => (
           <link key={href} rel="stylesheet" href={href} />
         ))}

@@ -23,6 +23,7 @@ const COPIES: readonly [from: string, to: string][] = [
   ['design/social-preview.png', 'social-preview.png'],
   ['design/logo/sitemark-icon.svg', 'favicon.svg'],
   ['public/icon/32.png', 'favicon-32.png'],
+  ['design/apple-touch-icon.png', 'apple-touch-icon.png'],
 ];
 
 /** The hashed client entry and its CSS, from the Vite manifest. */
