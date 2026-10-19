@@ -374,8 +374,12 @@
     }
   },
   "websiteInstallOnComputer": {
-    "message": "Open deze pagina op een computer om SiteMark te installeren.",
+    "message": "SiteMark installt op een computer. Open deze pagina daar.",
     "description": "Hint under the install buttons, shown to iPhone and iPad visitors: extensions can't be installed there."
+  },
+  "websiteInstallAlso": {
+    "message": "Ook voor",
+    "description": "Label before the install links of the other browsers, after the big button of the visitor's own browser."
   },
   "websiteNotFoundHeading": {
     "message": "Pagina niet gevonden",
