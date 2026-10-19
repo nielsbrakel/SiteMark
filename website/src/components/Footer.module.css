@@ -3,8 +3,17 @@
   max-width: var(--smw-page-max);
   margin-inline: auto;
   padding: var(--sm-space-5) var(--smw-gutter);
-  border-top: 1.5px dashed var(--sm-text);
   color: var(--sm-text);
+}
+
+/* The wavy divider: a tiled wave used as a mask, so it takes the text color in every theme. */
+.footer::before {
+  display: block;
+  height: 6px;
+  margin: calc(-1 * var(--sm-space-5)) calc(-1 * var(--smw-gutter)) var(--sm-space-5);
+  background: var(--sm-text);
+  mask: url('./wave.svg') repeat-x center / 16px 6px;
+  content: '';
 }
 
 .list {
