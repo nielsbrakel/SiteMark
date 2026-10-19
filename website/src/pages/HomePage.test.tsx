@@ -115,14 +115,25 @@ describe('REQ-PAGE-002 install buttons never link to a store that has no listing
   });
 
   it.each([
-    ['index.html', 'Open this page on a computer to install SiteMark.'],
-    ['nl/index.html', 'Open deze pagina op een computer om SiteMark te installeren.'],
+    ['index.html', 'SiteMark installs on a computer. Open this page there.'],
+    ['nl/index.html', 'SiteMark installt op een computer. Open deze pagina daar.'],
   ])('%s tells iPhone visitors to continue on a computer', (file, hint) => {
     showPage(pages, file);
     const install = within(main()).getByRole('list', {
       name: /Install SiteMark|SiteMark installeren/,
     });
     expect(within(install).queryByText(hint)).not.toBeNull();
+  });
+
+  it.each([
+    ['index.html', 'Also for'],
+    ['nl/index.html', 'Ook voor'],
+  ])('%s introduces the other stores with a label', (file, label) => {
+    showPage(pages, file);
+    const install = within(main()).getByRole('list', {
+      name: /Install SiteMark|SiteMark installeren/,
+    });
+    expect(within(install).queryByText(label)).not.toBeNull();
   });
 
   it("leads with one big button: the visitor's store, Chrome when the browser isn't recognised", () => {
