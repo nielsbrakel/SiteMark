@@ -121,12 +121,12 @@ checksums and each zip's attestation (`gh attestation verify`), then runs only `
 the workspace. A **release** job (no secrets, no project code) attaches the zips and SHA256SUMS to a GitHub
 Release. Store secrets live **only** in the `store` environment:
 
-| Store            | Secrets                                                                                       |
-| ---------------- | --------------------------------------------------------------------------------------------- |
-| Chrome Web Store | `CHROME_EXTENSION_ID`, `CHROME_CLIENT_ID`, `CHROME_CLIENT_SECRET`, `CHROME_REFRESH_TOKEN`     |
-| Firefox AMO      | `FIREFOX_EXTENSION_ID` (= `sitemark@nielsbrakel`), `FIREFOX_JWT_ISSUER`, `FIREFOX_JWT_SECRET` |
-| Edge Add-ons     | `EDGE_PRODUCT_ID`, `EDGE_CLIENT_ID`, `EDGE_API_KEY`                                           |
-| Safari (v1.1)    | App Store Connect packager / Xcode, with an Apple Developer Program membership (manual)       |
+| Store            | Secrets                                                                                                                                               |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chrome Web Store | `CHROME_EXTENSION_ID`, `CHROME_PUBLISHER_ID`, `CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL`, `CHROME_SERVICE_ACCOUNT_PRIVATE_KEY` (API v2; v1.1 is shut down) |
+| Firefox AMO      | `FIREFOX_EXTENSION_ID` (= `sitemark@nielsbrakel`), `FIREFOX_JWT_ISSUER`, `FIREFOX_JWT_SECRET`                                                         |
+| Edge Add-ons     | `EDGE_PRODUCT_ID`, `EDGE_CLIENT_ID`, `EDGE_API_KEY`                                                                                                   |
+| Safari (v1.1)    | App Store Connect packager / Xcode, with an Apple Developer Program membership (manual)                                                               |
 
 AMO also receives the WXT sources zip and `SOURCE_REVIEW.md` (exact Node/pnpm versions and build command).
 
