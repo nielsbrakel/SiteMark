@@ -60,7 +60,7 @@ You can also mark a single element: pick the button that deletes customers and g
 
 SiteMark is private by design. It asks for access per website, only when you add it, and runs nowhere else. There are no accounts, no analytics and no servers, and your settings stay in your browser. You can export and import them as a file.
 
-It works with the keyboard, in light and dark, in English and Dutch. SiteMark is open source (MIT).
+It works with the keyboard, in light and dark, in English and Dutch. The source code is public to read; all rights reserved.
 ```
 
 **nl**
@@ -74,7 +74,7 @@ Je kunt ook één element markeren: kies de knop waarmee je klanten verwijdert e
 
 SiteMark is privé als uitgangspunt. Het vraagt per website om toegang, alleen als je die toevoegt, en draait nergens anders. Er zijn geen accounts, geen analytics en geen servers, en je instellingen blijven in je browser. Je kunt ze exporteren en importeren als bestand.
 
-Goed met het toetsenbord te bedienen, licht en donker, in het Engels en Nederlands. SiteMark is open source (MIT).
+Goed met het toetsenbord te bedienen, licht en donker, in het Engels en Nederlands. De broncode is openbaar om te lezen; alle rechten voorbehouden.
 ```
 
 ### Search terms (Edge)

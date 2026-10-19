@@ -1,6 +1,6 @@
 # Privacy policy
 
-Last updated: 2026-10-02
+Last updated: 2026-10-19
 
 This policy covers the **SiteMark browser extension** and the **SiteMark website**
 (nielsbrakel.github.io/SiteMark). It is also available in Dutch.
@@ -14,7 +14,7 @@ This policy covers the **SiteMark browser extension** and the **SiteMark website
 
 ## Who is responsible
 
-SiteMark is an open-source project made by **Niels van Brakel, the Netherlands**, who is the controller for this
+SiteMark is a project made by **Niels van Brakel, the Netherlands**, who is the controller for this
 policy. SiteMark is maintained in spare time and isn't a company.
 
 ## The extension

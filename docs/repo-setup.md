@@ -26,17 +26,17 @@ pnpm exec playwright install chromium   # once, for e2e / browser-mode tests
 
 ## 3. Repository settings
 
-| Setting             | Value                                                                                                                               |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Default branch      | `main`                                                                                                                              |
-| Merge button        | **Rebase merging only** (D-209). Squash and merge commits disabled. Auto-delete head branches                                       |
-| Ruleset `main`      | Require a PR. Required status check **`ci-ok`** (the aggregate job, T-022). Require linear history. Block force pushes and deletion |
-| Ruleset `v*` tags   | Only admins can create them (they trigger `release.yml`)                                                                            |
-| Actions → General   | Workflow permissions: read-only. Allow GitHub Actions to create PRs: off. Require approval for first-time contributors              |
-| Pages               | Settings → Pages → Source: **GitHub Actions** (`pages.yml`, D-252). Environment `github-pages`: deployment branch `main` only       |
-| Environment `store` | Required reviewer: repository owner. Deployment branches/tags: `v*` only. Holds the store secrets (section 7)                       |
-| Code security       | Dependabot alerts + security updates on. Secret scanning + push protection on. Private vulnerability reporting on (SECURITY.md)     |
-| Optional            | CodeQL (JavaScript/TypeScript) default setup; OpenSSF Scorecard action                                                              |
+| Setting             | Value                                                                                                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Default branch      | `main`                                                                                                                                                            |
+| Merge button        | **Rebase merging only** (D-209). Squash and merge commits disabled. Auto-delete head branches                                                                     |
+| Ruleset `main`      | Require a PR and a review from Code Owners. Required status check **`ci-ok`** (the aggregate job, T-022). Require linear history. Block force pushes and deletion |
+| Ruleset `v*` tags   | Only admins can create them (they trigger `release.yml`)                                                                                                          |
+| Actions → General   | Workflow permissions: read-only. Allow GitHub Actions to create PRs: off. Require approval for **all outside collaborators**                                      |
+| Pages               | Settings → Pages → Source: **GitHub Actions** (`pages.yml`, D-252). Environment `github-pages`: deployment branch `main` only                                     |
+| Environment `store` | Required reviewer: repository owner. Deployment branches/tags: `v*` only. Holds the store secrets (section 7)                                                     |
+| Code security       | Dependabot alerts + security updates on. Secret scanning + push protection on. Private vulnerability reporting on (SECURITY.md)                                   |
+| Optional            | CodeQL (JavaScript/TypeScript) default setup; OpenSSF Scorecard action                                                                                            |
 
 ## 3a. CI and supply-chain policy (REQ-SEC-009)
 
@@ -81,7 +81,7 @@ It is rendered from `design/social-preview.svg` by `pnpm icons`.
 
 | File                                                                      | Purpose                                                      |
 | ------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| [`README.md`](../README.md), [`LICENSE`](../LICENSE)                      | Overview and MIT license                                     |
+| [`README.md`](../README.md), [`LICENSE`](../LICENSE)                      | Overview and all-rights-reserved license                     |
 | [`CONTRIBUTING.md`](../CONTRIBUTING.md)                                   | Setup, TDD workflow, hard rules                              |
 | [`CODE_OF_CONDUCT.md`](../CODE_OF_CONDUCT.md)                             | Contributor Covenant 2.1                                     |
 | [`SECURITY.md`](../SECURITY.md)                                           | Private reporting and the threat model (REQ-SEC-010)         |
