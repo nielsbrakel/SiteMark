@@ -5,7 +5,7 @@ import { themeOptions } from '@/ui/components/theme-options';
 import type { PageProps } from '../pages/page-props';
 import { saveThemeChoice } from './bootstrap';
 import styles from './ThemeToggle.module.css';
-import { applyThemeChoice, readThemeChoice } from './theme-choice';
+import { applyThemeChoice, applyThemeColor, readThemeChoice } from './theme-choice';
 
 type ThemeToggleProps = { t: PageProps['t'] };
 
@@ -16,10 +16,15 @@ type ThemeToggleProps = { t: PageProps['t'] };
  */
 export function ThemeToggle({ t }: ThemeToggleProps) {
   const [current, setCurrent] = useState<Theme>('system');
-  useEffect(() => setCurrent(readThemeChoice(document.documentElement)), []);
+  useEffect(() => {
+    const stored = readThemeChoice(document.documentElement);
+    setCurrent(stored);
+    applyThemeColor(stored);
+  }, []);
 
   const choose = (choice: Theme) => {
     applyThemeChoice(document.documentElement, choice);
+    applyThemeColor(choice);
     saveThemeChoice(choice);
     setCurrent(choice);
   };
