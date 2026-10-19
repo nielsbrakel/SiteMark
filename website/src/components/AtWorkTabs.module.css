@@ -33,17 +33,31 @@
 }
 
 .icon {
+  position: relative;
   flex: none;
-  inline-size: 11px;
-  block-size: 11px;
+  inline-size: 13px;
+  block-size: 13px;
   border-radius: 3px;
   background: var(--sm-control-border);
   opacity: 0.5;
-  transition: background var(--sm-duration) var(--sm-ease);
 }
 
 .current .icon {
   opacity: 1;
+}
+
+/* The extension adds a dot to the site's own icon; the icon itself stays. */
+.current .icon::after {
+  content: '';
+  position: absolute;
+  inset: -3px -3px auto auto;
+  inline-size: 6px;
+  block-size: 6px;
+  box-shadow: 0 0 0 1.5px var(--sm-panel);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-mark-red);
+  opacity: 0;
+  transition: opacity var(--sm-duration) var(--sm-ease);
 }
 
 .prefix {
@@ -71,6 +85,6 @@
   display: inline;
 }
 
-[data-marks]:has(:checked) .current .icon {
-  background: var(--sm-mark-red);
+[data-marks]:has(:checked) .current .icon::after {
+  opacity: 1;
 }
