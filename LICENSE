@@ -1,21 +1,31 @@
-MIT License
+Copyright (c) 2026 Niels van Brakel. All rights reserved.
 
-Copyright (c) 2026 The SiteMark contributors
+SiteMark (the source code, documentation, design files, name and logo in this repository) is proprietary.
+The source is published so that anyone can read and inspect it, for example to check what the extension does.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+You may:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+- view and read the source code, and browse the repository on GitHub;
+- fork the repository on GitHub, as GitHub's Terms of Service allow, only to read it or to propose changes
+  back to this repository through a pull request;
+- install and use the official SiteMark extension from the Chrome, Firefox or Edge store, or from an official
+  release of this repository, for your own use.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+You may not, without the prior written permission of the copyright holder:
+
+- copy, modify, or create derivative works of the code, documentation, design files, name or logo;
+- distribute, publish, sublicense, sell, rent or otherwise make available the code or any build of it,
+  including on a browser store;
+- use the code, or any part of it, in another product or service, or to train a machine-learning model;
+- remove or alter this notice.
+
+Contributions: by submitting a pull request you confirm that you wrote it and grant the copyright holder a
+perpetual, worldwide, irrevocable, royalty-free licence to use, modify, sublicense and relicense it.
+
+Third-party components keep their own licences.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM THE SOFTWARE OR ITS USE.
+
+Permission requests: open an issue in this repository.
