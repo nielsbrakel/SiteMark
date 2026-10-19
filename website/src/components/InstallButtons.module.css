@@ -38,7 +38,7 @@
   cursor: not-allowed;
 }
 
-/* The lead: the bootstrap's <html data-browser> (Firefox, Edge, Safari) picks it; any other browser, and no JavaScript, gets Chrome. */
+/* The lead: the bootstrap's <html data-browser> (Firefox, Edge) picks it; any other browser, and no JavaScript, gets Chrome. Safari leads with its coming-soon note under the computer note. */
 :global(:root:not([data-browser])) .chrome,
 :global(:root[data-browser='edge']) .edge,
 :global(:root[data-browser='firefox']) .firefox {
@@ -60,16 +60,6 @@
   font-size: var(--sm-text-xl);
 }
 
-/* Safari has no listing: its note leads, big, with an accent outline. */
-:global(:root[data-browser='safari']) .safari .button {
-  width: 100%;
-  max-width: 22rem;
-  min-height: 56px;
-  border-color: var(--sm-accent);
-  color: var(--sm-text);
-  font-size: var(--sm-text-xl);
-}
-
 :global(:root:not([data-browser])) .chrome .button:not(:disabled),
 :global(:root[data-browser='edge']) .edge .button:not(:disabled),
 :global(:root[data-browser='firefox']) .firefox .button:not(:disabled) {
@@ -81,12 +71,26 @@
   text-decoration: none;
 }
 
-/* iPhones and iPads can't install extensions: after the lead, the hint says where to go. */
+/* "Also for" introduces the other stores; iOS visitors get no big button, so it makes way for the computer note. */
+.also {
+  color: var(--sm-text-muted);
+}
+
+:global(:root[data-browser='safari']) .also {
+  display: none;
+}
+
+/* iPhones and iPads can't install extensions: the note leads, and the Safari note sits right under it. */
 .computer {
   display: none;
   order: -1;
   flex-basis: 100%;
-  color: var(--sm-text-muted);
+  box-sizing: border-box;
+  max-width: 22rem;
+  padding: var(--sm-space-3) var(--sm-space-4);
+  border: 1.5px solid var(--sm-accent);
+  border-radius: var(--sm-radius-md);
+  text-align: center;
 }
 
 :global(:root[data-browser='safari']) .computer {

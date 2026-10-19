@@ -41,18 +41,19 @@ function InstallButton({ store, t }: { store: Store; t: PageProps['t'] }) {
 /**
  * One item per store: a link to the listing, or a disabled coming-soon button (REQ-PAGE-002). The
  * CSS turns the visitor's store into the one big button (Chrome when the browser isn't recognised)
- * and the others into plain links; the last item only shows to iOS visitors.
+ * and the others into plain links; the computer note only shows to iOS visitors.
  */
 export function InstallButtons({ stores, t }: InstallButtonsProps) {
   return (
     <ul className={styles.list} aria-label={t('websiteInstallLabel')}>
+      <li className={styles.also}>{t('websiteInstallAlso')}</li>
+      {/* biome-ignore lint/security/noSecrets: an i18n key, not a secret */}
+      <li className={styles.computer}>{t('websiteInstallOnComputer')}</li>
       {stores.map((store) => (
         <li key={store.id} className={styles[store.id]}>
           <InstallButton store={store} t={t} />
         </li>
       ))}
-      {/* biome-ignore lint/security/noSecrets: an i18n key, not a secret */}
-      <li className={styles.computer}>{t('websiteInstallOnComputer')}</li>
     </ul>
   );
 }
