@@ -57,7 +57,7 @@
   },
   "websiteNavGitHub": {
     "message": "GitHub",
-    "description": "Header link to the open-source repository of SiteMark on GitHub."
+    "description": "Header link to the public repository of SiteMark on GitHub."
   },
   "websiteLanguageLabel": {
     "message": "Taal",
@@ -84,8 +84,8 @@
     "description": "Footer link to sitemap.xml, the list of all pages for search engines."
   },
   "websiteFooterLicense": {
-    "message": "MIT-licentie",
-    "description": "Footer link to the open-source license of SiteMark."
+    "message": "Licentie",
+    "description": "Footer link to the license of SiteMark."
   },
   "websiteFooterPortfolio": {
     "message": "Portfolio",
@@ -100,7 +100,7 @@
     "description": "Accessible name of the theme switch in the header (system / light / dark)."
   },
   "websiteHomeDescription": {
-    "message": "SiteMark markeert productie- en andere websites met linten, banners en kaders, zodat je omgevingen nooit verwart. Gratis, privé en open source.",
+    "message": "SiteMark markeert productie- en andere websites met linten, banners en kaders, zodat je omgevingen nooit verwart. Gratis, privé en met openbare broncode.",
     "description": "Meta description of the website home page, shown in search results. At most 160 characters."
   },
   "websiteSocialImageAlt": {
@@ -288,11 +288,11 @@
     "description": "Link from the home page privacy summary to the privacy policy."
   },
   "websitePrivacyFactOpenTitle": {
-    "message": "Open source",
+    "message": "Openbare broncode",
     "description": "Title of a privacy fact card on the home page."
   },
   "websitePrivacyFactOpenText": {
-    "message": "MIT-licentie en openbaar op GitHub: de extensie en deze website, dus iedereen kan nagaan wat SiteMark doet.",
+    "message": "De code van de extensie en deze website is openbaar op GitHub, dus iedereen kan nagaan wat SiteMark doet. Alle rechten voorbehouden.",
     "description": "One sentence on a privacy fact card on the home page."
   },
   "websitePrivacyFactNoAnalyticsTitle": {

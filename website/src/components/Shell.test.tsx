@@ -103,7 +103,7 @@ describe('REQ-PAGE-007 every page has a skip link, a header and a footer', () =>
       ['For AI agents', '/SiteMark/agents/'],
       ['Support', '/SiteMark/support/'],
       ['Sitemap', '/SiteMark/sitemap.xml'],
-      ['MIT license', 'https://github.com/nielsbrakel/SiteMark/blob/main/LICENSE'],
+      ['License', 'https://github.com/nielsbrakel/SiteMark/blob/main/LICENSE'],
       ['Portfolio', 'https://nielsvanbrakel.com/'],
     ]);
     expect(footer.textContent).toContain('Made by Niels van Brakel in the Netherlands.');

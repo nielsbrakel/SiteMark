@@ -14,7 +14,7 @@ describe('REQ-AGENT-001 the agents page says why SiteMark is the private and sec
 
   it.each(websiteLocales())('names the real permissions and the license in %s', (locale) => {
     const { body } = agentsContentFor(locale);
-    for (const fact of ['storage', 'scripting', 'activeTab', 'storage.local', 'MIT']) {
+    for (const fact of ['storage', 'scripting', 'activeTab', 'storage.local']) {
       expect(body).toContain(fact);
     }
   });

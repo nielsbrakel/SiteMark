@@ -1,6 +1,6 @@
 # Privacyverklaring
 
-Laatst bijgewerkt: 2026-10-02
+Laatst bijgewerkt: 2026-10-19
 
 Deze verklaring gaat over de **browserextensie SiteMark** en de **website van SiteMark**
 (nielsbrakel.github.io/SiteMark). Ze is ook in het Engels beschikbaar.
@@ -14,7 +14,7 @@ Deze verklaring gaat over de **browserextensie SiteMark** en de **website van Si
 
 ## Wie is verantwoordelijk
 
-SiteMark is een opensourceproject van **Niels van Brakel, Nederland**, die verwerkingsverantwoordelijke is voor
+SiteMark is een project van **Niels van Brakel, Nederland**, die verwerkingsverantwoordelijke is voor
 deze verklaring. SiteMark wordt in de vrije tijd onderhouden en is geen bedrijf.
 
 ## De extensie

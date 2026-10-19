@@ -52,7 +52,7 @@ The type scale continues the extension scale (12/14/16/20/28) and only adds the 
 │  SiteMark at work: switch + 3 taped notes (favicon · page · component)         │
 │  Privacy summary → /privacy/                                                   │
 ├──────────────────────────────────────────────────────────────────────────────┤
-│ GitHub · Changelog · Privacy · Support · Sitemap · MIT license                 │  footer: muted text
+│ GitHub · Changelog · Privacy · Support · Sitemap · License                     │  footer: muted text
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -78,7 +78,7 @@ Website-only components live in `website/src/components` with CSS Modules.
 | `Callout`        | A note or warning box (for example "Security issue? Don't open a public issue"), with an icon + text, never color alone                  |
 | `FeatureCard`    | A raised card with an inline SVG icon, a title and one sentence                                                                          |
 | `MockBrowser`    | From `src/ui/components` (T-135): tab strip, address bar, content area, marker-view host                                                 |
-| `Footer`         | Muted links; the MIT license and the "made in the Netherlands" controller line from the privacy page                                     |
+| `Footer`         | Muted links; the license and the "made in the Netherlands" controller line from the privacy page                                         |
 
 Every component defines the states matrix from the extension design (§4a): default, hover, focus-visible, active,
 disabled, forced colors, light and dark.

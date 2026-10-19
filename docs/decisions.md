@@ -36,7 +36,7 @@ and tasks. Never edit what a decision means. To change it, add a new entry and m
 | D-018 | Quick actions       | Picker shortcut + temporarily hide marks                                                                                    | Active (+ D-207, D-208)              |
 | D-019 | Tracking            | Markdown task list + `pnpm progress`                                                                                        | Active (automation: D-210)           |
 | D-020 | Tests               | Vitest + RTL + Playwright                                                                                                   | Active (layers: D-233)               |
-| D-021 | Tooling / license   | pnpm, MIT                                                                                                                   | Active                               |
+| D-021 | Tooling / license   | pnpm, all rights reserved                                                                                                   | Active                               |
 | D-022 | Brand               | Bookmark ribbon + cursor logo, signal coral                                                                                 | Active                               |
 | D-023 | Design deliverables | Tokens + `docs/design.md`                                                                                                   | Active                               |
 | D-024 | Process             | Spec → plan → tasks, then TDD red → green → refactor. Implementation starts only when the owner says so                     | Active                               |
