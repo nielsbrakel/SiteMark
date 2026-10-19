@@ -1,6 +1,6 @@
 # Privacyverklaring
 
-Laatst bijgewerkt: 2026-10-19
+Laatst bijgewerkt: 2026-10-20
 
 Deze verklaring gaat over de **browserextensie SiteMark** en de **website van SiteMark**
 (nielsbrakel.github.io/SiteMark). Ze is ook in het Engels beschikbaar.
@@ -82,7 +82,7 @@ heen tenzij je het plakt, bijvoorbeeld in een bugmelding.
 ### Extensiewinkels
 
 Je installeert SiteMark via een extensiewinkel (Chrome Web Store, Microsoft Edge Add-ons, Firefox Add-ons en
-vanaf v1.1 de App Store). De winkel verwerkt je installatie volgens zijn eigen privacybeleid. Winkels kunnen de
+straks de App Store). De winkel verwerkt je installatie volgens zijn eigen privacybeleid. Winkels kunnen de
 maker totaalcijfers tonen, zoals het aantal gebruikers; daarmee ben je niet te herkennen.
 
 ## De website

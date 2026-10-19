@@ -1,6 +1,6 @@
 # Privacy policy
 
-Last updated: 2026-10-19
+Last updated: 2026-10-20
 
 This policy covers the **SiteMark browser extension** and the **SiteMark website**
 (nielsbrakel.github.io/SiteMark). It is also available in Dutch.
@@ -78,7 +78,7 @@ example into a bug report.
 ### Browser stores
 
 You install SiteMark from a browser store (Chrome Web Store, Microsoft Edge Add-ons, Firefox Add-ons, and the
-App Store from v1.1). The store processes your installation under its own privacy policy. Stores can show the
+App Store once it is available). The store processes your installation under its own privacy policy. Stores can show the
 maintainer aggregate numbers such as the number of users; these don't identify you.
 
 ## The website
