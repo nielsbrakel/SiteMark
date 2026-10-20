@@ -1,6 +1,6 @@
 # SiteMark — notes for AI assistants
 
-Cross-browser MV3 extension (Chromium + Firefox in v1.0, Safari in v1.1) built with WXT + React + TypeScript.
+Cross-browser MV3 extension (Chromium + Firefox in v1.0, Safari later) built with WXT + React + TypeScript.
 Start with `docs/tasks.md` (what's next, short) and the `docs/plan.md` section for the area you change.
 `docs/spec.md` (requirements, REQ-xxx), `docs/decisions.md` (D-xxx) and `docs/archive/tasks.md` (finished M0–M6)
 are large: search them by ID or topic instead of reading them whole. The public website (`website/`) has its own

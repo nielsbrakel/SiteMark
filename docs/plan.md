@@ -171,7 +171,7 @@ live in `platform/message-payloads.ts`, which content scripts never load: they i
 | E2E               | Playwright + built Chromium extension | Real flows on fixture sites, hostile pages, strict CSP                                         | `tests/e2e/*.spec.ts`   |
 | Manifest/artifact | Vitest (node) on `.output/*`          | Privacy manifest assertions for all targets, built-output network scan                         | `tests/build/*.test.ts` |
 | Mutation          | Stryker (nightly)                     | `src/core`                                                                                     | —                       |
-| Manual            | Checklist                             | Firefox per release (D-214), Safari from v1.1                                                  | `docs/testing.md`       |
+| Manual            | Checklist                             | Firefox per release (D-214), Safari when it ships                                              | `docs/testing.md`       |
 
 **E2E specifics:**
 
@@ -209,7 +209,7 @@ All actions are pinned by SHA, use `persist-credentials: false`, set `timeout-mi
 | M6   | **Options**         | Groups, patterns, marks, preview, settings, data, welcome, diagnostics                                                               |
 | M7   | **Polish**          | i18n review, axe, zoom, visual baselines, perf, Firefox smoke                                                                        |
 | M8   | **Release v1.0**    | PRIVACY, SECURITY, store assets, release workflow, submission (Chrome/Edge/Firefox)                                                  |
-| M9   | **Safari v1.1**     | Safari 18 build, packaging, fixes, App Store                                                                                         |
+| M9   | **Safari (later)**  | Safari 18 build, packaging, fixes, App Store                                                                                         |
 
 The public website (`website/`, outside `src/`) has its own [spec, plan and tasks](website/plan.md) with milestones
 W1 (before T-152) and W2 (after M6), D-253.
@@ -219,7 +219,7 @@ every Must REQ of the milestone covered by a passing test, and a pre-release tag
 
 ## 8. Browser compatibility notes (from the platform review)
 
-| Concern                                 | Chrome ≥ 120 | Firefox ≥ 140                           | Safari ≥ 18 (v1.1)                          |
+| Concern                                 | Chrome ≥ 120 | Firefox ≥ 140                           | Safari ≥ 18 (later)                         |
 | --------------------------------------- | ------------ | --------------------------------------- | ------------------------------------------- |
 | Runtime `permissions.request`           | ✅           | ⚠️ must be synchronous; popup may close | ⚠️ Safari's own per-site UI, one-day grants |
 | `registerContentScripts` persistence    | ✅           | ✅                                      | ⚠️ unreliable → re-sync on start            |

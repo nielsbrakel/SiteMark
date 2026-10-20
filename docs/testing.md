@@ -7,10 +7,10 @@
 
 | Command              | What it does                                                                                                  |
 | -------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `pnpm test`          | Vitest projects `core` (node) + `dom` (happy-dom)                                                             |
+| `pnpm test`          | Vitest projects `core`, `dom`, `scripts`, `website-node` and `website-dom`                                    |
 | `pnpm test:browser`  | Vitest browser mode in Chromium (`*.browser.test.ts`)                                                         |
 | `pnpm test:watch`    | Watch mode for the TDD loop                                                                                   |
-| `pnpm test:coverage` | All three projects with per-glob coverage thresholds (core 90/85, platform 85, overall 80)                    |
+| `pnpm test:coverage` | The same projects plus `browser`, with per-glob coverage thresholds (core 90/85, platform 85, overall 80)     |
 | `pnpm test:e2e`      | Builds the e2e variant (`.output/chrome-mv3-e2e`) and runs Playwright                                         |
 | `pnpm web:test:e2e`  | Builds the website and runs its Playwright suite against `vite preview` at `/SiteMark/` (`website/tests/e2e`) |
 | `pnpm test:build`    | Builds all four targets (Chrome, Edge, Firefox, Safari), then manifest, output-scan and size assertions       |

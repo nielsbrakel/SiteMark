@@ -18,15 +18,15 @@ Stores that take a single URL per field get the English one: every page links it
 
 ## Per store
 
-| Store                  | Website field   | Privacy field                  | Support field            | Status  |
-| ---------------------- | --------------- | ------------------------------ | ------------------------ | ------- |
-| Chrome Web Store       | _Homepage URL_  | _Privacy policy URL_           | _Support URL_            | T-152 ☐ |
-| Microsoft Edge Add-ons | _Website_       | _Privacy policy URL_           | _Support contact_        | T-152 ☐ |
-| Firefox Add-ons (AMO)  | _Homepage_      | _Privacy policy_ (text or URL) | _Support website_        | T-152 ☐ |
-| App Store (Safari)     | _Marketing URL_ | _Privacy Policy URL_           | _Support URL_ (required) | T-157 ☐ |
+| Store                  | Website field   | Privacy field                  | Support field            | Status   |
+| ---------------------- | --------------- | ------------------------------ | ------------------------ | -------- |
+| Chrome Web Store       | _Homepage URL_  | _Privacy policy URL_           | _Support URL_            | T-152 ✅ |
+| Microsoft Edge Add-ons | _Website_       | _Privacy policy URL_           | _Support contact_        | T-152 ✅ |
+| Firefox Add-ons (AMO)  | _Homepage_      | _Privacy policy_ (text or URL) | _Support website_        | T-152 ✅ |
+| App Store (Safari)     | _Marketing URL_ | _Privacy Policy URL_           | _Support URL_ (required) | T-157 ☐  |
 
 When a listing goes live, put its URL in [`website/src/config/stores.ts`](../website/src/config/stores.ts):
-the website's install button for that store then turns from "Coming soon" into a link (REQ-PAGE-002).
+the website's install button for that store then turns from "Coming soon" into a link (all three live today) (REQ-PAGE-002).
 
 ## Listing texts
 

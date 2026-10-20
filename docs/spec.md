@@ -1,6 +1,6 @@
 # SiteMark — Product specification (v1)
 
-> Status: **Approved draft, rev 2** (after the [2026-09-25 plan review](reviews/2026-09-25-plan-review.md))
+> Status: **v1.0 shipped, living document** (rev 2, after the [2026-09-25 plan review](reviews/2026-09-25-plan-review.md))
 > Related: [decisions](decisions.md) · [plan](plan.md) · [tasks](tasks.md) · [design](design.md) · [testing](testing.md)
 
 ## 1. Problem
@@ -23,7 +23,7 @@ leaves your device.
 2. **Simple:** marking a site takes ≤ 30 s (popup → Mark this site → Allow).
 3. **Private:** no install-time host access, no network calls of its own, local storage only.
 4. **Safe for the page:** no layout shift, and marks never block interaction.
-5. **Cross-browser:** Chromium + Firefox in v1.0, Safari in v1.1 (D-213).
+5. **Cross-browser:** Chromium + Firefox in v1.0, Safari later (D-213, D-292).
 
 **Non-goals (v1).** Cloud or account sync, team sharing, automatic environment detection,
 mobile browsers, analytics of any kind. SiteMark is **not a security control**: a hostile
@@ -257,20 +257,20 @@ when a requirement has no task, or when a finished task has an uncovered require
 
 ### 5.13 Accessibility — `A11Y`
 
-| ID           | P   | Requirement                                                                                                                                                                                                                           |
-| ------------ | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| REQ-A11Y-001 | M   | WCAG 2.2 AA text contrast in both themes, enforced by a token contrast test.                                                                                                                                                          |
-| REQ-A11Y-002 | M   | Everything works from the keyboard, including the picker (REQ-PICK-002) and reordering (REQ-GRP-004).                                                                                                                                 |
-| REQ-A11Y-003 | M   | Every interactive element has a visible focus indicator (`outline`, token `--sm-focus-color`).                                                                                                                                        |
-| REQ-A11Y-004 | M   | Automated axe checks: vitest-axe in component tests, and Playwright axe on the popup and options page in light and dark (0 serious or critical violations).                                                                           |
-| REQ-A11Y-005 | M   | `prefers-reduced-motion` turns off pulses, fades and slides.                                                                                                                                                                          |
-| REQ-A11Y-006 | M   | The page banner exposes its text to assistive technology (`role="note"`). Purely decorative overlays are `aria-hidden`.                                                                                                               |
-| REQ-A11Y-007 | M   | **Forced colors** (`forced-colors: active`): the UI uses system colors for boundaries, states and focus, and marks use `forced-color-adjust: none`.                                                                                   |
-| REQ-A11Y-008 | M   | **Non-text contrast** of at least 3:1 for control boundaries and states (WCAG 1.4.11), using `--sm-control-border`. Text fields are the exception (D-286): a soft inset well, a focus ring and, when invalid, a `--sm-danger` border. |
-| REQ-A11Y-009 | M   | Targets are at least 24 × 24 px (WCAG 2.5.8). Color swatches are 28 px with an 8 px gap.                                                                                                                                              |
-| REQ-A11Y-010 | M   | Every drag interaction has a non-drag alternative (WCAG 2.5.7): Move up/down buttons for reordering, and a "Move panel" button for the picker panel.                                                                                  |
-| REQ-A11Y-011 | M   | The picker announces the current candidate through a live region (e.g. "button, Delete, 120 by 36") and returns focus when it exits.                                                                                                  |
-| REQ-A11Y-012 | M   | The options page works at 200 % zoom and reflows at 320 px width. The popup scrolls vertically.                                                                                                                                       |
+| ID           | P   | Requirement                                                                                                                                                                                                             |
+| ------------ | --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| REQ-A11Y-001 | M   | WCAG 2.2 AA text contrast in both themes, enforced by a token contrast test.                                                                                                                                            |
+| REQ-A11Y-002 | M   | Everything works from the keyboard, including the picker (REQ-PICK-002) and reordering (REQ-GRP-004).                                                                                                                   |
+| REQ-A11Y-003 | M   | Every interactive element has a visible focus indicator (`outline`, token `--sm-focus-color`).                                                                                                                          |
+| REQ-A11Y-004 | M   | Automated axe checks: vitest-axe in component tests, and Playwright axe on the popup and options page in light and dark (0 serious or critical violations).                                                             |
+| REQ-A11Y-005 | M   | `prefers-reduced-motion` turns off pulses, fades and slides.                                                                                                                                                            |
+| REQ-A11Y-006 | M   | The page banner exposes its text to assistive technology (`role="note"`). Purely decorative overlays are `aria-hidden`.                                                                                                 |
+| REQ-A11Y-007 | M   | **Forced colors** (`forced-colors: active`): the UI uses system colors for boundaries, states and focus, and marks use `forced-color-adjust: none`.                                                                     |
+| REQ-A11Y-008 | M   | **Non-text contrast** of at least 3:1 for control boundaries and states (WCAG 1.4.11), using `--sm-control-border`. Text fields have the same outlined boundary (D-289); when invalid, they get a `--sm-danger` border. |
+| REQ-A11Y-009 | M   | Targets are at least 24 × 24 px (WCAG 2.5.8). Color swatches are 28 px with an 8 px gap.                                                                                                                                |
+| REQ-A11Y-010 | M   | Every drag interaction has a non-drag alternative (WCAG 2.5.7): Move up/down buttons for reordering, and a "Move panel" button for the picker panel.                                                                    |
+| REQ-A11Y-011 | M   | The picker announces the current candidate through a live region (e.g. "button, Delete, 120 by 36") and returns focus when it exits.                                                                                    |
+| REQ-A11Y-012 | M   | The options page works at 200 % zoom and reflows at 320 px width. The popup scrolls vertically.                                                                                                                         |
 
 ### 5.14 Security — `SEC`
 
@@ -299,7 +299,7 @@ when a requirement has no task, or when a finished task has an uncovered require
 
 | ID          | P   | Requirement                                                                                                                                                                                                                                                                          |
 | ----------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| REQ-NFR-001 | M   | **Compatibility** (D-241): Chrome/Edge ≥ 120 (Brave, Opera and Arc best-effort) and Firefox desktop ≥ 140. Safari on macOS ≥ 18 in v1.1. One codebase, with browser quirks isolated in `src/platform/`. The minimum versions are declared in the manifest.                           |
+| REQ-NFR-001 | M   | **Compatibility** (D-241): Chrome/Edge ≥ 120 (Brave, Opera and Arc best-effort) and Firefox desktop ≥ 140. Safari on macOS ≥ 18 when it ships (later). One codebase, with browser quirks isolated in `src/platform/`. The minimum versions are declared in the manifest.             |
 | REQ-NFR-002 | M   | **Size:** the marker content script is ≤ 25 KB gzipped and the picker ≤ 20 KB gzipped (no React in content scripts). Checked in CI.                                                                                                                                                  |
 | REQ-NFR-003 | M   | **Performance:** with no active group, the content script finishes in < 2 ms. Matching 500 patterns takes < 1 ms. With 10 element marks, scrolling costs < 1 ms per frame on average. Marks are visible ≤ 100 ms after `DOMContentLoaded`.                                           |
 | REQ-NFR-004 | M   | **Quality gates** that must pass in CI before merge: typecheck, lint (Biome, with layer zones and type-aware rules), format, stylelint, unit/dom/browser tests with coverage (core ≥ 90 % lines and 85 % branches, platform ≥ 85 %, overall ≥ 80 %), e2e, verify-tdd and commitlint. |
