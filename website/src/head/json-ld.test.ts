@@ -38,7 +38,7 @@ describe('REQ-SEO-005 the home routes describe SiteMark as a SoftwareApplication
       screenshot: 'https://nielsbrakel.github.io/SiteMark/screenshots/marked-page-light-nl.png',
       codeRepository: 'https://github.com/nielsbrakel/SiteMark',
       license: 'https://github.com/nielsbrakel/SiteMark/blob/main/LICENSE',
-      image: 'https://nielsbrakel.github.io/SiteMark/social-preview.png',
+      image: 'https://nielsbrakel.github.io/SiteMark/social-preview-nl.png',
     });
   });
 

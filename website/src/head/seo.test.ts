@@ -89,7 +89,7 @@ describe('REQ-SEO-002 every route has a canonical URL, hreflang alternates and <
 });
 
 describe('REQ-SEO-004 every route has Open Graph and Twitter card tags', () => {
-  it('describes the page, its locale and the 1280 × 640 social preview', () => {
+  it('describes the page, its locale and the 1200 × 630 social preview of its language', () => {
     const head = seoHead(route('privacy'), 'nl', text);
     const og = Object.fromEntries(head.openGraph.map(({ key, content }) => [key, content]));
     expect(og).toEqual({
@@ -100,9 +100,9 @@ describe('REQ-SEO-004 every route has Open Graph and Twitter card tags', () => {
       'og:url': `${ORIGIN}nl/privacy/`,
       'og:locale': 'nl_NL',
       'og:locale:alternate': 'en_US',
-      'og:image': `${ORIGIN}social-preview.png`,
-      'og:image:width': '1280',
-      'og:image:height': '640',
+      'og:image': `${ORIGIN}social-preview-nl.png`,
+      'og:image:width': '1200',
+      'og:image:height': '630',
       'og:image:alt': 'Logo',
     });
     const twitter = Object.fromEntries(head.twitter.map(({ key, content }) => [key, content]));
@@ -110,7 +110,7 @@ describe('REQ-SEO-004 every route has Open Graph and Twitter card tags', () => {
       'twitter:card': 'summary_large_image',
       'twitter:title': 'Privacy · SiteMark',
       'twitter:description': 'How SiteMark handles data.',
-      'twitter:image': `${ORIGIN}social-preview.png`,
+      'twitter:image': `${ORIGIN}social-preview-nl.png`,
       'twitter:image:alt': 'Logo',
     });
   });
@@ -123,7 +123,9 @@ describe('REQ-SEO-004 every route has Open Graph and Twitter card tags', () => {
   it('puts them in every prerendered page', () => {
     for (const { file, html } of pages) {
       expect(metaContent(html, 'og:title'), file).toBe(titleOf(html));
-      expect(metaContent(html, 'og:image'), file).toBe(`${ORIGIN}social-preview.png`);
+      expect(metaContent(html, 'og:image'), file).toBe(
+        `${ORIGIN}social-preview-${file.startsWith('nl/') ? 'nl' : 'en'}.png`,
+      );
       expect(metaContent(html, 'og:image:alt'), file).toBeTruthy();
       expect(metaContent(html, 'twitter:card'), file).toBe('summary_large_image');
     }

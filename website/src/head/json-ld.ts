@@ -43,7 +43,7 @@ export function softwareApplication({
     screenshot: absoluteUrl(screenshotFile('marked-page', 'light', locale, 'png')),
     codeRepository: repositoryUrl(),
     license: repositoryFileUrl('LICENSE'),
-    image: socialPreviewUrl(),
+    image: socialPreviewUrl(locale),
   };
 }
 

@@ -1,5 +1,6 @@
 // Renders design/logo/*.svg into the PNG toolbar/store icons in public/icon/, and
-// design/social-preview.svg into the GitHub social preview (design/social-preview.png), and
+// design/social-preview.svg into the GitHub social preview (design/social-preview.png) and the
+// per-language link previews (design/social-preview-{en,nl}.png), and
 // design/{promo,marquee}-tile.svg into the localised store promo tiles (T-152). It then collects
 // every store image into store/images/ (store/listing.md says which store takes which).
 // Usage: pnpm icons   (set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium)
@@ -49,6 +50,32 @@ await page.setContent(
 );
 await page.locator('svg').screenshot({ path: 'design/social-preview.png' });
 console.log('design/social-preview.png');
+
+// Link previews (Open Graph) are 1200 × 630 and per language: the same art, cropped a little at the
+// sides, with the Dutch text swapped in.
+const socialDutch = [
+  ['Never confuse', 'Verwar productie'],
+  ['production with test.', 'nooit met test.'],
+  ['Ribbons, banners and outlines', 'Linten, banners en kaders'],
+  ['on the sites you choose.', 'op de sites die je kiest.'],
+  ['Private · Chrome', 'Privé · Chrome'],
+  ['>Delete<', '>Verwijder<'],
+  ['PRODUCTION · BE CAREFUL', 'PRODUCTIE · PAS OP'],
+];
+await page.setViewportSize({ width: 1200, height: 630 });
+for (const lang of ['en', 'nl']) {
+  let markup = (await readFile('design/social-preview.svg', 'utf8')).replace(
+    '<svg ',
+    // biome-ignore lint/security/noSecrets: an SVG attribute, not a secret
+    '<svg preserveAspectRatio="xMidYMid slice" ',
+  );
+  if (lang === 'nl') for (const [from, to] of socialDutch) markup = markup.replaceAll(from, to);
+  await page.setContent(
+    `<style>${fonts}html,body{margin:0}svg{display:block;width:1200px;height:630px}</style>${markup}`,
+  );
+  await page.locator('svg').screenshot({ path: `design/social-preview-${lang}.png` });
+  console.log(`design/social-preview-${lang}.png`);
+}
 
 // The store tiles are localised: the English SVG text is swapped for the Dutch text.
 const dutch = [

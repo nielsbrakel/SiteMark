@@ -25,12 +25,12 @@ export type SeoHead = {
 
 const OG_LOCALES: Record<Locale, string> = { en: 'en_US', nl: 'nl_NL' };
 
-/** design/social-preview.png, which the prerender step copies to the website root. */
-const SOCIAL_PREVIEW = { file: 'social-preview.png', width: 1280, height: 640 } as const;
+/** design/social-preview-<locale>.png, which the prerender step copies to the website root. */
+const SOCIAL_PREVIEW = { width: 1200, height: 630 } as const;
 
-/** The absolute URL of the social preview image (Open Graph, Twitter and JSON-LD). */
-export function socialPreviewUrl(): string {
-  return absoluteUrl(SOCIAL_PREVIEW.file);
+/** The absolute URL of the social preview image of a locale (Open Graph, Twitter and JSON-LD). */
+export function socialPreviewUrl(locale: Locale): string {
+  return absoluteUrl(`social-preview-${locale}.png`);
 }
 
 function openGraph(locale: Locale, canonical: string, text: PageText): MetaTag[] {
@@ -43,19 +43,19 @@ function openGraph(locale: Locale, canonical: string, text: PageText): MetaTag[]
     { key: 'og:url', content: canonical },
     { key: 'og:locale', content: OG_LOCALES[locale] },
     ...others.map((other) => ({ key: 'og:locale:alternate', content: OG_LOCALES[other] })),
-    { key: 'og:image', content: socialPreviewUrl() },
+    { key: 'og:image', content: socialPreviewUrl(locale) },
     { key: 'og:image:width', content: String(SOCIAL_PREVIEW.width) },
     { key: 'og:image:height', content: String(SOCIAL_PREVIEW.height) },
     { key: 'og:image:alt', content: text.imageAlt },
   ];
 }
 
-function twitter(text: PageText): MetaTag[] {
+function twitter(locale: Locale, text: PageText): MetaTag[] {
   return [
     { key: 'twitter:card', content: 'summary_large_image' },
     { key: 'twitter:title', content: text.title },
     { key: 'twitter:description', content: text.description },
-    { key: 'twitter:image', content: socialPreviewUrl() },
+    { key: 'twitter:image', content: socialPreviewUrl(locale) },
     { key: 'twitter:image:alt', content: text.imageAlt },
   ];
 }
@@ -69,6 +69,6 @@ export function seoHead(route: Pick<Route, 'slug'>, locale: Locale, text: PageTe
     canonical,
     alternates: alternates(route),
     openGraph: openGraph(locale, canonical, text),
-    twitter: twitter(text),
+    twitter: twitter(locale, text),
   };
 }
