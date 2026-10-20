@@ -2,7 +2,8 @@
 // design/social-preview.svg into the GitHub social preview (design/social-preview.png) and the
 // per-language link previews (design/social-preview-{en,nl}.png), and
 // design/{promo,marquee}-tile.svg into the localised store promo tiles (T-152). It then collects
-// every store image into store/images/ (store/listing.md says which store takes which).
+// the icons and tiles into store/images/ (store/listing.md says which store takes which; the framed
+// screenshots come from `pnpm web:screenshots`).
 // Usage: pnpm icons   (set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium)
 import { copyFile, mkdir, readFile } from 'node:fs/promises';
 import { chromium } from '@playwright/test';
@@ -112,18 +113,5 @@ await page.locator('svg').screenshot({ path: 'store/images/icon-300.png', omitBa
 
 await browser.close();
 
-const shots = [
-  'marked-page-light',
-  'popup-light',
-  'options-light',
-  'marked-page-dark',
-  'popup-dark',
-];
-const files = [['public/icon/128.png', 'icon-128.png']];
-for (const lang of ['en', 'nl']) {
-  shots.forEach((shot, i) => {
-    files.push([`website/public/screenshots/${shot}-${lang}.png`, `${lang}/${i + 1}-${shot}.png`]);
-  });
-}
-for (const [from, to] of files) await copyFile(from, `store/images/${to}`);
-console.log(`store/images: ${files.length} files copied`);
+await copyFile('public/icon/128.png', 'store/images/icon-128.png');
+console.log('store/images/icon-128.png');
