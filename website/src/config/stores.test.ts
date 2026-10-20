@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { installState, type Store, stores } from './stores';
+import { type Store, stores } from './stores';
 
 /** Where each store's listings live: a configured URL must be a listing on that store. */
 const LISTING: Record<Store['id'], RegExp> = {
@@ -9,24 +9,9 @@ const LISTING: Record<Store['id'], RegExp> = {
   safari: /^https:\/\/apps\.apple\.com\/[a-z]{2}\/app\/[\w-]+\/id\d+$/,
 };
 
-const store = (id: Store['id'], url: string | null): Store => {
-  const found = stores().find((s) => s.id === id);
-  if (!found) throw new Error(`no store ${id}`);
-  return { ...found, url };
-};
-
 describe('REQ-PAGE-002 the install buttons come from one config file', () => {
   it('lists Chrome, Edge, Firefox and Safari, in that order', () => {
     expect(stores().map((s) => s.id)).toEqual(['chrome', 'edge', 'firefox', 'safari']);
-  });
-
-  it('ships Chrome, Edge and Firefox in v1.0 and Safari later', () => {
-    expect(Object.fromEntries(stores().map((s) => [s.id, s.release]))).toEqual({
-      chrome: 'v1.0',
-      edge: 'v1.0',
-      firefox: 'v1.0',
-      safari: 'later',
-    });
   });
 
   it('only holds real listing URLs on the store itself, or null until the listing exists', () => {
@@ -35,10 +20,12 @@ describe('REQ-PAGE-002 the install buttons come from one config file', () => {
     }
   });
 
-  it('links a store once it has a URL, and shows a coming-soon state before that', () => {
-    const chrome = 'https://chrome.google.com/webstore/detail/kbpbafjebhbanajcefmkfhknbmgbndpg';
-    expect(installState(store('chrome', chrome))).toBe('live');
-    expect(installState(store('firefox', null))).toBe('comingSoon');
-    expect(installState(store('safari', null))).toBe('comingLater');
+  it('has a listing for Chrome, Edge and Firefox, and none for Safari yet', () => {
+    expect(Object.fromEntries(stores().map(({ id, url }) => [id, url !== null]))).toEqual({
+      chrome: true,
+      edge: true,
+      firefox: true,
+      safari: false,
+    });
   });
 });

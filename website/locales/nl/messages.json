@@ -345,16 +345,6 @@
       }
     }
   },
-  "websiteInstallComingSoon": {
-    "message": "$BROWSER$: binnenkort",
-    "description": "Disabled install button for a store whose listing isn't public yet.",
-    "placeholders": {
-      "browser": {
-        "content": "$1",
-        "example": "Chrome"
-      }
-    }
-  },
   "websiteInstallComingLater": {
     "message": "$BROWSER$: komt in de toekomst",
     "description": "Disabled install button for a store that SiteMark supports later (Safari).",
