@@ -1,8 +1,11 @@
 import { screen } from '@testing-library/react';
 import { act } from 'react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { mount } from './mount';
 
+beforeAll(() => {
+  Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
+});
 afterEach(() => document.body.replaceChildren());
 
 describe('REQ-I18N-004 mount() renders a page with its locale applied', () => {
