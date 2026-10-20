@@ -19,6 +19,8 @@ type DocumentProps = {
   /** Absolute URLs under the base path. No script: the page has no islands. */
   script?: string | undefined;
   styles: readonly string[];
+  /** Absolute URLs of the fonts to preload: they are needed on every page, and CSS finds them late. */
+  fonts?: readonly string[] | undefined;
   /** The page, rendered into #root, which is all the browser hydrates. */
   children: ReactNode;
 };
@@ -31,7 +33,18 @@ const THEME_COLORS = { light: '#c9a77c', dark: '#17121f' } as const;
  * by one renderer. `data-route` and `data-locale` tell the client what to hydrate.
  */
 export function Document(props: DocumentProps) {
-  const { locale, page, headTags, csp, jsonLd, bootstrap, script, styles, children } = props;
+  const {
+    locale,
+    page,
+    headTags,
+    csp,
+    jsonLd,
+    bootstrap,
+    script,
+    styles,
+    fonts = [],
+    children,
+  } = props;
   return (
     <html lang={locale} data-route={page} data-locale={locale}>
       <head>
@@ -56,6 +69,9 @@ export function Document(props: DocumentProps) {
         <link rel="icon" href={assetUrl('favicon.svg')} type="image/svg+xml" />
         <link rel="icon" href={assetUrl('favicon-32.png')} sizes="32x32" type="image/png" />
         <link rel="apple-touch-icon" href={assetUrl('apple-touch-icon.png')} />
+        {fonts.map((href) => (
+          <link key={href} rel="preload" as="font" type="font/woff2" href={href} crossOrigin="" />
+        ))}
         {styles.map((href) => (
           <link key={href} rel="stylesheet" href={href} />
         ))}

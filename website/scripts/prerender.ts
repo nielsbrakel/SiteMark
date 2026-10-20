@@ -48,7 +48,10 @@ function clientAssets(): PageAssets {
   ) as Record<string, ManifestChunk>;
   const entry = manifest['src/entry-client.ts'];
   if (!entry) throw new Error('The client build has no src/entry-client.ts entry');
-  return { script: entry.file, styles: entry.css ?? [] };
+  const fonts = Object.values(manifest).flatMap(({ file }) =>
+    file.endsWith('.woff2') ? [file] : [],
+  );
+  return { script: entry.file, styles: entry.css ?? [], fonts };
 }
 
 const server = (await import(
