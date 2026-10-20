@@ -20,21 +20,30 @@ for (const route of routeCases()) {
       uploadThroughput: 100 * 1024,
     });
     await page.addInitScript(() => {
-      const state = { shift: 0 };
+      const state: { shift: number; shifts: string[] } = { shift: 0, shifts: [] };
       Object.assign(window, { layoutShift: state });
       new PerformanceObserver((list) => {
         for (const entry of list.getEntries() as PerformanceEntry[] &
           { hadRecentInput: boolean }[]) {
-          if (!entry.hadRecentInput) state.shift += (entry as unknown as { value: number }).value;
+          if (entry.hadRecentInput) continue;
+          const { value, sources } = entry as unknown as {
+            value: number;
+            sources: { node: Element | null; previousRect: DOMRect; currentRect: DOMRect }[];
+          };
+          state.shift += value;
+          const moved = sources.map(
+            (s) => `${s.node?.nodeName} ${s.previousRect.height}→${s.currentRect.height}px`,
+          );
+          state.shifts.push(`${value.toFixed(3)} ${moved.join(', ')}`);
         }
       }).observe({ type: 'layout-shift', buffered: true });
     });
     await page.goto(route.path);
     await page.waitForLoadState('networkidle');
     await page.evaluate(() => document.fonts.ready);
-    const shift = await page.evaluate(
-      () => (window as unknown as { layoutShift: { shift: number } }).layoutShift.shift,
+    const { shift, shifts } = await page.evaluate(
+      () => (window as unknown as { layoutShift: { shift: number; shifts: string[] } }).layoutShift,
     );
-    expect(shift).toBeLessThanOrEqual(MAX_SHIFT);
+    expect(shift, shifts.join('\n')).toBeLessThanOrEqual(MAX_SHIFT);
   });
 }
