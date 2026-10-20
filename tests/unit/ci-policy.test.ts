@@ -128,6 +128,16 @@ describe('REQ-SEC-009 dependencies are frozen, pinned and cooled down', () => {
   });
 });
 
+describe('REQ-SEC-008 the nightly run warns before the Edge API key expires', () => {
+  it('opens an issue within 30 days of the expiry date, with no more access than that', () => {
+    const job = load<Workflow>('.github/workflows/nightly.yml').jobs.credentials;
+    expect(job?.permissions).toEqual({ issues: 'write' });
+    const script = (job?.steps ?? []).map((step) => step.run ?? '').join('\n');
+    expect(script).toContain('gh issue create');
+    expect(script).toContain('-gt 30');
+  });
+});
+
 describe('REQ-NFR-004 mutation testing guards core every night', () => {
   it('runs `pnpm mutation` on a schedule and keeps the HTML report', () => {
     const nightly = load<Workflow>('.github/workflows/nightly.yml');

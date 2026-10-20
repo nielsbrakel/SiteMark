@@ -108,6 +108,8 @@ It is rendered from `design/social-preview.svg` by `pnpm icons`.
 
 ## 7. Store publishing (M8, D-227)
 
+The step-by-step release checklist, release notes template and rollback notes are in [release.md](release.md).
+
 `release.yml` runs on protected `v*` tags. The **guard** job refuses a tag that is not `v<package.json version>`
 or a commit whose `ci-ok` check has not passed. The **zip** job (read access only, no secrets, no dependency cache)
 builds the Chrome, Firefox (+ sources) and Edge zips, runs the build assertions on the Chrome, Firefox and Edge
@@ -131,7 +133,7 @@ AMO also receives the WXT sources zip and `SOURCE_REVIEW.md` (exact Node/pnpm ve
 
 ### Renewing store credentials
 
-If the **submit** job fails with an auth error for one store, its credential has expired or been revoked. Fix it, update the secret in the `store` environment, and re-run the failed job.
+If the **submit** job fails with an auth error for one store, its credential has expired or been revoked. Fix it, update the secret in the `store` environment, and re-run the failed job. The Nightly run opens an issue 30 days before the Edge key expires; when you renew it, move `EDGE_KEY_EXPIRES` in `.github/workflows/nightly.yml` to the new date.
 
 | Store            | Credential and lifetime                                                                                      | How to renew                                                                                                                                                                                      |
 | ---------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
