@@ -110,7 +110,7 @@ describe('REQ-NFR-006 store submission waits for the owner', () => {
   it('runs only the uploader that tools/uploader locks, not the whole workspace', () => {
     const script = runs(workflow()?.jobs.submit);
     expect(script).toContain('pnpm install --frozen-lockfile --ignore-workspace --ignore-scripts');
-    expect(script).toContain('pnpm exec publish-browser-extension');
+    expect(script).toContain('pnpm exec publish-extension');
     expect(script).not.toMatch(/\bnpx\b|\bnpm (ci|install)|wxt submit/);
   });
 
@@ -124,9 +124,7 @@ describe('REQ-NFR-006 store submission waits for the owner', () => {
   it('verifies the checksums and the provenance of every zip before it submits', () => {
     const steps = workflow()?.jobs.submit?.steps ?? [];
     const verify = steps.findIndex((step) => step.run?.includes('gh attestation verify'));
-    const upload = steps.findIndex((step) =>
-      step.run?.includes('pnpm exec publish-browser-extension'),
-    );
+    const upload = steps.findIndex((step) => step.run?.includes('pnpm exec publish-extension'));
     expect(verify).toBeGreaterThanOrEqual(0);
     expect(verify).toBeLessThan(upload);
     expect(steps[verify]?.run).toContain('sha256sum --check SHA256SUMS');
