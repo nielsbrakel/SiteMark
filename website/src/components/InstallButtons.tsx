@@ -1,5 +1,4 @@
-import { installState, type Store } from '../config/stores';
-import type { WebsiteMessageKey } from '../i18n/website-t';
+import type { Store } from '../config/stores';
 import type { PageProps } from '../pages/page-props';
 import { ExternalLink } from './ExternalLink';
 import styles from './InstallButtons.module.css';
@@ -14,15 +13,9 @@ const NAMES: Record<Store['id'], string> = {
   safari: 'Safari',
 };
 
-const COMING: Record<'comingSoon' | 'comingLater', WebsiteMessageKey> = {
-  comingSoon: 'websiteInstallComingSoon',
-  comingLater: 'websiteInstallComingLater',
-};
-
 function InstallButton({ store, t }: { store: Store; t: PageProps['t'] }) {
-  const state = installState(store);
   const name = NAMES[store.id];
-  if (state === 'live' && store.url !== null) {
+  if (store.url !== null) {
     return (
       <ExternalLink className={`sm-button ${styles.button}`} href={store.url}>
         {t('websiteInstallAdd', [name])}
@@ -30,16 +23,15 @@ function InstallButton({ store, t }: { store: Store; t: PageProps['t'] }) {
     );
   }
   // Not listed yet: a disabled button, never a dead link (REQ-PAGE-002).
-  const coming = state === 'comingLater' ? COMING.comingLater : COMING.comingSoon;
   return (
     <button type="button" className={`sm-button ${styles.button}`} disabled>
-      {t(coming, [name])}
+      {t('websiteInstallComingLater', [name])}
     </button>
   );
 }
 
 /**
- * One item per store: a link to the listing, or a disabled coming-soon button (REQ-PAGE-002). The
+ * One item per store: a link to the listing, or a disabled "coming in the future" button (REQ-PAGE-002). The
  * CSS turns the visitor's store into the one big button (Chrome when the browser isn't recognised)
  * and the others into plain links; the computer note only shows to iOS visitors.
  */
