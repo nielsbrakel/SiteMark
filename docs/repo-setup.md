@@ -116,7 +116,7 @@ builds, checks the manifest inside every zip (`scripts/check-release-zips.ts`: p
 strict CSP, closed `externally_connectable`, nothing from the e2e build) and writes SHA256SUMS. The **attest**
 job only downloads the zips and attests their build provenance (it holds the OIDC token, but runs no project
 code). The **submit** job runs inside environment `store`, which waits for the owner's approval: it verifies the
-checksums and each zip's attestation (`gh attestation verify`), then runs only `publish-browser-extension`
+checksums and each zip's attestation (`gh attestation verify`), then runs only `publish-extension` (the binary of `publish-browser-extension`)
 (what `wxt submit` uses), installed without install scripts from the lockfile in `tools/uploader/` and never from
 the workspace. A **release** job (no secrets, no project code) attaches the zips and SHA256SUMS to a GitHub
 Release. Store secrets live **only** in the `store` environment:

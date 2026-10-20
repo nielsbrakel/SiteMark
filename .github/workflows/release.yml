@@ -114,7 +114,10 @@ jobs:
           path: release
       - env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" release/*.zip release/SHA256SUMS --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes
+        # A release made by hand for the tag only gets the zips attached.
+        run: |
+          gh release create "$GITHUB_REF_NAME" release/*.zip release/SHA256SUMS --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes ||
+            gh release upload "$GITHUB_REF_NAME" release/*.zip release/SHA256SUMS --repo "$GITHUB_REPOSITORY" --clobber
 
   submit:
     name: submit (Chrome Web Store, Edge Add-ons, Firefox AMO)
@@ -168,7 +171,7 @@ jobs:
           EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
           EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
         run: |
-          pnpm exec publish-browser-extension \
+          pnpm exec publish-extension \
             --chrome-zip ../../release/*-chrome.zip \
             --firefox-zip ../../release/*-firefox.zip \
             --firefox-sources-zip ../../release/*-sources.zip \
