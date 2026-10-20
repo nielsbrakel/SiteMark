@@ -72,8 +72,7 @@
     "check:static": "pnpm typecheck && biome ci --reporter=github && stylelint 'src/**/*.css' 'website/src/**/*.css' --formatter unix && prettier --check '**/*.{md,yml,yaml}' && pnpm knip && pnpm progress --strict",
     "check:ci": "pnpm check:static && pnpm test:coverage",
     "progress": "node scripts/progress/cli.ts",
-    "verify-tdd": "node scripts/verify-tdd/cli.ts",
-    "changeset": "changeset"
+    "verify-tdd": "node scripts/verify-tdd/cli.ts"
   },
   "dependencies": {
     "@eslint-community/regexpp": "^4.12.2",
@@ -84,7 +83,6 @@
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
     "@biomejs/biome": "2.5.14",
-    "@changesets/cli": "^3.0.3",
     "@commitlint/cli": "21.2.3",
     "@commitlint/config-conventional": "21.2.3",
     "@commitlint/lint": "21.2.3",

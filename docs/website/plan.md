@@ -124,7 +124,7 @@ createTranslator(source) → { t(key, subs?), tp(key, count, subs?) }   // throw
 | --------- | --------------------------------------------------------------- | ----------------------- | ------------------------------------------------------------------ |
 | Privacy   | `PRIVACY.md`, `PRIVACY.nl.md` (repository root)                 | `content/policy.ts`     | heading parity, required sections (REQ-POLICY-002), `Last updated` |
 | Help      | `website/content/{en,nl}/help/*.md`                             | `content/help.ts`       | same files per locale, valid front matter, unique `order`          |
-| Changelog | `CHANGELOG.md` (Changesets)                                     | `content/changelog.ts`  | renders every release heading; empty-changelog state               |
+| Changelog | `CHANGELOG.md` (hand-written)                                   | `content/changelog.ts`  | renders every release heading; empty-changelog state               |
 | Support   | Messages in the catalogs + URLs from `SUPPORT.md`/`SECURITY.md` | `pages/SupportPage.tsx` | links equal the URLs parsed from those files                       |
 
 Markdown rendering (`content/markdown.tsx`) uses `react-markdown` with `skipHtml`, `remark-gfm`, and heading

@@ -21,7 +21,7 @@ afterEach(() => {
   document.body.replaceChildren();
 });
 
-/** A CHANGELOG.md as Changesets writes it. */
+/** A CHANGELOG.md as written by hand. */
 const CHANGESETS = `# sitemark
 
 ## 1.0.0

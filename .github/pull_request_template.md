@@ -14,7 +14,7 @@
 - [ ] `docs/tasks.md` status updated (until status is derived from git, T-019)
 - [ ] `pnpm check` passes locally
 - [ ] `pnpm test:e2e` passes (if marker/picker/popup/options behavior changed)
-- [ ] Changeset added (user-facing changes only)
+- [ ] `CHANGELOG.md` updated (user-facing changes only)
 
 This PR will be **rebase-merged**, so every commit must make sense on its own.
 
