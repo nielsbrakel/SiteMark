@@ -22,7 +22,13 @@ import { assetUrl, outputFile } from './routes/urls';
  * Built client files, relative to the client output directory (from the Vite manifest).
  * `devServer`: rendered by `pnpm web:dev`, whose CSS arrives as <style> elements.
  */
-export type PageAssets = { script: string; styles: readonly string[]; devServer?: boolean };
+export type PageAssets = {
+  script: string;
+  styles: readonly string[];
+  /** The font files the head preloads, so the text doesn't reflow when they arrive. */
+  fonts?: readonly string[];
+  devServer?: boolean;
+};
 
 /** One prerendered HTML file, relative to the client output directory. */
 export type RenderedPage = { file: string; html: string };
@@ -47,6 +53,7 @@ function renderRoute(
       bootstrap={bootstrap}
       script={assetUrl(assets.script)}
       styles={assets.styles.map(assetUrl)}
+      fonts={assets.fonts?.map(assetUrl)}
     >
       <IslandComponentsContext value={serverIslands()}>
         <PageView
@@ -116,6 +123,7 @@ export async function renderNotFound(assets: PageAssets): Promise<RenderedPage> 
       csp={csp}
       bootstrap={bootstrap}
       styles={assets.styles.map(assetUrl)}
+      fonts={assets.fonts?.map(assetUrl)}
     >
       <NotFoundPage en={en.t} nl={nl.t} routes={renderedRoutes()} />
     </Document>,

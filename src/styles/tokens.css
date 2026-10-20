@@ -69,11 +69,11 @@
 
   /* Type: bundled handwriting faces (src/styles/fonts.css) with system fallbacks, no network requests (privacy) */
   --sm-font:
-    'Patrick Hand', ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, 'Segoe UI', roboto,
-    sans-serif;
+    'Patrick Hand', 'Patrick Hand Fallback', ui-rounded, 'SF Pro Rounded', system-ui, -apple-system,
+    'Segoe UI', roboto, sans-serif;
   --sm-font-display:
-    'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, -apple-system, 'Segoe UI', roboto,
-    sans-serif;
+    'Caveat Brush', 'Caveat Brush Fallback', 'Patrick Hand', 'Patrick Hand Fallback', ui-rounded,
+    system-ui, -apple-system, 'Segoe UI', roboto, sans-serif;
   --sm-font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', menlo, consolas, monospace;
   --sm-text-xs: 15px; /* minimum UI text size: handwriting has a small x-height */
   --sm-text-sm: 16px;

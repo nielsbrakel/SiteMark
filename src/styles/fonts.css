@@ -16,3 +16,23 @@
   font-display: swap;
   src: url('../assets/fonts/patrick-hand-latin.woff2') format('woff2');
 }
+
+/* Stand-ins for the first paint: a system face scaled to the handwriting face's width (measured against
+   Arial), so the text wraps the same before and after the font arrives and the page doesn't jump. */
+@font-face {
+  font-family: 'Patrick Hand Fallback';
+  src:
+    local('Arial'),
+    local('Helvetica'),
+    local('Liberation Sans');
+  size-adjust: 80.4%;
+}
+
+@font-face {
+  font-family: 'Caveat Brush Fallback';
+  src:
+    local('Arial'),
+    local('Helvetica'),
+    local('Liberation Sans');
+  size-adjust: 78.8%;
+}
