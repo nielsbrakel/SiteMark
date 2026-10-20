@@ -1,19 +1,12 @@
-import type { SiteMarkState, UrlPattern } from '../../core/model/schema';
+import { originsOfState } from '../../core/data/origins';
+import type { SiteMarkState } from '../../core/model/schema';
 import { type ParsedWildcard, parseWildcard } from '../../core/url/parse';
-
-// TODO(dedupe): src/core/data/origins.ts (T-052…T-054) adds `originsOfState`; once both are on
-// main, derive the needed origins from it and keep only the overlap rule here.
 
 type Origin = Pick<ParsedWildcard, 'scheme' | 'host' | 'includeSubdomains'>;
 
 function parseOrigin(input: string): Origin | undefined {
   const parsed = parseWildcard(input);
   return parsed.ok ? parsed.value : undefined;
-}
-
-/** The origins a pattern needs (REQ-URL-004, REQ-URL-005). Excludes need none. */
-function neededOrigins(pattern: UrlPattern): string[] {
-  return pattern.kind === 'regex' ? pattern.origins : [pattern.value];
 }
 
 /** Is `inner`'s host one of the hosts `outer` covers? */
@@ -36,9 +29,7 @@ function overlaps(a: Origin, b: Origin): boolean {
  * `<all_urls>`) is never offered.
  */
 export function unusedOrigins(state: SiteMarkState, granted: readonly string[]): string[] {
-  const needed = state.siteGroups
-    .flatMap((group) => group.patterns.flatMap(neededOrigins))
-    .flatMap((origin) => parseOrigin(origin) ?? []);
+  const needed = originsOfState(state).flatMap((origin) => parseOrigin(origin) ?? []);
   return [...new Set(granted)].filter((origin) => {
     const parsed = parseOrigin(origin);
     return parsed !== undefined && !needed.some((use) => overlaps(parsed, use));

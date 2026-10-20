@@ -24,15 +24,14 @@ function effectFor(kind: ElementEffectKind, hostname: string): ElementEffects {
 
 /** The element mark a pick describes; a ribbon shows the host, like "Mark this site". */
 export function pickedMark(pick: SavePick, hostname: string): MarkDraft {
+  const effects: ElementEffects = {};
+  for (const kind of pick.effects) Object.assign(effects, effectFor(kind, hostname));
   return {
     enabled: true,
     color: pick.color,
     textColor: 'auto',
     target: { kind: 'element', selector: pick.selector },
-    effects: pick.effects.reduce<ElementEffects>(
-      (effects, kind) => ({ ...effects, ...effectFor(kind, hostname) }),
-      {},
-    ),
+    effects,
   };
 }
 
