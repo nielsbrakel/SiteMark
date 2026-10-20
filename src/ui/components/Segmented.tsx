@@ -1,7 +1,7 @@
-import { type ReactNode, useId } from 'react';
+import type { ReactNode } from 'react';
 import { classNames } from './class-names';
 import { CheckIcon } from './icons';
-import { rovingTabIndex, useRovingFocus } from './roving';
+import { useRadioGroup } from './roving';
 import styles from './Segmented.module.css';
 
 export type SegmentedOption<V extends string> = {
@@ -36,13 +36,12 @@ export function Segmented<V extends string>({
   labelHidden = false,
   className,
 }: SegmentedProps<V>): ReactNode {
-  const labelId = useId();
   const selectedIndex = options.findIndex((option) => option.value === value);
   const select = (index: number) => {
     const option = options[index];
     if (option) onChange(option.value);
   };
-  const roving = useRovingFocus(options.length, select, disabled);
+  const { labelId, radio } = useRadioGroup(options.length, selectedIndex, select, disabled);
   return (
     <div className={classNames(styles.segmented, className)}>
       <span id={labelId} className={labelHidden ? 'sm-visually-hidden' : styles.label}>
@@ -50,20 +49,12 @@ export function Segmented<V extends string>({
       </span>
       <div role="radiogroup" aria-labelledby={labelId} className={styles.group}>
         {options.map((option, index) => (
-          // biome-ignore lint/a11y/useSemanticElements: styled radios with roving focus (APG radio group).
           <button
             key={option.value}
-            ref={roving.ref(index)}
-            type="button"
-            role="radio"
-            aria-checked={index === selectedIndex}
-            tabIndex={rovingTabIndex(index, selectedIndex)}
-            disabled={disabled}
+            {...radio(index)}
             className={styles.segment}
             title={option.icon ? option.label : undefined}
             aria-label={option.icon ? option.label : undefined}
-            onClick={() => select(index)}
-            onKeyDown={roving.onKeyDown(index)}
           >
             {option.icon ??
               (index === selectedIndex ? (

@@ -1,11 +1,11 @@
-import { type ReactNode, useId } from 'react';
+import type { ReactNode } from 'react';
 import { autoTextColor } from '../../core/model/color';
 import type { Hex } from '../../core/model/schema';
 import styles from './ColorSwatches.module.css';
 import { classNames } from './class-names';
 import { CheckIcon } from './icons';
 import { paintColor } from './paint';
-import { rovingTabIndex, useRovingFocus } from './roving';
+import { useRadioGroup } from './roving';
 
 export type ColorSwatchOption = {
   readonly value: Hex;
@@ -41,41 +41,36 @@ export function ColorSwatches({
   disabled = false,
   className,
 }: ColorSwatchesProps): ReactNode {
-  const labelId = useId();
   const selectedIndex = options.findIndex((option) => option.value === value);
   const select = (index: number) => {
     const option = options[index];
     if (option) onChange(option.value);
   };
-  const roving = useRovingFocus(options.length, select, disabled);
+  const { labelId, radio } = useRadioGroup(options.length, selectedIndex, select, disabled);
   return (
     <div className={classNames(styles.colorSwatches, className)}>
       <span id={labelId} className={styles.label}>
         {label}
       </span>
       <div role="radiogroup" aria-labelledby={labelId} className={styles.group}>
-        {options.map((option, index) => (
-          // biome-ignore lint/a11y/useSemanticElements: styled radios with roving focus (APG radio group).
-          <button
-            key={option.value}
-            ref={(element) => {
-              roving.ref(index)(element);
-              paintSwatch(element, option.value);
-            }}
-            type="button"
-            role="radio"
-            aria-checked={index === selectedIndex}
-            aria-label={option.label}
-            title={option.label}
-            tabIndex={rovingTabIndex(index, selectedIndex)}
-            disabled={disabled}
-            className={styles.swatch}
-            onClick={() => select(index)}
-            onKeyDown={roving.onKeyDown(index)}
-          >
-            {index === selectedIndex && <CheckIcon />}
-          </button>
-        ))}
+        {options.map((option, index) => {
+          const { ref, ...props } = radio(index);
+          return (
+            <button
+              key={option.value}
+              {...props}
+              ref={(element) => {
+                ref(element);
+                paintSwatch(element, option.value);
+              }}
+              aria-label={option.label}
+              title={option.label}
+              className={styles.swatch}
+            >
+              {index === selectedIndex && <CheckIcon />}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
