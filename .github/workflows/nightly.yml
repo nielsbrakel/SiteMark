@@ -78,3 +78,27 @@ jobs:
           path: test-results/
           retention-days: 14
           if-no-files-found: ignore
+
+  credentials:
+    name: store credentials (expiry warning)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      # When the Edge API key runs out: update it together with the secret (docs/release.md).
+      EDGE_KEY_EXPIRES: '2026-12-30'
+    steps:
+      # Edge keys expire and then the next release silently skips Edge. Thirty days ahead, open one issue.
+      - name: open an issue when the Edge API key expires within 30 days
+        run: |
+          days=$(( ( $(date -u -d "$EDGE_KEY_EXPIRES" +%s) - $(date -u +%s) ) / 86400 ))
+          echo "The Edge API key expires in $days days."
+          if [ "$days" -gt 30 ]; then exit 0; fi
+          title="Renew the Edge API key before $EDGE_KEY_EXPIRES"
+          open=$(gh issue list --state open --search "$title in:title" --json number --jq length)
+          if [ "$open" -eq 0 ]; then
+            gh issue create --title "$title" --body "The \`EDGE_API_KEY\` in the \`store\` environment expires on $EDGE_KEY_EXPIRES. Renew it (steps: docs/release.md, Renewing store credentials), then move EDGE_KEY_EXPIRES in .github/workflows/nightly.yml to the new date and close this issue."
+          fi

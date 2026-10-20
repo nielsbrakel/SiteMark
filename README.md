@@ -81,6 +81,7 @@ publishes the [privacy policy](PRIVACY.md) and the support routes.
 | [docs/testing.md](docs/testing.md)             | How to test, the TDD protocol, manual smoke checklist     |
 | [docs/conventions.md](docs/conventions.md)     | Code conventions and layering rules                       |
 | [docs/repo-setup.md](docs/repo-setup.md)       | GitHub repository setup and store publishing              |
+| [docs/release.md](docs/release.md)             | Releasing: checklist, release notes template, rollback    |
 | [docs/reviews/](docs/reviews/)                 | Specialist plan reviews and what happened to each finding |
 | [docs/website/](docs/website/spec.md)          | The website: spec, plan, design and tasks                 |
 | [store/listing.md](store/listing.md)           | Store listing texts, URLs and images (version controlled) |
