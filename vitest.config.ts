@@ -11,7 +11,7 @@ import { WxtVitest } from 'wxt/testing/vitest-plugin';
 //   website-node / website-dom — the website (docs/website/plan.md §7): pure modules in Node, components
 //             in happy-dom without the extension's fake browser (the website never touches browser.*).
 //   website-build — website/tests/build on the built website (`pnpm web:test:build`).
-// `pnpm test` runs core + dom; `pnpm test:coverage` runs core, dom and browser with the thresholds below.
+// `pnpm test` runs every project but `browser`; `pnpm test:coverage` adds `browser`, with the thresholds below.
 
 // Node ≥ 25 ships a global `localStorage` that shadows happy-dom's; switch it off so tests see happy-dom's.
 const noWebstorage = { execArgv: ['--no-experimental-webstorage'] };

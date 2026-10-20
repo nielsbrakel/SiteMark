@@ -92,7 +92,7 @@ tsx scripts/prerender.ts
   `<html data-locale>` (a lazily imported chunk per locale, never inline). The rest of the page is static HTML:
   no page code runs in the browser, so Markdown pages cost no JavaScript (react-markdown alone would break the
   80 KB budget, REQ-WEB-007). The client entry still imports the page modules, but only for their CSS and
-  images (`scripts/keep-css-modules.ts` keeps the CSS of those tree-shaken modules).
+  images (`website/scripts/keep-css-modules.ts` keeps the CSS of those tree-shaken modules).
 - **Build-time content:** the policy, help and changelog Markdown is read by the SSR build (Vite `?raw` imports)
   and becomes part of the rendered React tree. It never reaches the client bundle.
 - **Only one inline script:** the theme bootstrap (≈ 300 bytes, reads `localStorage`, sets `data-theme` before

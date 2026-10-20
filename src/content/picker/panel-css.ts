@@ -1,5 +1,5 @@
 /**
- * The mini panel (docs/design.md §5.3): a ~320 px neumorphic card in the picker's shadow root. It
+ * The mini panel (docs/design.md §5.3): a ~320 px paper card in the picker's shadow root. It
  * carries `.sm-theme`, so the scoped tokens (picker-host.ts) follow its `data-theme`
  * (REQ-THEME-001). A real focus ring everywhere; forced colors fall back to system colors.
  */

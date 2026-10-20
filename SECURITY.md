@@ -18,7 +18,7 @@ What to expect:
 
 ## Supported versions
 
-SiteMark 1.0 is waiting for its first store review. Only the **latest release** in the browser stores receives security fixes.
+SiteMark is live in the Chrome, Edge and Firefox stores. Only the **latest release** in the browser stores receives security fixes.
 
 ## Threat model
 

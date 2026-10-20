@@ -104,7 +104,7 @@ It is rendered from `design/social-preview.svg` by `pnpm icons`.
 - Commits: `test(T-xxx): red — …`, `feat(T-xxx): green — …`, `refactor(T-xxx): …`, `chore(T-xxx): …`,
   `docs: …`, `fix(bug): …`. Enforced by commitlint (T-021).
 - One PR per task group, e.g. `M1: URL engine (T-032…T-039)`. User-facing PRs add a **changeset** (D-228).
-- Pre-release tag per milestone: `v0.1.0` = M1 … `v1.0.0` = M8, `v1.1.0` = style refactor, Safari later.
+- Pre-release tag per milestone: `v0.1.0` = M1 … `v1.0.0` = M8, `v1.1.0` = scrapbook redesign (D-289), Safari later.
 - The plan reviews live in [`docs/reviews/`](reviews/).
 
 ## 7. Store publishing (M8, D-227)
