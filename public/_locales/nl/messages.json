@@ -19,9 +19,6 @@
   "optionsTitle": {
     "message": "SiteMark"
   },
-  "scaffoldNotice": {
-    "message": "In aanbouw. Zie docs/tasks.md voor de voortgang."
-  },
   "markerCollapseBanner": {
     "message": "Banner inklappen",
     "description": "Toegankelijke naam van de pijlknop op een SiteMark-banner op een webpagina. Klapt de banner in tot een klein tabje."

@@ -19,9 +19,6 @@
   "optionsTitle": {
     "message": "SiteMark"
   },
-  "scaffoldNotice": {
-    "message": "Under construction. See docs/tasks.md for progress."
-  },
   "markerCollapseBanner": {
     "message": "Collapse banner",
     "description": "Accessible name of the chevron button on a SiteMark banner shown on a web page. Collapses the banner to a small tab."
