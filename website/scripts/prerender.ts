@@ -1,5 +1,6 @@
 // Prerender (docs/website/plan.md §3, D-245): after the client and SSR builds, writes one HTML file
 // per route and locale into dist/client, which is the GitHub Pages artifact.
+import { execFileSync } from 'node:child_process';
 import { copyFileSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -25,6 +26,20 @@ const COPIES: readonly [from: string, to: string][] = [
   ['public/icon/32.png', 'favicon-32.png'],
   ['design/apple-touch-icon.png', 'apple-touch-icon.png'],
 ];
+
+/** The date of the commit being built, so the sitemap's lastmod follows every change on its own. */
+function lastModified(): string {
+  try {
+    const date = execFileSync('git', ['log', '-1', '--format=%cs'], {
+      cwd: repository,
+      encoding: 'utf8',
+    }).trim();
+    if (date) return date;
+  } catch {
+    // Not a git checkout (a source zip): the build date does.
+  }
+  return new Date().toISOString().slice(0, 10);
+}
 
 /** The hashed client entry and its CSS, from the Vite manifest. */
 function clientAssets(): PageAssets {
@@ -55,7 +70,7 @@ for (const { file, text } of server.renderTextFiles()) {
   mkdirSync(path.dirname(path.join(client, file)), { recursive: true });
   writeFileSync(path.join(client, file), text);
 }
-writeFileSync(path.join(client, 'sitemap.xml'), server.renderSitemap());
+writeFileSync(path.join(client, 'sitemap.xml'), server.renderSitemap(lastModified()));
 for (const [from, to] of COPIES) copyFileSync(path.join(repository, from), path.join(client, to));
 // The manifest was only needed here; it isn't part of the website.
 rmSync(manifestDir, { recursive: true, force: true });
