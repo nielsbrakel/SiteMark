@@ -4,7 +4,7 @@ import { readBackups } from '@/platform/state-backups';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
 import { commandErrorText } from './command-error';
-import { downloadJson } from './download';
+import { downloadJson } from './data/download';
 import type { Notify } from './notify';
 import styles from './Pane.module.css';
 import { sendTracked } from './save-status';

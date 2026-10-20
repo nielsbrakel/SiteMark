@@ -2,8 +2,8 @@ import { type ReactNode, useId } from 'react';
 import type { SiteGroupId } from '@/core/ids';
 import type { SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
-import { AddGroupForm } from './AddGroupForm';
-import { GroupList } from './GroupList';
+import { AddGroupForm } from './groups/AddGroupForm';
+import { GroupList } from './groups/GroupList';
 import styles from './Layout.module.css';
 import type { Notify } from './notify';
 

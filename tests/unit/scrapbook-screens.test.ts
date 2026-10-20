@@ -26,6 +26,6 @@ describe('REQ-THEME-001 screens are paper sheets on the board', () => {
   });
 
   it('the current group is taped with ink text', () => {
-    expect(css('options/GroupList')).toMatch(/var\(--sm-tape-1\)[^}]*var\(--sm-on-tape\)/);
+    expect(css('options/groups/GroupList')).toMatch(/var\(--sm-tape-1\)[^}]*var\(--sm-on-tape\)/);
   });
 });

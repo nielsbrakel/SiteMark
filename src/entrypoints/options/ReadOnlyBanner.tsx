@@ -3,7 +3,7 @@ import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
 import { Card } from '@/ui/components/Card';
 import { browserStateSource } from '@/ui/hooks/state-source';
-import { downloadJson } from './download';
+import { downloadJson } from './data/download';
 import styles from './Pane.module.css';
 
 async function downloadCopy(): Promise<void> {

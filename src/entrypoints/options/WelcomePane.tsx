@@ -1,7 +1,7 @@
 import { type ReactNode, useId } from 'react';
 import { t } from '@/lib/i18n/browser-source';
 import styles from './Pane.module.css';
-import { useShortcuts } from './use-shortcut';
+import { useShortcuts } from './settings/use-shortcut';
 
 function ShortcutHint(): ReactNode {
   const shortcuts = useShortcuts();
