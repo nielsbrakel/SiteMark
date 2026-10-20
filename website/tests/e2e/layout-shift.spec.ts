@@ -39,6 +39,16 @@ for (const route of routeCases()) {
       }).observe({ type: 'layout-shift', buffered: true });
     });
     await page.goto(route.path);
+    await page.evaluate(() => {
+      const ctx = document.createElement('canvas').getContext('2d');
+      const w = (f: string) => {
+        if (ctx) ctx.font = `20px ${f}`;
+        return ctx?.measureText('Permissions and extension settings').width.toFixed(1);
+      };
+      (window as unknown as { layoutShift: { shifts: string[] } }).layoutShift.shifts.push(
+        `DIAG fallback ${w("'Patrick Hand Fallback'")} arial ${w('Arial')} liberation ${w("'Liberation Sans'")} sans ${w('sans-serif')} fallbackLoaded ${document.fonts.check("20px 'Patrick Hand Fallback'")}`,
+      );
+    });
     await page.waitForLoadState('networkidle');
     await page.evaluate(() => document.fonts.ready);
     const { shift, shifts } = await page.evaluate(
