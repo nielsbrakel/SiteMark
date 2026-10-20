@@ -295,14 +295,6 @@
     "message": "The code of the extension and this website is public on GitHub, so anyone can check what SiteMark does. All rights reserved.",
     "description": "One sentence on a privacy fact card on the home page."
   },
-  "websitePrivacyFactNoAnalyticsTitle": {
-    "message": "No analytics",
-    "description": "Title of a privacy fact card on the home page."
-  },
-  "websitePrivacyFactNoAnalyticsText": {
-    "message": "No accounts, trackers, crash reports or servers of its own. Nothing about you is collected.",
-    "description": "One sentence on a privacy fact card on the home page."
-  },
   "websitePrivacyFactLocalTitle": {
     "message": "Stays in your browser",
     "description": "Title of a privacy fact card on the home page."
@@ -311,12 +303,12 @@
     "message": "Your site groups live in the extension's local storage and are never synced to a cloud account.",
     "description": "One sentence on a privacy fact card on the home page."
   },
-  "websitePrivacyFactNoRequestsTitle": {
-    "message": "No network requests",
+  "websitePrivacyFactNoTrackingTitle": {
+    "message": "No analytics or requests",
     "description": "Title of a privacy fact card on the home page."
   },
-  "websitePrivacyFactNoRequestsText": {
-    "message": "No requests and no remote code. The one exception is the favicon tint: off by default, and it only loads the icon of the site you are on.",
+  "websitePrivacyFactNoTrackingText": {
+    "message": "No accounts, trackers or servers of its own, and no remote code. The one exception is the favicon tint: off by default, and it only loads the icon of the site you are on.",
     "description": "One sentence on a privacy fact card on the home page."
   },
   "websitePrivacyPermissionsHeading": {

@@ -128,8 +128,8 @@
 .permissions {
   line-height: var(--smw-card-line);
   margin-top: var(--sm-space-5);
-  background: var(--sm-tape-1);
-  color: var(--sm-on-tape);
+  background: var(--sm-surface-2);
+  color: var(--sm-text);
   transform: rotate(0.4deg);
 }
 
