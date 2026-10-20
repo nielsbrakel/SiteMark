@@ -6,7 +6,7 @@ import { jsonLdText, softwareApplication } from './json-ld';
 const JSON_LD = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
 
 describe('REQ-SEO-005 the home routes describe SiteMark as a SoftwareApplication', () => {
-  it('names the app, its category, browsers, price, license and URL', () => {
+  it('names the app, its category, requirements, author, store links, price, license and URL', () => {
     const data = softwareApplication({
       locale: 'nl',
       description: 'Markeert websites.',
@@ -20,8 +20,23 @@ describe('REQ-SEO-005 the home routes describe SiteMark as a SoftwareApplication
       url: 'https://nielsbrakel.github.io/SiteMark/nl/',
       inLanguage: 'nl',
       applicationCategory: 'BrowserApplication',
-      operatingSystem: 'Chrome, Edge, Firefox',
+      operatingSystem: 'Windows, macOS, Linux, ChromeOS',
+      browserRequirements: 'Requires Chrome 120+, Edge 120+ or Firefox 140+',
+      featureList: expect.any(Array),
+      author: {
+        '@type': 'Person',
+        name: 'Niels van Brakel',
+        url: 'https://github.com/nielsbrakel',
+      },
+      isAccessibleForFree: true,
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+      installUrl: [
+        'https://chrome.google.com/webstore/detail/kbpbafjebhbanajcefmkfhknbmgbndpg',
+        'https://microsoftedge.microsoft.com/addons/detail/sitemark/edfcmbpeagdkacfidejninkikjiffojn',
+        'https://addons.mozilla.org/en-US/firefox/addon/sitemark/',
+      ],
+      screenshot: 'https://nielsbrakel.github.io/SiteMark/screenshots/marked-page-light-nl.png',
+      codeRepository: 'https://github.com/nielsbrakel/SiteMark',
       license: 'https://github.com/nielsbrakel/SiteMark/blob/main/LICENSE',
       image: 'https://nielsbrakel.github.io/SiteMark/social-preview.png',
     });
