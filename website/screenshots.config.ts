@@ -10,7 +10,7 @@ const PORT = Number(process.env.WEBSITE_E2E_PORT ?? 4174);
 // first. They are generators, not test suites, so no test run includes them.
 export default defineConfig({
   testDir: 'scripts',
-  testMatch: ['screenshots.ts', 'playground-preview.ts'],
+  testMatch: ['screenshots.ts', 'store-shots.ts', 'playground-preview.ts'],
   workers: 1,
   timeout: 180_000,
   reporter: 'list',
