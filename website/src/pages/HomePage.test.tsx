@@ -77,14 +77,8 @@ describe('REQ-PAGE-001 the home page explains SiteMark in one look', () => {
 
 describe('REQ-PAGE-001 the home page privacy section', () => {
   it.each([
-    [
-      'index.html',
-      ['Public source', 'Stays in your browser', 'No analytics or requests'],
-    ],
-    [
-      'nl/index.html',
-      ['Openbare broncode', 'Blijft in je browser', 'Geen analytics of verzoeken'],
-    ],
+    ['index.html', ['Public source', 'Stays in your browser', 'No analytics or requests']],
+    ['nl/index.html', ['Openbare broncode', 'Blijft in je browser', 'Geen analytics of verzoeken']],
   ])('%s states the facts and lists every permission', (file, facts) => {
     showPage(pages, file);
     const section = within(main()).getByRole('region', {

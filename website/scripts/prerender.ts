@@ -21,7 +21,8 @@ const manifestDir = path.join(client, '.vite');
 
 /** Repository files the head links (social preview, favicons), copied so they have one source. */
 const COPIES: readonly [from: string, to: string][] = [
-  ['design/social-preview.png', 'social-preview.png'],
+  ['design/social-preview-en.png', 'social-preview-en.png'],
+  ['design/social-preview-nl.png', 'social-preview-nl.png'],
   ['design/logo/sitemark-icon.svg', 'favicon.svg'],
   ['public/icon/32.png', 'favicon-32.png'],
   ['design/apple-touch-icon.png', 'apple-touch-icon.png'],

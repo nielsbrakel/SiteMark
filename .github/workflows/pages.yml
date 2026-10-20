@@ -15,7 +15,7 @@ on:
       - public/_locales/**
       - public/icon/**
       - design/logo/**
-      - design/social-preview.png
+      - design/social-preview-*.png
       - PRIVACY*.md
       - CHANGELOG.md
       - package.json

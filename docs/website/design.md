@@ -88,7 +88,7 @@ disabled, forced colors, light and dark.
 - **Logo:** `sitemark-wordmark.svg` / `sitemark-wordmark-dark.svg` in the header. The favicon is the 32 px PNG and the icon SVG.
 - **Screenshots** (W2, D-251): generated for the store listings (2× density, WebP with PNG fallback). The home
   page shows **SiteMark at work** instead (D-291): three taped notes in HTML and CSS, each described from the catalog.
-- **Social preview:** `design/social-preview.png` (1280 × 640), shared with the repository.
+- **Social preview:** `design/social-preview-en.png` and `-nl.png` (1200 × 630, link previews); `design/social-preview.png` (1280 × 640) is the repository's own.
 - **Icons:** inline SVG with `currentColor`, `aria-hidden` when next to text.
 
 ## 6. Motion
