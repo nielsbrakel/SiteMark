@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.1.1
+
+- Same as 1.1.0; this version fixes the store publishing so Chrome, Firefox and Edge get the same release.
+
 ## 1.1.0
 
 - New scrapbook look: kraft paper, handwriting type and a new logo in the extension and on the website.

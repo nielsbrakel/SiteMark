@@ -156,7 +156,9 @@ jobs:
       - name: Install the store uploader from its lockfile
         working-directory: tools/uploader
         run: pnpm install --frozen-lockfile --ignore-workspace --ignore-scripts
-      - name: Submit the checked zips for review
+      # One step per store, each with only its own secrets: a store that fails doesn't stop the others,
+      # and a failed one can be retried alone (the job still ends red).
+      - name: Submit the Chrome zip for review
         working-directory: tools/uploader
         env:
           CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
@@ -164,15 +166,23 @@ jobs:
           CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
           CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL: ${{ secrets.CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL }}
           CHROME_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.CHROME_SERVICE_ACCOUNT_PRIVATE_KEY }}
+        run: pnpm exec publish-extension --chrome-zip ../../release/*-chrome.zip
+      - name: Submit the Firefox zip for review
+        if: ${{ !cancelled() }}
+        working-directory: tools/uploader
+        env:
           FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
           FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
           FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+        run: |
+          pnpm exec publish-extension \
+            --firefox-zip ../../release/*-firefox.zip \
+            --firefox-sources-zip ../../release/*-sources.zip
+      - name: Submit the Edge zip for review
+        if: ${{ !cancelled() }}
+        working-directory: tools/uploader
+        env:
           EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
           EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
           EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
-        run: |
-          pnpm exec publish-extension \
-            --chrome-zip ../../release/*-chrome.zip \
-            --firefox-zip ../../release/*-firefox.zip \
-            --firefox-sources-zip ../../release/*-sources.zip \
-            --edge-zip ../../release/*-edge.zip
+        run: pnpm exec publish-extension --edge-zip ../../release/*-edge.zip
