@@ -240,8 +240,14 @@
     "description": "Pop-upknop die een sitegroep voor de huidige site maakt, met een blauw lint."
   },
   "popupMarkThisSiteHint": {
-    "message": "Je browser vraagt of SiteMark markeringen op deze site mag tonen.",
-    "description": "Pop-up: toelichting onder de knop Deze site markeren, die de toestemmingsvraag van de browser aankondigt."
+    "message": "Je browser vraagt of SiteMark alleen op $HOST$ mag werken. Verder niets.",
+    "description": "Pop-up: toelichting onder de knop Deze site markeren, die de toestemmingsvraag van de browser voor die ene host aankondigt.",
+    "placeholders": {
+      "host": {
+        "content": "$1",
+        "example": "app.example.com"
+      }
+    }
   },
   "popupNotResponding": {
     "message": "SiteMark reageerde niet. Sluit deze pop-up en probeer het opnieuw.",

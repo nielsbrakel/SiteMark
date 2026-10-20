@@ -240,8 +240,14 @@
     "description": "Popup button that creates a site group for the current site with a blue ribbon."
   },
   "popupMarkThisSiteHint": {
-    "message": "Your browser will ask to let SiteMark show marks on this site.",
-    "description": "Popup: microcopy under the Mark this site button, announcing the browser's permission prompt."
+    "message": "Your browser will ask to let SiteMark run on $HOST$ only. Nothing else.",
+    "description": "Popup: microcopy under the Mark this site button, announcing the browser's permission prompt for that one host.",
+    "placeholders": {
+      "host": {
+        "content": "$1",
+        "example": "app.example.com"
+      }
+    }
   },
   "popupNotResponding": {
     "message": "SiteMark didn't respond. Close this popup and try again.",

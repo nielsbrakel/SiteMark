@@ -145,7 +145,7 @@ that become visible in forced-colors mode. Tilt (±2°) applies to titles and ca
 ```
 
 **B. No match:** a paper note with "No site group matches this site", a primary **Mark this site**
-button (with microcopy underneath: _"Your browser will ask to let SiteMark show marks on this site."_)
+button (with microcopy underneath: _"Your browser will ask to let SiteMark run on app.example.com only. Nothing else."_)
 and a secondary "Pick element".
 **C. Not granted:** a warning card, "SiteMark needs access to app.example.com to show your marks on
 every visit", with **Allow**.

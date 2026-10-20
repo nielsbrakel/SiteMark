@@ -97,7 +97,9 @@ describe('REQ-POP-001 REQ-URL-006 the popup lists every site group whose pattern
     expect(await screen.findByText('No site group matches this site')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Mark this site' })).toBeEnabled();
     expect(
-      screen.getByText('Your browser will ask to let SiteMark show marks on this site.'),
+      screen.getByText(
+        'Your browser will ask to let SiteMark run on app.example.com only. Nothing else.',
+      ),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole('list', { name: 'Site groups on this site' }),

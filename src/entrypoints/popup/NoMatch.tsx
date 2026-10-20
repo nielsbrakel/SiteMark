@@ -24,7 +24,7 @@ export function NoMatch({ tab }: NoMatchProps): ReactNode {
   const hintId = useId();
   const [failure, setFailure] = useState<ErrorCode | MessagingError>();
   // biome-ignore lint/security/noSecrets: a message key, not a secret.
-  const hint = t('popupMarkThisSiteHint');
+  const hint = t('popupMarkThisSiteHint', new URL(tab.url).hostname);
   const markThisSite = () => {
     // D-229: the prompt comes first and synchronously; the background adds the group whatever
     // the answer, and the popup shows it once it is stored (REQ-POP-006).
