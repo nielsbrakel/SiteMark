@@ -3,8 +3,9 @@ import { agentsMarkdown, agentsMarkdownFile } from './content/agents';
 import { Document } from './document/Document';
 import { inlineSecurity } from './document/inline-security';
 import { SeoTags } from './document/SeoTags';
-import { llmsTxt } from './head/llms';
+import { llmsFullTxt, llmsTxt } from './head/llms';
 import { pageHead } from './head/page-head';
+import { robotsTxt } from './head/robots';
 import { sitemapEntries, sitemapXml } from './head/sitemap';
 import type { Locale } from './i18n/locales';
 import { websiteLocales } from './i18n/locales';
@@ -74,11 +75,11 @@ export async function renderPages(assets: PageAssets): Promise<RenderedPage[]> {
 }
 
 /** sitemap.xml for every rendered route (REQ-SEO-003); the prerender step writes it. */
-export function renderSitemap(): string {
-  return sitemapXml(sitemapEntries(renderedRoutes()));
+export function renderSitemap(lastmod: string): string {
+  return sitemapXml(sitemapEntries(renderedRoutes(), lastmod));
 }
 
-/** A text file for the website root: the Markdown twins and llms.txt (REQ-AGENT-002). */
+/** A text file for the website root: the Markdown twins, llms.txt, llms-full.txt and robots.txt. */
 export type TextFile = { file: string; text: string };
 
 export function renderTextFiles(): TextFile[] {
@@ -86,7 +87,12 @@ export function renderTextFiles(): TextFile[] {
     file: agentsMarkdownFile(locale),
     text: agentsMarkdown(locale),
   }));
-  return [...twins, { file: 'llms.txt', text: llmsTxt() }];
+  return [
+    ...twins,
+    { file: 'llms.txt', text: llmsTxt() },
+    { file: 'llms-full.txt', text: llmsFullTxt() },
+    { file: 'robots.txt', text: robotsTxt() },
+  ];
 }
 
 /** 404.html (REQ-PAGE-006): one bilingual page that GitHub Pages serves for every unknown path. */

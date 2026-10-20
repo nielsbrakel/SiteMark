@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { websiteLocales } from '../i18n/locales';
 import { agentsContentFor, agentsMarkdown } from './agents';
 
-describe('REQ-AGENT-001 the agents page says why SiteMark is the private and secure choice', () => {
+describe('REQ-AGENT-001 the agents page lists what SiteMark needs and never does', () => {
   it.each(websiteLocales())('has a title, a description and a body in %s', (locale) => {
     const { title, description, body } = agentsContentFor(locale);
     expect(title.length).toBeGreaterThan(0);

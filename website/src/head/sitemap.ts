@@ -3,7 +3,12 @@ import type { Route } from '../routes/routes';
 import { type Alternate, alternates, canonicalUrl } from '../routes/urls';
 
 /** One `<url>` of the sitemap: a route in one locale with its language alternates. */
-export type SitemapEntry = { loc: string; alternates: readonly Alternate[] };
+export type SitemapEntry = {
+  loc: string;
+  alternates: readonly Alternate[];
+  /** `YYYY-MM-DD`: when the website was last built from a change. */
+  lastmod?: string;
+};
 
 const ESCAPES: Record<string, string> = {
   '&': '&amp;',
@@ -16,21 +21,26 @@ const ESCAPES: Record<string, string> = {
 const escapeXml = (text: string) => text.replace(/[&<>"']/g, (char) => ESCAPES[char] ?? char);
 
 /** Every route in every locale (REQ-SEO-003). */
-export function sitemapEntries(routes: readonly Pick<Route, 'slug'>[]): SitemapEntry[] {
+export function sitemapEntries(
+  routes: readonly Pick<Route, 'slug'>[],
+  lastmod?: string,
+): SitemapEntry[] {
   return routes.flatMap((route) =>
     websiteLocales().map((locale) => ({
       loc: canonicalUrl(route, locale),
       alternates: alternates(route),
+      ...(lastmod && { lastmod }),
     })),
   );
 }
 
-function urlElement({ loc, alternates: links }: SitemapEntry): string {
+function urlElement({ loc, alternates: links, lastmod }: SitemapEntry): string {
   const alternateLinks = links.map(
     ({ hreflang, href }) =>
       `<xhtml:link rel="alternate" hreflang="${escapeXml(hreflang)}" href="${escapeXml(href)}"/>`,
   );
-  return `<url><loc>${escapeXml(loc)}</loc>${alternateLinks.join('')}</url>`;
+  const modified = lastmod ? `<lastmod>${escapeXml(lastmod)}</lastmod>` : '';
+  return `<url><loc>${escapeXml(loc)}</loc>${modified}${alternateLinks.join('')}</url>`;
 }
 
 /** The sitemap.xml text (sitemaps.org protocol), with `xhtml:link` language alternates. */

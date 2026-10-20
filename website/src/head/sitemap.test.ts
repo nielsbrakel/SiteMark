@@ -42,13 +42,18 @@ describe('REQ-SEO-003 sitemap.xml lists every route with its language alternates
     );
   });
 
+  it('adds a lastmod date to every entry when it is given', () => {
+    const xml = sitemapXml(sitemapEntries([{ slug: '' }, { slug: 'help/' }], '2026-10-20'));
+    expect(xml.match(/<lastmod>2026-10-20<\/lastmod>/g)).toHaveLength(4);
+  });
+
   it('escapes XML special characters', () => {
     const xml = sitemapXml([{ loc: 'https://x.test/?a=1&b=<2>', alternates: [] }]);
     expect(xml).toContain('<loc>https://x.test/?a=1&amp;b=&lt;2&gt;</loc>');
   });
 
   it('lists every rendered route in every locale', () => {
-    const xml = renderSitemap();
+    const xml = renderSitemap('2026-10-20');
     const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
     expect(locs).toHaveLength(renderedRoutes().length * websiteLocales().length);
     expect(locs).toContain(ORIGIN);
