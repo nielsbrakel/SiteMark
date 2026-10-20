@@ -1,11 +1,23 @@
-import { repositoryFileUrl } from '../config/repository';
+import { repositoryFileUrl, repositoryUrl } from '../config/repository';
+import { stores } from '../config/stores';
+import { screenshotFile } from '../content/screenshots';
 import type { Locale } from '../i18n/locales';
+import { absoluteUrl } from '../routes/urls';
 import { socialPreviewUrl } from './seo';
 
 type SoftwareApplicationInput = { locale: Locale; description: string; url: string };
 
-/** The browsers with a store listing (Safari follows later). */
-const BROWSERS = ['Chrome', 'Edge', 'Firefox'];
+const OPERATING_SYSTEMS = ['Windows', 'macOS', 'Linux', 'ChromeOS'];
+
+/** The browser versions of REQ-NFR-001 (wxt.config.ts), without Safari until it ships. */
+const BROWSER_REQUIREMENTS = 'Requires Chrome 120+, Edge 120+ or Firefox 140+';
+
+const FEATURES = [
+  'Corner ribbons, banners, frames, tints, stripes and watermarks',
+  'Mark a single element you pick, such as a Delete button',
+  'Tab title prefix and favicon dot',
+  'No accounts, no analytics and no access to websites at install',
+];
 
 /** schema.org SoftwareApplication data for the home routes (REQ-SEO-005). */
 export function softwareApplication({
@@ -21,8 +33,15 @@ export function softwareApplication({
     url,
     inLanguage: locale,
     applicationCategory: 'BrowserApplication',
-    operatingSystem: BROWSERS.join(', '),
+    operatingSystem: OPERATING_SYSTEMS.join(', '),
+    browserRequirements: BROWSER_REQUIREMENTS,
+    featureList: FEATURES,
+    author: { '@type': 'Person', name: 'Niels van Brakel', url: 'https://github.com/nielsbrakel' },
+    isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+    installUrl: stores().flatMap(({ url }) => (url ? [url] : [])),
+    screenshot: absoluteUrl(screenshotFile('marked-page', 'light', locale, 'png')),
+    codeRepository: repositoryUrl(),
     license: repositoryFileUrl('LICENSE'),
     image: socialPreviewUrl(),
   };
