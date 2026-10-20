@@ -89,7 +89,7 @@ Stack: [WXT](https://wxt.dev) · React 19 · TypeScript · Vitest · Testing Lib
 ## Contributing
 
 Contributions are welcome! Read [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow (strict TDD, rebase-merged
-PRs, changesets) and follow the [Code of Conduct](CODE_OF_CONDUCT.md). Questions and help: [SUPPORT.md](.github/SUPPORT.md).
+PRs) and follow the [Code of Conduct](CODE_OF_CONDUCT.md). Questions and help: [SUPPORT.md](.github/SUPPORT.md).
 
 ## Security
 

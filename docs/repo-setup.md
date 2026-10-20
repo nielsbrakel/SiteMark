@@ -89,7 +89,6 @@ It is rendered from `design/social-preview.svg` by `pnpm icons`.
 | [`.github/ISSUE_TEMPLATE/`](../.github/ISSUE_TEMPLATE/)                   | Bug and feature issue forms; blank issues off, security link |
 | [`.github/pull_request_template.md`](../.github/pull_request_template.md) | PR checklist                                                 |
 | [`.github/CODEOWNERS`](../.github/CODEOWNERS)                             | Default reviewer                                             |
-| [`.changeset/`](../.changeset/)                                           | Changesets config (D-228)                                    |
 
 ## 5. Labels
 
@@ -103,7 +102,7 @@ It is rendered from `design/social-preview.svg` by `pnpm icons`.
   CI runs it with `--strict`. After T-019, status is derived from git history.
 - Commits: `test(T-xxx): red — …`, `feat(T-xxx): green — …`, `refactor(T-xxx): …`, `chore(T-xxx): …`,
   `docs: …`, `fix(bug): …`. Enforced by commitlint (T-021).
-- One PR per task group, e.g. `M1: URL engine (T-032…T-039)`. User-facing PRs add a **changeset** (D-228).
+- One PR per task group, e.g. `M1: URL engine (T-032…T-039)`. User-facing PRs add a line to `CHANGELOG.md` (D-293).
 - Pre-release tag per milestone: `v0.1.0` = M1 … `v1.0.0` = M8, `v1.1.0` = scrapbook redesign (D-289), Safari later.
 - The plan reviews live in [`docs/reviews/`](reviews/).
 

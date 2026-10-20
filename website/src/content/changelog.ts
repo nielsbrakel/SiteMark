@@ -1,5 +1,5 @@
-// CHANGELOG.md (Changesets, REQ-PAGE-005), read by the SSR build. It doesn't exist until the first
-// release, so it is globbed: a missing file is an empty changelog, not a build error.
+// CHANGELOG.md (hand-written, REQ-PAGE-005), read by the SSR build. It is globbed, so a
+// missing file is an empty changelog, not a build error.
 const FILES = import.meta.glob<string>('../../../CHANGELOG.md', {
   query: '?raw',
   import: 'default',
@@ -16,7 +16,7 @@ export function changelogBody(source: string): string {
   return source.replace(/^# .*\n+/, '');
 }
 
-/** The release headings (`## 1.0.0`), newest first as Changesets writes them. */
+/** The release headings (`## 1.0.0`), newest first. */
 export function changelogReleases(source: string | undefined): string[] {
   return [...(source ?? '').matchAll(/^## (.+)$/gm)].map((match) => (match[1] ?? '').trim());
 }

@@ -37,7 +37,7 @@ pnpm exec playwright install chromium   # once, for e2e tests (or set PW_CHROMIU
    - Top-level `describe` names start with the requirement ID, e.g. `describe('REQ-URL-001 …')`.
    - Bug fixes: `test(bug): red — …` then `fix(bug): green — …`. Docs: `docs: …`. Tooling: `chore: …`.
 3. Follow the [code conventions](docs/conventions.md).
-4. Add a **changeset** for user-facing changes: `pnpm changeset` ([.changeset/README.md](.changeset/README.md)).
+4. Add a line to `CHANGELOG.md` under "Unreleased" for user-facing changes, in the user's words.
 5. Run `pnpm check` (and `pnpm test:e2e` if marker, picker, popup or options behavior changed).
 6. Open a pull request and fill in the template.
 
