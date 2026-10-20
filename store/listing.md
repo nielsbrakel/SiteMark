@@ -1,8 +1,8 @@
 # Store listings
 
 The content every store listing shares (D-256), kept here so it is version controlled: copy it into each
-store's dashboard. T-152 writes the listing texts, permission justifications and
-screenshots and fills in the rest; T-157 does the same for the App Store. Everything that points to the web
+store's dashboard. T-152 wrote the listing texts, permission justifications and
+screenshots for Chrome, Edge and Firefox; T-157 does the same for the App Store. Everything that points to the web
 uses the **website**, never the repository, so the URLs stay stable (REQ-POLICY-005).
 
 ## Website, privacy and support URLs
@@ -26,7 +26,7 @@ Stores that take a single URL per field get the English one: every page links it
 | App Store (Safari)     | _Marketing URL_ | _Privacy Policy URL_           | _Support URL_ (required) | T-157 ☐  |
 
 When a listing goes live, put its URL in [`website/src/config/stores.ts`](../website/src/config/stores.ts):
-the website's install button for that store then turns from "Coming soon" into a link (all three live today) (REQ-PAGE-002).
+the website's install button for that store then turns from a disabled "Coming in the future" into a link (Chrome, Edge and Firefox are live) (REQ-PAGE-002).
 
 ## Listing texts
 

@@ -12,15 +12,29 @@
 </p>
 
 <p align="center">
+  <a href="https://chrome.google.com/webstore/detail/kbpbafjebhbanajcefmkfhknbmgbndpg"><img src="https://img.shields.io/badge/Add%20to-Chrome-e8664d" alt="Add to Chrome"></a>
+  <a href="https://microsoftedge.microsoft.com/addons/detail/sitemark/edfcmbpeagdkacfidejninkikjiffojn"><img src="https://img.shields.io/badge/Add%20to-Edge-e8664d" alt="Add to Edge"></a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/sitemark/"><img src="https://img.shields.io/badge/Add%20to-Firefox-e8664d" alt="Add to Firefox"></a>
+</p>
+
+<p align="center">
+  <img src="website/public/screenshots/marked-page-light-en.png" alt="A shop page marked by SiteMark: a PROD ribbon, a red frame, a banner and an outline around the Delete customer button" width="720">
+</p>
+
+<p align="center">
   <a href="https://github.com/nielsbrakel/SiteMark/actions/workflows/ci.yml"><img src="https://github.com/nielsbrakel/SiteMark/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/nielsbrakel/SiteMark" alt="license: all rights reserved"></a>
   <img src="https://img.shields.io/badge/manifest-v3-1f6feb" alt="Manifest V3">
-  <img src="https://img.shields.io/badge/browsers-Chrome%20%C2%B7%20Edge%20%C2%B7%20Firefox%20%C2%B7%20Safari-57606a" alt="Chrome, Edge, Firefox, Safari">
 </p>
 
 ---
 
-> **Status:** version 1.0 is complete: install it from the Chrome Web Store, Edge Add-ons or Firefox Add-ons (Firefox is in review). Run `pnpm progress` or see [docs/tasks.md](docs/tasks.md) for what is done and what is next.
+## Install
+
+Add SiteMark from the [Chrome Web Store](https://chrome.google.com/webstore/detail/kbpbafjebhbanajcefmkfhknbmgbndpg),
+[Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/sitemark/edfcmbpeagdkacfidejninkikjiffojn) or
+[Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/sitemark/). Safari is coming in the future.
+Try the marks in your browser first in the [playground](https://nielsbrakel.github.io/SiteMark/playground/).
 
 ## Why
 
@@ -34,7 +48,7 @@ either on the whole page or on one element you pick (a logo, a header, that scar
 - 🔒 **Private:** collects nothing, no accounts or analytics, [no install-time site access](#privacy). Your data
   stays in local storage; move it between devices with JSON import/export
 - 🌗 **Scrapbook look:** paper sheets on a kraft board (a plum board in dark), handwriting type, popup and options page in light and dark, English and Dutch
-- 🧭 **Everywhere:** [Chrome](https://chrome.google.com/webstore/detail/kbpbafjebhbanajcefmkfhknbmgbndpg), [Edge](https://microsoftedge.microsoft.com/addons/detail/sitemark/edfcmbpeagdkacfidejninkikjiffojn) and [Firefox](https://addons.mozilla.org/en-US/firefox/addon/sitemark/) now, Safari coming in the future (Manifest V3)
+- 🧭 **Everywhere:** Chrome, Edge and Firefox now, Safari coming in the future (Manifest V3)
 - 🎨 **Colorblind-safe:** preset colors stay distinguishable, and marks always carry text
 
 ## Privacy
@@ -71,6 +85,11 @@ publishes the [privacy policy](PRIVACY.md) and the support routes.
 | [docs/website/](docs/website/spec.md)          | The website: spec, plan, design and tasks                 |
 | [store/listing.md](store/listing.md)           | Store listing texts, URLs and images (version controlled) |
 
+## Contributing
+
+Contributions are welcome! Read [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow (strict TDD, rebase-merged
+PRs) and follow the [Code of Conduct](CODE_OF_CONDUCT.md). Questions and help: [SUPPORT.md](.github/SUPPORT.md).
+
 ## Development
 
 ```bash
@@ -85,11 +104,6 @@ pnpm web:dev        # the website (website/)
 ```
 
 Stack: [WXT](https://wxt.dev) · React 19 · TypeScript · Vitest · Testing Library · Playwright · Biome · pnpm.
-
-## Contributing
-
-Contributions are welcome! Read [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow (strict TDD, rebase-merged
-PRs) and follow the [Code of Conduct](CODE_OF_CONDUCT.md). Questions and help: [SUPPORT.md](.github/SUPPORT.md).
 
 ## Security
 
