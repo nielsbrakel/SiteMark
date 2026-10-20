@@ -295,14 +295,6 @@
     "message": "De code van de extensie en deze website is openbaar op GitHub, dus iedereen kan nagaan wat SiteMark doet. Alle rechten voorbehouden.",
     "description": "One sentence on a privacy fact card on the home page."
   },
-  "websitePrivacyFactNoAnalyticsTitle": {
-    "message": "Geen analytics",
-    "description": "Title of a privacy fact card on the home page."
-  },
-  "websitePrivacyFactNoAnalyticsText": {
-    "message": "Geen accounts, trackers, crashrapporten of eigen servers. Er wordt niets over jou verzameld.",
-    "description": "One sentence on a privacy fact card on the home page."
-  },
   "websitePrivacyFactLocalTitle": {
     "message": "Blijft in je browser",
     "description": "Title of a privacy fact card on the home page."
@@ -311,12 +303,12 @@
     "message": "Je sitegroepen staan in de lokale opslag van de extensie en worden nooit gesynchroniseerd met een cloudaccount.",
     "description": "One sentence on a privacy fact card on the home page."
   },
-  "websitePrivacyFactNoRequestsTitle": {
-    "message": "Geen netwerkverzoeken",
+  "websitePrivacyFactNoTrackingTitle": {
+    "message": "Geen analytics of verzoeken",
     "description": "Title of a privacy fact card on the home page."
   },
-  "websitePrivacyFactNoRequestsText": {
-    "message": "Geen verzoeken en geen code van buitenaf. De enige uitzondering is de favicon-tint: standaard uit, en alleen het icoon van de site waar je bent wordt geladen.",
+  "websitePrivacyFactNoTrackingText": {
+    "message": "Geen accounts, trackers of eigen servers en geen code van buitenaf. De enige uitzondering is de favicon-tint: standaard uit, en alleen het icoon van de site waar je bent wordt geladen.",
     "description": "One sentence on a privacy fact card on the home page."
   },
   "websitePrivacyPermissionsHeading": {

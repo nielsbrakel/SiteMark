@@ -79,11 +79,11 @@ describe('REQ-PAGE-001 the home page privacy section', () => {
   it.each([
     [
       'index.html',
-      ['Public source', 'No analytics', 'Stays in your browser', 'No network requests'],
+      ['Public source', 'Stays in your browser', 'No analytics or requests'],
     ],
     [
       'nl/index.html',
-      ['Openbare broncode', 'Geen analytics', 'Blijft in je browser', 'Geen netwerkverzoeken'],
+      ['Openbare broncode', 'Blijft in je browser', 'Geen analytics of verzoeken'],
     ],
   ])('%s states the facts and lists every permission', (file, facts) => {
     showPage(pages, file);

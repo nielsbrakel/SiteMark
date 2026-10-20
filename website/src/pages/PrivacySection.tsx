@@ -7,17 +7,12 @@ import type { PageProps } from './page-props';
 
 type Permission = { name: string; text: WebsiteMessageKey };
 
-/** What a visitor can check in the code: license, analytics, storage and network (see PRIVACY.md). */
+/** What a visitor can check in the code: license, storage, analytics and network (see PRIVACY.md). */
 const FACTS: readonly CardItem[] = [
   {
     icon: 'M8 8 3 12l5 4M16 8l5 4-5 4M14 5l-4 14',
     title: 'websitePrivacyFactOpenTitle',
     text: 'websitePrivacyFactOpenText',
-  },
-  {
-    icon: 'M4 4l16 16M10.6 6.1A9 9 0 0 1 21 12a9 9 0 0 1-2.2 3M6.5 7.6A9 9 0 0 0 3 12a9 9 0 0 0 9 6 9 9 0 0 0 2.7-.4',
-    title: 'websitePrivacyFactNoAnalyticsTitle',
-    text: 'websitePrivacyFactNoAnalyticsText',
   },
   {
     icon: 'M7 11V8a5 5 0 0 1 10 0v3M5 11h14v10H5z',
@@ -26,8 +21,8 @@ const FACTS: readonly CardItem[] = [
   },
   {
     icon: 'M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18M4 4l16 16',
-    title: 'websitePrivacyFactNoRequestsTitle',
-    text: 'websitePrivacyFactNoRequestsText',
+    title: 'websitePrivacyFactNoTrackingTitle',
+    text: 'websitePrivacyFactNoTrackingText',
   },
 ];
 
