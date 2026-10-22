@@ -49,12 +49,7 @@
 .topics a {
   display: inline-block;
   color: var(--sm-text-muted);
-  text-underline-offset: 2px;
-}
-
-.topics a[aria-current='page'] {
-  color: var(--sm-text);
-  font-weight: 700;
+  text-decoration: none;
 }
 
 @media (width >= 960px) {

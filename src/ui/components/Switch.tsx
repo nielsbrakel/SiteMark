@@ -8,6 +8,9 @@ export type SwitchProps = {
   readonly onChange: (checked: boolean) => void;
   /** Keeps the label as the accessible name but hides it visually (it is shown elsewhere). */
   readonly labelHidden?: boolean;
+  /** Words shown inside the track for each state, so on and off don't rely on color or position alone. */
+  readonly onText?: string;
+  readonly offText?: string;
   readonly description?: string;
   readonly disabled?: boolean;
   readonly className?: string | undefined;
@@ -22,6 +25,8 @@ export function Switch({
   checked,
   onChange,
   labelHidden = false,
+  onText,
+  offText,
   description,
   disabled,
   className,
@@ -41,9 +46,15 @@ export function Switch({
         aria-describedby={description ? descriptionId : undefined}
         disabled={disabled}
         className={styles.track}
+        data-text={onText !== undefined || undefined}
         onClick={() => onChange(!checked)}
       >
         <span className={styles.knob} />
+        {onText !== undefined && (
+          <span className={styles.state} aria-hidden="true">
+            {checked ? onText : offText}
+          </span>
+        )}
       </button>
       {description && (
         <span id={descriptionId} className={styles.description}>

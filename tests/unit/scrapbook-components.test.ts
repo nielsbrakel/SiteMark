@@ -40,9 +40,11 @@ describe('REQ-A11Y-001 tape fills carry ink text in both themes', () => {
     expect(moduleCss('Button')).toMatch(/color:\s*var\(--sm-on-tape\)/);
   });
 
-  it('the selected segment is paper with a coral underline', () => {
+  it('the selected segment is paper with a coral marker line', () => {
     expect(moduleCss('Segmented')).toMatch(/background:\s*var\(--sm-surface\)/);
-    expect(moduleCss('Segmented')).toMatch(/box-shadow:\s*inset 0 -4px 0 var\(--sm-accent\)/);
+    expect(moduleCss('Segmented')).toMatch(
+      /\[aria-checked='true'\]::after\s*{[^}]*background:\s*var\(--sm-accent\)/,
+    );
   });
 });
 

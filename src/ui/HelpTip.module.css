@@ -15,5 +15,7 @@
 
 .tip a {
   font-weight: 600;
-  text-underline-offset: 3px;
+  text-decoration: underline wavy 1.5px;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 4px;
 }

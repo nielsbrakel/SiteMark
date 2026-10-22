@@ -51,6 +51,8 @@ export function EffectsFieldset<T extends TargetKind>({
             <Switch
               className={styles.switch}
               label={t(EFFECT_NAMES[name])}
+              onText={t('optionsGroupOn')}
+              offText={t('optionsGroupOff')}
               checked={isOn}
               disabled={isLast}
               {...(isLast && { description: t('optionsLastEffectHint') })}

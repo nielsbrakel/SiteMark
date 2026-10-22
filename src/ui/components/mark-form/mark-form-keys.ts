@@ -19,6 +19,8 @@ export const MARK_FORM_KEYS = [
   'colorBlue',
   'colorSlate',
   'optionsColor',
+  'optionsGroupOn',
+  'optionsGroupOff',
   'optionsCustomColor',
   'optionsCustomTextColor',
   'optionsPickColor',

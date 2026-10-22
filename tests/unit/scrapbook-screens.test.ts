@@ -20,7 +20,8 @@ describe('REQ-THEME-001 screens are paper sheets on the board', () => {
     expect(css('popup/App')).toMatch(/\.header\s*{[^}]*}[\s\S]*\.sheet\s*{[^}]*--tape/);
   });
 
-  it('the current group is taped with ink text', () => {
-    expect(css('options/groups/GroupList')).toMatch(/var\(--sm-tape-1\)[^}]*var\(--sm-on-tape\)/);
+  it('the current group is marked with the shared selection outline', () => {
+    const row = readFileSync('src/entrypoints/options/groups/GroupRow.tsx', 'utf8');
+    expect(row).toMatch(/sm-pick/);
   });
 });

@@ -50,8 +50,31 @@ h3 {
 }
 
 .sm-nav-link[aria-current='page'] {
-  text-decoration: underline 2px;
+  text-decoration: underline wavy 2px;
+  text-decoration-skip-ink: none;
   text-underline-offset: 6px;
+}
+
+/* Selection marks (D-296): header links (on the board) a wavy underline in the text color; borderless
+   list items (rows, topics) a coral outline drawn a degree off true. Both come with bold or an
+   underline, so never color alone. */
+.sm-pick {
+  position: relative;
+}
+
+.sm-pick[aria-current='page'] {
+  color: var(--sm-text);
+  font-weight: 600;
+}
+
+.sm-pick[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  inset: -2px -2px -2px -3px;
+  border: 2px solid var(--sm-accent);
+  border-radius: var(--sm-radius-md);
+  transform: rotate(-1deg);
+  pointer-events: none;
 }
 
 /* Paper primitives. Components compose these; see docs/design.md §4. */
@@ -136,6 +159,10 @@ h3 {
 @media (forced-colors: active) {
   :focus-visible {
     outline-color: Highlight;
+  }
+
+  .sm-pick[aria-current='page']::after {
+    border-color: Highlight;
   }
 
   a {

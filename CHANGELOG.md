@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- New hand-drawn marks for what is selected: a wavy underline under the current header link, a coral outline around the current site group and help topic, a marker line under the current switch segment, and On / Off words inside the switches.
 - The popup and the settings page link to the website's help: a Help link in the header and short tips under URL patterns, marks, shortcuts and diagnostics. Keyboard shortcuts are shown as key caps.
 - Website: the home page now shows a shop page without and with SiteMark's marks, with a slider to compare them.
 
