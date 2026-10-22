@@ -57,10 +57,11 @@ describe('REQ-PAGE-001 the home page explains SiteMark in one look', () => {
     for (const [, text] of cards) expect(text).toMatch(/^[^.]+\.$|^[^.]+\. [^.]+\.$/);
   });
 
-  it('shows a preview of a marked page next to the value proposition', () => {
+  it('shows the shop without and with marks next to the value proposition', () => {
     showPage(pages, 'index.html');
     const hero = within(main()).getByRole('heading', { level: 1 }).closest('section');
-    expect(hero?.querySelector('figure[aria-label="Preview of a marked page"]')).not.toBeNull();
+    expect(hero?.querySelector('[data-layer="before"]')).not.toBeNull();
+    expect(hero?.querySelector('[data-layer="after"]')).not.toBeNull();
   });
 
   it.each([

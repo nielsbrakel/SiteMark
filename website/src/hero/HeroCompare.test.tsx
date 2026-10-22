@@ -37,10 +37,10 @@ describe('REQ-PLAY-004 the home hero compares a shop page without and with SiteM
     }
     expect(after.getByText(en.t('websiteAtWorkMarkProduction'))).toBeTruthy();
     expect(after.getByText(en.t('websiteAtWorkMarkProd'))).toBeTruthy();
-    expect(after.getByText(/^PROD · Customers/)).toBeTruthy();
+    expect(after.getByText(/^\[PROD\] Customers/)).toBeTruthy();
     expect(after.getByText('Delete customer').getAttribute('data-marked')).toBe('true');
     expect(before.queryByText(en.t('websiteAtWorkMarkProduction'))).toBeNull();
-    expect(before.queryByText(/^PROD/)).toBeNull();
+    expect(before.queryByText(/PROD/)).toBeNull();
     expect(before.getByText('Delete customer').getAttribute('data-marked')).toBeNull();
     expect(before.getByText(/^Customers · Leaf & Lamp/)).toBeTruthy();
   });

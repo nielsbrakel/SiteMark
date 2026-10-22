@@ -8,8 +8,8 @@
 
 1. **Same product, bigger canvas.** The website uses the extension's paper-on-board scrapbook chrome, coral accent and
    handwriting type (D-289). A visitor who installs SiteMark should recognize the popup from the website.
-2. **Show the marks.** As in the extension, the chrome is quiet and the marks are loud. The hero and the
-   playground show real marks from the real marker code (D-254).
+2. **Show the marks.** As in the extension, the chrome is quiet and the marks are loud. The playground shows real
+   marks from the real marker code (D-254); the hero draws the same marks in HTML and CSS (D-294).
 3. **Accessible paper UI**, unchanged in substance: AA text contrast, 3:1 control boundaries, an `outline` focus ring, state
    shown by more than shadow, forced-colors support.
 4. **No network.** Local fonts only, inline SVG icons, images self-hosted (REQ-WEB-003).
@@ -43,8 +43,8 @@ The type scale continues the extension scale (12/14/16/20/28) and only adds the 
 │ ▣ SiteMark      Help  Playground  Support  Privacy        [EN|NL] [◐ ☀ ☾]   │  header: flat surface, bottom --sm-border
 ├──────────────────────────────────────────────────────────────────────────────┤
 │  Never confuse production with test again.          ┌─ mock browser ───────┐ │
-│  Value proposition (private).                        │ ◤PROD      prod.… ✕ │ │  hero: text left, preview right
-│  [Add to Chrome] [Firefox] [Edge] [Safari · v1.1]    │ ▔▔▔▔▔ banner ▔▔▔▔▔▔ │ │  (stacks below 720 px)
+│  Value proposition (private).                        │ ▔▔▔▔ banner ▔▔▔▔▔ ◢  │ │  hero: text left, before/after slider right
+│  [Add to Chrome] [Firefox] [Edge] [Safari · v1.1]    │ plain  │  marked     │ │  (stacks below 900 px)
 │                                                      └──────────────────────┘ │
 │  ┌ card ────────┐ ┌ card ────────┐ ┌ card ────────┐                            │  highlights: 3 raised cards
 │  │ Unmistakable │ │ Simple       │ │ Private      │                            │
@@ -56,7 +56,7 @@ The type scale continues the extension scale (12/14/16/20/28) and only adds the 
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-- **Breakpoints:** 720 px (the hero stacks, the nav wraps into two rows; no hamburger menu, so no JS is needed for navigation)
+- **Breakpoints:** 900 px (the hero stacks), 720 px (the nav wraps into two rows; no hamburger menu, so no JS is needed for navigation)
   and 320 px (REQ-WEBUX-005 reflow).
 - **Prose pages** (privacy, support, help, changelog): one centered column at `--smw-prose-max`. Help adds a
   topic list above the text on narrow screens and in a sidebar at ≥ 960 px.

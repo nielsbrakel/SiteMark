@@ -2,10 +2,9 @@
 import { AtWork } from '../components/AtWork';
 import { type CardItem, CardList } from '../components/CardList';
 import { InstallButtons } from '../components/InstallButtons';
-import { PlaygroundFallback } from '../components/PlaygroundFallback';
 import { stores } from '../config/stores';
 import { Island } from '../islands/islands';
-import '../playground/playground-styles';
+import '../hero/hero-styles';
 import { pagePath } from '../routes/urls';
 import styles from './HomePage.module.css';
 import { PrivacySection } from './PrivacySection';
@@ -57,7 +56,7 @@ function Heading({ t }: Pick<PageProps, 't'>) {
 }
 
 /**
- * Home (REQ-PAGE-001): value proposition, install buttons, hero, highlights, SiteMark at work
+ * Home (REQ-PAGE-001): value proposition, install buttons, the before/after hero, highlights, SiteMark at work
  * (REQ-PAGE-009) and the privacy section.
  */
 export function HomePage({ t, locale }: PageProps) {
@@ -70,9 +69,7 @@ export function HomePage({ t, locale }: PageProps) {
           <InstallButtons stores={stores()} t={t} />
         </div>
         <div className={styles.heroPreview}>
-          <PlaygroundFallback t={t} locale={locale}>
-            <Island id="heroPlayground" t={t} />
-          </PlaygroundFallback>
+          <Island id="heroCompare" t={t} />
           <a className={styles.link} href={pagePath('playground', locale)}>
             {t('websiteHeroPlaygroundLink')}
           </a>

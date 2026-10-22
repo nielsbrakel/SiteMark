@@ -16,12 +16,6 @@
   box-shadow: var(--sm-lift);
 }
 
-/* The home hero: the preview with the presets below it. */
-.hero {
-  display: grid;
-  gap: var(--sm-space-4);
-}
-
 /* The mock browser shrinks with its column instead of widening the page. */
 .frame {
   --tape: var(--sm-tape-4);
