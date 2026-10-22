@@ -12,11 +12,9 @@ describe('REQ-THEME-001 screens are paper sheets on the board', () => {
     expect(css(file)).toMatch(sheet);
   });
 
-  it('the options header, sidebar, main and footer share the sheet look', () => {
+  it('the options header, sidebar, main and footer share the sheet look (the footer is a plain wavy-divider strip)', () => {
     const layout = css('options/Layout');
-    expect(layout).toMatch(
-      /\.header,\s*\.sidebar,\s*\.main,\s*\.footer\s*{[^}]*--sm-control-border/,
-    );
+    expect(layout).toMatch(/\.header,\s*\.sidebar,\s*\.main\s*{[^}]*--sm-control-border/);
   });
 
   it('the popup header is a tape strip with a torn edge', () => {
