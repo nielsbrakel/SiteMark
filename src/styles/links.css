@@ -1,0 +1,14 @@
+/* Inline links (D-296): accent text with a hand-drawn wavy underline, so a link never relies on color alone.
+   Shared by the website's long text, the help tips and every other link that sits in a sentence. */
+.sm-link {
+  color: var(--sm-accent-text);
+  text-decoration: underline wavy 1.5px;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 4px;
+}
+
+@media (forced-colors: active) {
+  .sm-link {
+    color: LinkText;
+  }
+}

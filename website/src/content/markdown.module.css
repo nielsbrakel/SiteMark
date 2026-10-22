@@ -20,12 +20,6 @@
   font-size: var(--sm-text-xl);
 }
 
-.prose a {
-  color: var(--sm-accent-text);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
 .prose pre {
   overflow-x: auto;
   padding-inline: var(--sm-space-3);

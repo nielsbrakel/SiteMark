@@ -27,7 +27,9 @@ function NotFoundSection({ locale, t, routes }: SectionProps) {
       <ul className={styles.links}>
         {targets.map((route) => (
           <li key={route.page}>
-            <a href={routePath(route, locale)}>{t(pageLabel(route.page))}</a>
+            <a className="sm-link" href={routePath(route, locale)}>
+              {t(pageLabel(route.page))}
+            </a>
           </li>
         ))}
       </ul>
