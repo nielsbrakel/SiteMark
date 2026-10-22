@@ -33,23 +33,20 @@ test.describe('REQ-PLAY-003 without JavaScript the playground shows an image of 
   });
 });
 
-test.describe('REQ-PLAY-004 the home hero is a small playground', () => {
-  test('shows the presets with JavaScript and the preview image without', {
-    tag: ['@REQ-PLAY-004', '@REQ-PLAY-003'],
+test.describe('REQ-PLAY-004 the home hero compares the shop without and with SiteMark', () => {
+  test('moves the divider with the keyboard, and shows the marked shop at rest without JavaScript', {
+    tag: '@REQ-PLAY-004',
   }, async ({ page, browser }) => {
     await page.goto('/SiteMark/');
-    const hero = page.locator('section', { has: page.getByRole('heading', { level: 1 }) });
-    await expect(hero.getByRole('radio')).toHaveCount(4);
-    await hero.getByRole('radio', { name: 'Blue' }).check();
-    await expect(hero.getByRole('radio', { name: 'Blue' })).toBeChecked();
+    const slider = page.getByRole('slider', { name: 'Compare the shop without and with SiteMark' });
+    await expect(slider).toBeVisible();
+    await slider.focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(slider).toHaveValue('22');
     const context = await browser.newContext({ javaScriptEnabled: false });
     const noScript = await context.newPage();
     await noScript.goto('/SiteMark/');
-    await expect(noScript.getByRole('img', { name: /^The playground's preview/ })).toBeVisible();
-    const noScriptHero = noScript.locator('section', {
-      has: noScript.getByRole('heading', { level: 1 }),
-    });
-    await expect(noScriptHero.getByRole('radio')).toHaveCount(0);
+    await expect(noScript.getByText('with SiteMark')).toBeVisible();
     await context.close();
   });
 });

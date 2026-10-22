@@ -592,5 +592,33 @@
   "websitePlaygroundDeleteButton": {
     "message": "Delete customer",
     "description": "Playground: the text of the sample page's button that the element mark marks."
+  },
+  "websiteHeroBefore": {
+    "message": "without SiteMark",
+    "description": "Hero: label above the left half of the before/after shop picture."
+  },
+  "websiteHeroAfter": {
+    "message": "with SiteMark",
+    "description": "Hero: label above the right half of the before/after shop picture."
+  },
+  "websiteHeroSlider": {
+    "message": "Compare the shop without and with SiteMark",
+    "description": "Hero: accessible name of the slider that moves the divider between the unmarked and the marked shop."
+  },
+  "websiteHeroDrag": {
+    "message": "drag",
+    "description": "Hero: short hint on the slider handle. Keep it to one word."
+  },
+  "websiteHeroInbox": {
+    "message": "Inbox",
+    "description": "Hero: title of the other browser tab in the shop picture."
+  },
+  "websiteHeroCustomers": {
+    "message": "Customers",
+    "description": "Hero: name of the sample shop's customers page; it is in the tab title and the menu."
+  },
+  "websiteHeroEdit": {
+    "message": "Edit",
+    "description": "Hero: text of the sample customer page's Edit button, next to the Delete customer button."
   }
 }
