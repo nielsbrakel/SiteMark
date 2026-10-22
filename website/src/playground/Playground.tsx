@@ -41,23 +41,26 @@ export function Playground({ t }: IslandProps) {
             groupName={PLAYGROUND_NAME}
             onSave={(pageEffects) => void change({ pageEffects })}
           />
-          <Switch
-            label={t('websitePlaygroundElementMark')}
-            onText={t('optionsGroupOn')}
-            offText={t('optionsGroupOff')}
-            checked={Boolean(state.elementEffects)}
-            onChange={(on) =>
-              void change({ elementEffects: on ? DEFAULT_ELEMENT_EFFECTS : undefined })
-            }
-          />
-          {state.elementEffects && (
-            <EffectsFieldset
-              target="element"
-              effects={state.elementEffects}
-              groupName={PLAYGROUND_NAME}
-              onSave={(elementEffects) => void change({ elementEffects })}
+          <div className={`sm-tape ${styles.note}`}>
+            <Switch
+              label={t('websitePlaygroundElementMark')}
+              onText={t('optionsGroupOn')}
+              offText={t('optionsGroupOff')}
+              description={t('websitePlaygroundElementHint')}
+              checked={Boolean(state.elementEffects)}
+              onChange={(on) =>
+                void change({ elementEffects: on ? DEFAULT_ELEMENT_EFFECTS : undefined })
+              }
             />
-          )}
+            {state.elementEffects && (
+              <EffectsFieldset
+                target="element"
+                effects={state.elementEffects}
+                groupName={PLAYGROUND_NAME}
+                onSave={(elementEffects) => void change({ elementEffects })}
+              />
+            )}
+          </div>
         </div>
         <div className={styles.preview}>
           <Switch

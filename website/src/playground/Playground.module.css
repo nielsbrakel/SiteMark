@@ -20,6 +20,20 @@
   transform: rotate(calc(-0.4 * var(--sm-tilt)));
 }
 
+/* The element mark is a second, smaller note pinned on the form, tilted the other way. */
+.note {
+  --tape: var(--sm-tape-4);
+
+  display: grid;
+  gap: var(--sm-space-4);
+  margin-block-start: var(--sm-space-3);
+  padding: var(--sm-space-5) var(--sm-space-4) var(--sm-space-4);
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-lg);
+  background: var(--sm-surface);
+  transform: rotate(calc(1.2 * var(--sm-tilt)));
+}
+
 /* The mock browser shrinks with its column instead of widening the page. */
 .frame {
   --tape: var(--sm-tape-4);

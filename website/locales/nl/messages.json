@@ -589,6 +589,10 @@
     "message": "Markeer ook de knop Klant verwijderen",
     "description": "Playground: switch that adds a mark to the sample page's Delete customer button, with its own effects below it."
   },
+  "websitePlaygroundElementHint": {
+    "message": "Voegt een omlijning, tint of strepen toe aan alleen deze knop.",
+    "description": "Playground: help text under the switch that marks the sample page's Delete customer button."
+  },
   "websitePlaygroundDeleteButton": {
     "message": "Klant verwijderen",
     "description": "Playground: the text of the sample page's button that the element mark marks."
