@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
+import logo from '@/assets/logo.svg';
 import { t } from '@/lib/i18n/browser-source';
 import { optionsPageUrl } from '@/platform/deep-links';
-import { Wordmark } from '@/ui/components/Wordmark';
 import { HelpLink } from '@/ui/HelpLink';
 import { useCurrentTab } from '@/ui/hooks/use-current-tab';
 import { useSiteMarkState } from '@/ui/hooks/use-site-mark-state';
@@ -25,7 +25,7 @@ export function PopupApp({ search }: PopupAppProps): ReactNode {
   return (
     <main className={styles.popup}>
       <header className={styles.header}>
-        <Wordmark />
+        <img src={logo} alt="" width={40} height={40} />
         <h1 className="sm-visually-hidden">{t('popupTitle')}</h1>
         <div className={styles.nav}>
           <HelpLink />
