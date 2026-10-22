@@ -78,7 +78,7 @@ describe('REQ-THEME-001 the type scale and controls follow the concept', () => {
     const css = moduleCss('Switch');
     expect(css).toMatch(/\.track\s*{[^}]*width:\s*62px;[^}]*height:\s*34px;/);
     expect(css).toMatch(
-      /\.knob\s*{[^}]*width:\s*22px;[^}]*background:\s*var\(--sm-control-border\)/,
+      /\.track::after\s*{[^}]*inline-size:\s*22px;[^}]*background:\s*var\(--sm-control-border\)/,
     );
   });
 

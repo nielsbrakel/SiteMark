@@ -113,8 +113,7 @@ describe('REQ-PAGE-009 the three notes sit in a row, and the switch adds their m
   });
 
   it('the marks show only while the switch is checked, with no script', () => {
-    expect(notes).toMatch(/\.scene:has\(\.switch:checked\)/);
-    expect(notes).toMatch(/\.switch:checked/);
+    expect(notes).toMatch(/\.scene:has\(input:checked\)/);
     expect(notes).toMatch(/--sm-tilt/);
   });
 

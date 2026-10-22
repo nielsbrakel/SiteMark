@@ -1,5 +1,6 @@
 // biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
 import type { ReactNode } from 'react';
+import switchStyles from '@/ui/components/Switch.module.css';
 import type { PageProps } from '../pages/page-props';
 import styles from './AtWork.module.css';
 import { Tabs } from './AtWorkTabs';
@@ -41,8 +42,15 @@ export function AtWork({ t }: Props) {
       <div className={styles.scene} data-marks>
         <span className={styles.switchRow}>
           <label htmlFor="at-work-switch">{t('websiteAtWorkSwitch')}</label>
-          {/* biome-ignore lint/a11y/useAriaPropsForRole: a native checkbox carries the checked state */}
-          <input id="at-work-switch" className={styles.switch} type="checkbox" role="switch" />
+          <input
+            id="at-work-switch"
+            className={switchStyles.track}
+            type="checkbox"
+            // biome-ignore lint/a11y/useAriaPropsForRole: a native checkbox carries the checked state
+            role="switch"
+            data-on={t('optionsGroupOn')}
+            data-off={t('optionsGroupOff')}
+          />
         </span>
         <p className={styles.question} aria-live="polite">
           <span className={styles.off}>{t('websiteAtWorkQuestionOff')}</span>

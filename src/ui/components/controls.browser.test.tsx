@@ -141,12 +141,12 @@ describe('REQ-THEME-002 components take their colors from the tokens', () => {
   it('an active switch fills its track with green tape and moves the knob to the end', async () => {
     const { rerender } = render(<Switch label="On" checked={false} onChange={noop} />);
     const toggle = screen.getByRole('switch');
-    const knob = toggle.firstElementChild as HTMLElement;
-    const offLeft = box(knob).left;
+    const knob = () => getComputedStyle(toggle, '::after').transform;
+    expect(knob()).toBe('none');
     rerender(<Switch label="On" checked onChange={noop} />);
     await Promise.all(document.getAnimations().map((animation) => animation.finished));
     expect(getComputedStyle(toggle).backgroundColor).toBe(tokenColor('--sm-tape-3'));
-    expect(box(knob).left).toBeGreaterThan(offLeft);
+    expect(knob()).not.toBe('none');
   });
 
   it('a card sits on the paper surface with the small paper radius', () => {
