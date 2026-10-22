@@ -60,7 +60,7 @@ const click = async (name: string) =>
 
 afterEach(() => document.documentElement.removeAttribute('data-theme'));
 
-describe('REQ-POP-001 REQ-URL-006 the popup lists every site group whose patterns match the tab', () => {
+describe('REQ-POP-001 REQ-POP-008 REQ-URL-006 the popup lists every site group whose patterns match the tab', () => {
   it('shows the host and each matching group by priority, with its color and name', async () => {
     await openPopup(PAGE, production, elsewhere, payments);
     expect(await screen.findByText('app.example.com:8443')).toBeInTheDocument();
@@ -90,6 +90,13 @@ describe('REQ-POP-001 REQ-URL-006 the popup lists every site group whose pattern
     await openPopup(PAGE, excluded);
     const [item] = await items();
     expect(item).toHaveTextContent('Excluded here');
+  });
+
+  it('links the help about URL patterns when no site group matches', async () => {
+    await openPopup(PAGE, elsewhere);
+    expect(
+      await shown(() => screen.queryByRole('link', { name: 'How URL patterns work' })),
+    ).toHaveAttribute('href', 'https://nielsbrakel.github.io/SiteMark/help/url-patterns/');
   });
 
   it('says when no site group matches and offers Mark this site', async () => {
@@ -329,7 +336,7 @@ describe('REQ-POP-002 the popup shows whether element marks found their target',
   });
 });
 
-describe('REQ-POP-003 REQ-RND-008 the popup offers Pick element, Hide on this tab and Settings', () => {
+describe('REQ-POP-003 REQ-POP-008 REQ-RND-008 the popup offers Pick element, Hide on this tab and Settings', () => {
   const report = (hidden: boolean): TabStatus => ({ marks: [], favicon: 'off', hidden });
 
   it.each([
@@ -343,10 +350,12 @@ describe('REQ-POP-003 REQ-RND-008 the popup offers Pick element, Hide on this ta
     expect(background.sent('startPicker')).toEqual([{ type: 'startPicker', data: { tabId } }]);
   });
 
-  it('shows the start-picker shortcut the browser reports', async () => {
-    shortcuts({ 'start-picker': 'Alt+Shift+M', 'toggle-hide': '' });
+  it('shows the shortcuts the browser reports as key caps on one line', async () => {
+    shortcuts({ 'start-picker': 'Alt+Shift+M', 'toggle-hide': 'Ctrl+Shift+H' });
     await openPopup(PAGE, production);
-    expect(await shown(() => screen.queryByText('Alt+Shift+M to pick'))).toBeInTheDocument();
+    const line = (await shown(() => document.querySelector('kbd')))?.closest('p');
+    expect(line).toHaveTextContent('AltShiftM pick · CtrlShiftH hide');
+    expect([...(line?.querySelectorAll('kbd') ?? [])]).toHaveLength(6);
   });
 
   it('Hide on this tab toggles the marks and shows whether they are hidden', async () => {
@@ -362,21 +371,11 @@ describe('REQ-POP-003 REQ-RND-008 the popup offers Pick element, Hide on this ta
     expect(background.sent('toggleHidden')).toEqual([{ type: 'toggleHidden', data: { tabId } }]);
   });
 
-  it('shows the toggle-hide shortcut only when one is assigned (D-208)', async () => {
-    shortcuts({ 'start-picker': 'Alt+Shift+M', 'toggle-hide': 'Ctrl+Shift+H' });
-    const { background } = await openPopup(PAGE, production);
-    background.tabStatus = report(false);
-    const hide = await shown(() => screen.queryByRole('button', { name: 'Hide on this tab' }));
-    await waitFor(() => expect(hide).toHaveAccessibleDescription('Shortcut: Ctrl+Shift+H'));
-  });
-
-  it('shows no toggle-hide shortcut while none is assigned', async () => {
+  it('leaves out the shortcut that is not assigned (D-208)', async () => {
     shortcuts({ 'start-picker': 'Alt+Shift+M', 'toggle-hide': '' });
-    const { background } = await openPopup(PAGE, production);
-    background.tabStatus = report(false);
-    const hide = await shown(() => screen.queryByRole('button', { name: 'Hide on this tab' }));
-    await screen.findByText('Alt+Shift+M to pick');
-    expect(hide).toHaveAccessibleDescription('');
+    await openPopup(PAGE, production);
+    const line = (await shown(() => document.querySelector('kbd')))?.closest('p');
+    expect(line).toHaveTextContent(/^AltShiftM pick$/);
   });
 
   it('can not hide while no marker runs in the tab', async () => {
@@ -393,6 +392,18 @@ describe('REQ-POP-003 REQ-RND-008 the popup offers Pick element, Hide on this ta
       `${fakeBrowser.runtime.getURL('/options.html')}#/settings`,
     );
     expect(settings).toHaveAttribute('target', '_blank');
+  });
+
+  it('links the help and a tip about picking, in a new tab', async () => {
+    await openPopup(PAGE, production);
+    const help = await shown(() => screen.queryByRole('link', { name: 'Help' }));
+    expect(help).toHaveAttribute('href', 'https://nielsbrakel.github.io/SiteMark/help/');
+    const tip = await shown(() => screen.queryByRole('link', { name: 'How picking works' }));
+    expect(tip).toHaveAttribute(
+      'href',
+      'https://nielsbrakel.github.io/SiteMark/help/picking-an-element/',
+    );
+    expect(tip).toHaveAttribute('target', '_blank');
   });
 
   it('has no axe violations', async () => {

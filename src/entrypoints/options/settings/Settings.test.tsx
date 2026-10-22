@@ -69,7 +69,21 @@ describe('REQ-I18N-006 the language setting', () => {
   });
 });
 
-describe('REQ-OPT-004 REQ-CMD-001 REQ-CMD-002 keyboard shortcuts', () => {
+describe('REQ-OPT-008 the settings page links the help topics', () => {
+  it('links the shortcuts and the diagnostics to their help, in a new tab', async () => {
+    await openSettings();
+    for (const [name, topic] of [
+      ['Hiding marks and shortcuts', 'hiding-marks-and-shortcuts'],
+      ['Troubleshooting', 'troubleshooting'],
+    ] as const) {
+      const link = screen.queryByRole('link', { name });
+      expect(link).toHaveAttribute('href', `https://nielsbrakel.github.io/SiteMark/help/${topic}/`);
+      expect(link).toHaveAttribute('target', '_blank');
+    }
+  });
+});
+
+describe('REQ-OPT-004 REQ-CMD-001 REQ-CMD-002 REQ-OPT-008 keyboard shortcuts', () => {
   const shortcuts = () => byRole('list', { name: 'Keyboard shortcuts' });
 
   it('lists the live shortcuts, and says when one is not assigned', async () => {
@@ -82,7 +96,11 @@ describe('REQ-OPT-004 REQ-CMD-001 REQ-CMD-002 keyboard shortcuts', () => {
     await waitFor(() => expect(within(list).getAllByRole('listitem')).toHaveLength(2));
     const rows = within(shortcuts()).getAllByRole('listitem');
     expect(rows[0]).toHaveTextContent('Pick an element to mark on this page');
-    expect(rows[0]).toHaveTextContent('Alt+Shift+M');
+    expect([...(rows[0]?.querySelectorAll('kbd') ?? [])].map((key) => key.textContent)).toEqual([
+      'Alt',
+      'Shift',
+      'M',
+    ]);
     expect(rows[1]).toHaveTextContent('Show or hide the marks on this tab');
     expect(rows[1]).toHaveTextContent('Not assigned');
   });
