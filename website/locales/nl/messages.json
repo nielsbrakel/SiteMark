@@ -227,10 +227,6 @@
     "message": "SiteMark verzamelt geen gegevens. Je sitegroepen blijven in je browser, en deze website plaatst geen cookies en laadt niets van elders.",
     "description": "Privacy summary on the home page."
   },
-  "websitePrivacySummaryLink": {
-    "message": "Lees de privacyverklaring",
-    "description": "Link from the home page privacy summary to the privacy policy."
-  },
   "websitePrivacyFactOpenTitle": {
     "message": "Openbare broncode",
     "description": "Title of a privacy fact card on the home page."

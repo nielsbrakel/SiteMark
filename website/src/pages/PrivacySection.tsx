@@ -1,7 +1,6 @@
 // biome-ignore-all lint/security/noSecrets: i18n message keys, not secrets
 import { type CardItem, CardList } from '../components/CardList';
 import type { WebsiteMessageKey } from '../i18n/website-t';
-import { pagePath } from '../routes/urls';
 import styles from './HomePage.module.css';
 import type { PageProps } from './page-props';
 
@@ -59,8 +58,8 @@ const PERMISSIONS: readonly Permission[] = [
   },
 ];
 
-/** The home page privacy section (REQ-PAGE-001): the claims, the permissions and the policy link. */
-export function PrivacySection({ t, locale }: Pick<PageProps, 't' | 'locale'>) {
+/** The home page privacy section (REQ-PAGE-001): the claims, and the permissions. */
+export function PrivacySection({ t }: Pick<PageProps, 't'>) {
   return (
     <section className={styles.section} aria-labelledby="privacy-summary">
       <h2 id="privacy-summary">{t('websitePrivacySummaryHeading')}</h2>
@@ -90,11 +89,6 @@ export function PrivacySection({ t, locale }: Pick<PageProps, 't' | 'locale'>) {
           ))}
         </dl>
       </div>
-      <p>
-        <a className={styles.link} href={pagePath('privacy', locale)}>
-          {t('websitePrivacySummaryLink')}
-        </a>
-      </p>
     </section>
   );
 }

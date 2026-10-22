@@ -227,10 +227,6 @@
     "message": "SiteMark collects no data. Your site groups stay in your browser, and this website sets no cookies and loads nothing from anywhere else.",
     "description": "Privacy summary on the home page."
   },
-  "websitePrivacySummaryLink": {
-    "message": "Read the privacy policy",
-    "description": "Link from the home page privacy summary to the privacy policy."
-  },
   "websitePrivacyFactOpenTitle": {
     "message": "Public source",
     "description": "Title of a privacy fact card on the home page."

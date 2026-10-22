@@ -77,7 +77,7 @@ export function HomePage({ t, locale }: PageProps) {
       </section>
       <Highlights t={t} />
       <AtWork t={t} />
-      <PrivacySection t={t} locale={locale} />
+      <PrivacySection t={t} />
     </>
   );
 }

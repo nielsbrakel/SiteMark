@@ -135,7 +135,6 @@
   padding: var(--sm-space-5);
   background: var(--sm-panel);
   line-height: var(--smw-card-line);
-  transform: rotate(var(--sm-tilt));
 }
 
 .permissions h3 {
