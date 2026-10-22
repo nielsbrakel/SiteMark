@@ -123,10 +123,6 @@
     "message": "Hulp bij SiteMark: meld een bug of vraag een functie aan op GitHub, meld beveiligingsproblemen privé en lees antwoorden op veelgestelde vragen.",
     "description": "Meta description of the support page, shown in search results. At most 160 characters."
   },
-  "websiteSupportHeading": {
-    "message": "Ondersteuning",
-    "description": "Main heading (h1) of the support page."
-  },
   "websiteSupportLead": {
     "message": "Alle contact loopt via GitHub. SiteMark wordt in de vrije tijd onderhouden, dus een antwoord kan een paar dagen duren.",
     "description": "Introduction of the support page: contact goes through GitHub, and the response time expectation."
@@ -144,8 +140,8 @@
     "description": "Link to SECURITY.md in the repository, inside the security warning box."
   },
   "websiteSupportContactHeading": {
-    "message": "Contact",
-    "description": "Heading above the list of contact routes on the support page."
+    "message": "Kom je er niet uit? Vraag het ons.",
+    "description": "Heading of the contact block at the bottom of the help and support page."
   },
   "websiteSupportBugLink": {
     "message": "Meld een bug",
@@ -170,58 +166,6 @@
   "websiteSupportSecurityText": {
     "message": "Een beveiligingsprobleem gevonden? Alleen de maker ziet deze meldingen.",
     "description": "When to use private vulnerability reporting."
-  },
-  "websiteFaqHeading": {
-    "message": "Veelgestelde vragen",
-    "description": "Heading of the FAQ section on the support page."
-  },
-  "websiteFaqRestrictedQuestion": {
-    "message": "Waarom werkt SiteMark op sommige pagina's niet?",
-    "description": "FAQ question about restricted pages where extensions can't run."
-  },
-  "websiteFaqRestrictedAnswer": {
-    "message": "Browsers laten extensies niet werken op hun eigen pagina's (zoals de instellingen of een nieuw tabblad), in de extensiewinkels, in de pdf-viewer of op lokale bestanden. Op die pagina's zegt de pop-up dat SiteMark daar niet kan werken.",
-    "description": "FAQ answer about restricted pages."
-  },
-  "websiteFaqPermissionQuestion": {
-    "message": "Waarom vraagt SiteMark om toestemming als ik een URL-patroon toevoeg?",
-    "description": "FAQ question about the permission prompt."
-  },
-  "websiteFaqPermissionAnswer": {
-    "message": "SiteMark heeft na de installatie geen toegang tot websites. Als je een patroon toevoegt, vraagt SiteMark alleen toegang tot de websites die bij dat patroon passen, zodat je markeringen daar bij elk bezoek verschijnen. Zeg je nee, dan blijft het patroon staan met een knop Toestaan, zodat je later alsnog toegang kunt geven.",
-    "description": "FAQ answer about the permission prompt."
-  },
-  "websiteFaqMarksQuestion": {
-    "message": "Mijn markeringen verschijnen niet. Wat kan ik controleren?",
-    "description": "FAQ question about marks that don't show."
-  },
-  "websiteFaqMarksAnswer": {
-    "message": "Open de pop-up van SiteMark op die pagina. Die toont welke sitegroepen passen, of ze aanstaan en of SiteMark toegang heeft tot de website. Geef toegang als erom gevraagd wordt en laad de pagina opnieuw. Een elementmarkering heeft ook het element op de pagina nodig: de pop-up meldt het als het niet gevonden wordt.",
-    "description": "FAQ answer about marks that don't show."
-  },
-  "websiteFaqHideQuestion": {
-    "message": "Hoe verberg ik markeringen voor een demo of een screenshot?",
-    "description": "FAQ question about hiding marks."
-  },
-  "websiteFaqHideAnswer": {
-    "message": "Kies Verbergen op dit tabblad in de pop-up. De markeringen komen terug als je de pagina opnieuw laadt, de website verlaat of het tabblad sluit. Je kunt dit ook een sneltoets geven in de sneltoetsinstellingen voor extensies van je browser.",
-    "description": "FAQ answer about hiding marks on one tab."
-  },
-  "websiteFaqDataQuestion": {
-    "message": "Waar worden mijn sitegroepen bewaard?",
-    "description": "FAQ question about where data lives."
-  },
-  "websiteFaqDataAnswer": {
-    "message": "Alleen in je browser, in de lokale opslag van de extensie. SiteMark stuurt ze nergens heen en synchroniseert ze niet. Wil je ze naar een andere browser of een ander apparaat verhuizen, gebruik dan exporteren en importeren op de optiepagina.",
-    "description": "FAQ answer about where data lives."
-  },
-  "websiteFaqRemoveQuestion": {
-    "message": "Hoe verwijder ik al mijn gegevens?",
-    "description": "FAQ question about removing all data."
-  },
-  "websiteFaqRemoveAnswer": {
-    "message": "Gebruik Alles resetten op de optiepagina, of verwijder de extensie uit je browser. Allebei verwijderen ze je sitegroepen en instellingen. Tabbladtitels met een voorvoegsel kunnen nog in je browsergeschiedenis staan; wis ze daar.",
-    "description": "FAQ answer about removing all data."
   },
   "websiteBugReportHeading": {
     "message": "Wat je in een bugmelding zet",
@@ -532,19 +476,19 @@
     "description": "Playground: read out by screen readers when the SiteMark switch is off."
   },
   "websiteHelpTitle": {
-    "message": "Help: zo gebruik je SiteMark",
+    "message": "Help en ondersteuning · SiteMark",
     "description": "Document title of the help index. At most 60 characters."
   },
   "websiteHelpDescription": {
-    "message": "Zo gebruik je SiteMark: aan de slag, URL-patronen, markeringen en effecten, elementen kiezen, sneltoetsen, rechten, importeren en exporteren.",
+    "message": "Help en ondersteuning voor SiteMark: zo gebruik je het, los je een probleem op, en meld je een bug of vraag je een functie aan op GitHub.",
     "description": "Meta description of the help index. At most 160 characters."
   },
   "websiteHelpHeading": {
-    "message": "Help",
-    "description": "Main heading of the help index."
+    "message": "Help en ondersteuning",
+    "description": "Main heading (h1) of the combined help and support page."
   },
   "websiteHelpLead": {
-    "message": "Alles over het instellen en gebruiken van SiteMark, per onderwerp.",
+    "message": "Zoek eerst je antwoord. Staat het er niet, vraag het ons dan onderaan.",
     "description": "Introduction under the help heading, above the list of topics."
   },
   "websiteHelpTopicsLabel": {
@@ -624,5 +568,41 @@
   "websiteHeroEdit": {
     "message": "Bewerken",
     "description": "Hero: text of the sample customer page's Edit button, next to the Delete customer button."
+  },
+  "websiteHelpProblemsLabel": {
+    "description": "Label above the quick links to the help topics for common problems.",
+    "message": "Veelvoorkomende problemen, één tik ver:"
+  },
+  "websiteHelpProblemMarks": {
+    "description": "Quick link text to the troubleshooting topic.",
+    "message": "Mijn markeringen verschijnen niet"
+  },
+  "websiteHelpProblemAccess": {
+    "description": "Quick link text to the permissions topic.",
+    "message": "Waarom vraagt het om toegang?"
+  },
+  "websiteHelpProblemDemo": {
+    "description": "Quick link text to the topic about hiding marks.",
+    "message": "Markeringen verbergen voor een demo"
+  },
+  "websiteHelpProblemData": {
+    "description": "Quick link text to the import and export topic.",
+    "message": "Mijn gegevens verplaatsen of wissen"
+  },
+  "websiteHelpGroupStart": {
+    "description": "Heading of the help topics about starting.",
+    "message": "Begin"
+  },
+  "websiteHelpGroupMark": {
+    "description": "Heading of the help topics about marking sites.",
+    "message": "Markeren"
+  },
+  "websiteHelpGroupUse": {
+    "description": "Heading of the help topics about everyday use.",
+    "message": "Gebruiken"
+  },
+  "websiteHelpGroupFix": {
+    "description": "Heading of the help topics about permissions and fixing problems.",
+    "message": "Vertrouwen en oplossingen"
   }
 }

@@ -30,7 +30,7 @@ const main = () => screen.getByRole('main');
 const hrefOf = (name: string) =>
   within(main()).queryByRole('link', { name })?.getAttribute('href') ?? null;
 
-describe('REQ-PAGE-003 the support page offers the same contact routes as the repository', () => {
+describe('REQ-PAGE-003 the help page offers the same contact routes as the repository', () => {
   it('takes its URLs from .github/SUPPORT.md and SECURITY.md', () => {
     expect(contactUrls()).toEqual({
       bugReport: support.get('bug report'),
@@ -56,7 +56,8 @@ describe('REQ-PAGE-003 the support page offers the same contact routes as the re
       expect(hrefOf(bug)).toBe(support.get('bug report'));
       expect(hrefOf(feature)).toBe(support.get('feature request'));
       expect(hrefOf(vuln)).toBe(security.get('GitHub private vulnerability reporting'));
-      for (const link of within(main()).getAllByRole('link')) {
+      const contact = document.getElementById('contact')?.closest('section') as HTMLElement;
+      for (const link of within(contact).getAllByRole('link')) {
         expect(link.getAttribute('rel')).toBe('noopener noreferrer');
       }
     },
@@ -73,40 +74,16 @@ describe('REQ-PAGE-003 the support page offers the same contact routes as the re
   });
 
   it.each([
-    ['support/index.html', 'Support', 'Frequently asked questions'],
-    ['nl/support/index.html', 'Ondersteuning', 'Veelgestelde vragen'],
-  ])('%s answers the six common questions', (file, h1, faq) => {
+    ['support/index.html', 'Help and support'],
+    ['nl/support/index.html', 'Help en ondersteuning'],
+  ])('%s is the help page, with the contact block below the topics', (file, h1) => {
     showPage(pages, file);
     expect(within(main()).getByRole('heading', { level: 1 }).textContent).toBe(h1);
-    const headings = within(main()).getAllByRole('heading');
-    const at = headings.findIndex((heading) => heading.textContent === faq);
-    expect(at).toBeGreaterThan(0);
-    const questions = headings.slice(at + 1).filter((heading) => heading.tagName === 'H3');
-    expect(questions).toHaveLength(6);
-    for (const question of questions) {
-      expect(question.textContent).toMatch(/\?$/);
-      expect(question.nextElementSibling?.textContent?.length).toBeGreaterThan(40);
-    }
-  });
-
-  it('covers restricted pages, the permission prompt, missing marks, hiding, data and removal', () => {
-    showPage(pages, 'support/index.html');
-    const questions = within(main())
-      .getAllByRole('heading', { level: 3 })
-      .map((heading) => heading.textContent ?? '');
-    for (const topic of [
-      /some pages/,
-      /permission/,
-      /marks don't show/,
-      /hide/,
-      /stored/,
-      /remove/,
-    ]) {
-      expect(
-        questions.some((question) => topic.test(question)),
-        String(topic),
-      ).toBe(true);
-    }
+    const headings = within(main()).getAllByRole('heading', { level: 2 });
+    expect(headings.at(-1)?.id).toBe('contact');
+    expect(
+      within(main()).getAllByRole('link', { name: /Troubleshooting|Problemen oplossen/ }),
+    ).not.toHaveLength(0);
   });
 
   it('lists what to include in a bug report', () => {
@@ -130,13 +107,14 @@ describe('REQ-PAGE-003 the support page offers the same contact routes as the re
     expect(main().textContent).toContain('vrije tijd');
   });
 
-  it('has its own title and marks Support as the current page', () => {
+  it('keeps its own title, and no navigation item is current', () => {
     const html = showPage(pages, 'nl/support/index.html');
     expect(titleOf(html)).toBe('Ondersteuning en contact · SiteMark');
     const nav = screen.getByRole('navigation', { name: 'Hoofdmenu' });
-    const current = within(nav)
-      .getAllByRole('link')
-      .filter((link) => link.getAttribute('aria-current') === 'page');
-    expect(current.map((link) => link.textContent)).toEqual(['Ondersteuning']);
+    expect(
+      within(nav)
+        .getAllByRole('link')
+        .filter((link) => link.getAttribute('aria-current') === 'page'),
+    ).toHaveLength(0);
   });
 });

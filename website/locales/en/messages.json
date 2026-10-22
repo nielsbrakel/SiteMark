@@ -123,10 +123,6 @@
     "message": "Get help with SiteMark: report a bug or ask for a feature on GitHub, report security problems privately and read answers to common questions.",
     "description": "Meta description of the support page, shown in search results. At most 160 characters."
   },
-  "websiteSupportHeading": {
-    "message": "Support",
-    "description": "Main heading (h1) of the support page."
-  },
   "websiteSupportLead": {
     "message": "All contact goes through GitHub. SiteMark is maintained in spare time, so answers can take a few days.",
     "description": "Introduction of the support page: contact goes through GitHub, and the response time expectation."
@@ -144,8 +140,8 @@
     "description": "Link to SECURITY.md in the repository, inside the security warning box."
   },
   "websiteSupportContactHeading": {
-    "message": "Contact",
-    "description": "Heading above the list of contact routes on the support page."
+    "message": "Still stuck? Ask us.",
+    "description": "Heading of the contact block at the bottom of the help and support page."
   },
   "websiteSupportBugLink": {
     "message": "Report a bug",
@@ -170,58 +166,6 @@
   "websiteSupportSecurityText": {
     "message": "Found a security problem? Only the maintainer sees these reports.",
     "description": "When to use private vulnerability reporting."
-  },
-  "websiteFaqHeading": {
-    "message": "Frequently asked questions",
-    "description": "Heading of the FAQ section on the support page."
-  },
-  "websiteFaqRestrictedQuestion": {
-    "message": "Why doesn't SiteMark work on some pages?",
-    "description": "FAQ question about restricted pages where extensions can't run."
-  },
-  "websiteFaqRestrictedAnswer": {
-    "message": "Browsers don't let extensions run on their own pages (such as settings or a new tab), on the extension stores, in the PDF viewer or on local files. On those pages the popup says that SiteMark can't run there.",
-    "description": "FAQ answer about restricted pages."
-  },
-  "websiteFaqPermissionQuestion": {
-    "message": "Why does SiteMark ask for permission when I add a URL pattern?",
-    "description": "FAQ question about the permission prompt."
-  },
-  "websiteFaqPermissionAnswer": {
-    "message": "SiteMark has no access to any website when you install it. When you add a pattern, it asks for access to just the websites that pattern matches, so it can show your marks there on every visit. If you say no, the pattern stays with an Allow button, so you can grant access later.",
-    "description": "FAQ answer about the permission prompt."
-  },
-  "websiteFaqMarksQuestion": {
-    "message": "My marks don't show up. What can I check?",
-    "description": "FAQ question about marks that don't show."
-  },
-  "websiteFaqMarksAnswer": {
-    "message": "Open the SiteMark popup on that page. It shows which site groups match, whether they are enabled and whether SiteMark has access to the website. Allow access if it asks, and reload the page. An element mark also needs its element on the page: the popup says when it isn't found.",
-    "description": "FAQ answer about marks that don't show."
-  },
-  "websiteFaqHideQuestion": {
-    "message": "How do I hide marks for a demo or a screenshot?",
-    "description": "FAQ question about hiding marks."
-  },
-  "websiteFaqHideAnswer": {
-    "message": "Choose Hide on this tab in the popup. The marks come back when you reload the page, leave the website or close the tab. You can also give this a keyboard shortcut in your browser's extension shortcut settings.",
-    "description": "FAQ answer about hiding marks on one tab."
-  },
-  "websiteFaqDataQuestion": {
-    "message": "Where are my site groups stored?",
-    "description": "FAQ question about where data lives."
-  },
-  "websiteFaqDataAnswer": {
-    "message": "Only in your browser, in the extension's local storage. SiteMark never sends them anywhere and doesn't sync them. To move them to another browser or device, use export and import on the options page.",
-    "description": "FAQ answer about where data lives."
-  },
-  "websiteFaqRemoveQuestion": {
-    "message": "How do I remove all my data?",
-    "description": "FAQ question about removing all data."
-  },
-  "websiteFaqRemoveAnswer": {
-    "message": "Use Reset everything on the options page, or remove the extension from your browser. Both delete your site groups and settings. Tab titles with a prefix can still be in your browser history; clear them there.",
-    "description": "FAQ answer about removing all data."
   },
   "websiteBugReportHeading": {
     "message": "What to include in a bug report",
@@ -532,19 +476,19 @@
     "description": "Playground: read out by screen readers when the SiteMark switch is off."
   },
   "websiteHelpTitle": {
-    "message": "Help: how to use SiteMark",
+    "message": "Help and support · SiteMark",
     "description": "Document title of the help index. At most 60 characters."
   },
   "websiteHelpDescription": {
-    "message": "How to use SiteMark: getting started, URL patterns, marks and effects, picking elements, shortcuts, permissions, import and export.",
+    "message": "Help and support for SiteMark: how to use it, fix a problem, and report a bug or ask for a feature on GitHub.",
     "description": "Meta description of the help index. At most 160 characters."
   },
   "websiteHelpHeading": {
-    "message": "Help",
-    "description": "Main heading of the help index."
+    "message": "Help and support",
+    "description": "Main heading (h1) of the combined help and support page."
   },
   "websiteHelpLead": {
-    "message": "Everything about setting up and using SiteMark, one topic at a time.",
+    "message": "Find your answer first. If it is not here, ask us at the bottom.",
     "description": "Introduction under the help heading, above the list of topics."
   },
   "websiteHelpTopicsLabel": {
@@ -624,5 +568,41 @@
   "websiteHeroEdit": {
     "message": "Edit",
     "description": "Hero: text of the sample customer page's Edit button, next to the Delete customer button."
+  },
+  "websiteHelpProblemsLabel": {
+    "description": "Label above the quick links to the help topics for common problems.",
+    "message": "Common problems, one tap away:"
+  },
+  "websiteHelpProblemMarks": {
+    "description": "Quick link text to the troubleshooting topic.",
+    "message": "My marks don't show"
+  },
+  "websiteHelpProblemAccess": {
+    "description": "Quick link text to the permissions topic.",
+    "message": "Why does it ask for access?"
+  },
+  "websiteHelpProblemDemo": {
+    "description": "Quick link text to the topic about hiding marks.",
+    "message": "Hide marks for a demo"
+  },
+  "websiteHelpProblemData": {
+    "description": "Quick link text to the import and export topic.",
+    "message": "Move or remove my data"
+  },
+  "websiteHelpGroupStart": {
+    "description": "Heading of the help topics about starting.",
+    "message": "Start"
+  },
+  "websiteHelpGroupMark": {
+    "description": "Heading of the help topics about marking sites.",
+    "message": "Mark"
+  },
+  "websiteHelpGroupUse": {
+    "description": "Heading of the help topics about everyday use.",
+    "message": "Use"
+  },
+  "websiteHelpGroupFix": {
+    "description": "Heading of the help topics about permissions and fixing problems.",
+    "message": "Trust and fixes"
   }
 }
