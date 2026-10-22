@@ -46,16 +46,10 @@ export function Switch({
         aria-describedby={description ? descriptionId : undefined}
         disabled={disabled}
         className={styles.track}
-        data-text={onText !== undefined || undefined}
+        data-on={onText}
+        data-off={offText}
         onClick={() => onChange(!checked)}
-      >
-        <span className={styles.knob} />
-        {onText !== undefined && (
-          <span className={styles.state} aria-hidden="true">
-            {checked ? onText : offText}
-          </span>
-        )}
-      </button>
+      />
       {description && (
         <span id={descriptionId} className={styles.description}>
           {description}

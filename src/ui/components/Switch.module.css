@@ -24,50 +24,49 @@
   transition: background var(--sm-duration) var(--sm-ease);
 }
 
-.knob {
+.track::after {
+  content: '';
   position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 22px;
-  height: 22px;
+  inset: 4px auto auto 4px;
+  inline-size: 22px;
+  block-size: 22px;
   border-radius: var(--sm-radius-pill);
   background: var(--sm-control-border);
   transition: transform var(--sm-duration) var(--sm-ease);
 }
 
-.track[data-text] {
+.track[data-on] {
   width: 78px;
 }
 
-.state {
+/* The words come from data-off / data-on, so a native checkbox (no children) can show them too. */
+.track::before {
+  content: attr(data-off) / '';
   position: absolute;
-  top: 50%;
+  inset-block-start: 50%;
+  inset-inline-end: 10px;
   transform: translateY(-52%);
   font-size: var(--sm-text-xs);
   font-weight: 600;
   line-height: 1;
   color: var(--sm-text);
-  pointer-events: none;
 }
 
-.track[aria-checked='false'] .state {
-  right: 10px;
-}
-
-.track[aria-checked='true'] .state {
-  left: 10px;
-  color: var(--sm-on-tape);
-}
-
-.track[aria-checked='true'] {
+.track:is([aria-checked='true'], :checked) {
   background: var(--sm-tape-3);
 }
 
-.track[aria-checked='true'] .knob {
+.track:is([aria-checked='true'], :checked)::before {
+  content: attr(data-on) / '';
+  inset-inline: 10px auto;
+  color: var(--sm-on-tape);
+}
+
+.track:is([aria-checked='true'], :checked)::after {
   transform: translateX(28px);
 }
 
-.track[data-text][aria-checked='true'] .knob {
+.track[data-on]:is([aria-checked='true'], :checked)::after {
   transform: translateX(44px);
 }
 
@@ -87,11 +86,11 @@
     border-color: ButtonText;
   }
 
-  .knob {
+  .track::after {
     background: ButtonText;
   }
 
-  .track[aria-checked='true'] {
+  .track:is([aria-checked='true'], :checked) {
     background: Highlight;
   }
 
@@ -99,7 +98,7 @@
     border-color: GrayText;
   }
 
-  .track:disabled .knob {
+  .track:disabled::after {
     background: GrayText;
   }
 }

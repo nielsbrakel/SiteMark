@@ -19,44 +19,6 @@
   line-height: var(--smw-rule);
 }
 
-.switch {
-  appearance: none;
-  position: relative;
-  flex: none;
-  inline-size: 62px;
-  block-size: 34px;
-  margin: 0;
-  border: 1.5px solid var(--sm-control-border);
-  border-radius: var(--sm-radius-pill);
-  background: var(--sm-soft);
-  cursor: pointer;
-  transition: background var(--sm-duration) var(--sm-ease);
-}
-
-.switch::after {
-  content: '';
-  position: absolute;
-  inset: 4px auto auto 4px;
-  inline-size: 22px;
-  block-size: 22px;
-  border-radius: var(--sm-radius-pill);
-  background: var(--sm-control-border);
-  transition: transform var(--sm-duration) var(--sm-ease);
-}
-
-.switch:checked {
-  background: var(--sm-tape-3);
-}
-
-.switch:checked::after {
-  transform: translateX(28px);
-}
-
-.switch:focus-visible {
-  outline: 2px solid var(--sm-focus-color);
-  outline-offset: 2px;
-}
-
 .question {
   display: grid;
   margin: 0 0 var(--smw-rule);
@@ -71,11 +33,11 @@
 }
 
 .on,
-.scene:has(.switch:checked) .off {
+.scene:has(input:checked) .off {
   visibility: hidden;
 }
 
-.scene:has(.switch:checked) .on {
+.scene:has(input:checked) .on {
   visibility: visible;
   color: var(--sm-accent-text);
 }
@@ -129,15 +91,5 @@
   .notes {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--smw-rule);
-  }
-}
-
-@media (forced-colors: active) {
-  .switch {
-    border-color: ButtonText;
-  }
-
-  .switch:checked {
-    background: Highlight;
   }
 }
