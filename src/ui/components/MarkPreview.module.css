@@ -16,6 +16,12 @@
   font-size: var(--sm-text-xs);
 }
 
+.tabs {
+  display: flex;
+  gap: var(--sm-space-1);
+  min-inline-size: 0;
+}
+
 .tab {
   display: inline-flex;
   align-items: center;
@@ -27,7 +33,15 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  justify-self: start;
+  min-inline-size: 0;
+}
+
+/* The other tab is dimmer and narrower than the page's own. */
+.other {
+  flex: none;
+  inline-size: 84px;
+  background: transparent;
+  color: var(--sm-text-muted);
 }
 
 .favicon {
@@ -45,6 +59,10 @@
     var(--sm-surface) 3px 4px,
     var(--sm-text-muted) 4px
   );
+}
+
+.other .favicon {
+  background: var(--sm-tape-2);
 }
 
 .address {
