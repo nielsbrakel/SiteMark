@@ -81,9 +81,16 @@
   color: var(--sm-text-muted);
 }
 
-/* Four choices that don't fit one row wrap into two even rows instead of three and one. */
-.group:has(.segment:nth-child(4):last-child) .segment {
-  flex-basis: 8.5rem;
+/* Four choices that don't fit one row wrap into two even rows instead of three and one or four. Only
+   those get a size container, so the shrink-to-fit switches of the header keep their width. */
+.segmented:has(.segment:nth-child(4):last-child) {
+  container-type: inline-size;
+}
+
+@container (width < 30rem) {
+  .segment {
+    flex-basis: 40%;
+  }
 }
 
 @media (forced-colors: active) {
