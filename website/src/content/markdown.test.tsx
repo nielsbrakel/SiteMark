@@ -74,6 +74,12 @@ describe('REQ-WEB-006 Markdown becomes React elements with raw HTML switched off
 });
 
 describe('REQ-WEB-006 Markdown links are safe and point to real places', () => {
+  it('draws every link with the shared squiggle', () => {
+    show('[GitHub](https://github.com/nielsbrakel/SiteMark) and [here](#top)');
+    expect(linkTo('GitHub').className).toBe('sm-link');
+    expect(linkTo('here').className).toBe('sm-link');
+  });
+
   it('marks external links noopener noreferrer', () => {
     show('See [GitHub](https://github.com/nielsbrakel/SiteMark) and https://example.com.');
     expect(linkTo('GitHub').getAttribute('href')).toBe('https://github.com/nielsbrakel/SiteMark');

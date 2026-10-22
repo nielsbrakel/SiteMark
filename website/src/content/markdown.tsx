@@ -19,8 +19,17 @@ function linkIn(file: string) {
   return function MarkdownLink({ href = '', children }: LinkProps) {
     // react-markdown already emptied unsafe URLs (javascript: and the like).
     const link = href ? resolveLink(href, file) : { href: '#', external: false };
-    if (link.external) return <ExternalLink href={link.href}>{children}</ExternalLink>;
-    return <a href={link.href}>{children}</a>;
+    if (link.external)
+      return (
+        <ExternalLink className="sm-link" href={link.href}>
+          {children}
+        </ExternalLink>
+      );
+    return (
+      <a className="sm-link" href={link.href}>
+        {children}
+      </a>
+    );
   };
 }
 

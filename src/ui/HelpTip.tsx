@@ -19,7 +19,7 @@ export function HelpTip({ topic, text, link }: HelpTipProps): ReactNode {
       <BookIcon />
       <span>
         {t(text)}{' '}
-        <a href={helpUrl(topic)} target="_blank" rel="noopener noreferrer">
+        <a className="sm-link" href={helpUrl(topic)} target="_blank" rel="noopener noreferrer">
           {t(link)}
         </a>
       </span>

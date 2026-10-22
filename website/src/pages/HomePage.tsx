@@ -70,7 +70,7 @@ export function HomePage({ t, locale }: PageProps) {
         </div>
         <div className={styles.heroPreview}>
           <Island id="heroCompare" t={t} />
-          <a className={styles.link} href={pagePath('playground', locale)}>
+          <a className={`sm-link ${styles.link}`} href={pagePath('playground', locale)}>
             {t('websiteHeroPlaygroundLink')}
           </a>
         </div>

@@ -116,9 +116,7 @@
 }
 
 .link {
-  color: var(--sm-accent-text);
   font-weight: 600;
-  text-underline-offset: 2px;
 }
 
 @media (width <= 900px) {

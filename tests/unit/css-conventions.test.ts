@@ -23,7 +23,7 @@ describe('REQ-THEME-002 global CSS is limited to tokens, base primitives and pag
   it('uses CSS Modules for component styles', () => {
     const global = cssFiles.filter((file) => !file.endsWith('.module.css'));
     const allowed =
-      /^src\/styles\/(tokens|base|fonts)\.css$|^src\/entrypoints\/[\w-]+\/[\w-]+\.css$/;
+      /^src\/styles\/(tokens|base|fonts|links)\.css$|^src\/entrypoints\/[\w-]+\/[\w-]+\.css$/;
     expect(global.filter((file) => !allowed.test(file))).toEqual([]);
   });
 });
