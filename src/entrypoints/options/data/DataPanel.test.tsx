@@ -115,6 +115,16 @@ describe('REQ-OPT-005 REQ-DATA-004 REQ-DATA-005 import: preview, merge or replac
     fireEvent.change(fileInput(), { target: { files: [file] } });
   }
 
+  it('previews a file dropped on the import slot, like a chosen one', async () => {
+    const { background } = await openData();
+    const file = new File([exportText], 'sitemark-export.json', { type: 'application/json' });
+    fireEvent.drop(fileInput().parentElement as HTMLElement, { dataTransfer: { files: [file] } });
+    await waitFor(() =>
+      expect(importSection()).toHaveTextContent('1 site group updated, 1 new site group'),
+    );
+    expect(background.imports).toEqual([]);
+  });
+
   it('previews what the file changes before anything is imported', async () => {
     const { background } = await openData();
     chooseFile(exportText);
