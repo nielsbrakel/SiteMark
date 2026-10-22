@@ -16,7 +16,7 @@ function overflowing(popup: Page): Promise<string[]> {
     return [...document.body.querySelectorAll('*')]
       .filter((el) => {
         const box = el.getBoundingClientRect();
-        if (box.width === 0) return false;
+        if (box.width <= 1) return false; // visually hidden text
         const clipped = el instanceof HTMLElement && el.scrollWidth > el.clientWidth + 1;
         const style = getComputedStyle(el);
         return box.right > width + 0.5 || (clipped && style.overflowX !== 'visible');
