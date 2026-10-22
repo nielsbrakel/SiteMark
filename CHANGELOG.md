@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- The popup and the settings page link to the website's help: a Help link in the header and short tips under URL patterns, marks, shortcuts and diagnostics. Keyboard shortcuts are shown as key caps.
 - Website: the home page now shows a shop page without and with SiteMark's marks, with a slider to compare them.
 
 ## 1.1.1
