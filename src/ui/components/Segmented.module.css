@@ -81,6 +81,11 @@
   color: var(--sm-text-muted);
 }
 
+/* Four choices that don't fit one row wrap into two even rows instead of three and one. */
+.group:has(.segment:nth-child(4):last-child) .segment {
+  flex-basis: 8.5rem;
+}
+
 @media (forced-colors: active) {
   .group {
     border-color: ButtonText;
