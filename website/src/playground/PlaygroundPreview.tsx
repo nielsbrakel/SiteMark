@@ -26,6 +26,7 @@ export function PlaygroundPreview({ t, state }: Props) {
           plan={plan}
           label={t('websitePlaygroundPreview')}
           pageTitle={t('websitePlaygroundPageTitle')}
+          otherTab={t('websiteHeroInbox')}
           address={PLAYGROUND_ADDRESS}
           className={styles.mock}
           targetLabel={t('websitePlaygroundDeleteButton')}

@@ -14,6 +14,8 @@ export type MarkPreviewProps = {
   readonly label: string;
   /** The mock page's title in the mock tab (a title prefix goes in front). */
   readonly pageTitle: string;
+  /** A second, unmarked tab next to the page's own (the website shows an inbox), already translated. */
+  readonly otherTab?: string;
   /** The mock address bar's text. */
   readonly address: string;
   readonly labels: ViewLabels;
@@ -69,6 +71,7 @@ export function MarkPreview({
   plan,
   label,
   pageTitle,
+  otherTab,
   address,
   labels,
   targetLabel,
@@ -87,14 +90,22 @@ export function MarkPreview({
   return (
     <figure aria-label={label} className={classNames(styles.preview, className)}>
       <div className={styles.chrome}>
-        <span className={styles.tab}>
-          <span
-            className={styles.favicon}
-            data-tinted={favicon !== undefined}
-            ref={(dot) => paintColor(dot, '--sm-preview-favicon', favicon?.color ?? '')}
-          />
-          {prefix ? `${prefix} ${pageTitle}` : pageTitle}
-        </span>
+        <div className={styles.tabs}>
+          {otherTab && (
+            <span className={classNames(styles.tab, styles.other)}>
+              <span className={styles.favicon} />
+              {otherTab}
+            </span>
+          )}
+          <span className={styles.tab}>
+            <span
+              className={styles.favicon}
+              data-tinted={favicon !== undefined}
+              ref={(dot) => paintColor(dot, '--sm-preview-favicon', favicon?.color ?? '')}
+            />
+            {prefix ? `${prefix} ${pageTitle}` : pageTitle}
+          </span>
+        </div>
         <span className={styles.address}>{address}</span>
       </div>
       <div className={styles.viewport}>
