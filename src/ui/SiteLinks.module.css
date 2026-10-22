@@ -1,5 +1,6 @@
 /* Like the website footer: a wavy divider (a tiled wave used as a mask, so it takes the text color), then the links. */
 .footer {
+  padding-block-start: var(--sm-space-4);
   color: var(--sm-text);
 }
 
