@@ -4,12 +4,14 @@
   <defs><pattern id="s" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="5" height="10" fill="#fff" fill-opacity=".4"/></pattern></defs>
   <rect width="1280" height="640" fill="#c9a77c"/>
   <g transform="translate(80 70) scale(1.3)">
-    <g transform="rotate(-5 64 64)"><path d="M16 14l46-2 50 3-2 48 3 52-50 2-48-3 2-50z" fill="#fbf6e8" stroke="#33261b" stroke-width="3" stroke-linejoin="round"/></g>
-    <path d="M42 24h40a6 6 0 0 1 6 6v74l-26-17-26 17V30a6 6 0 0 1 6-6z" fill="#e8664d" stroke="#33261b" stroke-width="3.5" stroke-linejoin="round"/>
-    <rect x="34" y="12" width="56" height="18" transform="rotate(-4 62 21)" fill="#f5cf5a" stroke="#33261b" stroke-width="2"/>
-    <path d="M70 56v34l8.5-8 6 13.5 7-3-6-13.2H97z" fill="#fff" stroke="#33261b" stroke-width="3.5" stroke-linejoin="round"/>
+    <defs><clipPath id="wl"><rect x="16" y="20" width="96" height="88" rx="12"/></clipPath></defs>
+    <rect x="16" y="20" width="96" height="88" rx="12" fill="#fffaf0" stroke="#fffaf0" stroke-width="8" stroke-linejoin="round"/>
+    <rect x="16" y="20" width="96" height="88" rx="12" fill="#fbf6e8"/>
+    <path d="M16 46H112" stroke="#33261b" stroke-width="3"/><circle cx="30" cy="33" r="2" fill="#33261b"/>
+    <g clip-path="url(#wl)"><path d="M44 10L84 10L124 50L124 90Z" fill="#e8664d" stroke="#33261b" stroke-width="3" stroke-linejoin="round"/></g>
+    <rect x="16" y="20" width="96" height="88" rx="12" fill="none" stroke="#33261b" stroke-width="3.5" stroke-linejoin="round"/>
   </g>
-  <text x="270" y="190" font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="120" fill="#33261b">Site<tspan fill="#a63d28">Mark</tspan></text>
+  <text x="270" y="190" font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="120" fill="#33261b">SiteMark</text>
   <g font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="58" fill="#33261b"><text x="106" y="350">Never confuse</text><text x="106" y="414">production with test.</text></g>
   <g font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" fill="#33261b"><text x="106" y="476" font-size="30">Ribbons, banners and outlines</text><text x="106" y="514" font-size="30">on the sites you choose.</text><text x="106" y="566" font-size="26" fill="#a63d28">Private · Chrome · Edge · Firefox</text></g>
   <g transform="rotate(-3 970 120)" opacity=".92"><rect x="900" y="102" width="140" height="36" fill="#f5cf5a"/><rect x="900" y="102" width="140" height="36" fill="url(#s)"/></g>

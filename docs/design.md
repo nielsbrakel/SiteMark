@@ -24,8 +24,8 @@
 | Asset                                    | Use                                                                                                |
 | ---------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | `design/logo/sitemark-icon.svg`          | Master icon (48–512 px, store tile, options header)                                                |
-| `design/logo/sitemark-icon-small.svg`    | 32 px toolbar, website tab icon and extension headers: note, ribbon, tape and cursor, bold keyline |
-| `design/logo/sitemark-icon-16.svg`       | 16 px toolbar: note, ribbon and tape with a bold keyline (the cursor is lost at 16 px)             |
+| `design/logo/sitemark-icon-small.svg`    | 32 px toolbar, website tab icon and extension headers: window, corner ribbon and bar, bold keyline |
+| `design/logo/sitemark-icon-16.svg`       | 16 px toolbar: window and corner ribbon with a bold keyline (the bar dots are lost at 16 px)       |
 | `design/logo/sitemark-icon-mono.svg`     | `currentColor` monochrome: forced colors, Safari toolbar template image                            |
 | `design/logo/sitemark-wordmark.svg`      | Light backgrounds (README, store promo, welcome)                                                   |
 | `design/logo/sitemark-wordmark-dark.svg` | Dark backgrounds                                                                                   |
