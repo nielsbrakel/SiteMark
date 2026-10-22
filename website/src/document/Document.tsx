@@ -66,7 +66,7 @@ export function Document(props: DocumentProps) {
         ))}
         {headTags}
         {/* Copied from design/logo and public/icon by the prerender step (design §5). */}
-        <link rel="icon" href={assetUrl('favicon.svg')} type="image/svg+xml" />
+        <link rel="icon" href={assetUrl('favicon-tab.svg')} type="image/svg+xml" />
         <link rel="icon" href={assetUrl('favicon-32.png')} sizes="32x32" type="image/png" />
         <link rel="apple-touch-icon" href={assetUrl('apple-touch-icon.png')} />
         {fonts.map((href) => (
