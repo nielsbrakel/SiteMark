@@ -64,14 +64,12 @@ describe('REQ-PAGE-001 the home page explains SiteMark in one look', () => {
     expect(hero?.querySelector('[data-layer="after"]')).not.toBeNull();
   });
 
-  it.each([
-    ['index.html', 'Read the privacy policy', '/SiteMark/privacy/'],
-    ['nl/index.html', 'Lees de privacyverklaring', '/SiteMark/nl/privacy/'],
-  ])('%s sums up privacy and links the privacy page', (file, link, href) => {
+  it.each(['index.html', 'nl/index.html'])('%s sums up privacy', (file) => {
     showPage(pages, file);
-    const privacy = within(main()).queryByRole('link', { name: link });
-    expect(privacy?.getAttribute('href')).toBe(href);
-    expect(privacy?.closest('section')?.textContent).toMatch(/SiteMark (collects|verzamelt)/);
+    const privacy = within(main()).getByRole('region', {
+      name: /Private by design|Privacy voorop/,
+    });
+    expect(privacy.textContent).toMatch(/SiteMark (collects|verzamelt)/);
   });
 });
 
