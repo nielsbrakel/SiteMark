@@ -1,13 +1,12 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { pagesForDom, showPage } from '../../tests/unit/page-dom';
 import { InstallButtons } from '../components/InstallButtons';
 import { type Store, stores } from '../config/stores';
 import type { RenderedPage } from '../entry-server';
 import { createWebsiteTranslator, loadCatalogs, type WebsiteTranslator } from '../i18n/website-t';
-import { HeroPlayground } from '../playground/HeroPlayground';
 
 let pages: RenderedPage[];
 let en: WebsiteTranslator;
@@ -218,39 +217,30 @@ describe('REQ-PAGE-009 the home page shows SiteMark at work as three notes with 
   });
 });
 
-describe('REQ-PLAY-004 the home hero is a small playground with the four presets', () => {
+describe('REQ-PLAY-004 the home hero compares the shop without and with SiteMark', () => {
   const hero = () => within(main()).getByRole('heading', { level: 1 }).closest('section');
 
   it.each([
-    ['index.html', ['Red', 'Amber', 'Blue', 'Slate'], 'Try your own mark in the playground'],
+    [
+      'index.html',
+      'Compare the shop without and with SiteMark',
+      'Try your own mark in the playground',
+    ],
     [
       'nl/index.html',
-      ['Rood', 'Amber', 'Blauw', 'Leisteen'],
+      'Vergelijk de winkel zonder en met SiteMark',
       'Probeer je eigen markering bij Uitproberen',
     ],
-  ])(
-    '%s: the hero island offers only the presets and links the playground',
-    (file, names, link) => {
-      showPage(pages, file);
-      const island = hero()?.querySelector<HTMLElement>('[data-island="heroPlayground"]');
-      expect(island).toBeTruthy();
-      const radios = within(island ?? document.body).queryAllByRole('radio');
-      expect(radios.map((radio) => radio.getAttribute('aria-label'))).toEqual(names);
-      expect(within(island ?? document.body).queryAllByRole('checkbox')).toEqual([]);
-      expect(within(island ?? document.body).queryAllByRole('textbox')).toEqual([]);
-      expect(island?.querySelector('figure')).not.toBeNull();
-      const playground = within(hero() ?? document.body).queryByRole('link', { name: link });
-      expect(playground?.getAttribute('href')).toBe(
-        file.startsWith('nl/') ? '/SiteMark/nl/playground/' : '/SiteMark/playground/',
-      );
-    },
-  );
-
-  it('switches presets from the hero', () => {
-    render(<HeroPlayground t={en.t} />);
-    expect(screen.getByRole('radio', { name: 'Red' }).getAttribute('aria-checked')).toBe('true');
-    fireEvent.click(screen.getByRole('radio', { name: 'Slate' }));
-    expect(screen.getByRole('radio', { name: 'Slate' }).getAttribute('aria-checked')).toBe('true');
-    expect(screen.getByRole('radio', { name: 'Red' }).getAttribute('aria-checked')).toBe('false');
+  ])('%s: the hero island has the slider and links the playground', (file, slider, link) => {
+    showPage(pages, file);
+    const island = hero()?.querySelector<HTMLElement>('[data-island="heroCompare"]');
+    expect(island).toBeTruthy();
+    const inside = within(island ?? document.body);
+    expect(inside.getByRole('slider').getAttribute('aria-label')).toBe(slider);
+    expect(inside.queryAllByRole('radio')).toEqual([]);
+    const playground = within(hero() ?? document.body).queryByRole('link', { name: link });
+    expect(playground?.getAttribute('href')).toBe(
+      file.startsWith('nl/') ? '/SiteMark/nl/playground/' : '/SiteMark/playground/',
+    );
   });
 });

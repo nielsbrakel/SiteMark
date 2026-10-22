@@ -39,13 +39,13 @@ afterEach(() => {
 
 describe('REQ-WEB-002 the browser hydrates only the interactive islands of a prerendered page (D-245)', () => {
   it.each(['index.html', 'nl/index.html'])(
-    '%s: marks the theme toggle and the hero playground as islands in the prerendered HTML',
+    '%s: marks the theme toggle and the hero comparison as islands in the prerendered HTML',
     async (file) => {
       const container = await loadPrerendered(file);
       const islands = [...container.querySelectorAll<HTMLElement>('[data-island]')];
       expect(islands.map((island) => island.dataset.island)).toEqual([
         'themeToggle',
-        'heroPlayground',
+        'heroCompare',
       ]);
       expect(islands[0]?.querySelector('[role="radiogroup"]')).not.toBeNull();
     },

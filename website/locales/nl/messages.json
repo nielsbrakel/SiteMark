@@ -592,5 +592,33 @@
   "websitePlaygroundDeleteButton": {
     "message": "Klant verwijderen",
     "description": "Playground: the text of the sample page's button that the element mark marks."
+  },
+  "websiteHeroBefore": {
+    "message": "zonder SiteMark",
+    "description": "Hero: label above the left half of the before/after shop picture."
+  },
+  "websiteHeroAfter": {
+    "message": "met SiteMark",
+    "description": "Hero: label above the right half of the before/after shop picture."
+  },
+  "websiteHeroSlider": {
+    "message": "Vergelijk de winkel zonder en met SiteMark",
+    "description": "Hero: accessible name of the slider that moves the divider between the unmarked and the marked shop."
+  },
+  "websiteHeroDrag": {
+    "message": "sleep",
+    "description": "Hero: short hint on the slider handle. Keep it to one word."
+  },
+  "websiteHeroInbox": {
+    "message": "Postvak",
+    "description": "Hero: title of the other browser tab in the shop picture."
+  },
+  "websiteHeroCustomers": {
+    "message": "Klanten",
+    "description": "Hero: name of the sample shop's customers page; it is in the tab title and the menu."
+  },
+  "websiteHeroEdit": {
+    "message": "Bewerken",
+    "description": "Hero: text of the sample customer page's Edit button, next to the Delete customer button."
   }
 }
