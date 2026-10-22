@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { ElementEffects, PageEffects } from '@/core/model/schema';
 import { Switch } from '../Switch';
 import { RANGES, type TargetKind } from './effect-catalog';
+import styles from './MarkForm.module.css';
 import { Choice, type Effects, Range, type SetEffect } from './setting-controls';
 import { useT } from './translate';
 
@@ -87,7 +88,7 @@ export function OutlineSettings({
   readonly set: SetEffect<typeof value>;
 }) {
   const t = useT();
-  const styles = [
+  const lineStyles = [
     ['solid', 'styleSolid'],
     ['dashed', 'styleDashed'],
     ['dotted', 'styleDotted'],
@@ -103,11 +104,12 @@ export function OutlineSettings({
       />
       <Choice
         label="optionsOutlineStyle"
-        options={styles}
+        options={lineStyles}
         value={value.style}
         onChange={(style) => set({ ...value, style })}
       />
       <Switch
+        className={styles.switch}
         label={t('optionsOutlinePulse')}
         onText={t('optionsGroupOn')}
         offText={t('optionsGroupOff')}
