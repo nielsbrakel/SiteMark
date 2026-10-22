@@ -23,15 +23,15 @@
   transform: none;
 }
 
-/* One ruled notebook sheet (coral margin line) on the board holds the header and the page; long text sits on it without tape or tilt. */
+/* One ruled notebook sheet (coral margin line) on the board holds the page, below the header; long text sits on it without tape or tilt. */
 .sheet {
   --margin-line: 47px;
 
   flex: 1;
   box-sizing: border-box;
   width: min(100% - 2 * var(--smw-gutter), var(--smw-page-max));
-  margin: var(--sm-space-5) auto;
-  padding: 0 var(--smw-gutter);
+  margin: 0 auto var(--sm-space-5);
+  padding: var(--smw-rule) var(--smw-gutter);
   padding-inline-start: calc(var(--smw-gutter) + 40px);
   border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-lg);
@@ -44,24 +44,20 @@
     ),
     var(--sm-paper);
   box-shadow: var(--sm-lift);
-}
-
-/* The text sits on the ruled lines: every line is one rule tall, and blocks start and end on a rule. */
-.main {
-  padding-block: var(--smw-rule);
   line-height: var(--smw-rule);
 }
 
-.main :is(p, ul, ol, dl, pre, table, blockquote) {
+/* The text sits on the ruled lines: every line is one rule tall, and blocks start and end on a rule. */
+.sheet :is(p, ul, ol, dl, pre, table, blockquote) {
   margin-block: 0 var(--smw-rule);
 }
 
-.main :is(h1, h2, h3, h4) {
+.sheet :is(h1, h2, h3, h4) {
   margin-block: var(--smw-rule) 0;
   line-height: var(--smw-rule);
 }
 
-.main h1 {
+.sheet h1 {
   margin-top: 0;
   line-height: calc(var(--smw-rule) * 2);
 }

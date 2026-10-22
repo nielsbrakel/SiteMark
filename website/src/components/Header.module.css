@@ -1,6 +1,9 @@
-/* The header is the top of the page's paper sheet; its text is --sm-text. */
+/* The header sits on the kraft board above the page's paper sheet, so its text is --sm-text. */
 .header {
-  position: relative;
+  box-sizing: border-box;
+  width: min(100% - 2 * var(--smw-gutter), var(--smw-page-max));
+  margin: 0 auto;
+  padding-block: var(--sm-space-5) var(--sm-space-4);
 }
 
 .bar {

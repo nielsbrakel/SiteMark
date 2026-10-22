@@ -1,9 +1,11 @@
 import { type ReactNode, useMemo, useState } from 'react';
-import logo from '@/assets/logo.svg';
 import type { SiteGroup, SiteMarkState } from '@/core/model/schema';
 import type { OptionsRoute } from '@/core/options-route';
 import { t } from '@/lib/i18n/browser-source';
+import { repositoryUrl } from '@/lib/site-links';
+import { GitHubIcon } from '@/ui/components/icons';
 import { Toast } from '@/ui/components/Toast';
+import { Wordmark } from '@/ui/components/Wordmark';
 import { SiteLinks } from '@/ui/SiteLinks';
 import { DataPane } from './data/DataPane';
 import { GroupEditor } from './groups/GroupEditor';
@@ -79,32 +81,46 @@ export function Layout({ state, route }: LayoutProps): ReactNode {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <img src={logo} alt="" width={32} height={32} />
-        <h1>{t('optionsTitle')}</h1>
+        <Wordmark />
+        <h1 className="sm-visually-hidden">{t('optionsTitle')}</h1>
         <SaveStatusText />
         <PageNav route={route} />
-        <LanguageControl language={state.settings.language ?? 'auto'} notify={setToast} />
-        <ThemeControl theme={state.settings.theme} notify={setToast} />
+        <div className={styles.tools}>
+          <LanguageControl language={state.settings.language ?? 'auto'} notify={setToast} />
+          <ThemeControl theme={state.settings.theme} notify={setToast} />
+          <a
+            className={styles.github}
+            href={repositoryUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('footerGitHub')}
+            title={t('footerGitHub')}
+          >
+            <GitHubIcon />
+          </a>
+        </div>
       </header>
-      <Sidebar
-        groups={state.siteGroups}
-        selectedId={group?.id}
-        onAdded={openNewGroup}
-        notify={setToast}
-      />
-      <main ref={pane.mainRef} className={`sm-tape ${styles.main}`}>
-        {isUnreadable && <UnreadableBanner notify={setToast} />}
-        <RevokeContext value={offerRevoke}>
-          <Pane
-            route={route}
-            state={state}
-            group={group}
-            notify={setToast}
-            onAdded={openNewGroup}
-          />
-        </RevokeContext>
-      </main>
-      <footer className={styles.footer}>
+      <div className={`sm-tape ${styles.sheet}`}>
+        <Sidebar
+          groups={state.siteGroups}
+          selectedId={group?.id}
+          onAdded={openNewGroup}
+          notify={setToast}
+        />
+        <main ref={pane.mainRef} className={styles.main}>
+          {isUnreadable && <UnreadableBanner notify={setToast} />}
+          <RevokeContext value={offerRevoke}>
+            <Pane
+              route={route}
+              state={state}
+              group={group}
+              notify={setToast}
+              onAdded={openNewGroup}
+            />
+          </RevokeContext>
+        </main>
+      </div>
+      <footer>
         <SiteLinks />
       </footer>
       <Toast

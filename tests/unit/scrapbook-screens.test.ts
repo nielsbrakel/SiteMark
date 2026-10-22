@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-// Extension screens are paper sheets on the kraft board; the popup header is torn tape (D-289, docs/design.md §4).
+// Extension screens are paper sheets on the kraft board; their headers sit on the board (D-289, docs/design.md §4).
 
 const css = (file: string) => readFileSync(`src/entrypoints/${file}.module.css`, 'utf8');
 const sheet =
@@ -12,15 +12,12 @@ describe('REQ-THEME-001 screens are paper sheets on the board', () => {
     expect(css(file)).toMatch(sheet);
   });
 
-  it('the options header, sidebar, main and footer share the sheet look (the footer is a plain wavy-divider strip)', () => {
-    const layout = css('options/Layout');
-    expect(layout).toMatch(/\.header,\s*\.sidebar,\s*\.main\s*{[^}]*--sm-control-border/);
+  it('the options sidebar and editor share one ruled sheet', () => {
+    expect(css('options/Layout')).toMatch(/\.sheet\s*{[^}]*--sm-control-border/);
   });
 
-  it('the popup header is a tape strip with a torn edge', () => {
-    const popup = css('popup/App');
-    expect(popup).toMatch(/\.header\s*{[^}]*background:\s*var\(--sm-tape-1\)[^}]*mask:/);
-    expect(popup).toMatch(/forced-colors[^}]*\.header\s*{[^}]*mask:\s*none/);
+  it('the popup header sits on the board, above the taped sheet', () => {
+    expect(css('popup/App')).toMatch(/\.header\s*{[^}]*}[\s\S]*\.sheet\s*{[^}]*--tape/);
   });
 
   it('the current group is taped with ink text', () => {

@@ -78,7 +78,7 @@ describe('REQ-WEBUX-001 text sits on the ruled lines of the paper', () => {
   });
 
   it('the page text and the header start and end on a rule', () => {
-    expect(rule('components/Shell', '\\.main')).toMatch(/line-height:\s*var\(--smw-rule\)/);
+    expect(rule('components/Shell', '\\.sheet')).toMatch(/line-height:\s*var\(--smw-rule\)/);
     expect(rule('components/Header', '\\.nav')).toMatch(
       /min-height:\s*calc\(var\(--smw-rule\) \* 2\)/,
     );
