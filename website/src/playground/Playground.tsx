@@ -28,7 +28,7 @@ export function Playground({ t }: IslandProps) {
   return (
     <TranslateContext value={t}>
       <div className={styles.playground}>
-        <div className={styles.controls}>
+        <div className={`sm-tape ${styles.controls}`}>
           <ColorFields color={state.color} onSave={async (color) => change({ color })} />
           <TextColorField
             color={state.color}
