@@ -20,7 +20,7 @@ export function ContactBlock({ t }: Pick<PageProps, 't'>) {
         {CONTACT_ROUTES.map(({ url, link, text }) => (
           <li key={url} className={`sm-card sm-tape ${styles.note}`}>
             <h3>
-              <ExternalLink className={styles.link} href={urls[url]}>
+              <ExternalLink className={`sm-link-quiet ${styles.link}`} href={urls[url]}>
                 {t(link)}
               </ExternalLink>
             </h3>
@@ -31,7 +31,7 @@ export function ContactBlock({ t }: Pick<PageProps, 't'>) {
       <Callout title={t('websiteSupportCalloutTitle')}>
         <p>{t('websiteSupportCalloutText')}</p>
         <p>
-          <ExternalLink className={styles.link} href={urls.securityPolicy}>
+          <ExternalLink className={`sm-link-quiet ${styles.link}`} href={urls.securityPolicy}>
             {t('websiteSupportSecurityPolicyLink')}
           </ExternalLink>
         </p>

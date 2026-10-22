@@ -126,14 +126,15 @@ that become visible in forced-colors mode. Tilt (±2°) applies to titles and ca
 
 One hand-drawn mark per kind of control, always with bold text or an underline, never color alone:
 
-| Control                           | Mark                                                     |
-| --------------------------------- | -------------------------------------------------------- |
-| Header link (`.sm-nav-link`)      | Wavy underline in the text color, through descenders     |
-| Borderless list item (`.sm-pick`) | 2 px coral outline, 1° off true, bold text               |
-| Segmented and language switch     | Paper segment with a 3 px coral marker line, tilted 1.2° |
-| Switch                            | Green track, knob right, On / Off words inside the track |
-| Inline help link (`HelpTip`)      | Wavy underline                                           |
-| Button, color swatch              | Unchanged: pressed in with tape yellow, double ink ring  |
+| Control                           | Mark                                                                                                                                                 |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Header link (`.sm-nav-link`)      | Wavy underline in the text color, through descenders; on hover a lighter wavy line (`.sm-link-quiet` links in the footer and link lists do the same) |
+| Inline link (`.sm-link`)          | Accent text with a wavy underline                                                                                                                    |
+| Borderless list item (`.sm-pick`) | 2 px coral outline, 1° off true, bold text                                                                                                           |
+| Segmented and language switch     | Paper segment with a 3 px coral marker line, tilted 1.2°                                                                                             |
+| Switch                            | Green track, knob right, On / Off words inside the track                                                                                             |
+| Inline help link (`HelpTip`)      | Wavy underline                                                                                                                                       |
+| Button, color swatch              | Unchanged: pressed in with tape yellow, double ink ring                                                                                              |
 
 A new selectable control picks the row that matches: borderless gets `.sm-pick`, anything with its own border gets the marker line.
 

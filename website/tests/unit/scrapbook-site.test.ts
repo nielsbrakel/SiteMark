@@ -47,8 +47,8 @@ describe('REQ-WEBUX-001 highlight cards are taped and tilted', () => {
 
 describe('REQ-A11Y-001 text on the board is --sm-text only', () => {
   it('the current nav link is told apart by its underline, not by an accent color', () => {
-    const base = readFileSync('src/styles/base.css', 'utf8');
-    const current = base.match(/\.sm-nav-link\[aria-current='page'\]\s*{([^}]*)}/)?.[1] ?? '';
+    const links = readFileSync('src/styles/links.css', 'utf8');
+    const current = links.match(/\.sm-nav-link\)\[aria-current='page'\]\s*{([^}]*)}/)?.[1] ?? '';
     expect(current).toMatch(/text-decoration:\s*underline/);
     expect(current).not.toMatch(/--sm-accent-text/);
   });

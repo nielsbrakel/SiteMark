@@ -20,7 +20,10 @@ export function HelpPage({ t, locale }: PageProps) {
       <ul className={styles.problems}>
         {HELP_PROBLEMS.map(({ text, topic }) => (
           <li key={topic}>
-            <a className={`${styles.link} ${styles.pill}`} href={helpTopicPath(topic, locale)}>
+            <a
+              className={`sm-link-quiet ${styles.link} ${styles.pill}`}
+              href={helpTopicPath(topic, locale)}
+            >
               {t(text)}
             </a>
           </li>
@@ -32,7 +35,10 @@ export function HelpPage({ t, locale }: PageProps) {
           <ul className={styles.index}>
             {group.map((topic) => (
               <li key={topic} className={styles.entry}>
-                <a className={`${styles.link} ${styles.title}`} href={helpTopicPath(topic, locale)}>
+                <a
+                  className={`sm-link-quiet ${styles.link} ${styles.title}`}
+                  href={helpTopicPath(topic, locale)}
+                >
                   {topics.get(topic)?.title}
                 </a>
                 <p>{topics.get(topic)?.description}</p>

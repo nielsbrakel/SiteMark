@@ -7,6 +7,34 @@
   text-underline-offset: 4px;
 }
 
+/* Quiet links (header, footer, link lists): plain until hovered or focused, then a lighter wavy line; the
+   current page keeps a full-strength one, so a hover never reads as the current page. */
+.sm-nav-link {
+  padding: var(--sm-space-1) var(--sm-space-2);
+  font-size: var(--sm-text-lg);
+  font-weight: 600;
+}
+
+.sm-link-quiet,
+.sm-nav-link {
+  color: var(--sm-text);
+  text-decoration: none;
+}
+
+:is(.sm-link-quiet, .sm-nav-link):is(:hover, :focus-visible) {
+  text-decoration: underline wavy 1.5px;
+  text-decoration-color: color-mix(in srgb, currentcolor 55%, transparent);
+  text-decoration-skip-ink: none;
+  text-underline-offset: 6px;
+}
+
+:is(.sm-link-quiet, .sm-nav-link)[aria-current='page'] {
+  text-decoration: underline wavy 2px;
+  text-decoration-color: currentcolor;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 6px;
+}
+
 @media (forced-colors: active) {
   .sm-link {
     color: LinkText;
