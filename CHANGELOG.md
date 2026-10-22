@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Website: the home page now shows a shop page without and with SiteMark's marks, with a slider to compare them.
+
 ## 1.1.1
 
 - Same as 1.1.0; this version fixes the store publishing so Chrome, Firefox and Edge get the same release.

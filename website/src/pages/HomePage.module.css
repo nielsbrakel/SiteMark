@@ -1,13 +1,14 @@
-/* Home (docs/website/design.md §3): hero text left and preview right, stacked below 720 px. */
+/* Home (docs/website/design.md §3): hero text left and the before/after picture right, stacked below 900 px. */
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
-  gap: var(--sm-space-6);
-  align-items: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(var(--smw-rule) * 2);
+  align-items: center;
 }
 
 .heroPreview {
   display: grid;
+  max-inline-size: 480px;
   gap: var(--sm-space-3);
   justify-items: start;
   min-inline-size: 0;
@@ -22,7 +23,7 @@
 }
 
 .title {
-  margin-top: 0;
+  margin-block: 0 var(--smw-rule);
   font-size: var(--smw-text-3xl);
   line-height: calc(var(--smw-rule) * 2);
 }
@@ -33,7 +34,8 @@
 }
 
 .lead {
-  margin: 0;
+  max-inline-size: 42ch;
+  margin: 0 0 var(--smw-rule);
   color: var(--sm-text-muted);
   font-size: var(--sm-text-xl);
   line-height: var(--smw-rule);
@@ -119,9 +121,10 @@
   text-underline-offset: 2px;
 }
 
-@media (width <= 720px) {
+@media (width <= 900px) {
   .hero {
     grid-template-columns: minmax(0, 1fr);
+    gap: var(--smw-rule);
   }
 }
 

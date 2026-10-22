@@ -1,0 +1,91 @@
+/* The home hero's before/after picture: two copies of the shop, the marked one clipped from the divider on (--pos). */
+.compare {
+  --pos: 21%; /* the divider; HeroCompare moves it */
+
+  position: relative;
+  inline-size: 100%;
+  padding-block-start: var(--sm-space-6);
+}
+
+.before,
+.after {
+  position: absolute;
+  inset-block-start: 0;
+  font-family: var(--sm-font-display);
+  font-size: var(--sm-text-lg);
+  color: var(--sm-text-muted);
+}
+
+.before {
+  inset-inline-start: var(--sm-space-1);
+}
+
+.after {
+  inset-inline-end: var(--sm-space-1);
+  color: var(--sm-accent-text);
+}
+
+.frame {
+  --tape: var(--sm-tape-4);
+
+  position: relative;
+  min-inline-size: 0;
+}
+
+.stack {
+  position: relative;
+}
+
+.marked {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 var(--pos));
+}
+
+/* The divider line, with its grip low down, clear of the customer's buttons. */
+.handle {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--pos);
+  display: grid;
+  align-content: end;
+  justify-items: center;
+  inline-size: 3px;
+  margin-inline-start: -1.5px;
+  padding-block-end: var(--sm-space-4);
+  background: var(--sm-text);
+  pointer-events: none;
+}
+
+.grip {
+  padding: 0 var(--sm-space-3);
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-accent);
+  box-shadow: var(--sm-lift-sm);
+  color: var(--sm-on-accent);
+  font-size: var(--sm-text-sm);
+  white-space: nowrap;
+}
+
+/* The slider covers the picture, invisible; the handle shows its focus ring. */
+.range {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+}
+
+.compare:has(.range:focus-visible) .handle {
+  outline: 2px solid var(--sm-focus-color);
+  outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+  .handle {
+    background: CanvasText;
+  }
+}

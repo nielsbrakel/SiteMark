@@ -4,7 +4,6 @@ import { axeViolations } from '../../../tests/unit/axe';
 import { pagesForDom, showPage } from '../../tests/unit/page-dom';
 import type { RenderedPage } from '../entry-server';
 import { createWebsiteTranslator, loadCatalogs, type WebsiteTranslator } from '../i18n/website-t';
-import { HeroPlayground } from './HeroPlayground';
 import { Playground } from './Playground';
 
 let en: WebsiteTranslator;
@@ -148,13 +147,5 @@ describe('REQ-PLAY-005 the playground is accessible', () => {
     fireEvent.click(screen.getByRole('switch', { name: 'Frame' }));
     fireEvent.click(screen.getByRole('switch', { name: 'Also mark the Delete customer button' }));
     expect(status()).toBe('The page shows ribbon, frame in slate.');
-  });
-
-  it('describes the hero preview too, and names its presets', async () => {
-    const { container } = render(<HeroPlayground t={en.t} />);
-    expect(status()).toContain('in red');
-    fireEvent.click(screen.getByRole('radio', { name: 'Amber' }));
-    expect(status()).toContain('in amber');
-    expect(await axeViolations(container)).toEqual([]);
   });
 });

@@ -7,7 +7,7 @@ import type { PageProps } from './page-props';
 
 /**
  * The playground (REQ-PLAY-001): a mark on a mock browser window, drawn by the extension's own code.
- * The controls are an island, so only this page and the home hero load the playground's code.
+ * The controls are an island, so only this page loads the playground's code.
  */
 export function PlaygroundPage({ t, locale }: PageProps) {
   return (
