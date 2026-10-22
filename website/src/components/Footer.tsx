@@ -21,29 +21,32 @@ export function Footer({ locale, routes, t }: FooterProps) {
       <nav aria-label={t('websiteFooterLabel')}>
         <ul className={styles.list}>
           <li>
-            <ExternalLink className={styles.link} href={repositoryUrl()}>
+            <ExternalLink className={`sm-link-quiet ${styles.link}`} href={repositoryUrl()}>
               {t('websiteFooterGitHub')}
             </ExternalLink>
           </li>
           {pages.map((route) => (
             <li key={route.page}>
-              <a className={styles.link} href={routePath(route, locale)}>
+              <a className={`sm-link-quiet ${styles.link}`} href={routePath(route, locale)}>
                 {t(pageLabel(route.page))}
               </a>
             </li>
           ))}
           <li>
-            <a className={styles.link} href={assetUrl('sitemap.xml')}>
+            <a className={`sm-link-quiet ${styles.link}`} href={assetUrl('sitemap.xml')}>
               {t('websiteFooterSitemap')}
             </a>
           </li>
           <li>
-            <ExternalLink className={styles.link} href={repositoryFileUrl('LICENSE')}>
+            <ExternalLink
+              className={`sm-link-quiet ${styles.link}`}
+              href={repositoryFileUrl('LICENSE')}
+            >
               {t('websiteFooterLicense')}
             </ExternalLink>
           </li>
           <li>
-            <ExternalLink className={styles.link} href={portfolioUrl()}>
+            <ExternalLink className={`sm-link-quiet ${styles.link}`} href={portfolioUrl()}>
               {t('websiteFooterPortfolio')}
             </ExternalLink>
           </li>

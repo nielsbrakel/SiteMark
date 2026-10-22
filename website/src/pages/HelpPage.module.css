@@ -12,17 +12,9 @@
   line-height: var(--smw-prose-line);
 }
 
-/* Links are plain until hovered or focused, then a wavy line (a straight one reads as the current page). */
+/* Quiet links (the shared squiggle on hover and focus), in the accent color. */
 .link {
   color: var(--sm-accent-text);
-  text-decoration: none;
-}
-
-.link:hover,
-.link:focus-visible {
-  text-decoration: underline wavy 2px;
-  text-decoration-skip-ink: none;
-  text-underline-offset: 5px;
 }
 
 .problemsLabel {

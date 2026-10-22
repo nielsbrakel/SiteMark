@@ -28,11 +28,7 @@
 .link {
   display: inline-block;
   padding-block: var(--sm-space-1);
-  color: var(--sm-text);
-}
-
-.link:hover {
-  text-decoration-thickness: 2px;
+  font-size: var(--sm-text-md);
 }
 
 .note {

@@ -15,7 +15,7 @@ export function SiteLinks(): ReactNode {
       <ul className={styles.links}>
         {links.map(([label, href]) => (
           <li key={label}>
-            <a href={href} target="_blank" rel="noopener noreferrer">
+            <a className="sm-link-quiet" href={href} target="_blank" rel="noopener noreferrer">
               {t(label)}
             </a>
           </li>

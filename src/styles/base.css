@@ -70,26 +70,6 @@ pre code {
   clip-path: none;
 }
 
-/* Header links: plain ink text (they sit on the board too), the current page underlined (never shadow or color alone). */
-.sm-nav-link {
-  padding: var(--sm-space-1) var(--sm-space-2);
-  color: var(--sm-text);
-  font-size: var(--sm-text-lg);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.sm-nav-link:hover {
-  text-decoration: underline 1px;
-  text-underline-offset: 6px;
-}
-
-.sm-nav-link[aria-current='page'] {
-  text-decoration: underline wavy 2px;
-  text-decoration-skip-ink: none;
-  text-underline-offset: 6px;
-}
-
 /* Selection marks (D-296): header links (on the board) a wavy underline in the text color; borderless
    list items (rows, topics) a coral outline drawn a degree off true. Both come with bold or an
    underline, so never color alone. */
