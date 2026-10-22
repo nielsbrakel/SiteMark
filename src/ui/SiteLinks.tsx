@@ -11,14 +11,16 @@ export function SiteLinks(): ReactNode {
     ['footerPrivacy', privacyUrl()],
   ];
   return (
-    <ul className={styles.links}>
-      {links.map(([label, href]) => (
-        <li key={label}>
-          <a href={href} target="_blank" rel="noopener noreferrer">
-            {t(label)}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <nav className={styles.footer}>
+      <ul className={styles.links}>
+        {links.map(([label, href]) => (
+          <li key={label}>
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              {t(label)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
