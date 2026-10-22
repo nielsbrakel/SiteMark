@@ -50,8 +50,11 @@ test('the stage enters fullscreen', async ({ page }) => {
   await page.goto(fixtureUrl('prod', 'fullscreen.html'));
   // The welcome tab opened on install may be the active tab; fullscreen needs a focused page.
   await page.bringToFront();
-  await page.getByRole('button', { name: 'Enter fullscreen' }).click();
-  await expect.poll(() => page.evaluate(() => document.fullscreenElement?.id)).toBe('stage');
+  // A click without a focused window is silently refused, so click again until it takes.
+  await expect(async () => {
+    await page.getByRole('button', { name: 'Enter fullscreen' }).click();
+    expect(await page.evaluate(() => document.fullscreenElement?.id)).toBe('stage');
+  }).toPass({ timeout: 10_000 });
 });
 
 test('the strict CSP page blocks inline code and enforces Trusted Types', async ({ page }) => {
