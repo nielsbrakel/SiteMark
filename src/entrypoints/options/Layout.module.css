@@ -14,8 +14,7 @@
 
 .header,
 .sidebar,
-.main,
-.footer {
+.main {
   border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-lg);
   background: var(--sm-paper);
@@ -45,7 +44,6 @@
 
 .footer {
   grid-area: footer;
-  padding: var(--sm-space-3) var(--sm-space-4);
 }
 
 .sidebar {
