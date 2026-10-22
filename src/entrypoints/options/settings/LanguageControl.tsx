@@ -1,14 +1,13 @@
 import type { ReactNode } from 'react';
 import type { Language } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
-import { SystemIcon } from '@/ui/components/icons';
 import { Segmented } from '@/ui/components/Segmented';
 import { commandErrorText } from '../command-error';
 import type { Notify } from '../notify';
 import { sendTracked } from '../save-status';
 
-/** Each language's code, like the website's EN / NL switch; the browser's language is the system icon. */
-const SYMBOLS = { auto: <SystemIcon />, en: 'EN', nl: 'NL' } as const;
+/** Each language's code, like the website's EN / NL switch; "Auto" follows the browser's language. */
+const SYMBOLS = { auto: 'Auto', en: 'EN', nl: 'NL' } as const;
 
 /**
  * The language setting (REQ-I18N-006) as the header's switch next to the theme. The page reads its
