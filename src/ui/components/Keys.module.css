@@ -1,0 +1,42 @@
+.keys {
+  display: inline-flex;
+  gap: 3px;
+  vertical-align: middle;
+}
+
+/* A key cap: a small paper tile with its thickness underneath. */
+.key {
+  min-width: 22px;
+  padding: 3px 6px 4px;
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-md);
+  background: var(--sm-surface-2);
+  box-shadow: 0 2px 0 var(--sm-control-border);
+  color: var(--sm-text);
+  font: inherit;
+  font-size: var(--sm-text-xs);
+  line-height: 1;
+  text-align: center;
+}
+
+.keys[data-small] {
+  gap: 2px;
+}
+
+.keys[data-small] .key {
+  min-width: 0;
+  padding: 1px 4px 2px;
+  border-width: 1px;
+  border-color: var(--sm-text-muted);
+  background: transparent;
+  box-shadow: 0 1px 0 var(--sm-text-muted);
+  color: var(--sm-text-muted);
+  font-size: 13px;
+}
+
+@media (forced-colors: active) {
+  .key {
+    border-color: ButtonText;
+    box-shadow: none;
+  }
+}

@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { OptionsRoute } from '@/core/options-route';
 import { assertNever } from '@/core/result';
 import { type MessageKey, t } from '@/lib/i18n/browser-source';
+import { HelpLink } from '@/ui/HelpLink';
 import styles from './Layout.module.css';
 
 type Page = 'groups' | 'settings' | 'data';
@@ -44,6 +45,7 @@ export function PageNav({ route }: { readonly route: OptionsRoute | undefined })
           {t(label)}
         </a>
       ))}
+      <HelpLink />
     </nav>
   );
 }

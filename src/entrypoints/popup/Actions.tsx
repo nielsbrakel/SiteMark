@@ -1,8 +1,10 @@
-import { type ReactNode, useId } from 'react';
+import type { ReactNode } from 'react';
 import type { TabStatus } from '@/core/render/status';
 import { t } from '@/lib/i18n/browser-source';
 import { sendToBackground } from '@/platform/send-message';
 import { Button } from '@/ui/components/Button';
+import { Keys } from '@/ui/components/Keys';
+import { HelpTip } from '@/ui/HelpTip';
 import styles from './Actions.module.css';
 import { useShortcuts } from './use-shortcuts';
 
@@ -18,10 +20,13 @@ export type ActionsProps = {
 
 /** Pick element and Hide on this tab, with their shortcuts (REQ-POP-003, design.md §5.1 A). */
 export function Actions({ tabId, status, onPick, onToggled }: ActionsProps): ReactNode {
-  const hideShortcutId = useId();
   const shortcuts = useShortcuts();
-  const hideShortcut = shortcuts['toggle-hide'];
-  const pickShortcut = shortcuts['start-picker'];
+  // One line of key caps; a command without a shortcut, or picking where it can't run, is left out.
+  const hints = [
+    [onPick && shortcuts['start-picker'], 'popupShortcutPick'],
+    [shortcuts['toggle-hide'], 'popupShortcutHide'],
+  ] as const;
+  const shown = hints.flatMap(([shortcut, label]) => (shortcut ? [{ shortcut, label }] : []));
   const toggleHidden = () => {
     // "Hide on this tab" lives in the marker (D-207); the background flips it (REQ-RND-008).
     void sendToBackground('toggleHidden', { tabId }).then(() => onToggled?.());
@@ -31,21 +36,19 @@ export function Actions({ tabId, status, onPick, onToggled }: ActionsProps): Rea
       <Button disabled={!onPick} onClick={onPick}>
         {t('popupPickElement')}
       </Button>
-      <Button
-        aria-pressed={status?.hidden ?? false}
-        aria-describedby={hideShortcut ? hideShortcutId : undefined}
-        disabled={!status}
-        onClick={toggleHidden}
-      >
+      <HelpTip topic="picking-an-element" text="helpPickLead" link="helpPickLink" />
+      <Button aria-pressed={status?.hidden ?? false} disabled={!status} onClick={toggleHidden}>
         {t('popupHide')}
       </Button>
-      {hideShortcut && (
-        <p id={hideShortcutId} className={styles.hint}>
-          {t('popupShortcut', hideShortcut)}
+      {shown.length > 0 && (
+        <p className={styles.hint}>
+          {shown.map(({ shortcut, label }, index) => (
+            <span key={label}>
+              {index > 0 && ' · '}
+              <Keys shortcut={shortcut} small /> {t(label)}
+            </span>
+          ))}
         </p>
-      )}
-      {pickShortcut && onPick && (
-        <p className={styles.hint}>{t('popupPickShortcut', pickShortcut)}</p>
       )}
     </div>
   );

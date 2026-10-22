@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { t } from '@/lib/i18n/browser-source';
 import { optionsPageUrl } from '@/platform/deep-links';
 import { Wordmark } from '@/ui/components/Wordmark';
+import { HelpLink } from '@/ui/HelpLink';
 import { useCurrentTab } from '@/ui/hooks/use-current-tab';
 import { useSiteMarkState } from '@/ui/hooks/use-site-mark-state';
 import { useTheme } from '@/ui/hooks/use-theme';
@@ -26,14 +27,17 @@ export function PopupApp({ search }: PopupAppProps): ReactNode {
       <header className={styles.header}>
         <Wordmark />
         <h1 className="sm-visually-hidden">{t('popupTitle')}</h1>
-        <a
-          className={`sm-nav-link ${styles.settings}`}
-          href={optionsPageUrl({ page: 'settings' })}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {t('popupSettings')}
-        </a>
+        <div className={styles.nav}>
+          <HelpLink />
+          <a
+            className="sm-nav-link"
+            href={optionsPageUrl({ page: 'settings' })}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {t('popupSettings')}
+          </a>
+        </div>
       </header>
       <div className={`sm-tape ${styles.sheet}`}>
         <PopupBody tab={tab} view={view} isUnreadable={isUnreadable} />
