@@ -59,8 +59,10 @@ describe('REQ-PLAY-001 the playground is the options page’s mark form next to 
     expect(ribbon()).toHaveProperty('disabled', false);
   });
 
-  it('marks the sample button from the start, with the effects an element can have', () => {
+  it('leaves the sample button unmarked until asked, then offers the effects an element can have', () => {
     render(<Playground t={en.t} />);
+    expect(effects()).toHaveLength(1);
+    fireEvent.click(screen.getByRole('switch', { name: 'Also mark the Delete customer button' }));
     expect(effects()).toHaveLength(2);
     expect(switchNames(effects()[1] as HTMLElement)).toEqual([
       'Ribbon',
@@ -69,8 +71,6 @@ describe('REQ-PLAY-001 the playground is the options page’s mark form next to 
       'Tint',
       'Stripes',
     ]);
-    fireEvent.click(screen.getByRole('switch', { name: 'Also mark the Delete customer button' }));
-    expect(effects()).toHaveLength(1);
   });
 
   it('has a SiteMark switch that turns every mark off and on, like the extension does for a page', () => {
@@ -81,7 +81,7 @@ describe('REQ-PLAY-001 the playground is the options page’s mark form next to 
     expect(toggle?.getAttribute('aria-checked')).toBe('false');
     expect(screen.queryByText('SiteMark is off, so the page shows no marks.')).not.toBeNull();
     fireEvent.click(toggle as HTMLElement);
-    expect(status()).toBe('The page shows ribbon in red. The Delete customer button has outline.');
+    expect(status()).toBe('The page shows ribbon in red.');
   });
 
   it('shows a mock browser: tab title, sample address and a sample web shop', () => {
@@ -133,6 +133,7 @@ describe('REQ-PLAY-005 the playground is accessible', () => {
     for (const name of ['Banner', 'Frame', 'Tint', 'Stripes', 'Watermark', 'Title prefix']) {
       fireEvent.click(screen.getAllByRole('switch', { name })[0] as HTMLElement);
     }
+    fireEvent.click(screen.getByRole('switch', { name: 'Also mark the Delete customer button' }));
     fireEvent.click(screen.getByRole('switch', { name: 'Outline' }));
     const hex = screen.getByRole('textbox', { name: 'Custom color' });
     fireEvent.change(hex, { target: { value: 'nope' } });
@@ -142,10 +143,13 @@ describe('REQ-PLAY-005 the playground is accessible', () => {
 
   it('tells assistive technology what the preview shows, in words', () => {
     render(<Playground t={en.t} />);
-    expect(status()).toBe('The page shows ribbon in red. The Delete customer button has outline.');
+    expect(status()).toBe('The page shows ribbon in red.');
     fireEvent.click(screen.getByRole('radio', { name: 'Slate' }));
     fireEvent.click(screen.getByRole('switch', { name: 'Frame' }));
-    fireEvent.click(screen.getByRole('switch', { name: 'Also mark the Delete customer button' }));
     expect(status()).toBe('The page shows ribbon, frame in slate.');
+    fireEvent.click(screen.getByRole('switch', { name: 'Also mark the Delete customer button' }));
+    expect(status()).toBe(
+      'The page shows ribbon, frame in slate. The Delete customer button has outline.',
+    );
   });
 });

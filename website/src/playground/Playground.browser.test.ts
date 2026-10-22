@@ -35,14 +35,13 @@ const shown = () =>
   document.querySelector('[data-marker-host]')?.shadowRoot?.querySelector('.sm-view');
 
 describe('REQ-PLAY-002 the extension draws the playground marks in the mock browser', () => {
-  it('draws the starting mark: a red PROD ribbon in the top-right corner', () => {
+  it('draws the starting mark: a red PROD ribbon in the top-right corner, and no mark on the button', () => {
     render(createElement(Playground, { t: en.t }));
     expect(band()?.textContent).toBe('PROD');
     expect(band() && getComputedStyle(band() as HTMLElement).backgroundColor).toBe(
       rgb(presetColor('red')),
     );
-    // The ribbon and the outline on the sample button.
-    expect(marks().querySelectorAll('.sm-view')).toHaveLength(2);
+    expect(marks().querySelectorAll('.sm-view')).toHaveLength(1);
   });
 
   it('follows the color and the ribbon text', () => {
@@ -66,8 +65,10 @@ describe('REQ-PLAY-002 the extension draws the playground marks in the mock brow
     expect(marks().querySelector('.sm-watermark__plane')).not.toBeNull();
   });
 
-  it('outlines the sample button until its mark is off, and drops the page ribbon with its switch', () => {
+  it('outlines the sample button once its mark is on, and drops the page ribbon with its switch', () => {
     render(createElement(Playground, { t: en.t }));
+    expect(marks().querySelector('.sm-outline')).toBeNull();
+    flip('Also mark the Delete customer button');
     const outline = marks().querySelector('.sm-outline')?.getBoundingClientRect();
     const button = screen.getByText('Delete customer').getBoundingClientRect();
     expect(button.width).toBeGreaterThan(0);

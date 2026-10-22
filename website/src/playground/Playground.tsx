@@ -17,14 +17,11 @@ import {
 
 /**
  * The playground (REQ-PLAY-001): the options page's own mark form, for a page mark and a mark on
- * the sample button (on from the start, so its options are in view), next to the mock browser where
+ * the sample button (off until asked for, to keep the page calm), next to the mock browser where
  * the extension's own code draws the marks. Nothing is stored (REQ-PLAY-002).
  */
 export function Playground({ t }: IslandProps) {
-  const [state, setState] = useState<PlaygroundState>(() => ({
-    ...initialPlaygroundState(),
-    elementEffects: DEFAULT_ELEMENT_EFFECTS,
-  }));
+  const [state, setState] = useState<PlaygroundState>(initialPlaygroundState);
   const change = async (next: Partial<PlaygroundState>): Promise<undefined> => {
     setState((current) => ({ ...current, ...next }));
   };
