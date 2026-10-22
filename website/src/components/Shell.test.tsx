@@ -63,20 +63,19 @@ describe('REQ-PAGE-007 every page has a skip link, a header and a footer', () =>
     expect(within(home).getAllByRole('img').length).toBeGreaterThan(0);
   });
 
-  it('shows Home, Playground, Help, Support and Privacy and marks the current page', () => {
-    renderShell('support');
+  it('shows Home, Playground, Help and Privacy and marks the current page', () => {
+    renderShell('help');
     const nav = screen.getByRole('navigation', { name: 'Main' });
     expect(linksIn(nav)).toEqual([
       ['Home', '/SiteMark/'],
       ['Playground', '/SiteMark/playground/'],
       ['Help', '/SiteMark/help/'],
-      ['Support', '/SiteMark/support/'],
       ['Privacy', '/SiteMark/privacy/'],
     ]);
     const current = within(nav)
       .getAllByRole('link')
       .filter((link) => link.getAttribute('aria-current') === 'page');
-    expect(current.map((link) => link.textContent)).toEqual(['Support']);
+    expect(current.map((link) => link.textContent)).toEqual(['Help']);
   });
 
   it('links only the routes it is given, so unfinished pages stay hidden', () => {
@@ -84,7 +83,6 @@ describe('REQ-PAGE-007 every page has a skip link, a header and a footer', () =>
     const nav = screen.getByRole('navigation', { name: 'Hoofdmenu' });
     expect(linksIn(nav)).toEqual([
       ['Home', '/SiteMark/nl/'],
-      ['Ondersteuning', '/SiteMark/nl/support/'],
       ['Privacy', '/SiteMark/nl/privacy/'],
     ]);
     const home = within(screen.getByRole('banner')).getByRole('link', {

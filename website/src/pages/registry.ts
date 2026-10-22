@@ -12,7 +12,6 @@ import { HomePage } from './HomePage';
 import { PlaygroundPage } from './PlaygroundPage';
 import { PrivacyPage } from './PrivacyPage';
 import type { PageProps } from './page-props';
-import { SupportPage } from './SupportPage';
 
 export type Page = {
   readonly Component: (props: PageProps) => ReactNode;
@@ -28,6 +27,7 @@ export type Page = {
   ) => { title: string; description: string };
 };
 
+// /support/ keeps its address (store listings link there) and shows the help page.
 // The pages built so far. A published route without a page isn't rendered yet; the tasks that
 // build the privacy, support and later pages add them here.
 const PAGES: Partial<Record<PageId, Page>> = {
@@ -48,7 +48,7 @@ const PAGES: Partial<Record<PageId, Page>> = {
     description: 'websitePlaygroundDescription',
   },
   support: {
-    Component: SupportPage,
+    Component: HelpPage,
     title: 'websiteSupportTitle',
     description: 'websiteSupportDescription',
   },

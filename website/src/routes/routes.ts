@@ -44,7 +44,7 @@ const ROUTES: readonly Route[] = [
       topic,
     }),
   ),
-  { page: 'support', slug: 'support/', milestone: 'W1', stable: true, nav: true },
+  { page: 'support', slug: 'support/', milestone: 'W1', stable: true, nav: false },
   { page: 'privacy', slug: 'privacy/', milestone: 'W1', stable: true, nav: true },
   { page: 'changelog', slug: 'changelog/', milestone: 'W2', stable: false, nav: false },
   { page: 'agents', slug: 'agents/', milestone: 'W2', stable: false, nav: false },

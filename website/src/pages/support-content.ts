@@ -16,16 +16,6 @@ export const CONTACT_ROUTES: readonly ContactRoute[] = [
   { url: 'securityReport', link: 'websiteSupportSecurityLink', text: 'websiteSupportSecurityText' },
 ];
 
-/** The FAQ of REQ-PAGE-003: question and answer keys. */
-export const FAQ: readonly { question: WebsiteMessageKey; answer: WebsiteMessageKey }[] = [
-  { question: 'websiteFaqRestrictedQuestion', answer: 'websiteFaqRestrictedAnswer' },
-  { question: 'websiteFaqPermissionQuestion', answer: 'websiteFaqPermissionAnswer' },
-  { question: 'websiteFaqMarksQuestion', answer: 'websiteFaqMarksAnswer' },
-  { question: 'websiteFaqHideQuestion', answer: 'websiteFaqHideAnswer' },
-  { question: 'websiteFaqDataQuestion', answer: 'websiteFaqDataAnswer' },
-  { question: 'websiteFaqRemoveQuestion', answer: 'websiteFaqRemoveAnswer' },
-];
-
 /** What a useful bug report contains (REQ-PAGE-003, REQ-OPT-007). */
 export const BUG_REPORT_ITEMS: readonly WebsiteMessageKey[] = [
   'websiteBugReportBrowser',

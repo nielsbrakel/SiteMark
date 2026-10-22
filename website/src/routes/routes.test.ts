@@ -86,9 +86,9 @@ describe('REQ-PAGE-007 the route table hides pages of unfinished milestones', ()
     expect(pages(publishedRoutes('W2'))).toEqual(pages(routeTable()));
   });
 
-  it('shows Home, Playground, Help, Support and Privacy in the navigation once they exist', () => {
-    expect(pages(navRoutes('W1'))).toEqual(['home', 'support', 'privacy']);
-    expect(pages(navRoutes('W2'))).toEqual(['home', 'playground', 'help', 'support', 'privacy']);
+  it('shows Home, Playground, Help and Privacy in the navigation once they exist; support lives in help', () => {
+    expect(pages(navRoutes('W1'))).toEqual(['home', 'privacy']);
+    expect(pages(navRoutes('W2'))).toEqual(['home', 'playground', 'help', 'privacy']);
   });
 });
 

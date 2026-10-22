@@ -5,6 +5,7 @@ import { pagesForDom, showPage } from '../../tests/unit/page-dom';
 import { helpTopicsFor } from '../content/help';
 import type { RenderedPage } from '../entry-server';
 import type { Locale } from '../i18n/locales';
+import { HELP_GROUPS, HELP_PROBLEMS } from './help-groups';
 
 let pages: RenderedPage[];
 
@@ -35,19 +36,44 @@ const prefix = (locale: Locale) => (locale === 'en' ? '/SiteMark/' : '/SiteMark/
 
 describe('REQ-PAGE-004 the help index lists every topic', () => {
   it.each([
-    ['index', 'en', 'help/index.html', 'Help'],
-    ['index', 'nl', 'nl/help/index.html', 'Help'],
-  ] as const)('%s (%s): a heading and the topics in their order', (_page, locale, file, h1) => {
-    showPage(pages, file);
-    expect(within(main()).queryByRole('heading', { level: 1 })?.textContent).toBe(h1);
-    const links = within(main()).queryAllByRole('link');
-    const topics = helpTopicsFor(locale);
-    expect(links.map((link) => link.getAttribute('href'))).toEqual(
-      TOPICS.map((topic) => `${prefix(locale)}help/${topic}/`),
-    );
-    expect(links.map((link) => link.textContent)).toEqual(topics.map((topic) => topic.title));
-    for (const topic of topics) expect(main().textContent).toContain(topic.description);
+    ['en', 'help/index.html', 'Help and support'],
+    ['nl', 'nl/help/index.html', 'Help en ondersteuning'],
+  ] as const)(
+    '%s: a heading, quick links, then every topic in its group with its description',
+    (locale, file, h1) => {
+      showPage(pages, file);
+      expect(within(main()).queryByRole('heading', { level: 1 })?.textContent).toBe(h1);
+      const topics = helpTopicsFor(locale);
+      const links = [...main().querySelectorAll('li > a + p')].map(
+        (entry) => entry.previousElementSibling as HTMLElement,
+      );
+      expect(links.map((link) => link.getAttribute('href'))).toEqual(
+        TOPICS.map((topic) => `${prefix(locale)}help/${topic}/`),
+      );
+      expect(links.map((link) => link.textContent)).toEqual(topics.map((topic) => topic.title));
+      for (const topic of topics) expect(main().textContent).toContain(topic.description);
+    },
+  );
+
+  it('puts every topic in exactly one group', () => {
+    expect(HELP_GROUPS.flatMap((group) => group.topics)).toEqual([...TOPICS]);
   });
+
+  it.each([
+    ['en', 'help/index.html', "My marks don't show", 'troubleshooting'],
+    ['nl', 'nl/help/index.html', 'Mijn markeringen verschijnen niet', 'troubleshooting'],
+  ] as const)(
+    '%s: quick links lead to the topic that answers a common problem',
+    (locale, file, name, topic) => {
+      showPage(pages, file);
+      expect(within(main()).getByRole('link', { name }).getAttribute('href')).toBe(
+        `${prefix(locale)}help/${topic}/`,
+      );
+      expect(HELP_PROBLEMS.map((problem) => problem.topic).every((t) => TOPICS.includes(t))).toBe(
+        true,
+      );
+    },
+  );
 
   it('shows Help in the main navigation', () => {
     showPage(pages, 'index.html');

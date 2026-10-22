@@ -12,24 +12,131 @@
   line-height: var(--smw-prose-line);
 }
 
-.index {
-  display: grid;
-  gap: var(--smw-rule);
-  margin: var(--smw-rule) 0 0;
+/* Links are plain until hovered or focused, then a wavy line (a straight one reads as the current page). */
+.link {
+  color: var(--sm-accent-text);
+  text-decoration: none;
+}
+
+.link:hover,
+.link:focus-visible {
+  text-decoration: underline wavy 2px;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 5px;
+}
+
+.problemsLabel {
+  margin: var(--sm-space-5) 0 var(--sm-space-2);
+  color: var(--sm-text-muted);
+}
+
+.problems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm-space-2);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
+.pill {
+  display: inline-block;
+  padding: var(--sm-space-1) var(--sm-space-3);
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-panel);
+}
+
+/* The topic numbers count on across the groups, like the pages of a notebook. */
+.page {
+  counter-reset: topic;
+}
+
+.group {
+  margin: var(--smw-section-gap) 0 0;
+  color: var(--sm-accent-text);
+}
+
+.index {
+  display: grid;
+  gap: var(--sm-space-4);
+  margin: var(--sm-space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  column-gap: var(--sm-space-2);
+  counter-increment: topic;
+}
+
+.entry::before {
+  grid-row: span 2;
+  color: var(--sm-text-muted);
+  font-family: var(--sm-font-display);
+  font-size: var(--sm-text-xl);
+  text-align: end;
+  content: counter(topic);
+}
+
 .entry p {
   margin: 0;
+  color: var(--sm-text-muted);
   line-height: var(--smw-prose-line);
 }
 
 .title {
-  color: var(--sm-accent-text);
+  font-family: var(--sm-font-display);
   font-size: var(--sm-text-xl);
-  font-weight: 700;
-  text-underline-offset: 2px;
+  justify-self: start;
+}
+
+.contact {
+  margin-top: var(--smw-section-gap);
+}
+
+/* Taped notes, tilted in turns like the cards on the home page. */
+.notes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: var(--sm-space-5);
+  margin: var(--sm-space-5) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.note {
+  --tape: var(--sm-tape-1);
+
+  background: var(--sm-panel);
+}
+
+.note:nth-child(2) {
+  --tape: var(--sm-tape-2);
+}
+
+.note:nth-child(3) {
+  --tape: var(--sm-tape-3);
+}
+
+.note:nth-child(odd) {
+  transform: rotate(var(--sm-tilt));
+}
+
+.note:nth-child(even) {
+  transform: rotate(calc(-1 * var(--sm-tilt)));
+}
+
+.note h3,
+.note p {
+  margin: 0;
+}
+
+.note p {
+  margin-top: var(--sm-space-1);
+  color: var(--sm-text-muted);
 }
 
 .topicPage {
