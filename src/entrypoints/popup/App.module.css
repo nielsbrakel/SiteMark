@@ -13,7 +13,9 @@
   padding-inline: var(--sm-space-2);
 }
 
-.settings {
+.nav {
+  display: flex;
+  align-items: center;
   margin-inline-start: auto;
   padding-block: var(--sm-space-2);
 }

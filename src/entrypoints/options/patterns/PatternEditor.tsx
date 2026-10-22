@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
+import { HelpTip } from '@/ui/HelpTip';
 import type { Notify } from '../notify';
 import { PatternSection } from './PatternSection';
 import { UrlTester } from './UrlTester';
@@ -22,7 +23,14 @@ export function PatternEditor({
   const excludes = useAddPattern(group.id, 'excludes');
   return (
     <>
-      <PatternSection group={group} form={patterns} notify={notify}>
+      <PatternSection
+        group={group}
+        form={patterns}
+        notify={notify}
+        intro={
+          <HelpTip topic="url-patterns" text="helpUrlPatternsLead" link="helpUrlPatternsLink" />
+        }
+      >
         <UrlTester group={group} draft={patterns.input} />
       </PatternSection>
       <PatternSection

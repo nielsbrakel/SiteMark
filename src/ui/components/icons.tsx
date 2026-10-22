@@ -93,6 +93,22 @@ export function ArrowDownIcon(props: IconProps): ReactNode {
   );
 }
 
+export function ExternalIcon(props: IconProps): ReactNode {
+  return (
+    <Icon {...props}>
+      <path d="M4.5 11.5l7-7M5.5 4.5h6v6" />
+    </Icon>
+  );
+}
+
+export function BookIcon(props: IconProps): ReactNode {
+  return (
+    <Icon {...props}>
+      <path d="M3 2.5h8.5a1.5 1.5 0 011.5 1.5v9.5H4.5A1.5 1.5 0 013 12zM3 12V2.5M6 5.5h4" />
+    </Icon>
+  );
+}
+
 /** The GitHub mark (Octicons, MIT): filled, unlike the stroked icons above. */
 export function GitHubIcon(props: IconProps): ReactNode {
   return (

@@ -6,6 +6,7 @@ import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
 import { IconButton } from '@/ui/components/IconButton';
 import { CloseIcon } from '@/ui/components/icons';
+import { HelpTip } from '@/ui/HelpTip';
 import { commandErrorText } from '../command-error';
 import type { Notify } from '../notify';
 import { hrefOf } from '../routes';
@@ -57,6 +58,7 @@ export function MarkList({ group, notify, openMarkId, children }: MarkListProps)
       <h3 id={headingId} tabIndex={-1}>
         {t('optionsMarks')}
       </h3>
+      <HelpTip topic="marks-and-effects" text="helpMarksLead" link="helpMarksLink" />
       <ul ref={focus.listRef} aria-labelledby={headingId} className={styles.list}>
         {group.marks.map((mark, index) => {
           const summary = markSummary(mark);

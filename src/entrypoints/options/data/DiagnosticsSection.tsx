@@ -4,6 +4,7 @@ import type { SiteMarkState } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
 import { Button } from '@/ui/components/Button';
 import { Switch } from '@/ui/components/Switch';
+import { HelpTip } from '@/ui/HelpTip';
 import styles from '../Pane.module.css';
 import { diagnosticsText } from './diagnostics';
 
@@ -35,6 +36,7 @@ export function DiagnosticsSection({ state }: { readonly state: SiteMarkState })
     <section className={styles.pane} aria-labelledby={headingId}>
       <h3 id={headingId}>{t('optionsDiagnostics')}</h3>
       <p>{t('optionsDiagnosticsHelp')}</p>
+      <HelpTip topic="troubleshooting" text="helpDiagnosticsLead" link="helpDiagnosticsLink" />
       <Switch
         label={t('optionsDiagnosticsIncludeOrigins')}
         checked={includeOrigins}

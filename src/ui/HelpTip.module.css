@@ -1,0 +1,19 @@
+.tip {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sm-space-2);
+  margin: 0;
+  color: var(--sm-text-muted);
+  font-size: var(--sm-text-sm);
+}
+
+.tip svg {
+  flex: none;
+  align-self: center;
+  color: var(--sm-accent-text);
+}
+
+.tip a {
+  font-weight: 600;
+  text-underline-offset: 3px;
+}

@@ -6,6 +6,7 @@ import type { Result } from '@/core/result';
 import { t } from '@/lib/i18n/browser-source';
 import { markThisSiteClick, type PopupTab } from '@/platform/mark-this-site-click';
 import { Button } from '@/ui/components/Button';
+import { HelpTip } from '@/ui/HelpTip';
 import { errorText } from './error-text';
 import styles from './NoMatch.module.css';
 
@@ -41,6 +42,7 @@ export function NoMatch({ tab }: NoMatchProps): ReactNode {
       <p id={hintId} className={styles.hint}>
         {hint}
       </p>
+      <HelpTip topic="url-patterns" text="helpNoMatchLead" link="helpUrlPatternsLink" />
       {failure && <p role="alert">{errorText(failure)}</p>}
     </div>
   );

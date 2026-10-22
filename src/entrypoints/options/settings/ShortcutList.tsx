@@ -2,6 +2,8 @@ import { type ReactNode, useId, useState } from 'react';
 import { type MessageKey, t } from '@/lib/i18n/browser-source';
 import { canOpenShortcutSettings, openShortcutSettings } from '@/platform/shortcut-settings';
 import { Button } from '@/ui/components/Button';
+import { Keys } from '@/ui/components/Keys';
+import { HelpTip } from '@/ui/HelpTip';
 import styles from '../Pane.module.css';
 import { useShortcuts } from './use-shortcut';
 
@@ -44,10 +46,19 @@ export function ShortcutList(): ReactNode {
           COMMANDS.filter(({ name }) => shortcuts.has(name)).map(({ name, label }) => (
             <li key={name}>
               <span>{t(label)}</span>
-              <kbd>{shortcuts.get(name) || t('optionsShortcutUnset')}</kbd>
+              {shortcuts.get(name) ? (
+                <Keys shortcut={shortcuts.get(name) ?? ''} />
+              ) : (
+                t('optionsShortcutUnset')
+              )}
             </li>
           ))}
       </ul>
+      <HelpTip
+        topic="hiding-marks-and-shortcuts"
+        text="helpShortcutsLead"
+        link="helpShortcutsLink"
+      />
       <ChangeShortcuts />
     </section>
   );
