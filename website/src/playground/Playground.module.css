@@ -1,7 +1,7 @@
 /* The playground (docs/website/design.md §3–§4): controls next to the preview, stacked below 720 px. */
 .playground {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr);
   gap: calc(var(--smw-rule) * 2);
   align-items: start;
 }
@@ -47,7 +47,9 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* The preview comes first, so a change shows without scrolling past the whole form. */
   .preview {
+    order: -1;
     position: static;
   }
 }
