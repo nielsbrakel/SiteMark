@@ -1,5 +1,6 @@
 import { type ReactNode, useId } from 'react';
 import { t } from '@/lib/i18n/browser-source';
+import { DropZone } from '@/ui/components/DropZone';
 import { Field } from '@/ui/components/Field';
 import styles from '../Pane.module.css';
 import { ImportPreview } from './ImportPreview';
@@ -17,14 +18,13 @@ export function ImportSection(): ReactNode {
       <h3 id={headingId}>{t('optionsImportHeading')}</h3>
       <Field label={t('optionsChooseFile')}>
         {(control) => (
-          <input
-            {...control}
-            type="file"
+          <DropZone
+            control={control}
             accept=".json,application/json"
-            onChange={(event) => {
-              const file = event.target.files?.[0];
-              if (file) void choose(file);
-            }}
+            dropText={t('optionsDropHere')}
+            dragText={t('optionsDropRelease')}
+            hint={t('optionsDropOr')}
+            onFile={(file) => void choose(file)}
           />
         )}
       </Field>

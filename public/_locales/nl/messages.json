@@ -1189,6 +1189,18 @@
     "message": "Kies een exportbestand",
     "description": "Data page: label of the file picker for an import."
   },
+  "optionsDropHere": {
+    "message": "Sleep je export hierheen",
+    "description": "Data page: idle text of the import drop slot."
+  },
+  "optionsDropRelease": {
+    "message": "Laat los om te importeren",
+    "description": "Data page: text of the import drop slot while a file is dragged over it."
+  },
+  "optionsDropOr": {
+    "message": "of kies een bestand",
+    "description": "Data page: hint under the import drop slot text, clicking it opens the file picker."
+  },
   "importUpdated_one": {
     "message": "$COUNT$ sitegroep bijgewerkt",
     "description": "Import preview: site groups in the file that replace local ones.",

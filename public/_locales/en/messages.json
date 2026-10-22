@@ -1189,6 +1189,18 @@
     "message": "Choose an export file",
     "description": "Data page: label of the file picker for an import."
   },
+  "optionsDropHere": {
+    "message": "Drop your export here",
+    "description": "Data page: idle text of the import drop slot."
+  },
+  "optionsDropRelease": {
+    "message": "Let go to import",
+    "description": "Data page: text of the import drop slot while a file is dragged over it."
+  },
+  "optionsDropOr": {
+    "message": "or choose a file",
+    "description": "Data page: hint under the import drop slot text, clicking it opens the file picker."
+  },
   "importUpdated_one": {
     "message": "$COUNT$ site group updated",
     "description": "Import preview: site groups in the file that replace local ones.",
