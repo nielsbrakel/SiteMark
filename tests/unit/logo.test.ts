@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-// The logo is a torn paper ribbon with a pick cursor, drawn flat with an ink outline (D-289, docs/design.md §3).
+// The logo is a browser window wearing a coral corner ribbon, drawn flat with an ink outline and a cream die-cut border (D-289, docs/design.md §3).
 
 const svg = (file: string) => readFileSync(file, 'utf8');
 const color = [
@@ -17,7 +17,7 @@ describe('REQ-THEME-001 the logo is flat paper with an ink outline', () => {
     expect(svg(file)).not.toMatch(/<(linearGradient|radialGradient|filter|feDropShadow)/);
   });
 
-  it.each(color)('%s outlines the ribbon in ink', (file) => {
+  it.each(color)('%s outlines the window in ink', (file) => {
     expect(svg(file)).toMatch(/stroke="#33261b"/);
   });
 
@@ -33,21 +33,21 @@ describe('REQ-WEB-003 the wordmark is outlined lettering, not a font reference',
     expect(markup).toMatch(/<path[^>]*aria-hidden|<g[^>]*aria-hidden/);
   });
 
-  it('the dark wordmark uses cream and the light accent', () => {
-    const markup = svg('design/logo/sitemark-wordmark-dark.svg');
-    expect(markup).toContain('#f7f0e3');
-    expect(markup).toContain('#ff9d80');
+  it('the dark wordmark letters are cream', () => {
+    expect(svg('design/logo/sitemark-wordmark-dark.svg')).toMatch(
+      /<path aria-hidden="true" fill="#f7f0e3"/,
+    );
   });
 });
 
-describe('REQ-THEME-001 the wordmark carries the full torn-note logo and a highlighter stroke', () => {
-  it.each(wordmarks)('%s draws the paper note behind the ribbon', (file) => {
-    expect(svg(file)).toMatch(/<g transform="rotate\(-5 64 64\)"><path d="M16 14l46-2/);
+describe('REQ-THEME-001 the wordmark carries the window logo and one-colour lettering', () => {
+  it.each(wordmarks)('%s draws the window with its corner ribbon', (file) => {
+    expect(svg(file)).toMatch(/<g clip-path="url\(#w\)"><path d="M44 10L84 10/);
   });
 
-  it('puts "Mark" in coral on a mustard stroke in the light wordmark', () => {
+  it('sets the light wordmark in ink, with no marker stroke', () => {
     const markup = svg('design/logo/sitemark-wordmark.svg');
-    expect(markup).toMatch(/<rect x="289"[^>]*fill="#f5cf5a"/);
-    expect(markup).toMatch(/<path aria-hidden="true" fill="#e8664d"/);
+    expect(markup).not.toContain('#f5cf5a');
+    expect(markup).toMatch(/<path aria-hidden="true" fill="#33261b"/);
   });
 });
