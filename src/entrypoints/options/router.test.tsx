@@ -37,7 +37,21 @@ function withShortcut(shortcut: string) {
 
 beforeEach(() => atHash(''));
 
-describe('REQ-OPT-001 options layout: a site group list and an editor pane', () => {
+describe('REQ-OPT-008 the site group editor links the help topics', () => {
+  it('links the URL patterns and the marks to their help, in a new tab', async () => {
+    await openAt('#/');
+    for (const [name, topic] of [
+      ['How URL patterns work', 'url-patterns'],
+      ['Marks and effects', 'marks-and-effects'],
+    ] as const) {
+      const link = screen.queryByRole('link', { name });
+      expect(link).toHaveAttribute('href', `https://nielsbrakel.github.io/SiteMark/help/${topic}/`);
+      expect(link).toHaveAttribute('target', '_blank');
+    }
+  });
+});
+
+describe('REQ-OPT-001 REQ-OPT-008 options layout: a site group list and an editor pane', () => {
   it('lists the site groups in a sidebar, in priority order', async () => {
     await openAt('#/');
     const links = within(sidebar()).getAllByRole('link');
@@ -122,6 +136,7 @@ describe('REQ-OPT-001 hash routing for deep links', () => {
       ['Site groups', '#/'],
       ['Settings', '#/settings'],
       ['Data', '#/data'],
+      ['Help', 'https://nielsbrakel.github.io/SiteMark/help/'],
     ]);
     expect(links[0]).toHaveAttribute('aria-current', 'page');
   });

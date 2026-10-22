@@ -1500,5 +1500,61 @@
   "footerPrivacy": {
     "message": "Privacy policy",
     "description": "Footer link to the privacy policy on the website."
+  },
+  "helpNav": {
+    "message": "Help",
+    "description": "Header link (popup and options page) to the help section of the SiteMark website."
+  },
+  "helpPickLead": {
+    "message": "First time?",
+    "description": "Popup: sentence before the link to the help topic about picking an element."
+  },
+  "helpPickLink": {
+    "message": "How picking works",
+    "description": "Popup: link text to the help topic about picking an element."
+  },
+  "helpNoMatchLead": {
+    "message": "Not sure which URL to use?",
+    "description": "Popup: sentence before the link to the help topic about URL patterns, under the no-match notice."
+  },
+  "helpUrlPatternsLead": {
+    "message": "Matches whole sites or single pages.",
+    "description": "Options: sentence before the link to the help topic about URL patterns, under the URL patterns heading."
+  },
+  "helpUrlPatternsLink": {
+    "message": "How URL patterns work",
+    "description": "Link text to the help topic about URL patterns."
+  },
+  "helpMarksLead": {
+    "message": "A ribbon, banner or outline on the page or an element.",
+    "description": "Options: sentence before the link to the help topic about marks, under the Marks heading."
+  },
+  "helpMarksLink": {
+    "message": "Marks and effects",
+    "description": "Link text to the help topic about marks and effects."
+  },
+  "helpShortcutsLead": {
+    "message": "Shortcut does nothing?",
+    "description": "Options: sentence before the link to the help topic about shortcuts."
+  },
+  "helpShortcutsLink": {
+    "message": "Hiding marks and shortcuts",
+    "description": "Link text to the help topic about hiding marks and shortcuts."
+  },
+  "helpDiagnosticsLead": {
+    "message": "Something not working?",
+    "description": "Options: sentence before the link to the troubleshooting help topic, under Diagnostics."
+  },
+  "helpDiagnosticsLink": {
+    "message": "Troubleshooting",
+    "description": "Link text to the troubleshooting help topic."
+  },
+  "popupShortcutPick": {
+    "message": "pick",
+    "description": "Popup: label after the key caps of the shortcut that starts the element picker."
+  },
+  "popupShortcutHide": {
+    "message": "hide",
+    "description": "Popup: label after the key caps of the shortcut that hides the marks on this tab."
   }
 }

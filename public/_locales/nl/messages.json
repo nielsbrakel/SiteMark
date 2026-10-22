@@ -1500,5 +1500,61 @@
   "footerPrivacy": {
     "message": "Privacybeleid",
     "description": "Footer link to the privacy policy on the website."
+  },
+  "helpNav": {
+    "message": "Help",
+    "description": "Header link (popup and options page) to the help section of the SiteMark website."
+  },
+  "helpPickLead": {
+    "message": "Voor het eerst?",
+    "description": "Popup: sentence before the link to the help topic about picking an element."
+  },
+  "helpPickLink": {
+    "message": "Zo werkt kiezen",
+    "description": "Popup: link text to the help topic about picking an element."
+  },
+  "helpNoMatchLead": {
+    "message": "Weet je niet welke URL je moet gebruiken?",
+    "description": "Popup: sentence before the link to the help topic about URL patterns, under the no-match notice."
+  },
+  "helpUrlPatternsLead": {
+    "message": "Past op hele sites of losse pagina’s.",
+    "description": "Options: sentence before the link to the help topic about URL patterns, under the URL patterns heading."
+  },
+  "helpUrlPatternsLink": {
+    "message": "Zo werken URL-patronen",
+    "description": "Link text to the help topic about URL patterns."
+  },
+  "helpMarksLead": {
+    "message": "Een lint, banner of omlijning op de pagina of een element.",
+    "description": "Options: sentence before the link to the help topic about marks, under the Marks heading."
+  },
+  "helpMarksLink": {
+    "message": "Markeringen en effecten",
+    "description": "Link text to the help topic about marks and effects."
+  },
+  "helpShortcutsLead": {
+    "message": "Doet de sneltoets niets?",
+    "description": "Options: sentence before the link to the help topic about shortcuts."
+  },
+  "helpShortcutsLink": {
+    "message": "Markeringen verbergen en sneltoetsen",
+    "description": "Link text to the help topic about hiding marks and shortcuts."
+  },
+  "helpDiagnosticsLead": {
+    "message": "Werkt er iets niet?",
+    "description": "Options: sentence before the link to the troubleshooting help topic, under Diagnostics."
+  },
+  "helpDiagnosticsLink": {
+    "message": "Problemen oplossen",
+    "description": "Link text to the troubleshooting help topic."
+  },
+  "popupShortcutPick": {
+    "message": "kiezen",
+    "description": "Popup: label after the key caps of the shortcut that starts the element picker."
+  },
+  "popupShortcutHide": {
+    "message": "verbergen",
+    "description": "Popup: label after the key caps of the shortcut that hides the marks on this tab."
   }
 }
