@@ -35,11 +35,14 @@ describe('REQ-A11Y-001 tape fills carry ink text in both themes', () => {
     expect(tokens).toMatch(/--sm-on-tape:\s*#[0-9a-f]{6};/i);
   });
 
-  it('selected buttons and segments use the tape fill with --sm-on-tape', () => {
-    for (const component of ['Button', 'Segmented']) {
-      expect(moduleCss(component), component).toMatch(/background:\s*var\(--sm-tape-1\)/);
-      expect(moduleCss(component), component).toMatch(/color:\s*var\(--sm-on-tape\)/);
-    }
+  it('buttons use the tape fill with --sm-on-tape', () => {
+    expect(moduleCss('Button')).toMatch(/background:\s*var\(--sm-tape-1\)/);
+    expect(moduleCss('Button')).toMatch(/color:\s*var\(--sm-on-tape\)/);
+  });
+
+  it('the selected segment is paper with a coral underline', () => {
+    expect(moduleCss('Segmented')).toMatch(/background:\s*var\(--sm-surface\)/);
+    expect(moduleCss('Segmented')).toMatch(/box-shadow:\s*inset 0 -4px 0 var\(--sm-accent\)/);
   });
 });
 

@@ -1,4 +1,4 @@
-/* The same flat group as the theme switch (Segmented): outlined, the current language on tape. */
+/* The same flat group as the theme switch (Segmented): outlined, the current language on paper with a coral underline. */
 .list {
   display: flex;
   box-sizing: border-box;
@@ -38,8 +38,9 @@
 }
 
 .link[aria-current='page'] {
-  background: var(--sm-tape-1);
-  color: var(--sm-on-tape);
+  background: var(--sm-surface);
+  box-shadow: inset 0 -4px 0 var(--sm-accent);
+  color: var(--sm-text);
   font-weight: 600;
 }
 
@@ -50,6 +51,7 @@
 
   .link[aria-current='page'] {
     background: Highlight;
+    box-shadow: none;
     color: HighlightText;
   }
 }
