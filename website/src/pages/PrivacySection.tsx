@@ -5,7 +5,12 @@ import { pagePath } from '../routes/urls';
 import styles from './HomePage.module.css';
 import type { PageProps } from './page-props';
 
-type Permission = { name: string; text: WebsiteMessageKey };
+type Permission = {
+  name: string;
+  icon: string;
+  when: WebsiteMessageKey;
+  text: WebsiteMessageKey;
+};
 
 /** What a visitor can check in the code: license, storage, analytics and network (see PRIVACY.md). */
 const FACTS: readonly CardItem[] = [
@@ -28,10 +33,30 @@ const FACTS: readonly CardItem[] = [
 
 /** The manifest's `permissions` and `optional_host_permissions`, in plain words. */
 const PERMISSIONS: readonly Permission[] = [
-  { name: 'storage', text: 'websitePrivacyPermissionStorage' },
-  { name: 'scripting', text: 'websitePrivacyPermissionScripting' },
-  { name: 'activeTab', text: 'websitePrivacyPermissionActiveTab' },
-  { name: '*://*/*', text: 'websitePrivacyPermissionHosts' },
+  {
+    name: 'storage',
+    icon: 'M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
+    when: 'websitePrivacyPermissionWhenInstall',
+    text: 'websitePrivacyPermissionStorage',
+  },
+  {
+    name: 'scripting',
+    icon: 'M8 8 3 12l5 4M16 8l5 4-5 4M14 5l-4 14',
+    when: 'websitePrivacyPermissionWhenInstall',
+    text: 'websitePrivacyPermissionScripting',
+  },
+  {
+    name: 'activeTab',
+    icon: 'M4 5h16v14H4zM4 9h16M8 5v4',
+    when: 'websitePrivacyPermissionWhenClick',
+    text: 'websitePrivacyPermissionActiveTab',
+  },
+  {
+    name: '*://*/*',
+    icon: 'M3 12a9 9 0 1 0 18 0 9 9 0 1 0-18 0M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18',
+    when: 'websitePrivacyPermissionWhenSite',
+    text: 'websitePrivacyPermissionHosts',
+  },
 ];
 
 /** The home page privacy section (REQ-PAGE-001): the claims, the permissions and the policy link. */
@@ -41,13 +66,24 @@ export function PrivacySection({ t, locale }: Pick<PageProps, 't' | 'locale'>) {
       <h2 id="privacy-summary">{t('websitePrivacySummaryHeading')}</h2>
       <p>{t('websitePrivacySummaryText')}</p>
       <CardList items={FACTS} t={t} />
-      <div className={`sm-well ${styles.permissions}`}>
+      <div className={`sm-card sm-tape ${styles.permissions}`}>
         <h3>{t('websitePrivacyPermissionsHeading')}</h3>
         <dl>
-          {PERMISSIONS.map(({ name, text }) => (
+          {PERMISSIONS.map(({ name, icon, when, text }) => (
             <div key={name}>
+              <span className={styles.permDisc} aria-hidden="true">
+                <svg
+                  className={styles.icon}
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  aria-hidden="true"
+                >
+                  <path d={icon} />
+                </svg>
+              </span>
               <dt>
-                <code>{name}</code>
+                <code>{name}</code> <span className={styles.when}>{t(when)}</span>
               </dt>
               <dd>{t(text)}</dd>
             </div>
