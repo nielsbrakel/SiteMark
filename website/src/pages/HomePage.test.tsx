@@ -88,6 +88,7 @@ describe('REQ-PAGE-001 the home page privacy section', () => {
     expect(titles.slice(0, facts.length).map((title) => title.textContent)).toEqual(facts);
     const permissions = [...section.querySelectorAll('dt code')].map((code) => code.textContent);
     expect(permissions).toEqual(['storage', 'scripting', 'activeTab', '*://*/*']);
+    expect(section.querySelectorAll('dt > span')).toHaveLength(permissions.length);
   });
 });
 

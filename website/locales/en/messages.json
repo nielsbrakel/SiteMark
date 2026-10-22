@@ -275,6 +275,18 @@
     "message": "Access to websites: never granted at install. SiteMark asks for one website at a time, when you add its URL pattern.",
     "description": "Heading or permission explanation in the home page privacy section."
   },
+  "websitePrivacyPermissionWhenInstall": {
+    "message": "At install",
+    "description": "Chip on a permission in the home page privacy section: when it is granted."
+  },
+  "websitePrivacyPermissionWhenClick": {
+    "message": "On click",
+    "description": "Chip on a permission in the home page privacy section: when it is granted."
+  },
+  "websitePrivacyPermissionWhenSite": {
+    "message": "Per site",
+    "description": "Chip on a permission in the home page privacy section: when it is granted."
+  },
   "websiteInstallLabel": {
     "message": "Install SiteMark",
     "description": "Accessible name of the list of install buttons (one per browser store)."

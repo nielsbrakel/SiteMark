@@ -275,6 +275,18 @@
     "message": "Toegang tot websites: nooit verleend bij installatie. SiteMark vraagt om één website tegelijk, wanneer je het URL-patroon toevoegt.",
     "description": "Heading or permission explanation in the home page privacy section."
   },
+  "websitePrivacyPermissionWhenInstall": {
+    "message": "Bij installatie",
+    "description": "Chip on a permission in the home page privacy section: when it is granted."
+  },
+  "websitePrivacyPermissionWhenClick": {
+    "message": "Bij klikken",
+    "description": "Chip on a permission in the home page privacy section: when it is granted."
+  },
+  "websitePrivacyPermissionWhenSite": {
+    "message": "Per site",
+    "description": "Chip on a permission in the home page privacy section: when it is granted."
+  },
   "websiteInstallLabel": {
     "message": "SiteMark installeren",
     "description": "Accessible name of the list of install buttons (one per browser store)."
