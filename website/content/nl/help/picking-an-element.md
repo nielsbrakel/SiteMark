@@ -1,7 +1,7 @@
 ---
 title: Een element kiezen
 description: Markeer één knop of veld op een pagina met de elementkiezer.
-order: 4
+order: 5
 ---
 
 Behalve de hele pagina kan SiteMark één element markeren: de verwijderknop die je nooit per ongeluk wilt indrukken, of het veld dat e-mail naar echte klanten stuurt.

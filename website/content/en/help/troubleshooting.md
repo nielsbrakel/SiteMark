@@ -1,7 +1,7 @@
 ---
 title: Troubleshooting
 description: What to check when marks don’t show, or show where they shouldn’t.
-order: 8
+order: 10
 ---
 
 Most problems have a short list of causes. Start with the popup: open it on the page in question, and it tells you which site groups match and what is missing.
@@ -23,6 +23,11 @@ The popup lists element marks as found or not found. When the page was rebuilt, 
 
 Another pattern may match more than you expect. The URL tester names the pattern that matched. Add an exclude pattern, or make the pattern more specific.
 
+## A banner about your data
+
+- **“Your saved SiteMark data could not be read.”** SiteMark started with the defaults and kept the unreadable data as a backup. Use **Download backup** to save it, or **Restore defaults** to leave it behind for good.
+- **“Your data comes from a newer version of SiteMark.”** SiteMark changes nothing until you update it. **Download a copy** saves your data as it is.
+
 ## Still stuck?
 
-Copy the diagnostics from the settings page (they contain no page addresses beyond the sites themselves) and open an issue on GitHub. The support page lists what else helps us help you.
+Copy the diagnostics from the settings page (they hold versions, counts and permission status, and site addresses only if you tick the box) and open an issue on GitHub. The support page lists what else helps us help you.

@@ -1,7 +1,7 @@
 ---
 title: Problemen oplossen
 description: Wat je controleert als markeringen niet verschijnen, of juist waar dat niet moet.
-order: 8
+order: 10
 ---
 
 De meeste problemen hebben een korte lijst oorzaken. Begin bij de pop-up: open die op de betreffende pagina, en hij vertelt welke sitegroepen passen en wat er ontbreekt.
@@ -23,6 +23,11 @@ De pop-up toont elementmarkeringen als gevonden of niet gevonden. Is de pagina a
 
 Misschien past een patroon op meer dan je verwacht. De URL-tester noemt het patroon dat paste. Voeg een uitsluitpatroon toe, of maak het patroon specifieker.
 
+## Een melding over je gegevens
+
+- **“Je opgeslagen SiteMark-gegevens konden niet worden gelezen.”** SiteMark is met de standaardinstellingen gestart en bewaarde de onleesbare gegevens als back-up. Bewaar die met **Back-up downloaden**, of kies **Standaardinstellingen herstellen** om ze voorgoed los te laten.
+- **“Je gegevens komen van een nieuwere versie van SiteMark.”** SiteMark wijzigt niets totdat je het bijwerkt. **Een kopie downloaden** bewaart je gegevens zoals ze zijn.
+
 ## Kom je er niet uit?
 
-Kopieer de diagnose vanaf de instellingenpagina (die bevat geen pagina-adressen, alleen de sites zelf) en open een issue op GitHub. De ondersteuningspagina noemt wat ons verder helpt om jou te helpen.
+Kopieer de diagnose vanaf de instellingenpagina (die bevat versies, aantallen en de status van toegang, en siteadressen alleen als je het vakje aanvinkt) en open een issue op GitHub. De ondersteuningspagina noemt wat ons verder helpt om jou te helpen.

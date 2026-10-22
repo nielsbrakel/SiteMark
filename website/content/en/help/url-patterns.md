@@ -1,7 +1,7 @@
 ---
 title: URL patterns
 description: Tell a site group which pages it marks, with wildcards or regular expressions.
-order: 2
+order: 3
 ---
 
 A site group marks every page that one of its URL patterns matches. Patterns come in two kinds: wildcard patterns for everyday use, and regular expressions for special cases.

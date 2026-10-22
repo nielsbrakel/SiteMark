@@ -1,7 +1,7 @@
 ---
 title: Hiding marks and shortcuts
 description: Hide the marks on one tab for a demo, and use the keyboard shortcuts.
-order: 5
+order: 6
 ---
 
 Sometimes you need a clean page: for a screenshot, a screen share or a demo to a customer. SiteMark lets you hide its marks on one tab without changing any settings.

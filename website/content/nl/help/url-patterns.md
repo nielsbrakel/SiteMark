@@ -1,7 +1,7 @@
 ---
 title: URL-patronen
 description: Vertel een sitegroep welke pagina’s hij markeert, met jokertekens of reguliere expressies.
-order: 2
+order: 3
 ---
 
 Een sitegroep markeert elke pagina waar een van zijn URL-patronen op past. Er zijn twee soorten patronen: jokertekenpatronen voor dagelijks gebruik en reguliere expressies voor bijzondere gevallen.

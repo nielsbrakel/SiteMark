@@ -1,7 +1,7 @@
 ---
 title: Markeringen verbergen en sneltoetsen
 description: Verberg de markeringen op één tabblad voor een demo, en gebruik de sneltoetsen.
-order: 5
+order: 6
 ---
 
 Soms heb je een schone pagina nodig: voor een schermafbeelding, bij het delen van je scherm of in een demo voor een klant. Met SiteMark verberg je de markeringen op één tabblad, zonder instellingen te wijzigen.
