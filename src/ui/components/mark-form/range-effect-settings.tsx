@@ -109,6 +109,8 @@ export function OutlineSettings({
       />
       <Switch
         label={t('optionsOutlinePulse')}
+        onText={t('optionsGroupOn')}
+        offText={t('optionsGroupOff')}
         checked={value.pulse}
         onChange={(pulse) => set({ ...value, pulse })}
       />

@@ -19,6 +19,7 @@ function TopicList({ t, locale, current }: TopicsProps) {
           <li key={topic}>
             <a
               href={helpTopicPath(topic, locale)}
+              className="sm-pick"
               aria-current={topic === current.topic ? 'page' : undefined}
             >
               {title}

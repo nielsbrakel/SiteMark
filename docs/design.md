@@ -99,10 +99,10 @@ that become visible in forced-colors mode. Tilt (±2°) applies to titles and ca
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Button     | Ink outline, `--sm-lift-sm`; pressed moves down 3 px on `:active`. `primary` = accent fill. Icon + label                                                                                                           |
 | IconButton | 32 × 32 round, outlined, **must** have `aria-label`                                                                                                                                                                |
-| Switch     | 62 × 34 pill track with an ink outline, solid ink 22 px thumb. On = sage track + knob right. `role="switch"`, visible label ("Ingeschakeld" / "Enabled")                                                           |
+| Switch     | 78 × 34 pill track with an ink outline, solid ink 22 px thumb. On = sage track + knob right, with the words On / Off inside the track. `role="switch"`, visible label ("Ingeschakeld" / "Enabled")                 |
 | Card       | A paper sheet: `--sm-surface`, outline, `--sm-lift`, radius 3, padding 16. Optional **striped** tape strip on top (`.sm-tape`: `--sm-tape-stripes` over a `--sm-tape-*` fill; decorative, hidden in forced colors) |
 | Field      | Label above, `--sm-surface-2` input with an ink outline, helper/error below (`aria-describedby`). Error = warning/danger text + icon                                                                               |
-| Segmented  | Outlined container divided by ink lines; the selected segment is filled with tape yellow (radio group)                                                                                                             |
+| Segmented  | Outlined container divided by ink lines; the selected segment is paper with a coral marker line under it (radio group, D-296)                                                                                      |
 | Slider     | Outlined track, round thumb, value bubble, keyboard steps                                                                                                                                                          |
 | ColorField | 4 preset swatches (28 px, check mark when selected, `forced-color-adjust: none` + border), custom hex, native picker                                                                                               |
 | Dialog     | A paper sheet over a 40 % scrim, focus trapped, Esc closes                                                                                                                                                         |
@@ -111,15 +111,30 @@ that become visible in forced-colors mode. Tilt (±2°) applies to titles and ca
 
 ### 4a. States matrix (each component must define all of these)
 
-| State    | Light / dark                                    | Forced colors                           |
-| -------- | ----------------------------------------------- | --------------------------------------- |
-| Default  | Sheet + control border + lift                   | `ButtonText` border                     |
-| Hover    | 2 px lift (cards and titles also tilt 1.5°)     | unchanged                               |
-| Focus    | 2 px `outline` in `--sm-focus-color`, offset 2  | `Highlight` outline                     |
-| Pressed  | `--sm-pressed` (moves down, shadow gone)        | `Highlight` border                      |
-| Selected | Accent fill or tape-yellow segment + check icon | `Highlight` background, `HighlightText` |
-| Disabled | 50 % opacity, `aria-disabled`                   | `GrayText`                              |
-| Error    | Warning/danger text + icon + border             | `ButtonText` + icon                     |
+| State    | Light / dark                                   | Forced colors                           |
+| -------- | ---------------------------------------------- | --------------------------------------- |
+| Default  | Sheet + control border + lift                  | `ButtonText` border                     |
+| Hover    | 2 px lift (cards and titles also tilt 1.5°)    | unchanged                               |
+| Focus    | 2 px `outline` in `--sm-focus-color`, offset 2 | `Highlight` outline                     |
+| Pressed  | `--sm-pressed` (moves down, shadow gone)       | `Highlight` border                      |
+| Selected | Selection mark, see 4b                         | `Highlight` background, `HighlightText` |
+| Disabled | 50 % opacity, `aria-disabled`                  | `GrayText`                              |
+| Error    | Warning/danger text + icon + border            | `ButtonText` + icon                     |
+
+### 4b. Selection marks (D-296)
+
+One hand-drawn mark per kind of control, always with bold text or an underline, never color alone:
+
+| Control                           | Mark                                                     |
+| --------------------------------- | -------------------------------------------------------- |
+| Header link (`.sm-nav-link`)      | Wavy underline in the text color, through descenders     |
+| Borderless list item (`.sm-pick`) | 2 px coral outline, 1° off true, bold text               |
+| Segmented and language switch     | Paper segment with a 3 px coral marker line, tilted 1.2° |
+| Switch                            | Green track, knob right, On / Off words inside the track |
+| Inline help link (`HelpTip`)      | Wavy underline                                           |
+| Button, color swatch              | Unchanged: pressed in with tape yellow, double ink ring  |
+
+A new selectable control picks the row that matches: borderless gets `.sm-pick`, anything with its own border gets the marker line.
 
 ## 5. Screens
 

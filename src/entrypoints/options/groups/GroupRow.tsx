@@ -31,7 +31,7 @@ export function GroupRow({
       <a
         href={groupHref(group.id)}
         aria-current={isSelected ? 'page' : undefined}
-        className={styles.link}
+        className={`${styles.link} sm-pick`}
         translate="no"
       >
         {group.name}

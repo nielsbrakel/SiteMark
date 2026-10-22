@@ -35,12 +35,39 @@
   transition: transform var(--sm-duration) var(--sm-ease);
 }
 
+.track[data-text] {
+  width: 78px;
+}
+
+.state {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-52%);
+  font-size: var(--sm-text-xs);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--sm-text);
+  pointer-events: none;
+}
+
+.track[aria-checked='false'] .state {
+  right: 10px;
+}
+
+.track[aria-checked='true'] .state {
+  left: 10px;
+}
+
 .track[aria-checked='true'] {
   background: var(--sm-tape-3);
 }
 
 .track[aria-checked='true'] .knob {
   transform: translateX(28px);
+}
+
+.track[data-text][aria-checked='true'] .knob {
+  transform: translateX(44px);
 }
 
 .track:disabled {

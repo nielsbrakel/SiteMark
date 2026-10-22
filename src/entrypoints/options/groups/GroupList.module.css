@@ -31,19 +31,6 @@
   background: var(--sm-soft);
 }
 
-.link[aria-current='page'] {
-  border-color: var(--sm-control-border);
-  background: var(--sm-tape-1);
-  color: var(--sm-on-tape);
-  font-weight: 600;
-}
-
-@media (forced-colors: active) {
-  .link[aria-current='page'] {
-    border-color: Highlight;
-  }
-}
-
 .add {
   display: grid;
   gap: var(--sm-space-2);

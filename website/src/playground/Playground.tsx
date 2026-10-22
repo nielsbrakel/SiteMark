@@ -46,6 +46,8 @@ export function Playground({ t }: IslandProps) {
           />
           <Switch
             label={t('websitePlaygroundElementMark')}
+            onText={t('optionsGroupOn')}
+            offText={t('optionsGroupOff')}
             checked={Boolean(state.elementEffects)}
             onChange={(on) =>
               void change({ elementEffects: on ? DEFAULT_ELEMENT_EFFECTS : undefined })
@@ -63,6 +65,8 @@ export function Playground({ t }: IslandProps) {
         <div className={styles.preview}>
           <Switch
             label={t('websitePlaygroundSwitch')}
+            onText={t('optionsGroupOn')}
+            offText={t('optionsGroupOff')}
             checked={state.enabled}
             onChange={(enabled) => void change({ enabled })}
             className={styles.master}

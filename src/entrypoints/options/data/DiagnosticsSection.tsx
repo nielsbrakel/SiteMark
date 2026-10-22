@@ -39,6 +39,8 @@ export function DiagnosticsSection({ state }: { readonly state: SiteMarkState })
       <HelpTip topic="troubleshooting" text="helpDiagnosticsLead" link="helpDiagnosticsLink" />
       <Switch
         label={t('optionsDiagnosticsIncludeOrigins')}
+        onText={t('optionsGroupOn')}
+        offText={t('optionsGroupOff')}
         checked={includeOrigins}
         onChange={setIncludeOrigins}
       />

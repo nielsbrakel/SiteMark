@@ -43,7 +43,13 @@ export function ResetSection({ notify }: { readonly notify: Notify }): ReactNode
     <section className={styles.pane} aria-labelledby={headingId}>
       <h3 id={headingId}>{t('optionsResetHeading')}</h3>
       <p>{t('optionsResetHelp')}</p>
-      <Switch label={t('optionsResetRevoke')} checked={revoke} onChange={setRevoke} />
+      <Switch
+        label={t('optionsResetRevoke')}
+        onText={t('optionsGroupOn')}
+        offText={t('optionsGroupOff')}
+        checked={revoke}
+        onChange={setRevoke}
+      />
       <div>
         <Button onClick={() => setStep('first')}>{t('optionsReset')}</Button>
       </div>

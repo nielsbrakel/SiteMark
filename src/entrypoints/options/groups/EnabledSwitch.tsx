@@ -34,6 +34,8 @@ export function EnabledSwitch({
   return (
     <Switch
       label={t('optionsEnabled')}
+      onText={t('optionsGroupOn')}
+      offText={t('optionsGroupOff')}
       checked={group.enabled}
       onChange={change}
       disabled={needsPattern && !group.enabled}
