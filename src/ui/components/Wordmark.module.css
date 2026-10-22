@@ -1,0 +1,30 @@
+/* Both variants are in the DOM and the one matching <html data-theme> shows, so there is no flash. */
+.wordmark {
+  display: grid;
+  height: 44px;
+}
+
+.wordmark img {
+  grid-area: 1 / 1;
+  height: 100%;
+  width: auto;
+}
+
+.dark {
+  display: none;
+}
+
+:global(:root[data-theme='dark']) .light {
+  display: none;
+}
+
+:global(:root[data-theme='dark']) .dark {
+  display: block;
+}
+
+/* The wordmark keeps its own colors in forced colors, like the logo. */
+@media (forced-colors: active) {
+  .wordmark img {
+    forced-color-adjust: none;
+  }
+}

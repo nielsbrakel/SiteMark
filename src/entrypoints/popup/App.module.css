@@ -1,9 +1,29 @@
 .popup {
-  /* A paper sheet on the kraft board; the board shows around it, with room above for the tape. */
+  /* The header and footer sit on the kraft board; the content is one paper sheet between them. */
+  display: grid;
+  gap: var(--sm-space-3);
+  padding: var(--sm-space-3) var(--sm-space-2) var(--sm-space-2);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sm-space-2);
+  padding-inline: var(--sm-space-2);
+}
+
+.settings {
+  margin-inline-start: auto;
+  padding-block: var(--sm-space-2);
+}
+
+/* A paper sheet with room above for the tape. */
+.sheet {
   --tape: var(--sm-tape-2);
 
-  margin: var(--sm-space-4) var(--sm-space-2) var(--sm-space-2);
-  padding: var(--sm-space-4);
+  margin-block-start: var(--sm-space-2);
+  padding: var(--sm-space-5) var(--sm-space-4) var(--sm-space-4);
   display: grid;
   gap: var(--sm-space-3);
   border: 1.5px solid var(--sm-control-border);
@@ -12,38 +32,6 @@
   box-shadow: var(--sm-lift);
 }
 
-/* A strip of tape-colored paper with a torn edge, bleeding to the sheet's edges. */
-.header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--sm-space-2);
-  margin: calc(-1 * var(--sm-space-4)) calc(-1 * var(--sm-space-4)) 0;
-  padding: var(--sm-space-3) var(--sm-space-4) calc(var(--sm-space-4) + 4px);
-  background: var(--sm-tape-1);
-  color: var(--sm-on-tape);
-  filter: drop-shadow(0 2px 0 var(--sm-control-border));
-  mask:
-    linear-gradient(var(--sm-text) 0 0) top / 100% calc(100% - 8px) no-repeat,
-    conic-gradient(from -45deg at bottom, transparent, var(--sm-text) 1deg 89deg, transparent 90deg)
-    bottom / 16px 8px repeat-x;
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 28px;
-}
-
-.settings {
-  margin-inline-start: auto;
-  padding-inline: 0;
-  color: var(--sm-on-tape);
-}
-
-@media (forced-colors: active) {
-  .header {
-    border-bottom: 1.5px solid ButtonText;
-    filter: none;
-    mask: none;
-  }
+.footer {
+  padding-inline: var(--sm-space-2);
 }

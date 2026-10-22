@@ -23,7 +23,7 @@
 
 .links a {
   display: inline-block;
-  padding-block: var(--sm-space-1);
+  padding-block: var(--sm-space-2);
   color: var(--sm-text);
 }
 

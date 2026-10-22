@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
-import logo from '@/assets/logo.svg';
 import { t } from '@/lib/i18n/browser-source';
 import { optionsPageUrl } from '@/platform/deep-links';
+import { Wordmark } from '@/ui/components/Wordmark';
 import { useCurrentTab } from '@/ui/hooks/use-current-tab';
 import { useSiteMarkState } from '@/ui/hooks/use-site-mark-state';
 import { useTheme } from '@/ui/hooks/use-theme';
@@ -22,10 +22,10 @@ export function PopupApp({ search }: PopupAppProps): ReactNode {
   const isUnreadable = useStoredUnreadable();
   useTheme(view.status === 'ready' ? view.state.settings.theme : undefined);
   return (
-    <main className={`sm-tape ${styles.popup}`}>
+    <main className={styles.popup}>
       <header className={styles.header}>
-        <img src={logo} alt="" width={32} height={32} />
-        <h1>{t('popupTitle')}</h1>
+        <Wordmark />
+        <h1 className="sm-visually-hidden">{t('popupTitle')}</h1>
         <a
           className={`sm-nav-link ${styles.settings}`}
           href={optionsPageUrl({ page: 'settings' })}
@@ -35,8 +35,12 @@ export function PopupApp({ search }: PopupAppProps): ReactNode {
           {t('popupSettings')}
         </a>
       </header>
-      <PopupBody tab={tab} view={view} isUnreadable={isUnreadable} />
-      <SiteLinks />
+      <div className={`sm-tape ${styles.sheet}`}>
+        <PopupBody tab={tab} view={view} isUnreadable={isUnreadable} />
+      </div>
+      <footer className={styles.footer}>
+        <SiteLinks />
+      </footer>
     </main>
   );
 }
