@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="22 19 90 90" role="img" aria-labelledby="t">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="t">
   <title id="t">SiteMark</title>
-  <path d="M42 24h40a6 6 0 0 1 6 6v74l-26-17-26 17V30a6 6 0 0 1 6-6z" fill="#e8664d" stroke="#33261b" stroke-width="3.5" stroke-linejoin="round"/>
-  <path d="M70 56v34l8.5-8 6 13.5 7-3-6-13.2H97z" fill="#ffffff" stroke="#33261b" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- 32px toolbar: the full logo with heavier strokes so the note, ribbon, tape and cursor survive. -->
+  <g transform="rotate(-5 64 64)"><path d="M16 14l46-2 50 3-2 48 3 52-50 2-48-3 2-50z" fill="#fbf6e8" stroke="#33261b" stroke-width="7" stroke-linejoin="round"/></g>
+  <path d="M42 24h40a6 6 0 0 1 6 6v74l-26-17-26 17V30a6 6 0 0 1 6-6z" fill="#e8664d" stroke="#33261b" stroke-width="7" stroke-linejoin="round"/>
+  <rect x="34" y="12" width="56" height="18" transform="rotate(-4 62 21)" fill="#f5cf5a" stroke="#33261b" stroke-width="5"/>
+  <path d="M70 56v34l8.5-8 6 13.5 7-3-6-13.2H97z" fill="#ffffff" stroke="#33261b" stroke-width="7" stroke-linejoin="round"/>
 </svg>
