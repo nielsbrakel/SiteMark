@@ -23,8 +23,8 @@ const pages = [
   },
   { file: 'privacy/index.html', locale: 'en', route: 'privacy', h1: 'Privacy policy' },
   { file: 'nl/privacy/index.html', locale: 'nl', route: 'privacy', h1: 'Privacyverklaring' },
-  { file: 'help/index.html', locale: 'en', route: 'help', h1: 'Help' },
-  { file: 'nl/help/index.html', locale: 'nl', route: 'help', h1: 'Help' },
+  { file: 'help/index.html', locale: 'en', route: 'help', h1: 'Help and support' },
+  { file: 'nl/help/index.html', locale: 'nl', route: 'help', h1: 'Help en ondersteuning' },
   {
     file: 'help/getting-started/index.html',
     locale: 'en',
@@ -43,8 +43,8 @@ const pages = [
   { file: 'nl/playground/index.html', locale: 'nl', route: 'playground', h1: 'Uitproberen' },
   { file: 'agents/index.html', locale: 'en', route: 'agents', h1: 'SiteMark for AI agents' },
   { file: 'nl/agents/index.html', locale: 'nl', route: 'agents', h1: 'SiteMark voor AI-agents' },
-  { file: 'support/index.html', locale: 'en', route: 'support', h1: 'Support' },
-  { file: 'nl/support/index.html', locale: 'nl', route: 'support', h1: 'Ondersteuning' },
+  { file: 'support/index.html', locale: 'en', route: 'support', h1: 'Help and support' },
+  { file: 'nl/support/index.html', locale: 'nl', route: 'support', h1: 'Help en ondersteuning' },
 ];
 
 describe('REQ-WEB-002 every route is prerendered to one static HTML file', () => {

@@ -7,9 +7,9 @@ test.describe('REQ-WEB-002 every page is a prerendered file that works with and 
       'Never confuse production with test again',
     );
     const nav = page.getByRole('navigation', { name: 'Main' });
-    await nav.getByRole('link', { name: 'Support' }).click();
-    await expect(page).toHaveURL('/SiteMark/support/');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Support');
+    await nav.getByRole('link', { name: 'Help' }).click();
+    await expect(page).toHaveURL('/SiteMark/help/');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Help and support');
     await nav.getByRole('link', { name: 'Privacy' }).click();
     await expect(page).toHaveURL('/SiteMark/privacy/');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Privacy policy');
@@ -70,7 +70,7 @@ test.describe('REQ-WEBUX-004 the language switch keeps the page', () => {
       .click();
     await expect(page).toHaveURL('/SiteMark/nl/support/');
     await expect(page.locator('html')).toHaveAttribute('lang', 'nl');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ondersteuning');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Help en ondersteuning');
     await page
       .getByRole('navigation', { name: 'Taal' })
       .getByRole('link', { name: 'English' })
