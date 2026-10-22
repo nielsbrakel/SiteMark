@@ -26,25 +26,11 @@
   text-underline-offset: 2px;
 }
 
-.prose code {
-  padding: 0 var(--sm-space-1);
-  border-radius: var(--sm-radius-sm);
-  box-shadow: var(--sm-well);
-  font-family: var(--sm-font-mono);
-  font-size: 0.9em;
-  line-height: 1; /* inline code must not stretch its line off the ruled rows */
-}
-
 .prose pre {
   overflow-x: auto;
   padding-inline: var(--sm-space-3);
   border-radius: var(--sm-radius-md);
   box-shadow: var(--sm-well);
-}
-
-.prose pre code {
-  padding: 0;
-  box-shadow: none;
 }
 
 .prose table {

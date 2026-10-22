@@ -35,6 +35,40 @@ h3 {
   line-height: 1.1;
 }
 
+/* Inline code (D-297): a torn strip of washi tape, a degree off true. Block code (pre) stays plain. */
+code {
+  display: inline-block;
+  max-width: 100%;
+  padding: 3px var(--sm-space-2);
+  background: var(--sm-tape-3);
+  color: var(--sm-on-tape);
+  font-family: var(--sm-font-mono);
+  font-size: 0.88em;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  transform: rotate(-1.2deg);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    98% 25%,
+    100% 50%,
+    98% 75%,
+    100% 100%,
+    0 100%,
+    2% 75%,
+    0 50%,
+    2% 25%
+  );
+}
+
+pre code {
+  display: inline;
+  padding: 0;
+  background: none;
+  transform: none;
+  clip-path: none;
+}
+
 /* Header links: plain ink text (they sit on the board too), the current page underlined (never shadow or color alone). */
 .sm-nav-link {
   padding: var(--sm-space-1) var(--sm-space-2);

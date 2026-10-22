@@ -32,7 +32,6 @@
 }
 
 .value code {
-  font-family: var(--sm-font-mono);
   font-size: var(--sm-text-sm);
 }
 
