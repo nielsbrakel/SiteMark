@@ -1,7 +1,7 @@
 ---
 title: Markeringen en effecten
 description: Linten, banners, kaders, tinten, strepen, watermerken en meer, en hoe ze samengaan.
-order: 3
+order: 4
 ---
 
 Een markering is wat SiteMark tekent: een of meer effecten in één kleur. Een sitegroep kan meerdere markeringen bevatten, voor de hele pagina of voor één element daarop.
@@ -19,7 +19,7 @@ Een markering is wat SiteMark tekent: een of meer effecten in één kleur. Een s
 
 ## Effecten op een element
 
-Een elementmarkering kan een omlijning, een tint, strepen of een lint tonen op één knop, veld of paneel. Bij **Een element kiezen** lees je hoe je het kiest.
+Een elementmarkering kan een omlijning, een tint, strepen of een lint tonen op één knop, veld of paneel. De omlijning kan doorlopend, gestreept of gestippeld zijn, met een breedte naar keuze, en kan zacht pulseren om de aandacht te trekken. De pulsatie stopt als je systeem om minder beweging vraagt. Bij **Een element kiezen** lees je hoe je het element kiest.
 
 ## Kleuren en tekst
 

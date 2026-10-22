@@ -30,15 +30,17 @@ describe('REQ-PAGE-004 help topics: Markdown files with front matter', () => {
     expect(parseFrontMatter(text).ok).toBe(false);
   });
 
-  it('has the eight topics of the route table', () => {
+  it('has the ten topics of the route table', () => {
     expect(helpTopics()).toEqual([
       'getting-started',
+      'site-groups',
       'url-patterns',
       'marks-and-effects',
       'picking-an-element',
       'hiding-marks-and-shortcuts',
-      'permissions',
+      'settings-and-appearance',
       'import-and-export',
+      'permissions',
       'troubleshooting',
     ]);
   });
@@ -50,7 +52,7 @@ describe('REQ-PAGE-004 help topics: Markdown files with front matter', () => {
   it.each(websiteLocales())('%s: lists the topics in their order, one file per topic', (locale) => {
     const topics = helpTopicsFor(locale);
     expect(topics.map((topic) => topic.topic)).toEqual(helpTopics());
-    expect(topics.map((topic) => topic.order)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(topics.map((topic) => topic.order)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     for (const topic of topics) {
       expect(topic.file).toBe(`website/content/${locale}/help/${topic.topic}.md`);
       expect(topic.title.length, topic.file).toBeLessThanOrEqual(36);

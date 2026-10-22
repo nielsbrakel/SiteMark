@@ -1,7 +1,7 @@
 ---
 title: Permissions explained
 description: Why SiteMark asks for access to a site, and what it does with it.
-order: 6
+order: 9
 ---
 
 SiteMark is built to know as little as possible. It asks for access to a website only when you mark it, and only for that site.

@@ -1,7 +1,7 @@
 ---
 title: Importeren en exporteren
 description: Zet je sitegroepen over naar een andere browser of deel ze met je team.
-order: 7
+order: 8
 ---
 
 Je sitegroepen staan alleen in je browser. Wil je ze in een andere browser gebruiken, of je team dezelfde markeringen geven, exporteer ze dan naar een bestand en importeer dat bestand.

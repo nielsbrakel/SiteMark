@@ -19,12 +19,14 @@ afterEach(() => {
 
 const TOPICS = [
   'getting-started',
+  'site-groups',
   'url-patterns',
   'marks-and-effects',
   'picking-an-element',
   'hiding-marks-and-shortcuts',
-  'permissions',
+  'settings-and-appearance',
   'import-and-export',
+  'permissions',
   'troubleshooting',
 ] as const;
 

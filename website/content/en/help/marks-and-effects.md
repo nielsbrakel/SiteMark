@@ -1,7 +1,7 @@
 ---
 title: Marks and effects
 description: Ribbons, banners, frames, tints, stripes, watermarks and more, and how they combine.
-order: 3
+order: 4
 ---
 
 A mark is what SiteMark draws: one or more effects in one color. A site group can hold several marks, for the whole page or for one element on it.
@@ -19,7 +19,7 @@ A mark is what SiteMark draws: one or more effects in one color. A site group ca
 
 ## Element effects
 
-An element mark can show an outline, a tint, stripes or a ribbon on one button, field or panel. See **Picking an element** for how to choose it.
+An element mark can show an outline, a tint, stripes or a ribbon on one button, field or panel. The outline can be solid, dashed or dotted, with a width you choose, and it can pulse softly to draw the eye. The pulse stops when your system asks for reduced motion. See **Picking an element** for how to choose the element.
 
 ## Colors and text
 

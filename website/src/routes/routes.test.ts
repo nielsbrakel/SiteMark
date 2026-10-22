@@ -117,15 +117,17 @@ describe('REQ-PAGE-004 every help topic has a route below help/', () => {
     expect(topics.map((r) => [r.topic, r.slug, r.milestone, r.nav])).toEqual(
       [
         'getting-started',
+        'site-groups',
         'url-patterns',
         'marks-and-effects',
         'picking-an-element',
         'hiding-marks-and-shortcuts',
-        'permissions',
+        'settings-and-appearance',
         'import-and-export',
+        'permissions',
         'troubleshooting',
       ].map((topic) => [topic, `help/${topic}/`, 'W2', false]),
     );
-    expect(routePath(topics[1] ?? route('help'), 'nl')).toBe('/SiteMark/nl/help/url-patterns/');
+    expect(routePath(topics[2] ?? route('help'), 'nl')).toBe('/SiteMark/nl/help/url-patterns/');
   });
 });

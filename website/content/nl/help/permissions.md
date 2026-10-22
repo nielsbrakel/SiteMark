@@ -1,7 +1,7 @@
 ---
 title: Rechten uitgelegd
 description: Waarom SiteMark om toegang tot een site vraagt, en wat het daarmee doet.
-order: 6
+order: 9
 ---
 
 SiteMark is gemaakt om zo weinig mogelijk te weten. Het vraagt pas toegang tot een website als je die markeert, en dan alleen tot die site.

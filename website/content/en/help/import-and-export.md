@@ -1,7 +1,7 @@
 ---
 title: Import and export
 description: Move your site groups to another browser or share them with your team.
-order: 7
+order: 8
 ---
 
 Your site groups are stored in your browser only. To use them in another browser, or to give your team the same marks, export them to a file and import that file.
