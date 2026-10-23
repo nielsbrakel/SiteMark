@@ -13,7 +13,7 @@
   </g>
   <text x="260" y="180" font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="110" fill="#33261b">SiteMark</text>
   <g font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="66" fill="#33261b"><text x="90" y="320">Never confuse</text><text x="90" y="392">production with test.</text></g>
-  <text x="90" y="452" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="32" fill="#33261b">Private by design. Nothing leaves your browser.</text>
+  <text x="90" y="452" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="32" fill="#33261b">Private by design. Collects no data.</text>
   <g transform="rotate(-3 1115 90)" opacity=".92"><rect x="1040" y="71" width="150" height="38" fill="#f5cf5a"/><rect x="1040" y="71" width="150" height="38" fill="url(#s)"/></g>
   <clipPath id="w"><rect x="800" y="90" width="520" height="380"/></clipPath>
   <rect x="806" y="98" width="520" height="380" fill="#33261b"/>
