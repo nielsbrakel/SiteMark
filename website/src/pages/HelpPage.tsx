@@ -29,24 +29,26 @@ export function HelpPage({ t, locale }: PageProps) {
           </li>
         ))}
       </ul>
-      {HELP_GROUPS.map(({ heading, topics: group }) => (
-        <section key={heading}>
-          <h2 className={styles.group}>{t(heading)}</h2>
-          <ul className={styles.index}>
-            {group.map((topic) => (
-              <li key={topic} className={styles.entry}>
-                <a
-                  className={`sm-link-quiet ${styles.link} ${styles.title}`}
-                  href={helpTopicPath(topic, locale)}
-                >
-                  {topics.get(topic)?.title}
-                </a>
-                <p>{topics.get(topic)?.description}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      <div className={styles.boards}>
+        {HELP_GROUPS.map(({ heading, topics: group }) => (
+          <section key={heading} className={`sm-card sm-tape ${styles.board}`}>
+            <h2 className={styles.group}>{t(heading)}</h2>
+            <ul className={styles.index}>
+              {group.map((topic) => (
+                <li key={topic} className={styles.entry}>
+                  <a
+                    className={`sm-link-quiet ${styles.link} ${styles.title}`}
+                    href={helpTopicPath(topic, locale)}
+                  >
+                    {topics.get(topic)?.title}
+                  </a>
+                  <p>{topics.get(topic)?.description}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
       <ContactBlock t={t} />
     </div>
   );
