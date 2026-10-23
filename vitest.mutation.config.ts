@@ -13,4 +13,9 @@ function isCore(project: unknown): project is TestProjectInlineConfiguration {
 const core = base.test?.projects?.find(isCore);
 if (!core) throw new Error('vitest.config.ts has no core project');
 
-export default defineConfig({ test: { projects: [core] } });
+// Wall-clock budgets (REQ-NFR-003) can't hold while Stryker runs the tests instrumented, which fails its dry run.
+const timing = /matching 500 patterns takes/;
+
+export default defineConfig({
+  test: { projects: [core], testNamePattern: `^(?!.*${timing.source})` },
+});
