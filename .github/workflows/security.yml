@@ -1,0 +1,125 @@
+name: Security
+
+# SAST (CodeQL), DAST (OWASP ZAP baseline against the built website and extension pages) and the
+# OpenSSF Scorecard. Plan and rationale: docs/security-scanning.md. Separate from ci.yml, so it is
+# not part of ci-ok yet: findings go to the Security tab, nothing blocks a merge until the first
+# results are triaged.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Mondays 04:41 UTC, off the top of the hour.
+    - cron: '41 4 * * 1'
+  workflow_dispatch:
+
+# Every job declares its own minimal permissions (REQ-SEC-009, D-238).
+permissions: {}
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  codeql:
+    name: CodeQL (${{ matrix.language }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [javascript-typescript, actions]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: github/codeql-action/init@8498dc4c2b27cdd99baf0f87955b29ebbf30c78d # v4.39.1
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          queries: security-extended
+      - uses: github/codeql-action/analyze@8498dc4c2b27cdd99baf0f87955b29ebbf30c78d # v4.39.1
+        with:
+          category: /language:${{ matrix.language }}
+
+  zap:
+    name: ZAP baseline (${{ matrix.target }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: website
+            build: pnpm web:build
+            dir: website/dist/client
+            path: ''
+          # The popup and options pages as static files: ZAP sees their markup, scripts and
+          # headers, not the browser APIs they need. The runtime attack probes are in
+          # tests/e2e/attack-surface.spec.ts.
+          - target: extension
+            build: pnpm build
+            dir: .output/chrome-mv3
+            path: options.html
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - run: $BUILD
+        env:
+          BUILD: ${{ matrix.build }}
+      - name: Serve the build
+        run: |
+          python3 -m http.server 8080 --bind 127.0.0.1 --directory "$DIR" &
+          for _ in $(seq 20); do curl -fsS "http://127.0.0.1:8080/$TARGET_PATH" >/dev/null && exit 0; sleep 1; done
+          exit 1
+        env:
+          DIR: ${{ matrix.dir }}
+          TARGET_PATH: ${{ matrix.path }}
+      # -I: report findings as a summary and in the artifact, without failing the job (warnings
+      # only until the rules in .zap/rules.tsv are tuned).
+      - name: ZAP baseline scan
+        run: |
+          mkdir -p zap-report && cp .zap/rules.tsv zap-report/ && chmod -R 777 zap-report
+          docker run --rm --network host -v "$PWD/zap-report:/zap/wrk:rw" \
+            ghcr.io/zaproxy/zaproxy@sha256:5ccfff9a411743ab2615136a2edd7416bec9ce41572fa94e935df38c14adb2b6 \
+            zap-baseline.py -I -t "http://127.0.0.1:8080/$TARGET_PATH" -c rules.tsv -r report.html -J report.json
+        env:
+          TARGET_PATH: ${{ matrix.path }}
+      - if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: zap-${{ matrix.target }}
+          path: zap-report/
+          retention-days: 30
+          if-no-files-found: ignore
+
+  scorecard:
+    name: OpenSSF Scorecard
+    # Needs the default branch and a public repository; publishes the result for the badge.
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      security-events: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ossf/scorecard-action@46dc3187a971a9febf3aeb7f94ccde489f7bb46a # v2.5.0
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish_results: true
+      - uses: github/codeql-action/upload-sarif@8498dc4c2b27cdd99baf0f87955b29ebbf30c78d # v4.39.1
+        with:
+          sarif_file: results.sarif
+          category: scorecard
