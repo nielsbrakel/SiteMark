@@ -1,7 +1,7 @@
 name: Security
 
-# SAST (CodeQL), secrets (gitleaks), DAST (OWASP ZAP baseline against the built website and extension
-# pages) and the OpenSSF Scorecard. Plan and rationale: docs/security-scanning.md. `security-ok`
+# SAST (CodeQL), secrets (gitleaks) and DAST (OWASP ZAP baseline against the built website and extension
+# pages). The OpenSSF Scorecard has its own workflow (scorecard.yml). Plan and rationale: docs/security-scanning.md. `security-ok`
 # aggregates every job and is a required status check next to `ci-ok` (docs/repo-setup.md).
 on:
   push:
@@ -120,35 +120,11 @@ jobs:
             ghcr.io/gitleaks/gitleaks@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f \
             git /repo --redact --verbose
 
-  scorecard:
-    name: OpenSSF Scorecard
-    # Needs the default branch and a public repository; publishes the result for the badge.
-    if: ${{ github.event_name != 'pull_request' }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    permissions:
-      contents: read
-      security-events: write
-      id-token: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: ossf/scorecard-action@fa7117db83c52d787ae5a89f350999701505d78e # v2.5.0
-        with:
-          results_file: results.sarif
-          results_format: sarif
-          publish_results: true
-      - uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
-        with:
-          sarif_file: results.sarif
-          category: scorecard
-
   # A required status check (docs/repo-setup.md). Add every new job to `needs`.
   security-ok:
     name: security-ok
     if: always()
-    needs: [codeql, zap, gitleaks, scorecard]
+    needs: [codeql, zap, gitleaks]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions: {}

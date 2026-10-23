@@ -15,7 +15,7 @@
 | DAST, extension, runtime | A hostile page attacks the loaded extension in Chromium | `tests/e2e/attack-surface.spec.ts`          | PR (`ci.yml#e2e`) | Yes                 |
 | DAST, extension, network | Every e2e test aborts requests to unknown hosts         | `tests/e2e/fixtures.ts` (REQ-PRIV-005)      | PR (`ci.yml#e2e`) | Yes                 |
 | Secrets                  | gitleaks over the full git history                      | `security.yml#gitleaks`                     | PR, main, weekly  | Yes (`security-ok`) |
-| Supply-chain score       | OpenSSF Scorecard                                       | `security.yml#scorecard`                    | main, weekly      | No                  |
+| Supply-chain score       | OpenSSF Scorecard                                       | `scorecard.yml`                             | main, weekly      | No                  |
 
 ## Why the extension needs its own DAST
 
@@ -34,7 +34,7 @@ between a hostile web page and the running extension, so that is tested in a bro
 
 `security-ok` (in `security.yml`) needs every other security job and is a required status check
 next to `ci-ok`, so a CodeQL or gitleaks failure, or a FAIL-level ZAP alert, blocks the merge. Scorecard
-is skipped on pull requests, which `security-ok` accepts. ZAP warnings (exit code 2) are reported in
+lives in its own workflow (`scorecard.yml`, main, weekly and manual) so it never shows on pull requests. ZAP warnings (exit code 2) are reported in
 the `zap-*` artifact but do not fail the job; raise a rule to FAIL in `.zap/rules.tsv` to enforce it.
 A CodeQL alert fails its job only through the Security tab ruleset ("Require code scanning results"),
 so turn that on as well (docs/repo-setup.md).

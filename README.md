@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/nielsbrakel/SiteMark/actions/workflows/security.yml"><img src="https://github.com/nielsbrakel/SiteMark/actions/workflows/security.yml/badge.svg?branch=main" alt="Security scans: CodeQL, OWASP ZAP, Scorecard"></a>
+  <a href="https://github.com/nielsbrakel/SiteMark/actions/workflows/security.yml"><img src="https://github.com/nielsbrakel/SiteMark/actions/workflows/security.yml/badge.svg?branch=main" alt="Security scans: CodeQL, OWASP ZAP, gitleaks"></a>
   <a href="https://github.com/nielsbrakel/SiteMark/security/code-scanning"><img src="https://img.shields.io/badge/SAST-CodeQL-1f6feb" alt="SAST: CodeQL"></a>
   <a href="docs/security-scanning.md"><img src="https://img.shields.io/badge/DAST-OWASP%20ZAP%20%2B%20Playwright-1f6feb" alt="DAST: OWASP ZAP and Playwright attack probes"></a>
   <a href="https://github.com/nielsbrakel/SiteMark/actions/workflows/security.yml"><img src="https://img.shields.io/badge/secrets-gitleaks-1f6feb" alt="Secret scanning: gitleaks"></a>
