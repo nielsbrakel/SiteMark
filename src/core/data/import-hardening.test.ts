@@ -140,7 +140,9 @@ describe('REQ-SEC-004 parseImport refuses regexes that together could stall matc
   it('refuses a file whose regexes add up to more than the budget', () => {
     const text = fileOf([aSiteGroup({ patterns: [heavy()] }), aSiteGroup({ excludes: [heavy()] })]);
     expect(errorOf(parseImport(text))).toEqual({ code: 'regexBudgetExceeded' });
-    expect(importedOf(parseImport(fileOf([aSiteGroup({ patterns: [heavy()] })])))).toBeDefined();
+    expect(
+      importedOf(parseImport(fileOf([aSiteGroup({ patterns: [heavy()] })]))).siteGroups,
+    ).toHaveLength(1);
   });
 
   it('refuses a file with more than 500 regex patterns and excludes', () => {
@@ -148,6 +150,6 @@ describe('REQ-SEC-004 parseImport refuses regexes that together could stall matc
       aSiteGroup({ patterns: Array.from({ length: 50 }, () => aRegexPattern()) }),
     );
     expect(errorOf(parseImport(fileOf(groups)))).toEqual({ code: 'regexLimitReached' });
-    expect(importedOf(parseImport(fileOf(groups.slice(1))))).toBeDefined();
+    expect(importedOf(parseImport(fileOf(groups.slice(1)))).siteGroups).toHaveLength(10);
   });
 });

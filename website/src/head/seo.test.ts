@@ -126,7 +126,7 @@ describe('REQ-SEO-004 every route has Open Graph and Twitter card tags', () => {
       expect(metaContent(html, 'og:image'), file).toBe(
         `${ORIGIN}social-preview-${file.startsWith('nl/') ? 'nl' : 'en'}.png`,
       );
-      expect(metaContent(html, 'og:image:alt'), file).toBeTruthy();
+      expect(metaContent(html, 'og:image:alt'), file).toMatch(/\S/);
       expect(metaContent(html, 'twitter:card'), file).toBe('summary_large_image');
     }
   });

@@ -31,7 +31,7 @@ const drawn: [string, DrawnItem, string][] = [
 /** The view for `item`; an assertion (not a TypeError) when there is none. */
 function viewOf(item: RenderItem, ctx = aViewContext()): EffectView {
   const view = createView(item, ctx);
-  expect(view).toBeDefined();
+  expect(view).not.toBeUndefined();
   return view as EffectView;
 }
 

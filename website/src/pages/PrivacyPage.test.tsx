@@ -72,7 +72,7 @@ describe('REQ-POLICY-004 the privacy page shows its Last updated date', () => {
   ])('%s shows the date line of %s', (file, policy, line) => {
     show(file);
     const date = readFileSync(policy, 'utf8').match(line)?.[1];
-    expect(date).toBeDefined();
-    expect(within(main()).getByText(date ?? '-')).toBeDefined();
+    expect(date).toMatch(/\d{4}-\d{2}-\d{2}/);
+    expect(within(main()).getByText(date ?? '-')).toBeInTheDocument();
   });
 });

@@ -36,7 +36,7 @@ describe('REQ-WEBUX-002 the theme toggle offers system, light and dark as icons'
     render(<ThemeToggle t={nl.t} />);
     const names = screen.getAllByRole('radio').map((radio) => radio.getAttribute('aria-label'));
     expect(names).toEqual(['Systeem', 'Licht', 'Donker']);
-    expect(screen.getByRole('radiogroup', { name: 'Thema' })).toBeTruthy();
+    expect(screen.getByRole('radiogroup', { name: 'Thema' })).toBeInTheDocument();
     expect(screen.getAllByRole('radio').map((radio) => radio.textContent)).toEqual(['', '', '']);
     expect(selected()).toBe('Systeem');
   });

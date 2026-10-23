@@ -97,7 +97,7 @@ describe('REQ-PICK-005 the panel shows an editable selector with a live match in
   it('is a labelled dialog with the generated selector', () => {
     const { ui, panel } = aPanel();
     expect(panel.element.getAttribute('role')).toBe('dialog');
-    expect(ui.getByRole('heading', { name: 'Mark this element' })).toBeTruthy();
+    expect(ui.getByRole('heading', { name: 'Mark this element' })).toBeInTheDocument();
     expect(field(ui).value).toBe('#delete');
     expect(matchText(panel)).toBe('✓ matches');
   });

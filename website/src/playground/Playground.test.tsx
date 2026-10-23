@@ -34,7 +34,7 @@ describe('REQ-PLAY-001 the playground is the options page’s mark form next to 
       ['Red', 'Amber', 'Blue', 'Slate'],
     );
     expect(screen.getByRole('radio', { name: 'Red' }).getAttribute('aria-checked')).toBe('true');
-    expect(screen.getByRole('radiogroup', { name: 'Text color' })).toBeTruthy();
+    expect(screen.getByRole('radiogroup', { name: 'Text color' })).toBeInTheDocument();
     expect(switchNames(effects()[0] as HTMLElement)).toEqual([
       'Ribbon',
       'Banner',
@@ -55,7 +55,7 @@ describe('REQ-PLAY-001 the playground is the options page’s mark form next to 
     expect(screen.getByRole('textbox', { name: 'Ribbon text' })).toHaveProperty('value', 'PROD');
     expect(screen.queryByRole('slider', { name: 'Frame width' })).toBeNull();
     fireEvent.click(screen.getByRole('switch', { name: 'Frame' }));
-    expect(screen.getByRole('slider', { name: 'Frame width' })).toBeTruthy();
+    expect(screen.getByRole('slider', { name: 'Frame width' })).toBeInTheDocument();
     expect(ribbon()).toHaveProperty('disabled', false);
   });
 
@@ -111,7 +111,7 @@ describe('REQ-PLAY-006 input shows the options page’s checks and messages', ()
     fireEvent.change(field, { target: { value: 'blue' } });
     fireEvent.blur(field);
     expect(field.getAttribute('aria-invalid')).toBe('true');
-    expect(screen.getByText('Enter a color like #1f6feb.')).toBeTruthy();
+    expect(screen.getByText('Enter a color like #1f6feb.')).toBeInTheDocument();
     fireEvent.change(field, { target: { value: '#00ff88' } });
     fireEvent.blur(field);
     await waitFor(() => expect(field.getAttribute('aria-invalid')).toBeNull());
@@ -123,7 +123,9 @@ describe('REQ-PLAY-006 input shows the options page’s checks and messages', ()
     fireEvent.change(field, { target: { value: '   ' } });
     fireEvent.blur(field);
     expect(field.getAttribute('aria-invalid')).toBe('true');
-    expect(screen.getByText("Enter a text, so the mark doesn't rely on color alone.")).toBeTruthy();
+    expect(
+      screen.getByText("Enter a text, so the mark doesn't rely on color alone."),
+    ).toBeInTheDocument();
   });
 });
 
