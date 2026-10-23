@@ -1,4 +1,5 @@
 import type { Theme } from '@/core/model/schema';
+import { withThemeFade } from '@/shared/with-theme-fade';
 
 /** The choice that <html data-theme> shows (the bootstrap set it from storage before paint). */
 export function readThemeChoice(root: HTMLElement): Theme {
@@ -8,8 +9,10 @@ export function readThemeChoice(root: HTMLElement): Theme {
 
 /** Forces a theme on <html>, or lets the OS decide again (tokens.css reads data-theme). */
 export function applyThemeChoice(root: HTMLElement, choice: Theme): void {
-  if (choice === 'system') delete root.dataset.theme;
-  else root.dataset.theme = choice;
+  withThemeFade(() => {
+    if (choice === 'system') delete root.dataset.theme;
+    else root.dataset.theme = choice;
+  });
 }
 
 /**

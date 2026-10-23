@@ -11,6 +11,7 @@ import type { RowDragProps } from './use-group-drag';
 export type GroupRowProps = {
   readonly group: SiteGroup;
   readonly isSelected: boolean;
+  readonly isNew: boolean;
   readonly isFirst: boolean;
   readonly isLast: boolean;
   readonly drag: RowDragProps;
@@ -21,13 +22,14 @@ export type GroupRowProps = {
 export function GroupRow({
   group,
   isSelected,
+  isNew,
   isFirst,
   isLast,
   drag,
   onMove,
 }: GroupRowProps): ReactNode {
   return (
-    <li className={styles.row} {...drag}>
+    <li className={styles.row} data-new={isNew || undefined} {...drag}>
       <a
         href={groupHref(group.id)}
         aria-current={isSelected ? 'page' : undefined}

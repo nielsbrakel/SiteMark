@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect, useSyncExternalStore } from 'react';
 import type { Theme } from '../../core/model/schema';
+import { withThemeFade } from '../../shared/with-theme-fade';
 
 export type ResolvedTheme = 'light' | 'dark';
 
@@ -34,7 +35,10 @@ export function useTheme(
   const osPrefersDark = useOsPrefersDark(isFollowingOs);
   const resolved: ResolvedTheme = isFollowingOs ? (osPrefersDark ? 'dark' : 'light') : theme;
   useLayoutEffect(() => {
-    root.setAttribute('data-theme', resolved);
+    const set = () => root.setAttribute('data-theme', resolved);
+    // The first paint takes the theme at once; only a switch fades.
+    if (root.hasAttribute('data-theme')) withThemeFade(set);
+    else set();
   }, [root, resolved]);
   return resolved;
 }

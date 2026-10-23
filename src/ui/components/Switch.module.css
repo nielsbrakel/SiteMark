@@ -32,7 +32,9 @@
   block-size: 22px;
   border-radius: var(--sm-radius-pill);
   background: var(--sm-control-border);
-  transition: transform var(--sm-duration) var(--sm-ease);
+  transition:
+    transform calc(var(--sm-duration) * 2) var(--sm-spring),
+    inline-size var(--sm-duration) var(--sm-ease);
 }
 
 .track[data-on] {
@@ -68,6 +70,19 @@
 
 .track[data-on]:is([aria-checked='true'], :checked)::after {
   transform: translateX(44px);
+}
+
+/* Pressed, the knob stretches toward the side it is about to move to. */
+.track:active:not(:disabled)::after {
+  inline-size: 30px;
+}
+
+.track:active:not(:disabled):is([aria-checked='true'], :checked)::after {
+  transform: translateX(20px);
+}
+
+.track[data-on]:active:not(:disabled):is([aria-checked='true'], :checked)::after {
+  transform: translateX(36px);
 }
 
 .track:disabled {

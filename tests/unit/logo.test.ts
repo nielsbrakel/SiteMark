@@ -33,6 +33,13 @@ describe('REQ-WEB-003 the wordmark is outlined lettering, not a font reference',
     expect(markup).toMatch(/<path[^>]*aria-hidden|<g[^>]*aria-hidden/);
   });
 
+  it('the dark wordmark is a plum window with cream ink', () => {
+    const dark = svg('design/logo/sitemark-wordmark-dark.svg');
+    expect(dark).toMatch(/fill="#241d33"/);
+    expect(dark).toMatch(/stroke="#f7f0e3"/);
+    expect(dark).not.toMatch(/#fbf6e8|#33261b/);
+  });
+
   it('the dark wordmark letters are cream', () => {
     expect(svg('design/logo/sitemark-wordmark-dark.svg')).toMatch(
       /<path aria-hidden="true" fill="#f7f0e3"/,
