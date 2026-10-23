@@ -50,6 +50,9 @@
   inset-block: 0;
   inset-inline-start: var(--pos);
   display: grid;
+
+  /* A track as wide as the line, so the wider knob overflows it evenly on both sides. */
+  grid-template-columns: minmax(0, 1fr);
   align-content: center;
   justify-items: center;
   inline-size: 3px;
