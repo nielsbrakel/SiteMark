@@ -30,7 +30,7 @@ describe('REQ-PLAY-004 the home hero compares a shop page without and with SiteM
   it('moves the divider by dragging the picture, so touch screens work too', () => {
     const { container } = render(<HeroCompare t={en.t} />);
     const compare = container.querySelector<HTMLElement>('[data-compare]') as HTMLElement;
-    const frame = compare.querySelector<HTMLElement>('[data-drag]') ?? compare;
+    const frame = compare.querySelector<HTMLElement>('[data-drag]') as HTMLElement;
     frame.getBoundingClientRect = () => ({ left: 100, width: 400 }) as DOMRect;
     fireEvent.pointerDown(frame, { clientX: 300, pointerId: 1 });
     expect(compare.style.getPropertyValue('--pos')).toBe('50%');
@@ -65,6 +65,7 @@ describe('REQ-PLAY-004 the home hero compares a shop page without and with SiteM
     const { container } = render(<HeroCompare t={en.t} />);
     expect(screen.getByText(en.t('websiteHeroBefore'))).toBeInTheDocument();
     expect(screen.getByText(en.t('websiteHeroAfter'))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(en.t('websiteHeroHint')))).toBeInTheDocument();
     for (const which of ['before', 'after']) {
       const drawing = container.querySelector(`[data-layer="${which}"]`);
       expect(drawing?.closest('[aria-hidden="true"]')).not.toBeNull();

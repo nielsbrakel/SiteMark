@@ -557,13 +557,13 @@
     "message": "with SiteMark",
     "description": "Hero: label above the right half of the before/after shop picture."
   },
+  "websiteHeroHint": {
+    "message": "Drag the line to compare",
+    "description": "Hero: hint under the before/after picture, after a two-way arrow."
+  },
   "websiteHeroSlider": {
     "message": "Compare the shop without and with SiteMark",
     "description": "Hero: accessible name of the slider that moves the divider between the unmarked and the marked shop."
-  },
-  "websiteHeroDrag": {
-    "message": "drag",
-    "description": "Hero: short hint on the slider handle. Keep it to one word."
   },
   "websiteHeroInbox": {
     "message": "Inbox",

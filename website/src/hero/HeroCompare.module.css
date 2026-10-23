@@ -30,6 +30,8 @@
 
   position: relative;
   min-inline-size: 0;
+  touch-action: pan-y; /* a sideways drag moves the divider, an up or down one still scrolls the page */
+  cursor: ew-resize;
 }
 
 .stack {
@@ -42,33 +44,50 @@
   clip-path: inset(0 0 0 var(--pos));
 }
 
-/* The divider line, with its grip low down, clear of the customer's buttons. */
+/* The divider line, with a round coral knob on it as the grip (hint below the picture). */
 .handle {
   position: absolute;
   inset-block: 0;
   inset-inline-start: var(--pos);
   display: grid;
-  align-content: end;
+  align-content: center;
   justify-items: center;
   inline-size: 3px;
   margin-inline-start: -1.5px;
-  padding-block-end: var(--sm-space-4);
   background: var(--sm-text);
   pointer-events: none;
 }
 
 .grip {
-  padding: 0 var(--sm-space-3);
-  border: 1.5px solid var(--sm-control-border);
+  display: grid;
+  place-items: center;
+  inline-size: 52px;
+  block-size: 52px;
+  border: 2px solid var(--sm-control-border);
   border-radius: var(--sm-radius-pill);
   background: var(--sm-accent);
-  box-shadow: var(--sm-lift-sm);
+  box-shadow: 0 2px 0 var(--sm-control-border);
   color: var(--sm-on-accent);
-  font-size: var(--sm-text-sm);
-  white-space: nowrap;
 }
 
-/* The slider covers the picture, invisible; the handle shows its focus ring. */
+.arrows {
+  inline-size: 26px;
+  block-size: 26px;
+  fill: none;
+  stroke: var(--sm-on-accent);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hint {
+  margin: var(--sm-space-3) 0 0;
+  color: var(--sm-text-muted);
+  font-size: var(--sm-text-sm);
+  line-height: 1.4;
+}
+
+/* The slider covers the picture, invisible, for the keyboard and screen readers; the frame takes the pointer and touch; the handle shows its focus ring. */
 .range {
   position: absolute;
   inset: 0;
@@ -76,7 +95,7 @@
   block-size: 100%;
   margin: 0;
   opacity: 0;
-  cursor: ew-resize;
+  pointer-events: none;
 }
 
 .compare:has(.range:focus-visible) .handle {
