@@ -114,7 +114,8 @@ function slowestRun(source: string): number {
 }
 
 describe('REQ-URL-004 an accepted regex stays fast on a hostile URL (D-211)', () => {
-  // The worst accepted shapes found by fuzzing take ≈ 10 ms on a laptop; rejected ones take seconds.
+  // The worst accepted shapes found by fuzzing take ≈ 10 ms on a laptop; rejected ones take seconds. The budget
+  // sits between the two, so a loaded CI runner (53 ms was seen) doesn't fail it.
   it.each([
     String.raw`\w*$`,
     String.raw`\d+/`,
@@ -124,9 +125,9 @@ describe('REQ-URL-004 an accepted regex stays fast on a hostile URL (D-211)', ()
     String.raw`^\d*\d*$`,
     String.raw`^https://[^/]+\.example\.com/[^?]*\?(.*&)?debug=1`,
     '(foo)?bar+',
-  ])('%j is accepted and runs in < 50 ms', (source) => {
+  ])('%j is accepted and runs in < 250 ms', (source) => {
     expect(validateRegex(source).ok).toBe(true);
-    expect(slowestRun(source)).toBeLessThan(50);
+    expect(slowestRun(source)).toBeLessThan(250);
   });
 
   // biome-ignore format: a table of regex pieces reads better packed
@@ -136,7 +137,7 @@ describe('REQ-URL-004 an accepted regex stays fast on a hostile URL (D-211)', ()
     String.raw`\b`, String.raw`\.`, '/', '(?:11)*', String.raw`\d{2,}`, '(?:x|$)',
   ];
 
-  it('random pieces: every accepted regex runs in < 50 ms', () => {
+  it('random pieces: every accepted regex runs in < 250 ms', () => {
     let seed = 42;
     const next = (n: number) => {
       seed = (seed * 1_103_515_245 + 12_345) % 2 ** 31; // a fixed LCG: the same regexes each run
@@ -148,6 +149,6 @@ describe('REQ-URL-004 an accepted regex stays fast on a hostile URL (D-211)', ()
       const source = (next(3) === 0 ? '^' : '') + pieces.join('');
       if (validateRegex(source).ok) slowest = Math.max(slowest, slowestRun(source));
     }
-    expect(slowest).toBeLessThan(50);
+    expect(slowest).toBeLessThan(250);
   });
 });
