@@ -1,4 +1,4 @@
-import { type ReactNode, useRef, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import type { SiteGroupId } from '@/core/ids';
 import type { SiteGroup } from '@/core/model/schema';
 import { t } from '@/lib/i18n/browser-source';
@@ -24,8 +24,10 @@ export type GroupListProps = {
  */
 export function GroupList({ groups, selectedId, notify }: GroupListProps): ReactNode {
   const focus = useMoveFocus(groups);
-  // Groups that are there on first sight don't animate; one added later drops in like a sticky note.
-  const firstSeen = useRef(new Set(groups.map((group) => group.id)));
+  // The groups there when the list first has any (the state loads after the page opens) don't animate;
+  // one added later drops in like a sticky note.
+  const [firstSeen, setFirstSeen] = useState<ReadonlySet<SiteGroupId>>();
+  if (!firstSeen && groups.length) setFirstSeen(new Set(groups.map((group) => group.id)));
   const [announcement, setAnnouncement] = useState('');
   const move = async (id: SiteGroupId, toIndex: number) => {
     const name = groups.find((group) => group.id === id)?.name ?? '';
@@ -43,7 +45,7 @@ export function GroupList({ groups, selectedId, notify }: GroupListProps): React
             key={group.id}
             group={group}
             isSelected={group.id === selectedId}
-            isNew={!firstSeen.current.has(group.id)}
+            isNew={firstSeen !== undefined && !firstSeen.has(group.id)}
             isFirst={index === 0}
             isLast={index === groups.length - 1}
             drag={dragProps(group, index)}

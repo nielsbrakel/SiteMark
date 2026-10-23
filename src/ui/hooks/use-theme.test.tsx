@@ -75,3 +75,20 @@ describe('REQ-THEME-001 pages follow the OS color scheme unless settings overrid
     expect(os.listeners.size).toBe(0);
   });
 });
+
+describe('REQ-THEME-001 only a switch of the setting cross-fades the page', () => {
+  afterEach(() => Reflect.deleteProperty(document, 'startViewTransition'));
+
+  it('fades when the setting changes, not at first paint', () => {
+    osPrefersDark(false);
+    const start = vi.fn((change: () => void) => change());
+    Object.assign(document, { startViewTransition: start });
+    const { rerender } = renderHook(({ theme }: { theme: Theme }) => useTheme(theme), {
+      initialProps: { theme: 'light' as Theme },
+    });
+    expect(start).not.toHaveBeenCalled();
+    rerender({ theme: 'dark' });
+    expect(start).toHaveBeenCalledOnce();
+    expect(htmlTheme()).toBe('dark');
+  });
+});
