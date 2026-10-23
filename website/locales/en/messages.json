@@ -243,13 +243,37 @@
     "message": "Your site groups live in the extension's local storage and are never synced to a cloud account.",
     "description": "One sentence on a privacy fact card on the home page."
   },
-  "websitePrivacyFactNoTrackingTitle": {
-    "message": "No analytics or requests",
-    "description": "Title of a privacy fact card on the home page."
+  "websitePrivacyNeverHeading": {
+    "message": "What SiteMark never has",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
   },
-  "websitePrivacyFactNoTrackingText": {
-    "message": "No accounts, trackers or servers of its own, and no remote code. The one exception is the favicon tint: off by default, and it only loads the icon of the site you are on.",
-    "description": "One sentence on a privacy fact card on the home page."
+  "websitePrivacyNeverAccounts": {
+    "message": "Accounts",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverTrackers": {
+    "message": "Trackers",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverAnalytics": {
+    "message": "Analytics",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverServers": {
+    "message": "Servers of its own",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverRemoteCode": {
+    "message": "Remote code",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverRequests": {
+    "message": "Network requests",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverException": {
+    "message": "One exception: the favicon tint. It is off by default, and it only loads the icon of the site you are on.",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
   },
   "websitePrivacyPermissionsHeading": {
     "message": "The permissions SiteMark uses",

@@ -243,13 +243,37 @@
     "message": "Je sitegroepen staan in de lokale opslag van de extensie en worden nooit gesynchroniseerd met een cloudaccount.",
     "description": "One sentence on a privacy fact card on the home page."
   },
-  "websitePrivacyFactNoTrackingTitle": {
-    "message": "Geen analytics of verzoeken",
-    "description": "Title of a privacy fact card on the home page."
+  "websitePrivacyNeverHeading": {
+    "message": "Wat SiteMark nooit heeft",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
   },
-  "websitePrivacyFactNoTrackingText": {
-    "message": "Geen accounts, trackers of eigen servers en geen code van buitenaf. De enige uitzondering is de favicon-tint: standaard uit, en alleen het icoon van de site waar je bent wordt geladen.",
-    "description": "One sentence on a privacy fact card on the home page."
+  "websitePrivacyNeverAccounts": {
+    "message": "Accounts",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverTrackers": {
+    "message": "Trackers",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverAnalytics": {
+    "message": "Analytics",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverServers": {
+    "message": "Eigen servers",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverRemoteCode": {
+    "message": "Externe code",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverRequests": {
+    "message": "Netwerkverzoeken",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
+  },
+  "websitePrivacyNeverException": {
+    "message": "Eén uitzondering: de favicon-tint. Die staat standaard uit en laadt alleen het pictogram van de site waar je op zit.",
+    "description": "Heading, list item or note on the \"never has\" sheet of the home page privacy section."
   },
   "websitePrivacyPermissionsHeading": {
     "message": "De rechten die SiteMark gebruikt",

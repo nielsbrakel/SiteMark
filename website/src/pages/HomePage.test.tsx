@@ -75,19 +75,39 @@ describe('REQ-PAGE-001 the home page explains SiteMark in one look', () => {
 
 describe('REQ-PAGE-001 the home page privacy section', () => {
   it.each([
-    ['index.html', ['Public source', 'Stays in your browser', 'No analytics or requests']],
-    ['nl/index.html', ['Openbare broncode', 'Blijft in je browser', 'Geen analytics of verzoeken']],
-  ])('%s states the facts and lists every permission', (file, facts) => {
-    showPage(pages, file);
-    const section = within(main()).getByRole('region', {
-      name: /Private by design|Privacy voorop/,
-    });
-    const titles = within(section).getAllByRole('heading', { level: 3 });
-    expect(titles.slice(0, facts.length).map((title) => title.textContent)).toEqual(facts);
-    const permissions = [...section.querySelectorAll('dt code')].map((code) => code.textContent);
-    expect(permissions).toEqual(['storage', 'scripting', 'activeTab', '*://*/*']);
-    expect(section.querySelectorAll('dt > span')).toHaveLength(permissions.length);
-  });
+    [
+      'index.html',
+      [
+        'What SiteMark never has',
+        'The permissions SiteMark uses',
+        'Public source',
+        'Stays in your browser',
+      ],
+    ],
+    [
+      'nl/index.html',
+      [
+        'Wat SiteMark nooit heeft',
+        'De rechten die SiteMark gebruikt',
+        'Openbare broncode',
+        'Blijft in je browser',
+      ],
+    ],
+  ])(
+    '%s says what it never has, lists every permission and makes two promises',
+    (file, headings) => {
+      showPage(pages, file);
+      const section = within(main()).getByRole('region', {
+        name: /Private by design|Privacy voorop/,
+      });
+      const titles = within(section).getAllByRole('heading', { level: 3 });
+      expect(titles.map((title) => title.textContent)).toEqual(headings);
+      expect(section.querySelectorAll('li')).toHaveLength(8);
+      const permissions = [...section.querySelectorAll('dt code')].map((code) => code.textContent);
+      expect(permissions).toEqual(['storage', 'scripting', 'activeTab', '*://*/*']);
+      expect(section.querySelectorAll('dt > span')).toHaveLength(permissions.length);
+    },
+  );
 });
 
 describe('REQ-PAGE-002 install buttons never link to a store that has no listing yet', () => {

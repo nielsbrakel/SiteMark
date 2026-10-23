@@ -1,0 +1,179 @@
+/* The privacy section: two straight taped sheets of equal height (what SiteMark never has, and the permissions it
+   asks for), then two promises. Rows are separated by the same wavy line as the footer, never by straight dashes. */
+.privacy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: var(--sm-space-6);
+  margin-top: calc(var(--smw-rule) * 1.5);
+}
+
+.sheet {
+  position: relative;
+  padding: var(--sm-space-5);
+  background: var(--sm-panel);
+  line-height: var(--smw-card-line);
+}
+
+.never {
+  --tape: var(--sm-tape-4);
+}
+
+.permissions {
+  --tape: var(--sm-tape-3);
+}
+
+.sheet h3 {
+  margin: 0 0 var(--sm-space-3);
+  font-size: var(--smw-text-xl);
+}
+
+.never ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Crossed out in the accent color, but still the muted text color so it stays readable in both themes. */
+.never li {
+  padding-block: var(--sm-space-1);
+  color: var(--sm-text-muted);
+  font-family: var(--sm-font-display);
+  font-size: var(--smw-text-xl);
+  text-decoration: line-through var(--sm-accent) 3px;
+}
+
+.never p {
+  position: relative;
+  margin: var(--sm-space-4) 0 0;
+  padding-top: var(--sm-space-4);
+}
+
+.permissions dl {
+  margin: 0;
+}
+
+.permissions dl > div {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--sm-space-4);
+  padding-block: var(--sm-space-4) var(--sm-space-3);
+}
+
+.permissions dl > div:first-child {
+  padding-top: 0;
+}
+
+.never p::before,
+.permissions dl > div + div::before,
+.privacy + .promises::before {
+  position: absolute;
+  inset: 0 0 auto;
+  block-size: 6px;
+  background: var(--sm-text-muted);
+  mask: url('../components/wave.svg') repeat-x center / 16px 6px;
+  content: '';
+}
+
+.permDisc {
+  composes: disc from './HomePage.module.css';
+  grid-row: span 2;
+}
+
+.permissions dl > div:nth-child(2) .permDisc {
+  background: var(--sm-tape-2);
+}
+
+.permissions dl > div:nth-child(3) .permDisc {
+  background: var(--sm-tape-3);
+}
+
+.permissions dl > div:nth-child(4) .permDisc {
+  background: var(--sm-tape-4);
+}
+
+.permissions dt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sm-space-2);
+  font-family: var(--sm-font-display);
+  font-size: var(--smw-text-xl);
+  line-height: 1.1;
+}
+
+/* The name sits on a strip of tape, with ink that stays dark on it in the dark theme too. */
+.permissions code {
+  padding-inline: var(--sm-space-1);
+  background: var(--sm-tape-3);
+  color: var(--sm-on-tape);
+  font: inherit;
+}
+
+.when {
+  padding-inline: var(--sm-space-2);
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  color: var(--sm-text-muted);
+  font-family: var(--sm-font);
+  font-size: var(--sm-text-sm);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.permissions dd {
+  margin: 0;
+}
+
+.privacy + .promises {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sm-space-4) var(--sm-space-6);
+  margin: calc(var(--smw-rule) * 1.5) 0 0;
+  padding: var(--sm-space-4) 0 0;
+  line-height: var(--smw-card-line);
+  list-style: none;
+}
+
+.promises li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sm-space-1) var(--sm-space-3);
+}
+
+.promises h3 {
+  margin: 0;
+  font-size: var(--smw-text-xl);
+}
+
+.promises p {
+  grid-column: 2;
+  margin: 0;
+}
+
+.tick {
+  display: grid;
+  place-items: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-tape-3);
+}
+
+.tick svg {
+  fill: none;
+  stroke: var(--sm-on-tape);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (width <= 760px) {
+  .privacy,
+  .privacy + .promises {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
