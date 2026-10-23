@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useSyncExternalStore } from 'react';
+import { useCallback, useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 import type { Theme } from '../../core/model/schema';
 import { withThemeFade } from '../../shared/with-theme-fade';
 
@@ -34,11 +34,14 @@ export function useTheme(
   const isFollowingOs = theme === undefined || theme === 'system';
   const osPrefersDark = useOsPrefersDark(isFollowingOs);
   const resolved: ResolvedTheme = isFollowingOs ? (osPrefersDark ? 'dark' : 'light') : theme;
+  const previous = useRef<Theme>(undefined);
   useLayoutEffect(() => {
     const set = () => root.setAttribute('data-theme', resolved);
-    // The first paint takes the theme at once; only a switch fades.
-    if (root.hasAttribute('data-theme')) withThemeFade(set);
+    // Only the person switching the setting fades; first paint, loading and the OS flipping take it at once.
+    const isSwitch = previous.current !== undefined && previous.current !== theme;
+    previous.current = theme;
+    if (isSwitch) withThemeFade(set);
     else set();
-  }, [root, resolved]);
+  }, [root, resolved, theme]);
   return resolved;
 }
