@@ -27,6 +27,22 @@ describe('REQ-PLAY-004 the home hero compares a shop page without and with SiteM
     expect(compare.style.getPropertyValue('--pos')).toBe('60%');
   });
 
+  it('moves the divider by dragging the picture, so touch screens work too', () => {
+    const { container } = render(<HeroCompare t={en.t} />);
+    const compare = container.querySelector<HTMLElement>('[data-compare]') as HTMLElement;
+    const frame = compare.querySelector<HTMLElement>('[data-drag]') ?? compare;
+    frame.getBoundingClientRect = () => ({ left: 100, width: 400 }) as DOMRect;
+    fireEvent.pointerDown(frame, { clientX: 300, pointerId: 1 });
+    expect(compare.style.getPropertyValue('--pos')).toBe('50%');
+    fireEvent.pointerMove(frame, { clientX: 400, pointerId: 1 });
+    expect(compare.style.getPropertyValue('--pos')).toBe('75%');
+    fireEvent.pointerUp(frame, { pointerId: 1 });
+    fireEvent.pointerMove(frame, { clientX: 120, pointerId: 1 });
+    expect(compare.style.getPropertyValue('--pos')).toBe('75%');
+    fireEvent.pointerDown(frame, { clientX: 100, pointerId: 1 });
+    expect(compare.style.getPropertyValue('--pos')).toBe('8%');
+  });
+
   it('draws the page twice and marks only the second: banner, ribbon, tab and button', () => {
     const { container } = render(<HeroCompare t={en.t} />);
     const before = layer(container, 'before');
