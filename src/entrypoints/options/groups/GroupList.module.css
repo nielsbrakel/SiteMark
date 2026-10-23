@@ -13,6 +13,19 @@
   min-width: 0;
 }
 
+/* A group added after the page opened drops in and settles. */
+.row[data-new] {
+  transform-origin: top left;
+  animation: drop-in calc(var(--sm-duration) * 3) var(--sm-spring);
+}
+
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) rotate(-3deg);
+  }
+}
+
 .link {
   flex: 1;
   min-width: 0;

@@ -23,7 +23,7 @@
   color: var(--sm-text);
   box-shadow: var(--sm-lift);
   pointer-events: auto;
-  animation: rise var(--sm-duration) var(--sm-ease);
+  animation: rise calc(var(--sm-duration) * 2) var(--sm-spring);
 }
 
 .text {
@@ -34,7 +34,7 @@
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(8px) rotate(var(--sm-tilt));
   }
 }
 

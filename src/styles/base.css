@@ -154,7 +154,25 @@ pre code {
   box-shadow: 0 1px 2px var(--sm-shade);
   opacity: 0.92;
   transform: rotate(-3deg);
+  transform-origin: left center;
   pointer-events: none;
+  animation: sm-tape-on calc(var(--sm-duration) * 3) var(--sm-duration) var(--sm-ease) backwards;
+}
+
+/* The strip is pulled across, stretches a little and settles flat. */
+@keyframes sm-tape-on {
+  0% {
+    transform: rotate(-3deg) scaleX(0);
+  }
+
+  60% {
+    transform: rotate(-3deg) scaleX(1.15);
+  }
+}
+
+/* A theme switch cross-fades the whole page (see with-theme-fade.ts). */
+::view-transition-group(root) {
+  animation-duration: calc(var(--sm-duration) * 2.5);
 }
 
 .sm-visually-hidden {

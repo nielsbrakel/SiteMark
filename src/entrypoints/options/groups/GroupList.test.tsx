@@ -46,6 +46,16 @@ describe('REQ-GRP-001 add a site group at the bottom of the list', () => {
     expect(byLabel('New site group', sidebar())).toHaveValue('');
   });
 
+  it('drops the new group in, while the groups already there stay still', async () => {
+    await openAt('#/');
+    type(byLabel('New site group', sidebar()), 'Local');
+    fireEvent.click(addButton());
+    await waitFor(() => expect(groupNames()).toEqual(['Production', 'Staging', 'Local']));
+    const row = (name: string) => byRole('link', { name }, sidebar()).closest('li');
+    expect(row('Local')).toHaveAttribute('data-new');
+    expect(row('Production')).not.toHaveAttribute('data-new');
+  });
+
   it('shows why a name is refused, next to the field', async () => {
     await openAt('#/');
     type(byLabel('New site group', sidebar()), '   ');

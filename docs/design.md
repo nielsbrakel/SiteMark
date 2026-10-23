@@ -250,6 +250,18 @@ Ribbons and banners fade to 15 % when the pointer is within 24 px (REQ-RND-013).
 The default is 160 ms `cubic-bezier(.2,.8,.2,1)` for press, hover and tilt. Toasts and drawers slide 8 px and fade in. The proximity fade takes 120 ms.
 Everything becomes 0 ms under `prefers-reduced-motion`.
 
+Micro-animations (D-298) play once, never loop, use only `transform`, `opacity` and `clip-path`, and take their time from `--sm-duration`, so reduced motion makes them instant. `--sm-spring` is the one overshoot easing.
+
+| Where                   | Motion                                                                                                                                                                                                               |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tape (`.sm-tape`)       | Pulled across from the left, stretches 15 %, settles flat (480 ms) on every page load                                                                                                                                |
+| Header and footer links | The wavy line is a tiled wave mask revealed left to right on hover, focus and the current page; forced colors keep the text decoration                                                                               |
+| Switch                  | The knob springs to its side and stretches while pressed                                                                                                                                                             |
+| Toast                   | Rises from a tilt and settles                                                                                                                                                                                        |
+| New site group row      | Drops in like a sticky note; groups present on first sight stay still                                                                                                                                                |
+| Theme switch            | The page cross-fades through a view transition (`withThemeFade`); no fade without view transitions                                                                                                                   |
+| Wordmark (website)      | Window pops in, the coral ribbon slides across it, the dot pops, then "Site" and "Mark" slide in (about 1 s). The animation lives in the SVG, with its own reduced-motion rule. The extension's wordmarks stay still |
+
 ## 8. Theming
 
 `tokens.css` puts the light values on `:root`, the dark values under `prefers-color-scheme: dark` (unless
