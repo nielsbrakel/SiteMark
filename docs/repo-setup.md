@@ -26,17 +26,17 @@ pnpm exec playwright install chromium   # once, for e2e / browser-mode tests
 
 ## 3. Repository settings
 
-| Setting             | Value                                                                                                                                                             |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Default branch      | `main`                                                                                                                                                            |
-| Merge button        | **Rebase merging only** (D-209). Squash and merge commits disabled. Auto-delete head branches                                                                     |
-| Ruleset `main`      | Require a PR and a review from Code Owners. Required status check **`ci-ok`** (the aggregate job, T-022). Require linear history. Block force pushes and deletion |
-| Ruleset `v*` tags   | Only admins can create them (they trigger `release.yml`)                                                                                                          |
-| Actions → General   | Workflow permissions: read-only. Allow GitHub Actions to create PRs: off. Require approval for **all outside collaborators**                                      |
-| Pages               | Settings → Pages → Source: **GitHub Actions** (`pages.yml`, D-252). Environment `github-pages`: deployment branch `main` only                                     |
-| Environment `store` | Required reviewer: repository owner. Deployment branches/tags: `v*` only. Holds the store secrets (section 7)                                                     |
-| Code security       | Dependabot alerts + security updates on. Secret scanning + push protection on. Private vulnerability reporting on (SECURITY.md)                                   |
-| Optional            | CodeQL (JavaScript/TypeScript) default setup; OpenSSF Scorecard action                                                                                            |
+| Setting             | Value                                                                                                                                                                                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Default branch      | `main`                                                                                                                                                                                                                                            |
+| Merge button        | **Rebase merging only** (D-209). Squash and merge commits disabled. Auto-delete head branches                                                                                                                                                     |
+| Ruleset `main`      | Require a PR and a review from Code Owners. Required status checks **`ci-ok`** (the aggregate job, T-022) and **`security-ok`** (aggregate of `security.yml`, docs/security-scanning.md). Require linear history. Block force pushes and deletion |
+| Ruleset `v*` tags   | Only admins can create them (they trigger `release.yml`)                                                                                                                                                                                          |
+| Actions → General   | Workflow permissions: read-only. Allow GitHub Actions to create PRs: off. Require approval for **all outside collaborators**                                                                                                                      |
+| Pages               | Settings → Pages → Source: **GitHub Actions** (`pages.yml`, D-252). Environment `github-pages`: deployment branch `main` only                                                                                                                     |
+| Environment `store` | Required reviewer: repository owner. Deployment branches/tags: `v*` only. Holds the store secrets (section 7)                                                                                                                                     |
+| Code security       | Dependabot alerts + security updates on. Secret scanning + push protection on. Private vulnerability reporting on (SECURITY.md)                                                                                                                   |
+| Optional            | CodeQL (JavaScript/TypeScript) default setup; OpenSSF Scorecard action                                                                                                                                                                            |
 
 ## 3a. CI and supply-chain policy (REQ-SEC-009)
 
@@ -45,7 +45,7 @@ pnpm exec playwright install chromium   # once, for e2e / browser-mode tests
 
 - **Workflows:** actions pinned by commit SHA (with a `# vX.Y.Z` comment) and images by digest, `permissions: {}` at
   the top and minimal per job, `persist-credentials: false`, a `timeout-minutes` on every job. The shared setup lives
-  in `.github/actions/setup`. **`ci-ok`** needs every other job and is the only required check.
+  in `.github/actions/setup`. **`ci-ok`** needs every other job and is a required check, next to **`security-ok`**.
 - **Playwright:** `@playwright/test` is pinned exactly and CI runs browsers in `mcr.microsoft.com/playwright` with the
   same version. Bump both together (Dependabot keeps it out of the dev-dependency group).
 - **Dependencies:** `pnpm-workspace.yaml` sets `strictDepBuilds` (no install scripts unless listed in

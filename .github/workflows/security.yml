@@ -1,9 +1,8 @@
 name: Security
 
-# SAST (CodeQL), DAST (OWASP ZAP baseline against the built website and extension pages) and the
-# OpenSSF Scorecard. Plan and rationale: docs/security-scanning.md. Separate from ci.yml, so it is
-# not part of ci-ok yet: findings go to the Security tab, nothing blocks a merge until the first
-# results are triaged.
+# SAST (CodeQL), secrets (gitleaks), DAST (OWASP ZAP baseline against the built website and extension
+# pages) and the OpenSSF Scorecard. Plan and rationale: docs/security-scanning.md. `security-ok`
+# aggregates every job and is a required status check next to `ci-ok` (docs/repo-setup.md).
 on:
   push:
     branches: [main]
@@ -82,14 +81,15 @@ jobs:
         env:
           DIR: ${{ matrix.dir }}
           TARGET_PATH: ${{ matrix.path }}
-      # -I: report findings as a summary and in the artifact, without failing the job (warnings
-      # only until the rules in .zap/rules.tsv are tuned).
+      # Exit code 1 = a FAIL-level alert (fails the job), 2 = warnings only (reported in the
+      # artifact, accepted), 3 = ZAP itself failed. Tune levels in .zap/rules.tsv.
       - name: ZAP baseline scan
         run: |
           mkdir -p zap-report && cp .zap/rules.tsv zap-report/ && chmod -R 777 zap-report
           docker run --rm --network host -v "$PWD/zap-report:/zap/wrk:rw" \
             ghcr.io/zaproxy/zaproxy@sha256:5ccfff9a411743ab2615136a2edd7416bec9ce41572fa94e935df38c14adb2b6 \
-            zap-baseline.py -I -t "http://127.0.0.1:8080/$TARGET_PATH" -c rules.tsv -r report.html -J report.json
+            zap-baseline.py -t "http://127.0.0.1:8080/$TARGET_PATH" -c rules.tsv -r report.html -J report.json || code=$?
+          [ "${code:-0}" -le 2 ] || exit "$code"
         env:
           TARGET_PATH: ${{ matrix.path }}
       - if: ${{ !cancelled() }}
@@ -142,3 +142,17 @@ jobs:
         with:
           sarif_file: results.sarif
           category: scorecard
+
+  # A required status check (docs/repo-setup.md). Add every new job to `needs`.
+  security-ok:
+    name: security-ok
+    if: always()
+    needs: [codeql, zap, gitleaks, scorecard]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Fail unless every job succeeded or was skipped
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
+      - run: echo "All security jobs passed."

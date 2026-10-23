@@ -5,17 +5,17 @@
 
 ## Layers
 
-| Layer                    | What                                                    | Where                                       | Runs              | Blocks merge?            |
-| ------------------------ | ------------------------------------------------------- | ------------------------------------------- | ----------------- | ------------------------ |
-| SAST                     | CodeQL `security-extended` for TypeScript and workflows | `security.yml#codeql`                       | PR, main, weekly  | Not yet                  |
-| Workflow lint            | actionlint, zizmor, pinning policy test                 | `ci.yml#workflow-lint`, `ci-policy.test.ts` | PR                | Yes                      |
-| SCA                      | `pnpm audit`, dependency review, Dependabot             | `ci.yml`, `nightly.yml`                     | PR, nightly       | Yes                      |
-| DAST, website            | OWASP ZAP baseline against the built site               | `security.yml#zap (website)`                | PR, main, weekly  | No (report)              |
-| DAST, extension pages    | ZAP baseline against the static popup and options pages | `security.yml#zap (extension)`              | PR, main, weekly  | No (report)              |
-| DAST, extension, runtime | A hostile page attacks the loaded extension in Chromium | `tests/e2e/attack-surface.spec.ts`          | PR (`ci.yml#e2e`) | Yes                      |
-| DAST, extension, network | Every e2e test aborts requests to unknown hosts         | `tests/e2e/fixtures.ts` (REQ-PRIV-005)      | PR (`ci.yml#e2e`) | Yes                      |
-| Secrets                  | gitleaks over the full git history                      | `security.yml#gitleaks`                     | PR, main, weekly  | No (job fails on a leak) |
-| Supply-chain score       | OpenSSF Scorecard                                       | `security.yml#scorecard`                    | main, weekly      | No                       |
+| Layer                    | What                                                    | Where                                       | Runs              | Blocks merge?       |
+| ------------------------ | ------------------------------------------------------- | ------------------------------------------- | ----------------- | ------------------- |
+| SAST                     | CodeQL `security-extended` for TypeScript and workflows | `security.yml#codeql`                       | PR, main, weekly  | Yes (`security-ok`) |
+| Workflow lint            | actionlint, zizmor, pinning policy test                 | `ci.yml#workflow-lint`, `ci-policy.test.ts` | PR                | Yes                 |
+| SCA                      | `pnpm audit`, dependency review, Dependabot             | `ci.yml`, `nightly.yml`                     | PR, nightly       | Yes                 |
+| DAST, website            | OWASP ZAP baseline against the built site               | `security.yml#zap (website)`                | PR, main, weekly  | Yes (`security-ok`) |
+| DAST, extension pages    | ZAP baseline against the static popup and options pages | `security.yml#zap (extension)`              | PR, main, weekly  | Yes (`security-ok`) |
+| DAST, extension, runtime | A hostile page attacks the loaded extension in Chromium | `tests/e2e/attack-surface.spec.ts`          | PR (`ci.yml#e2e`) | Yes                 |
+| DAST, extension, network | Every e2e test aborts requests to unknown hosts         | `tests/e2e/fixtures.ts` (REQ-PRIV-005)      | PR (`ci.yml#e2e`) | Yes                 |
+| Secrets                  | gitleaks over the full git history                      | `security.yml#gitleaks`                     | PR, main, weekly  | Yes (`security-ok`) |
+| Supply-chain score       | OpenSSF Scorecard                                       | `security.yml#scorecard`                    | main, weekly      | No                  |
 
 ## Why the extension needs its own DAST
 
@@ -30,13 +30,14 @@ between a hostile web page and the running extension, so that is tested in a bro
 - existing probes: hostile removal and `hidePopover` loops (REQ-SEC-006), strict CSP and Trusted
   Types pages (REQ-SEC-007), and the network guard (REQ-PRIV-005).
 
-## Rollout
+## Gating
 
-1. **Report only** (this PR): everything runs and uploads results (Security tab for CodeQL and
-   Scorecard, a `zap-*` artifact for ZAP). The attack-surface spec blocks, as it is a normal e2e test.
-2. **Triage** the first reports. Tune `.zap/rules.tsv` (each ignore needs a reason) and dismiss
-   false positives in the Security tab.
-3. **Gate**: make `codeql` a required check, and drop `-I` from the ZAP step so warnings fail.
+`security-ok` (in `security.yml`) needs every other security job and is a required status check
+next to `ci-ok`, so a CodeQL or gitleaks failure, or a FAIL-level ZAP alert, blocks the merge. Scorecard
+is skipped on pull requests, which `security-ok` accepts. ZAP warnings (exit code 2) are reported in
+the `zap-*` artifact but do not fail the job; raise a rule to FAIL in `.zap/rules.tsv` to enforce it.
+A CodeQL alert fails its job only through the Security tab ruleset ("Require code scanning results"),
+so turn that on as well (docs/repo-setup.md).
 
 ## Known limits
 
