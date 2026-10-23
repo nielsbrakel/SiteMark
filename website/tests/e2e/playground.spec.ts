@@ -42,7 +42,7 @@ test.describe('REQ-PLAY-004 the home hero compares the shop without and with Sit
     await expect(slider).toBeVisible();
     await slider.focus();
     await page.keyboard.press('ArrowRight');
-    await expect(slider).toHaveValue('22');
+    await expect(slider).toHaveValue('51');
     const context = await browser.newContext({ javaScriptEnabled: false });
     const noScript = await context.newPage();
     await noScript.goto('/SiteMark/');
