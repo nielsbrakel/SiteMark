@@ -28,20 +28,24 @@ export function ContactBlock({ t }: Pick<PageProps, 't'>) {
           </li>
         ))}
       </ul>
-      <Callout title={t('websiteSupportCalloutTitle')}>
-        <p>{t('websiteSupportCalloutText')}</p>
-        <p>
-          <ExternalLink className={`sm-link-quiet ${styles.link}`} href={urls.securityPolicy}>
-            {t('websiteSupportSecurityPolicyLink')}
-          </ExternalLink>
-        </p>
-      </Callout>
-      <h3>{t('websiteBugReportHeading')}</h3>
-      <ul>
-        {BUG_REPORT_ITEMS.map((item) => (
-          <li key={item}>{t(item)}</li>
-        ))}
-      </ul>
+      <div className={styles.help}>
+        <Callout title={t('websiteSupportCalloutTitle')}>
+          <p>{t('websiteSupportCalloutText')}</p>
+          <p>
+            <ExternalLink className={`sm-link-quiet ${styles.link}`} href={urls.securityPolicy}>
+              {t('websiteSupportSecurityPolicyLink')}
+            </ExternalLink>
+          </p>
+        </Callout>
+        <div>
+          <h3>{t('websiteBugReportHeading')}</h3>
+          <ul>
+            {BUG_REPORT_ITEMS.map((item) => (
+              <li key={item}>{t(item)}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </section>
   );
 }
