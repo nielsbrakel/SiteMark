@@ -83,7 +83,7 @@ const dutch = [
   ['Never confuse', 'Verwar productie'],
   ['production with test.', 'nooit met test.'],
   ['PRODUCTION · BE CAREFUL', 'PRODUCTIE · PAS OP'],
-  ['Private by design. Nothing leaves your browser.', 'Privé ontworpen. Niets verlaat je browser.'],
+  ['Private by design. Collects no data.', 'Privé ontworpen. Verzamelt geen gegevens.'],
 ];
 const tiles = [
   { name: 'promo-tile', file: 'promo-small-440x280', width: 440, height: 280 },

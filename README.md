@@ -78,21 +78,22 @@ Read the full [privacy policy](PRIVACY.md) ([Nederlands](PRIVACY.nl.md)).
 For users: the **[SiteMark website](https://nielsbrakel.github.io/SiteMark/)** explains the extension, and it
 publishes the [privacy policy](PRIVACY.md) and the support routes.
 
-| Doc                                            | What                                                      |
-| ---------------------------------------------- | --------------------------------------------------------- |
-| [docs/spec.md](docs/spec.md)                   | Product specification with requirement IDs                |
-| [docs/plan.md](docs/plan.md)                   | Architecture, test strategy, milestones                   |
-| [docs/tasks.md](docs/tasks.md)                 | TDD task list: the progress tracker                       |
-| [docs/archive/tasks.md](docs/archive/tasks.md) | The finished milestones M0–M6 of the task list            |
-| [docs/design.md](docs/design.md)               | Design system, screens, marker specs, logo                |
-| [docs/decisions.md](docs/decisions.md)         | Decision log                                              |
-| [docs/testing.md](docs/testing.md)             | How to test, the TDD protocol, manual smoke checklist     |
-| [docs/conventions.md](docs/conventions.md)     | Code conventions and layering rules                       |
-| [docs/repo-setup.md](docs/repo-setup.md)       | GitHub repository setup and store publishing              |
-| [docs/release.md](docs/release.md)             | Releasing: checklist, release notes template, rollback    |
-| [docs/reviews/](docs/reviews/)                 | Specialist plan reviews and what happened to each finding |
-| [docs/website/](docs/website/spec.md)          | The website: spec, plan, design and tasks                 |
-| [store/listing.md](store/listing.md)           | Store listing texts, URLs and images (version controlled) |
+| Doc                                                    | What                                                         |
+| ------------------------------------------------------ | ------------------------------------------------------------ |
+| [docs/spec.md](docs/spec.md)                           | Product specification with requirement IDs                   |
+| [docs/plan.md](docs/plan.md)                           | Architecture, test strategy, milestones                      |
+| [docs/tasks.md](docs/tasks.md)                         | TDD task list: the progress tracker                          |
+| [docs/archive/tasks.md](docs/archive/tasks.md)         | The finished milestones M0–M6 of the task list               |
+| [docs/design.md](docs/design.md)                       | Design system, screens, marker specs, logo                   |
+| [docs/decisions.md](docs/decisions.md)                 | Decision log                                                 |
+| [docs/testing.md](docs/testing.md)                     | How to test, the TDD protocol, manual smoke checklist        |
+| [docs/conventions.md](docs/conventions.md)             | Code conventions and layering rules                          |
+| [docs/repo-setup.md](docs/repo-setup.md)               | GitHub repository setup and store publishing                 |
+| [docs/security-scanning.md](docs/security-scanning.md) | CodeQL, OWASP ZAP, Scorecard and gitleaks: what runs and why |
+| [docs/release.md](docs/release.md)                     | Releasing: checklist, release notes template, rollback       |
+| [docs/reviews/](docs/reviews/)                         | Specialist plan reviews and what happened to each finding    |
+| [docs/website/](docs/website/spec.md)                  | The website: spec, plan, design and tasks                    |
+| [store/listing.md](store/listing.md)                   | Store listing texts, URLs and images (version controlled)    |
 
 ## Contributing
 
@@ -122,5 +123,3 @@ threat model: SiteMark prevents _accidental_ confusion and is not a security con
 ## License
 
 All rights reserved, see [LICENSE](LICENSE). The code is public to read, not to copy or resell. Name and logo: [TRADEMARKS.md](TRADEMARKS.md).
-
-CI runs on every pull request; see `.github/workflows/ci.yml`.
