@@ -13,7 +13,7 @@ function parsed(pattern: string): ParsedWildcard {
 
 function url(text: string): UrlParts {
   const parts = parseUrl(text);
-  expect(parts, text).toBeDefined();
+  expect(parts, text).not.toBeUndefined();
   return parts as UrlParts;
 }
 

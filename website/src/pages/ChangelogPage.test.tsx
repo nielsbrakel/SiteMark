@@ -46,7 +46,7 @@ describe('REQ-PAGE-005 the changelog page renders CHANGELOG.md', () => {
       '0.9.0',
     ]);
     expect(screen.queryByRole('heading', { name: 'sitemark' })).toBeNull();
-    expect(screen.getByText(/The first release for Chrome/)).toBeTruthy();
+    expect(screen.getByText(/The first release for Chrome/)).toBeInTheDocument();
   });
 
   it.each([

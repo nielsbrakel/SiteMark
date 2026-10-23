@@ -234,7 +234,7 @@ describe('REQ-PLAY-004 the home hero compares the shop without and with SiteMark
   ])('%s: the hero island has the slider and links the playground', (file, slider, link) => {
     showPage(pages, file);
     const island = hero()?.querySelector<HTMLElement>('[data-island="heroCompare"]');
-    expect(island).toBeTruthy();
+    expect(island).not.toBeNull();
     const inside = within(island ?? document.body);
     expect(inside.getByRole('slider').getAttribute('aria-label')).toBe(slider);
     expect(inside.queryAllByRole('radio')).toEqual([]);

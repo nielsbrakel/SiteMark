@@ -32,23 +32,23 @@ describe('REQ-PLAY-004 the home hero compares a shop page without and with SiteM
     const before = layer(container, 'before');
     const after = layer(container, 'after');
     for (const text of ['Delete customer', 'Mara Jansen']) {
-      expect(before.getByText(text)).toBeTruthy();
-      expect(after.getByText(text)).toBeTruthy();
+      expect(before.getByText(text)).toBeInTheDocument();
+      expect(after.getByText(text)).toBeInTheDocument();
     }
-    expect(after.getByText(en.t('websiteAtWorkMarkProduction'))).toBeTruthy();
-    expect(after.getByText(en.t('websiteAtWorkMarkProd'))).toBeTruthy();
-    expect(after.getByText(/^\[PROD\] Customers/)).toBeTruthy();
+    expect(after.getByText(en.t('websiteAtWorkMarkProduction'))).toBeInTheDocument();
+    expect(after.getByText(en.t('websiteAtWorkMarkProd'))).toBeInTheDocument();
+    expect(after.getByText(/^\[PROD\] Customers/)).toBeInTheDocument();
     expect(after.getByText('Delete customer').getAttribute('data-marked')).toBe('true');
     expect(before.queryByText(en.t('websiteAtWorkMarkProduction'))).toBeNull();
     expect(before.queryByText(/PROD/)).toBeNull();
     expect(before.getByText('Delete customer').getAttribute('data-marked')).toBeNull();
-    expect(before.getByText(/^Customers · Leaf & Lamp/)).toBeTruthy();
+    expect(before.getByText(/^Customers · Leaf & Lamp/)).toBeInTheDocument();
   });
 
   it('labels both sides, hides the drawings from assistive technology and passes axe', async () => {
     const { container } = render(<HeroCompare t={en.t} />);
-    expect(screen.getByText(en.t('websiteHeroBefore'))).toBeTruthy();
-    expect(screen.getByText(en.t('websiteHeroAfter'))).toBeTruthy();
+    expect(screen.getByText(en.t('websiteHeroBefore'))).toBeInTheDocument();
+    expect(screen.getByText(en.t('websiteHeroAfter'))).toBeInTheDocument();
     for (const which of ['before', 'after']) {
       const drawing = container.querySelector(`[data-layer="${which}"]`);
       expect(drawing?.closest('[aria-hidden="true"]')).not.toBeNull();

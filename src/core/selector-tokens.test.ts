@@ -27,6 +27,11 @@ describe('REQ-PICK-004 stable tokens: hand-written names are kept', () => {
     'facade',
     'submit',
     'data-table',
+    'a1b2',
+    'kHqF',
+    'kHqFyXzAb',
+    'facade1',
+    'Button_root__abcde',
   ])('%s is stable', (token) => {
     expect(isStableToken(token)).toBe(true);
   });
@@ -52,6 +57,9 @@ describe('REQ-PICK-004 stable tokens: generated names are skipped', () => {
     ['ember1234', 'long digit run'],
     ['row-20240925', 'long digit run in a segment'],
     ['a1b2c3', 'alternating letters and digits'],
+    ['a1b2c', 'shortest alternating segment'],
+    ['kHqFyXzA', 'longest random-case segment'],
+    ['facade12', 'hex run with two digits'],
   ])('%s is generated (%s)', (token) => {
     expect(isStableToken(token)).toBe(false);
   });
