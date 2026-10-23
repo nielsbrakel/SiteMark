@@ -1,0 +1,8 @@
+# Tests build regexes and strings from fixed literals to check the code under test. They never ship
+# in the extension or the website, so CodeQL's regex and escaping rules only produce noise there.
+paths-ignore:
+  - '**/*.test.ts'
+  - '**/*.test.tsx'
+  - '**/*.spec.ts'
+  - tests/**
+  - website/tests/**
