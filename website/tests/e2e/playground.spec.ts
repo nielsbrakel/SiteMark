@@ -49,4 +49,15 @@ test.describe('REQ-PLAY-004 the home hero compares the shop without and with Sit
     await expect(noScript.getByText('with SiteMark')).toBeVisible();
     await context.close();
   });
+
+  test('centres the round grip on the divider line', { tag: '@REQ-PLAY-004' }, async ({ page }) => {
+    await page.goto('/SiteMark/');
+    const grip = page.locator('[data-compare] svg');
+    const line = grip.locator('xpath=../..');
+    await expect(grip).toBeVisible();
+    const [gripBox, lineBox] = await Promise.all([grip.boundingBox(), line.boundingBox()]);
+    const center = (box: { x: number; width: number } | null) =>
+      (box?.x ?? 0) + (box?.width ?? 0) / 2;
+    expect(Math.abs(center(gripBox) - center(lineBox))).toBeLessThan(1);
+  });
 });
