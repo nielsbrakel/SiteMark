@@ -11,6 +11,7 @@ import { screenshotFile } from '../src/content/screenshots';
 import { type Locale, websiteLocales } from '../src/i18n/locales';
 import {
   type Env,
+  ORIGIN,
   openPage,
   popupOverPage,
   popupPanel,
@@ -148,11 +149,11 @@ for (const locale of websiteLocales()) {
         out('2-production-vs-test.png'),
       );
       await framed(board, captions.picker, single(await pickerShot(env)), out('3-picker.png'));
-      const panel = await popupPanel(env, `${TEST_ORIGIN}/?theme=light`);
+      const panel = await popupPanel(env, `${ORIGIN}/?theme=light`);
       await framed(
         board,
         captions.popup,
-        single(await popupOverPage(env, unmarked, panel)),
+        single(await popupOverPage(env, production, panel)),
         out('4-popup.png'),
       );
       await framed(
