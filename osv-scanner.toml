@@ -1,0 +1,11 @@
+# Read by OpenSSF Scorecard's Vulnerabilities check. The same two advisories are ignored for
+# `pnpm audit` in pnpm-workspace.yaml (auditConfig.ignoreCves). Both are in dev tooling only, never in
+# the shipped extension or website, and have no patched version yet: remove each entry once one exists.
+
+[[IgnoredVulns]]
+id = "GHSA-vfj7-8cjw-p6xm" # CVE-2026-93687, braces
+reason = "Dev-only (stylelint's glob matching). Denial of service on hostile nested patterns, which only maintainers' own config feeds it. No fix released."
+
+[[IgnoredVulns]]
+id = "GHSA-86w9-cpqp-85rv" # CVE-2026-85393, node-forge
+reason = "Dev-only (web-ext's Android adb client). This project never verifies RSA signatures with it. No fix released."
