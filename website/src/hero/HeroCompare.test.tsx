@@ -17,12 +17,12 @@ const layer = (container: HTMLElement, which: 'before' | 'after') =>
   within(container.querySelector<HTMLElement>(`[data-layer="${which}"]`) as HTMLElement);
 
 describe('REQ-PLAY-004 the home hero compares a shop page without and with SiteMark', () => {
-  it('starts with the divider near the left and moves it with the slider', () => {
+  it('starts with the divider in the middle and moves it with the slider', () => {
     const { container } = render(<HeroCompare t={en.t} />);
     const slider = screen.getByRole('slider', { name: en.t('websiteHeroSlider') });
     const compare = container.querySelector<HTMLElement>('[data-compare]') as HTMLElement;
-    expect(slider.getAttribute('value')).toBe('21');
-    expect(compare.style.getPropertyValue('--pos')).toBe('21%');
+    expect(slider.getAttribute('value')).toBe('50');
+    expect(compare.style.getPropertyValue('--pos')).toBe('50%');
     fireEvent.change(slider, { target: { value: '60' } });
     expect(compare.style.getPropertyValue('--pos')).toBe('60%');
   });
