@@ -1,6 +1,6 @@
 /* The home hero's before/after picture: two copies of the shop, the marked one clipped from the divider on (--pos). */
 .compare {
-  --pos: 21%; /* the divider; HeroCompare moves it */
+  --pos: 50%; /* the divider; HeroCompare moves it */
 
   position: relative;
   inline-size: 100%;

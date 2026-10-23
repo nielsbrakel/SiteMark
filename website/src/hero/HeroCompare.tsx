@@ -4,8 +4,8 @@ import type { IslandProps } from '../islands/island-props';
 import styles from './HeroCompare.module.css';
 import { HeroShop } from './HeroShop';
 
-/** Where the divider starts (also `--pos` in the CSS): left of the shop's tab, so the marks show at first sight. */
-const START = 21;
+/** Where the divider starts (also `--pos` in the CSS): the middle, so both pictures show at first sight. */
+const START = 50;
 const MIN = 8;
 const MAX = 92;
 const GRIP = '↔';
