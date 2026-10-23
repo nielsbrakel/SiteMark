@@ -65,8 +65,7 @@
 }
 
 .never p::before,
-.permissions dl > div + div::before,
-.privacy + .promises::before {
+.permissions dl > div + div::before {
   position: absolute;
   inset: 0 0 auto;
   block-size: 6px;
@@ -126,12 +125,11 @@
 }
 
 .privacy + .promises {
-  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--sm-space-4) var(--sm-space-6);
   margin: calc(var(--smw-rule) * 1.5) 0 0;
-  padding: var(--sm-space-4) 0 0;
+  padding: 0;
   line-height: var(--smw-card-line);
   list-style: none;
 }
