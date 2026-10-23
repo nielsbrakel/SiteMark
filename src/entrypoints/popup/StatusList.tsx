@@ -30,7 +30,7 @@ function DisabledNote({ group }: { readonly group: SiteGroup }) {
   return (
     <span className={styles.note}>
       {t('popupGroupDisabled')}{' '}
-      <a href={href} target="_blank" rel="noreferrer">
+      <a className="sm-link" href={href} target="_blank" rel="noopener noreferrer">
         {t('popupEnableInSettings')}
       </a>
     </span>

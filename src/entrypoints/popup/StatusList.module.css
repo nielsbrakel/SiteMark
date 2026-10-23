@@ -22,7 +22,3 @@
   color: var(--sm-text-muted);
   font-size: var(--sm-text-sm);
 }
-
-.note a {
-  color: var(--sm-accent-text);
-}

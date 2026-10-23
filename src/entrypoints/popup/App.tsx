@@ -33,7 +33,7 @@ export function PopupApp({ search }: PopupAppProps): ReactNode {
             className="sm-nav-link"
             href={optionsPageUrl({ page: 'settings' })}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             {t('popupSettings')}
           </a>
