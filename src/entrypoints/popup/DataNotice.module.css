@@ -7,8 +7,3 @@
 .text {
   margin: 0;
 }
-
-.notice a {
-  color: var(--sm-accent-text);
-  font-weight: 600;
-}

@@ -16,7 +16,12 @@ export function DataNotice({ problem }: { readonly problem: DataProblem }): Reac
   return (
     <Card tone="danger" className={styles.notice}>
       <p className={styles.text}>{t(MESSAGES[problem])}</p>
-      <a href={optionsPageUrl({ page: 'data' })} target="_blank" rel="noreferrer">
+      <a
+        className="sm-link"
+        href={optionsPageUrl({ page: 'data' })}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {t('popupOpenSettings')}
       </a>
     </Card>

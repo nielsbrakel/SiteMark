@@ -36,7 +36,9 @@ export function MarkEditor({ group, mark, notify }: MarkEditorProps): ReactNode 
     <section className={styles.editor} aria-labelledby={headingId}>
       <div className={styles.header}>
         <h3 id={headingId}>{t('optionsEditMark')}</h3>
-        <a href={groupHref(group.id)}>{t('optionsCloseMark')}</a>
+        <a className="sm-link" href={groupHref(group.id)}>
+          {t('optionsCloseMark')}
+        </a>
       </div>
       <TargetFields group={group} mark={mark} notify={notify} />
       <ColorFields color={mark.color} onSave={(color) => save({ color })} />
