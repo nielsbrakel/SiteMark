@@ -1,0 +1,47 @@
+# Security scanning (SAST, DAST, supply chain)
+
+> Plan and status of the automated security checks. Workflow: `.github/workflows/security.yml`.
+> Requirements: REQ-SEC-003, REQ-SEC-006, REQ-SEC-007, REQ-SEC-009, REQ-PRIV-005.
+
+## Layers
+
+| Layer                    | What                                                    | Where                                       | Runs              | Blocks merge? |
+| ------------------------ | ------------------------------------------------------- | ------------------------------------------- | ----------------- | ------------- |
+| SAST                     | CodeQL `security-extended` for TypeScript and workflows | `security.yml#codeql`                       | PR, main, weekly  | Not yet       |
+| Workflow lint            | actionlint, zizmor, pinning policy test                 | `ci.yml#workflow-lint`, `ci-policy.test.ts` | PR                | Yes           |
+| SCA                      | `pnpm audit`, dependency review, Dependabot             | `ci.yml`, `nightly.yml`                     | PR, nightly       | Yes           |
+| DAST, website            | OWASP ZAP baseline against the built site               | `security.yml#zap (website)`                | PR, main, weekly  | No (report)   |
+| DAST, extension pages    | ZAP baseline against the static popup and options pages | `security.yml#zap (extension)`              | PR, main, weekly  | No (report)   |
+| DAST, extension, runtime | A hostile page attacks the loaded extension in Chromium | `tests/e2e/attack-surface.spec.ts`          | PR (`ci.yml#e2e`) | Yes           |
+| DAST, extension, network | Every e2e test aborts requests to unknown hosts         | `tests/e2e/fixtures.ts` (REQ-PRIV-005)      | PR (`ci.yml#e2e`) | Yes           |
+| Supply-chain score       | OpenSSF Scorecard                                       | `security.yml#scorecard`                    | main, weekly      | No            |
+
+## Why the extension needs its own DAST
+
+ZAP scans HTTP servers. An extension is not one: its pages live on `chrome-extension://` and need
+`browser.*`, so ZAP can only read their static markup. The real attack surface is the boundary
+between a hostile web page and the running extension, so that is tested in a browser:
+
+- the page cannot fetch extension files (no `web_accessible_resources`);
+- the page has no `chrome.runtime.sendMessage` (empty `externally_connectable`);
+- crafted `window.postMessage` payloads change nothing: no stored state, no injected markup, no
+  prototype pollution;
+- existing probes: hostile removal and `hidePopover` loops (REQ-SEC-006), strict CSP and Trusted
+  Types pages (REQ-SEC-007), and the network guard (REQ-PRIV-005).
+
+## Rollout
+
+1. **Report only** (this PR): everything runs and uploads results (Security tab for CodeQL and
+   Scorecard, a `zap-*` artifact for ZAP). The attack-surface spec blocks, as it is a normal e2e test.
+2. **Triage** the first reports. Tune `.zap/rules.tsv` (each ignore needs a reason) and dismiss
+   false positives in the Security tab.
+3. **Gate**: make `codeql` a required check, and drop `-I` from the ZAP step so warnings fail.
+
+## Known limits
+
+- ZAP baseline is passive. An active scan (`zap-full-scan.py`) of a static site finds little; add
+  it only if the website ever gets a dynamic part.
+- GitHub Pages cannot set response headers, so the website's CSP is a `<meta>` tag and ZAP reports
+  the missing headers (`X-Frame-Options`, `X-Content-Type-Options`). Expect those as accepted risks.
+- Secret scanning is GitHub's built-in push protection (Settings → Code security), not a workflow.
+- Scorecard only works on a public repository.
