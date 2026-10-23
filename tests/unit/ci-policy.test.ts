@@ -90,6 +90,12 @@ describe('REQ-SEC-009 GitHub Actions are pinned and least-privilege', () => {
     expect([...(ci.jobs['ci-ok']?.needs ?? [])].sort()).toEqual(others.sort());
   });
 
+  it('gates merges on security-ok, which needs every other security job', () => {
+    const security = load<Workflow>('.github/workflows/security.yml');
+    const others = Object.keys(security.jobs).filter((name) => name !== 'security-ok');
+    expect([...(security.jobs['security-ok']?.needs ?? [])].sort()).toEqual(others.sort());
+  });
+
   it('runs browsers in the Playwright image that matches @playwright/test', () => {
     const images = jobs.flatMap(({ job }) => (job.container ? [job.container.image] : []));
     expect(images.length).toBeGreaterThan(0);
