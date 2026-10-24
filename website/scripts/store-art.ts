@@ -42,9 +42,9 @@ const ICON = `data:image/png;base64,${base64('public/icon/32.png')}`;
 export const CSS = `${font('Caveat Brush', 'caveat-brush-latin.woff2')}${font('Patrick Hand', 'patrick-hand-latin.woff2')}
 html,body{margin:0}*{box-sizing:border-box}
 body{width:1280px;height:800px;background:var(--board);font:34px 'Patrick Hand',sans-serif;color:var(--ink);position:relative;overflow:hidden}
-h1{margin:0;position:absolute;top:18px;left:0;right:0;text-align:center;white-space:nowrap;font:400 72px/1.05 'Caveat Brush',sans-serif}
+h1{margin:0;position:absolute;top:26px;left:0;right:0;text-align:center;white-space:nowrap;font:400 72px/1.05 'Caveat Brush',sans-serif}
 h1 em{font-style:normal;padding:0 6px;background:linear-gradient(transparent 62%,var(--hl) 62% 92%,transparent 92%)}
-.sub{margin:0;position:absolute;top:94px;left:0;right:0;text-align:center}
+.sub{margin:0;position:absolute;top:102px;left:0;right:0;text-align:center}
 .frame{position:absolute;border:3px solid var(--line);border-radius:8px;background:var(--surface);box-shadow:0 3px 0 var(--edge),0 10px 16px -6px var(--shade);font:16px system-ui,sans-serif}
 .tabs{height:36px;padding:6px 10px 0;background:var(--soft);border-radius:5px 5px 0 0;display:flex}
 .tab{max-width:300px;padding:6px 14px;border-radius:6px 6px 0 0;background:var(--surface);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -53,7 +53,7 @@ h1 em{font-style:normal;padding:0 6px;background:linear-gradient(transparent 62%
 .bar img{width:28px}.view{position:relative;overflow:hidden;border-radius:0 0 5px 5px}
 img.shot{position:absolute;display:block}
 .tape{position:absolute;width:96px;height:26px;opacity:.92;z-index:3;box-shadow:0 1px 2px var(--shade);background:repeating-linear-gradient(45deg,rgb(255 255 255/40%) 0 5px,transparent 5px 10px),#f5cf5a}
-.note{position:absolute;z-index:5;width:max-content;max-width:460px;padding:8px 16px;border:3px solid #33261b;border-radius:3px;background:#fffefa;color:#33261b;box-shadow:1px 3px 0 #33261b;font:400 32px/1.1 'Caveat Brush',sans-serif}
+.note{position:absolute;z-index:5;width:max-content;max-width:460px;padding:8px 16px;border:3px solid #33261b;border-radius:3px;background:#fffefa;color:#33261b;box-shadow:1px 3px 0 #33261b;font:400 32px/1.1 'Caveat Brush',sans-serif;white-space:pre-line}
 svg.ink{position:absolute;left:0;top:0;z-index:6;overflow:visible}
 .host{position:absolute;font-size:28px;display:flex;gap:10px;align-items:center}.dot{width:16px;height:16px;border-radius:50%;border:1px solid var(--ink)}
 .checks{position:absolute;margin:0;padding:0;list-style:none;font-size:34px;line-height:1.25}.checks li{margin-bottom:34px;padding-left:52px;position:relative}
@@ -70,6 +70,15 @@ const tape = (x: number, y: number) =>
 /** The frame's tab strip and address bar, with its 3 px outline: the view starts this far in. */
 export const CHROME = { x: 3, y: 3 + 36 + 40 };
 
+/** Every frame sits between these outer edges, at least `margin` from the slide's sides. */
+export const FRAME = { top: 184, bottom: 764, margin: 60 } as const;
+
+/** The view (page area) of a frame that spans FRAME.top to FRAME.bottom. */
+export const VIEW = {
+  top: FRAME.top + CHROME.y,
+  height: FRAME.bottom - CHROME.x - FRAME.top - CHROME.y,
+};
+
 /** A browser window whose view of `width` × `height` px starts at (x, y) on the slide. */
 export function frame(
   x: number,
@@ -80,7 +89,7 @@ export function frame(
   body: string,
   icon = false,
 ) {
-  return `${tape(x + 40, y - 14 - CHROME.y)}<div class="frame" style="left:${x - CHROME.x}px;top:${y - CHROME.y}px;width:${width + 6}px">
+  return `${tape(x - CHROME.x + width / 2 + 3 - 48, y - 14 - CHROME.y)}<div class="frame" style="left:${x - CHROME.x}px;top:${y - CHROME.y}px;width:${width + 6}px">
     <div class="tabs"><span class="tab">${html(shot.title)}</span></div>
     <div class="bar"><span class="url">${html(shot.host)}</span>${icon ? `<img src="${ICON}" alt="">` : ''}</div>
     <div class="view" style="height:${height}px">${body}</div></div>`;

@@ -131,6 +131,10 @@ async function picker(env: Env, t: Say) {
   const panel = await waitForPanel(page);
   await panel.getByRole('button', { name: t('pickerMovePanel') }).click();
   await waitForPanel(page);
+  // The selection label repeats what the panel says; hidden so the panel reads first.
+  await pickerPart(page, 'tooltip').evaluate((label) => {
+    (label as HTMLElement).style.visibility = 'hidden';
+  });
   const save = panel.getByRole('button', { name: t('pickerSave') });
   const box = await save.boundingBox();
   if (box) await page.mouse.move(box.x - 60, box.y + 10);
@@ -187,7 +191,7 @@ async function options(env: Env, route: string, t: Say) {
 export async function captureStoreShots(env: Env, locale: Locale, route: string): Promise<Shots> {
   const t = say(locale);
   return {
-    production: await marked(env, `${ORIGIN}/customers/`, 'light', 648, true),
+    production: await marked(env, `${ORIGIN}/customers/`, 'light', 600, true),
     environments: [
       await marked(env, `${ORIGIN}/orders/`, 'light', 800),
       await marked(env, `${STAGING_ORIGIN}/`, 'light', 800),

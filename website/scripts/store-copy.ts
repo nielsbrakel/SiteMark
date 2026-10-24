@@ -17,7 +17,7 @@ export const COPY: Record<Locale, Copy> = {
       head: ['Never mistake ', 'production', ' for test'],
       sub: 'Ribbon, banner and frame on the sites you choose',
       ribbon: 'Always labelled',
-      button: 'The risky button, outlined',
+      button: 'The risky button,\noutlined',
     },
     environments: {
       head: ['Every environment ', 'its own colour', ''],
@@ -54,7 +54,7 @@ export const COPY: Record<Locale, Copy> = {
       head: ['Verwar ', 'productie', ' nooit meer met test'],
       sub: 'Lint, banner en kader op de sites die jij kiest',
       ribbon: 'Altijd met tekst',
-      button: 'De riskante knop, omlijnd',
+      button: 'De riskante knop,\nomlijnd',
     },
     environments: {
       head: ['Elke omgeving ', 'een eigen kleur', ''],
