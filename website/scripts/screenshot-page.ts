@@ -69,7 +69,7 @@ const PALETTE: Record<ScreenshotTheme, string> = {
 const STYLE = `body{margin:0;font:18px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--text)}
 header{display:flex;gap:28px;align-items:center;padding:18px 48px;border-bottom:1px solid var(--line)}
 header b{font-size:22px;margin-right:20px}header span{color:var(--muted)}
-main{display:grid;grid-template-columns:400px 1fr;align-items:start;gap:28px;padding:28px 48px}
+main{display:grid;grid-template-columns:540px 1fr;align-items:start;gap:28px;padding:28px 48px}
 .stats{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 section{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 24px}
 h2{margin:0 0 10px;font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
