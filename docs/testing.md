@@ -110,7 +110,7 @@ Builders (`aSiteGroup()`, `aMark()`, `aState()`) always produce schema-valid dat
 `.output/firefox-mv3/manifest.json`.
 
 **Safari (from v1.1):** `pnpm build:safari`, then either upload the zip with the App Store Connect packager (TestFlight) or run
-`xcrun safari-web-extension-converter .output/safari-mv3 --macos-only --copy-resources --app-name SiteMark --bundle-identifier dev.sitemark.SiteMark --no-open`.
+`xcrun safari-web-extension-converter .output/safari-mv3 --macos-only --copy-resources --app-name SiteMark --bundle-identifier com.nielsvanbrakel.sitemark --no-open`.
 For local unsigned runs: Safari → Settings → Developer → _Allow unsigned extensions_ (this resets when Safari quits).
 
 | #   | Step                                                                                                           | Firefox | Safari |

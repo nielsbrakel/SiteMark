@@ -5,6 +5,23 @@ store's dashboard. T-152 wrote the listing texts, permission justifications and
 screenshots for Chrome, Edge and Firefox; T-157 does the same for the App Store. Everything that points to the web
 uses the **website**, never the repository, so the URLs stay stable (REQ-POLICY-005).
 
+## All stores at a glance
+
+The name is the same on every store (D-300). Counts are characters (App Store keywords: bytes), then the
+store's limit. Category is not per language.
+
+| Field                  | Chrome Web Store                                                                                                                  | Edge Add-ons                                                                                                                                                                               | Firefox Add-ons (AMO)                                                                                                                                                                                                                                                | Mac App Store (Safari)                                                                                                                                                                                                                                    |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name (EN)              | "SiteMark Environment Indicator" (30/75)                                                                                          | "SiteMark Environment Indicator" (30/45 recommended)                                                                                                                                       | "SiteMark Environment Indicator" (30/50)                                                                                                                                                                                                                             | "SiteMark Environment Indicator" (30/30)                                                                                                                                                                                                                  |
+| Short description (EN) | "Environment indicator: mark production, staging and test sites with a ribbon, banner or frame. Collects no data." (112/132)      | "Environment indicator: mark production, staging and test sites with a ribbon, banner or frame. Collects no data." (112/132)                                                               | _Summary_: "Environment indicator for your browser. Mark production, staging and test sites with a coloured ribbon, banner, frame or outline, so you never edit the wrong one. Collects no data; no access to a site until you add it." (218/250)                    | _Subtitle_: "Spot production, staging, test" (30/30); _Promotional text_: "Never mistake production for test: SiteMark puts a ribbon, banner or frame on the sites you choose in Safari. Collects no data, and no access until you add a site." (163/170) |
+| Long description (EN)  | shared long description (1,321/16,000)                                                                                            | same text (1,321; 250–10,000)                                                                                                                                                              | same text (1,321)                                                                                                                                                                                                                                                    | own text with Safari steps (1,588/4,000)                                                                                                                                                                                                                  |
+| Keywords (EN)          | no field                                                                                                                          | 7 search terms: "environment indicator", "production warning", "staging banner", "test environment", "prod ribbon", "env marker", "developer tools" (longest 21/30, 14/21 words)           | tags: "environment indicator", "production", "staging", "developer tools", "banner" (pick from AMO's list)                                                                                                                                                           | "marker,prod,banner,ribbon,warning,dev,tester,frame,label,url,developer,website,tab,favicon,safe" (95/100 bytes)                                                                                                                                          |
+| Name (NL)              | "SiteMark Omgevingsindicator" (27/75)                                                                                             | "SiteMark Omgevingsindicator" (27/45 recommended)                                                                                                                                          | "SiteMark Omgevingsindicator" (27/50)                                                                                                                                                                                                                                | "SiteMark Omgevingsindicator" (27/30)                                                                                                                                                                                                                     |
+| Short description (NL) | "Omgevingsindicator: markeer productie-, staging- en testsites met een lint, banner of kader. Verzamelt geen gegevens." (117/132) | "Omgevingsindicator: markeer productie-, staging- en testsites met een lint, banner of kader. Verzamelt geen gegevens." (117/132)                                                          | _Summary_: "Omgevingsindicator voor je browser. Markeer productie-, staging- en testsites met een gekleurd lint, banner, kader of omlijning, zodat je nooit de verkeerde aanpast. Verzamelt geen gegevens; geen toegang tot een site tot je die toevoegt." (237/250) | _Subtitle_: "Zie productie, staging en test" (30/30); _Promotional text_: "Verwar productie nooit meer met test: SiteMark zet een lint, banner of kader op de sites die jij kiest in Safari. Verzamelt geen gegevens." (138/170)                          |
+| Long description (NL)  | shared long description (1,502/16,000)                                                                                            | same text (1,502; 250–10,000)                                                                                                                                                              | same text (1,502)                                                                                                                                                                                                                                                    | own text with Safari steps (1,785/4,000)                                                                                                                                                                                                                  |
+| Keywords (NL)          | no field                                                                                                                          | 7 search terms: "omgevingsindicator", "productie waarschuwing", "staging banner", "testomgeving", "productie lint", "omgeving markeren", "ontwikkelaarstools" (longest 22/30, 11/21 words) | tags are not per language                                                                                                                                                                                                                                            | "markering,prod,banner,lint,waarschuwing,dev,kader,label,url,ontwikkelaar,website,tabblad,veilig" (95/100 bytes)                                                                                                                                          |
+| Category               | _Developer Tools_                                                                                                                 | _Developer tools_                                                                                                                                                                          | _Web Development_, _Privacy & Security_                                                                                                                                                                                                                              | _Developer Tools_, secondary _Productivity_                                                                                                                                                                                                               |
+
 ## Website, privacy and support URLs
 
 | Field                          | English                                         | Dutch                                              |
@@ -33,16 +50,8 @@ the website's install button for that store then turns from a disabled "Coming i
 Final and paste-ready (D-300). Every count below was checked by a script; the tests check the package texts
 (REQ-I18N-005). Paste each field as it stands; the code blocks keep the line breaks.
 
-| Field       | Chrome Web Store                  | Edge Add-ons                         | Firefox AMO                             |
-| ----------- | --------------------------------- | ------------------------------------ | --------------------------------------- |
-| Name        | package `extName`, max 75         | package, 45 recommended              | package, max 50                         |
-| Short text  | package `extDescription`, max 132 | package, max 132                     | own _Summary_, max 250                  |
-| Description | plain text, max 16,000            | plain text, 250–10,000               | limited HTML                            |
-| Keywords    | none                              | 7 terms, ≤ 30 characters, ≤ 21 words | tags                                    |
-| Category    | _Developer Tools_                 | _Developer tools_                    | _Web Development_, _Privacy & Security_ |
-| Languages   | en, nl                            | en, nl                               | en, nl                                  |
-
-The Mac App Store (Safari, T-157) has its own name, subtitle, keywords and limits: see
+Names, short texts, limits, keywords and categories per store, side by side: see
+[All stores at a glance](#all-stores-at-a-glance). The App Store texts are in
 [App Store (Safari, macOS)](#app-store-safari-macos).
 
 ### Name
@@ -50,8 +59,8 @@ The Mac App Store (Safari, T-157) has its own name, subtitle, keywords and limit
 From the package (`extName`), so it changes only with a release. The brand stays SiteMark: the UI, the website,
 the logo, `short_name` and the toolbar tooltip say SiteMark (D-300).
 
-- **en:** SiteMark – Environment Indicator (32)
-- **nl:** SiteMark – Omgevingsindicator (29)
+- **en:** SiteMark Environment Indicator (30)
+- **nl:** SiteMark Omgevingsindicator (27)
 
 ### Short description (Chrome and Edge, ≤ 132 characters)
 
@@ -184,18 +193,18 @@ and the keyword separator (Apple's docs don't name one; commas without spaces ar
 
 ### Name (max 30)
 
-The store name of the other stores, "SiteMark – Environment Indicator" (32), does not fit. Dutch keeps the package name.
+The same name as on Chrome, Edge and Firefox (the package `extName`, D-300); it fits the 30 characters.
 
-**English** (29 characters)
+**English** (30 characters)
 
 ```text
-SiteMark – Environment Marker
+SiteMark Environment Indicator
 ```
 
-**Dutch** (29 characters)
+**Dutch** (27 characters)
 
 ```text
-SiteMark – Omgevingsindicator
+SiteMark Omgevingsindicator
 ```
 
 ### Subtitle (max 30)
@@ -290,10 +299,10 @@ Gratis te gebruiken. Ook beschikbaar voor Chrome, Edge en Firefox.
 
 ### Keywords (max 100 bytes, comma-separated, no words from the name or subtitle)
 
-**English** (98 bytes)
+**English** (95 bytes)
 
 ```text
-indicator,prod,banner,ribbon,warning,dev,tester,frame,label,url,developer,website,tab,favicon,safe
+marker,prod,banner,ribbon,warning,dev,tester,frame,label,url,developer,website,tab,favicon,safe
 ```
 
 **Dutch** (95 bytes)
