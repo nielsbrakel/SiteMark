@@ -9,7 +9,7 @@ type SoftwareApplicationInput = {
   locale: Locale;
   description: string;
   url: string;
-  /** The descriptive store name, e.g. "SiteMark – Environment Indicator" (D-300). */
+  /** The descriptive store name, e.g. "SiteMark Environment Indicator" (D-300). */
   alternateName: string;
 };
 

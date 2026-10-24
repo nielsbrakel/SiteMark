@@ -1,6 +1,6 @@
 {
   "websiteHomeTitle": {
-    "message": "SiteMark – Environment Indicator for production and test",
+    "message": "SiteMark Environment Indicator for Chrome, Edge, Firefox",
     "description": "Browser tab title of the website home page. At most 60 characters."
   },
   "websiteHomeHeading": {

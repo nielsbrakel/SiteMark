@@ -4,7 +4,7 @@ import { applyDocumentLocale, applyLanguage, browserSource, t, tp } from './brow
 
 describe('REQ-I18N-001 the extension reads UI strings through browser.i18n', () => {
   it('returns the message for a key', () => {
-    expect(t('extName')).toBe('SiteMark – Environment Indicator');
+    expect(t('extName')).toBe('SiteMark Environment Indicator');
   });
 
   it('reports a missing message as undefined and throws outside production builds', () => {

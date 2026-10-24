@@ -1,7 +1,7 @@
 {
   "extName": {
-    "message": "SiteMark – Omgevingsindicator",
-    "description": "Naam van de extensie in de stores en de browser (hoogstens 45 tekens): het merk SiteMark, een en-dash en wat het is. SiteMark niet vertalen."
+    "message": "SiteMark Omgevingsindicator",
+    "description": "Naam van de extensie, in elke store gelijk (hoogstens 30 tekens, de limiet van de App Store): het merk SiteMark, een spatie en wat het is. SiteMark niet vertalen."
   },
   "extDescription": {
     "message": "Omgevingsindicator: markeer productie-, staging- en testsites met een lint, banner of kader. Verzamelt geen gegevens.",
