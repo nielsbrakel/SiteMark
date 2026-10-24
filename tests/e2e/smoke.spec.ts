@@ -28,10 +28,7 @@ test('the fixture site is served on the sitemark.test hosts', async ({ page }) =
 });
 
 // The production manifest is asserted on the real builds in tests/build (T-016).
-test('the e2e build pre-grants only prod. and test.sitemark.test', async ({
-  page,
-  extensionId,
-}) => {
+test('the e2e build pre-grants only its fixture hosts', async ({ page, extensionId }) => {
   await page.goto(`chrome-extension://${extensionId}/popup.html`);
   const granted = await page.evaluate(async (origins) => {
     const { permissions } = (globalThis as unknown as ExtensionPage).chrome;
@@ -42,7 +39,7 @@ test('the e2e build pre-grants only prod. and test.sitemark.test', async ({
       all: await has('*://*/*'),
     };
   }, E2E_GRANTED_ORIGINS);
-  expect(granted).toEqual({ e2e: [true, true], new: false, all: false });
+  expect(granted).toEqual({ e2e: E2E_GRANTED_ORIGINS.map(() => true), new: false, all: false });
 });
 
 test('the network guard aborts requests outside the fixture hosts', async ({

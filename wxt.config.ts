@@ -51,7 +51,8 @@ export default defineConfig({
     // REQ-SEC-003: no other extension or web page may message SiteMark. Firefox doesn't support the key.
     ...(browser !== 'firefox' && { externally_connectable: { ids: [], matches: [] } }),
     // `wxt build --mode e2e` (own outDir: .output/<browser>-mv3-e2e) pre-grants the fixture hosts
-    // prod. and test.sitemark.test only; new.sitemark.test stays ungranted (D-233).
+    // (prod. and test.sitemark.test, and the store images' example.com hosts); new.sitemark.test stays
+    // ungranted (D-233).
     ...(mode === 'e2e' && { host_permissions: E2E_GRANTED_ORIGINS }),
     commands: {
       'start-picker': {
