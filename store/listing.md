@@ -30,37 +30,54 @@ the website's install button for that store then turns from a disabled "Coming i
 
 ## Listing texts
 
-Name (D-300, from the package's `extName`): **SiteMark – Environment Indicator** (en), **SiteMark – Omgevingsindicator**
-(nl). The brand stays SiteMark.
+Final and paste-ready (D-300). Every count below was checked by a script; the tests check the package texts
+(REQ-I18N-005). Paste each field as it stands; the code blocks keep the line breaks.
 
-| Store                  | Category          | Languages |
-| ---------------------- | ----------------- | --------- |
-| Chrome Web Store       | _Developer Tools_ | en, nl    |
-| Microsoft Edge Add-ons | _Developer tools_ | en, nl    |
-| Firefox Add-ons (AMO)  | _Web Development_ | en, nl    |
+| Field       | Chrome Web Store                  | Edge Add-ons                         | Firefox AMO                             |
+| ----------- | --------------------------------- | ------------------------------------ | --------------------------------------- |
+| Name        | package `extName`, max 75         | package, 45 recommended              | package, max 50                         |
+| Short text  | package `extDescription`, max 132 | package, max 132                     | own _Summary_, max 250                  |
+| Description | plain text, max 16,000            | plain text, 250–10,000               | limited HTML                            |
+| Keywords    | none                              | 7 terms, ≤ 30 characters, ≤ 21 words | tags                                    |
+| Category    | _Developer Tools_                 | _Developer tools_                    | _Web Development_, _Privacy & Security_ |
+| Languages   | en, nl                            | en, nl                               | en, nl                                  |
 
-### Short description (≤ 132 characters)
+### Name
 
-Keyword first, so the store search and the result list read it as "environment indicator". Chrome and Edge take
-this field from the package (`extDescription` in `public/_locales`); AMO has its own _Summary_ field. Change the
-package text only together with a release.
+From the package (`extName`), so it changes only with a release. The brand stays SiteMark: the UI, the website,
+the logo, `short_name` and the toolbar tooltip say SiteMark (D-300).
+
+- **en:** SiteMark – Environment Indicator (32)
+- **nl:** SiteMark – Omgevingsindicator (29)
+
+### Short description (Chrome and Edge, ≤ 132 characters)
+
+From the package (`extDescription`). Keyword first, so the store search and the result list read it as
+"environment indicator". The privacy wording is "collects no data", as in the privacy policy.
 
 - **en:** Environment indicator: mark production, staging and test sites with a ribbon, banner or frame. Collects no data. (112)
 - **nl:** Omgevingsindicator: markeer productie-, staging- en testsites met een lint, banner of kader. Verzamelt geen gegevens. (117)
 
-### Long description
+### Summary (AMO, ≤ 250 characters)
+
+- **en:** Environment indicator for your browser. Mark production, staging and test sites with a coloured ribbon, banner, frame or outline, so you never edit the wrong one. Collects no data; no access to a site until you add it. (218)
+- **nl:** Omgevingsindicator voor je browser. Markeer productie-, staging- en testsites met een gekleurd lint, banner, kader of omlijning, zodat je nooit de verkeerde aanpast. Verzamelt geen gegevens; geen toegang tot een site tot je die toevoegt. (237)
+
+### Long description (all stores)
 
 Plain text only: the store dashboards don't format text, so a feature list uses lines that start with "- ". The
-first two lines carry the search words (environment indicator, staging, production, banner). "Collects no data" is
-the wording of the privacy policy; do not use "nothing leaves your browser" (the opt-in favicon tint loads the
-icon of the page you are on).
+first sentence carries the search words (environment indicator, production, staging, test); the line before the
+footer names the synonyms once. No keyword lists and no competitor names (Chrome Web Store spam policy). "Collects
+no data" is the wording of the privacy policy; do not use "nothing leaves your browser" (the opt-in favicon tint
+loads the icon of the page you are on).
 
-**en**
+**en** (1321 characters)
 
 ```text
-Never mix up production and test again. SiteMark is an environment indicator for your browser: it puts a ribbon, banner, frame or outline on the sites you choose, so production, staging, test and acceptance never look the same.
+SiteMark is an environment indicator for your browser: it puts a ribbon, banner, frame or outline on the production, staging, test and acceptance sites you choose, so you never mix them up.
 
 What you get
+- A different colour per environment: red production, amber staging, blue test, or your own
 - Colour-coded marks: a corner ribbon, a banner, a frame around the window, a tint, hazard stripes or a watermark
 - Mark one element: pick the button that deletes customers and give it an outline or a ribbon
 - A title prefix such as [PROD] and a coloured favicon dot, so you find the right tab among many
@@ -74,16 +91,19 @@ Private by design
 - No accounts, no analytics and no servers: SiteMark collects no data
 - Your settings stay in your browser
 
+Also known as an environment banner, prod warning or env marker, for developers, QA and support teams.
+
 Free to use. The source code is public to read; all rights reserved.
 Website, help and privacy policy: https://nielsbrakel.github.io/SiteMark/
 ```
 
-**nl**
+**nl** (1502 characters)
 
 ```text
-Verwar productie en test nooit meer. SiteMark is een omgevingsindicator voor je browser: het zet een lint, banner, kader of omlijning op de sites die jij kiest, zodat productie, staging, test en acceptatie er nooit hetzelfde uitzien.
+SiteMark is een omgevingsindicator voor je browser: het zet een lint, banner, kader of omlijning op de productie-, staging-, test- en acceptatiesites die jij kiest, zodat je ze nooit verwart.
 
 Dit krijg je
+- Een eigen kleur per omgeving: rood voor productie, oranje voor staging, blauw voor test, of je eigen kleur
 - Markeringen in kleur: een lint in de hoek, een banner, een kader om het venster, een tint, waarschuwingsstrepen of een watermerk
 - Eén element markeren: kies de knop waarmee je klanten verwijdert en geef hem een kader of een lint
 - Een voorvoegsel in de tabtitel zoals [PROD] en een gekleurde stip op het favicon, zodat je het juiste tabblad snel vindt
@@ -97,6 +117,8 @@ Privé als uitgangspunt
 - Geen accounts, geen analytics en geen servers: SiteMark verzamelt geen gegevens
 - Je instellingen blijven in je browser
 
+Ook bekend als omgevingsbanner, productiewaarschuwing of env-marker, voor developers, testers en supportteams.
+
 Gratis te gebruiken. De broncode is openbaar om te lezen; alle rechten voorbehouden.
 Website, help en privacyverklaring: https://nielsbrakel.github.io/SiteMark/nl/
 ```
@@ -105,13 +127,17 @@ Website, help en privacyverklaring: https://nielsbrakel.github.io/SiteMark/nl/
 
 Edge takes up to 7 terms of at most 30 characters each, and at most 21 separate words across all terms.
 
-- **en** (14 words): `production warning`, `environment marker`, `test environment`, `staging banner`, `site ribbon`, `website labels`, `developer tools`
-- **nl** (11 words): `productie waarschuwing`, `omgevingsmarkering`, `testomgeving`, `staging banner`, `site lint`, `website markeren`, `ontwikkelaarstools`
+- **en** (14 words): `environment indicator`, `production warning`, `staging banner`, `test environment`, `prod ribbon`, `env marker`, `developer tools`
+- **nl** (11 words): `omgevingsindicator`, `productie waarschuwing`, `staging banner`, `testomgeving`, `productie lint`, `omgeving markeren`, `ontwikkelaarstools`
+
+### Tags and categories (AMO)
+
+- Tags: `environment indicator`, `production`, `staging`, `developer tools`, `banner` (if AMO only offers a fixed list, the closest ones).
+- Categories: _Web Development_ and _Privacy & Security_.
 
 ## Single purpose (Chrome Web Store)
 
-> SiteMark visually marks the websites the user chooses (for example production environments) so they can't be
-> confused with other environments.
+> SiteMark visually marks the websites the user chooses (for example production environments) so they cannot be confused with other environments.
 
 ## Permission justifications
 
@@ -119,47 +145,50 @@ Matching [PRIVACY.md](../PRIVACY.md#permissions-and-why-sitemark-needs-them).
 
 | Permission                       | Justification                                                                                                                                                                                                    |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `storage`                        | Keeps the user's site groups, URL patterns, marks and settings in `storage.local`. Nothing is synced or sent anywhere.                                                                                           |
+| `storage`                        | Keeps the user's site groups, URL patterns, marks and settings in storage.local. Nothing is synced or sent anywhere.                                                                                             |
 | `scripting`                      | Registers the marker content script for the websites the user granted, so marks appear on every visit, and injects the element picker when the user asks for it.                                                 |
 | `activeTab`                      | Lets the user pick an element or mark the current site from the toolbar button or shortcut, on the tab they are using, without broad host access.                                                                |
 | Optional host access (`*://*/*`) | Never granted at install. When the user adds a URL pattern, SiteMark requests that website only; the marker runs only on websites the user granted. It reads a page only to find picked elements and draw marks. |
-| Remote code                      | None. All code is in the package; no `eval`, no remote scripts, no network requests.                                                                                                                             |
+| Remote code                      | No, I am not using remote code. All code is in the package: no eval, no new Function and no remote scripts.                                                                                                      |
 
 ## Data-use disclosures
 
-- **Collected data:** none (Chrome: no data types checked; Edge and AMO: "does not collect or transmit data").
+- **Collected data:** none. Chrome: no data types ticked and all three certifications ticked. Edge: "Does your
+  extension access, collect or transmit personal information?" No. AMO: the package declares
+  `data_collection_permissions: none`.
 - SiteMark has no servers, accounts, analytics, crash reporting or advertising, and sells or shares nothing
   (REQ-PRIV-005).
-- The Chrome "limited use" certifications all apply trivially: no user data is transferred.
+- AMO asks for the privacy policy text: "SiteMark collects no data. Full privacy policy:" and the privacy URL.
+- AMO license (per version): All Rights Reserved.
 
 ## Images
 
 All images are generated, never made by hand (D-251, D-299): `pnpm web:screenshots` writes the six store screenshots
 per language, in light and dark, into [`images/`](images/), and `pnpm icons` renders the icons and the promo tiles there.
 
-| File in `images/`                              | Size       | Chrome | Edge | Firefox |
-| ---------------------------------------------- | ---------- | :----: | :--: | :-----: |
-| `icon-128.png` (store icon)                    | 128 × 128  |   ✓    |      |    ✓    |
-| `icon-300.png` (store logo)                    | 300 × 300  |        |  ✓   |         |
-| `{en,nl}/1…5-*.png` (screenshots, light)       | 1280 × 800 |   ✓    |  ✓   |    ✓    |
-| `{en,nl}/6-privacy.png` (screenshot, light)    | 1280 × 800 |        |  ✓   |    ✓    |
-| `{en,nl}/dark/1…6-*.png` (screenshots, dark)   | 1280 × 800 |  (✓)   | (✓)  |   (✓)   |
-| `{en,nl}/promo-small-440x280.png` (small tile) | 440 × 280  |   ✓    |  ✓   |         |
-| `{en,nl}/promo-marquee-1400x560.png` (marquee) | 1400 × 560 |   ✓    |  ✓   |         |
+| File in `images/`                                           | Size       | Chrome | Edge |  Firefox  |
+| ----------------------------------------------------------- | ---------- | :----: | :--: | :-------: |
+| `icon-128.png` (store icon)                                 | 128 × 128  |   ✓    |      | (package) |
+| `icon-300.png` (store logo)                                 | 300 × 300  |        |  ✓   |           |
+| `{en,nl}/1…5-*.png` (screenshots, light)                    | 1280 × 800 |   ✓    |  ✓   |     ✓     |
+| `{en,nl}/6-privacy.png` (screenshot, light)                 | 1280 × 800 |        |  ✓   |     ✓     |
+| `{en,nl}/dark/1…6-*.png` (screenshots, dark)                | 1280 × 800 |        |      |    (✓)    |
+| `{en,nl}/promo-small-440x280.png` (small tile)              | 440 × 280  |   ✓    |  ✓   |           |
+| `{en,nl}/promo-marquee-1400x560.png` (marquee / large tile) | 1400 × 560 |   ✓    |  ✓   |           |
 
 - Everything in `en/` and `nl/` is localised: screenshots, promo tiles and the captions below. Upload `nl` to the
-  Dutch listing and `en` to the English one.
-- Screenshots are 24-bit PNG without alpha, numbered in upload order. Chrome allows 5 per language, so upload 1–5
-  there; Edge and Firefox also take 6. `en` and `nl` are each a complete set. Chrome's **global** screenshots are the
-  `en` set.
-- **Light is the default set.** The `dark/` folders hold the same six slides in the dark theme, an optional alternative
-  set (for example as extra images on Edge and Firefox, which allow more than six).
-- Firefox has no promo tiles. It takes its icon from the package. The icon PNGs have an alpha channel, which
+  Dutch listing and `en` to the English one. Chrome's **global** screenshots are the `en` set.
+- Screenshots are 24-bit PNG without alpha, numbered in upload order. Chrome takes 5 per language (1–5), Edge 6
+  (1–6), AMO more.
+- **Light is the default set.** The `dark/` folders hold the same six slides in the dark theme. Chrome and Edge have
+  no room for both, so dark is only an alternative there; on AMO it may follow the light set.
+- Firefox has no promo tiles and takes its icon from the package. The icon PNGs have an alpha channel, which
   stores allow for icons.
 
 ### Screenshot captions
 
-Each image carries its caption in large type, because the stores show thumbnails.
+Each image carries its caption in large type, because the stores show thumbnails. AMO also takes a caption per
+screenshot: use these.
 
 | #   | File             | en                                | nl                                   |
 | --- | ---------------- | --------------------------------- | ------------------------------------ |
@@ -171,4 +200,4 @@ Each image carries its caption in large type, because the stores show thumbnails
 | 6   | `6-privacy`      | Private by design                 | Privé als uitgangspunt               |
 
 The browser's own permission prompt is a native window that a script cannot capture. If you want it in the set, take
-that screenshot yourself on a real install and add it as image 7 (Edge and Firefox allow more than five).
+that screenshot yourself on a real install and add it on AMO (Chrome and Edge are full).
