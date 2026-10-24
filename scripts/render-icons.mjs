@@ -80,10 +80,12 @@ for (const lang of ['en', 'nl']) {
 
 // The store tiles are localised: the English SVG text is swapped for the Dutch text.
 const dutch = [
-  ['Never confuse', 'Verwar productie'],
-  ['production with test.', 'nooit met test.'],
-  ['PRODUCTION · BE CAREFUL', 'PRODUCTIE · PAS OP'],
-  ['Private by design. Collects no data.', 'Privé ontworpen. Verzamelt geen gegevens.'],
+  ["Know when it's", 'Weet wanneer het'],
+  ['>production<', '>productie is<'],
+  ['Never mistake', 'Verwar productie'],
+  ['production for test', 'nooit meer met test'],
+  ['Collects no data', 'Verzamelt geen gegevens'],
+  ['Production: changes are live', 'Productie: wijzigingen zijn live'],
 ];
 const tiles = [
   { name: 'promo-tile', file: 'promo-small-440x280', width: 440, height: 280 },
