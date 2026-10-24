@@ -47,7 +47,7 @@ const TEXT: Record<Locale, Text> = {
     lastOrder: 'Laatste bestelling #1042, 12 okt',
     remove: 'Klant verwijderen',
     orders: 'Recente bestellingen',
-    columns: ['Bestelling', 'Klant', 'Totaal', 'Status'],
+    columns: ['Nr.', 'Klant', 'Totaal', 'Status'],
     statuses: ['Betaald', 'Verzonden', 'Ingepakt', 'Verzonden', 'Bezorgd'],
   },
 };
@@ -74,13 +74,36 @@ main{display:grid;grid-template-columns:540px 1fr;align-items:start;gap:28px;pad
 section{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 24px}
 h2{margin:0 0 10px;font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .stats strong{font-size:30px}p{margin:0 0 4px;color:var(--muted)}p:first-of-type{font-size:22px;font-weight:600;color:var(--text)}
-button{margin-top:20px;font:inherit;font-weight:600;padding:10px 20px;border-radius:4px;border:2px solid var(--danger);background:transparent;color:var(--danger)}
-table{width:100%;border-collapse:collapse}td,th{padding:8px 0;text-align:left;border-top:1px solid var(--line)}
+button{margin-top:20px;white-space:nowrap;font:inherit;font-weight:600;padding:10px 20px;border-radius:4px;border:2px solid var(--danger);background:transparent;color:var(--danger)}
+table{width:100%;border-collapse:collapse}td,th{padding:8px 14px 8px 0;text-align:left;border-top:1px solid var(--line)}
 th{border:0;padding-top:0;font-size:15px;color:var(--muted);font-weight:600}
 td i{font-style:normal;font-size:15px;padding:2px 10px;border-radius:99px;background:var(--chip)}`;
 
-/** The demo page in the screenshot's language and theme. */
-export function screenshotPage(locale: Locale, theme: ScreenshotTheme): string {
+/**
+ * How much of the page a store slide shows, so its text reaches the slide at a readable size
+ * (store/listing.md): the whole dashboard; the customer card and four orders without the stats (a
+ * smaller window shown larger); the same with room on the right for the popup; or one narrow
+ * column whose header sits below a top banner (three windows side by side).
+ */
+export type DemoLayout = 'full' | 'focus' | 'customer' | 'narrow';
+
+const FOCUS = `header{padding:16px 36px}main{grid-template-columns:1.1fr 1fr;gap:24px;padding:24px 36px}
+.stats,tr:last-child{display:none}td,th{white-space:nowrap;padding-right:10px}section{padding:18px 20px}`;
+
+const LAYOUT: Record<DemoLayout, string> = {
+  full: '',
+  focus: FOCUS,
+  customer: `${FOCUS}main>section:last-child{visibility:hidden}`,
+  narrow: `header{padding:48px 24px 14px}header span{display:none}main{grid-template-columns:1fr;gap:18px;padding:18px 24px}
+.stats{display:none}`,
+};
+
+/** The demo page in the screenshot's language, theme and layout. */
+export function screenshotPage(
+  locale: Locale,
+  theme: ScreenshotTheme,
+  layout: DemoLayout = 'full',
+): string {
   const t = TEXT[locale];
   const stats = t.stats.map(
     ([label, value]) => `<section><h2>${label}</h2><strong>${value}</strong></section>`,
@@ -90,7 +113,7 @@ export function screenshotPage(locale: Locale, theme: ScreenshotTheme): string {
       `<tr>${row.map((cell) => `<td>${cell}</td>`).join('')}<td><i>${t.statuses[i]}</i></td></tr>`,
   );
   return `<!doctype html><html lang="${locale}"><head><meta charset="utf-8"><title>Leaf & Lamp · ${t.admin}</title>
-<style>:root{${PALETTE[theme]}}${STYLE}</style></head><body><header><b>Leaf & Lamp · ${t.admin}</b>${t.links
+<style>:root{${PALETTE[theme]}}${STYLE}${LAYOUT[layout]}</style></head><body><header><b>Leaf & Lamp · ${t.admin}</b>${t.links
     .map((link) => `<span>${link}</span>`)
     .join('')}</header><main><div class="stats">${stats.join('')}</div>
 <section><h2>${t.customer}</h2><p>Mila Jansen</p><p>mila@example.com</p><p>${t.lastOrder}</p>

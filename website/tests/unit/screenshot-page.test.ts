@@ -17,4 +17,13 @@ describe('REQ-WEBUX-001 the screenshot page is the hero example site', () => {
   it('has a dark palette', () => {
     expect(screenshotPage('en', 'dark')).toContain('--bg:#241d33');
   });
+
+  it.each(['focus', 'customer', 'narrow'] as const)(
+    'has a %s layout that leaves the stats out, so the slides can show it larger',
+    (layout) => {
+      const hidesStats = /\.stats[^{]*\{display:none\}/;
+      expect(screenshotPage('en', 'light', layout)).toMatch(hidesStats);
+      expect(screenshotPage('en', 'light')).not.toMatch(hidesStats);
+    },
+  );
 });

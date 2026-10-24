@@ -9,7 +9,8 @@ import { screenshotThemes } from '../src/content/screenshots';
 import { type Locale, websiteLocales } from '../src/i18n/locales';
 import { SEEDS, serveDemoPage } from './scene';
 import { type Box, MARK } from './store-art';
-import { captureStoreShots, repository } from './store-captures';
+import { repository } from './store-capture-tools';
+import { captureStoreShots } from './store-captures';
 import type { Slide } from './store-slides';
 import { slides } from './store-slides';
 
@@ -62,14 +63,45 @@ async function seedStoreGroups(
 const overlap = (a: Box, b: Box) =>
   a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height;
 
-async function render(board: Page, slide: Slide, dir: string): Promise<void> {
-  await board.setContent(slide.html);
-  await board.waitForFunction(() => [...document.images].every((img) => img.complete));
-  const notes = await board
+/** The note boxes on the board, in the order the notes were added. */
+async function noteBoxes(board: Page): Promise<Box[]> {
+  return board
     .locator('.note')
     .evaluateAll((all) => all.map((note) => note.getBoundingClientRect().toJSON() as Box));
-  const hit = notes.find((note) => slide.targets.some((target) => overlap(note, target)));
-  if (hit) throw new Error(`${slide.file}: a note covers a target at ${JSON.stringify(hit)}`);
+}
+
+/** Where `box` lies on a slide it must not: off the slide, or over a target, page text or note. */
+function clash(box: Box, slide: Slide, others: Box[]): string | undefined {
+  const off = box.x < 8 || box.y < 8 || box.x + box.width > 1272 || box.y + box.height > 792;
+  if (off) return 'off the slide';
+  if (slide.targets.some((target) => overlap(box, target))) return 'over a target';
+  if (slide.avoid.some((text) => overlap(box, text))) return 'over page text';
+  if (others.some((other) => overlap(box, other))) return 'over another note';
+  return undefined;
+}
+
+/** Each note at the first of its places that clashes with nothing, then the slide as a PNG. */
+async function render(board: Page, slide: Slide, dir: string): Promise<void> {
+  let chosen = '';
+  for (const [i, places] of slide.notes.entries()) {
+    const reasons: string[] = [];
+    const fit = await (async () => {
+      for (const note of places) {
+        await board.setContent(slide.html + chosen + note);
+        await board.evaluate(() => document.fonts.ready.then(() => undefined));
+        const boxes = await noteBoxes(board);
+        const box = boxes.at(-1) as Box;
+        const reason = clash(box, slide, boxes.slice(0, -1));
+        if (!reason) return note;
+        reasons.push(reason);
+      }
+      return undefined;
+    })();
+    if (!fit) throw new Error(`${slide.file}: note ${i + 1} fits nowhere (${reasons.join(', ')})`);
+    chosen += fit;
+  }
+  await board.setContent(slide.html + chosen);
+  await board.waitForFunction(() => [...document.images].every((img) => img.complete));
   writeFileSync(path.join(dir, `${slide.file}.png`), await board.screenshot());
 }
 
