@@ -1,8 +1,9 @@
 // The store screenshots (D-251, T-152): the captures (store-captures.ts) composed into 1280 × 800
 // slides (store-slides.ts) → store/images/<locale>/N-name.png. A note may never cover a target.
+// The light set is also written at 2× (2560 × 1600) for the Mac App Store → <locale>/appstore/.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import type { BrowserContext, Page } from '@playwright/test';
+import { type BrowserContext, chromium, type Page } from '@playwright/test';
 import { test } from '../../tests/e2e/fixtures';
 import { type MarkSeed, seedSiteGroup } from '../../tests/e2e/state';
 import { screenshotThemes } from '../src/content/screenshots';
@@ -105,6 +106,23 @@ async function render(board: Page, slide: Slide, dir: string): Promise<void> {
   writeFileSync(path.join(dir, `${slide.file}.png`), await board.screenshot());
 }
 
+/**
+ * The Mac App Store takes 16:10 screenshots up to 2880 × 1800: the same slides at 2×, composed in a
+ * plain Chromium (the slides are self-contained HTML) whose pages render at device scale 2.
+ */
+async function renderAppStore(set: Slide[], locale: Locale) {
+  const executablePath = process.env.PW_CHROMIUM_EXECUTABLE;
+  const browser = await chromium.launch(executablePath ? { executablePath } : {});
+  const board = await browser.newPage({
+    viewport: { width: 1280, height: 800 },
+    deviceScaleFactor: 2,
+  });
+  const dir = path.join(repository, 'store/images', locale, 'appstore');
+  mkdirSync(dir, { recursive: true });
+  for (const slide of set) await render(board, slide, dir);
+  await browser.close();
+}
+
 for (const locale of websiteLocales()) {
   test.describe(`store screenshots (${locale})`, () => {
     test.use({ uiLanguage: locale });
@@ -124,8 +142,10 @@ for (const locale of websiteLocales()) {
         // Light is the default set; dark is the alternative set in its own folder.
         const dir = path.join(repository, 'store/images', locale, theme === 'dark' ? 'dark' : '');
         mkdirSync(dir, { recursive: true });
-        for (const slide of slides(locale, shots, theme)) await render(board, slide, dir);
+        const set = slides(locale, shots, theme);
+        for (const slide of set) await render(board, slide, dir);
         await board.close();
+        if (theme === 'light') await renderAppStore(set, locale);
       }
     });
   });
