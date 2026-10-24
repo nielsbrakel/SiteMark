@@ -1,5 +1,7 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { readManifest, targets } from './targets';
+import { outDir, readManifest, targets } from './targets';
 
 const CSP =
   "script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; connect-src 'none'";
@@ -93,6 +95,18 @@ describe.each(targets())('%s production manifest', (target) => {
         homepage_url: 'https://nielsbrakel.github.io/SiteMark/',
         action: { default_title: 'SiteMark', default_popup: 'popup.html' },
       });
+    });
+
+    it('ships the icons, plus an opaque 1024 px app icon only on Safari (T-155)', () => {
+      const icons = Object.fromEntries(
+        [16, 32, 48, 96, 128].map((size) => [size, `icon/${size}.png`]),
+      );
+      const appIcon = target === 'safari' ? { 1024: 'icon/1024.png' } : {};
+      expect(manifest.icons).toEqual({ ...icons, ...appIcon });
+      for (const file of Object.values(manifest.icons as Record<string, string>)) {
+        expect(existsSync(path.join(outDir(target), file)), file).toBe(true);
+      }
+      expect(existsSync(path.join(outDir(target), 'icon/1024.png'))).toBe(target === 'safari');
     });
   });
 });

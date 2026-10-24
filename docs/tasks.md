@@ -45,11 +45,11 @@ The finished milestones M0 – M6 are in [archive/tasks.md](archive/tasks.md).
 
 ## M9 — Safari (later)
 
-| Task  | Description                                                                      | REQs        | Tests             | Status |
-| ----- | -------------------------------------------------------------------------------- | ----------- | ----------------- | ------ |
-| T-155 | Safari 18 build + packaging (App Store Connect packager or Xcode `--macos-only`) | REQ-NFR-001 | checklist         | ☐      |
-| T-156 | Safari fixes: grants in Safari UI, registration persistence, favicon best-effort | REQ-NFR-001 | checklist         | ☐      |
-| T-157 | App Store listing + submission (texts and images ready in `store/listing.md`)    | REQ-NFR-006 | release checklist | ☐      |
+| Task  | Description                                                                                                                                                                                                                                                       | REQs        | Tests                                     | Status |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------------------------------------- | ------ |
+| T-155 | Safari 18 build + packaging (App Store Connect packager or Xcode `--macos-only`); bundle ID `com.nielsvanbrakel.sitemark`, extension `com.nielsvanbrakel.sitemark.extension`; the Safari build already ships the opaque 1024 px app icon (`icon/1024.png`, D-300) | REQ-NFR-001 | checklist, `tests/build/manifest.test.ts` | ☐      |
+| T-156 | Safari fixes: grants in Safari UI, registration persistence, favicon best-effort                                                                                                                                                                                  | REQ-NFR-001 | checklist                                 | ☐      |
+| T-157 | App Store listing + submission (texts and images ready in `store/listing.md`)                                                                                                                                                                                     | REQ-NFR-006 | release checklist                         | ☐      |
 
 ## M10 — Scrapbook redesign (D-289)
 

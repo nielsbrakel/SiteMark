@@ -125,15 +125,17 @@ await page.setContent(
 await page.screenshot({ path: 'design/apple-touch-icon.png' });
 console.log('design/apple-touch-icon.png');
 
-// The Mac App Store icon (T-157): 1024 × 1024, opaque (no alpha) and square (the App Store applies
+// The Mac App Store icon (T-155, T-157): 1024 × 1024, opaque (no alpha) and square (the App Store applies
 // its own corner shape), so the logo sits on the kraft board.
 await page.setViewportSize({ width: 1024, height: 1024 });
 await page.setContent(
   `<style>html,body{margin:0;background:#c9a77c}svg{display:block;width:1024px;height:1024px;padding:120px;box-sizing:border-box}</style>${await readFile('design/logo/sitemark-icon.svg', 'utf8')}`,
 );
 await mkdir('store/images', { recursive: true });
-await page.screenshot({ path: 'store/images/icon-1024.png' });
-console.log('store/images/icon-1024.png');
+// The Safari build ships it too, as its largest icon, so the App Store packager uses it (wxt.config.ts).
+await page.screenshot({ path: 'design/app-icon-1024.png' });
+await copyFile('design/app-icon-1024.png', 'store/images/icon-1024.png');
+console.log('design/app-icon-1024.png, store/images/icon-1024.png');
 
 const social = await readFile('design/social-preview.svg', 'utf8');
 await renderArt(page, social, 1280, 640, 'design/social-preview.png');

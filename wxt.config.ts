@@ -1,8 +1,13 @@
+import path from 'node:path';
 import { defineConfig } from 'wxt';
 import { E2E_GRANTED_ORIGINS } from './tests/e2e/hosts';
 
 /** The Chromium targets (`wxt build -b <browser>`): they share the Chrome version floor. */
 const CHROMIUM = new Set(['chrome', 'edge']);
+
+/** The toolbar and store icons in public/icon/ (rendered by `pnpm icons`). */
+const ICONS = Object.fromEntries([16, 32, 48, 96, 128].map((size) => [size, `icon/${size}.png`]));
+const SAFARI_APP_ICON = 'icon/1024.png';
 
 // See docs/plan.md §3 (Architecture) for why permissions look like this.
 export default defineConfig({
@@ -66,6 +71,9 @@ export default defineConfig({
     ...(CHROMIUM.has(browser) && { minimum_chrome_version: '120' }),
     ...(browser === 'safari' && {
       browser_specific_settings: { safari: { strict_min_version: '18.0' } },
+      // The App Store packager makes the largest icon the app icon (T-155, D-300): an opaque 1024 px one,
+      // copied in by the build:publicAssets hook below. The other browsers don't ship it.
+      icons: { ...ICONS, 1024: SAFARI_APP_ICON },
     }),
     ...(browser === 'firefox' && {
       browser_specific_settings: {
@@ -81,6 +89,13 @@ export default defineConfig({
     }),
   }),
   hooks: {
+    'build:publicAssets': (wxt, files) => {
+      if (wxt.config.browser !== 'safari') return;
+      files.push({
+        absoluteSrc: path.resolve('design/app-icon-1024.png'),
+        relativeDest: SAFARI_APP_ICON,
+      });
+    },
     // WXT copies the runtime content script's `matches` (*://*/*) into
     // host_permissions, which would grant access to every site at install time.
     // Remove only that entry: dev-server and (future) e2e hosts must survive.
