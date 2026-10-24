@@ -134,19 +134,20 @@ Matching [PRIVACY.md](../PRIVACY.md#permissions-and-why-sitemark-needs-them).
 ## Images
 
 All images are generated, never made by hand (D-251): `pnpm web:screenshots` writes the website screenshots and
-the five framed store screenshots into [`images/`](images/), and `pnpm icons` renders the icons and the promo tiles there.
+the six framed store screenshots into [`images/`](images/), and `pnpm icons` renders the icons and the promo tiles there.
 
 | File in `images/`                              | Size       | Chrome | Edge | Firefox |
 | ---------------------------------------------- | ---------- | :----: | :--: | :-----: |
 | `icon-128.png` (store icon)                    | 128 × 128  |   ✓    |      |    ✓    |
 | `icon-300.png` (store logo)                    | 300 × 300  |        |  ✓   |         |
 | `{en,nl}/1…5-*.png` (screenshots)              | 1280 × 800 |   ✓    |  ✓   |    ✓    |
+| `{en,nl}/6-privacy-dark.png` (screenshot)      | 1280 × 800 |        |  ✓   |    ✓    |
 | `{en,nl}/promo-small-440x280.png` (small tile) | 440 × 280  |   ✓    |  ✓   |         |
 | `{en,nl}/promo-marquee-1400x560.png` (marquee) | 1400 × 560 |   ✓    |  ✓   |         |
 
 - Everything in `en/` and `nl/` is localised: screenshots, promo tiles and the captions below. Upload `nl` to the
   Dutch listing and `en` to the English one.
-- Screenshots are 24-bit PNG without alpha, numbered in upload order. Chrome allows 5 per language, so `en` and
+- Screenshots are 24-bit PNG without alpha, numbered in upload order. Chrome allows 5 per language, so upload 1–5 there; Edge and Firefox also take 6. `en` and
   `nl` are each a complete set. Chrome's **global** screenshots are the `en` set.
 - Firefox has no promo tiles. It takes its icon from the package. The icon PNGs have an alpha channel, which
   stores allow for icons.
@@ -155,13 +156,14 @@ the five framed store screenshots into [`images/`](images/), and `pnpm icons` re
 
 Each image carries its caption in large type, because the stores show thumbnails.
 
-| #   | File                   | en                                       | nl                                       |
-| --- | ---------------------- | ---------------------------------------- | ---------------------------------------- |
-| 1   | `1-marked-page`        | Production, impossible to miss           | Productie, onmiskenbaar                  |
-| 2   | `2-production-vs-test` | Production and test, side by side        | Productie en test naast elkaar           |
-| 3   | `3-picker`             | Pick the button that matters             | Kies de knop die ertoe doet              |
-| 4   | `4-popup`              | Mark a site in one click                 | Markeer een site met één klik            |
-| 5   | `5-options`            | Fine-tune every mark with a live preview | Stel elke markering af met een voorbeeld |
+| #   | File             | en                                | nl                                   |
+| --- | ---------------- | --------------------------------- | ------------------------------------ |
+| 1   | `1-production`   | Never mistake production for test | Verwar productie nooit meer met test |
+| 2   | `2-environments` | Every environment its own colour  | Elke omgeving een eigen kleur        |
+| 3   | `3-popup`        | Mark a site in one click          | Markeer een site met één klik        |
+| 4   | `4-picker`       | Protect the button that matters   | Bescherm de knop die ertoe doet      |
+| 5   | `5-options`      | Fine-tune every mark, see it live | Stel elke markering af, zie het live |
+| 6   | `6-privacy-dark` | Private by design                 | Privé als uitgangspunt               |
 
 The browser's own permission prompt is a native window that a script cannot capture. If you want it in the set, take
-that screenshot yourself on a real install and add it as image 6 (Edge and Firefox allow more than five).
+that screenshot yourself on a real install and add it as image 7 (Edge and Firefox allow more than five).
