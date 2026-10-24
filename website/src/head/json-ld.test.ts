@@ -35,7 +35,7 @@ describe('REQ-SEO-005 the home routes describe SiteMark as a SoftwareApplication
         'https://microsoftedge.microsoft.com/addons/detail/sitemark/edfcmbpeagdkacfidejninkikjiffojn',
         'https://addons.mozilla.org/en-US/firefox/addon/sitemark/',
       ],
-      screenshot: 'https://nielsbrakel.github.io/SiteMark/screenshots/marked-page-light-nl.png',
+      screenshot: 'https://nielsbrakel.github.io/SiteMark/playground/preview-light-nl.png',
       codeRepository: 'https://github.com/nielsbrakel/SiteMark',
       license: 'https://github.com/nielsbrakel/SiteMark/blob/main/LICENSE',
       image: 'https://nielsbrakel.github.io/SiteMark/social-preview-nl.png',

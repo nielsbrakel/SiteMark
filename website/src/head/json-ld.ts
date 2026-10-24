@@ -1,6 +1,6 @@
 import { repositoryFileUrl, repositoryUrl } from '../config/repository';
 import { stores } from '../config/stores';
-import { screenshotFile } from '../content/screenshots';
+import { playgroundPreviewFile } from '../content/playground-preview';
 import type { Locale } from '../i18n/locales';
 import { absoluteUrl } from '../routes/urls';
 import { socialPreviewUrl } from './seo';
@@ -40,7 +40,7 @@ export function softwareApplication({
     isAccessibleForFree: true,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
     installUrl: stores().flatMap(({ url }) => (url ? [url] : [])),
-    screenshot: absoluteUrl(screenshotFile('marked-page', 'light', locale, 'png')),
+    screenshot: absoluteUrl(playgroundPreviewFile('light', locale, 'png')),
     codeRepository: repositoryUrl(),
     license: repositoryFileUrl('LICENSE'),
     image: socialPreviewUrl(locale),
