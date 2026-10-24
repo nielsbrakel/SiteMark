@@ -11,13 +11,13 @@ describe('REQ-SEO-005 the home routes describe SiteMark as a SoftwareApplication
       locale: 'nl',
       description: 'Markeert websites.',
       url: 'https://nielsbrakel.github.io/SiteMark/nl/',
-      alternateName: 'SiteMark – Omgevingsindicator',
+      alternateName: 'SiteMark Omgevingsindicator',
     });
     expect(data).toEqual({
       '@context': 'https://schema.org',
       '@type': 'SoftwareApplication',
       name: 'SiteMark',
-      alternateName: 'SiteMark – Omgevingsindicator',
+      alternateName: 'SiteMark Omgevingsindicator',
       description: 'Markeert websites.',
       url: 'https://nielsbrakel.github.io/SiteMark/nl/',
       inLanguage: 'nl',
@@ -65,9 +65,7 @@ describe('REQ-SEO-005 the home routes describe SiteMark as a SoftwareApplication
       expect(data['@type'], file).toBe('SoftwareApplication');
       expect(data.inLanguage, file).toBe(file.startsWith('nl/') ? 'nl' : 'en');
       expect(data.alternateName, file).toBe(
-        file.startsWith('nl/')
-          ? 'SiteMark – Omgevingsindicator'
-          : 'SiteMark – Environment Indicator',
+        file.startsWith('nl/') ? 'SiteMark Omgevingsindicator' : 'SiteMark Environment Indicator',
       );
       expect(data.url, file).toBe(
         `https://nielsbrakel.github.io/SiteMark/${file.replace('index.html', '')}`,

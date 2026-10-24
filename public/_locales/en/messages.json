@@ -1,7 +1,7 @@
 {
   "extName": {
-    "message": "SiteMark – Environment Indicator",
-    "description": "Extension name in the stores and the browser (at most 45 characters): the brand SiteMark, an en dash and what it is. Keep SiteMark; translate the rest."
+    "message": "SiteMark Environment Indicator",
+    "description": "Extension name, the same in every store (at most 30 characters, the App Store limit): the brand SiteMark, a space and what it is. Keep SiteMark; translate the rest."
   },
   "extDescription": {
     "message": "Environment indicator: mark production, staging and test sites with a ribbon, banner or frame. Collects no data.",
