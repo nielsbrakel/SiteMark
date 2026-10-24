@@ -9,6 +9,8 @@ import { MARK_FORM_KEYS } from '../../../src/ui/components/mark-form/mark-form-k
  */
 export const SHARED_MESSAGE_KEYS = [
   ...MARK_FORM_KEYS,
+  // The store name "SiteMark – Environment Indicator": the home page's JSON-LD alternateName (D-300).
+  'extName',
   'markerCollapseBanner',
   'markerExpandBanner',
   'themeSystem',

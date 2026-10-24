@@ -1,6 +1,6 @@
 {
   "websiteHomeTitle": {
-    "message": "SiteMark: never confuse production with test again",
+    "message": "SiteMark – Environment Indicator for production and test",
     "description": "Browser tab title of the website home page. At most 60 characters."
   },
   "websiteHomeHeading": {
@@ -100,7 +100,7 @@
     "description": "Accessible name of the theme switch in the header (system / light / dark)."
   },
   "websiteHomeDescription": {
-    "message": "SiteMark marks production and other websites with ribbons, banners and outlines, so you never confuse environments. Free, private and source-available.",
+    "message": "SiteMark is an environment indicator for your browser: it marks production, staging and test sites with ribbons, banners and frames. Free and collects no data.",
     "description": "Meta description of the website home page, shown in search results. At most 160 characters."
   },
   "websiteSocialImageAlt": {

@@ -28,7 +28,12 @@ export function pageHead(
   const jsonLd =
     route.page === 'home'
       ? jsonLdText(
-          softwareApplication({ locale, description: head.description, url: head.canonical }),
+          softwareApplication({
+            locale,
+            description: head.description,
+            url: head.canonical,
+            alternateName: t('extName'),
+          }),
         )
       : undefined;
   return { head, jsonLd };

@@ -1,6 +1,6 @@
 {
   "websiteHomeTitle": {
-    "message": "SiteMark: verwar productie nooit meer met test",
+    "message": "SiteMark – Omgevingsindicator voor productie en test",
     "description": "Browser tab title of the website home page. At most 60 characters."
   },
   "websiteHomeHeading": {
@@ -100,7 +100,7 @@
     "description": "Accessible name of the theme switch in the header (system / light / dark)."
   },
   "websiteHomeDescription": {
-    "message": "SiteMark markeert productie- en andere websites met linten, banners en kaders, zodat je omgevingen nooit verwart. Gratis, privé en met openbare broncode.",
+    "message": "Omgevingsindicator voor je browser: SiteMark markeert productie-, staging- en testsites met linten, banners en kaders. Gratis en verzamelt geen gegevens.",
     "description": "Meta description of the website home page, shown in search results. At most 160 characters."
   },
   "websiteSocialImageAlt": {
