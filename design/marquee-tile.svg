@@ -1,30 +1,55 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 560" role="img" aria-labelledby="t">
-  <defs><pattern id="s" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="5" height="10" fill="#fff" fill-opacity=".4"/></pattern></defs>
-  <title id="t">SiteMark: never confuse production with test</title>
-  <!-- Fonts: Caveat Brush and Patrick Hand (bundled, OFL). pnpm icons injects them before rendering. -->
+  <title id="t">SiteMark: never mistake production for test</title>
+  <!-- Fonts: Caveat Brush and Patrick Hand (bundled, OFL). pnpm icons injects them before rendering.
+       Three browser windows, back to front test, staging and production, each with the corner ribbon,
+       banner, frame and outline the extension draws, in the mark presets (D-205). -->
+  <defs>
+    <clipPath id="wl"><rect x="16" y="20" width="96" height="88" rx="12"/></clipPath>
+    <pattern id="s" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="5" height="10" fill="#fff" fill-opacity=".4"/></pattern>
+    <clipPath id="v1"><rect x="700" y="132" width="480" height="236"/></clipPath>
+    <clipPath id="v2"><rect x="780" y="182" width="480" height="236"/></clipPath>
+    <clipPath id="v3"><rect x="860" y="232" width="480" height="268"/></clipPath>
+    <g id="page">
+      <rect x="28" y="24" width="160" height="16" rx="8" fill="#efe4cb"/><rect x="28" y="60" width="300" height="12" rx="6" fill="#efe4cb"/>
+      <rect x="28" y="84" width="260" height="12" rx="6" fill="#efe4cb"/><rect x="28" y="108" width="280" height="12" rx="6" fill="#efe4cb"/>
+      <rect x="350" y="60" width="100" height="100" rx="6" fill="#efe4cb"/>
+    </g>
+    <g id="window">
+      <rect width="480" height="320" rx="8" fill="#3c230f" fill-opacity=".28" transform="translate(0 10)"/>
+      <rect width="480" height="320" rx="8" fill="#fbf6e8"/>
+      <path d="M0 8a8 8 0 0 1 8-8h464a8 8 0 0 1 8 8v44H0Z" fill="#efe4cb"/>
+      <rect x="14" y="14" width="452" height="24" rx="12" fill="#fffdf4"/>
+    </g>
+  </defs>
   <rect width="1400" height="560" fill="#c9a77c"/>
-  <g transform="translate(80 70) scale(1.2)">
-    <defs><clipPath id="wl"><rect x="16" y="20" width="96" height="88" rx="12"/></clipPath></defs>
+  <g transform="translate(64 60) scale(1)">
     <rect x="16" y="20" width="96" height="88" rx="12" fill="#fffaf0" stroke="#fffaf0" stroke-width="8" stroke-linejoin="round"/>
     <rect x="16" y="20" width="96" height="88" rx="12" fill="#fbf6e8"/>
     <path d="M16 46H112" stroke="#33261b" stroke-width="3"/><circle cx="30" cy="33" r="2" fill="#33261b"/>
     <g clip-path="url(#wl)"><path d="M44 10L84 10L124 50L124 90Z" fill="#e8664d" stroke="#33261b" stroke-width="3" stroke-linejoin="round"/></g>
     <rect x="16" y="20" width="96" height="88" rx="12" fill="none" stroke="#33261b" stroke-width="3.5" stroke-linejoin="round"/>
   </g>
-  <text x="260" y="180" font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="110" fill="#33261b">SiteMark</text>
-  <g font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="66" fill="#33261b"><text x="90" y="320">Never confuse</text><text x="90" y="392">production with test.</text></g>
-  <text x="90" y="452" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="32" fill="#33261b">Private by design. Collects no data.</text>
-  <g transform="rotate(-3 1115 90)" opacity=".92"><rect x="1040" y="71" width="150" height="38" fill="#f5cf5a"/><rect x="1040" y="71" width="150" height="38" fill="url(#s)"/></g>
-  <clipPath id="w"><rect x="800" y="90" width="520" height="380"/></clipPath>
-  <rect x="806" y="98" width="520" height="380" fill="#33261b"/>
-  <rect x="800" y="90" width="520" height="380" fill="#fbf6e8"/>
-  <g clip-path="url(#w)">
-    <rect x="800" y="90" width="520" height="52" fill="#efe4cb"/>
-    <path d="M800 142h520" stroke="#33261b" stroke-width="2"/>
-    <circle cx="830" cy="116.0" r="7" fill="#c93a2e"/><circle cx="854" cy="116.0" r="7" fill="#f4a300"/><circle cx="878" cy="116.0" r="7" fill="#57606a"/>
-    <rect x="902" y="102.0" width="340" height="28" rx="14" fill="#fbf6e8" stroke="#33261b" stroke-width="1.5"/>
-    <rect x="840" y="176" width="200" height="22" rx="7" fill="#d9ccb0"/><rect x="840" y="204" width="420" height="14" rx="7" fill="#d9ccb0"/><rect x="840" y="232" width="380" height="14" rx="7" fill="#d9ccb0"/><rect x="840" y="260" width="400" height="14" rx="7" fill="#d9ccb0"/><rect x="840" y="330" width="150" height="44" fill="#e8664d" stroke="#c93a2e" stroke-width="3" stroke-dasharray="8 5"/><rect x="800" y="420" width="520" height="50" fill="#c93a2e"/><text x="1060" y="452.0" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="20" letter-spacing="3" fill="#fff">PRODUCTION · BE CAREFUL</text>
+  <text x="200" y="158" font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="96" fill="#33261b">SiteMark</text>
+  <g font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="64" fill="#33261b"><text x="80" y="290">Never mistake</text><text x="80" y="360">production for test</text></g>
+  <text x="82" y="418" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="28" fill="#33261b">Collects no data</text>
+
+  <g transform="translate(160 -20)"><use href="#window" x="700" y="80"/>
+  <g clip-path="url(#v1)"><use href="#page" x="700" y="132"/><rect x="702" y="134" width="476" height="232" fill="none" stroke="#1f6feb" stroke-width="4"/>
+    <g transform="translate(1180 132) rotate(45)"><rect x="-120" y="30" width="240" height="34" fill="#1f6feb"/><text x="0" y="54" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="18" fill="#fff">TEST</text></g></g>
+  <path d="M700 132H1180" stroke="#33261b" stroke-width="2"/><rect x="700" y="80" width="480" height="320" rx="8" fill="none" stroke="#33261b" stroke-width="3"/></g>
+
+  <g transform="translate(0 -10)"><use href="#window" x="780" y="130"/>
+  <g clip-path="url(#v2)"><rect x="780" y="182" width="480" height="24" fill="#f4a300"/><text x="1020" y="199" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="14" fill="#000">Staging</text><use href="#page" x="780" y="200"/>
+    <g transform="translate(1260 182) rotate(45)"><rect x="-120" y="30" width="240" height="34" fill="#f4a300"/><text x="0" y="54" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="18" fill="#000">STAGING</text></g></g>
+  <path d="M780 182H1260" stroke="#33261b" stroke-width="2"/><rect x="780" y="130" width="480" height="320" rx="8" fill="none" stroke="#33261b" stroke-width="3"/></g>
+
+  <g transform="translate(-160 0)"><use href="#window" x="860" y="180"/>
+  <g clip-path="url(#v3)"><use href="#page" x="860" y="232"/>
+    <rect x="889" y="388" width="140" height="40" rx="4" fill="#fffefa" stroke="#a63d28" stroke-width="2"/><rect x="884" y="383" width="150" height="50" rx="2" fill="none" stroke="#c93a2e" stroke-width="3"/>
+    <rect x="860" y="456" width="480" height="44" fill="#c93a2e"/><text x="1100" y="484" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="18" fill="#fff">Production: changes are live</text>
+    <rect x="862" y="234" width="476" height="264" fill="none" stroke="#c93a2e" stroke-width="4"/>
+    <g transform="translate(1340 232) rotate(45)"><rect x="-120" y="30" width="240" height="34" fill="#c93a2e"/><text x="0" y="54" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="18" fill="#fff">PROD</text></g></g>
+  <path d="M860 232H1340" stroke="#33261b" stroke-width="2"/><rect x="860" y="180" width="480" height="320" rx="8" fill="none" stroke="#33261b" stroke-width="3"/>
+  <g transform="rotate(-3 1025 183)" opacity=".92"><rect x="950" y="166" width="150" height="34" fill="#f5cf5a"/><rect x="950" y="166" width="150" height="34" fill="url(#s)"/></g>
   </g>
-  <rect x="800" y="90" width="520" height="380" fill="none" stroke="#33261b" stroke-width="3"/>
-  <g transform="translate(1292 118) rotate(45)"><rect x="-80" y="-17" width="160" height="34" fill="#c93a2e" stroke="#33261b" stroke-width="2"/><text x="0" y="6" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="19" letter-spacing="3" fill="#fff">PROD</text></g>
 </svg>
