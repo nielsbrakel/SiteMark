@@ -1,6 +1,7 @@
 // The store images (store/listing.md): real captures composed into 1280 × 800 slides. The captures
 // come in as 2× PNGs with the boxes Playwright measured; the slides come out as HTML for
 // store-shots.ts to screenshot.
+import type { ScreenshotTheme } from '../src/content/screenshots';
 import type { Locale } from '../src/i18n/locales';
 import {
   type Box,
@@ -81,7 +82,7 @@ function options(c: Copy['options'], { form, preview }: Shots['options']) {
   const previewScale = (width - 60 - form.width * formScale) / preview.width;
   const [fx, fy] = [20, (height - form.height * formScale) / 2];
   const [px, py] = [40 + form.width * formScale, height - 30 - preview.height * previewScale];
-  const sheet = 'border:2px solid #33261b;border-radius:3px;box-shadow:0 3px 0 #d9ccb0';
+  const sheet = 'border:2px solid var(--line);border-radius:3px;box-shadow:0 3px 0 var(--edge)';
   const swatches = place(form, x + fx, y + fy, formScale).at('swatches');
   const figure = place(preview, x + px, y + py, previewScale).at('figure');
   const body = `<div style="position:absolute;inset:0;background:var(--board)"></div>${place(form, 0, 0, formScale).img(fx, fy, sheet)}${place(preview, 0, 0, previewScale).img(px, py, sheet)}`;
@@ -93,10 +94,10 @@ function options(c: Copy['options'], { form, preview }: Shots['options']) {
   };
 }
 
-export type Slide = { file: string; html: string; dark: boolean; targets: Box[] };
+export type Slide = { file: string; html: string; targets: Box[] };
 
 /** The six store images of one language, in upload order (Chrome takes the first five). */
-export function slides(locale: Locale, shots: Shots): Slide[] {
+export function slides(locale: Locale, shots: Shots, theme: ScreenshotTheme): Slide[] {
   const c = COPY[locale];
   const popup = popupOver(shots.popup.page, shots.popup.panel, 83, 1114);
   const button = popup.at('button');
@@ -112,18 +113,15 @@ export function slides(locale: Locale, shots: Shots): Slide[] {
     { file: '4-picker', ...picker(c.picker, shots.picker) },
     { file: '5-options', ...options(c.options, shots.options) },
     {
-      file: '6-privacy-dark',
+      file: '6-privacy',
       body: `${header(c.privacy.head, c.privacy.sub)}${privacy.html}<ul class="checks" style="left:870px;top:${VIEW.top}px;width:350px">${c.privacy.checks.map((line) => `<li>${html(line)}</li>`).join('')}</ul>`,
       targets: [],
     },
   ];
-  return list.map(({ file, body, targets }) => {
-    const dark = file.endsWith('dark');
-    return {
-      file,
-      dark,
-      targets,
-      html: `<style>:root{${dark ? DARK : LIGHT}}${CSS}</style>${body}`,
-    };
-  });
+  const tokens = theme === 'dark' ? DARK : LIGHT;
+  return list.map(({ file, body, targets }) => ({
+    file,
+    targets,
+    html: `<style>:root{${tokens}}${CSS}</style>${body}`,
+  }));
 }

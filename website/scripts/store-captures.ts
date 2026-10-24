@@ -122,7 +122,7 @@ async function popup(
 
 /** The picker on the Delete button, its panel moved to the bottom right, the pointer resting on it. */
 async function picker(env: Env, t: Say) {
-  const page = await open(env, `${ORIGIN}/team/`, 'light', 760, 600);
+  const page = await open(env, `${ORIGIN}/team/`, env.theme, 760, 600);
   await waitForMarker(page);
   await startPicking(env.context, page, env.worker);
   const { x, y } = await centerOf(page.locator('#delete'));
@@ -153,7 +153,7 @@ async function options(env: Env, route: string, t: Say) {
   const page = await open(
     env,
     `chrome-extension://${env.extensionId}/options.html${route}`,
-    'light',
+    env.theme,
     1280,
     1100,
   );
@@ -187,19 +187,19 @@ async function options(env: Env, route: string, t: Say) {
   return { form: formShot, preview };
 }
 
-/** Every capture the six slides need, in `env`'s language. */
+/** Every capture the six slides need, in `env`'s theme and the given language. */
 export async function captureStoreShots(env: Env, locale: Locale, route: string): Promise<Shots> {
   const t = say(locale);
   return {
-    production: await marked(env, `${ORIGIN}/customers/`, 'light', 600, true),
+    production: await marked(env, `${ORIGIN}/customers/`, env.theme, 600, true),
     environments: [
-      await marked(env, `${ORIGIN}/orders/`, 'light', 800),
-      await marked(env, `${STAGING_ORIGIN}/`, 'light', 800),
-      await marked(env, `${TEST_ORIGIN}/orders/`, 'light', 800),
+      await marked(env, `${ORIGIN}/orders/`, env.theme, 800),
+      await marked(env, `${STAGING_ORIGIN}/`, env.theme, 800),
+      await marked(env, `${TEST_ORIGIN}/orders/`, env.theme, 800),
     ],
-    popup: await popup(env, `${TEST_ORIGIN}/`, 'light', 600, t('popupMarkThisSite')),
+    popup: await popup(env, `${TEST_ORIGIN}/`, env.theme, 600, t('popupMarkThisSite')),
     picker: await picker(env, t),
     options: await options(env, route, t),
-    privacy: await popup(env, `${STAGING_ORIGIN}/`, 'dark', 930),
+    privacy: await popup(env, `${STAGING_ORIGIN}/`, env.theme, 930),
   };
 }

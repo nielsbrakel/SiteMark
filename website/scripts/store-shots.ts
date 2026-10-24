@@ -5,6 +5,7 @@ import path from 'node:path';
 import type { BrowserContext, Page } from '@playwright/test';
 import { test } from '../../tests/e2e/fixtures';
 import { type MarkSeed, seedSiteGroup } from '../../tests/e2e/state';
+import { screenshotThemes } from '../src/content/screenshots';
 import { type Locale, websiteLocales } from '../src/i18n/locales';
 import { SEEDS, serveDemoPage } from './scene';
 import { type Box, MARK } from './store-art';
@@ -83,13 +84,17 @@ for (const locale of websiteLocales()) {
     }) => {
       await serveDemoPage(context, locale);
       const route = await seedStoreGroups(context, extensionId, locale);
-      const env = { context, worker: serviceWorker, extensionId, theme: 'light' as const };
-      const shots = await captureStoreShots(env, locale, route);
-      const board = await context.newPage();
-      await board.setViewportSize({ width: 1280, height: 800 });
-      const dir = path.join(repository, 'store/images', locale);
-      mkdirSync(dir, { recursive: true });
-      for (const slide of slides(locale, shots)) await render(board, slide, dir);
+      for (const theme of screenshotThemes()) {
+        const env = { context, worker: serviceWorker, extensionId, theme };
+        const shots = await captureStoreShots(env, locale, route);
+        const board = await context.newPage();
+        await board.setViewportSize({ width: 1280, height: 800 });
+        // Light is the default set; dark is the alternative set in its own folder.
+        const dir = path.join(repository, 'store/images', locale, theme === 'dark' ? 'dark' : '');
+        mkdirSync(dir, { recursive: true });
+        for (const slide of slides(locale, shots, theme)) await render(board, slide, dir);
+        await board.close();
+      }
     });
   });
 }
