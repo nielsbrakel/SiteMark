@@ -76,7 +76,7 @@ for (const locale of websiteLocales()) {
       await serveDemoPage(context, locale);
       const state = await seedSiteGroup(context, extensionId, {
         name: SEEDS[locale].name,
-        patterns: ['*://prod.sitemark.test/*'],
+        patterns: [`*://${new URL(ORIGIN).host}/*`],
         marks: seedMarks(locale),
       });
       const group = state.siteGroups.at(-1);
