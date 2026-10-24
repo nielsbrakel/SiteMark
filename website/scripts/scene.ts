@@ -6,9 +6,10 @@ import { SCREENSHOT_SIZE, type ScreenshotTheme } from '../src/content/screenshot
 import type { Locale } from '../src/i18n/locales';
 import { screenshotPage } from './screenshot-page';
 
-/** Pre-granted origins of the e2e build, on the default port: the marked shop and an unmarked one. */
-export const ORIGIN = 'http://prod.sitemark.test';
-export const TEST_ORIGIN = 'http://test.sitemark.test';
+/** Pre-granted origins of the e2e build (example.com is reserved): production, staging and test. */
+export const ORIGIN = 'https://app.example.com';
+export const STAGING_ORIGIN = 'https://staging.example.com';
+export const TEST_ORIGIN = 'https://test.example.com';
 
 export type Env = {
   context: BrowserContext;
@@ -17,9 +18,9 @@ export type Env = {
   theme: ScreenshotTheme;
 };
 
-/** Serves the demo page on both origins (`?theme=dark` for the dark variant). */
+/** Serves the demo page on every origin (`?theme=dark` for the dark variant). */
 export async function serveDemoPage(context: BrowserContext, locale: Locale): Promise<void> {
-  for (const origin of [ORIGIN, TEST_ORIGIN]) {
+  for (const origin of [ORIGIN, STAGING_ORIGIN, TEST_ORIGIN]) {
     await context.route(`${origin}/**`, (route) => {
       const theme = new URL(route.request().url()).searchParams.get('theme');
       const body = screenshotPage(locale, theme === 'dark' ? 'dark' : 'light');
@@ -42,11 +43,11 @@ export async function settle(page: Page): Promise<Buffer> {
   return png;
 }
 
-/** The popup for the tab showing `url`, as a panel as tall as its content. */
-export async function popupPanel(
+/** The popup for the tab showing `url`, sized as a panel as tall as its content. */
+export async function openPopupPanel(
   { context, worker, extensionId, theme }: Env,
   url: string,
-): Promise<Buffer> {
+): Promise<Page> {
   const { site, popup } = await openPopupFor(context, worker, extensionId, url);
   await popup.emulateMedia({ colorScheme: theme, reducedMotion: 'reduce' });
   await popup.setViewportSize({ width: 360, height: 600 });
@@ -60,8 +61,10 @@ export async function popupPanel(
   const height = await popup.evaluate(() => document.body.scrollHeight);
   await popup.setViewportSize({ width: 360, height: Math.min(height, 600) });
   await site.close();
-  return settle(popup);
+  return popup;
 }
+
+export const popupPanel = async (env: Env, url: string) => settle(await openPopupPanel(env, url));
 
 /** Draws the popup panel over the page screenshot, below the toolbar like the browser does. */
 export async function popupOverPage(

@@ -1,78 +1,99 @@
 import type { ScreenshotTheme } from '../src/content/screenshots';
 import type { Locale } from '../src/i18n/locales';
 
-// The page the screenshots mark (T-230): the same "Leaf & Lamp" shop the website's hero and playground
-// show (MockShop), now with real text, served by the generator at http://prod.sitemark.test/ (a
-// pre-granted origin of the e2e build), so no URL in the screenshots carries a port. Its colors
-// echo the mock shop's paper tones but belong to the demo shop, not to SiteMark.
+// The page the screenshots mark (T-230): the admin of the "Leaf & Lamp" shop the website's hero and
+// playground show (MockShop), with a customer card, its risky Delete button and recent orders. The
+// generators serve it on the hosts the e2e build pre-grants, so no URL in the screenshots carries a port.
+// Its colors echo the mock shop's paper tones but belong to the demo shop, not to SiteMark, and its
+// status chips stay grey so they never compete with the marks.
 
 type Text = {
-  brand: string;
+  admin: string;
   links: readonly string[];
-  headline: string;
-  lead: string;
+  stats: readonly (readonly [string, string])[];
+  customer: string;
+  lastOrder: string;
   remove: string;
-  products: readonly (readonly [string, string])[];
+  orders: string;
+  columns: readonly string[];
+  statuses: readonly string[];
 };
 
 const TEXT: Record<Locale, Text> = {
   en: {
-    brand: 'Leaf & Lamp',
-    links: ['Plants', 'Lamps', 'Orders'],
-    headline: 'Calm corners for slow mornings',
-    lead: 'Plants, pots and warm lamps, delivered to your door.',
-    remove: 'Delete customer',
-    products: [
-      ['Monstera', '€ 24'],
-      ['Brass desk lamp', '€ 59'],
-      ['Clay pot set', '€ 18'],
+    admin: 'Admin',
+    links: ['Customers', 'Orders', 'Products'],
+    stats: [
+      ['Orders today', '18'],
+      ['Revenue', '€ 1,240'],
+      ['Open tickets', '3'],
     ],
+    customer: 'Customer',
+    lastOrder: 'Last order #1042, 12 Oct',
+    remove: 'Delete customer',
+    orders: 'Recent orders',
+    columns: ['Order', 'Customer', 'Total', 'Status'],
+    statuses: ['Paid', 'Shipped', 'Packed', 'Shipped', 'Delivered'],
   },
   nl: {
-    brand: 'Leaf & Lamp',
-    links: ['Planten', 'Lampen', 'Bestellingen'],
-    headline: 'Rustige hoekjes voor trage ochtenden',
-    lead: 'Planten, potten en warme lampen, bij je thuisbezorgd.',
-    remove: 'Klant verwijderen',
-    products: [
-      ['Monstera', '€ 24'],
-      ['Messing bureaulamp', '€ 59'],
-      ['Set kleipotten', '€ 18'],
+    admin: 'Beheer',
+    links: ['Klanten', 'Bestellingen', 'Producten'],
+    stats: [
+      ['Bestellingen vandaag', '18'],
+      ['Omzet', '€ 1.240'],
+      ['Open tickets', '3'],
     ],
+    customer: 'Klant',
+    lastOrder: 'Laatste bestelling #1042, 12 okt',
+    remove: 'Klant verwijderen',
+    orders: 'Recente bestellingen',
+    columns: ['Bestelling', 'Klant', 'Totaal', 'Status'],
+    statuses: ['Betaald', 'Verzonden', 'Ingepakt', 'Verzonden', 'Bezorgd'],
   },
 };
+
+const ORDERS = [
+  ['#1046', 'Noah de Vries', '€ 84'],
+  ['#1045', 'Emma Bakker', '€ 59'],
+  ['#1044', 'Mila Jansen', '€ 24'],
+  ['#1043', 'Sem Visser', '€ 112'],
+  ['#1042', 'Mila Jansen', '€ 43'],
+] as const;
 
 const PALETTE: Record<ScreenshotTheme, string> = {
   light:
-    '--bg:#fbf6e8;--text:#33261b;--muted:#5c4a3a;--line:rgb(51 38 27/18%);--sage:#b7c7a3;--lamp:#e9b94a;--wood:#7a5a3a;--thumb:#a89883;--danger:#a63d28',
-  dark: '--bg:#241d33;--text:#f7f0e3;--muted:#cdc3dd;--line:rgb(247 240 227/14%);--sage:#4a5a5e;--lamp:#f2c94c;--wood:#a8896a;--thumb:#6b6285;--danger:#ff9c8c',
+    '--bg:#fbf6e8;--card:#fffefa;--text:#33261b;--muted:#5c4a3a;--line:rgb(51 38 27/18%);--chip:#efe4cb;--danger:#a63d28',
+  dark: '--bg:#241d33;--card:#2f2742;--text:#f7f0e3;--muted:#cdc3dd;--line:rgb(247 240 227/14%);--chip:#3a3150;--danger:#ff9c8c',
 };
 
 const STYLE = `body{margin:0;font:18px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--text)}
-header{display:flex;gap:20px;align-items:center;padding:20px 48px;border-bottom:1px solid var(--line)}
-header i{width:24px;height:24px;border-radius:50%;background:var(--muted)}header b{font-size:20px;margin-right:16px}
-header span{color:var(--muted)}main{display:grid;gap:40px;padding:40px 48px;max-width:1000px}
-.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center}
-h1{margin:0 0 12px;font-size:40px;line-height:1.15}p{margin:0 0 24px;color:var(--muted)}
-.picture{height:200px;border-radius:6px;background:var(--sage);position:relative;overflow:hidden}
-.picture::before{content:'';position:absolute;left:50%;top:28px;width:96px;height:80px;margin-left:-48px;border-radius:48px 48px 8px 8px;background:var(--lamp)}
-.picture::after{content:'';position:absolute;left:50%;top:108px;width:72px;height:64px;margin-left:-36px;background:linear-gradient(var(--wood),var(--wood)) center top/6px 48px no-repeat,linear-gradient(var(--wood),var(--wood)) center bottom/72px 12px no-repeat;border-radius:2px}
-button{font:inherit;font-weight:600;padding:10px 20px;border-radius:4px;border:2px solid var(--danger);
-background:transparent;color:var(--danger)}
-.products{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.thumb{height:140px;border-radius:4px;background:var(--thumb);opacity:.6;margin-bottom:8px}
-.products span{color:var(--muted)}`;
+header{display:flex;gap:28px;align-items:center;padding:18px 48px;border-bottom:1px solid var(--line)}
+header b{font-size:22px;margin-right:20px}header span{color:var(--muted)}
+main{display:grid;grid-template-columns:400px 1fr;align-items:start;gap:28px;padding:28px 48px}
+.stats{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+section{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 24px}
+h2{margin:0 0 10px;font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.stats strong{font-size:30px}p{margin:0 0 4px;color:var(--muted)}p:first-of-type{font-size:22px;font-weight:600;color:var(--text)}
+button{margin-top:20px;font:inherit;font-weight:600;padding:10px 20px;border-radius:4px;border:2px solid var(--danger);background:transparent;color:var(--danger)}
+table{width:100%;border-collapse:collapse}td,th{padding:8px 0;text-align:left;border-top:1px solid var(--line)}
+th{border:0;padding-top:0;font-size:15px;color:var(--muted);font-weight:600}
+td i{font-style:normal;font-size:15px;padding:2px 10px;border-radius:99px;background:var(--chip)}`;
 
 /** The demo page in the screenshot's language and theme. */
 export function screenshotPage(locale: Locale, theme: ScreenshotTheme): string {
-  const { brand, links, headline, lead, remove, products } = TEXT[locale];
-  const items = products
-    .map(([name, price]) => `<div><div class="thumb"></div>${name}<br><span>${price}</span></div>`)
-    .join('');
-  return `<!doctype html><html lang="${locale}"><head><meta charset="utf-8"><title>${brand}</title>
-<style>:root{${PALETTE[theme]}}${STYLE}</style></head><body><header><i></i><b>${brand}</b>${links
+  const t = TEXT[locale];
+  const stats = t.stats.map(
+    ([label, value]) => `<section><h2>${label}</h2><strong>${value}</strong></section>`,
+  );
+  const rows = ORDERS.map(
+    (row, i) =>
+      `<tr>${row.map((cell) => `<td>${cell}</td>`).join('')}<td><i>${t.statuses[i]}</i></td></tr>`,
+  );
+  return `<!doctype html><html lang="${locale}"><head><meta charset="utf-8"><title>Leaf & Lamp · ${t.admin}</title>
+<style>:root{${PALETTE[theme]}}${STYLE}</style></head><body><header><b>Leaf & Lamp · ${t.admin}</b>${t.links
     .map((link) => `<span>${link}</span>`)
-    .join('')}</header><main><div class="hero"><div><h1>${headline}</h1><p>${lead}</p>
-<button id="delete">${remove}</button></div><div class="picture"></div></div>
-<div class="products">${items}</div></main></body></html>`;
+    .join('')}</header><main><div class="stats">${stats.join('')}</div>
+<section><h2>${t.customer}</h2><p>Mila Jansen</p><p>mila@example.com</p><p>${t.lastOrder}</p>
+<button id="delete">${t.remove}</button></section>
+<section><h2>${t.orders}</h2><table><tr>${t.columns.map((c) => `<th>${c}</th>`).join('')}</tr>${rows.join('')}</table></section></main></body></html>`;
 }
