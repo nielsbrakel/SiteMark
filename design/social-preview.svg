@@ -1,30 +1,53 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" role="img" aria-labelledby="t">
-  <title id="t">SiteMark: never confuse production with test again</title>
-  <!-- Fonts: Caveat Brush and Patrick Hand (bundled, OFL). pnpm icons injects them before rendering. -->
-  <defs><pattern id="s" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect width="5" height="10" fill="#fff" fill-opacity=".4"/></pattern></defs>
+  <title id="t">SiteMark: never mistake production for test</title>
+  <!-- Fonts: Caveat Brush and Patrick Hand (bundled, OFL). pnpm icons injects them before rendering and
+       draws the marker highlight behind each tspan.hl (scripts/render-icons.mjs). GitHub uses the 1280 × 640 render; link previews crop it to 1200 × 630.
+       Generated in the store slides' language (D-299): kraft board, browser windows with the marks
+       SiteMark draws in the mark presets (D-205), centred tape, no dashed lines. -->
+  <defs><pattern id="stripes" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="10" fill="#fff" fill-opacity=".4"/></pattern>
+    <filter id="lift" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#3c230f" flood-opacity=".28"/></filter>
+    <clipPath id="logo-clip"><rect x="16" y="20" width="96" height="88" rx="12"/></clipPath></defs>
   <rect width="1280" height="640" fill="#c9a77c"/>
-  <g transform="translate(80 70) scale(1.3)">
-    <defs><clipPath id="wl"><rect x="16" y="20" width="96" height="88" rx="12"/></clipPath></defs>
+  
+  <g transform="translate(84 62) scale(1)">
     <rect x="16" y="20" width="96" height="88" rx="12" fill="#fffaf0" stroke="#fffaf0" stroke-width="8" stroke-linejoin="round"/>
     <rect x="16" y="20" width="96" height="88" rx="12" fill="#fbf6e8"/>
     <path d="M16 46H112" stroke="#33261b" stroke-width="3"/><circle cx="30" cy="33" r="2" fill="#33261b"/>
-    <g clip-path="url(#wl)"><path d="M44 10L84 10L124 50L124 90Z" fill="#e8664d" stroke="#33261b" stroke-width="3" stroke-linejoin="round"/></g>
+    <g clip-path="url(#logo-clip)"><path d="M44 10L84 10L124 50L124 90Z" fill="#e8664d" stroke="#33261b" stroke-width="3" stroke-linejoin="round"/></g>
     <rect x="16" y="20" width="96" height="88" rx="12" fill="none" stroke="#33261b" stroke-width="3.5" stroke-linejoin="round"/>
   </g>
-  <text x="270" y="190" font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="120" fill="#33261b">SiteMark</text>
-  <g font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="58" fill="#33261b"><text x="106" y="350">Never confuse</text><text x="106" y="414">production with test.</text></g>
-  <g font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" fill="#33261b"><text x="106" y="476" font-size="30">Ribbons, banners and outlines</text><text x="106" y="514" font-size="30">on the sites you choose.</text><text x="106" y="566" font-size="26" fill="#a63d28">Private · Chrome · Edge · Firefox</text></g>
-  <g transform="rotate(-3 970 120)" opacity=".92"><rect x="900" y="102" width="140" height="36" fill="#f5cf5a"/><rect x="900" y="102" width="140" height="36" fill="url(#s)"/></g>
-  <clipPath id="w"><rect x="740" y="120" width="460" height="400"/></clipPath>
-  <rect x="746" y="128" width="460" height="400" fill="#33261b"/>
-  <rect x="740" y="120" width="460" height="400" fill="#fbf6e8"/>
-  <g clip-path="url(#w)">
-    <rect x="740" y="120" width="460" height="52" fill="#efe4cb"/>
-    <path d="M740 172h460" stroke="#33261b" stroke-width="2"/>
-    <circle cx="770" cy="146.0" r="7" fill="#c93a2e"/><circle cx="794" cy="146.0" r="7" fill="#f4a300"/><circle cx="818" cy="146.0" r="7" fill="#57606a"/>
-    <rect x="842" y="132.0" width="300" height="28" rx="14" fill="#fbf6e8" stroke="#33261b" stroke-width="1.5"/>
-    <rect x="772" y="204" width="170" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="228" width="250" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="252" width="220" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="276" width="236" height="12" rx="6" fill="#d9ccb0"/><rect x="772" y="326" width="190" height="124" fill="#efe4cb" stroke="#d9ccb0" stroke-width="2"/><rect x="978" y="326" width="190" height="124" fill="#efe4cb" stroke="#d9ccb0" stroke-width="2"/><rect x="1012" y="386" width="124" height="48" fill="none" stroke="#c93a2e" stroke-width="4" stroke-dasharray="10 6"/><text x="1074" y="417" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="20" fill="#a63d28">Delete</text><rect x="740" y="476" width="460" height="44" fill="#c93a2e"/><text x="970" y="504.3" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="18" letter-spacing="3" fill="#fff">PRODUCTION · BE CAREFUL</text>
+  <text x="214" y="152" font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="104" fill="#33261b">SiteMark</text>
+  <text font-family="'Caveat Brush', 'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="62" fill="#33261b"><tspan x="96" y="290">Never mistake</tspan><tspan x="96" y="362"><tspan class="hl">production</tspan> for test</tspan></text>
+  <text font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="31" fill="#33261b"><tspan x="98" y="432">Ribbon, banner and frame</tspan><tspan x="98" y="470">on the sites you choose.</tspan></text>
+  <text x="98" y="548" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="27" fill="#33261b">Chrome · Edge · Firefox · Collects no data</text>
+  <g>
+    <rect x="676" y="143" width="524" height="372" rx="8" fill="#d9ccb0" filter="url(#lift)"/>
+    <rect x="676" y="140" width="524" height="372" rx="8" fill="#fbf6e8"/>
+    <path d="M676 148a8 8 0 0 1 8-8h508a8 8 0 0 1 8 8v28H676Z" fill="#efe4cb"/>
+    <path d="M686 176v-24a6 6 0 0 1 6-6h268a6 6 0 0 1 6 6v24Z" fill="#fbf6e8"/>
+    <text x="700" y="167" font-family="system-ui, sans-serif" font-size="15" fill="#33261b">PROD Leaf &amp; Lamp · Admin</text>
+    <rect x="686" y="183" width="504" height="26" rx="13" fill="#fffdf4"/>
+    <text x="700" y="201" font-family="system-ui, sans-serif" font-size="14" fill="#33261b">app.example.com</text>
+    <clipPath id="v"><rect x="677.5" y="216" width="521" height="294.5"/></clipPath>
+    <g clip-path="url(#v)">
+      <rect x="677.5" y="216" width="521" height="294.5" fill="#fbf6e8"/>
+      <text x="699.5" y="250" font-family="system-ui, sans-serif" font-weight="700" font-size="17" fill="#33261b">Leaf &amp; Lamp · Admin</text>
+      <path d="M677.5 268h521" stroke="#33261b2e" stroke-width="1"/>
+      <rect x="699.5" y="286" width="239.7" height="150" rx="6" fill="#fffefa" stroke="#33261b2e"/>
+      <text x="715.5" y="310" font-family="system-ui, sans-serif" font-weight="600" font-size="11" letter-spacing=".8" fill="#5c4a3a">CUSTOMER</text>
+      <text x="715.5" y="336" font-family="system-ui, sans-serif" font-weight="700" font-size="16" fill="#33261b">Mila Jansen</text>
+      <text x="715.5" y="358" font-family="system-ui, sans-serif" font-size="13" fill="#5c4a3a">mila@example.com</text>
+      <rect x="715.5" y="376" width="152" height="34" rx="4" fill="none" stroke="#a63d28" stroke-width="2"/>
+      <rect x="710.5" y="371" width="162" height="44" rx="2" fill="none" stroke="#c93a2e" stroke-width="3"/>
+      <text x="791.5" y="398" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="14" fill="#a63d28">Delete customer</text>
+      <rect x="957.2" y="286" width="219.3" height="150" rx="6" fill="#fffefa" stroke="#33261b2e"/>
+      <rect x="973.2" y="308" width="168.57000000000002" height="9" rx="4.5" fill="#efe4cb"/><rect x="973.2" y="338" width="131.11" height="9" rx="4.5" fill="#efe4cb"/><rect x="973.2" y="368" width="168.57000000000002" height="9" rx="4.5" fill="#efe4cb"/><rect x="973.2" y="398" width="131.11" height="9" rx="4.5" fill="#efe4cb"/>
+      <rect x="677.5" y="474.5" width="521" height="36" fill="#c93a2e"/><text x="938" y="497.5" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="17" fill="#fff">Production: changes are live</text>
+      <rect x="679.5" y="218" width="517" height="290.5" fill="none" stroke="#c93a2e" stroke-width="4"/>
+      <g transform="translate(1198.5 216) rotate(45)"><rect x="-120" y="24" width="240" height="30" fill="#c93a2e"/><text x="0" y="45.75" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="700" font-size="15" letter-spacing=".5" fill="#fff">PROD</text></g>
+    </g>
+    <path d="M676 216H1200" stroke="#33261b" stroke-width="2"/>
+    <rect x="676" y="140" width="524" height="372" rx="8" fill="none" stroke="#33261b" stroke-width="3"/>
   </g>
-  <rect x="740" y="120" width="460" height="400" fill="none" stroke="#33261b" stroke-width="3"/>
-  <g transform="translate(1176 144) rotate(45)"><rect x="-75" y="-15" width="150" height="30" fill="#c93a2e" stroke="#33261b" stroke-width="2"/><text x="0" y="6.5" text-anchor="middle" font-family="'Patrick Hand', ui-rounded, system-ui, sans-serif" font-size="18" letter-spacing="3" fill="#fff">PROD</text></g>
+  <g transform="rotate(-3 938 134)" opacity=".92"><rect x="872" y="120" width="132" height="28" fill="#f5cf5a"/><rect x="872" y="120" width="132" height="28" fill="url(#stripes)"/></g>
 </svg>
