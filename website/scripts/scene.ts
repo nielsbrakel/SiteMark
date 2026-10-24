@@ -4,7 +4,7 @@ import type { BrowserContext, Page, Worker } from '@playwright/test';
 import { openPopupFor } from '../../tests/e2e/popup-page';
 import { SCREENSHOT_SIZE, type ScreenshotTheme } from '../src/content/screenshots';
 import type { Locale } from '../src/i18n/locales';
-import { screenshotPage } from './screenshot-page';
+import { type DemoLayout, screenshotPage } from './screenshot-page';
 
 /** Pre-granted origins of the e2e build (example.com is reserved): production, staging and test. */
 export const ORIGIN = 'https://app.example.com';
@@ -18,12 +18,17 @@ export type Env = {
   theme: ScreenshotTheme;
 };
 
-/** Serves the demo page on every origin (`?theme=dark` for the dark variant). */
+const LAYOUTS: readonly DemoLayout[] = ['full', 'focus', 'customer', 'narrow'];
+const layoutOf = (value: string | null) =>
+  LAYOUTS.find((layout) => layout === value) ?? ('full' as const);
+
+/** Serves the demo page on every origin (`?theme=dark` for the dark variant, `&layout=` its layout). */
 export async function serveDemoPage(context: BrowserContext, locale: Locale): Promise<void> {
   for (const origin of [ORIGIN, STAGING_ORIGIN, TEST_ORIGIN]) {
     await context.route(`${origin}/**`, (route) => {
-      const theme = new URL(route.request().url()).searchParams.get('theme');
-      const body = screenshotPage(locale, theme === 'dark' ? 'dark' : 'light');
+      const params = new URL(route.request().url()).searchParams;
+      const theme = params.get('theme') === 'dark' ? 'dark' : 'light';
+      const body = screenshotPage(locale, theme, layoutOf(params.get('layout')));
       return route.fulfill({ contentType: 'text/html; charset=utf-8', body });
     });
   }

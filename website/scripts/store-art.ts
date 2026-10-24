@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
 export type Box = { x: number; y: number; width: number; height: number };
+export type Size = { width: number; height: number };
 
 /** A capture of a `width` × `height` CSS px area at 2×, with its targets' boxes in that area. */
 export type Shot = {
@@ -14,6 +15,8 @@ export type Shot = {
   title: string;
   host: string;
   boxes: Record<string, Box>;
+  /** The boxes of the page's own text, which no note may cover. */
+  texts: Box[];
 };
 
 export type Shots = {
@@ -21,7 +24,7 @@ export type Shots = {
   environments: Shot[];
   popup: { page: Shot; panel: Shot };
   picker: Shot;
-  options: { form: Shot; preview: Shot };
+  options: { rows: Shot[]; preview: Shot };
   privacy: { page: Shot; panel: Shot };
 };
 
@@ -79,6 +82,19 @@ export const VIEW = {
   height: FRAME.bottom - CHROME.x - FRAME.top - CHROME.y,
 };
 
+/**
+ * The CSS viewport of each page capture. Smaller than a desktop window, so a slide shows it at
+ * about 1.2× and the page's 18 px text reaches the slide at about 22 px (the 2× capture keeps it
+ * sharp). Slide 2's three windows are narrow, so their marks fill them.
+ */
+export const PAGE_VIEWS = {
+  production: { width: 946, height: 408 },
+  environment: { width: 380, height: 460 },
+  popup: { width: 900, height: 404 },
+  privacy: { width: 620, height: 408 },
+  picker: { width: 720, height: 600 },
+} as const satisfies Record<string, Size>;
+
 /** A browser window whose view of `width` × `height` px starts at (x, y) on the slide. */
 export function frame(
   x: number,
@@ -107,9 +123,16 @@ export function place(shot: Shot, x: number, y: number, scale: number) {
       height: box.height * scale,
     };
   };
+  const texts = () =>
+    shot.texts.map((box) => ({
+      x: x + box.x * scale,
+      y: y + box.y * scale,
+      width: box.width * scale,
+      height: box.height * scale,
+    }));
   const img = (left: number, top: number, style = '') =>
     `<img class="shot" src="${shot.src}" style="left:${left}px;top:${top}px;width:${shot.width * scale}px;${style}">`;
-  return { at, img };
+  return { at, img, texts };
 }
 
 type Side = 'up' | 'down' | 'left' | 'right';
