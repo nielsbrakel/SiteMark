@@ -1,10 +1,11 @@
 {
   "extName": {
-    "message": "SiteMark",
-    "description": "Naam van de extensie. Niet vertalen."
+    "message": "SiteMark – Omgevingsindicator",
+    "description": "Naam van de extensie in de stores en de browser (hoogstens 45 tekens): het merk SiteMark, een en-dash en wat het is. SiteMark niet vertalen."
   },
   "extDescription": {
-    "message": "Markeer productie- en testsites met linten, banners en kaders zodat je ze nooit verwart. Privé: gegevens blijven op je apparaat."
+    "message": "Omgevingsindicator: markeer productie-, staging- en testsites met een lint, banner of kader. Verzamelt geen gegevens.",
+    "description": "Korte storebeschrijving voor Chrome en Edge (hoogstens 132 tekens). Zoekwoord eerst. Privacyformulering: \"verzamelt geen gegevens\"."
   },
   "commandStartPicker": {
     "message": "Kies een element op deze pagina om te markeren"
