@@ -6,6 +6,8 @@ import './pages/PageView';
 import './pages/registry';
 import './pages/NotFoundPage';
 import { hydrateIslands } from './hydrate';
+import { revealOnView } from './reveal';
 
 // Every page is a prerendered HTML file; this hydrates its interactive islands (no client router).
 void hydrateIslands(document);
+revealOnView(document);

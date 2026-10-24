@@ -159,6 +159,11 @@ pre code {
   animation: sm-tape-on calc(var(--sm-duration) * 3) var(--sm-duration) var(--sm-ease) backwards;
 }
 
+/* On the website the tape waits, drawn out of sight, until its sheet scrolls into view (reveal.ts). */
+:root[data-js] .sm-tape:not([data-seen])::before {
+  animation-play-state: paused;
+}
+
 /* The strip is pulled across, stretches a little and settles flat. */
 @keyframes sm-tape-on {
   0% {
