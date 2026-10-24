@@ -29,9 +29,9 @@ export type Shots = {
 export const MARK = { red: '#c93a2e', amber: '#f4a300', blue: '#1f6feb' } as const;
 
 export const LIGHT =
-  '--ink:#33261b;--board:#c9a77c;--surface:#fbf6e8;--surface-2:#fffdf4;--soft:#efe4cb;--panel:#fffefa;--edge:#d9ccb0;--shade:rgb(60 35 15/28%);--line:#33261b;--hl:#f5cf5a';
+  '--ink:#33261b;--board:#c9a77c;--surface:#fbf6e8;--surface-2:#fffdf4;--soft:#efe4cb;--panel:#fffefa;--edge:#d9ccb0;--shade:rgb(60 35 15/28%);--line:#33261b;--hl:#f5cf5a;--note:#fffefa;--ok:#17692e';
 export const DARK =
-  '--ink:#f7f0e3;--board:#17121f;--surface:#241d33;--surface-2:#2f2742;--soft:#3a3150;--panel:#342b4d;--edge:#3d3454;--shade:rgb(0 0 0/60%);--line:#9a8fb8;--hl:rgb(245 207 90/38%)';
+  '--ink:#f7f0e3;--board:#17121f;--surface:#241d33;--surface-2:#2f2742;--soft:#3a3150;--panel:#342b4d;--edge:#3d3454;--shade:rgb(0 0 0/60%);--line:#9a8fb8;--hl:rgb(245 207 90/38%);--note:#342b4d;--ok:#7be09a';
 
 const repository = path.resolve(import.meta.dirname, '../..');
 const base64 = (file: string) => readFileSync(path.join(repository, file)).toString('base64');
@@ -53,11 +53,11 @@ h1 em{font-style:normal;padding:0 6px;background:linear-gradient(transparent 62%
 .bar img{width:28px}.view{position:relative;overflow:hidden;border-radius:0 0 5px 5px}
 img.shot{position:absolute;display:block}
 .tape{position:absolute;width:96px;height:26px;opacity:.92;z-index:3;box-shadow:0 1px 2px var(--shade);background:repeating-linear-gradient(45deg,rgb(255 255 255/40%) 0 5px,transparent 5px 10px),#f5cf5a}
-.note{position:absolute;z-index:5;width:max-content;max-width:460px;padding:8px 16px;border:3px solid #33261b;border-radius:3px;background:#fffefa;color:#33261b;box-shadow:1px 3px 0 #33261b;font:400 32px/1.1 'Caveat Brush',sans-serif;white-space:pre-line}
+.note{position:absolute;z-index:5;width:max-content;max-width:460px;padding:8px 16px;border:3px solid var(--line);border-radius:3px;background:var(--note);color:var(--ink);box-shadow:1px 3px 0 var(--line);font:400 32px/1.1 'Caveat Brush',sans-serif;white-space:pre-line}
 svg.ink{position:absolute;left:0;top:0;z-index:6;overflow:visible}
 .host{position:absolute;font-size:28px;display:flex;gap:10px;align-items:center}.dot{width:16px;height:16px;border-radius:50%;border:1px solid var(--ink)}
 .checks{position:absolute;margin:0;padding:0;list-style:none;font-size:34px;line-height:1.25}.checks li{margin-bottom:34px;padding-left:52px;position:relative}
-.checks li::before{content:'✓';position:absolute;left:0;color:#7be09a;font:400 44px/1 'Caveat Brush',sans-serif}`;
+.checks li::before{content:'✓';position:absolute;left:0;color:var(--ok);font:400 44px/1 'Caveat Brush',sans-serif}`;
 
 export type Head = [string, string, string];
 
