@@ -86,5 +86,13 @@ describe.each(targets())('%s production manifest', (target) => {
         default_locale: 'en',
       });
     });
+
+    it('keeps the short brand where space is tight: short name and toolbar tooltip (D-300)', () => {
+      expect(manifest).toMatchObject({
+        short_name: 'SiteMark',
+        homepage_url: 'https://nielsbrakel.github.io/SiteMark/',
+        action: { default_title: 'SiteMark', default_popup: 'popup.html' },
+      });
+    });
   });
 });

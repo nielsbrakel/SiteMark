@@ -71,4 +71,8 @@ describe('REQ-I18N-005 store texts fit the store limits', () => {
     expect(messages.extName?.message.length).toBeLessThanOrEqual(45);
     expect(messages.extDescription?.message.length).toBeLessThanOrEqual(132);
   });
+
+  it.each(Object.keys(locales))('%s name keeps the brand first (D-300)', (locale) => {
+    expect(locales[locale]?.extName?.message).toMatch(/^SiteMark – \S/);
+  });
 });

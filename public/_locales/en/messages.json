@@ -1,10 +1,11 @@
 {
   "extName": {
-    "message": "SiteMark",
-    "description": "Extension name. Do not translate."
+    "message": "SiteMark – Environment Indicator",
+    "description": "Extension name in the stores and the browser (at most 45 characters): the brand SiteMark, an en dash and what it is. Keep SiteMark; translate the rest."
   },
   "extDescription": {
-    "message": "Mark production and test sites with ribbons, banners and outlines so you never mix them up. Private: data stays on your device."
+    "message": "Environment indicator: mark production, staging and test sites with a ribbon, banner or frame. Collects no data.",
+    "description": "Short store description, shown by Chrome and Edge (at most 132 characters). Keyword first. Use the privacy wording \"collects no data\"."
   },
   "commandStartPicker": {
     "message": "Pick an element to mark on this page"

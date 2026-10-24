@@ -30,7 +30,8 @@ the website's install button for that store then turns from a disabled "Coming i
 
 ## Listing texts
 
-Name: **SiteMark** (all stores, both languages).
+Name (D-300, from the package's `extName`): **SiteMark – Environment Indicator** (en), **SiteMark – Omgevingsindicator**
+(nl). The brand stays SiteMark.
 
 | Store                  | Category          | Languages |
 | ---------------------- | ----------------- | --------- |
@@ -44,8 +45,8 @@ Keyword first, so the store search and the result list read it as "environment i
 this field from the package (`extDescription` in `public/_locales`); AMO has its own _Summary_ field. Change the
 package text only together with a release.
 
-- **en:** Environment indicator: mark production, staging and test sites with ribbons, banners and outlines. Collects no data. (116)
-- **nl:** Omgevingsindicator: markeer productie-, staging- en testsites met linten, banners en kaders. Verzamelt geen gegevens. (117)
+- **en:** Environment indicator: mark production, staging and test sites with a ribbon, banner or frame. Collects no data. (112)
+- **nl:** Omgevingsindicator: markeer productie-, staging- en testsites met een lint, banner of kader. Verzamelt geen gegevens. (117)
 
 ### Long description
 

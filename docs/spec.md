@@ -254,7 +254,7 @@ when a requirement has no task, or when a finished task has an uncovered require
 | REQ-I18N-002 | M   | Components contain no hard-coded user-facing strings (enforced by a lint rule).                                                                                                                                                                        |
 | REQ-I18N-003 | M   | User content (group names, mark texts) is never translated.                                                                                                                                                                                            |
 | REQ-I18N-004 | M   | Plurals use `Intl.PluralRules` with `_one`/`_other` keys. `lang` and `dir` are set on `<html>` from the resolved locale. Placeholders are named and have translator descriptions. A pseudo-locale test with +40 % text length guards against overflow. |
-| REQ-I18N-005 | M   | Store texts stay within store limits (Chrome description ≤ 132 characters), tested for every locale.                                                                                                                                                   |
+| REQ-I18N-005 | M   | Store texts stay within store limits (name ≤ 45 characters and starting with "SiteMark – ", D-300; Chrome description ≤ 132), tested for every locale.                                                                                                 |
 | REQ-I18N-006 | M   | An **in-app language** setting (Browser / English / Nederlands) in the options header overrides the browser language in the popup and options page; "Browser" is the default and follows `browser.i18n`.                                               |
 
 ### 5.13 Accessibility — `A11Y`
