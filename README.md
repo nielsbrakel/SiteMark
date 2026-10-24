@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <img src="website/public/screenshots/marked-page-light-en.png" alt="A shop page marked by SiteMark: a PROD ribbon, a red frame, a banner and an outline around the Delete customer button" width="720">
+  <img src="store/images/en/1-production.png" alt="A shop admin page marked by SiteMark: a PROD ribbon, a red frame, a banner and an outline around the Delete customer button" width="720">
 </p>
 
 <p align="center">

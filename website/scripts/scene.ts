@@ -1,5 +1,5 @@
-// What the screenshot generators share (D-251): the demo page the e2e build marks, served on its
-// pre-granted origins, and the popup drawn over a page like the browser does.
+// The scene of the store screenshots (D-251): the demo page the e2e build marks, served on its
+// pre-granted origins, and the popup as a panel as tall as its content.
 import type { BrowserContext, Page, Worker } from '@playwright/test';
 import { openPopupFor } from '../../tests/e2e/popup-page';
 import { SCREENSHOT_SIZE, type ScreenshotTheme } from '../src/content/screenshots';
@@ -36,13 +36,6 @@ export async function openPage(context: BrowserContext, theme: ScreenshotTheme):
   return page;
 }
 
-export async function settle(page: Page): Promise<Buffer> {
-  await page.waitForTimeout(500);
-  const png = await page.screenshot();
-  await page.close();
-  return png;
-}
-
 /** The popup for the tab showing `url`, sized as a panel as tall as its content. */
 export async function openPopupPanel(
   { context, worker, extensionId, theme }: Env,
@@ -64,50 +57,8 @@ export async function openPopupPanel(
   return popup;
 }
 
-export const popupPanel = async (env: Env, url: string) => settle(await openPopupPanel(env, url));
-
-/** Draws the popup panel over the page screenshot, below the toolbar like the browser does. */
-export async function popupOverPage(
-  { context, theme }: Env,
-  background: Buffer,
-  panel: Buffer,
-): Promise<Buffer> {
-  const page = await openPage(context, theme);
-  const url = (png: Buffer) => `data:image/png;base64,${png.toString('base64')}`;
-  await page.setContent(
-    `<body style="margin:0"><img src="${url(background)}" style="display:block">` +
-      `<img src="${url(panel)}" style="position:absolute;top:8px;right:200px;border-radius:8px;` +
-      'box-shadow:0 8px 32px rgb(0 0 0/.35),0 0 0 1px rgb(0 0 0/.2)"></body>',
-  );
-  await page.waitForFunction(() => [...document.images].every((img) => img.complete));
-  return settle(page);
-}
-
 /** The marks the screenshots show, in the screenshot's language. */
 export const SEEDS: Record<Locale, { name: string; banner: string; button: string }> = {
   en: { name: 'Production', banner: 'Production: changes are live', button: 'Delete button' },
   nl: { name: 'Productie', banner: 'Productie: wijzigingen zijn live', button: 'Verwijderknop' },
 };
-
-export function seedMarks(locale: Locale) {
-  const { banner, button } = SEEDS[locale];
-  const base = { enabled: true, color: '#c93a2e', textColor: 'auto' };
-  return [
-    {
-      ...base,
-      target: { kind: 'page' },
-      effects: {
-        ribbon: { text: 'PROD', corner: 'top-right' },
-        banner: { text: banner, edge: 'bottom', size: 'regular' },
-        frame: { widthPx: 4 },
-        titlePrefix: { text: 'PROD' },
-      },
-    },
-    {
-      ...base,
-      label: button,
-      target: { kind: 'element', selector: '#delete' },
-      effects: { outline: { widthPx: 3, style: 'solid', pulse: false } },
-    },
-  ];
-}
