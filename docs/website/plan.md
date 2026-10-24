@@ -27,11 +27,11 @@ website/
 ├─ vite.config.ts        base '/SiteMark/', client + SSR builds, `@/` alias to ../src
 ├─ locales/{en,nl}/messages.json          website strings (chrome.i18n format)
 ├─ content/{en,nl}/help/*.md              help topics (W2), front matter: title, description, order
-├─ public/               copied as-is: social-preview.png, generated screenshots, favicon PNGs
+├─ public/               copied as-is: social-preview.png, the playground preview images, favicon PNGs
 ├─ scripts/
 │  ├─ prerender.ts       routes × locales → dist/**/index.html, 404.html, sitemap.xml
 │  ├─ dev-pages.ts       `pnpm web:dev`: server-renders each route on request (same entry-server)
-│  └─ screenshots.ts     Playwright on the extension e2e build → public/screenshots (W2)
+│  └─ store-shots.ts     Playwright on the extension e2e build → store/images (D-299)
 ├─ src/
 │  ├─ routes/            routes.ts (PURE route table: slug, page, milestone, stable, nav) · urls.ts
 │  ├─ head/              seo.ts · csp.ts · json-ld.ts · sitemap.ts (pure builders, return data, not HTML strings)
