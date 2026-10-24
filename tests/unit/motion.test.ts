@@ -30,6 +30,14 @@ describe('REQ-A11Y-007 motion is instant under reduced motion', () => {
   });
 });
 
+describe('REQ-WEBUX-001 the tape animation waits for its sheet to come into view', () => {
+  it('is paused on the website until the sheet is marked seen', () => {
+    expect(base).toMatch(
+      /:root\[data-js\] \.sm-tape:not\(\[data-seen\]\)::before\s*{\s*animation-play-state:\s*paused/,
+    );
+  });
+});
+
 describe('REQ-THEME-001 the header squiggle is drawn, never a straight or dashed line', () => {
   it('is a tiled wave mask that is revealed left to right', () => {
     expect(links).toMatch(/mask:\s*url\('\.\.\/assets\/wave\.svg'\) repeat-x/);
