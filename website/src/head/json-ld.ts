@@ -5,7 +5,13 @@ import type { Locale } from '../i18n/locales';
 import { absoluteUrl } from '../routes/urls';
 import { socialPreviewUrl } from './seo';
 
-type SoftwareApplicationInput = { locale: Locale; description: string; url: string };
+type SoftwareApplicationInput = {
+  locale: Locale;
+  description: string;
+  url: string;
+  /** The descriptive store name, e.g. "SiteMark – Environment Indicator" (D-300). */
+  alternateName: string;
+};
 
 const OPERATING_SYSTEMS = ['Windows', 'macOS', 'Linux', 'ChromeOS'];
 
@@ -24,11 +30,13 @@ export function softwareApplication({
   locale,
   description,
   url,
+  alternateName,
 }: SoftwareApplicationInput): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
     name: 'SiteMark',
+    alternateName,
     description,
     url,
     inLanguage: locale,

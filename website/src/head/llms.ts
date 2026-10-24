@@ -4,7 +4,8 @@ import { helpTopicsFor } from '../content/help';
 import { absoluteUrl } from '../routes/urls';
 
 const SUMMARY =
-  'A free browser extension for Chrome, Edge and Firefox that marks the websites you choose ' +
+  'A free environment indicator for Chrome, Edge and Firefox (store name "SiteMark – Environment ' +
+  'Indicator") that marks the websites you choose ' +
   '(production, test, staging) with ribbons, banners and more. No accounts, no analytics and no ' +
   'access to any website at install.';
 
