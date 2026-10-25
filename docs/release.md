@@ -15,8 +15,8 @@ How the pipeline works and which secrets it needs: [repo-setup.md §7](repo-setu
 
 1. Push the protected tag on that `main` commit: `git tag vX.Y.Z && git push origin vX.Y.Z`. Only the owner can push `v*` tags.
 2. `release.yml` builds the zips, attests them and waits in the `store` environment: **approve the deployment**.
-3. The **submit-safari** job (macOS) uploads the build to App Store Connect after its own approval. When processing is done (about 15 minutes), attach the build to the version there and press _Submit for Review_.
-4. The **submit** job uploads one store per step (Chrome, Firefox, Edge), and a failing step does not stop the others. If one fails, fix its cause (usually its secret) and re-run the job. That uploads all three again, and a store that already has the version refuses it, which is fine: only the store that failed matters.
+3. The **submit-safari** job (macOS) uploads the build to App Store Connect. When processing is done (about 15 minutes), attach the build to the version there and press _Submit for Review_.
+4. Each store has its own job: **submit (chrome)**, **submit (firefox)**, **submit (edge)** and **submit-safari**. A failing job does not stop the others. If one fails, fix its cause (usually its secret) and use _Re-run failed jobs_: only the failed store uploads again. To skip a store for a release, set its repository variable (`CHROME_SUBMIT`, `FIREFOX_SUBMIT`, `EDGE_SUBMIT` or `SAFARI_SUBMIT`) to `false`; delete it afterwards.
 5. The **release** job attaches the zips and `SHA256SUMS` to a GitHub Release. Paste the release name and description below into it.
 
 ### Release name and description
@@ -51,7 +51,7 @@ When all three show the new version, check that the website's install links stil
 1. **Stop the spread.** In the dashboard of each store, unpublish the version or the whole listing for a moment (Chrome: _Unpublish_; Edge: _Unpublish_; Firefox: disable the version under _Manage Status & Versions_). The dashboards rename these now and then, so look for the wording on the page.
 2. **Ship a fix.** Revert or fix on `main`, bump the patch version (`X.Y.Z+1`), add a `CHANGELOG.md` line and release as above. Every earlier zip is still in its GitHub Release, with `SHA256SUMS`, if you need to compare what shipped.
 
-**The upload step failed for one store.** Read the step's log. An auth error means an expired or revoked credential: renew it, update the secret in the `store` environment and re-run the job. A store that says it already has this version needs nothing.
+**The upload step failed for one store.** Read the step's log. An auth error means an expired or revoked credential: renew it, update the secret in the `store` environment and re-run the failed job. A store that says it already has this version needs nothing.
 
 **The version was rejected in review.** The store's email and dashboard say why. Fix it, bump the patch version and release again; do not re-tag the same version.
 

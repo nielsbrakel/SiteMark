@@ -121,9 +121,14 @@ jobs:
             gh release upload "$GITHUB_REF_NAME" release/*.zip release/SHA256SUMS --repo "$GITHUB_REPOSITORY" --clobber
 
   submit:
-    name: submit (Chrome Web Store, Edge Add-ons, Firefox AMO)
+    name: submit (${{ matrix.store }})
     needs: [zip, attest]
     runs-on: ubuntu-24.04
+    # One job per store: a store that fails doesn't stop the others and is re-run alone.
+    strategy:
+      fail-fast: false
+      matrix:
+        store: [chrome, firefox, edge]
     timeout-minutes: 20
     environment: store
     permissions:
@@ -157,12 +162,11 @@ jobs:
       - name: Install the store uploader from its lockfile
         working-directory: tools/uploader
         run: pnpm install --frozen-lockfile --ignore-workspace --ignore-scripts
-      # One step per store, each with only its own secrets: a store that fails doesn't stop the others,
-      # and a failed one can be retried alone (the job still ends red).
+      # Each store's step holds only its own secrets and runs in its own matrix job.
       # Set the repository variable CHROME_SUBMIT, FIREFOX_SUBMIT, EDGE_SUBMIT or SAFARI_SUBMIT to
       # "false" to skip that store for a release; unset means on (docs/release.md).
       - name: Submit the Chrome zip for review
-        if: ${{ vars.CHROME_SUBMIT != 'false' }}
+        if: ${{ matrix.store == 'chrome' && vars.CHROME_SUBMIT != 'false' }}
         working-directory: tools/uploader
         env:
           CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
@@ -172,7 +176,7 @@ jobs:
           CHROME_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.CHROME_SERVICE_ACCOUNT_PRIVATE_KEY }}
         run: pnpm exec publish-extension --chrome-zip ../../release/*-chrome.zip
       - name: Submit the Firefox zip for review
-        if: ${{ !cancelled() && vars.FIREFOX_SUBMIT != 'false' }}
+        if: ${{ matrix.store == 'firefox' && vars.FIREFOX_SUBMIT != 'false' }}
         working-directory: tools/uploader
         env:
           FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
@@ -183,7 +187,7 @@ jobs:
             --firefox-zip ../../release/*-firefox.zip \
             --firefox-sources-zip ../../release/*-sources.zip
       - name: Submit the Edge zip for review
-        if: ${{ !cancelled() && vars.EDGE_SUBMIT != 'false' }}
+        if: ${{ matrix.store == 'edge' && vars.EDGE_SUBMIT != 'false' }}
         working-directory: tools/uploader
         env:
           EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
@@ -220,13 +224,16 @@ jobs:
           (cd release && shasum -a 256 --check SHA256SUMS)
           gh attestation verify release/*-safari.zip --repo "$GITHUB_REPOSITORY" \
             --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/release.yml"
-      # The converter names the extension <bundle id>.Extension; the App Store record uses lowercase.
+      # The converter ignores the case of --bundle-identifier (it builds com.nielsvanbrakel.SiteMark and
+      # .SiteMark.Extension), but the App Store record is lowercase, so the IDs are forced afterwards.
       - name: Wrap the Safari build in a macOS app project
         run: |
           unzip -q release/*-safari.zip -d safari
           xcrun safari-web-extension-converter safari --project-location xcode --app-name SiteMark \
             --bundle-identifier "$BUNDLE_ID" --macos-only --swift --copy-resources --no-open --no-prompt
-          grep -rl "$BUNDLE_ID.Extension" xcode | xargs sed -i '' "s/$BUNDLE_ID.Extension/$EXTENSION_ID/g"
+          grep -rlI -i "$BUNDLE_ID" xcode | xargs perl -pi -e \
+            "s/\Q\$ENV{BUNDLE_ID}\E\.extension/\$ENV{EXTENSION_ID}/gi; s/\Q\$ENV{BUNDLE_ID}\E(?!\.extension)/\$ENV{BUNDLE_ID}/gi"
+          grep -rhI "PRODUCT_BUNDLE_IDENTIFIER" xcode | sort -u
           echo "VERSION=$(jq -r .version safari/manifest.json)" >> "$GITHUB_ENV"
       - name: Archive, sign and upload to App Store Connect
         env:
