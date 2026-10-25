@@ -66,11 +66,12 @@ describe('REQ-I18N-004 placeholders and plurals are translator-friendly', () => 
 });
 
 describe('REQ-I18N-005 store texts fit the store limits', () => {
-  it.each(Object.keys(locales))('%s name ≤ 30 and description ≤ 132 characters', (locale) => {
+  it.each(Object.keys(locales))('%s name ≤ 30 and description ≤ 112 characters', (locale) => {
     const messages = locales[locale] ?? {};
     // 30 is the App Store's limit, so every store shows the same name (D-300).
     expect(messages.extName?.message.length).toBeLessThanOrEqual(30);
-    expect(messages.extDescription?.message.length).toBeLessThanOrEqual(132);
+    // 112 is the App Store's limit for a Safari web extension (Chrome and Edge allow 132).
+    expect(messages.extDescription?.message.length).toBeLessThanOrEqual(112);
   });
 
   it.each(Object.keys(locales))('%s name keeps the brand first (D-300)', (locale) => {
