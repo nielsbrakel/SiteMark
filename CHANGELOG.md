@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 1.2.0
+
+- SiteMark is coming to Safari on the Mac, through the Mac App Store.
 - Website: Help and Support are one page, "Help and support": quick links for common problems, every topic in groups, and the contact routes on taped notes at the bottom. The separate FAQ is gone because the help topics answer those questions; the Support address still works.
 - Website help: new topics about site groups and settings, outline style and pulse in Marks and effects, and what to do when SiteMark reports unreadable data.
 - Importing a file is nicer: drop the export file on a dashed slot, or click it to choose one. The slot reacts when you drag a file over it.
