@@ -4,7 +4,7 @@
     "description": "Naam van de extensie, in elke store gelijk (hoogstens 30 tekens, de limiet van de App Store): het merk SiteMark, een spatie en wat het is. SiteMark niet vertalen."
   },
   "extDescription": {
-    "message": "Omgevingsindicator: markeer productie-, staging- en testsites met een lint, banner of kader. Verzamelt geen gegevens.",
+    "message": "Omgevingsindicator: markeer productie-, staging- en testsites met een lint, banner of kader. Geen gegevens.",
     "description": "Korte storebeschrijving voor Chrome en Edge (hoogstens 132 tekens). Zoekwoord eerst. Privacyformulering: \"verzamelt geen gegevens\"."
   },
   "commandStartPicker": {
