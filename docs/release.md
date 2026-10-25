@@ -15,8 +15,9 @@ How the pipeline works and which secrets it needs: [repo-setup.md §7](repo-setu
 
 1. Push the protected tag on that `main` commit: `git tag vX.Y.Z && git push origin vX.Y.Z`. Only the owner can push `v*` tags.
 2. `release.yml` builds the zips, attests them and waits in the `store` environment: **approve the deployment**.
-3. The **submit** job uploads one store per step (Chrome, Firefox, Edge), and a failing step does not stop the others. If one fails, fix its cause (usually its secret) and re-run the job. That uploads all three again, and a store that already has the version refuses it, which is fine: only the store that failed matters.
-4. The **release** job attaches the zips and `SHA256SUMS` to a GitHub Release. Paste the release name and description below into it.
+3. The **submit-safari** job (macOS) uploads the build to App Store Connect after its own approval. When processing is done (about 15 minutes), attach the build to the version there and press _Submit for Review_.
+4. The **submit** job uploads one store per step (Chrome, Firefox, Edge), and a failing step does not stop the others. If one fails, fix its cause (usually its secret) and re-run the job. That uploads all three again, and a store that already has the version refuses it, which is fine: only the store that failed matters.
+5. The **release** job attaches the zips and `SHA256SUMS` to a GitHub Release. Paste the release name and description below into it.
 
 ### Release name and description
 
