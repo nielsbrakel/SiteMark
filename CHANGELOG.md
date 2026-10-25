@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.2.1
+
+- Same as 1.2.0; this version fixes the Safari publishing so the Mac App Store gets the same release.
+
 ## 1.2.0
 
 - SiteMark is coming to Safari on the Mac, through the Mac App Store.
