@@ -15,6 +15,7 @@ type Job = {
   needs?: string | string[];
   'timeout-minutes'?: number;
   environment?: string | { name: string };
+  strategy?: { matrix?: { include?: { store: string; os: string }[] } };
   permissions?: Record<string, string>;
   steps?: Step[];
 };
@@ -144,19 +145,18 @@ describe('REQ-NFR-006 store submission waits for the owner', () => {
     expect(JSON.stringify(steps[verify])).not.toContain('secrets.');
   });
 
-  it('submits Safari from macOS in the store environment, after verifying the zip', () => {
-    const job = workflow()?.jobs['submit-safari'];
-    expect(job?.needs).toEqual(['zip', 'attest']);
-    expect(job?.environment).toBe('store');
-    expect(job?.permissions).toEqual({ contents: 'read', attestations: 'read' });
-    const script = runs(job);
-    expect(script.indexOf('gh attestation verify')).toBeGreaterThanOrEqual(0);
+  it('submits every store in a job of its own, Safari from macOS after verifying the zip', () => {
+    const submit = workflow()?.jobs.submit;
+    const stores = submit?.strategy?.matrix?.include ?? [];
+    expect(stores.map((entry) => entry.store)).toEqual(['chrome', 'firefox', 'edge', 'safari']);
+    expect(stores.find((entry) => entry.store === 'safari')?.os).toBe('macos-15');
+    const script = runs(submit);
     expect(script.indexOf('gh attestation verify')).toBeLessThan(script.indexOf('xcodebuild'));
   });
 
-  it('keeps the store secrets in the two submit jobs only', () => {
+  it('keeps the store secrets in the submit job only', () => {
     const jobs = Object.entries(workflow()?.jobs ?? {});
     const withSecrets = jobs.filter(([, job]) => JSON.stringify(job).includes('secrets.'));
-    expect(withSecrets.map(([name]) => name)).toEqual(['submit', 'submit-safari']);
+    expect(withSecrets.map(([name]) => name)).toEqual(['submit']);
   });
 });
