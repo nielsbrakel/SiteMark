@@ -49,7 +49,12 @@ describe('REQ-SEC-008 the release workflow', () => {
     const zip = workflow()?.jobs.zip;
     expect(JSON.stringify(zip ?? null)).not.toContain('secrets.');
     const script = runs(zip);
-    for (const target of ['wxt zip -b chrome', 'wxt zip -b firefox', 'wxt zip -b edge']) {
+    for (const target of [
+      'wxt zip -b chrome',
+      'wxt zip -b firefox',
+      'wxt zip -b edge',
+      'wxt zip -b safari',
+    ]) {
       expect(script).toContain(target);
     }
     expect(script).toContain('node scripts/check-release-zips.ts');
@@ -58,7 +63,12 @@ describe('REQ-SEC-008 the release workflow', () => {
 
   it('runs the build assertions on every store build, Edge included (D-241)', () => {
     const step = workflow()?.jobs.zip?.steps?.find((s) => s.run?.includes('--project build'));
-    expect(step?.env?.SITEMARK_TARGETS?.split(',').sort()).toEqual(['chrome', 'edge', 'firefox']);
+    expect(step?.env?.SITEMARK_TARGETS?.split(',').sort()).toEqual([
+      'chrome',
+      'edge',
+      'firefox',
+      'safari',
+    ]);
   });
 
   it('publishes SHA256SUMS, with read access only', () => {
@@ -134,9 +144,19 @@ describe('REQ-NFR-006 store submission waits for the owner', () => {
     expect(JSON.stringify(steps[verify])).not.toContain('secrets.');
   });
 
-  it('keeps the store secrets in the submit job only', () => {
+  it('submits Safari from macOS in the store environment, after verifying the zip', () => {
+    const job = workflow()?.jobs['submit-safari'];
+    expect(job?.needs).toEqual(['zip', 'attest']);
+    expect(job?.environment).toBe('store');
+    expect(job?.permissions).toEqual({ contents: 'read', attestations: 'read' });
+    const script = runs(job);
+    expect(script.indexOf('gh attestation verify')).toBeGreaterThanOrEqual(0);
+    expect(script.indexOf('gh attestation verify')).toBeLessThan(script.indexOf('xcodebuild'));
+  });
+
+  it('keeps the store secrets in the two submit jobs only', () => {
     const jobs = Object.entries(workflow()?.jobs ?? {});
     const withSecrets = jobs.filter(([, job]) => JSON.stringify(job).includes('secrets.'));
-    expect(withSecrets.map(([name]) => name)).toEqual(['submit']);
+    expect(withSecrets.map(([name]) => name)).toEqual(['submit', 'submit-safari']);
   });
 });

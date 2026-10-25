@@ -122,12 +122,20 @@ checksums and each zip's attestation (`gh attestation verify`), then runs only `
 the workspace. A **release** job (no secrets, no project code) attaches the zips and SHA256SUMS to a GitHub
 Release. Store secrets live **only** in the `store` environment:
 
-| Store            | Secrets                                                                                                                                               |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Chrome Web Store | `CHROME_EXTENSION_ID`, `CHROME_PUBLISHER_ID`, `CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL`, `CHROME_SERVICE_ACCOUNT_PRIVATE_KEY` (API v2; v1.1 is shut down) |
-| Firefox AMO      | `FIREFOX_EXTENSION_ID` (= `sitemark@nielsbrakel`), `FIREFOX_JWT_ISSUER`, `FIREFOX_JWT_SECRET`                                                         |
-| Edge Add-ons     | `EDGE_PRODUCT_ID`, `EDGE_CLIENT_ID`, `EDGE_API_KEY`                                                                                                   |
-| Safari (later)   | App Store Connect packager / Xcode, with an Apple Developer Program membership (manual)                                                               |
+| Store                  | Secrets                                                                                                                                                      |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Chrome Web Store       | `CHROME_EXTENSION_ID`, `CHROME_PUBLISHER_ID`, `CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL`, `CHROME_SERVICE_ACCOUNT_PRIVATE_KEY` (API v2; v1.1 is shut down)        |
+| Firefox AMO            | `FIREFOX_EXTENSION_ID` (= `sitemark@nielsbrakel`), `FIREFOX_JWT_ISSUER`, `FIREFOX_JWT_SECRET`                                                                |
+| Edge Add-ons           | `EDGE_PRODUCT_ID`, `EDGE_CLIENT_ID`, `EDGE_API_KEY`                                                                                                          |
+| Mac App Store (Safari) | `APPLE_TEAM_ID`, `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8` (App Store Connect API key with the Admin role; Xcode creates the signing certificates from it) |
+
+The **submit-safari** job runs on macOS in the same `store` environment: it verifies the Safari zip, wraps it with
+`xcrun safari-web-extension-converter` (app `com.nielsvanbrakel.sitemark`, extension
+`com.nielsvanbrakel.sitemark.extension`), signs with cloud-managed certificates and uploads the build to App Store
+Connect. Pressing _Submit for Review_ there stays manual.
+
+Each store can be switched off for a release with a repository variable (Settings → Secrets and variables → Actions →
+Variables): `CHROME_SUBMIT`, `FIREFOX_SUBMIT`, `EDGE_SUBMIT` or `SAFARI_SUBMIT` set to `false`. Unset means on.
 
 AMO also receives the WXT sources zip and `SOURCE_REVIEW.md` (exact Node/pnpm versions and build command).
 

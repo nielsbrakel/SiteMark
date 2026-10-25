@@ -55,15 +55,16 @@ jobs:
           node-version-file: .nvmrc
           package-manager-cache: false
       - run: pnpm install --frozen-lockfile
-      - name: Build the store zips (Chrome, Firefox with its sources zip, Edge)
+      - name: Build the store zips (Chrome, Firefox with its sources zip, Edge, Safari)
         run: |
           pnpm wxt zip -b chrome
           pnpm wxt zip -b firefox
           pnpm wxt zip -b edge
+          pnpm wxt zip -b safari
       - name: Build assertions (manifest, output scan, size budget)
         run: pnpm exec vitest run --project build
         env:
-          SITEMARK_TARGETS: chrome,firefox,edge
+          SITEMARK_TARGETS: chrome,firefox,edge,safari
       - name: Check the manifest in every zip (REQ-SEC-008)
         run: node scripts/check-release-zips.ts .output/*.zip
       - name: Checksums
@@ -158,7 +159,10 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-workspace --ignore-scripts
       # One step per store, each with only its own secrets: a store that fails doesn't stop the others,
       # and a failed one can be retried alone (the job still ends red).
+      # Set the repository variable CHROME_SUBMIT, FIREFOX_SUBMIT, EDGE_SUBMIT or SAFARI_SUBMIT to
+      # "false" to skip that store for a release; unset means on (docs/release.md).
       - name: Submit the Chrome zip for review
+        if: ${{ vars.CHROME_SUBMIT != 'false' }}
         working-directory: tools/uploader
         env:
           CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
@@ -168,7 +172,7 @@ jobs:
           CHROME_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.CHROME_SERVICE_ACCOUNT_PRIVATE_KEY }}
         run: pnpm exec publish-extension --chrome-zip ../../release/*-chrome.zip
       - name: Submit the Firefox zip for review
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && vars.FIREFOX_SUBMIT != 'false' }}
         working-directory: tools/uploader
         env:
           FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
@@ -179,10 +183,77 @@ jobs:
             --firefox-zip ../../release/*-firefox.zip \
             --firefox-sources-zip ../../release/*-sources.zip
       - name: Submit the Edge zip for review
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && vars.EDGE_SUBMIT != 'false' }}
         working-directory: tools/uploader
         env:
           EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
           EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
           EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
         run: pnpm exec publish-extension --edge-zip ../../release/*-edge.zip
+
+  # Safari ships through the Mac App Store, so it needs macOS and Xcode. It builds nothing from the
+  # workspace: it takes the Safari zip that was built, checked and attested above, wraps it in an Xcode
+  # project, signs with cloud-managed certificates (the API key lets Xcode create them) and uploads the
+  # build to App Store Connect, where the owner presses "Submit for Review" (docs/release.md).
+  submit-safari:
+    name: submit (Mac App Store, Safari)
+    if: ${{ vars.SAFARI_SUBMIT != 'false' }}
+    needs: [zip, attest]
+    runs-on: macos-15
+    timeout-minutes: 45
+    environment: store
+    permissions:
+      contents: read
+      attestations: read # gh attestation verify
+    env:
+      BUNDLE_ID: com.nielsvanbrakel.sitemark
+      EXTENSION_ID: com.nielsvanbrakel.sitemark.extension
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: release
+          path: release
+      - name: Verify the checksums and the build provenance of the Safari zip
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          (cd release && shasum -a 256 --check SHA256SUMS)
+          gh attestation verify release/*-safari.zip --repo "$GITHUB_REPOSITORY" \
+            --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/release.yml"
+      # The converter names the extension <bundle id>.Extension; the App Store record uses lowercase.
+      - name: Wrap the Safari build in a macOS app project
+        run: |
+          unzip -q release/*-safari.zip -d safari
+          xcrun safari-web-extension-converter safari --project-location xcode --app-name SiteMark \
+            --bundle-identifier "$BUNDLE_ID" --macos-only --swift --copy-resources --no-open --no-prompt
+          grep -rl "$BUNDLE_ID.Extension" xcode | xargs sed -i '' "s/$BUNDLE_ID.Extension/$EXTENSION_ID/g"
+          echo "VERSION=$(jq -r .version safari/manifest.json)" >> "$GITHUB_ENV"
+      - name: Archive, sign and upload to App Store Connect
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          key="$RUNNER_TEMP/AuthKey_$ASC_KEY_ID.p8"
+          printf '%s\n' "$ASC_KEY_P8" > "$key"
+          auth=(-allowProvisioningUpdates -authenticationKeyPath "$key"
+            -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID")
+          # The build number must grow with every upload; the run number does.
+          xcodebuild archive -project xcode/SiteMark/SiteMark.xcodeproj -scheme SiteMark \
+            -destination 'generic/platform=macOS' -archivePath "$RUNNER_TEMP/SiteMark.xcarchive" \
+            "${auth[@]}" DEVELOPMENT_TEAM="$APPLE_TEAM_ID" MARKETING_VERSION="$VERSION" \
+            CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER" \
+            INFOPLIST_KEY_LSApplicationCategoryType=public.app-category.developer-tools \
+            INFOPLIST_KEY_ITSAppUsesNonExemptEncryption=NO
+          cat > "$RUNNER_TEMP/export.plist" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>$APPLE_TEAM_ID</string>
+          </dict></plist>
+          PLIST
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/SiteMark.xcarchive" \
+            -exportOptionsPlist "$RUNNER_TEMP/export.plist" "${auth[@]}"
+          rm -f "$key"
