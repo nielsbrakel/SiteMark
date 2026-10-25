@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.2.2
+
+- Dutch: the short description is a little shorter, so the Mac App Store accepts it. Otherwise the same as 1.2.1.
+
 ## 1.2.1
 
 - Same as 1.2.0; this version fixes the Safari publishing so the Mac App Store gets the same release.
