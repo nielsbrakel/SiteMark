@@ -15,8 +15,8 @@ How the pipeline works and which secrets it needs: [repo-setup.md §7](repo-setu
 
 1. Push the protected tag on that `main` commit: `git tag vX.Y.Z && git push origin vX.Y.Z`. Only the owner can push `v*` tags.
 2. `release.yml` builds the zips, attests them and waits in the `store` environment: **approve the deployment**.
-3. The **submit-safari** job (macOS) uploads the build to App Store Connect. When processing is done (about 15 minutes), attach the build to the version there and press _Submit for Review_.
-4. Each store has its own job: **submit (chrome)**, **submit (firefox)**, **submit (edge)** and **submit-safari**. A failing job does not stop the others. If one fails, fix its cause (usually its secret) and use _Re-run failed jobs_: only the failed store uploads again. To skip a store for a release, set its repository variable (`CHROME_SUBMIT`, `FIREFOX_SUBMIT`, `EDGE_SUBMIT` or `SAFARI_SUBMIT`) to `false`; delete it afterwards.
+3. The Safari job uploads the build to App Store Connect. When processing is done (about 15 minutes), attach the build to the version there and press _Submit for Review_.
+4. Each store has its own job: **submit (chrome)**, **submit (firefox)**, **submit (edge)** and **submit (safari)** (macOS). A failing job does not stop the others. If one fails, fix its cause (usually its secret) and use _Re-run failed jobs_: only the failed store uploads again. To skip a store for a release, set its repository variable (`CHROME_SUBMIT`, `FIREFOX_SUBMIT`, `EDGE_SUBMIT` or `SAFARI_SUBMIT`) to `false`; delete it afterwards.
 5. The **release** job attaches the zips and `SHA256SUMS` to a GitHub Release. Paste the release name and description below into it.
 
 ### Release name and description
