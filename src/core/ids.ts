@@ -25,7 +25,7 @@ export type Clock = {
 };
 
 /** Fills `bytes` with random values, like `crypto.getRandomValues` (core has no crypto global). */
-export type RandomValues = (bytes: Uint8Array) => Uint8Array;
+export type RandomValues = (bytes: Uint8Array<ArrayBuffer>) => Uint8Array<ArrayBuffer>;
 
 /**
  * Checks the ID format `^[A-Za-z0-9_-]{12}$` (REQ-SEC-004). The type parameter says which kind of ID
