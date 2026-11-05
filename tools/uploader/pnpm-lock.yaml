@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       publish-browser-extension:
-        specifier: 6.1.1
-        version: 6.1.1
+        specifier: 6.2.0
+        version: 6.2.0
 
 packages:
 
@@ -22,8 +22,8 @@ packages:
     resolution: {integrity: sha512-LMDU/U2yA4IPIY8KT0NsNPWEYZvAMkbgyspxJ6btJaYV+WMDOHAZCmB0lsTObiHaRS1V/ztKAl7+TSkTqXyeoA==}
     engines: {node: '>=20.19.0'}
 
-  publish-browser-extension@6.1.1:
-    resolution: {integrity: sha512-ovfBOz+cZIOBHZ+oxTfpv1kSGU7ruzy8CXoFGvhXsUbJuty45srGzf1ufEePs69virOWXfFbhZRoNQUdgPvwXA==}
+  publish-browser-extension@6.2.0:
+    resolution: {integrity: sha512-yIxoJ54RdTqyfdLrc+8mswCmEeh9x/03JrtF8Ney8zjzKplKgg4fdTs3hRP33IcWImak98yAHSI8ZBVAflsDNg==}
     engines: {node: '>=22.0.0'}
     hasBin: true
 
@@ -36,7 +36,7 @@ snapshots:
 
   cac@7.1.0: {}
 
-  publish-browser-extension@6.1.1:
+  publish-browser-extension@6.2.0:
     dependencies:
       '@topcli/prompts': 4.0.0
       cac: 7.1.0
