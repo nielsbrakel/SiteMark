@@ -62,7 +62,7 @@ describe('REQ-I18N-003 the options page shows user content as typed, never trans
 
   it('shows the group name, patterns, marks and texts literally in the editor', async () => {
     await openAt(`#/groups/${named.id}/marks/${asKey.id}`);
-    expect(within(pane()).getByRole('heading', { level: 2 })).toHaveTextContent(
+    expect(within(pane()).getByRole('heading', { level: 2 }).textContent).toMatch(
       /^popupMarkThisSite$/,
     );
     expect(byLabel('Name', pane())).toHaveValue('popupMarkThisSite');

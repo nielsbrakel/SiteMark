@@ -375,7 +375,7 @@ describe('REQ-POP-003 REQ-POP-008 REQ-RND-008 the popup offers Pick element, Hid
     shortcuts({ 'start-picker': 'Alt+Shift+M', 'toggle-hide': '' });
     await openPopup(PAGE, production);
     const line = (await shown(() => document.querySelector('kbd')))?.closest('p');
-    expect(line).toHaveTextContent(/^AltShiftM pick$/);
+    expect(line?.textContent).toMatch(/^AltShiftM pick$/);
   });
 
   it('can not hide while no marker runs in the tab', async () => {
@@ -534,8 +534,8 @@ describe('REQ-I18N-003 the popup shows user content as typed, never translated',
     await openWithUserContent();
     await shown(() => screen.queryByText('optionsDelete'));
     const [first, second] = await items();
-    expect(first).toHaveTextContent(/^popupMarkThisSite optionsDelete found$/);
-    expect(second).toHaveTextContent(/^__MSG_extName__ Disabled — enable in settings$/);
+    expect(first?.textContent).toMatch(/^popupMarkThisSite optionsDelete found$/);
+    expect(second?.textContent).toMatch(/^__MSG_extName__ Disabled — enable in settings$/);
   });
 
   it('keeps page translators away from them (translate="no")', async () => {
