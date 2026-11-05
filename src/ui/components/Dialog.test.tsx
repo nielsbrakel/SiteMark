@@ -40,6 +40,17 @@ function openDialog() {
   return screen.getByRole('dialog', { name: 'Delete Production?' });
 }
 
+function Unmounting() {
+  const [shown, setShown] = useState(true);
+  return shown ? (
+    <Dialog open onClose={() => setShown(false)} title="Hi">
+      <button type="button" onClick={() => setShown(false)}>
+        Done
+      </button>
+    </Dialog>
+  ) : null;
+}
+
 describe('REQ-A11Y-002 REQ-A11Y-003 Dialog', () => {
   it('is a closed native dialog until opened', () => {
     render(<Harness />);
@@ -96,16 +107,6 @@ describe('REQ-A11Y-002 REQ-A11Y-003 Dialog', () => {
   });
 
   it('returns focus when it unmounts while open', () => {
-    function Unmounting() {
-      const [shown, setShown] = useState(true);
-      return shown ? (
-        <Dialog open onClose={() => setShown(false)} title="Hi">
-          <button type="button" onClick={() => setShown(false)}>
-            Done
-          </button>
-        </Dialog>
-      ) : null;
-    }
     const before = document.createElement('button');
     document.body.append(before);
     before.focus();

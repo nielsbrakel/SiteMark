@@ -13,24 +13,22 @@ type MarkdownProps = {
   file: string;
 };
 
-type LinkProps = { href?: string | undefined; children?: ReactNode };
+type LinkProps = { href?: string | undefined; children?: ReactNode; file: string };
 
-function linkIn(file: string) {
-  return function MarkdownLink({ href = '', children }: LinkProps) {
-    // react-markdown already emptied unsafe URLs (javascript: and the like).
-    const link = href ? resolveLink(href, file) : { href: '#', external: false };
-    if (link.external)
-      return (
-        <ExternalLink className="sm-link" href={link.href}>
-          {children}
-        </ExternalLink>
-      );
+function MarkdownLink({ href = '', children, file }: LinkProps) {
+  // react-markdown already emptied unsafe URLs (javascript: and the like).
+  const link = href ? resolveLink(href, file) : { href: '#', external: false };
+  if (link.external)
     return (
-      <a className="sm-link" href={link.href}>
+      <ExternalLink className="sm-link" href={link.href}>
         {children}
-      </a>
+      </ExternalLink>
     );
-  };
+  return (
+    <a className="sm-link" href={link.href}>
+      {children}
+    </a>
+  );
 }
 
 /**
@@ -39,7 +37,13 @@ function linkIn(file: string) {
  * nothing in a Markdown file may make the page load anything (REQ-WEB-003).
  */
 export function Markdown({ source, file }: MarkdownProps) {
-  const components: Components = { a: linkIn(file) };
+  const components: Components = {
+    a: ({ href, children }) => (
+      <MarkdownLink href={href} file={file}>
+        {children}
+      </MarkdownLink>
+    ),
+  };
   return (
     <div className={styles.prose}>
       <ReactMarkdown
