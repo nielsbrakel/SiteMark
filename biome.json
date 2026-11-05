@@ -22,6 +22,8 @@
       "quoteStyle": "single"
     }
   },
+  "markdown": { "formatter": { "enabled": false } },
+  "yaml": { "formatter": { "enabled": false } },
   "plugins": [
     "./tools/biome/no-html-sink-assignment.grit",
     "./tools/biome/no-storage-sync.grit",
