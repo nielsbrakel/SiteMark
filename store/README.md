@@ -1,6 +1,6 @@
 # Store listings
 
-Everything for the store dashboards, version controlled and grouped per store (D-256): each folder holds that
+Everything for the store dashboards, version controlled and grouped per store (D-299, D-300): each folder holds that
 store's paste-ready listing text (`listing.md`) and the images it takes, in the sizes it asks for (`images/`).
 Copy the text into the dashboard and upload the images. Everything that points to the web uses the **website**, never
 the repository, so the URLs stay stable (REQ-POLICY-005).
