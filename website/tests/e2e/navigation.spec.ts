@@ -87,11 +87,14 @@ test.describe('REQ-WEBUX-002 the theme choice persists across pages and reloads'
     await page.emulateMedia({ colorScheme: 'light' });
     await page.goto('/SiteMark/');
     expect(await htmlTheme(page)).toBeUndefined();
-    await page
-      .getByRole('radiogroup', { name: 'Theme' })
-      .getByRole('radio', { name: 'Dark' })
-      .click();
-    expect(await htmlTheme(page)).toBe('dark');
+    // The click may land before the island hydrates and do nothing, so click again until it takes.
+    await expect(async () => {
+      await page
+        .getByRole('radiogroup', { name: 'Theme' })
+        .getByRole('radio', { name: 'Dark' })
+        .click();
+      expect(await htmlTheme(page)).toBe('dark');
+    }).toPass();
     await page.reload();
     expect(await htmlTheme(page)).toBe('dark');
     await expect(page.getByRole('radio', { name: 'Dark' })).toHaveAttribute('aria-checked', 'true');
@@ -101,10 +104,13 @@ test.describe('REQ-WEBUX-002 the theme choice persists across pages and reloads'
     const keys = await page.evaluate(() => Object.keys(window.localStorage));
     expect(keys).toEqual(['sitemark-website:theme']);
     expect(await context.cookies()).toEqual([]);
-    await page
-      .getByRole('radiogroup', { name: 'Thema' })
-      .getByRole('radio', { name: 'Systeem' })
-      .click();
+    await expect(async () => {
+      await page
+        .getByRole('radiogroup', { name: 'Thema' })
+        .getByRole('radio', { name: 'Systeem' })
+        .click();
+      expect(await htmlTheme(page)).toBeUndefined();
+    }).toPass();
     await page.reload();
     expect(await htmlTheme(page)).toBeUndefined();
   });
