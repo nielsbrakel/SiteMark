@@ -148,6 +148,12 @@ jobs:
         if: ${{ matrix.store != 'safari' }}
         with:
           persist-credentials: false
+      # Safari takes just the app icon files from the tagged commit (nothing is installed or run from them).
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        if: ${{ matrix.store == 'safari' }}
+        with:
+          persist-credentials: false
+          sparse-checkout: design/appicon
       - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
         if: ${{ matrix.store != 'safari' }}
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -226,6 +232,17 @@ jobs:
           grep -rlI -i "$BUNDLE_ID" xcode | xargs perl -pi -e \
             "s/\Q\$ENV{BUNDLE_ID}\E\.extension/\$ENV{EXTENSION_ID}/gi; s/\Q\$ENV{BUNDLE_ID}\E(?!\.extension)/\$ENV{BUNDLE_ID}/gi"
           grep -rhI "PRODUCT_BUNDLE_IDENTIFIER" xcode | sort -u
+          # Apple's recommended app icon is a layered Icon Composer file with square, unmasked layers (the system
+          # rounds the corners); the flat PNG the converter used sat on a white plate on macOS. The file replaces
+          # the converter's AppIcon asset set of the same name.
+          cp -R design/appicon/AppIcon.icon xcode/SiteMark/SiteMark/AppIcon.icon
+          ruby -rxcodeproj -e '
+            project = Xcodeproj::Project.open("xcode/SiteMark/SiteMark.xcodeproj")
+            target = project.targets.find { |t| t.name == "SiteMark" } or abort("no SiteMark target")
+            ref = project.main_group.find_subpath("SiteMark", true).new_file("AppIcon.icon")
+            target.resources_build_phase.add_file_reference(ref)
+            project.save'
+          grep -q "AppIcon.icon" xcode/SiteMark/SiteMark.xcodeproj/project.pbxproj
           echo "VERSION=$(jq -r .version safari/manifest.json)" >> "$GITHUB_ENV"
       - name: Archive, sign and upload to App Store Connect
         if: ${{ matrix.store == 'safari' && vars.SAFARI_SUBMIT != 'false' }}
