@@ -5,7 +5,7 @@
 // the icons and tiles into store/<store>/images/ (store/README.md says which store takes which; the framed
 // screenshots come from `pnpm web:screenshots`).
 // Usage: pnpm icons   (set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium)
-import { copyFile, mkdir, readFile } from 'node:fs/promises';
+import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from '@playwright/test';
 
 // The promo art sets its lettering in the bundled handwriting fonts (D-289).
@@ -136,6 +136,35 @@ await mkdir('store/safari/images', { recursive: true });
 await page.screenshot({ path: 'design/app-icon-1024.png' });
 await copyFile('design/app-icon-1024.png', 'store/safari/images/icon-1024.png');
 console.log('design/app-icon-1024.png, store/safari/images/icon-1024.png');
+
+// The layered macOS app icon (Icon Composer file, Apple's recommended format): a square, unmasked kraft
+// background (the system rounds the corners) and the logo as one transparent 1024 × 1024 SVG layer. The
+// release workflow copies it into the Xcode project (D-300).
+const iconDir = 'design/appicon/AppIcon.icon';
+await mkdir(`${iconDir}/Assets`, { recursive: true });
+const logoSvg = (await readFile('design/logo/sitemark-icon.svg', 'utf8')).replace(
+  /^<svg [^>]*>/,
+  // biome-ignore lint/security/noSecrets: an SVG tag, not a secret
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" x="212" y="212" width="600" height="600">',
+);
+await writeFile(
+  `${iconDir}/Assets/logo.svg`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">${logoSvg}</svg>\n`,
+);
+await writeFile(
+  `${iconDir}/icon.json`,
+  `${JSON.stringify(
+    {
+      // #c9a77c, the kraft board of the PNG icon.
+      fill: { solid: 'srgb:0.78824,0.65490,0.48627,1.00000' },
+      groups: [{ layers: [{ 'image-name': 'logo.svg', name: 'logo', glass: false }] }],
+      'supported-platforms': { squares: 'shared' },
+    },
+    null,
+    2,
+  )}\n`,
+);
+console.log(iconDir);
 
 const social = await readFile('design/social-preview.svg', 'utf8');
 await renderArt(page, social, 1280, 640, 'design/social-preview.png');

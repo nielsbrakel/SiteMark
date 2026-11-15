@@ -1,0 +1,19 @@
+{
+  "fill": {
+    "solid": "srgb:0.78824,0.65490,0.48627,1.00000"
+  },
+  "groups": [
+    {
+      "layers": [
+        {
+          "image-name": "logo.svg",
+          "name": "logo",
+          "glass": false
+        }
+      ]
+    }
+  ],
+  "supported-platforms": {
+    "squares": "shared"
+  }
+}

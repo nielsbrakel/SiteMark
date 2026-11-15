@@ -4,17 +4,16 @@ Shared across stores: [README](../README.md). Safari is macOS only (Safari 18), 
 the app → _App Information_ (name, subtitle, category, privacy URL), the version page (texts, screenshots,
 keywords, URLs, build, review notes) and _App Privacy_. Add Dutch under the localisation menu (top right).
 
-Checked on 2026-10-24 against Apple's App Store Connect reference
-(developer.apple.com/help/app-store-connect/reference/…): name 2–30 characters, subtitle ≤ 30, promotional
-text ≤ 170, description ≤ 4000, what's new ≤ 4000, keywords ≤ 100 **bytes** (each keyword longer than two
-characters, no app or company names, don't repeat the name), privacy policy URL required for macOS apps,
-subcategories only for Games and Stickers, Mac screenshots 16:10 at 1280 × 800, 1440 × 900, 2560 × 1600 or
-2880 × 1800, 1–10 per size, PNG or JPEG without alpha, age-rating questionnaire items and the lowest rating 4+,
-and the Safari web extension packager (App Store Connect → Users and Access → Xcode Cloud, or
-`xcrun safari-web-extension-packager`). **Not verified** from an official page: the exact wording of the App
-Privacy answer that yields "Data Not Collected", the export-compliance questions, the Safari 18 menu path
-(Safari > Settings > Extensions), the 1024 × 1024 app-icon rule (taken from Apple's design guidance and WWDC 2020),
-and the keyword separator (Apple's docs don't name one; commas without spaces are the common practice).
+Checked on 2026-11-15 against Apple's pages (developer.apple.com/help/app-store-connect/…, the Human Interface
+Guidelines and the Xcode and Security documentation). **Confirmed:** Mac screenshots 16:10 at 1280 × 800,
+1440 × 900, 2560 × 1600 or 2880 × 1800, up to 10 per size, JPEG or PNG, no alpha; app previews optional (landscape,
+1920 × 1080); keywords ≤ 100 **bytes**, promotional text ≤ 170, description ≤ 4000, what's new ≤ 4000; the lowest age
+rating is 4+; `ITSAppUsesNonExemptEncryption` = NO answers the export-compliance questions (Apple: "if your app
+doesn't use encryption"); `public.app-category.developer-tools` is a valid category; the app icon is a 1024 × 1024
+**square** that the system masks (see Images). **Not found on an official page:** the "Data Not Collected" label
+text for the App Privacy "No" answer, name and subtitle limits of 30 (from an earlier check), the keyword separator
+(commas without spaces are common practice), the Safari menu path (Safari > Settings > Extensions) and the
+`safari-web-extension-converter` page (Apple's page would not load).
 
 ## Name (max 30)
 
@@ -200,10 +199,15 @@ SiteMark makes no network requests of its own, collects no data and asks for web
 
 Generated, never made by hand (`pnpm web:screenshots`, `pnpm icons`). Upload `en` to the English listing and `nl` to the Dutch one.
 
-| File in `images/`   | Size        | Use                                                                                   |
-| ------------------- | ----------- | ------------------------------------------------------------------------------------- |
-| `icon-1024.png`     | 1024 × 1024 | app icon: opaque, square (Apple adds the corner shape); goes in the Xcode AppIcon set |
-| `{en,nl}/1…6-*.png` | 2560 × 1600 | Mac screenshots, 16:10, RGB without alpha (the light slides at 2×)                    |
+| File                          | Size        | Use                                                                                     |
+| ----------------------------- | ----------- | --------------------------------------------------------------------------------------- |
+| `design/appicon/AppIcon.icon` | 1024 × 1024 | the app icon: a layered Icon Composer file the release job adds to the Xcode project    |
+| `images/icon-1024.png`        | 1024 × 1024 | the same icon flattened (square, opaque), for reference; the Safari build also ships it |
+| `images/{en,nl}/1…6-*.png`    | 2560 × 1600 | Mac screenshots, 16:10, RGB without alpha (the light slides at 2×)                      |
+
+The app icon is **square and unmasked**: Apple's guidelines say macOS applies the rounded-corner mask itself, and
+recommend layers (a full-bleed opaque background plus foreground layers) in an Icon Composer file. A flat PNG
+alone showed on a white plate in App Store Connect for 1.2.2 (probably because it was flat; unconfirmed). Do not pre-round the corners.
 
 Order: 1-production, 2-environments, 3-popup, 4-picker, 5-options, 6-privacy. Apple takes 1–10 Mac screenshots at
 1280 × 800, 1440 × 900, 2560 × 1600 or 2880 × 1800 and shows one size, so 2560 × 1600 alone is enough. No dark set,
