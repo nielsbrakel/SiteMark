@@ -81,7 +81,7 @@ td i{font-style:normal;font-size:15px;padding:2px 10px;border-radius:99px;backgr
 
 /**
  * How much of the page a store slide shows, so its text reaches the slide at a readable size
- * (store/listing.md): the whole dashboard; the customer card and four orders without the stats (a
+ * (store/README.md): the whole dashboard; the customer card and four orders without the stats (a
  * smaller window shown larger); the same with room on the right for the popup; or one narrow
  * column whose header sits below a top banner (three windows side by side).
  */

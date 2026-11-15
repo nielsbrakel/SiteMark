@@ -2,7 +2,7 @@
 // design/social-preview.svg into the GitHub social preview (design/social-preview.png) and the
 // per-language link previews (design/social-preview-{en,nl}.png), and
 // design/{promo,marquee}-tile.svg into the localised store promo tiles (T-152). It then collects
-// the icons and tiles into store/images/ (store/listing.md says which store takes which; the framed
+// the icons and tiles into store/<store>/images/ (store/README.md says which store takes which; the framed
 // screenshots come from `pnpm web:screenshots`).
 // Usage: pnpm icons   (set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium)
 import { copyFile, mkdir, readFile } from 'node:fs/promises';
@@ -131,11 +131,11 @@ await page.setViewportSize({ width: 1024, height: 1024 });
 await page.setContent(
   `<style>html,body{margin:0;background:#c9a77c}svg{display:block;width:1024px;height:1024px;padding:120px;box-sizing:border-box}</style>${await readFile('design/logo/sitemark-icon.svg', 'utf8')}`,
 );
-await mkdir('store/images', { recursive: true });
+await mkdir('store/safari/images', { recursive: true });
 // The Safari build ships it too, as its largest icon, so the App Store packager uses it (wxt.config.ts).
 await page.screenshot({ path: 'design/app-icon-1024.png' });
-await copyFile('design/app-icon-1024.png', 'store/images/icon-1024.png');
-console.log('design/app-icon-1024.png, store/images/icon-1024.png');
+await copyFile('design/app-icon-1024.png', 'store/safari/images/icon-1024.png');
+console.log('design/app-icon-1024.png, store/safari/images/icon-1024.png');
 
 const social = await readFile('design/social-preview.svg', 'utf8');
 await renderArt(page, social, 1280, 640, 'design/social-preview.png');
@@ -157,23 +157,29 @@ const tiles = [
   { name: 'marquee-tile', file: 'promo-marquee-1400x560', width: 1400, height: 560 },
 ];
 for (const lang of ['en', 'nl']) {
-  await mkdir(`store/images/${lang}`, { recursive: true });
   for (const { name, file, width, height } of tiles) {
     const markup = await readFile(`design/${name}.svg`, 'utf8');
     const text = lang === 'nl' ? inDutch(name, markup) : markup;
-    await renderArt(page, text, width, height, `store/images/${lang}/${file}.png`);
+    // Chrome and Edge take the same tiles.
+    for (const store of ['chrome', 'edge']) {
+      await mkdir(`store/${store}/images/${lang}`, { recursive: true });
+      await renderArt(page, text, width, height, `store/${store}/images/${lang}/${file}.png`);
+    }
   }
 }
 
 // Edge asks for a 300 × 300 logo; the package doesn't ship it.
-await mkdir('store/images', { recursive: true });
+await mkdir('store/edge/images', { recursive: true });
 await page.setViewportSize({ width: 300, height: 300 });
 await page.setContent(
   `<style>html,body{margin:0;background:transparent}svg{display:block;width:300px;height:300px}</style>${await readFile('design/logo/sitemark-icon.svg', 'utf8')}`,
 );
-await page.locator('svg').screenshot({ path: 'store/images/icon-300.png', omitBackground: true });
+await page
+  .locator('svg')
+  .screenshot({ path: 'store/edge/images/icon-300.png', omitBackground: true });
 
 await browser.close();
 
-await copyFile('public/icon/128.png', 'store/images/icon-128.png');
-console.log('store/images/icon-128.png');
+await mkdir('store/chrome/images', { recursive: true });
+await copyFile('public/icon/128.png', 'store/chrome/images/icon-128.png');
+console.log('store/chrome/images/icon-128.png');
