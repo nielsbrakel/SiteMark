@@ -1,7 +1,6 @@
 # SiteMark — Code conventions
 
-> Decisions: D-202 (naming), D-222 (layers), D-225 (errors), D-235 (conventions), D-236 (CSS), D-243 (Biome).
-> Lint enforcement (Biome, D-243) for most rules arrives with T-011, T-012 and T-025. Until then, review enforces them.
+> Biome enforces most of these rules. Review checks the rest.
 
 ## Layers (D-222)
 

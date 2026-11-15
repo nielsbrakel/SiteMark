@@ -1,7 +1,7 @@
 # SiteMark — Implementation tasks
 
-> The task list: one row per TDD cycle (or setup chore). Run **`pnpm progress`** for status and
-> requirement traceability. Renumbered after the [2026-09-25 plan review](reviews/2026-09-25-plan-review.md).
+> One row per TDD cycle or setup chore. Run **`pnpm progress`** for status and
+> requirement traceability.
 > The website has its own list: [website/tasks.md](website/tasks.md) (W1 before T-152, W2 after M6, D-253).
 
 **How it works** (full protocol: [testing.md](testing.md#tdd-protocol))
@@ -20,7 +20,7 @@ Status: ☐ todo · ✅ done.
 
 ---
 
-The finished milestones M0 – M6 are in [archive/tasks.md](archive/tasks.md).
+Milestones M0 to M6 are finished. Their tasks are in [archive/tasks.md](archive/tasks.md).
 
 ## M7 — Polish
 
@@ -41,7 +41,7 @@ The finished milestones M0 – M6 are in [archive/tasks.md](archive/tasks.md).
 | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | --------------------------------------------------------------------------- | ------ |
 | T-152 | `PRIVACY.md` final review (drafted in website T-213, D-249), store listings (en/nl) with website URLs, permission justifications, screenshots, promo tile, `SOURCE_REVIEW.md` | REQ-PRIV-007, REQ-NFR-006 | review                                                                      | ✅     |
 | T-153 | `release.yml`: zips, provenance + SHA256SUMS, zip manifest assertions, `wxt submit` in env `store`                                                                            | REQ-SEC-008, REQ-NFR-006  | `tests/unit/release-workflow.test.ts`, `scripts/check-release-zips.test.ts` | ✅     |
-| T-154 | Changesets release → v1.0.0, store submissions                                                                                                                                | REQ-NFR-006               | release checklist                                                           | ☐      |
+| T-154 | Release v1.0.0 and submit it to the stores (hand-written changelog, D-293)                                                                                                    | REQ-NFR-006               | release checklist                                                           | ☐      |
 
 ## M9 — Safari (later)
 

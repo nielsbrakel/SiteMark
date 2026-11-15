@@ -4,7 +4,7 @@ description: Markeer één knop of veld op een pagina met de elementkiezer.
 order: 5
 ---
 
-Behalve de hele pagina kan SiteMark één element markeren: de verwijderknop die je nooit per ongeluk wilt indrukken, of het veld dat e-mail naar echte klanten stuurt.
+SiteMark kan ook één element markeren in plaats van de hele pagina. Denk aan de verwijderknop die je nooit per ongeluk wilt indrukken, of het veld dat e-mail naar echte klanten stuurt.
 
 ## De kiezer starten
 
@@ -18,7 +18,7 @@ Klik om het gemarkeerde element te kiezen. Met het toetsenbord begin je bij het 
 
 ## De markering opslaan
 
-Na het kiezen toont een klein paneel de selector die SiteMark voor het element schreef, de sitegroep waarin je hem bewaart, de effecten (standaard een omlijning) en de kleur. Klik op **Opslaan**, of op **Meer opties…** om verder te gaan in de markeringseditor.
+Na het kiezen opent een klein paneel. Het toont de selector die SiteMark schreef, de sitegroep waarin je hem bewaart, de effecten (standaard een omlijning) en de kleur. Klik op **Opslaan**, of op **Meer opties…** om verder te gaan in de markeringseditor.
 
 Heeft SiteMark nog geen toegang tot de site, dan verschijnt de markering alleen op dit tabblad, met een knop **Toestaan** om hem te houden.
 

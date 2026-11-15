@@ -27,4 +27,4 @@ Pick one of four presets (red, amber, blue or slate, chosen to stay apart for co
 
 ## When several site groups match
 
-All active site groups apply. The list order in the settings is their priority: each corner shows the ribbon of the highest group, banners on the same edge share one bar, frames nest, and the title prefix comes from the highest group. Marks never block clicks and never move the page.
+All active site groups apply. The order of the list in the settings is their priority. Each corner shows the ribbon of the highest group. Banners on the same edge share one bar, and frames nest. The title prefix comes from the highest group. Marks never block clicks and never move the page.

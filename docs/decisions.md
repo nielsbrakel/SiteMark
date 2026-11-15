@@ -6,7 +6,7 @@ and tasks. Never edit what a decision means. To change it, add a new entry and m
 
 - D-001…D-024: kickoff interview (owner).
 - D-101…D-110: defaults the lead chose during kickoff.
-- D-201…D-242: [plan review 2026-09-25](reviews/2026-09-25-plan-review.md) (owner Q&A + reviewer consensus).
+- D-201…D-242: the 2026-09-25 plan review (owner Q&A and reviewer consensus).
 - D-243…: later owner decisions.
 - D-244…D-256: [website](website/spec.md) interview 2026-09-25 (owner; D-255 and D-256 partly lead defaults).
 - D-257: M0.5 implementation notes (lead, for owner review).

@@ -1,24 +1,24 @@
 # SiteMark — Technical plan
 
-> Implements [spec.md](spec.md) (rev 2). Work items live in [tasks.md](tasks.md), and the process in
-> [testing.md](testing.md). Decisions are referenced as D-xxx ([decisions.md](decisions.md)).
+> Implements [spec.md](spec.md). Work items live in [tasks.md](tasks.md), the process in
+> [testing.md](testing.md), and the reasons behind each choice in [decisions.md](decisions.md) (`D-xxx`).
 
 ## 1. Stack
 
-| Concern         | Choice                                                                                                                           | Ref                |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| Build / dev     | WXT 0.21 (Vite 8), MV3 everywhere, **auto-imports off**                                                                          | D-003, D-222       |
-| UI              | React 19 + TypeScript (popup, options, grant page), with CSS Modules                                                             | D-236              |
-| Content scripts | Plain TypeScript + DOM, shadow-root CSS through adopted sheets or `<style>`                                                      | D-101, D-232       |
-| Validation      | zod 4, strict schemas, `jitless`                                                                                                 | D-102, D-238       |
-| Storage         | Plain `storage.local`. One writer (background). One migration pipeline                                                           | D-220, D-224       |
-| Messaging       | `@webext-core/messaging` with sender validation + zod payloads                                                                   | D-104, REQ-SEC-003 |
-| Selectors       | `@medv/finder` + SiteMark token filters                                                                                          | D-105              |
-| Regex safety    | `@eslint-community/regexpp` (parse + safe-subset check)                                                                          | D-211              |
-| Tests           | Vitest 4 (projects: node / happy-dom / browser mode), RTL, fast-check, Stryker, Playwright                                       | D-233              |
-| Quality         | TS strict+, Biome 2 (lint + format, zones, GritQL plugins), Prettier (Markdown/YAML only), stylelint, knip, commitlint, lefthook | D-234–D-237, D-243 |
-| Release         | Hand-written `CHANGELOG.md`, `wxt zip` / `wxt submit` behind the `store` environment                                             | D-227, D-293       |
-| Package manager | pnpm 10 (policies in `pnpm-workspace.yaml`), Node 26                                                                             | D-238              |
+| Concern         | Choice                                                                                                                                        | Ref                |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| Build / dev     | WXT 0.21 (Vite 8), MV3 everywhere, **auto-imports off**                                                                                       | D-003, D-222       |
+| UI              | React 19 + TypeScript (popup, options, grant page), with CSS Modules                                                                          | D-236              |
+| Content scripts | Plain TypeScript + DOM, shadow-root CSS through adopted sheets or `<style>`                                                                   | D-101, D-232       |
+| Validation      | zod 4, strict schemas, `jitless`                                                                                                              | D-102, D-238       |
+| Storage         | Plain `storage.local`. One writer (background). One migration pipeline                                                                        | D-220, D-224       |
+| Messaging       | `@webext-core/messaging` with sender validation + zod payloads                                                                                | D-104, REQ-SEC-003 |
+| Selectors       | `@medv/finder` + SiteMark token filters                                                                                                       | D-105              |
+| Regex safety    | `@eslint-community/regexpp` (parse + safe-subset check)                                                                                       | D-211              |
+| Tests           | Vitest 5 (projects: node / happy-dom / browser mode), RTL, fast-check, Stryker, Playwright                                                    | D-233              |
+| Quality         | TypeScript 7 (strict), Biome 2.6 (lint + format, zones, GritQL plugins), Prettier (Markdown/YAML only), stylelint, knip, commitlint, lefthook | D-234–D-237, D-243 |
+| Release         | Hand-written `CHANGELOG.md`, `wxt zip` / `wxt submit` behind the `store` environment                                                          | D-227, D-293       |
+| Package manager | pnpm 10 (policies in `pnpm-workspace.yaml`), Node 26                                                                                          | D-238              |
 
 A library is added by the task that first needs it, never ahead of time.
 
@@ -171,7 +171,7 @@ live in `platform/message-payloads.ts`, which content scripts never load: they i
 | E2E               | Playwright + built Chromium extension | Real flows on fixture sites, hostile pages, strict CSP                                         | `tests/e2e/*.spec.ts`   |
 | Manifest/artifact | Vitest (node) on `.output/*`          | Privacy manifest assertions for all targets, built-output network scan                         | `tests/build/*.test.ts` |
 | Mutation          | Stryker (nightly)                     | `src/core`                                                                                     | —                       |
-| Manual            | Checklist                             | Firefox per release (D-214), Safari when it ships                                              | `docs/testing.md`       |
+| Manual            | Checklist                             | Firefox per release (D-214), Safari per release                                                | `docs/testing.md`       |
 
 **E2E specifics:**
 
@@ -209,7 +209,7 @@ All actions are pinned by SHA, use `persist-credentials: false`, set `timeout-mi
 | M6   | **Options**         | Groups, patterns, marks, preview, settings, data, welcome, diagnostics                                                               |
 | M7   | **Polish**          | i18n review, axe, zoom, visual baselines, perf, Firefox smoke                                                                        |
 | M8   | **Release v1.0**    | PRIVACY, SECURITY, store assets, release workflow, submission (Chrome/Edge/Firefox)                                                  |
-| M9   | **Safari (later)**  | Safari 18 build, packaging, fixes, App Store                                                                                         |
+| M9   | **Safari**          | Safari 18 build, packaging, fixes, Mac App Store                                                                                     |
 
 The public website (`website/`, outside `src/`) has its own [spec, plan and tasks](website/plan.md) with milestones
 W1 (before T-152) and W2 (after M6), D-253.
@@ -219,7 +219,7 @@ every Must REQ of the milestone covered by a passing test, and a pre-release tag
 
 ## 8. Browser compatibility notes (from the platform review)
 
-| Concern                                 | Chrome ≥ 120 | Firefox ≥ 140                           | Safari ≥ 18 (later)                         |
+| Concern                                 | Chrome ≥ 120 | Firefox ≥ 140                           | Safari ≥ 18                                 |
 | --------------------------------------- | ------------ | --------------------------------------- | ------------------------------------------- |
 | Runtime `permissions.request`           | ✅           | ⚠️ must be synchronous; popup may close | ⚠️ Safari's own per-site UI, one-day grants |
 | `registerContentScripts` persistence    | ✅           | ✅                                      | ⚠️ unreliable → re-sync on start            |
@@ -233,13 +233,13 @@ every Must REQ of the milestone covered by a passing test, and a pre-release tag
 
 ## 9. Risks
 
-| Risk                                          | Mitigation                                                                                                                       |
-| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| The popup dies during a permission prompt     | Request first, background completes on `onAdded`, grant page fallback (D-229)                                                    |
-| Safari grant/registration behavior differs    | Live `permissions.contains`, re-sync on every start, M9 dedicated milestone                                                      |
-| Generated selectors break after deploys       | Stable-attribute preference, editable selector, "not found" + badge + Re-pick                                                    |
-| Page top layer / fullscreen covers marks      | Re-promotion (D-215) + e2e with dialog and fullscreen                                                                            |
-| Hostile or strict-CSP pages break marks       | REQ-SEC-006/007, hostile-page and CSP e2e fixtures                                                                               |
-| ReDoS                                         | Safe-subset regex, linear glob, caps (D-211, REQ-URL-010)                                                                        |
-| TDD discipline erodes under deadline pressure | verify-tdd CI job, git-derived status (D-210)                                                                                    |
-| Toolchain majors (Biome 3, Vitest 5, TS 7)    | Dependabot ignores majors until WXT supports them. Biome is pinned exactly and bumped in its own PR with `biome migrate` (T-023) |
+| Risk                                          | Mitigation                                                                                                                                                             |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The popup dies during a permission prompt     | Request first, background completes on `onAdded`, grant page fallback (D-229)                                                                                          |
+| Safari grant/registration behavior differs    | Live `permissions.contains`, re-sync on every start, M9 dedicated milestone                                                                                            |
+| Generated selectors break after deploys       | Stable-attribute preference, editable selector, "not found" + badge + Re-pick                                                                                          |
+| Page top layer / fullscreen covers marks      | Re-promotion (D-215) + e2e with dialog and fullscreen                                                                                                                  |
+| Hostile or strict-CSP pages break marks       | REQ-SEC-006/007, hostile-page and CSP e2e fixtures                                                                                                                     |
+| ReDoS                                         | Safe-subset regex, linear glob, caps (D-211, REQ-URL-010)                                                                                                              |
+| TDD discipline erodes under deadline pressure | verify-tdd CI job, git-derived status (D-210)                                                                                                                          |
+| Toolchain major upgrades                      | Dependabot ignores major versions of Biome, Vitest and TypeScript. We bump them by hand. Biome is pinned exactly and bumped in its own PR with `biome migrate` (T-023) |

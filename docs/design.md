@@ -1,7 +1,7 @@
 # SiteMark — Design
 
 > Tokens: [`src/styles/tokens.css`](../src/styles/tokens.css) · Primitives: [`src/styles/base.css`](../src/styles/base.css) · Logo: [`design/logo/`](../design/logo)
-> Revised after the [2026-09-25 plan review](reviews/2026-09-25-plan-review.md). Terminology: **site group** (D-202).
+> Terminology: **site group**, never "profile" (D-202).
 
 ## 1. Principles
 
