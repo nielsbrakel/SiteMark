@@ -211,5 +211,5 @@ alone showed on a white plate in App Store Connect for 1.2.2 (probably because i
 
 Order: 1-production, 2-environments, 3-popup, 4-picker, 5-options, 6-privacy. Apple takes 1–10 Mac screenshots at
 1280 × 800, 1440 × 900, 2560 × 1600 or 2880 × 1800 and shows one size, so 2560 × 1600 alone is enough. No dark set,
-no promo tiles, no App Preview video and no iPhone or iPad screenshots (macOS only). Captions:
+no promo tiles, no App Preview video and no iPhone or iPad screenshots (macOS only). Apple's optional "creative assets" (product page header and search-results images) are for iOS and iPadOS 27 and later only, so a Mac app can't use them (checked 2026-11-15). Captions:
 [README](../README.md#screenshot-captions).
