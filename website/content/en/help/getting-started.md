@@ -23,4 +23,4 @@ Reload the page or come back tomorrow: the ribbon is still there, without asking
 
 ## Make it your own
 
-Open **Settings** from the popup to change what the site group shows. Give it a clear name such as “Production”, pick a color, and add effects like a banner along the top edge or a frame around the page. Every change is saved at once, and open tabs update live. The other help topics explain URL patterns, marks and effects in detail.
+Open **Settings** from the popup to change what the site group shows. Give it a clear name such as “Production” and pick a color. Then add effects, such as a banner along the top edge or a frame around the page. Every change is saved at once, and open tabs update live. The other help topics explain URL patterns, marks and effects in detail.

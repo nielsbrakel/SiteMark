@@ -1,15 +1,14 @@
 # SiteMark website — Product specification (v1)
 
-> Status: **v1.0 shipped, living document** (rev 1, owner interview 2026-09-25, D-244…D-256)
+> Status: **shipped, living document** (owner interview 2026-09-25, D-244…D-256)
 > Related: [plan](plan.md) · [design](design.md) · [tasks](tasks.md) · [decisions](../decisions.md) ·
 > extension [spec](../spec.md)
 
 ## 1. Problem
 
-SiteMark has no public home. The README is written for contributors, and nothing on the web explains the
-extension to people searching for it. The stores also need stable URLs that don't exist yet: every listing
-needs a **privacy policy URL**, and the App Store (later) also needs a **support URL**. Without these,
-T-152 and T-157 can't finish.
+The README is written for contributors, so people who search for SiteMark need a page that explains the
+extension. The stores also need stable URLs: every listing needs a **privacy policy URL**, and the App Store
+also needs a **support URL**.
 
 ## 2. Vision and success
 

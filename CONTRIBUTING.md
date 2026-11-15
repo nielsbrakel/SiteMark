@@ -1,24 +1,23 @@
 # Contributing to SiteMark
 
-Thanks for helping! SiteMark is a small, privacy-first browser extension, so the bar for new
-permissions, dependencies and network access is high. Everything else is welcome.
+Thanks for helping. SiteMark is a small browser extension that puts privacy first, so we are strict about new
+permissions, dependencies and network access. Everything else is welcome.
 
 ## Before you start
 
 - **Bugs:** open an issue with the [bug form](https://github.com/nielsbrakel/SiteMark/issues/new?template=bug_report.yml).
   Security problems go through [SECURITY.md](SECURITY.md), never a public issue.
 - **Features:** open a [feature request](https://github.com/nielsbrakel/SiteMark/issues/new?template=feature_request.yml)
-  first. Check [docs/spec.md](docs/spec.md): the non-goals (§2) and the privacy rules (§5.6) are deliberate.
-- **Task list:** planned work lives in [docs/tasks.md](docs/tasks.md). Look for issues labelled
-  `good first issue`, or comment on an issue before you start something big.
+  first. The non-goals and privacy rules in [docs/spec.md](docs/spec.md) are deliberate.
+- **Planned work:** [docs/tasks.md](docs/tasks.md) lists it. Look for issues labelled `good first issue`, and
+  comment on an issue before you start something big.
 
-Please read [docs/plan.md](docs/plan.md) (architecture) and [docs/decisions.md](docs/decisions.md) (the
-decision log, `D-xxx`) before changing code. By participating you agree to the
-[Code of Conduct](CODE_OF_CONDUCT.md).
+Read [docs/plan.md](docs/plan.md) for the architecture before you change code. The reasons behind past choices are
+in [docs/decisions.md](docs/decisions.md). By taking part you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Setup
 
-You need Node 26 (see `.nvmrc`) and pnpm via Corepack. On an older Node, `pnpm install` stops with `ERR_PNPM_UNSUPPORTED_ENGINE`.
+You need Node 26 (see `.nvmrc`) and pnpm through Corepack. On an older Node, `pnpm install` stops with `ERR_PNPM_UNSUPPORTED_ENGINE`.
 
 ```bash
 corepack enable && pnpm install
@@ -30,23 +29,23 @@ pnpm exec playwright install chromium   # once, for e2e tests (or set PW_CHROMIU
 ## Workflow
 
 1. Branch from `main`.
-2. Work in **strict TDD** ([docs/testing.md](docs/testing.md#tdd-protocol)):
-   - `test(T-xxx): red — …`: failing tests + typed stubs. Typecheck and lint still pass.
-   - `feat(T-xxx): green — …`: the minimum code to make them pass.
-   - `refactor(T-xxx): …`: optional cleanup, tests stay green.
-   - Top-level `describe` names start with the requirement ID, e.g. `describe('REQ-URL-001 …')`.
-   - Bug fixes: `test(bug): red — …` then `fix(bug): green — …`. Docs: `docs: …`. Tooling: `chore: …`.
+2. Work in **strict TDD** ([protocol](docs/testing.md#tdd-protocol)):
+   - `test(T-xxx): red — …`: failing tests and typed stubs. Typecheck and lint still pass.
+   - `feat(T-xxx): green — …`: the least code that makes them pass.
+   - `refactor(T-xxx): …`: optional cleanup. The tests stay green.
+   - Top-level `describe` names start with the requirement ID, for example `describe('REQ-URL-001 …')`.
+   - Bug fixes: `test(bug): red — …`, then `fix(bug): green — …`. Docs: `docs: …`. Tooling: `chore: …`.
 3. Follow the [code conventions](docs/conventions.md).
-4. Add a line to `CHANGELOG.md` under "Unreleased" for user-facing changes, in the user's words.
-5. Run `pnpm check` (and `pnpm test:e2e` if marker, picker, popup or options behavior changed).
+4. For a change users will notice, add a line under "Unreleased" in `CHANGELOG.md`, in the user's words.
+5. Run `pnpm check`. Also run `pnpm test:e2e` if you changed marks, the picker, the popup or the options page.
 6. Open a pull request and fill in the template.
 
-Pull requests are **rebase-merged** (D-209): every commit lands on `main` as-is, so each one must make
-sense on its own. Clean up your history before asking for review.
+Pull requests are **rebase-merged**. Every commit lands on `main` as it is, so each one must make sense on
+its own. Clean up your history before you ask for review.
 
 ## Hard rules
 
-These are checked in review and, increasingly, by lint and CI:
+Review checks these rules, and lint and CI check most of them too:
 
 - No `host_permissions`, static `content_scripts`, web-accessible resources, network calls, remote fonts or
   scripts, `eval` / `new Function`, or `storage.sync`.
@@ -57,9 +56,8 @@ These are checked in review and, increasingly, by lint and CI:
 
 ## Translations
 
-Strings live in `public/_locales/<lang>/messages.json`. A test keeps the locales in sync, so a new key must
-be added to every language. Want to add a language? Open an issue first.
+Strings live in `public/_locales/<lang>/messages.json`. A test keeps the locales in sync, so add every new key to every language. To add a language, open an issue first.
 
 ## License
 
-By contributing you agree to the contribution terms in the [LICENSE](LICENSE): you keep your name on the commit, and the copyright holder may use and relicense your contribution.
+By contributing you accept the contribution terms in the [LICENSE](LICENSE). You keep your name on the commit. The copyright holder may use and relicense your contribution.

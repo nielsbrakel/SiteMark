@@ -11,7 +11,7 @@ Most problems have a short list of causes. Start with the popup: open it on the 
 - **No site group matches.** The popup says so. Check the patterns in the settings with the URL tester.
 - **The site group is disabled.** The popup lists it as disabled, with a link to the settings, where you can switch it on.
 - **Access is not granted.** The popup shows **Allow**. Without access, marks only appear after you open the popup.
-- **The page is off limits.** Browser settings pages, extension stores, the PDF viewer and local files can't run extensions, and the popup says SiteMark can't run on this page.
+- **The page is off limits.** Extensions can't run on browser settings pages, extension stores, the PDF viewer or local files. The popup then says SiteMark can't run on this page.
 - **The page is inside a frame.** SiteMark marks top-level pages only.
 - **The marks are hidden.** Hide on this tab was pressed; press it again.
 
@@ -30,4 +30,4 @@ Another pattern may match more than you expect. The URL tester names the pattern
 
 ## Still stuck?
 
-Copy the diagnostics from the settings page (they hold versions, counts and permission status, and site addresses only if you tick the box) and open an issue on GitHub. The support page lists what else helps us help you.
+Copy the diagnostics from the settings page and open an issue on GitHub. They hold versions, counts and permission status. They hold site addresses only if you tick the box. The support page lists what else helps us help you.

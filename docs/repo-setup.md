@@ -1,7 +1,6 @@
 # Repository setup (GitHub)
 
-The repository is **github.com/nielsbrakel/SiteMark**. This page documents how it should be
-configured and how to recreate it from scratch.
+The repository is **github.com/nielsbrakel/SiteMark**. This page says how to configure it and how to recreate it from scratch.
 
 ## 1. Create the repository
 
@@ -29,7 +28,7 @@ pnpm exec playwright install chromium   # once, for e2e / browser-mode tests
 | Setting             | Value                                                                                                                                                                                                                                             |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Default branch      | `main`                                                                                                                                                                                                                                            |
-| Merge button        | **Rebase merging only** (D-209). Squash and merge commits disabled. Auto-delete head branches                                                                                                                                                     |
+| Merge button        | **Rebase merging only**. Squash and merge commits disabled. Auto-delete head branches                                                                                                                                                             |
 | Ruleset `main`      | Require a PR and a review from Code Owners. Required status checks **`ci-ok`** (the aggregate job, T-022) and **`security-ok`** (aggregate of `security.yml`, docs/security-scanning.md). Require linear history. Block force pushes and deletion |
 | Ruleset `v*` tags   | Only admins can create them (they trigger `release.yml`)                                                                                                                                                                                          |
 | Actions → General   | Workflow permissions: read-only. Allow GitHub Actions to create PRs: off. Require approval for **all outside collaborators**                                                                                                                      |
@@ -99,12 +98,11 @@ It is rendered from `design/social-preview.svg` by `pnpm icons`.
 
 - [`docs/tasks.md`](tasks.md) is the task list. Each row is a TDD cycle linked to REQ IDs.
 - `pnpm progress` shows progress per milestone and requirement → task → **passing test** traceability.
-  CI runs it with `--strict`. After T-019, status is derived from git history.
+  CI runs it with `--strict`. Status comes from git history.
 - Commits: `test(T-xxx): red — …`, `feat(T-xxx): green — …`, `refactor(T-xxx): …`, `chore(T-xxx): …`,
   `docs: …`, `fix(bug): …`. Enforced by commitlint (T-021).
-- One PR per task group, e.g. `M1: URL engine (T-032…T-039)`. User-facing PRs add a line to `CHANGELOG.md` (D-293).
-- Pre-release tag per milestone: `v0.1.0` = M1 … `v1.0.0` = M8, `v1.1.0` = scrapbook redesign (D-289), Safari later.
-- The plan reviews live in [`docs/reviews/`](reviews/).
+- One PR per task group. PRs with user-visible changes add a line to `CHANGELOG.md`.
+- Tags: `v0.1.0` for M1 up to `v1.0.0` for M8. After that, one tag per release, as [release.md](release.md) describes.
 
 ## 7. Store publishing (M8, D-227)
 

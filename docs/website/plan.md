@@ -1,7 +1,7 @@
 # SiteMark website — Technical plan
 
-> Implements [spec.md](spec.md) (rev 1). Work items live in [tasks.md](tasks.md), and the process in
-> [testing.md](../testing.md) (the same TDD protocol). Decisions are referenced as D-xxx ([decisions.md](../decisions.md)).
+> Implements [spec.md](spec.md). Work items live in [tasks.md](tasks.md), the process in
+> [testing.md](../testing.md) (the same TDD protocol), and the reasons behind each choice in [decisions.md](../decisions.md) (`D-xxx`).
 
 ## 1. Stack
 

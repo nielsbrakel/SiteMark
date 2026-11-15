@@ -1,6 +1,6 @@
 # Security scanning (SAST, DAST, supply chain)
 
-> Plan and status of the automated security checks. Workflow: `.github/workflows/security.yml`.
+> What the automated security checks do. Workflow: `.github/workflows/security.yml`.
 > Requirements: REQ-SEC-003, REQ-SEC-006, REQ-SEC-007, REQ-SEC-009, REQ-PRIV-005.
 
 ## Layers

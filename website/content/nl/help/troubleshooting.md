@@ -30,4 +30,4 @@ Misschien past een patroon op meer dan je verwacht. De URL-tester noemt het patr
 
 ## Kom je er niet uit?
 
-Kopieer de diagnose vanaf de instellingenpagina (die bevat versies, aantallen en de status van toegang, en siteadressen alleen als je het vakje aanvinkt) en open een issue op GitHub. De ondersteuningspagina noemt wat ons verder helpt om jou te helpen.
+Kopieer de diagnose vanaf de instellingenpagina en open een issue op GitHub. De diagnose bevat versies, aantallen en de status van toegang. Siteadressen staan er alleen in als je het vakje aanvinkt. De ondersteuningspagina noemt wat ons verder helpt om jou te helpen.

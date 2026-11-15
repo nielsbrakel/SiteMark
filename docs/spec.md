@@ -1,6 +1,6 @@
 # SiteMark — Product specification (v1)
 
-> Status: **v1.0 shipped, living document** (rev 2, after the [2026-09-25 plan review](reviews/2026-09-25-plan-review.md))
+> Status: **v1.0 shipped, living document.**
 > Related: [decisions](decisions.md) · [plan](plan.md) · [tasks](tasks.md) · [design](design.md) · [testing](testing.md)
 
 ## 1. Problem
@@ -23,7 +23,7 @@ leaves your device.
 2. **Simple:** marking a site takes ≤ 30 s (popup → Mark this site → Allow).
 3. **Private:** no install-time host access, no network calls of its own, local storage only.
 4. **Safe for the page:** no layout shift, and marks never block interaction.
-5. **Cross-browser:** Chromium + Firefox in v1.0, Safari later (D-213, D-292).
+5. **Cross-browser:** Chrome, Edge and Firefox today. Safari on the Mac follows once the App Store approves it (D-213, D-292).
 
 **Non-goals (v1).** Cloud or account sync, team sharing, automatic environment detection,
 mobile browsers, analytics of any kind. SiteMark is **not a security control**: a hostile
@@ -301,7 +301,7 @@ when a requirement has no task, or when a finished task has an uncovered require
 
 | ID          | P   | Requirement                                                                                                                                                                                                                                                                          |
 | ----------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| REQ-NFR-001 | M   | **Compatibility** (D-241): Chrome/Edge ≥ 120 (Brave, Opera and Arc best-effort) and Firefox desktop ≥ 140. Safari on macOS ≥ 18 when it ships (later). One codebase, with browser quirks isolated in `src/platform/`. The minimum versions are declared in the manifest.             |
+| REQ-NFR-001 | M   | **Compatibility** (D-241): Chrome/Edge ≥ 120 (Brave, Opera and Arc best-effort) and Firefox desktop ≥ 140. Safari on macOS ≥ 18, through the Mac App Store. One codebase, with browser quirks isolated in `src/platform/`. The minimum versions are declared in the manifest.        |
 | REQ-NFR-002 | M   | **Size:** the marker content script is ≤ 25 KB gzipped and the picker ≤ 20 KB gzipped (no React in content scripts). Checked in CI.                                                                                                                                                  |
 | REQ-NFR-003 | M   | **Performance:** with no active group, the content script finishes in < 2 ms. Matching 500 patterns takes < 1 ms. With 10 element marks, scrolling costs < 1 ms per frame on average. Marks are visible ≤ 100 ms after `DOMContentLoaded`.                                           |
 | REQ-NFR-004 | M   | **Quality gates** that must pass in CI before merge: typecheck, lint (Biome, with layer zones and type-aware rules), format, stylelint, unit/dom/browser tests with coverage (core ≥ 90 % lines and 85 % branches, platform ≥ 85 %, overall ≥ 80 %), e2e, verify-tdd and commitlint. |

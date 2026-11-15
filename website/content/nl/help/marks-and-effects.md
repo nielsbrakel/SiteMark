@@ -27,4 +27,4 @@ Kies een van de vier voorinstellingen (rood, amber, blauw of leisteen, gekozen o
 
 ## Als meerdere sitegroepen passen
 
-Alle actieve sitegroepen doen mee. De volgorde van de lijst in de instellingen is hun prioriteit: elke hoek toont het lint van de hoogste groep, banners aan dezelfde kant delen één balk, kaders liggen in elkaar en het titelvoorvoegsel komt van de hoogste groep. Markeringen houden nooit klikken tegen en verschuiven de pagina nooit.
+Alle actieve sitegroepen doen mee. De volgorde van de lijst in de instellingen is hun prioriteit. Elke hoek toont het lint van de hoogste groep. Banners aan dezelfde kant delen één balk en kaders liggen in elkaar. Het titelvoorvoegsel komt van de hoogste groep. Markeringen houden nooit klikken tegen en verschuiven de pagina nooit.
