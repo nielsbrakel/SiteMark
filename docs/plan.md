@@ -233,13 +233,13 @@ every Must REQ of the milestone covered by a passing test, and a pre-release tag
 
 ## 9. Risks
 
-| Risk                                          | Mitigation                                                                                                                                                             |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The popup dies during a permission prompt     | Request first, background completes on `onAdded`, grant page fallback (D-229)                                                                                          |
-| Safari grant/registration behavior differs    | Live `permissions.contains`, re-sync on every start, M9 dedicated milestone                                                                                            |
-| Generated selectors break after deploys       | Stable-attribute preference, editable selector, "not found" + badge + Re-pick                                                                                          |
-| Page top layer / fullscreen covers marks      | Re-promotion (D-215) + e2e with dialog and fullscreen                                                                                                                  |
-| Hostile or strict-CSP pages break marks       | REQ-SEC-006/007, hostile-page and CSP e2e fixtures                                                                                                                     |
-| ReDoS                                         | Safe-subset regex, linear glob, caps (D-211, REQ-URL-010)                                                                                                              |
-| TDD discipline erodes under deadline pressure | verify-tdd CI job, git-derived status (D-210)                                                                                                                          |
-| Toolchain major upgrades                      | Dependabot ignores major versions of Biome, Vitest and TypeScript. We bump them by hand. Biome is pinned exactly and bumped in its own PR with `biome migrate` (T-023) |
+| Risk                                          | Mitigation                                                                                                                                                 |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The popup dies during a permission prompt     | Request first, background completes on `onAdded`, grant page fallback (D-229)                                                                              |
+| Safari grant/registration behavior differs    | Live `permissions.contains`, re-sync on every start, M9 dedicated milestone                                                                                |
+| Generated selectors break after deploys       | Stable-attribute preference, editable selector, "not found" + badge + Re-pick                                                                              |
+| Page top layer / fullscreen covers marks      | Re-promotion (D-215) + e2e with dialog and fullscreen                                                                                                      |
+| Hostile or strict-CSP pages break marks       | REQ-SEC-006/007, hostile-page and CSP e2e fixtures                                                                                                         |
+| ReDoS                                         | Safe-subset regex, linear glob, caps (D-211, REQ-URL-010)                                                                                                  |
+| TDD discipline erodes under deadline pressure | verify-tdd CI job, git-derived status (D-210)                                                                                                              |
+| Toolchain major upgrades                      | Dependabot ignores major versions of Biome and Vitest. We bump them by hand. Biome is pinned exactly and bumped in its own PR with `biome migrate` (T-023) |

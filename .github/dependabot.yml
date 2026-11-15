@@ -1,5 +1,5 @@
-# Supply-chain policy (REQ-SEC-009, D-238): grouped minor/patch updates after a cooldown, and
-# majors of the pinned toolchain only when WXT supports them (docs/plan.md §9).
+# Supply-chain policy (REQ-SEC-009, D-238): grouped minor/patch updates after a cooldown. Majors of
+# Vitest and Biome are bumped by hand (docs/plan.md §9).
 version: 2
 updates:
   - package-ecosystem: npm
@@ -20,10 +20,8 @@ updates:
         dependency-type: production
         update-types: [minor, patch]
     ignore:
-      # Toolchain majors wait for WXT support. Biome is pinned and bumped in its own PR
+      # Toolchain majors are bumped by hand. Biome is pinned and bumped in its own PR
       # with `biome migrate`; @playwright/test moves together with the CI container image.
-      - dependency-name: typescript
-        versions: ['>=6.1']
       - dependency-name: '@types/node'
         update-types: [version-update:semver-major]
       - dependency-name: vitest
