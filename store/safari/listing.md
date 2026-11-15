@@ -1,6 +1,6 @@
 # Mac App Store (Safari, macOS)
 
-Shared across stores: [README](../README.md). Safari ships later (D-213, D-292, T-155…T-157): macOS only (Safari 18), no iOS app (D-241). App Store Connect →
+Shared across stores: [README](../README.md). Safari is macOS only (Safari 18), with no iOS app. App Store Connect →
 the app → _App Information_ (name, subtitle, category, privacy URL), the version page (texts, screenshots,
 keywords, URLs, build, review notes) and _App Privacy_. Add Dutch under the localisation menu (top right).
 
@@ -18,7 +18,7 @@ and the keyword separator (Apple's docs don't name one; commas without spaces ar
 
 ## Name (max 30)
 
-The same name as on Chrome, Edge and Firefox (the package `extName`, D-300); it fits the 30 characters.
+The same name as on Chrome, Edge and Firefox (the package `extName`); it fits the 30 characters.
 
 **English** (30 characters)
 
@@ -198,7 +198,7 @@ SiteMark makes no network requests of its own, collects no data and asks for web
 
 ## Images
 
-Generated, never made by hand (`pnpm web:screenshots`, `pnpm icons`; D-251, D-299). Upload `en` to the English listing and `nl` to the Dutch one.
+Generated, never made by hand (`pnpm web:screenshots`, `pnpm icons`). Upload `en` to the English listing and `nl` to the Dutch one.
 
 | File in `images/`   | Size        | Use                                                                                   |
 | ------------------- | ----------- | ------------------------------------------------------------------------------------- |
@@ -207,5 +207,5 @@ Generated, never made by hand (`pnpm web:screenshots`, `pnpm icons`; D-251, D-29
 
 Order: 1-production, 2-environments, 3-popup, 4-picker, 5-options, 6-privacy. Apple takes 1–10 Mac screenshots at
 1280 × 800, 1440 × 900, 2560 × 1600 or 2880 × 1800 and shows one size, so 2560 × 1600 alone is enough. No dark set,
-no promo tiles, no App Preview video and no iPhone or iPad screenshots (macOS only, D-241). Captions:
+no promo tiles, no App Preview video and no iPhone or iPad screenshots (macOS only). Captions:
 [README](../README.md#screenshot-captions).

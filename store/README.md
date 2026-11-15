@@ -1,9 +1,8 @@
 # Store listings
 
-Everything for the store dashboards, version controlled and grouped per store (D-299, D-300): each folder holds that
-store's paste-ready listing text (`listing.md`) and the images it takes, in the sizes it asks for (`images/`).
-Copy the text into the dashboard and upload the images. Everything that points to the web uses the **website**, never
-the repository, so the URLs stay stable (REQ-POLICY-005).
+Everything for the store dashboards, in one folder per store. Each folder holds the store's paste-ready text
+(`listing.md`) and the images it takes, in the sizes it asks for (`images/`). Copy the text into the dashboard and
+upload the images. Every link to the web points to the **website**, never to the repository, so the URLs stay stable.
 
 | Store                                     | Texts                                    | Images                               | Status   |
 | ----------------------------------------- | ---------------------------------------- | ------------------------------------ | -------- |
@@ -12,12 +11,12 @@ the repository, so the URLs stay stable (REQ-POLICY-005).
 | [Firefox Add-ons](firefox/listing.md)     | listing, summary, tags                   | [`firefox/images/`](firefox/images/) | T-152 ✅ |
 | [Mac App Store](safari/listing.md)        | listing, keywords, review notes, answers | [`safari/images/`](safari/images/)   | T-157 ☐  |
 
-When a listing goes live, put its URL in [`website/src/config/stores.ts`](../website/src/config/stores.ts): the
-website's install button for that store then turns into a link (REQ-PAGE-002).
+When a listing goes live, add its URL to [`website/src/config/stores.ts`](../website/src/config/stores.ts). The
+website's install button for that store then becomes a link.
 
 ## All stores at a glance
 
-The name is the same on every store (D-300). Counts are characters (App Store keywords: bytes), then the
+The name is the same on every store. Counts are characters (App Store keywords: bytes), then the
 store's limit. Category is not per language.
 
 | Field                  | Chrome Web Store                                                                                                             | Edge Add-ons                                                                                                                                                                               | Firefox Add-ons (AMO)                                                                                                                                                                                                                                                | Mac App Store (Safari)                                                                                                                                                                                                                                    |

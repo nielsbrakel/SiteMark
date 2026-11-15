@@ -1,11 +1,11 @@
 # Microsoft Edge Add-ons
 
-Paste-ready listing text and images (D-300). Fields: _Website_, _Privacy policy URL_, _Support contact_; category _Developer tools_. Live: https://microsoftedge.microsoft.com/addons/detail/sitemark/edfcmbpeagdkacfidejninkikjiffojn . Shared across stores: [README](../README.md).
+Paste-ready text and images. Fields: _Website_, _Privacy policy URL_, _Support contact_; category _Developer tools_. Live: https://microsoftedge.microsoft.com/addons/detail/sitemark/edfcmbpeagdkacfidejninkikjiffojn . Shared across stores: [README](../README.md).
 
 ## Name
 
 From the package (`extName`), so it changes only with a release. The brand stays SiteMark: the UI, the website,
-the logo, `short_name` and the toolbar tooltip say SiteMark (D-300).
+the logo, `short_name` and the toolbar tooltip say SiteMark.
 
 - **en:** SiteMark Environment Indicator (30)
 - **nl:** SiteMark Omgevingsindicator (27)
@@ -97,7 +97,7 @@ Edge takes up to 7 terms of at most 30 characters each, and at most 21 separate 
 
 ## Images
 
-Generated, never made by hand (`pnpm web:screenshots`, `pnpm icons`; D-251, D-299). Upload `en` to the English listing and `nl` to the Dutch one.
+Generated, never made by hand (`pnpm web:screenshots`, `pnpm icons`). Upload `en` to the English listing and `nl` to the Dutch one.
 
 | File in `images/`                    | Size       | Use                 |
 | ------------------------------------ | ---------- | ------------------- |
