@@ -149,7 +149,7 @@ const logoSvg = (await readFile('design/logo/sitemark-icon.svg', 'utf8')).replac
 );
 await writeFile(
   `${iconDir}/Assets/logo.svg`,
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">${logoSvg}</svg>\n`,
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="SiteMark">${logoSvg}</svg>\n`,
 );
 await writeFile(
   `${iconDir}/icon.json`,
