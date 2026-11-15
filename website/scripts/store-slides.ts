@@ -1,4 +1,4 @@
-// The store images (store/listing.md): real captures composed into 1280 × 800 slides. The captures
+// The store images (store/README.md): real captures composed into 1280 × 800 slides. The captures
 // come in as 2× PNGs with the boxes Playwright measured; the slides come out as HTML for
 // store-shots.ts to screenshot. Each note comes with a few places it may go: store-shots.ts takes
 // the first one that covers no target, no page text and no other note.

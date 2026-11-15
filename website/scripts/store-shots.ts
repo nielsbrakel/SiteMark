@@ -1,7 +1,8 @@
 // The store screenshots (D-251, T-152): the captures (store-captures.ts) composed into 1280 × 800
-// slides (store-slides.ts) → store/images/<locale>/N-name.png. A note may never cover a target.
-// The light set is also written at 2× (2560 × 1600) for the Mac App Store → <locale>/appstore/.
-import { mkdirSync, writeFileSync } from 'node:fs';
+// slides (store-slides.ts) → store/<store>/images/<locale>/N-name.png (store/README.md lists which store
+// takes which). A note may never cover a target. The light set is also written at 2× (2560 × 1600) for
+// the Mac App Store → store/safari/images/<locale>/.
+import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { type BrowserContext, chromium, type Page } from '@playwright/test';
 import { test } from '../../tests/e2e/fixtures';
@@ -117,10 +118,23 @@ async function renderAppStore(set: Slide[], locale: Locale) {
     viewport: { width: 1280, height: 800 },
     deviceScaleFactor: 2,
   });
-  const dir = path.join(repository, 'store/images', locale, 'appstore');
+  const dir = path.join(repository, 'store/safari/images', locale);
   mkdirSync(dir, { recursive: true });
   for (const slide of set) await render(board, slide, dir);
   await browser.close();
+}
+
+/** Chrome takes the first five light slides, Edge all six. */
+function copyToStores(set: Slide[], from: string, locale: Locale) {
+  for (const [store, count] of [
+    ['chrome', 5],
+    ['edge', 6],
+  ] as const) {
+    const dir = path.join(repository, 'store', store, 'images', locale);
+    mkdirSync(dir, { recursive: true });
+    for (const { file } of set.slice(0, count))
+      copyFileSync(path.join(from, `${file}.png`), path.join(dir, `${file}.png`));
+  }
 }
 
 for (const locale of websiteLocales()) {
@@ -139,13 +153,18 @@ for (const locale of websiteLocales()) {
         const shots = await captureStoreShots(env, locale, route);
         const board = await context.newPage();
         await board.setViewportSize({ width: 1280, height: 800 });
-        // Light is the default set; dark is the alternative set in its own folder.
-        const dir = path.join(repository, 'store/images', locale, theme === 'dark' ? 'dark' : '');
+        // Light is the default set (rendered for Firefox, which takes all six, then copied); dark is the
+        // alternative set in Firefox's own folder.
+        const firefox = path.join(repository, 'store/firefox/images', locale);
+        const dir = theme === 'dark' ? path.join(firefox, 'dark') : firefox;
         mkdirSync(dir, { recursive: true });
         const set = slides(locale, shots, theme);
         for (const slide of set) await render(board, slide, dir);
         await board.close();
-        if (theme === 'light') await renderAppStore(set, locale);
+        if (theme === 'light') {
+          copyToStores(set, firefox, locale);
+          await renderAppStore(set, locale);
+        }
       }
     });
   });

@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <img src="store/images/en/1-production.png" alt="A shop admin page marked by SiteMark: a PROD ribbon, a red frame, a banner and an outline around the Delete customer button" width="720">
+  <img src="store/chrome/images/en/1-production.png" alt="A shop admin page marked by SiteMark: a PROD ribbon, a red frame, a banner and an outline around the Delete customer button" width="720">
 </p>
 
 <p align="center">
@@ -93,7 +93,7 @@ publishes the [privacy policy](PRIVACY.md) and the support routes.
 | [docs/release.md](docs/release.md)                     | Releasing: checklist, release notes template, rollback       |
 | [docs/reviews/](docs/reviews/)                         | Specialist plan reviews and what happened to each finding    |
 | [docs/website/](docs/website/spec.md)                  | The website: spec, plan, design and tasks                    |
-| [store/listing.md](store/listing.md)                   | Store listing texts, URLs and images (version controlled)    |
+| [store/](store/README.md)                              | Store listings and images, one folder per store              |
 
 ## Contributing
 

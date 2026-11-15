@@ -1,4 +1,4 @@
-// The words on the store images, per language (store/listing.md lists the headlines).
+// The words on the store images, per language (store/README.md lists the headlines).
 import type { Locale } from '../src/i18n/locales';
 import type { Head } from './store-art';
 
