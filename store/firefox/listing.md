@@ -1,11 +1,11 @@
 # Firefox Add-ons (AMO)
 
-Paste-ready listing text and images (D-300). Fields: _Homepage_, _Privacy policy_ (text or URL), _Support website_; categories _Web Development_ and _Privacy & Security_. Live: https://addons.mozilla.org/en-US/firefox/addon/sitemark/ . Shared across stores: [README](../README.md).
+Paste-ready text and images. Fields: _Homepage_, _Privacy policy_ (text or URL), _Support website_; categories _Web Development_ and _Privacy & Security_. Live: https://addons.mozilla.org/en-US/firefox/addon/sitemark/ . Shared across stores: [README](../README.md).
 
 ## Name
 
 From the package (`extName`), so it changes only with a release. The brand stays SiteMark: the UI, the website,
-the logo, `short_name` and the toolbar tooltip say SiteMark (D-300).
+the logo, `short_name` and the toolbar tooltip say SiteMark.
 
 - **en:** SiteMark Environment Indicator (30)
 - **nl:** SiteMark Omgevingsindicator (27)
@@ -92,7 +92,7 @@ Website, help en privacyverklaring: https://nielsbrakel.github.io/SiteMark/nl/
 
 ## Images
 
-Generated, never made by hand (`pnpm web:screenshots`, `pnpm icons`; D-251, D-299). Upload `en` to the English listing and `nl` to the Dutch one.
+Generated, never made by hand (`pnpm web:screenshots`, `pnpm icons`). Upload `en` to the English listing and `nl` to the Dutch one.
 
 | File in `images/`        | Size       | Use                                          |
 | ------------------------ | ---------- | -------------------------------------------- |

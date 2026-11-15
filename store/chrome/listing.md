@@ -1,11 +1,11 @@
 # Chrome Web Store
 
-Paste-ready listing text and images (D-300). Fields: _Homepage URL_, _Privacy policy URL_, _Support URL_; category _Developer Tools_. Live: https://chrome.google.com/webstore/detail/kbpbafjebhbanajcefmkfhknbmgbndpg . Shared across stores: [README](../README.md).
+Paste-ready text and images. Fields: _Homepage URL_, _Privacy policy URL_, _Support URL_; category _Developer Tools_. Live: https://chrome.google.com/webstore/detail/kbpbafjebhbanajcefmkfhknbmgbndpg . Shared across stores: [README](../README.md).
 
 ## Name
 
 From the package (`extName`), so it changes only with a release. The brand stays SiteMark: the UI, the website,
-the logo, `short_name` and the toolbar tooltip say SiteMark (D-300).
+the logo, `short_name` and the toolbar tooltip say SiteMark.
 
 - **en:** SiteMark Environment Indicator (30)
 - **nl:** SiteMark Omgevingsindicator (27)
@@ -106,7 +106,7 @@ Matching [PRIVACY.md](../PRIVACY.md#permissions-and-why-sitemark-needs-them).
 
 ## Images
 
-Generated, never made by hand (`pnpm web:screenshots`, `pnpm icons`; D-251, D-299). Upload `en` to the English listing and `nl` to the Dutch one.
+Generated, never made by hand (`pnpm web:screenshots`, `pnpm icons`). Upload `en` to the English listing and `nl` to the Dutch one.
 
 | File in `images/`                    | Size       | Use                 |
 | ------------------------------------ | ---------- | ------------------- |
