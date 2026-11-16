@@ -35,6 +35,8 @@ export function panelLabels(): PanelLabels {
       tint: i18n.getMessage('pickerEffectTint'),
       stripes: i18n.getMessage('pickerEffectStripes'),
     },
+    on: i18n.getMessage('pickerSwitchOn'),
+    off: i18n.getMessage('pickerSwitchOff'),
     color: i18n.getMessage('pickerColorLabel'),
     colorNames: {
       red: i18n.getMessage('pickerColorRed'),
