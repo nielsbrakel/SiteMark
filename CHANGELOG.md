@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 1.2.3
+
+- The Mac app now has a layered icon made with Icon Composer, so it looks right in the Dock and on the Mac App Store.
+- Updated the tools SiteMark is built with (TypeScript 7, Vitest 5, Biome, Playwright). Nothing changes in how the extension works.
+
 ## 1.2.2
 
 - Dutch: the short description is a little shorter, so the Mac App Store accepts it. Otherwise the same as 1.2.1.
