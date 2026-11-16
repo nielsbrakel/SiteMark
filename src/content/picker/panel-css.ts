@@ -7,16 +7,26 @@ export const PANEL_CSS = `
 .sm-panel {
   position: fixed;
   box-sizing: border-box;
-  width: min(340px, calc(100vw - 32px));
+  width: min(380px, calc(100vw - 32px));
   max-height: calc(100vh - 32px);
   overflow: auto;
-  padding: var(--sm-space-4);
+  /* The left padding clears the margin line. */
+  padding: var(--sm-space-4) var(--sm-space-4) var(--sm-space-4) 40px;
+  border: 2px solid var(--sm-control-border);
   border-radius: var(--sm-radius-lg);
-  background: var(--sm-surface);
+  background: var(--sm-paper);
   box-shadow: var(--sm-lift);
   color: var(--sm-text);
   font: var(--sm-text-md)/1.4 var(--sm-font);
   color-scheme: light dark;
+}
+.sm-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 28px;
+  width: 2px;
+  background: var(--sm-accent);
+  opacity: 0.7;
 }
 .sm-panel[data-corner^='top'] {
   top: 16px;
@@ -40,9 +50,9 @@ export const PANEL_CSS = `
 .sm-panel__icon {
   min-width: 32px;
   min-height: 32px;
-  border: 1px solid transparent;
-  border-radius: 50%;
-  background: var(--sm-surface);
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-sm);
+  background: var(--sm-surface-2);
   box-shadow: var(--sm-lift-sm);
   color: var(--sm-text);
   font: inherit;
@@ -54,8 +64,7 @@ export const PANEL_CSS = `
 }
 .sm-panel__title {
   margin: 0;
-  font-size: var(--sm-text-lg);
-  font-weight: 600;
+  font: var(--sm-text-xl) var(--sm-font-display);
 }
 .sm-panel__row {
   display: grid;
@@ -71,9 +80,9 @@ export const PANEL_CSS = `
   width: 100%;
   min-height: 32px;
   padding: var(--sm-space-1) var(--sm-space-2);
-  border: 1px solid var(--sm-control-border);
+  border: 1.5px solid var(--sm-control-border);
   border-radius: var(--sm-radius-sm);
-  background: var(--sm-bg);
+  background: var(--sm-surface-2);
   box-shadow: var(--sm-well);
   color: var(--sm-text);
   font: inherit;
@@ -85,30 +94,84 @@ export const PANEL_CSS = `
   color: var(--sm-text-muted);
   font-size: var(--sm-text-sm);
 }
-.sm-panel__chips,
 .sm-panel__swatches,
 .sm-panel__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--sm-space-2);
 }
-.sm-panel__chip,
+.sm-panel__wave {
+  display: block;
+  width: 100%;
+  height: 6px;
+  margin-top: var(--sm-space-3);
+  color: var(--sm-control-border);
+  opacity: 0.55;
+}
+.sm-panel__switches {
+  display: grid;
+}
+.sm-panel__switch,
 .sm-panel__button {
   min-height: 32px;
   padding: var(--sm-space-1) var(--sm-space-3);
-  border: 1px solid transparent;
-  border-radius: var(--sm-radius-pill);
-  background: var(--sm-surface);
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-sm);
+  background: var(--sm-surface-2);
   box-shadow: var(--sm-lift-sm);
   color: var(--sm-text);
   font: inherit;
+  font-weight: 600;
   cursor: pointer;
 }
-.sm-panel__chip[aria-pressed='true'] {
-  background: var(--sm-accent-soft);
-  box-shadow: var(--sm-pressed);
-  color: var(--sm-accent-text);
+/* A switch row has no box of its own: the label on the left, the track on the right. */
+.sm-panel__switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sm-space-1) 0;
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  font-weight: 400;
+  text-align: start;
+}
+.sm-panel__switch[aria-checked='true'] {
   font-weight: 600;
+}
+.sm-panel__track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 62px;
+  height: 28px;
+  padding: 0 var(--sm-space-2);
+  border: 1.5px solid var(--sm-control-border);
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-soft);
+  color: var(--sm-text);
+  font-size: var(--sm-text-xs);
+  font-weight: 600;
+  line-height: 1;
+}
+.sm-panel__track::after {
+  content: '';
+  position: absolute;
+  inset: 3px auto auto 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--sm-radius-pill);
+  background: var(--sm-control-border);
+  transition: transform calc(var(--sm-duration) * 2) var(--sm-spring);
+}
+.sm-panel__switch[aria-checked='true'] .sm-panel__track {
+  justify-content: flex-start;
+  background: var(--sm-tape-3);
+  color: var(--sm-on-tape);
+}
+.sm-panel__switch[aria-checked='true'] .sm-panel__track::after {
+  transform: translateX(34px);
 }
 .sm-panel__swatch {
   appearance: none;
@@ -141,7 +204,11 @@ export const PANEL_CSS = `
 }
 .sm-panel__button--link {
   margin-right: auto;
+  padding-inline: 0;
+  border-color: transparent;
+  background: none;
   box-shadow: none;
+  white-space: nowrap;
   color: var(--sm-accent-text);
 }
 .sm-panel__button--primary {
@@ -160,13 +227,16 @@ export const PANEL_CSS = `
   .sm-panel {
     border: 1px solid CanvasText;
   }
-  .sm-panel__chip,
-  .sm-panel__button {
+  .sm-panel__button,
+  .sm-panel__track {
     border-color: ButtonBorder;
   }
-  .sm-panel__chip[aria-pressed='true'] {
+  .sm-panel__switch[aria-checked='true'] .sm-panel__track {
     background: Highlight;
     color: HighlightText;
+  }
+  .sm-panel__track::after {
+    background: ButtonText;
   }
 }
 `;

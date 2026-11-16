@@ -1,8 +1,8 @@
 import { announcement } from './announce';
 import { candidateNote, describeElement } from './candidate';
 
-/** The outline sits 2 px outside the element: its border and outline are 2 px each. */
-const OUTLINE_GAP = 2;
+/** The outline sits 3 px outside the element, so its 3 px border never covers it (the outline is outside). */
+const OUTLINE_GAP = 3;
 const TOOLTIP_GAP = 8;
 const TOOLTIP_HEIGHT = 28;
 const EDGE = 8;

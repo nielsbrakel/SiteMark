@@ -53,6 +53,35 @@ export function el<K extends keyof HTMLElementTagNameMap>(
   return element;
 }
 
+const SVG = 'http://www.w3.org/2000/svg';
+
+/** A hand-drawn wavy divider (never a straight rule): a tiled wave, drawn inline so no URL is needed. */
+function wave(): SVGSVGElement {
+  const svg = document.createElementNS(SVG, 'svg');
+  const pattern = document.createElementNS(SVG, 'pattern');
+  const path = document.createElementNS(SVG, 'path');
+  const rect = document.createElementNS(SVG, 'rect');
+  const id = nextId('wave');
+  pattern.setAttribute('id', id);
+  pattern.setAttribute('width', '16');
+  pattern.setAttribute('height', '6');
+  // biome-ignore lint/security/noSecrets: an SVG attribute value, not a secret
+  pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+  path.setAttribute('d', 'M0 3Q4 0 8 3T16 3');
+  path.setAttribute('fill', 'none');
+  path.setAttribute('stroke', 'currentColor');
+  path.setAttribute('stroke-width', '1.5');
+  rect.setAttribute('width', '100%');
+  rect.setAttribute('height', '6');
+  rect.setAttribute('fill', `url(#${id})`);
+  pattern.append(path);
+  svg.append(pattern, rect);
+  svg.setAttribute('class', 'sm-panel__wave');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.dataset.part = 'wave';
+  return svg;
+}
+
 function labelledRow(text: string): { row: HTMLElement; label: HTMLElement; id: string } {
   const row = el('div', 'sm-panel__row');
   const label = el('span', 'sm-panel__label', text);
@@ -72,7 +101,7 @@ export function selectorField(labels: PanelLabels, value: string, onInput: () =>
   match.dataset.part = 'match';
   match.setAttribute('aria-live', 'polite');
   input.addEventListener('input', onInput);
-  row.append(label, input, match);
+  row.append(label, input, match, wave());
   return { row, input, match };
 }
 
@@ -92,7 +121,7 @@ export function groupField(labels: PanelLabels, context: PickerContext, origin: 
   for (const element of groupOptions) element.setAttribute('translate', 'no');
   select.append(...groupOptions);
   select.append(option(labels.newSiteGroup(origin), ''));
-  row.append(label, select);
+  row.append(label, select, wave());
   /** The chosen active group, or `undefined` for "New site group". */
   const chosen = (): SiteGroupId | undefined => context.groups[select.selectedIndex]?.id;
   return { row, chosen };
@@ -100,22 +129,32 @@ export function groupField(labels: PanelLabels, context: PickerContext, origin: 
 
 export function effectChips(labels: PanelLabels, onChange: () => void) {
   const { row, id } = labelledRow(labels.effects);
-  const group = el('div', 'sm-panel__chips');
+  const group = el('div', 'sm-panel__switches');
   group.setAttribute('role', 'group');
   group.setAttribute('aria-labelledby', id);
   const selected = new Set<ElementEffectKind>([DEFAULT_EFFECT]);
   for (const effect of EFFECTS) {
-    const chip = el('button', 'sm-panel__chip', labels.effectNames[effect]);
-    chip.type = 'button';
-    chip.setAttribute('aria-pressed', String(selected.has(effect)));
-    chip.addEventListener('click', () => {
+    const toggle = el('button', 'sm-panel__switch');
+    toggle.type = 'button';
+    toggle.setAttribute('role', 'switch');
+    // The track's words are decoration: aria-checked carries the state, the label the name.
+    const track = el('span', 'sm-panel__track');
+    track.setAttribute('aria-hidden', 'true');
+    const show = () => {
+      const on = selected.has(effect);
+      toggle.setAttribute('aria-checked', String(on));
+      track.textContent = on ? labels.on : labels.off;
+    };
+    show();
+    toggle.addEventListener('click', () => {
       if (!selected.delete(effect)) selected.add(effect);
-      chip.setAttribute('aria-pressed', String(selected.has(effect)));
+      show();
       onChange();
     });
-    group.append(chip);
+    toggle.append(el('span', 'sm-panel__switch-label', labels.effectNames[effect]), track);
+    group.append(toggle);
   }
-  row.append(group);
+  row.append(group, wave());
   return { row, effects: () => EFFECTS.filter((effect) => selected.has(effect)) };
 }
 
@@ -140,7 +179,7 @@ export function colorField(labels: PanelLabels) {
     });
   });
   group.append(...radios);
-  row.append(group);
+  row.append(group, wave());
   const presets = colorPresets();
   const color = (): Hex => (presets[chosen] ?? (presets[0] as ColorPreset)).color;
   /** Shows the chosen color again (after a blocked click). */
