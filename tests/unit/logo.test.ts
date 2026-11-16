@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { LETTERING } from '../../website/src/components/wordmark-lettering';
 
 // The logo is a browser window wearing a coral corner ribbon, drawn flat with an ink outline and a cream die-cut border (D-289, docs/design.md §3).
 
@@ -56,5 +57,14 @@ describe('REQ-THEME-001 the wordmark carries the window logo and one-colour lett
     const markup = svg('design/logo/sitemark-wordmark.svg');
     expect(markup).not.toContain('#f5cf5a');
     expect(markup).toMatch(/<path aria-hidden="true" fill="#33261b"/);
+  });
+});
+
+describe('REQ-WEB-003 the header wordmark draws the same lettering as the design file', () => {
+  it('keeps the inline lettering in step with design/logo', () => {
+    const markup = svg('design/logo/sitemark-wordmark.svg');
+    const d = (part: string) => markup.match(new RegExp(`class="${part}" d="([^"]+)"`))?.[1];
+    expect(LETTERING.site).toBe(d('t1'));
+    expect(LETTERING.mark).toBe(d('t2'));
   });
 });
