@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { LETTERING } from '../../website/src/components/wordmark-lettering';
+import { LETTERING } from '../../src/ui/components/wordmark-lettering';
 
 // The logo is a browser window wearing a coral corner ribbon, drawn flat with an ink outline and a cream die-cut border (D-289, docs/design.md §3).
 
