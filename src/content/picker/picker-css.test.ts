@@ -22,3 +22,20 @@ describe('REQ-A11Y-003 the focused color swatch shows focus apart from the selec
     expect(rule(PANEL_CSS, '.sm-panel__swatch:focus-visible')).toMatch(/outline-offset:\s*[5-9]px/);
   });
 });
+
+describe('REQ-PICK-002 the selection outline is solid and two-tone', () => {
+  it('draws 3 px ink inside 3 px white, never dashed, with taped corners', () => {
+    const outline = rule(GLASS_PANE_CSS, '.sm-outline');
+    expect(outline).toMatch(/border:\s*3px solid var\(--sm-picker-dark\)/);
+    expect(outline).toMatch(/outline:\s*3px solid var\(--sm-picker-light\)/);
+    expect(GLASS_PANE_CSS).not.toMatch(/dashed/);
+    expect(GLASS_PANE_CSS).toMatch(/\.sm-outline::after \{[^}]*var\(--sm-tape-2\)/);
+  });
+});
+
+describe('REQ-PICK-005 the panel is ruled paper with a coral margin line', () => {
+  it('uses the notebook sheet and draws the margin line', () => {
+    expect(rule(PANEL_CSS, '.sm-panel')).toMatch(/background:\s*var\(--sm-paper\)/);
+    expect(rule(PANEL_CSS, '.sm-panel::before')).toMatch(/background:\s*var\(--sm-accent\)/);
+  });
+});

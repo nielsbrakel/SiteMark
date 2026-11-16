@@ -92,7 +92,11 @@ type Ui = ReturnType<typeof aPanel>['ui'];
 const field = (ui: Ui) => ui.getByRole('textbox', { name: 'Selector' }) as HTMLInputElement;
 const typeSelector = (ui: Ui, value: string) => fireEvent.input(field(ui), { target: { value } });
 const matchText = (panel: Panel) => panel.element.querySelector('[data-part="match"]')?.textContent;
-const chip = (ui: Ui, name: string) => ui.getByRole('button', { name });
+const chip = (ui: Ui, name: string) => {
+  const found = ui.queryByRole('switch', { name });
+  expect(found).not.toBeNull();
+  return found as HTMLElement;
+};
 const save = (ui: Ui) => ui.getByRole('button', { name: 'Save' }) as HTMLButtonElement;
 
 describe('REQ-PICK-005 the panel shows an editable selector with a live match indicator', () => {
@@ -136,24 +140,25 @@ describe('REQ-PICK-005 the panel offers a site group', () => {
   });
 });
 
-describe('REQ-PICK-005 effect chips and color', () => {
+describe('REQ-PICK-005 effect switches and color', () => {
   it('offers Ribbon · Outline · Tint · Stripes as toggles, Outline on by default', () => {
     const { ui } = aPanel();
-    const chips = within(ui.getByRole('group', { name: 'Effects' })).getAllByRole('button');
+    const chips = within(ui.getByRole('group', { name: 'Effects' })).queryAllByRole('switch');
     expect(chips.map((button) => button.textContent)).toEqual([
-      'Ribbon',
-      'Outline',
-      'Tint',
-      'Stripes',
+      'RibbonOff',
+      'OutlineOn',
+      'TintOff',
+      'StripesOff',
     ]);
-    expect(chips.map((button) => button.getAttribute('aria-pressed'))).toEqual([
+    expect(chips.map((button) => button.getAttribute('aria-checked'))).toEqual([
       'false',
       'true',
       'false',
       'false',
     ]);
     fireEvent.click(chip(ui, 'Ribbon'));
-    expect(chip(ui, 'Ribbon').getAttribute('aria-pressed')).toBe('true');
+    expect(chip(ui, 'Ribbon').getAttribute('aria-checked')).toBe('true');
+    expect(chip(ui, 'Ribbon').textContent).toBe('RibbonOn');
   });
 
   it('offers the four color presets, the first one chosen', () => {
@@ -285,7 +290,7 @@ describe('REQ-SEC-005 the panel only acts on trusted input, and not right after 
     fireEvent.click(chip(ui, 'Ribbon'));
     fireEvent.click(save(ui));
     fireEvent.click(ui.getByRole('button', { name: 'Cancel' }));
-    expect(chip(ui, 'Ribbon').getAttribute('aria-pressed')).toBe('false');
+    expect(chip(ui, 'Ribbon').getAttribute('aria-checked')).toBe('false');
     expect(deps.onSave).not.toHaveBeenCalled();
     expect(deps.onCancel).not.toHaveBeenCalled();
   });
@@ -449,5 +454,20 @@ describe('REQ-PICK-003 REQ-A11Y-011 focus stays in the panel while it is open', 
     const [first] = tabbables(panel);
     first?.focus();
     expect(fireEvent.keyDown(first as HTMLElement, { key: 'Tab' })).toBe(true);
+  });
+});
+
+describe('REQ-PICK-005 the panel is a notebook page with wavy dividers', () => {
+  const waves = (panel: Panel) => panel.element.querySelectorAll('[data-part="wave"]');
+
+  it('ends each of its four sections in a wavy divider, not a straight rule', () => {
+    const { panel } = aPanel();
+    expect(waves(panel)).toHaveLength(4);
+    expect(waves(panel)[0]?.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('keeps only the selector divider when choosing the element again', () => {
+    const { panel } = aPanel({ repickMarkId: 'mark00000042' as MarkId });
+    expect(waves(panel)).toHaveLength(1);
   });
 });
