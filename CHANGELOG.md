@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Choosing an element looks like the rest of SiteMark: the panel is a ruled notebook page with wavy dividers and On / Off switches for the effects, the hint and the size tag are paper notes, and the element you point at gets a solid outline with taped corners instead of a dashed one.
+
 ## 1.2.3
 
 - The Mac app now has a layered icon made with Icon Composer, so it looks right in the Dock and on the Mac App Store.
