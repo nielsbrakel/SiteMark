@@ -1,6 +1,4 @@
 import { classNames } from '@/ui/components/class-names';
-import wordmarkLight from '../../../design/logo/sitemark-wordmark.svg';
-import wordmarkDark from '../../../design/logo/sitemark-wordmark-dark.svg';
 import { repositoryUrl } from '../config/repository';
 import type { Locale } from '../i18n/locales';
 import { Island } from '../islands/islands';
@@ -12,10 +10,11 @@ import { GitHubIcon } from './GitHubIcon';
 import styles from './Header.module.css';
 import { LanguageSwitch } from './LanguageSwitch';
 import { pageLabel } from './page-labels';
+import { LETTERING } from './wordmark-lettering';
 
 type HeaderProps = { route: Route; locale: Locale; routes: readonly Route[]; t: PageProps['t'] };
 
-// The wordmark SVG is 510 × 128; width and height avoid layout shift (REQ-WEB-007).
+// The wordmark is 510 × 128; width and height avoid layout shift (REQ-WEB-007).
 const WORDMARK = { width: 175, height: 44 } as const;
 const HOME = { slug: '' };
 
@@ -26,21 +25,44 @@ const isHelpTopicOf = (item: Route, route: Route) =>
   item.page === 'help' && route.page === 'helpTopic';
 
 function Wordmark({ route, locale, t }: Omit<HeaderProps, 'routes'>) {
-  // Both variants are in the HTML and CSS fades in the one that matches the theme (design §5). The
-  // light one stays in the accessibility tree in every theme, so it alone carries the link text.
+  // Inline, not an <img>: Firefox shares one document per cached SVG image, so an animation inside
+  // it played on the first page only. Here it starts with every page. The colors follow the theme
+  // through CSS, so there is one drawing for both (design/logo has the standalone files).
   return (
     <a
       className={styles.home}
       href={routePath(HOME, locale)}
       aria-current={current(route.page === 'home')}
     >
-      <img
-        className={styles.light}
-        src={wordmarkLight}
-        alt={t('websiteHeaderHome')}
+      <svg
+        className={styles.logo}
+        viewBox="10 0 510 128"
+        role="img"
+        aria-label={t('websiteHeaderHome')}
         {...WORDMARK}
-      />
-      <img className={styles.dark} src={wordmarkDark} alt="" {...WORDMARK} />
+      >
+        <g transform="translate(4 8) scale(.88)">
+          <g className={styles.win}>
+            <defs>
+              <clipPath id="wordmark-window">
+                <rect x="16" y="20" width="96" height="88" rx="12" />
+              </clipPath>
+            </defs>
+            <rect className={styles.edge} x="16" y="20" width="96" height="88" rx="12" />
+            <rect className={styles.face} x="16" y="20" width="96" height="88" rx="12" />
+            <path className={styles.ink} d="M16 46H112" strokeWidth="6" />
+            <circle className={styles.dot} cx="30" cy="33" r="3.6" />
+            <g clipPath="url(#wordmark-window)">
+              <path className={styles.rib} d="M44 10L84 10L124 50L124 90Z" />
+            </g>
+            <rect className={styles.frame} x="16" y="20" width="96" height="88" rx="12" />
+          </g>
+        </g>
+        <g transform="translate(0 9)">
+          <path className={styles.site} d={LETTERING.site} />
+          <path className={styles.mark} d={LETTERING.mark} />
+        </g>
+      </svg>
     </a>
   );
 }

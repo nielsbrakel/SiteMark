@@ -70,7 +70,7 @@ Website-only components live in `website/src/components` with CSS Modules.
 
 | Component        | Notes                                                                                                                                    |
 | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `Header`         | The wordmark (light/dark SVG variant chosen by CSS), nav links with `aria-current="page"`, `LanguageSwitch`, `ThemeToggle`               |
+| `Header`         | The wordmark (inline SVG, colors from the theme tokens), nav links with `aria-current="page"`, `LanguageSwitch`, `ThemeToggle`           |
 | `LanguageSwitch` | Two links (`EN` / `NL`) with `hreflang` and `lang`. The current one is `aria-current` and uses `--sm-pressed`                            |
 | `ThemeToggle`    | The extension's icon-only segmented control: system / light / dark. Without JS it's hidden (`[data-js]` on `<html>`), and the OS decides |
 | `InstallButtons` | Primary accent buttons per store with an inline SVG store icon + text. Coming-soon stores render as disabled buttons with a label        |
@@ -85,7 +85,7 @@ disabled, forced colors, light and dark.
 
 ## 5. Imagery
 
-- **Logo:** `sitemark-wordmark.svg` / `sitemark-wordmark-dark.svg` in the header. The favicon is the 32 px PNG and the icon SVG.
+- **Logo:** the wordmark is drawn inline in the header (`Header.tsx`, lettering from `design/logo/sitemark-wordmark.svg`). The favicon is the 32 px PNG and the icon SVG.
 - **Screenshots** (W2, D-251): generated for the store listings (2× density, WebP with PNG fallback). The home
   page shows **SiteMark at work** instead (D-291): three taped notes in HTML and CSS, each described from the catalog.
 - **Social preview:** `design/social-preview-en.png` and `-nl.png` (1200 × 630, link previews); `design/social-preview.png` (1280 × 640) is the repository's own.
