@@ -4,6 +4,7 @@ import { fakeBrowser } from 'wxt/testing/fake-browser';
 import type { Committed } from '../../src/app/command-queue';
 import type { InjectionError } from '../../src/app/ports';
 import type { MarkThisSiteRequest, TabStatusAnswer } from '../../src/app/protocol';
+import type { Command } from '../../src/core/commands/command';
 import type { ErrorCode } from '../../src/core/errors';
 import type { SiteMarkState } from '../../src/core/model/schema';
 import { ok, type Result } from '../../src/core/result';
@@ -28,6 +29,8 @@ export type FakeBackground = {
   startPicker: Result<void, InjectionError>;
   /** What markThisSite answers. */
   markThisSite: (request: MarkThisSiteRequest) => Result<Committed, ErrorCode>;
+  /** What a command answers (the popup sends setSiteGroupEnabled). */
+  command: (command: Command) => Result<Committed, ErrorCode>;
   /** How many permission prompts had started when each message arrived (D-229). */
   readonly promptsBefore: number[];
   /** The background commits a new state: it stores it, and the popup follows storage. */
@@ -46,6 +49,7 @@ export function fakeBackground(overrides: Partial<FakeBackground> = {}): FakeBac
     tabStatus: 'not-injected',
     startPicker: ok(undefined),
     markThisSite: () => ok({ revision: 1, notices: [] }),
+    command: () => ok({ revision: 1, notices: [] }),
     promptsBefore: [],
     commit: (state) =>
       act(async () => {
@@ -65,6 +69,8 @@ export function fakeBackground(overrides: Partial<FakeBackground> = {}): FakeBac
         return background.startPicker;
       case 'markThisSite':
         return background.markThisSite(data as MarkThisSiteRequest);
+      case 'command':
+        return background.command(data as Command);
       case 'toggleHidden':
         // Like the marker: "Hide on this tab" flips, where a marker runs (REQ-RND-008).
         if (typeof background.tabStatus === 'object') {

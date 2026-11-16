@@ -71,18 +71,6 @@ describe('REQ-POP-001 REQ-POP-008 REQ-URL-006 the popup lists every site group w
     expect(second).toHaveTextContent('Payments admin');
   });
 
-  it('lists a disabled group as "Disabled — enable in settings", linking to that group', async () => {
-    await openPopup(PAGE, payments);
-    const [item] = await items();
-    expect(item).toHaveTextContent('Payments admin Disabled — enable in settings');
-    const link = within(item as HTMLElement).getByRole('link', { name: 'enable in settings' });
-    expect(link).toHaveAttribute(
-      'href',
-      `${fakeBrowser.runtime.getURL('/options.html')}#/groups/${payments.id}`,
-    );
-    expect(link).toHaveAttribute('target', '_blank');
-  });
-
   it('keeps listing a group whose excludes match the page (D-263)', async () => {
     const excluded = group('Excluded here', 'https://app.example.com:8443/*', {
       excludes: [aWildcardPattern({ value: 'https://app.example.com:8443/orders' })],
@@ -261,6 +249,65 @@ describe('REQ-POP-004 REQ-POP-006 the popup asks for access the matching site gr
   });
 });
 
+describe('REQ-GRP-003 REQ-POP-009 REQ-PRIV-002 the popup turns each matching site group on or off (D-302)', () => {
+  const switchOf = (name: string) => shown(() => screen.queryByRole('switch', { name }));
+
+  it('shows a switch on every group: on for enabled groups, off for disabled ones', async () => {
+    await openPopup(PAGE, production, payments);
+    expect(await switchOf('Production')).toBeChecked();
+    expect(await switchOf('Payments admin')).not.toBeChecked();
+  });
+
+  it('says a disabled group is off on every tab, with no link to the settings', async () => {
+    await openPopup(PAGE, payments);
+    const [item] = await items();
+    expect(item).toHaveTextContent('Off for every tab on this site');
+    expect(within(item as HTMLElement).queryByRole('link')).toBeNull();
+  });
+
+  it('turns an enabled group off with setSiteGroupEnabled, without a prompt', async () => {
+    const { background } = await openPopup(PAGE, production);
+    fireEvent.click(await switchOf('Production'));
+    await waitFor(() => expect(background.sent('command')).toHaveLength(1));
+    expect(background.sent('command')).toEqual([
+      { type: 'command', data: { type: 'setSiteGroupEnabled', id: production.id, enabled: false } },
+    ]);
+    expect(fakes().permissions.requests).toEqual([]);
+  });
+
+  it('turns a disabled group on: prompts for its sites in the click, then sends the command (D-229)', async () => {
+    const { background } = await openPopup(PAGE, payments);
+    fireEvent.click(await switchOf('Payments admin'));
+    expect(fakes().permissions.requests).toEqual([['*://app.example.com/*']]);
+    await waitFor(() => expect(background.sent('command')).toHaveLength(1));
+    expect(background.sent('command')).toEqual([
+      { type: 'command', data: { type: 'setSiteGroupEnabled', id: payments.id, enabled: true } },
+    ]);
+    const index = background.received.findIndex(({ type }) => type === 'command');
+    expect(background.promptsBefore[index]).toBe(1);
+  });
+
+  it('follows the stored state once the background commits it', async () => {
+    const { background } = await openPopup(PAGE, payments);
+    const toggle = await switchOf('Payments admin');
+    await background.commit(aState({ revision: 1, siteGroups: [{ ...payments, enabled: true }] }));
+    await waitFor(() => expect(toggle).toBeChecked());
+  });
+
+  it('explains why when the background refuses', async () => {
+    const { background } = await openPopup(PAGE, payments);
+    background.command = () => err('stateReadOnly');
+    fireEvent.click(await switchOf('Payments admin'));
+    expect(await shown(() => screen.queryByRole('alert'))).toBeInTheDocument();
+  });
+
+  it('has no axe violations, with an enabled and a disabled group', async () => {
+    const { view } = await openPopup(PAGE, production, payments);
+    await switchOf('Payments admin');
+    expect(await axeViolations(view.container)).toEqual([]);
+  });
+});
+
 describe('REQ-POP-002 the popup shows whether element marks found their target', () => {
   const deleteButton = anElementMark({ label: 'Delete button' });
   const priceTable = anElementMark({ label: 'Price table' });
@@ -336,9 +383,7 @@ describe('REQ-POP-002 the popup shows whether element marks found their target',
   });
 });
 
-describe('REQ-POP-003 REQ-POP-008 REQ-RND-008 the popup offers Pick element, Hide on this tab and Settings', () => {
-  const report = (hidden: boolean): TabStatus => ({ marks: [], favicon: 'off', hidden });
-
+describe('REQ-POP-003 REQ-POP-008 REQ-RND-008 the popup offers Pick element and Settings, and hides on the shortcut only (D-302)', () => {
   it.each([
     ['with matching groups', [production]],
     ['without a match', [elsewhere]],
@@ -358,17 +403,11 @@ describe('REQ-POP-003 REQ-POP-008 REQ-RND-008 the popup offers Pick element, Hid
     expect([...(line?.querySelectorAll('kbd') ?? [])]).toHaveLength(6);
   });
 
-  it('Hide on this tab toggles the marks and shows whether they are hidden', async () => {
-    const { background, tabId } = await openPopup(PAGE, production);
-    background.tabStatus = report(false);
-    const hide = await shown(() =>
-      screen.queryByRole('button', { name: 'Hide on this tab', pressed: false }),
-    );
-    // It is disabled until the marker's status arrives.
-    await waitFor(() => expect(hide).toBeEnabled());
-    fireEvent.click(hide);
-    await waitFor(() => expect(hide).toHaveAttribute('aria-pressed', 'true'));
-    expect(background.sent('toggleHidden')).toEqual([{ type: 'toggleHidden', data: { tabId } }]);
+  it('has no Hide on this tab button: the group switches turn marks off, the shortcut hides them', async () => {
+    const { background } = await openPopup(PAGE, production);
+    background.tabStatus = { marks: [], favicon: 'off', hidden: false };
+    await shown(() => screen.queryByRole('switch', { name: 'Production' }));
+    expect(screen.queryByRole('button', { name: /Hide on this tab/ })).toBeNull();
   });
 
   it('leaves out the shortcut that is not assigned (D-208)', async () => {
@@ -376,12 +415,6 @@ describe('REQ-POP-003 REQ-POP-008 REQ-RND-008 the popup offers Pick element, Hid
     await openPopup(PAGE, production);
     const line = (await shown(() => document.querySelector('kbd')))?.closest('p');
     expect(line?.textContent).toMatch(/^AltShiftM pick$/);
-  });
-
-  it('can not hide while no marker runs in the tab', async () => {
-    await openPopup(PAGE, production);
-    const hide = await shown(() => screen.queryByRole('button', { name: 'Hide on this tab' }));
-    expect(hide).toBeDisabled();
   });
 
   it('links Settings to the options page', async () => {
@@ -408,9 +441,8 @@ describe('REQ-POP-003 REQ-POP-008 REQ-RND-008 the popup offers Pick element, Hid
 
   it('has no axe violations', async () => {
     shortcuts({ 'start-picker': 'Alt+Shift+M', 'toggle-hide': 'Ctrl+Shift+H' });
-    const { background, view } = await openPopup(PAGE, production);
-    background.tabStatus = report(true);
-    await shown(() => screen.queryByRole('button', { name: 'Hide on this tab', pressed: true }));
+    const { view } = await openPopup(PAGE, production);
+    await shown(() => screen.queryByRole('button', { name: 'Pick element' }));
     expect(await axeViolations(view.container)).toEqual([]);
   });
 });
@@ -535,7 +567,7 @@ describe('REQ-I18N-003 the popup shows user content as typed, never translated',
     await shown(() => screen.queryByText('optionsDelete'));
     const [first, second] = await items();
     expect(first?.textContent).toMatch(/^popupMarkThisSite optionsDelete found$/);
-    expect(second?.textContent).toMatch(/^__MSG_extName__ Disabled — enable in settings$/);
+    expect(second?.textContent).toMatch(/^__MSG_extName__Off for every tab on this site\.$/);
   });
 
   it('keeps page translators away from them (translate="no")', async () => {
