@@ -402,6 +402,14 @@
     "message": "Strepen",
     "description": "Picker panel: effect chip for diagonal stripes over the element."
   },
+  "pickerSwitchOn": {
+    "message": "Aan",
+    "description": "Picker panel: word inside an effect switch that is turned on."
+  },
+  "pickerSwitchOff": {
+    "message": "Uit",
+    "description": "Picker panel: word inside an effect switch that is turned off."
+  },
   "pickerColorLabel": {
     "message": "Kleur",
     "description": "Picker panel: label of the color presets."

@@ -19,6 +19,9 @@ export type PanelLabels = {
   readonly newSiteGroup: (origin: string) => string;
   readonly effects: string;
   readonly effectNames: Readonly<Record<ElementEffectKind, string>>;
+  /** Words inside a switch's track: the state never relies on color or position alone. */
+  readonly on: string;
+  readonly off: string;
   readonly color: string;
   readonly colorNames: Readonly<Record<PresetName, string>>;
   readonly save: string;

@@ -17,6 +17,8 @@ const LABELS = {
   color: 'Color',
   colorNames: { red: 'Red', amber: 'Amber', blue: 'Blue', slate: 'Slate' },
   save: 'Save',
+  on: 'On',
+  off: 'Off',
   cancel: 'Cancel',
   moreOptions: 'More options…',
   movePanel: 'Move panel',
