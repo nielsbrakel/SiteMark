@@ -80,16 +80,16 @@ describe('REQ-PICK-002 hovering outlines the element under the pointer', () => {
     expect(hovered.at(-1)).toBe(button);
   });
 
-  it('draws a neutral two-tone dashed outline around it', async () => {
+  it('draws a neutral two-tone solid outline around it', async () => {
     const button = aButton();
     aPane();
     await userEvent.hover(button, { force: true });
     const outline = part('outline');
     expect(outline.hidden).toBe(false);
     const style = getComputedStyle(outline);
-    expect([style.borderTopStyle, style.borderTopWidth]).toEqual(['dashed', '2px']);
+    expect([style.borderTopStyle, style.borderTopWidth]).toEqual(['solid', '3px']);
     expect(style.borderTopColor).toBe('rgb(27, 29, 34)');
-    expect([style.outlineStyle, style.outlineWidth]).toEqual(['solid', '2px']);
+    expect([style.outlineStyle, style.outlineWidth]).toEqual(['solid', '3px']);
     expect(style.outlineColor).toBe('rgb(255, 255, 255)');
     const box = outline.getBoundingClientRect();
     const target = button.getBoundingClientRect();
