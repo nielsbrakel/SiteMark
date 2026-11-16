@@ -1,30 +1,102 @@
-/* Both variants are in the DOM and the one matching <html data-theme> shows, so there is no flash. */
-.wordmark {
-  display: grid;
-  height: 44px;
-}
-
-.wordmark img {
-  grid-area: 1 / 1;
-  height: 100%;
-  width: auto;
-}
-
-.dark {
-  display: none;
-}
-
-:global(:root[data-theme='dark']) .light {
-  display: none;
-}
-
-:global(:root[data-theme='dark']) .dark {
+.logo {
   display: block;
 }
 
-/* The wordmark keeps its own colors in forced colors, like the logo. */
+/* The wordmark: a window with a coral corner ribbon, then the lettering. It plays once per page
+   load, assembling in about a second; --sm-duration is 0 under reduced motion, so it just rests. */
+.win,
+.rib,
+.dot,
+.site,
+.mark {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.edge {
+  fill: var(--sm-panel);
+  stroke: var(--sm-panel);
+  stroke-linejoin: round;
+}
+
+.face {
+  fill: var(--sm-surface);
+}
+
+.ink,
+.dot,
+.site,
+.mark {
+  fill: var(--sm-text);
+  stroke: none;
+}
+
+.ink {
+  fill: none;
+  stroke: var(--sm-text);
+}
+
+.rib {
+  fill: var(--sm-brand-coral);
+  stroke: var(--sm-text);
+  stroke-linejoin: round;
+  animation: rib calc(var(--sm-duration) * 3.5) calc(var(--sm-duration) * 1.375) var(--sm-ease) both;
+}
+
+.frame {
+  fill: none;
+  stroke: var(--sm-text);
+  stroke-linejoin: round;
+}
+
+.win {
+  animation: win calc(var(--sm-duration) * 2.25) var(--sm-ease) both;
+}
+
+.dot {
+  animation: dot calc(var(--sm-duration) * 1.875) calc(var(--sm-duration) * 4.375) var(--sm-spring)
+    both;
+}
+
+.site {
+  animation: word calc(var(--sm-duration) * 2.625) calc(var(--sm-duration) * 2.625) var(--sm-ease)
+    both;
+}
+
+.mark {
+  animation: word calc(var(--sm-duration) * 2.625) calc(var(--sm-duration) * 3.25) var(--sm-ease)
+    both;
+}
+
+@keyframes win {
+  from {
+    opacity: 0;
+    transform: scale(0.88) rotate(-3deg);
+  }
+}
+
+@keyframes rib {
+  from {
+    transform: translate(46px, -46px);
+  }
+}
+
+@keyframes dot {
+  from {
+    transform: scale(0);
+  }
+}
+
+@keyframes word {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
+
+/* The logo keeps its own colors in forced colors. */
 @media (forced-colors: active) {
-  .wordmark img {
+  .logo {
     forced-color-adjust: none;
   }
 }

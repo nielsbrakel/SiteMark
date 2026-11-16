@@ -85,7 +85,7 @@ disabled, forced colors, light and dark.
 
 ## 5. Imagery
 
-- **Logo:** the wordmark is drawn inline in the header (`Header.tsx`, lettering from `design/logo/sitemark-wordmark.svg`). The favicon is the 32 px PNG and the icon SVG.
+- **Logo:** the wordmark is drawn inline in the header (`ui/components/Wordmark`, lettering from `design/logo/sitemark-wordmark.svg`). The favicon is the 32 px PNG and the icon SVG.
 - **Screenshots** (W2, D-251): generated for the store listings (2× density, WebP with PNG fallback). The home
   page shows **SiteMark at work** instead (D-291): three taped notes in HTML and CSS, each described from the catalog.
 - **Social preview:** `design/social-preview-en.png` and `-nl.png` (1200 × 630, link previews); `design/social-preview.png` (1280 × 640) is the repository's own.

@@ -1,9 +1,9 @@
 import { type ReactNode, useEffect, useRef, useState } from 'react';
-import logo from '@/assets/logo.svg';
 import type { OriginPattern } from '@/core/url/origin';
 import { type MessageKey, t } from '@/lib/i18n/browser-source';
 import { grantPageOrigins } from '@/platform/grant-page';
 import { type RequestOutcome, requestOrigins } from '@/platform/permissions';
+import { Logo } from '@/ui/components/Wordmark';
 import styles from './App.module.css';
 
 export type GrantAppProps = {
@@ -67,7 +67,7 @@ export function GrantApp({ search }: GrantAppProps): ReactNode {
   return (
     <main className={`sm-card ${styles.page}`}>
       <header className={styles.header}>
-        <img src={logo} alt="" width={32} height={32} />
+        <Logo size={32} />
         <h1>{t('grantTitle')}</h1>
       </header>
       {origins ? <Request origins={origins} /> : <p role="alert">{t('grantInvalid')}</p>}

@@ -58,17 +58,12 @@ describe('REQ-THEME-001 the wordmark animates itself and rests when motion is re
     for (const part of ['win', 'rib', 'dot', 't1', 't2']) expect(svg).toContain(`class="${part}"`);
   });
 
-  it('the website header animates the inline wordmark through --sm-duration', () => {
-    const header = read('website/src/components/Header.module.css');
+  it('the inline wordmark, in the website and the extension, animates through --sm-duration', () => {
+    const header = read('src/ui/components/Wordmark.module.css');
     for (const part of ['win', 'rib', 'dot', 'site', 'mark']) {
       expect(header).toMatch(
         new RegExp(`\\.${part}\\s*{[^}]*animation:[^;]*var\\(--sm-duration\\)`),
       );
     }
-  });
-
-  it('the extension keeps its wordmarks still', () => {
-    expect(read('src/assets/wordmark.svg')).not.toContain('@keyframes');
-    expect(read('src/assets/wordmark-dark.svg')).not.toContain('@keyframes');
   });
 });
