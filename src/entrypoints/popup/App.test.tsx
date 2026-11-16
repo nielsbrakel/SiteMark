@@ -566,7 +566,7 @@ describe('REQ-I18N-003 the popup shows user content as typed, never translated',
     await openWithUserContent();
     await shown(() => screen.queryByText('optionsDelete'));
     const [first, second] = await items();
-    expect(first?.textContent).toMatch(/^popupMarkThisSite optionsDelete found$/);
+    expect(first?.textContent).toMatch(/^popupMarkThisSite\s*optionsDelete found$/);
     expect(second?.textContent).toMatch(/^__MSG_extName__Off for every tab on this site\.$/);
   });
 

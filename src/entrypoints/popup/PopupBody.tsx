@@ -21,7 +21,7 @@ type TabBodyProps = { readonly tab: CurrentTab; readonly state: SiteMarkState | 
 function TabBody({ tab, state }: TabBodyProps): ReactNode {
   if (tab.status !== 'ready') return null;
   // The browser withholds the URL of pages activeTab doesn't cover: SiteMark can't run there.
-  if (tab.url === undefined || isKnownRestrictedUrl(tab.url)) return <CantRun tabId={tab.tabId} />;
+  if (tab.url === undefined || isKnownRestrictedUrl(tab.url)) return <CantRun />;
   return state && <SiteStatus tab={{ id: tab.tabId, url: tab.url }} state={state} />;
 }
 

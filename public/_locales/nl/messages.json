@@ -220,17 +220,13 @@
     "message": "Deze link bevat geen geldige site. Open hem opnieuw vanuit SiteMark.",
     "description": "Toestemmingspagina: getoond als de pagina met een kapotte of gewijzigde link is geopend."
   },
+  "popupGroupOff": {
+    "message": "Uit voor alle tabbladen van deze site.",
+    "description": "Pop-up: onder een passende sitegroep die uit staat, bij de schakelaar."
+  },
   "popupSiteGroups": {
     "message": "Sitegroepen op deze site",
     "description": "Pop-up: toegankelijke naam van de lijst met sitegroepen waarvan de URL-patronen bij het huidige tabblad passen."
-  },
-  "popupGroupDisabled": {
-    "message": "Uitgeschakeld —",
-    "description": "Pop-up: status van een passende sitegroep die uit staat. Eindigt met een streepje en wordt gevolgd door een link \"inschakelen in instellingen\"."
-  },
-  "popupEnableInSettings": {
-    "message": "inschakelen in instellingen",
-    "description": "Pop-up: link na \"Uitgeschakeld —\" die de sitegroep op de instellingenpagina opent. Begint met een kleine letter."
   },
   "popupNoMatch": {
     "message": "Geen sitegroep past bij deze site",
@@ -307,10 +303,6 @@
   "popupPickElement": {
     "message": "Element kiezen",
     "description": "Pop-upknop die de elementkiezer op de huidige pagina start."
-  },
-  "popupHide": {
-    "message": "Verbergen op dit tabblad",
-    "description": "Pop-up-schakelknop die alle SiteMark-markeringen op het huidige tabblad verbergt tot het herladen."
   },
   "popupSettings": {
     "message": "Instellingen",

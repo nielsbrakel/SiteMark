@@ -22,15 +22,9 @@
   box-shadow: 1px 4px 0 var(--sm-text);
 }
 
-.iconButton:active,
-.iconButton[aria-pressed='true'] {
+.iconButton:active {
   transform: translate(1px, 3px);
   box-shadow: none;
-}
-
-.iconButton[aria-pressed='true'] {
-  background: var(--sm-tape-1);
-  color: var(--sm-on-tape);
 }
 
 .iconButton:disabled {
@@ -49,8 +43,7 @@
     border-color: ButtonText;
   }
 
-  .iconButton:active,
-  .iconButton[aria-pressed='true'] {
+  .iconButton:active {
     border-color: Highlight;
     background: Highlight;
     color: HighlightText;

@@ -49,7 +49,7 @@ export function SiteStatus({ tab, state }: SiteStatusProps): ReactNode {
   const tabStatus = useTabStatus(tab.id, state.revision);
   // A failed injection is the ground truth: the page refuses scripts (REQ-POP-005).
   const [isRefused, setRefused] = useState(false);
-  if (isRefused || tabStatus.status === 'restricted') return <CantRun tabId={tab.id} />;
+  if (isRefused || tabStatus.status === 'restricted') return <CantRun />;
 
   const status = reportOf(tabStatus.status);
   const { host, hostname } = siteOf(tab.url);
@@ -74,7 +74,7 @@ export function SiteStatus({ tab, state }: SiteStatusProps): ReactNode {
           {t('popupFaviconUnavailable')}
         </p>
       )}
-      <Actions tabId={tab.id} status={status} onPick={() => pick()} onToggled={tabStatus.refresh} />
+      <Actions onPick={() => pick()} />
     </>
   );
 }

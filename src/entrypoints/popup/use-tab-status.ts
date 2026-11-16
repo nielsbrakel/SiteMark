@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { TabStatusAnswer } from '@/app/protocol';
 import { sendToBackground } from '@/platform/send-message';
 
@@ -7,8 +7,6 @@ type Answer = { readonly key: string; readonly status: TabStatusAnswer | undefin
 export type TabStatusView = {
   /** `undefined` until the background answers, or when it doesn't. */
   readonly status: TabStatusAnswer | undefined;
-  /** Asks again, e.g. after "Hide on this tab" changed it. */
-  readonly refresh: () => void;
 };
 
 /**
@@ -16,8 +14,7 @@ export type TabStatusView = {
  * when the state's revision changes, since the tab then gets a new plan.
  */
 export function useTabStatus(tabId: number, revision: number): TabStatusView {
-  const [asked, setAsked] = useState(0);
-  const key = `${tabId}:${revision}:${asked}`;
+  const key = `${tabId}:${revision}`;
   const [answer, setAnswer] = useState<Answer>();
   useEffect(() => {
     let isCurrent = true;
@@ -28,7 +25,6 @@ export function useTabStatus(tabId: number, revision: number): TabStatusView {
       isCurrent = false;
     };
   }, [tabId, key]);
-  const refresh = useCallback(() => setAsked((count) => count + 1), []);
-  // Keep showing the last answer while a new one is on its way (no flicker after a toggle).
-  return { status: answer?.status, refresh };
+  // Keep showing the last answer while a new one is on its way (no flicker after a change).
+  return { status: answer?.status };
 }

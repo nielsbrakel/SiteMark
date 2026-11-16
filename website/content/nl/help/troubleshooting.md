@@ -9,11 +9,11 @@ De meeste problemen hebben een korte lijst oorzaken. Begin bij de pop-up: open d
 ## De markeringen verschijnen niet
 
 - **Er past geen sitegroep.** De pop-up meldt het. Controleer de patronen in de instellingen met de URL-tester.
-- **De sitegroep is uitgeschakeld.** De pop-up toont hem als uitgeschakeld, met een link naar de instellingen, waar je hem aanzet.
+- **De sitegroep is uitgeschakeld.** De pop-up toont hem met de schakelaar uit; zet hem daar aan.
 - **De toegang is niet verleend.** De pop-up toont **Toestaan**. Zonder toegang verschijnen markeringen pas nadat je de pop-up opent.
 - **De pagina is verboden terrein.** Instellingenpagina’s van de browser, extensiewinkels, de pdf-viewer en lokale bestanden laten geen extensies toe, en de pop-up meldt dat SiteMark niet op deze pagina kan draaien.
 - **De pagina staat in een frame.** SiteMark markeert alleen pagina’s op het hoogste niveau.
-- **De markeringen zijn verborgen.** Iemand drukte op Verbergen op dit tabblad; druk er nog eens op.
+- **De markeringen zijn verborgen.** Iemand drukte op de sneltoets om te verbergen; druk er nog eens op.
 
 ## Een elementmarkering ontbreekt
 

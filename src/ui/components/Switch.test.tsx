@@ -28,6 +28,21 @@ describe('REQ-A11Y-003 REQ-A11Y-008 Switch', () => {
     expect(screen.getByText('Production')).not.toHaveClass('sm-visually-hidden');
   });
 
+  it('takes any label content and can fill its row', () => {
+    const { container } = render(
+      <Harness
+        label={
+          <span>
+            Prod <b>env</b>
+          </span>
+        }
+        spread
+      />,
+    );
+    expect(screen.getByRole('switch', { name: 'Prod env' })).toBeInTheDocument();
+    expect(container.firstElementChild?.className).toMatch(/spread/);
+  });
+
   it('toggles on click and reports the new value', () => {
     const onChange = vi.fn();
     render(<Harness label="Production" onChange={onChange} />);

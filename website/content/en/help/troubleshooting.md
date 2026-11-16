@@ -9,11 +9,11 @@ Most problems have a short list of causes. Start with the popup: open it on the 
 ## The marks don't show
 
 - **No site group matches.** The popup says so. Check the patterns in the settings with the URL tester.
-- **The site group is disabled.** The popup lists it as disabled, with a link to the settings, where you can switch it on.
+- **The site group is disabled.** The popup lists it with its switch off; switch it on there.
 - **Access is not granted.** The popup shows **Allow**. Without access, marks only appear after you open the popup.
 - **The page is off limits.** Extensions can't run on browser settings pages, extension stores, the PDF viewer or local files. The popup then says SiteMark can't run on this page.
 - **The page is inside a frame.** SiteMark marks top-level pages only.
-- **The marks are hidden.** Hide on this tab was pressed; press it again.
+- **The marks are hidden.** The hide shortcut was pressed; press it again.
 
 ## An element mark is missing
 
