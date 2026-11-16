@@ -546,3 +546,15 @@ describe('REQ-I18N-003 the popup shows user content as typed, never translated',
     }
   });
 });
+
+// Firefox shares one document per cached SVG image, so an animation inside an <img> plays once;
+// drawn inline, the logo animates every time the popup opens.
+describe('REQ-THEME-001 the popup logo is drawn inline, so its animation plays on every open', () => {
+  it('has no image in the header', async () => {
+    const { view } = await openPopup(PAGE, production);
+    await groupList();
+    const header = view.container.querySelector('header');
+    expect(header?.querySelector('img')).toBeNull();
+    expect(header?.querySelector('svg')).not.toBeNull();
+  });
+});
