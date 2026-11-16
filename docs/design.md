@@ -206,20 +206,20 @@ illustration for the Chrome puzzle menu, and the live shortcut.
 
 ### 5.3 Picker
 
-- **Glass pane** over the viewport (invisible). The hovered element gets a **neutral two-tone dashed outline**
-  (2 px white + 2 px `#1b1d22`, readable on any background) and a raised tooltip pill:
+- **Glass pane** over the viewport (invisible). The hovered element gets a **neutral two-tone solid outline**
+  (3 px `#1b1d22` inside 3 px white, readable on any background), a soft coral tint and two tape corners (D-301), and a bordered paper tag:
   `button#delete.btn-danger · 120×36`. Inside iframes it says "marks the whole frame"; inside components,
   "marks the component".
-- **Hint bar** (compact, top center; moves to the bottom when the pointer is within 80 px):
+- **Hint bar** (a bordered paper note, compact, top center; moves to the bottom when the pointer is within 80 px):
   "Click to select · ↑↓←→ navigate · Enter select · Esc cancel".
-- **Mini panel** after selection (~320 px, auto-placed on the side **opposite** the selection, with a **Move panel**
+- **Mini panel** after selection, a ruled notebook sheet with a coral margin line and wavy dividers (D-301) (~340 px, auto-placed on the side **opposite** the selection, with a **Move panel**
   button that cycles corners):
 
 ```text
 ╭ Mark this element ─────────────────── [⇆] [×] ╮
 │ Selector [ #delete-btn           ] ✓ matches   │
 │ Site group [ Production (active) ▾ ]           │
-│ Effects  [Outline✓] [Ribbon] [Tint] [Stripes]  │
+│ Effects  Ribbon ○Off  Outline ●On  Tint ○Off … │
 │ Color    (●)(●)(●)(●)                          │
 │ [More options…]            [Cancel] [ Save ]   │
 ╰────────────────────────────────────────────────╯
