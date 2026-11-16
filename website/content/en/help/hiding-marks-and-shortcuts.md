@@ -8,18 +8,18 @@ Sometimes you need a clean page: for a screenshot, a screen share or a demo to a
 
 ## Hide the marks on one tab
 
-Open the popup and press **Hide on this tab**. The marks disappear, and the title prefix and favicon dot are taken off too. Press the button again to bring them back.
+Press the **Hide or show the marks on this tab** shortcut (see below). The marks disappear, and the title prefix and favicon dot are taken off too. Press it again to bring them back.
 
 Hiding is deliberately short-lived. It lasts while you move around the same site in that tab, and ends when you reload, go to another site or close the tab. That way you never forget that marks are hidden and end up on production without a warning.
 
-To stop marking a site for good, open the settings and disable its site group, or remove the pattern.
+To stop marking a site for good, switch its site group off in the popup or in the settings, or remove the pattern.
 
 ## Keyboard shortcuts
 
 SiteMark has two shortcuts:
 
 - **Start the element picker:** Alt+Shift+M by default.
-- **Hide or show the marks on this tab:** no key by default, because every key combination is taken on some website. Pick one you like.
+- **Hide or show the marks on this tab:** no key by default, because every key combination is taken on some website. Pick one you like, or hiding is not available.
 
 The settings page lists both shortcuts with their current keys and a button that opens your browser's shortcut settings, where you can change them. When a shortcut can't work on a page, such as a browser settings page, the SiteMark button briefly shows a cross.
 

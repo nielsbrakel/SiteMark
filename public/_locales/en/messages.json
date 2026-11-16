@@ -220,17 +220,13 @@
     "message": "This link doesn't name a valid site. Open it again from SiteMark.",
     "description": "Grant page: shown when the page was opened with a broken or tampered link."
   },
+  "popupGroupOff": {
+    "message": "Off for every tab on this site.",
+    "description": "Popup: under a matching site group that is turned off, next to its switch."
+  },
   "popupSiteGroups": {
     "message": "Site groups on this site",
     "description": "Popup: accessible name of the list of site groups whose URL patterns match the current tab."
-  },
-  "popupGroupDisabled": {
-    "message": "Disabled —",
-    "description": "Popup: status of a matching site group that is turned off. Ends with a dash and is followed by a link \"enable in settings\"."
-  },
-  "popupEnableInSettings": {
-    "message": "enable in settings",
-    "description": "Popup: link after \"Disabled —\" that opens the site group in the settings page. Starts lowercase."
   },
   "popupNoMatch": {
     "message": "No site group matches this site",
@@ -307,10 +303,6 @@
   "popupPickElement": {
     "message": "Pick element",
     "description": "Popup button that starts the element picker on the current page."
-  },
-  "popupHide": {
-    "message": "Hide on this tab",
-    "description": "Popup toggle button that hides all SiteMark marks on the current tab until reload."
   },
   "popupSettings": {
     "message": "Settings",

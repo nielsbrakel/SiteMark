@@ -41,14 +41,14 @@ describe('REQ-A11Y-003 REQ-THEME-002 Button', () => {
     expect(screen.getByRole('button')).toHaveAttribute('data-variant', 'secondary');
   });
 
-  it('forwards clicks, the pressed state and extra classes', () => {
+  it('forwards clicks and extra classes', () => {
     const onClick = vi.fn();
     render(
-      <Button aria-pressed={true} className="wide" onClick={onClick}>
-        Hide on this tab
+      <Button className="wide" onClick={onClick}>
+        Go
       </Button>,
     );
-    const button = screen.getByRole('button', { name: 'Hide on this tab', pressed: true });
+    const button = screen.getByRole('button', { name: 'Go' });
     fireEvent.click(button);
     expect(onClick).toHaveBeenCalledOnce();
     expect(button).toHaveClass('wide');

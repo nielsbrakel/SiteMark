@@ -8,18 +8,18 @@ Soms heb je een schone pagina nodig: voor een schermafbeelding, bij het delen va
 
 ## Markeringen op één tabblad verbergen
 
-Open de pop-up en druk op **Verbergen op dit tabblad**. De markeringen verdwijnen, en ook het titelvoorvoegsel en de stip op het favicon gaan eraf. Druk nog eens op de knop om ze terug te halen.
+Druk op de sneltoets **De markeringen op dit tabblad verbergen of tonen** (zie hieronder). De markeringen verdwijnen, en ook het titelvoorvoegsel en de stip op het favicon gaan eraf. Druk er nog eens op om ze terug te halen.
 
 Verbergen duurt met opzet kort. Het blijft gelden zolang je op dezelfde site blijft in dat tabblad, en stopt als je de pagina opnieuw laadt, naar een andere site gaat of het tabblad sluit. Zo vergeet je nooit dat de markeringen verborgen zijn en beland je niet zonder waarschuwing op productie.
 
-Wil je een site voorgoed niet meer markeren, open dan de instellingen en schakel de sitegroep uit, of verwijder het patroon.
+Wil je een site voorgoed niet meer markeren, zet dan de sitegroep uit in de pop-up of in de instellingen, of verwijder het patroon.
 
 ## Sneltoetsen
 
 SiteMark heeft twee sneltoetsen:
 
 - **De elementkiezer starten:** standaard Alt+Shift+M.
-- **De markeringen op dit tabblad verbergen of tonen:** standaard geen toets, omdat elke toetscombinatie op een of andere website al bezet is. Kies er zelf een.
+- **De markeringen op dit tabblad verbergen of tonen:** standaard geen toets, omdat elke toetscombinatie op een of andere website al bezet is. Kies er zelf een, anders kun je niet verbergen.
 
 De instellingenpagina toont beide sneltoetsen met hun huidige toetsen en een knop die de sneltoetsinstellingen van je browser opent, waar je ze aanpast. Werkt een sneltoets niet op een pagina, zoals een instellingenpagina van de browser, dan toont de knop van SiteMark even een kruisje.
 

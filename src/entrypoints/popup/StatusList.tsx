@@ -1,12 +1,15 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import type { MarkId, SiteGroupId } from '@/core/ids';
 import type { SiteGroup } from '@/core/model/schema';
 import type { TabStatus } from '@/core/render/status';
 import { t } from '@/lib/i18n/browser-source';
-import { optionsPageUrl } from '@/platform/deep-links';
 import { Card } from '@/ui/components/Card';
 import { ColorChip } from '@/ui/components/ColorChip';
+import { Switch } from '@/ui/components/Switch';
+import { type CommandError, sendCommand } from '@/ui/hooks/use-command';
+import { setGroupEnabled } from '@/ui/set-group-enabled';
 import { ElementMarks } from './ElementMarks';
+import { errorText } from './error-text';
 import styles from './StatusList.module.css';
 
 export type StatusListProps = {
@@ -24,30 +27,34 @@ type GroupItemProps = Omit<StatusListProps, 'groups' | 'activeIds'> & {
   readonly isActive: boolean;
 };
 
-/** "Disabled — enable in settings", linking to the group in the options page (REQ-POP-001). */
-function DisabledNote({ group }: { readonly group: SiteGroup }) {
-  const href = optionsPageUrl({ page: 'group', groupId: group.id });
-  return (
-    <span className={styles.note}>
-      {t('popupGroupDisabled')}{' '}
-      <a className="sm-link" href={href} target="_blank" rel="noopener noreferrer">
-        {t('popupEnableInSettings')}
-      </a>
-    </span>
-  );
-}
-
 function GroupItem({ group, isActive, status, onRepick }: GroupItemProps) {
+  const [failure, setFailure] = useState<CommandError>();
   // A group has no color of its own: its first mark's color stands for it.
   const color = group.marks[0]?.color;
+  const change = (enabled: boolean) => {
+    setFailure(undefined);
+    void setGroupEnabled(group, enabled, sendCommand).then((result) => {
+      if (!result.ok) setFailure(result.error);
+    });
+  };
   return (
     <li className={styles.group}>
-      {color && <ColorChip color={color} />}
-      <span className={styles.name} translate="no">
-        {group.name}
-      </span>{' '}
-      {!group.enabled && <DisabledNote group={group} />}
+      <Switch
+        spread
+        label={
+          <span className={styles.name}>
+            {color && <ColorChip color={color} />}
+            <span translate="no">{group.name}</span>
+          </span>
+        }
+        onText={t('optionsGroupOn')}
+        offText={t('optionsGroupOff')}
+        checked={group.enabled}
+        onChange={change}
+        {...(!group.enabled && { description: t('popupGroupOff') })}
+      />
       {isActive && status && <ElementMarks group={group} status={status} onRepick={onRepick} />}
+      {failure && <p role="alert">{errorText(failure)}</p>}
     </li>
   );
 }

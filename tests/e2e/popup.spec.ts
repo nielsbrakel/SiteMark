@@ -28,8 +28,8 @@ test.describe('REQ-POP-001 REQ-POP-006 the popup in the real extension', () => {
     await expect(marker).toContainText('prod.sitemark.te');
   });
 
-  test('Hide on this tab follows the marker in the tab', {
-    tag: ['@REQ-POP-003', '@REQ-RND-008'],
+  test('the group switch turns the group off and on', {
+    tag: ['@REQ-GRP-003', '@REQ-POP-009'],
   }, async ({ context, serviceWorker, extensionId }) => {
     const { site, popup } = await openPopupFor(
       context,
@@ -42,12 +42,13 @@ test.describe('REQ-POP-001 REQ-POP-006 the popup in the real extension', () => {
     await markThisSite.click();
     await waitForMarker(site);
     await popup.reload();
-    const hide = popup.getByRole('button', { name: 'Hide on this tab' });
-    await expect(hide).toHaveAttribute('aria-pressed', 'false');
-    await hide.click();
-    await expect(hide).toHaveAttribute('aria-pressed', 'true');
-    await hide.click();
-    await expect(hide).toHaveAttribute('aria-pressed', 'false');
+    const toggle = popup.getByRole('switch', { name: 'prod.sitemark.test' });
+    await expect(toggle).toBeChecked();
+    await toggle.click();
+    await expect(toggle).not.toBeChecked();
+    await expect(popup.getByText('Off for every tab on this site.')).toBeVisible();
+    await toggle.click();
+    await expect(toggle).toBeChecked();
   });
 
   test("says it can't run on a browser page", { tag: ['@REQ-POP-005', '@REQ-ENV-003'] }, async ({

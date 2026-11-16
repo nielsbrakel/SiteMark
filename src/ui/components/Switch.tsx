@@ -3,7 +3,7 @@ import { classNames } from './class-names';
 import styles from './Switch.module.css';
 
 export type SwitchProps = {
-  readonly label: string;
+  readonly label: ReactNode;
   readonly checked: boolean;
   readonly onChange: (checked: boolean) => void;
   /** Keeps the label as the accessible name but hides it visually (it is shown elsewhere). */
@@ -13,6 +13,8 @@ export type SwitchProps = {
   readonly offText?: string;
   readonly description?: string;
   readonly disabled?: boolean;
+  /** Fills its row: the label on the left, the switch at the right edge. */
+  readonly spread?: boolean;
   readonly className?: string | undefined;
 };
 
@@ -29,12 +31,13 @@ export function Switch({
   offText,
   description,
   disabled,
+  spread = false,
   className,
 }: SwitchProps): ReactNode {
   const id = useId();
   const descriptionId = `${id}-description`;
   return (
-    <span className={classNames(styles.switch, className)}>
+    <span className={classNames(styles.switch, spread && styles.spread, className)}>
       <label htmlFor={id} className={labelHidden ? 'sm-visually-hidden' : styles.label}>
         {label}
       </label>

@@ -6,6 +6,11 @@
   gap: var(--sm-space-1) var(--sm-space-3);
 }
 
+.spread {
+  grid-template-columns: 1fr auto;
+  width: 100%;
+}
+
 .label {
   cursor: pointer;
 }
