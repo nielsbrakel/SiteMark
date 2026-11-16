@@ -63,6 +63,15 @@ describe('REQ-PAGE-007 every page has a skip link, a header and a footer', () =>
     expect(within(home).getAllByRole('img').length).toBeGreaterThan(0);
   });
 
+  // Firefox keeps one document per cached SVG image, so an animation inside an <img> played on the
+  // first page only. Inline in the page, it starts with every page load.
+  it('draws the wordmark inline, so its animation starts again on every page', () => {
+    renderShell('home');
+    const home = within(screen.getByRole('banner')).getByRole('link', { name: 'SiteMark home' });
+    expect(home.querySelector('img')).toBeNull();
+    expect(within(home).getByRole('img').tagName.toLowerCase()).toBe('svg');
+  });
+
   it('shows Home, Playground, Help and Privacy and marks the current page', () => {
     renderShell('help');
     const nav = screen.getByRole('navigation', { name: 'Main' });
