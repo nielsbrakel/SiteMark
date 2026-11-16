@@ -212,7 +212,7 @@ illustration for the Chrome puzzle menu, and the live shortcut.
   "marks the component".
 - **Hint bar** (a bordered paper note, compact, top center; moves to the bottom when the pointer is within 80 px):
   "Click to select · ↑↓←→ navigate · Enter select · Esc cancel".
-- **Mini panel** after selection, a ruled notebook sheet with a coral margin line and wavy dividers (D-301) (~340 px, auto-placed on the side **opposite** the selection, with a **Move panel**
+- **Mini panel** after selection, a ruled notebook sheet with a coral margin line and wavy dividers (D-301) (~380 px, auto-placed on the side **opposite** the selection, with a **Move panel**
   button that cycles corners):
 
 ```text

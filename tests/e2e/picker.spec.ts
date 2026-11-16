@@ -55,7 +55,7 @@ test('Save stores the element mark and ends the pick @REQ-PICK-005', async ({
   await startPicking(context, page, serviceWorker);
   await pick(page, 'danger');
   const panel = await waitForPanel(page);
-  await panel.getByRole('button', { name: 'Ribbon' }).click();
+  await panel.getByRole('switch', { name: 'Ribbon' }).click();
   await panel.getByRole('button', { name: 'Save' }).click();
   await expect(page.locator('sitemark-picker')).toHaveCount(0);
   const groups = await storedGroups(context, extensionId);
