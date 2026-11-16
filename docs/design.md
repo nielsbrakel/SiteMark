@@ -149,14 +149,14 @@ A new selectable control picks the row that matches: borderless gets `.sm-pick`,
 │ [logo] SiteMark                 [⚙]    │
 │ app.example.com                         │
 │ ╭────────────────────────────────────╮ │  ← raised status card
-│ │ ● Production                       │ │
+│ │ ● Production            [Aan ━●]   │ │  ← On/Off switch at the right edge (D-302)
 │ │   ▸ Delete button   ✓ found        │ │
 │ │   ▸ Price table     ⚠ not found [Re-pick]
-│ │ ○ Payments admin  Disabled — enable in settings ↗ │
+│ │ ○ Payments admin        [━● Uit]   │ │
+│ │   Off for every tab on this site   │ │
 │ ╰────────────────────────────────────╯ │
 │ [ ⌖ Pick element ]                     │  ← actions stacked full width
-│ [ 👁 Hide on this tab ]  (⌨ if set)    │  ← toggle; pressed when hidden; no default key (D-208)
-│ Alt+Shift+M to pick                    │  ← live binding from commands.getAll()
+│ Alt+Shift+M to pick                    │  ← live binding from commands.getAll(); hiding is a shortcut only (D-302)
 └────────────────────────────────────────┘
 ```
 
