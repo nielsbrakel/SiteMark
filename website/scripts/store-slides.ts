@@ -89,7 +89,7 @@ function popupOver(page: Shot, panel: Shot, x: number, width: number, toolbar: T
   const popupScale = Math.min(1.35, (height - 4) / panel.height);
   const left = width - 10 - panel.width * popupScale;
   const popup = place(panel, x + left, y + 4, popupScale);
-  const body = `${place(page, 0, 0, scale).img(0, 0)}${place(panel, 0, 0, popupScale).img(left, 4, 'border-radius:8px;box-shadow:0 8px 32px rgb(0 0 0/35%),0 0 0 1px rgb(0 0 0/20%)')}`;
+  const body = `${place(page, 0, 0, scale).img(0, 0)}${place(panel, 0, 0, popupScale).img(left, 4, 'box-shadow:0 8px 32px rgb(0 0 0/35%),0 0 0 1px rgb(0 0 0/20%)')}`;
   // Page text under the popup is hidden, so a note may go there.
   const cover = { x: x + left, y, width: panel.width * popupScale, height };
   const visible = place(page, x, y, scale)
