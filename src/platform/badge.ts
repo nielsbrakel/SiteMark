@@ -1,13 +1,16 @@
 import { browser } from 'wxt/browser';
 import type { Badge, BadgeState, Logger } from '../app/ports';
-import { notImplemented } from '../core/not-implemented';
+
+/** The toolbar icon sizes: 16 px, 32 px for high-DPI screens, and 48 px for the extensions page. */
+const SIZES = [16, 32, 48] as const;
 
 /**
  * The icon files of a state by size, as `action.setIcon` takes them: `icon/<size>.png` plain, and
  * `icon/<state>-<size>.png` with the sticker (`pnpm icons` renders them, REQ-POP-010).
  */
-export function badgeIconPaths(_state: BadgeState): Record<number, string> {
-  return notImplemented();
+export function badgeIconPaths(state: BadgeState): Record<number, string> {
+  const name = (size: number) => (state === 'none' ? `${size}` : `${state}-${size}`);
+  return Object.fromEntries(SIZES.map((size) => [size, `icon/${name(size)}.png`]));
 }
 
 /**

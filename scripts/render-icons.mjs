@@ -7,6 +7,7 @@
 // Usage: pnpm icons   (set PW_CHROMIUM_EXECUTABLE to use a preinstalled Chromium)
 import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { chromium } from '@playwright/test';
+import { renderStickers } from './toolbar-stickers.mjs';
 
 // The promo art sets its lettering in the bundled handwriting fonts (D-289).
 const fontFace = async (family, file) =>
@@ -116,6 +117,8 @@ for (const { svg, sizes } of targets) {
     console.log(`public/icon/${size}.png`);
   }
 }
+
+await renderStickers(page, targets);
 
 // iOS fills transparent corners with black, so the home-screen icon is the logo on the kraft board.
 await page.setViewportSize({ width: 180, height: 180 });
