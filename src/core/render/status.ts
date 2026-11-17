@@ -24,6 +24,8 @@ export type TabStatus = {
   readonly favicon: FaviconStatus;
   /** "Hide on this tab" is on (REQ-RND-008). */
   readonly hidden: boolean;
+  /** A site group is active in the tab: its plan has items, whether or not they are hidden (REQ-POP-010). */
+  readonly active: boolean;
 };
 
 /** 200 site groups × 50 marks: the most element marks a plan can hold. */
@@ -35,6 +37,7 @@ const tabStatusSchema = z.strictObject({
     .max(MAX_MARKS, `Expected at most ${MAX_MARKS} marks`),
   favicon: z.enum(['available', 'unavailable', 'off']),
   hidden: z.boolean(),
+  active: z.boolean(),
 });
 
 /** Validates a status from a content script (a report or an answer); never throws (D-225). */

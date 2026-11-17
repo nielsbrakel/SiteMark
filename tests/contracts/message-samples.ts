@@ -20,6 +20,7 @@ export const status: TabStatus = {
   marks: [{ markId: 'mark00000001' as MarkId, found: false }],
   favicon: 'unavailable',
   hidden: false,
+  active: true,
 };
 
 export const validPayloads: Samples = {

@@ -3,7 +3,12 @@ import type { TabStatus } from '../../core/render/status';
 import { createInMemoryTabs } from '../testing/in-memory-tabs';
 import { toggleHidden } from './toggle-hidden';
 
-const status = (hidden: boolean): TabStatus => ({ marks: [], favicon: 'off', hidden });
+const status = (hidden: boolean): TabStatus => ({
+  marks: [],
+  favicon: 'off',
+  hidden,
+  active: true,
+});
 
 function tabAnswering(answer: unknown) {
   const tabs = createInMemoryTabs([{ id: 7, injected: true }]);

@@ -33,7 +33,7 @@ describe('REQ-PICK-006 a saved pick shows on the tab at once', () => {
 
   it('leaves a running marker alone: the commit already pushed its new plan', async () => {
     const tabs = createInMemoryTabs([{ id: 7, url: sender.url, injected: true }]);
-    tabs.respondWith(7, () => ({ marks: [], favicon: 'off', hidden: false }));
+    tabs.respondWith(7, () => ({ marks: [], favicon: 'off', hidden: false, active: true }));
     await showOnTab({ tabs, markerFiles: MARKER }, 7);
     expect(tabs.injections).toEqual([]);
   });

@@ -16,7 +16,7 @@ function warningToken(): string {
 
 describe('REQ-POP-007 the Badge adapter sets a text per tab', () => {
   it('shows the text on that tab only, in the warning color', async () => {
-    await createBadge(createInMemoryLogger()).setText(7, '!');
+    await createBadge(createInMemoryLogger()).setState(7, 'attention');
     await expect(browser.action.getBadgeText({ tabId: 7 })).resolves.toBe('!');
     await expect(browser.action.getBadgeText({ tabId: 8 })).resolves.toBe('');
     const background = await browser.action.getBadgeBackgroundColor({ tabId: 7 });
@@ -26,8 +26,8 @@ describe('REQ-POP-007 the Badge adapter sets a text per tab', () => {
 
   it('clears the text', async () => {
     const badge = createBadge(createInMemoryLogger());
-    await badge.setText(7, '!');
-    await badge.setText(7, '');
+    await badge.setState(7, 'attention');
+    await badge.setState(7, 'none');
     await expect(browser.action.getBadgeText({ tabId: 7 })).resolves.toBe('');
   });
 
@@ -41,7 +41,7 @@ describe('REQ-POP-007 the Badge adapter sets a text per tab', () => {
     const logger = createInMemoryLogger();
     const gone = new Error('No tab with id: 7.');
     vi.spyOn(browser.action, 'setBadgeText').mockRejectedValueOnce(gone);
-    await expect(createBadge(logger).setText(7, '!')).resolves.toBeUndefined();
+    await expect(createBadge(logger).setState(7, 'attention')).resolves.toBeUndefined();
     expect(logger.entries).toEqual([
       { level: 'warn', message: 'Could not set the toolbar badge', detail: gone },
     ]);

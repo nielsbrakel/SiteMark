@@ -1,5 +1,5 @@
 import type { TabStatus } from '../../core/render/status';
-import type { Badge, BadgeText, StateRepo, Tabs } from '../ports';
+import type { Badge, StateRepo, Tabs } from '../ports';
 
 // The toolbar badge from the status each marker reports (TabStatus, src/core/render/status.ts).
 
@@ -23,15 +23,14 @@ export async function reportStatus(
   status: TabStatus,
 ): Promise<void> {
   const rendersFully = canFullyRender(status) && !(await isReadOnly(deps.stateRepo));
-  const text: BadgeText = rendersFully ? '' : '!';
-  await deps.badge.setText(tabId, text);
+  await deps.badge.setState(tabId, rendersFully ? 'none' : 'attention');
 }
 
-/** On start with read-only data (REQ-DATA-007): a "!" on every open tab. */
+/** On start with read-only data (REQ-DATA-007): the attention sticker on every open tab. */
 export async function showReadOnlyBadges(
   deps: ReportStatusDeps & { readonly tabs: Pick<Tabs, 'list'> },
 ): Promise<void> {
   if (!(await isReadOnly(deps.stateRepo))) return;
   const tabs = await deps.tabs.list();
-  await Promise.all(tabs.map((tab) => deps.badge.setText(tab.id, '!')));
+  await Promise.all(tabs.map((tab) => deps.badge.setState(tab.id, 'attention')));
 }

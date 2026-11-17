@@ -1,14 +1,14 @@
-import type { Badge, BadgeText } from '../ports';
+import type { Badge, BadgeState } from '../ports';
 
 export type InMemoryBadge = Badge & {
-  /** The badge text of a tab (`''` when never set). */
-  textOf(tabId: number): BadgeText;
+  /** The badge state of a tab (`'none'` when never set). */
+  stateOf(tabId: number): BadgeState;
 };
 
 export function createInMemoryBadge(): InMemoryBadge {
-  const texts = new Map<number, BadgeText>();
+  const states = new Map<number, BadgeState>();
   return {
-    setText: async (tabId, text) => void texts.set(tabId, text),
-    textOf: (tabId) => texts.get(tabId) ?? '',
+    setState: async (tabId, state) => void states.set(tabId, state),
+    stateOf: (tabId) => states.get(tabId) ?? 'none',
   };
 }

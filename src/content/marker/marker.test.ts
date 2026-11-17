@@ -68,7 +68,14 @@ describe('REQ-RND-005 the marker reports each element mark to the background', (
     expect(ports.requestPlan).toHaveBeenCalledOnce();
     expect(hosts.create).toHaveBeenCalledOnce();
     expect(ports.reportStatus.mock.calls).toEqual([
-      [{ marks: [{ markId: 'markApp00001', found: false }], favicon: 'off', hidden: false }],
+      [
+        {
+          marks: [{ markId: 'markApp00001', found: false }],
+          favicon: 'off',
+          hidden: false,
+          active: false,
+        },
+      ],
     ]);
   });
 
@@ -91,6 +98,7 @@ describe('REQ-RND-005 the marker reports each element mark to the background', (
       marks: [{ markId: 'markApp00001', found: true }],
       favicon: 'off',
       hidden: false,
+      active: false,
     });
   });
 
@@ -101,6 +109,7 @@ describe('REQ-RND-005 the marker reports each element mark to the background', (
       marks: [],
       favicon: 'off',
       hidden: true,
+      active: false,
     });
   });
 });

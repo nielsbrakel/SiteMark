@@ -323,6 +323,7 @@ describe('REQ-POP-002 the popup shows whether element marks found their target',
     ],
     favicon: 'off',
     hidden: false,
+    active: true,
     ...overrides,
   });
 
@@ -405,7 +406,7 @@ describe('REQ-POP-003 REQ-POP-008 REQ-RND-008 the popup offers Pick element and 
 
   it('has no Hide on this tab button: the group switches turn marks off, the shortcut hides them', async () => {
     const { background } = await openPopup(PAGE, production);
-    background.tabStatus = { marks: [], favicon: 'off', hidden: false };
+    background.tabStatus = { marks: [], favicon: 'off', hidden: false, active: true };
     await shown(() => screen.queryByRole('switch', { name: 'Production' }));
     expect(screen.queryByRole('button', { name: /Hide on this tab/ })).toBeNull();
   });
@@ -558,6 +559,7 @@ describe('REQ-I18N-003 the popup shows user content as typed, never translated',
       marks: [{ markId: asKey.id, found: true }],
       favicon: 'off',
       hidden: false,
+      active: true,
     };
     return opened;
   }

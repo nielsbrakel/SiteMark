@@ -68,13 +68,13 @@ describe('REQ-PRIV-003 every background start syncs the registration (D-231)', (
     expect(state.siteGroups.map((group) => group.name)).toEqual([prod.name, 'Staging']);
   });
 
-  it('marks every open tab "!" on start while the data is read-only (REQ-DATA-007)', async () => {
+  it('marks every open tab "attention" on start while the data is read-only (REQ-DATA-007)', async () => {
     const { app, ports } = setup({
       loaded: { mode: 'readOnly', state: emptyState(), schemaVersion: 2 },
       tabs: [{ id: 1 }, { id: 2 }],
     });
     await app.start();
-    expect([ports.badge.textOf(1), ports.badge.textOf(2)]).toEqual(['!', '!']);
+    expect([ports.badge.stateOf(1), ports.badge.stateOf(2)]).toEqual(['attention', 'attention']);
   });
 
   it('syncs after each saved change and pushes the new plans to the tabs (REQ-RND-007)', async () => {
@@ -141,15 +141,16 @@ describe('REQ-SEC-001 content intents act on the sender only', () => {
     expect((await app.handlers.renderPlanFor(undefined, other)).items).toEqual([]);
   });
 
-  it('shows the status badge on the sender tab (REQ-POP-007)', async () => {
+  it('shows the status sticker on the sender tab (REQ-POP-007, REQ-POP-010)', async () => {
     const { app, ports } = setup();
     const status: TabStatus = {
       marks: [{ markId: 'mark00000009' as MarkId, found: false }],
       favicon: 'off',
       hidden: false,
+      active: true,
     };
     await app.handlers.reportStatus(status, sender);
-    expect(ports.badge.textOf(4)).toBe('!');
+    expect(ports.badge.stateOf(4)).toBe('attention');
   });
 
   it('saves a pick to a group for the sender (REQ-PICK-005)', async () => {
@@ -189,7 +190,7 @@ describe('REQ-PICK-001 REQ-CMD-001 REQ-CMD-002 page messages and commands reach 
   });
 
   it('answers getTabStatus with the marker status, or not-injected', async () => {
-    const status: TabStatus = { marks: [], favicon: 'off', hidden: true };
+    const status: TabStatus = { marks: [], favicon: 'off', hidden: true, active: true };
     const { app, ports } = setup({ tabs: [{ id: 4, injected: true }, { id: 5 }] });
     ports.tabs.respondWith(4, () => status);
     expect(await app.handlers.getTabStatus({ tabId: 4 })).toEqual(status);
@@ -198,7 +199,7 @@ describe('REQ-PICK-001 REQ-CMD-001 REQ-CMD-002 page messages and commands reach 
 
   it('toggles hide from the popup and from the shortcut', async () => {
     const { app, ports } = setup({ tabs: [{ id: 4, injected: true }] });
-    ports.tabs.respondWith(4, () => ({ marks: [], favicon: 'off', hidden: false }));
+    ports.tabs.respondWith(4, () => ({ marks: [], favicon: 'off', hidden: false, active: true }));
     await app.handlers.toggleHidden({ tabId: 4 });
     await app.runCommand('toggle-hide', 4);
     const hides = ports.tabs.sent.filter(

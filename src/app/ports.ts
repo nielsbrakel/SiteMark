@@ -109,11 +109,15 @@ export type Tabs = {
 
 // ── Badge and logging ────────────────────────────────────────────────────────────────────────
 
-/** `!`: something can't fully render (REQ-POP-007); `✕`: restricted page; `''`: none. */
-export type BadgeText = '' | '!' | '✕';
+/**
+ * The sticker on a tab's toolbar icon (REQ-POP-010): `active` a site group applies here, `hidden` one
+ * applies but "Hide on this tab" is on, `attention` something can't fully render (REQ-POP-007),
+ * `restricted` the shortcut can't run on this page (REQ-CMD-001), `none` the plain icon.
+ */
+export type BadgeState = 'none' | 'active' | 'hidden' | 'attention' | 'restricted';
 
 export type Badge = {
-  setText(tabId: number, text: BadgeText): Promise<void>;
+  setState(tabId: number, state: BadgeState): Promise<void>;
 };
 
 /** Adds the `[SiteMark]` prefix (D-225). Never log page content, URLs or user text. */
