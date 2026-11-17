@@ -1,4 +1,5 @@
 import type { IdGen } from '../core/ids';
+import { notImplemented } from '../core/not-implemented';
 import type { OriginPattern } from '../core/url/origin';
 import { parseOriginPattern } from '../core/url/origin';
 import { type CommandQueue, createCommandQueue } from './command-queue';
@@ -57,6 +58,8 @@ export type BackgroundApp = {
   /** Runs on every background start (plan §3.1): registration sync and read-only badges. */
   start(): Promise<void>;
   /** `runtime.onInstalled`: the welcome tab on a fresh install (REQ-OPT-001), then a sync. */
+  /** Re-reads the tabs' URLs: stickers for sites whose groups are off (REQ-POP-010). */
+  refreshTabs(): Promise<void>;
   installed(reason: string): Promise<void>;
   /** Completes grants and follows revocations (D-229); the listeners are the ports'. */
   watchPermissions(): Unsubscribe;
@@ -145,6 +148,7 @@ export function createBackgroundApp(ports: BackgroundPorts): BackgroundApp {
     start: async () => {
       await Promise.all([syncRegistration(), showReadOnlyBadges({ badge, stateRepo, tabs })]);
     },
+    refreshTabs: async () => notImplemented(),
     installed: async (reason) => {
       if (reason === 'install') await ports.openOptions('/welcome');
       if (reason === 'update') await reinjectAfterUpdate(wired.grant);

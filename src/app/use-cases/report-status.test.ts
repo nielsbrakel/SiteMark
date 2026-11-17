@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import type { MarkId } from '../../core/ids';
 import { emptyState } from '../../core/model/defaults';
 import type { TabStatus } from '../../core/render/status';
+import { aSiteGroup, aState, aWildcardPattern } from '../../core/testing/builders';
 import type { LoadedState } from '../ports';
 import { createInMemoryBadge } from '../testing/in-memory-badge';
 import { createInMemoryStateRepo } from '../testing/in-memory-state-repo';
@@ -95,5 +96,32 @@ describe('REQ-POP-007 REQ-DATA-007 read-only data marks every open tab on start'
     const setState = vi.spyOn(badge, 'setState');
     await showReadOnlyBadges({ ...deps, tabs: createInMemoryTabs(openTabs) });
     expect(setState).not.toHaveBeenCalled();
+  });
+});
+
+describe('REQ-POP-010 a marker that reports nothing active still shows an off group', () => {
+  const PROD = [aWildcardPattern({ value: '*://prod.example.com/*' })];
+  const off = (enabled: boolean): LoadedState => ({
+    mode: 'normal',
+    state: aState({ siteGroups: [aSiteGroup({ patterns: PROD, enabled })] }),
+  });
+
+  it('shows "hidden" when a matching group is off', async () => {
+    const { badge, deps } = setup(off(false));
+    await reportStatus(deps, tab(7), idle);
+    expect(badge.stateOf(7)).toBe('hidden');
+  });
+
+  it('shows the plain icon when no group matches the site, or the matching group is on', async () => {
+    const { badge, deps } = setup(off(true));
+    await reportStatus(deps, tab(7), idle);
+    await reportStatus(deps, { tabId: 8, url: 'https://other.example.com/' }, idle);
+    expect([badge.stateOf(7), badge.stateOf(8)]).toEqual(['none', 'none']);
+  });
+
+  it('keeps "active" while another group on the site is off', async () => {
+    const { badge, deps } = setup(off(false));
+    await reportStatus(deps, tab(7), status());
+    expect(badge.stateOf(7)).toBe('active');
   });
 });
