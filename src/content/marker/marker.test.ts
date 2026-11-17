@@ -73,7 +73,7 @@ describe('REQ-RND-005 the marker reports each element mark to the background', (
           marks: [{ markId: 'markApp00001', found: false }],
           favicon: 'off',
           hidden: false,
-          active: false,
+          active: true,
         },
       ],
     ]);
@@ -98,7 +98,7 @@ describe('REQ-RND-005 the marker reports each element mark to the background', (
       marks: [{ markId: 'markApp00001', found: true }],
       favicon: 'off',
       hidden: false,
-      active: false,
+      active: true,
     });
   });
 
@@ -109,7 +109,7 @@ describe('REQ-RND-005 the marker reports each element mark to the background', (
       marks: [],
       favicon: 'off',
       hidden: true,
-      active: false,
+      active: true,
     });
   });
 });

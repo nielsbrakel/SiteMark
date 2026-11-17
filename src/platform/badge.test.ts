@@ -1,49 +1,59 @@
-import { readFileSync } from 'node:fs';
-import { describe, expect, it, vi } from 'vitest';
+import { existsSync, readFileSync } from 'node:fs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { browser } from 'wxt/browser';
+import type { BadgeState } from '../app/ports';
 import { createInMemoryLogger } from '../app/testing/in-memory-logger';
-import { contrastRatio } from '../core/model/color';
-import type { Hex } from '../core/model/schema';
-import { badgeColors, createBadge } from './badge';
+import { badgeIconPaths, createBadge } from './badge';
 
-const rgba = (hex: string) => [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16));
+const STATES: readonly BadgeState[] = ['none', 'active', 'hidden', 'attention', 'restricted'];
+const setIcon = vi.fn();
 
-/** The light-theme `--sm-warning` token (the first definition in tokens.css). */
-function warningToken(): string {
-  const tokens = readFileSync('src/styles/tokens.css', 'utf8');
-  return /--sm-warning:\s*(#[0-9a-f]{6})/i.exec(tokens)?.[1] ?? '';
+beforeEach(() => {
+  // The fake browser has no `action.setIcon`.
+  setIcon.mockReset().mockResolvedValue(undefined);
+  Object.assign(browser.action, { setIcon });
+});
+
+/** The width and height in the PNG header of a file in `public/`, or undefined when it is missing. */
+function pngSize(path: string): [number, number] | undefined {
+  const file = `public/${path}`;
+  if (!existsSync(file)) return undefined;
+  const header = readFileSync(file);
+  return [header.readUInt32BE(16), header.readUInt32BE(20)];
 }
 
-describe('REQ-POP-007 the Badge adapter sets a text per tab', () => {
-  it('shows the text on that tab only, in the warning color', async () => {
-    await createBadge(createInMemoryLogger()).setState(7, 'attention');
-    await expect(browser.action.getBadgeText({ tabId: 7 })).resolves.toBe('!');
-    await expect(browser.action.getBadgeText({ tabId: 8 })).resolves.toBe('');
-    const background = await browser.action.getBadgeBackgroundColor({ tabId: 7 });
-    expect(background).toEqual([...rgba(badgeColors().background), 255]);
-    await expect(browser.action.getBadgeTextColor({ tabId: 7 })).resolves.toBe(badgeColors().text);
+describe('REQ-POP-010 the Badge adapter sets the icon of one tab', () => {
+  it('uses the plain icons for "none" and the sticker icons for the other states', () => {
+    expect(badgeIconPaths('none')).toEqual({
+      16: 'icon/16.png',
+      32: 'icon/32.png',
+      48: 'icon/48.png',
+    });
+    expect(badgeIconPaths('attention')).toEqual({
+      16: 'icon/attention-16.png',
+      32: 'icon/attention-32.png',
+      48: 'icon/attention-48.png',
+    });
   });
 
-  it('clears the text', async () => {
-    const badge = createBadge(createInMemoryLogger());
-    await badge.setState(7, 'attention');
-    await badge.setState(7, 'none');
-    await expect(browser.action.getBadgeText({ tabId: 7 })).resolves.toBe('');
+  it.each(STATES)('has every icon file of "%s" at its own size', (state) => {
+    for (const [size, path] of Object.entries(badgeIconPaths(state))) {
+      expect(pngSize(path), path).toEqual([Number(size), Number(size)]);
+    }
   });
 
-  it('uses the warning token, with AA-contrast text on it (REQ-A11Y-001)', () => {
-    const { background, text } = badgeColors();
-    expect(background).toBe(warningToken());
-    expect(contrastRatio(background as Hex, text as Hex)).toBeGreaterThanOrEqual(4.5);
+  it('sets the icon on that tab only', async () => {
+    await createBadge(createInMemoryLogger()).setState(7, 'active');
+    expect(setIcon).toHaveBeenCalledExactlyOnceWith({ tabId: 7, path: badgeIconPaths('active') });
   });
 
   it('logs a failure (e.g. a closed tab) instead of rejecting', async () => {
     const logger = createInMemoryLogger();
     const gone = new Error('No tab with id: 7.');
-    vi.spyOn(browser.action, 'setBadgeText').mockRejectedValueOnce(gone);
-    await expect(createBadge(logger).setState(7, 'attention')).resolves.toBeUndefined();
+    setIcon.mockRejectedValueOnce(gone);
+    await expect(createBadge(logger).setState(7, 'hidden')).resolves.toBeUndefined();
     expect(logger.entries).toEqual([
-      { level: 'warn', message: 'Could not set the toolbar badge', detail: gone },
+      { level: 'warn', message: 'Could not set the toolbar icon', detail: gone },
     ]);
   });
 });

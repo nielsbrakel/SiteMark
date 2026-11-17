@@ -6,7 +6,7 @@ import type { LoadedState } from '../ports';
 import { createInMemoryBadge } from '../testing/in-memory-badge';
 import { createInMemoryStateRepo } from '../testing/in-memory-state-repo';
 import { createInMemoryTabs } from '../testing/in-memory-tabs';
-import { reportStatus, showReadOnlyBadges } from './report-status';
+import { reportStatus, showReadOnlyBadges, toolbarState } from './report-status';
 
 const OUTLINE = 'mark-outline' as MarkId;
 const RIBBON = 'mark-ribbon1' as MarkId;
@@ -30,42 +30,47 @@ const status = (overrides: Partial<TabStatus> = {}): TabStatus => ({
   ...overrides,
 });
 
-describe('REQ-POP-007 a toolbar badge "!" where an active site group cannot fully render (D-219)', () => {
-  it('shows no badge when everything renders', async () => {
+const idle = status({ marks: [], favicon: 'off', active: false });
+const missing = status({ marks: [{ markId: OUTLINE, found: false }] });
+
+describe('REQ-POP-010 REQ-POP-007 the toolbar sticker follows the tab status (D-219, D-303)', () => {
+  it.each([
+    ['no active group', idle, 'none'],
+    ['an active group that renders fully', status(), 'active'],
+    ['an active group without marks or favicon', status({ marks: [], favicon: 'off' }), 'active'],
+    ['"Hide on this tab"', status({ hidden: true }), 'hidden'],
+    ['a missing element', missing, 'attention'],
+    ['a favicon that cannot be tinted', status({ favicon: 'unavailable' }), 'attention'],
+    ['a missing element while hidden', { ...missing, hidden: true }, 'attention'],
+  ] as const)('is %s: %s', (_, tabStatus, expected) => {
+    expect(toolbarState(tabStatus, false)).toBe(expected);
+  });
+
+  it('is "attention" while the data is read-only (REQ-DATA-007)', () => {
+    expect(toolbarState(status(), true)).toBe('attention');
+    expect(toolbarState(idle, true)).toBe('attention');
+  });
+
+  it('sets the sticker of the reporting tab only', async () => {
     const { badge, deps } = setup();
-    const setState = vi.spyOn(badge, 'setState');
     await reportStatus(deps, 7, status());
-    await reportStatus(deps, 8, status({ marks: [], favicon: 'off' }));
-    expect(setState.mock.calls).toEqual([
-      [7, 'none'],
-      [8, 'none'],
+    await reportStatus(deps, 8, missing);
+    expect([badge.stateOf(7), badge.stateOf(8), badge.stateOf(9)]).toEqual([
+      'active',
+      'attention',
+      'none',
     ]);
   });
 
-  it('shows "attention" when an element is missing', async () => {
+  it('follows the tab as it is hidden, resolved and emptied', async () => {
     const { badge, deps } = setup();
-    await reportStatus(deps, 7, status({ marks: [{ markId: OUTLINE, found: false }] }));
-    expect(badge.stateOf(7)).toBe('attention');
-  });
-
-  it('shows "attention" when the favicon cannot be tinted', async () => {
-    const { badge, deps } = setup();
-    await reportStatus(deps, 7, status({ favicon: 'unavailable' }));
-    expect(badge.stateOf(7)).toBe('attention');
-  });
-
-  it('clears the badge once the problem is resolved', async () => {
-    const { badge, deps } = setup();
-    await reportStatus(deps, 7, status({ marks: [{ markId: OUTLINE, found: false }] }));
+    await reportStatus(deps, 7, missing);
     await reportStatus(deps, 7, status());
+    expect(badge.stateOf(7)).toBe('active');
+    await reportStatus(deps, 7, status({ hidden: true }));
+    expect(badge.stateOf(7)).toBe('hidden');
+    await reportStatus(deps, 7, idle);
     expect(badge.stateOf(7)).toBe('none');
-  });
-
-  it('keeps a badge per tab', async () => {
-    const { badge, deps } = setup();
-    await reportStatus(deps, 7, status({ favicon: 'unavailable' }));
-    await reportStatus(deps, 8, status());
-    expect([badge.stateOf(7), badge.stateOf(8)]).toEqual(['attention', 'none']);
   });
 
   it('shows "attention" on every reporting tab while the data is read-only (REQ-DATA-007)', async () => {

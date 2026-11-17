@@ -54,7 +54,7 @@ describe('REQ-RND-005 the tab reports the status of every element mark', () => {
       ],
       favicon: 'off',
       hidden: false,
-      active: false,
+      active: true,
     });
   });
 
@@ -67,6 +67,17 @@ describe('REQ-RND-005 the tab reports the status of every element mark', () => {
       hidden: false,
       active: false,
     });
+  });
+
+  it('reports an active group while the plan has items, also with page marks only or hidden (REQ-POP-010)', () => {
+    const { renderer } = aRenderer();
+    expect(renderer.status().active).toBe(false);
+    renderer.apply(aPlan(ribbon));
+    expect(renderer.status().active).toBe(true);
+    renderer.setHidden(true);
+    expect(renderer.status().active).toBe(true);
+    renderer.apply(emptyPlan());
+    expect(renderer.status().active).toBe(false);
   });
 
   it('tells the marker when a missing element shows up (200 ms after the DOM change)', async () => {

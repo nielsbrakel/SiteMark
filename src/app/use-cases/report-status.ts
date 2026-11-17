@@ -1,29 +1,33 @@
+import { notImplemented } from '../../core/not-implemented';
 import type { TabStatus } from '../../core/render/status';
-import type { Badge, StateRepo, Tabs } from '../ports';
+import type { Badge, BadgeState, StateRepo, Tabs } from '../ports';
 
-// The toolbar badge from the status each marker reports (TabStatus, src/core/render/status.ts).
+// The toolbar sticker from the status each marker reports (TabStatus, src/core/render/status.ts).
 
 export type ReportStatusDeps = {
   readonly badge: Badge;
   readonly stateRepo: Pick<StateRepo, 'load'>;
 };
 
-function canFullyRender(status: TabStatus): boolean {
-  return status.favicon !== 'unavailable' && status.marks.every((mark) => mark.found);
-}
-
 async function isReadOnly(stateRepo: ReportStatusDeps['stateRepo']): Promise<boolean> {
   return (await stateRepo.load()).mode === 'readOnly';
 }
 
-/** Shows or clears the tab's "!" badge from the marker's latest status (REQ-POP-007, D-219). */
+/**
+ * What the tab's toolbar icon shows (REQ-POP-010, REQ-POP-007): `attention` beats `hidden` beats
+ * `active`, and a tab with no active site group has the plain icon.
+ */
+export function toolbarState(_status: TabStatus, _readOnly: boolean): BadgeState {
+  return notImplemented();
+}
+
+/** Sets the tab's toolbar sticker from the marker's latest status (REQ-POP-010, D-219). */
 export async function reportStatus(
   deps: ReportStatusDeps,
   tabId: number,
   status: TabStatus,
 ): Promise<void> {
-  const rendersFully = canFullyRender(status) && !(await isReadOnly(deps.stateRepo));
-  await deps.badge.setState(tabId, rendersFully ? 'none' : 'attention');
+  await deps.badge.setState(tabId, toolbarState(status, await isReadOnly(deps.stateRepo)));
 }
 
 /** On start with read-only data (REQ-DATA-007): the attention sticker on every open tab. */
