@@ -3,7 +3,7 @@ import { dispatchCommand, restartServiceWorker, sendFromPage } from './backgroun
 import { expect, test } from './fixtures';
 import { E2E_PORT, fixtureUrl } from './hosts';
 import { waitForMarker } from './marker';
-import { seedSiteGroup } from './state';
+import { aRibbonMark, seedSiteGroup } from './state';
 
 // The background composition root in the real extension (T-074, T-076).
 
@@ -111,4 +111,37 @@ test('the icon carries the active and hidden stickers on a marked site @REQ-POP-
   await expect
     .poll(() => seenIcons(serviceWorker))
     .toEqual(['icon/active-16.png', 'icon/hidden-16.png']);
+});
+
+test('a group that is switched off puts the grey sticker on the icon @REQ-POP-010', async ({
+  context,
+  extensionId,
+  serviceWorker,
+}) => {
+  const state = await seedSiteGroup(context, extensionId, {
+    patterns: ['*://prod.sitemark.test/*'],
+    marks: [aRibbonMark('PROD')],
+  });
+  const groupId = state.siteGroups.at(-1)?.id;
+  await recordIcons(serviceWorker);
+  const page = await context.newPage();
+  await page.goto(fixtureUrl('prod'));
+  await page.bringToFront();
+  await waitForMarker(page);
+  await expect.poll(async () => (await seenIcons(serviceWorker)).at(-1)).toBe('icon/active-16.png');
+
+  const popup = await context.newPage();
+  await popup.goto(`chrome-extension://${extensionId}/popup.html`);
+  await sendFromPage(popup, {
+    type: 'command',
+    data: { type: 'setSiteGroupEnabled', id: groupId, enabled: false },
+  });
+  await expect.poll(async () => (await seenIcons(serviceWorker)).at(-1)).toBe('icon/hidden-16.png');
+
+  // A tab that opens on the site later is greyed too: the browser reports its URL (no marker runs).
+  const before = (await seenIcons(serviceWorker)).length;
+  const another = await context.newPage();
+  await another.goto(fixtureUrl('prod', 'spa/'));
+  await expect.poll(async () => (await seenIcons(serviceWorker)).length).toBeGreaterThan(before);
+  expect((await seenIcons(serviceWorker)).at(-1)).toBe('icon/hidden-16.png');
 });

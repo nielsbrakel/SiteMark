@@ -1,5 +1,4 @@
 import type { IdGen } from '../core/ids';
-import { notImplemented } from '../core/not-implemented';
 import type { OriginPattern } from '../core/url/origin';
 import { parseOriginPattern } from '../core/url/origin';
 import { type CommandQueue, createCommandQueue } from './command-queue';
@@ -17,6 +16,7 @@ import { type GrantDeps, reinjectAfterUpdate, watchPermissions } from './use-cas
 import { applyImportFile, type ImportDataDeps, previewImportFile } from './use-cases/import-data';
 import { type CommandName, runKeyboardCommand } from './use-cases/keyboard-command';
 import { markThisSite } from './use-cases/mark-this-site';
+import { showOffStickers } from './use-cases/off-stickers';
 import { isSenderGranted, showOnTab } from './use-cases/picked-tab';
 import { pickerContext } from './use-cases/picker-context';
 import { pushPlans, renderPlanFor } from './use-cases/render-plan';
@@ -73,7 +73,7 @@ type Wired = {
 };
 
 function wire(ports: BackgroundPorts): Wired {
-  const { stateRepo, permissions, registrar, tabs, logger, idGen, markerFiles } = ports;
+  const { stateRepo, permissions, registrar, tabs, badge, logger, idGen, markerFiles } = ports;
   const syncRegistration = createSyncRegistration({ stateRepo, permissions, registrar, logger });
   const queue = createCommandQueue({
     repo: stateRepo,
@@ -81,7 +81,11 @@ function wire(ports: BackgroundPorts): Wired {
     logger,
     // Every saved change: new plans to the tabs (REQ-RND-007), registration in step (D-231).
     onCommitted: async (state) => {
-      await Promise.all([pushPlans(tabs, state), syncRegistration()]);
+      await Promise.all([
+        pushPlans(tabs, state),
+        syncRegistration(),
+        showOffStickers({ badge, tabs, stateRepo }),
+      ]);
     },
   });
   const grant: GrantDeps = { syncRegistration, registrar, tabs, markerFiles };
@@ -146,9 +150,13 @@ export function createBackgroundApp(ports: BackgroundPorts): BackgroundApp {
     handlers: { ...pageHandlers(wired), ...contentHandlers(wired) },
     runCommand: (name, tabId) => runKeyboardCommand(ports, name, tabId),
     start: async () => {
-      await Promise.all([syncRegistration(), showReadOnlyBadges({ badge, stateRepo, tabs })]);
+      await Promise.all([
+        syncRegistration(),
+        showReadOnlyBadges({ badge, stateRepo, tabs }),
+        showOffStickers({ badge, tabs, stateRepo }),
+      ]);
     },
-    refreshTabs: async () => notImplemented(),
+    refreshTabs: () => showOffStickers({ badge, tabs, stateRepo }),
     installed: async (reason) => {
       if (reason === 'install') await ports.openOptions('/welcome');
       if (reason === 'update') await reinjectAfterUpdate(wired.grant);
