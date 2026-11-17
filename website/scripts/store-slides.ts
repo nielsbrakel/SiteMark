@@ -18,6 +18,7 @@ import {
   place,
   type Shot,
   type Shots,
+  type ToolbarIcon,
   VIEW,
 } from './store-art';
 import { COPY, type Copy } from './store-copy';
@@ -33,7 +34,7 @@ function production(c: Copy['production'], shot: Shot): Composed {
   const ribbonAt: [number, number] = [ribbon.x - 70, ribbon.y + ribbon.height / 2];
   const buttonAt: [number, number] = [button.x + button.width + 40, button.y + button.height / 2];
   return {
-    body: `${header(c.head, c.sub)}${frame(x, y, shot.width * scale, shot.height * scale, shot, place(shot, 0, 0, scale).img(0, 0))}`,
+    body: `${header(c.head, c.sub)}${frame(x, y, shot.width * scale, shot.height * scale, shot, place(shot, 0, 0, scale).img(0, 0), 'active-32')}`,
     notes: [
       choices(
         ribbon,
@@ -75,14 +76,14 @@ function environments(c: Copy['environments'], shots: Shot[]): Composed {
     // The three frames and their host lines, centred between the frame edges.
     const top = (FRAME.top + FRAME.bottom - (height + CHROME.y + 3) - 60) / 2 + CHROME.y;
     const [x, y] = [FRAME.margin + 3 + i * (width + 6 + gap), top + (i % 2) * 12];
-    return `${frame(x, y, width, height, shot, place(shot, 0, 0, scale).img(0, 0))}
+    return `${frame(x, y, width, height, shot, place(shot, 0, 0, scale).img(0, 0), 'active-32')}
       <div class="host" style="left:${x}px;top:${y + height + 22}px"><span class="dot" style="background:${colors[i]}"></span>${html(shot.host)}</div>`;
   });
   return { body: `${header(c.head, c.sub)}${frames.join('')}`, notes: [], targets: [], avoid: [] };
 }
 
 /** The popup over its page, coming from the toolbar icon at the frame's top right (slides 3 and 6). */
-function popupOver(page: Shot, panel: Shot, x: number, width: number) {
+function popupOver(page: Shot, panel: Shot, x: number, width: number, toolbar: ToolbarIcon) {
   const scale = width / page.width;
   const [y, height] = [VIEW.top, VIEW.height];
   const popupScale = Math.min(1.35, (height - 4) / panel.height);
@@ -95,7 +96,7 @@ function popupOver(page: Shot, panel: Shot, x: number, width: number) {
     .texts()
     .filter((box) => box.x + box.width > x && box.x < cover.x);
   return {
-    html: frame(x, y, width, height, page, body, true),
+    html: frame(x, y, width, height, page, body, toolbar),
     at: popup.at,
     left: x + left,
     avoid: visible,
@@ -103,7 +104,7 @@ function popupOver(page: Shot, panel: Shot, x: number, width: number) {
 }
 
 function popupSlide(c: Copy['popup'], shots: Shots['popup']): Composed {
-  const popup = popupOver(shots.page, shots.panel, FRAME.margin + CHROME.x, WIDE);
+  const popup = popupOver(shots.page, shots.panel, FRAME.margin + CHROME.x, WIDE, '32');
   const button = popup.at('button');
   const from: [number, number] = [popup.left - 90, button.y + button.height / 2];
   const steps: [number, number][] = [
@@ -133,7 +134,7 @@ function picker(c: Copy['picker'], shot: Shot): Composed {
   const save = at('save');
   const from: [number, number] = [x + width + 50, save.y - 30];
   return {
-    body: `${header(c.head, c.sub)}${frame(x, y, width, height, shot, place(shot, 0, 0, scale).img(0, 0))}`,
+    body: `${header(c.head, c.sub)}${frame(x, y, width, height, shot, place(shot, 0, 0, scale).img(0, 0), 'active-32')}`,
     notes: [
       choices(
         save,
@@ -167,7 +168,13 @@ export type Slide = {
 /** The six store images of one language, in upload order (Chrome takes the first five). */
 export function slides(locale: Locale, shots: Shots, theme: ScreenshotTheme): Slide[] {
   const c = COPY[locale];
-  const privacy = popupOver(shots.privacy.page, shots.privacy.panel, FRAME.margin + 3, 760);
+  const privacy = popupOver(
+    shots.privacy.page,
+    shots.privacy.panel,
+    FRAME.margin + 3,
+    760,
+    'active-32',
+  );
   const list: (Composed & { file: string })[] = [
     { file: '1-production', ...production(c.production, shots.production) },
     { file: '2-environments', ...environments(c.environments, shots.environments) },

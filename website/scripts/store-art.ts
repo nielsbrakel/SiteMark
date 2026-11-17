@@ -40,7 +40,10 @@ const repository = path.resolve(import.meta.dirname, '../..');
 const base64 = (file: string) => readFileSync(path.join(repository, file)).toString('base64');
 const font = (family: string, file: string) =>
   `@font-face{font-family:'${family}';src:url(data:font/woff2;base64,${base64(`src/assets/fonts/${file}`)})}`;
-const ICON = `data:image/png;base64,${base64('public/icon/32.png')}`;
+const icon = (name: string) => `data:image/png;base64,${base64(`public/icon/${name}.png`)}`;
+
+/** The toolbar icon a frame shows: plain when no site group applies, with the green check when one is active. */
+export type ToolbarIcon = '32' | 'active-32';
 
 export const CSS = `${font('Caveat Brush', 'caveat-brush-latin.woff2')}${font('Patrick Hand', 'patrick-hand-latin.woff2')}
 html,body{margin:0}*{box-sizing:border-box}
@@ -103,11 +106,11 @@ export function frame(
   height: number,
   shot: Shot,
   body: string,
-  icon = false,
+  toolbar?: ToolbarIcon,
 ) {
   return `${tape(x - CHROME.x + width / 2 + 3 - 48, y - 14 - CHROME.y)}<div class="frame" style="left:${x - CHROME.x}px;top:${y - CHROME.y}px;width:${width + 6}px">
     <div class="tabs"><span class="tab">${html(shot.title)}</span></div>
-    <div class="bar"><span class="url">${html(shot.host)}</span>${icon ? `<img src="${ICON}" alt="">` : ''}</div>
+    <div class="bar"><span class="url">${html(shot.host)}</span>${toolbar ? `<img src="${icon(toolbar)}" alt="">` : ''}</div>
     <div class="view" style="height:${height}px">${body}</div></div>`;
 }
 
