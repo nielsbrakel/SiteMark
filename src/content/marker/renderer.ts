@@ -52,7 +52,12 @@ function stageFor(
 }
 
 function statusOf(stage: Stage | undefined, effects: DocumentEffects, hidden: boolean): TabStatus {
-  return { marks: stage?.marks() ?? [], favicon: effects.faviconStatus(), hidden, active: false };
+  return {
+    marks: stage?.marks() ?? [],
+    favicon: effects.faviconStatus(),
+    hidden,
+    active: stage !== undefined,
+  };
 }
 
 /**
