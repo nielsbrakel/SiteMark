@@ -53,6 +53,25 @@ function setup(options: Options = {}) {
   return { ports, app: createBackgroundApp(ports) };
 }
 
+describe('REQ-POP-010 the toolbar icon shows a site whose group is off', () => {
+  const off = aState({ siteGroups: [{ ...prod, enabled: false }] });
+
+  it('greys the tab after the group is switched off', async () => {
+    const { app, ports } = setup();
+    await app.handlers.command({ type: 'setSiteGroupEnabled', id: prod.id, enabled: false });
+    expect(ports.badge.stateOf(4)).toBe('hidden');
+  });
+
+  it('greys the tab of an off group on start and when the tabs change', async () => {
+    const { app, ports } = setup({ state: off });
+    await app.start();
+    expect(ports.badge.stateOf(4)).toBe('hidden');
+    await ports.badge.setState(4, 'none');
+    await app.refreshTabs();
+    expect(ports.badge.stateOf(4)).toBe('hidden');
+  });
+});
+
 describe('REQ-PRIV-003 every background start syncs the registration (D-231)', () => {
   it('registers the marker for granted origins of enabled groups on start', async () => {
     const { app, ports } = setup();

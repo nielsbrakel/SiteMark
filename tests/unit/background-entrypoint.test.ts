@@ -36,6 +36,7 @@ describe('REQ-PRIV-003 REQ-SEC-003 the background registers every listener synch
       granted: fakes().permissions.api.onAdded.hasListeners(),
       revoked: fakes().permissions.api.onRemoved.hasListeners(),
       commands: fakes().commands.api.onCommand.hasListeners(),
+      tabs: fakeBrowser.tabs.onUpdated.hasListeners(),
       installed: fakeBrowser.runtime.onInstalled.hasListeners(),
       startup: fakeBrowser.runtime.onStartup.hasListeners(),
     }).toEqual({
@@ -43,6 +44,7 @@ describe('REQ-PRIV-003 REQ-SEC-003 the background registers every listener synch
       granted: true,
       revoked: true,
       commands: true,
+      tabs: true,
       installed: true,
       startup: true,
     });
