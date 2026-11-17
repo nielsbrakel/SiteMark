@@ -13,6 +13,7 @@ import { createPermissions } from './permissions';
 import { pickerFiles } from './picker-files';
 import { createScriptRegistrar, markerFiles } from './registration';
 import { createStateRepo, restrictStorageAccess } from './state-repo';
+import { listenForTabChanges } from './tab-changes';
 import { createTabs } from './tabs';
 
 // The background's adapters and listeners (T-076, plan §3.1). Every listener is registered
@@ -52,6 +53,7 @@ export function startBackground(): void {
   listenForMessages(app.handlers, logger);
   app.watchPermissions();
   listenForCommands(dispatch);
+  listenForTabChanges(() => void app.refreshTabs());
   browser.runtime.onInstalled.addListener(({ reason }) => void app.installed(reason));
   // Browser start: main() below already runs the start-up work; the listener makes sure an event
   // page (Firefox) is woken for it at all.

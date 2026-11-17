@@ -1,4 +1,5 @@
 import type { TabStatus } from '../../core/render/status';
+import { hasOffGroup } from '../../core/url/off-groups';
 import type { Badge, BadgeState, StateRepo, Tabs } from '../ports';
 import type { ContentSender } from '../protocol';
 
@@ -27,13 +28,18 @@ export function toolbarState(status: TabStatus, readOnly: boolean): BadgeState {
   return status.hidden ? 'hidden' : 'active';
 }
 
-/** Sets the tab's toolbar sticker from the marker's latest status (REQ-POP-010, D-219). */
+/**
+ * Sets the tab's toolbar sticker from the marker's latest status (REQ-POP-010, D-219). A marker with
+ * nothing active leaves the grey sticker where a site group is switched off (D-304).
+ */
 export async function reportStatus(
   deps: ReportStatusDeps,
-  { tabId }: Pick<ContentSender, 'tabId' | 'url'>,
+  { tabId, url }: Pick<ContentSender, 'tabId' | 'url'>,
   status: TabStatus,
 ): Promise<void> {
-  await deps.badge.setState(tabId, toolbarState(status, await isReadOnly(deps.stateRepo)));
+  const { mode, state } = await deps.stateRepo.load();
+  const shown = toolbarState(status, mode === 'readOnly');
+  await deps.badge.setState(tabId, shown === 'none' && hasOffGroup(state, url) ? 'hidden' : shown);
 }
 
 /** On start with read-only data (REQ-DATA-007): the attention sticker on every open tab. */
