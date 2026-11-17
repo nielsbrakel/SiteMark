@@ -9,6 +9,7 @@ const status: TabStatus = {
   marks: [{ markId: 'mark00000001' as MarkId, found: true }],
   favicon: 'off',
   hidden: true,
+  active: true,
 };
 
 describe('REQ-SEC-003 REQ-POP-002 the background validates the status a content script answers', () => {

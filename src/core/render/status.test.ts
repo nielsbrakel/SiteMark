@@ -10,6 +10,7 @@ const status: TabStatus = {
   ],
   favicon: 'unavailable',
   hidden: false,
+  active: true,
 };
 
 describe('REQ-SEC-003 REQ-POP-002 a tab status from a content script is validated', () => {
@@ -23,6 +24,7 @@ describe('REQ-SEC-003 REQ-POP-002 a tab status from a content script is validate
   it.each([
     ['favicon', { ...status, favicon: 'broken' }],
     ['hidden', { ...status, hidden: 'no' }],
+    ['active', { ...status, active: 'yes' }],
     ['marks[0].markId', { ...status, marks: [{ markId: 'x', found: true }] }],
     ['marks[0].found', { ...status, marks: [{ markId: 'mark00000001' }] }],
     ['marks[0]', { ...status, marks: [{ markId: 'mark00000001', found: true, text: 'x' }] }],

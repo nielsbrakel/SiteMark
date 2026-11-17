@@ -39,7 +39,7 @@ describe('REQ-PICK-007 a re-pick tells the new picker which mark it replaces', (
   });
 });
 
-describe('REQ-CMD-001 a "✕" badge briefly marks a page where the shortcut can not run', () => {
+describe('REQ-CMD-001 a "✕" sticker briefly marks a page where the shortcut can not run', () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -50,10 +50,10 @@ describe('REQ-CMD-001 a "✕" badge briefly marks a page where the shortcut can 
   it('shows "✕" and clears it after 2 seconds', async () => {
     const { badge } = setup();
     await flashRestricted(badge, 7);
-    expect(badge.textOf(7)).toBe('✕');
+    expect(badge.stateOf(7)).toBe('restricted');
     await vi.advanceTimersByTimeAsync(1999);
-    expect(badge.textOf(7)).toBe('✕');
+    expect(badge.stateOf(7)).toBe('restricted');
     await vi.advanceTimersByTimeAsync(1);
-    expect(badge.textOf(7)).toBe('');
+    expect(badge.stateOf(7)).toBe('none');
   });
 });

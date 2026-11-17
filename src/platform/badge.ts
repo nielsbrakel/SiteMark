@@ -1,5 +1,5 @@
 import { browser } from 'wxt/browser';
-import type { Badge, Logger } from '../app/ports';
+import type { Badge, BadgeState, Logger } from '../app/ports';
 
 /**
  * JavaScript can't read tokens.css, so the badge copies the light-theme `--sm-warning` token
@@ -7,6 +7,15 @@ import type { Badge, Logger } from '../app/ports';
  * page, so it doesn't follow the theme; white text on it has 6.7:1 contrast.
  */
 const COLORS = { background: '#7d5400', text: '#ffffff' } as const;
+
+/** The text of each state: `!` for attention, `✕` for a restricted page, none otherwise. */
+const TEXTS: Record<BadgeState, string> = {
+  none: '',
+  active: '',
+  hidden: '',
+  attention: '!',
+  restricted: '✕',
+};
 
 /** The badge colors: JavaScript can't read tokens.css, so the values are copied (and tested). */
 export function badgeColors(): { readonly background: string; readonly text: string } {
@@ -19,7 +28,8 @@ export function badgeColors(): { readonly background: string; readonly text: str
  */
 export function createBadge(logger: Logger): Badge {
   return {
-    setText: async (tabId, text) => {
+    setState: async (tabId, state) => {
+      const text = TEXTS[state];
       const { action } = browser;
       try {
         await Promise.all([

@@ -21,23 +21,23 @@ describe('REQ-CMD-001 start-picker starts the picker on the tab', () => {
     const { deps, tabs, badge } = setup({ id: 3 });
     await runKeyboardCommand(deps, 'start-picker', 3);
     expect(tabs.injections).toEqual([{ tabId: 3, files: PICKER }]);
-    expect(badge.textOf(3)).toBe('');
+    expect(badge.stateOf(3)).toBe('none');
   });
 
   it('briefly shows "✕" where it can not run', async () => {
     vi.useFakeTimers();
     const { deps, badge } = setup({ id: 3, restricted: true });
     await runKeyboardCommand(deps, 'start-picker', 3);
-    expect(badge.textOf(3)).toBe('✕');
+    expect(badge.stateOf(3)).toBe('restricted');
     await vi.advanceTimersByTimeAsync(2000);
-    expect(badge.textOf(3)).toBe('');
+    expect(badge.stateOf(3)).toBe('none');
   });
 });
 
 describe('REQ-CMD-002 toggle-hide toggles "Hide on this tab"', () => {
   it('flips the hidden state of the marker in the tab', async () => {
     const { deps, tabs } = setup({ id: 3, injected: true });
-    const shown: TabStatus = { marks: [], favicon: 'off', hidden: false };
+    const shown: TabStatus = { marks: [], favicon: 'off', hidden: false, active: true };
     tabs.respondWith(3, () => shown);
     await runKeyboardCommand(deps, 'toggle-hide', 3);
     expect(tabs.sent.at(-1)).toEqual({

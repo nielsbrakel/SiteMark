@@ -141,12 +141,16 @@ describe('REQ-NFR-004 the in-memory Tabs only see what the background may see', 
 });
 
 describe('REQ-NFR-004 the in-memory Badge and Logger record what they are given', () => {
-  it('keeps a badge text per tab', async () => {
+  it('keeps a badge state per tab', async () => {
     const badge = createInMemoryBadge();
-    await badge.setText(1, '!');
-    await badge.setText(2, '✕');
-    await badge.setText(2, '');
-    expect([badge.textOf(1), badge.textOf(2), badge.textOf(3)]).toEqual(['!', '', '']);
+    await badge.setState(1, 'attention');
+    await badge.setState(2, 'restricted');
+    await badge.setState(2, 'none');
+    expect([badge.stateOf(1), badge.stateOf(2), badge.stateOf(3)]).toEqual([
+      'attention',
+      'none',
+      'none',
+    ]);
   });
 
   it('records log entries in order', () => {

@@ -27,7 +27,7 @@ export type Marker = {
 };
 
 /** What the background assumes for a tab that never reported (REQ-RND-009: idle stays silent). */
-const IDLE: TabStatus = { marks: [], favicon: 'off', hidden: false };
+const IDLE: TabStatus = { marks: [], favicon: 'off', hidden: false, active: false };
 
 /**
  * The marker content script (plan §3.3): asks for its render plan at start and after every URL

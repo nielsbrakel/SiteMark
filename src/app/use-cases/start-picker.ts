@@ -37,9 +37,9 @@ export async function startPicker(
   return ok(undefined);
 }
 
-/** The "✕" badge, shown briefly on a page where the shortcut can't run (REQ-CMD-001). */
+/** The "✕" sticker, shown briefly on a page where the shortcut can't run (REQ-CMD-001). */
 export async function flashRestricted(badge: Badge, tabId: number): Promise<void> {
-  await badge.setText(tabId, '✕');
-  // A page where scripts can't run has no marker, so there is no "!" to restore.
-  setTimeout(() => void badge.setText(tabId, ''), RESTRICTED_BADGE_MS);
+  await badge.setState(tabId, 'restricted');
+  // A page where scripts can't run has no marker, so there is no other state to restore.
+  setTimeout(() => void badge.setState(tabId, 'none'), RESTRICTED_BADGE_MS);
 }

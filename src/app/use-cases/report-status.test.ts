@@ -26,67 +26,68 @@ const status = (overrides: Partial<TabStatus> = {}): TabStatus => ({
   ],
   favicon: 'available',
   hidden: false,
+  active: true,
   ...overrides,
 });
 
 describe('REQ-POP-007 a toolbar badge "!" where an active site group cannot fully render (D-219)', () => {
   it('shows no badge when everything renders', async () => {
     const { badge, deps } = setup();
-    const setText = vi.spyOn(badge, 'setText');
+    const setState = vi.spyOn(badge, 'setState');
     await reportStatus(deps, 7, status());
     await reportStatus(deps, 8, status({ marks: [], favicon: 'off' }));
-    expect(setText.mock.calls).toEqual([
-      [7, ''],
-      [8, ''],
+    expect(setState.mock.calls).toEqual([
+      [7, 'none'],
+      [8, 'none'],
     ]);
   });
 
-  it('shows "!" when an element is missing', async () => {
+  it('shows "attention" when an element is missing', async () => {
     const { badge, deps } = setup();
     await reportStatus(deps, 7, status({ marks: [{ markId: OUTLINE, found: false }] }));
-    expect(badge.textOf(7)).toBe('!');
+    expect(badge.stateOf(7)).toBe('attention');
   });
 
-  it('shows "!" when the favicon cannot be tinted', async () => {
+  it('shows "attention" when the favicon cannot be tinted', async () => {
     const { badge, deps } = setup();
     await reportStatus(deps, 7, status({ favicon: 'unavailable' }));
-    expect(badge.textOf(7)).toBe('!');
+    expect(badge.stateOf(7)).toBe('attention');
   });
 
   it('clears the badge once the problem is resolved', async () => {
     const { badge, deps } = setup();
     await reportStatus(deps, 7, status({ marks: [{ markId: OUTLINE, found: false }] }));
     await reportStatus(deps, 7, status());
-    expect(badge.textOf(7)).toBe('');
+    expect(badge.stateOf(7)).toBe('none');
   });
 
   it('keeps a badge per tab', async () => {
     const { badge, deps } = setup();
     await reportStatus(deps, 7, status({ favicon: 'unavailable' }));
     await reportStatus(deps, 8, status());
-    expect([badge.textOf(7), badge.textOf(8)]).toEqual(['!', '']);
+    expect([badge.stateOf(7), badge.stateOf(8)]).toEqual(['attention', 'none']);
   });
 
-  it('shows "!" on every reporting tab while the data is read-only (REQ-DATA-007)', async () => {
+  it('shows "attention" on every reporting tab while the data is read-only (REQ-DATA-007)', async () => {
     const { badge, deps } = setup(readOnly);
     await reportStatus(deps, 7, status());
-    expect(badge.textOf(7)).toBe('!');
+    expect(badge.stateOf(7)).toBe('attention');
   });
 });
 
 describe('REQ-POP-007 REQ-DATA-007 read-only data marks every open tab on start', () => {
   const openTabs = [{ id: 1, url: 'https://prod.example.com/' }, { id: 2 }];
 
-  it('shows "!" on every open tab while the data is read-only', async () => {
+  it('shows "attention" on every open tab while the data is read-only', async () => {
     const { badge, deps } = setup(readOnly);
     await showReadOnlyBadges({ ...deps, tabs: createInMemoryTabs(openTabs) });
-    expect([badge.textOf(1), badge.textOf(2)]).toEqual(['!', '!']);
+    expect([badge.stateOf(1), badge.stateOf(2)]).toEqual(['attention', 'attention']);
   });
 
   it('leaves the badges alone otherwise', async () => {
     const { badge, deps } = setup();
-    const setText = vi.spyOn(badge, 'setText');
+    const setState = vi.spyOn(badge, 'setState');
     await showReadOnlyBadges({ ...deps, tabs: createInMemoryTabs(openTabs) });
-    expect(setText).not.toHaveBeenCalled();
+    expect(setState).not.toHaveBeenCalled();
   });
 });

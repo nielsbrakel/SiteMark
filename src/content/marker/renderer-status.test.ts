@@ -54,13 +54,19 @@ describe('REQ-RND-005 the tab reports the status of every element mark', () => {
       ],
       favicon: 'off',
       hidden: false,
+      active: false,
     });
   });
 
   it('reports an idle tab as having no marks', () => {
     const { renderer } = aRenderer();
     renderer.apply(emptyPlan());
-    expect(renderer.status()).toEqual({ marks: [], favicon: 'off', hidden: false });
+    expect(renderer.status()).toEqual({
+      marks: [],
+      favicon: 'off',
+      hidden: false,
+      active: false,
+    });
   });
 
   it('tells the marker when a missing element shows up (200 ms after the DOM change)', async () => {

@@ -43,7 +43,7 @@ describe('REQ-RND-007 the marker gets its render plan from the background', () =
 
   it('sends status reports to the background', async () => {
     const received = background(ok(undefined));
-    const status = { marks: [], favicon: 'off', hidden: true } as const;
+    const status = { marks: [], favicon: 'off', hidden: true, active: true } as const;
     markerPorts().reportStatus(status);
     await vi.waitFor(() => expect(received).toEqual([{ type: 'reportStatus', data: status }]));
   });
