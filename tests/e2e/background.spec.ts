@@ -13,7 +13,7 @@ type ScriptingApi = {
     unregisterContentScripts(filter?: { ids?: string[] }): Promise<void>;
   };
   tabs: { query(info: object): Promise<{ id?: number }[]> };
-  action: { setIcon(details: { path: Record<number, string> }): Promise<void> };
+  action: { setIcon(details: { tabId: number; path: Record<number, string> }): Promise<void> };
 };
 
 const registeredMatches = (worker: Worker) =>
@@ -23,21 +23,35 @@ const registeredMatches = (worker: Worker) =>
     return scripts.map((script) => script.matches ?? []);
   });
 
-/** Records the icon files the background sets on a tab: Chrome has no API to read an icon back. */
+/** Records the icon files the background sets per tab: Chrome has no API to read an icon back. */
 const recordIcons = (worker: Worker) =>
   worker.evaluate(() => {
     const { chrome } = globalThis as unknown as { chrome: ScriptingApi };
-    const seen: string[] = [];
+    const seen: { tabId: number; path: string }[] = [];
     const setIcon = chrome.action.setIcon.bind(chrome.action);
     chrome.action.setIcon = async (details) => {
       await setIcon(details);
-      seen.push(details.path[16] ?? '');
+      seen.push({ tabId: details.tabId, path: details.path[16] ?? '' });
     };
     Object.assign(globalThis, { seenIcons: seen });
   });
 
-const seenIcons = (worker: Worker) =>
-  worker.evaluate(() => (globalThis as unknown as { seenIcons: string[] }).seenIcons);
+/** The 16 px icon files set on a tab, in order, a repeat of the same file counted once. */
+const iconsOf = (worker: Worker, tabId: number) =>
+  worker.evaluate((id) => {
+    const seen = (globalThis as unknown as { seenIcons: { tabId: number; path: string }[] })
+      .seenIcons;
+    const paths = seen.filter((entry) => entry.tabId === id).map((entry) => entry.path);
+    return paths.filter((path, index) => path !== paths[index - 1]);
+  }, tabId);
+
+/** The id of the tab in front: call it after `bringToFront()`. */
+const activeTabId = (worker: Worker) =>
+  worker.evaluate(async () => {
+    const { chrome } = globalThis as unknown as { chrome: ScriptingApi };
+    const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+    return tab?.id ?? -1;
+  });
 
 test('the welcome tab opens on install @REQ-OPT-001', async ({ context }) => {
   const welcome = () =>
@@ -77,10 +91,11 @@ test('start-picker briefly puts the "✕" sticker on the icon where it can not r
   await page.goto('chrome://version/');
   await page.bringToFront();
   await recordIcons(serviceWorker);
+  const tabId = await activeTabId(serviceWorker);
   expect(await dispatchCommand(serviceWorker, 'start-picker')).toBe(true);
-  expect(await seenIcons(serviceWorker)).toEqual(['icon/restricted-16.png']);
+  expect(await iconsOf(serviceWorker, tabId)).toEqual(['icon/restricted-16.png']);
   await expect
-    .poll(() => seenIcons(serviceWorker), { timeout: 5000 })
+    .poll(() => iconsOf(serviceWorker, tabId), { timeout: 5000 })
     .toEqual(['icon/restricted-16.png', 'icon/16.png']);
 });
 
@@ -106,10 +121,11 @@ test('the icon carries the active and hidden stickers on a marked site @REQ-POP-
   await page.goto(fixtureUrl('prod'));
   await page.bringToFront();
   await waitForMarker(page);
-  await expect.poll(() => seenIcons(serviceWorker)).toEqual(['icon/active-16.png']);
+  const tabId = await activeTabId(serviceWorker);
+  await expect.poll(() => iconsOf(serviceWorker, tabId)).toEqual(['icon/active-16.png']);
   expect(await dispatchCommand(serviceWorker, 'toggle-hide')).toBe(true);
   await expect
-    .poll(() => seenIcons(serviceWorker))
+    .poll(() => iconsOf(serviceWorker, tabId))
     .toEqual(['icon/active-16.png', 'icon/hidden-16.png']);
 });
 
@@ -128,7 +144,8 @@ test('a group that is switched off puts the grey sticker on the icon @REQ-POP-01
   await page.goto(fixtureUrl('prod'));
   await page.bringToFront();
   await waitForMarker(page);
-  await expect.poll(async () => (await seenIcons(serviceWorker)).at(-1)).toBe('icon/active-16.png');
+  const tabId = await activeTabId(serviceWorker);
+  await expect.poll(() => iconsOf(serviceWorker, tabId)).toEqual(['icon/active-16.png']);
 
   const popup = await context.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
@@ -136,12 +153,14 @@ test('a group that is switched off puts the grey sticker on the icon @REQ-POP-01
     type: 'command',
     data: { type: 'setSiteGroupEnabled', id: groupId, enabled: false },
   });
-  await expect.poll(async () => (await seenIcons(serviceWorker)).at(-1)).toBe('icon/hidden-16.png');
+  await expect
+    .poll(() => iconsOf(serviceWorker, tabId))
+    .toEqual(['icon/active-16.png', 'icon/hidden-16.png']);
 
   // A tab that opens on the site later is greyed too: the browser reports its URL (no marker runs).
-  const before = (await seenIcons(serviceWorker)).length;
   const another = await context.newPage();
   await another.goto(fixtureUrl('prod', 'spa/'));
-  await expect.poll(async () => (await seenIcons(serviceWorker)).length).toBeGreaterThan(before);
-  expect((await seenIcons(serviceWorker)).at(-1)).toBe('icon/hidden-16.png');
+  await another.bringToFront();
+  const anotherId = await activeTabId(serviceWorker);
+  await expect.poll(() => iconsOf(serviceWorker, anotherId)).toEqual(['icon/hidden-16.png']);
 });
