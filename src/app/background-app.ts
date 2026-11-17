@@ -113,7 +113,7 @@ function contentHandlers({ ports, queue }: Wired): ContentHandlers {
   const { stateRepo, badge, tabs, idGen, permissions, markerFiles } = ports;
   return {
     renderPlanFor: (_, sender) => renderPlanFor(stateRepo, sender.url),
-    reportStatus: (status, sender) => reportStatus({ badge, stateRepo }, sender.tabId, status),
+    reportStatus: (status, sender) => reportStatus({ badge, stateRepo }, sender, status),
     pickerContext: async (_, sender) => ({
       ...(await pickerContext(stateRepo, sender.url)),
       isGranted: await isSenderGranted(permissions, sender),

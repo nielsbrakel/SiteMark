@@ -1,5 +1,6 @@
 import type { TabStatus } from '../../core/render/status';
 import type { Badge, BadgeState, StateRepo, Tabs } from '../ports';
+import type { ContentSender } from '../protocol';
 
 // The toolbar sticker from the status each marker reports (TabStatus, src/core/render/status.ts).
 
@@ -29,7 +30,7 @@ export function toolbarState(status: TabStatus, readOnly: boolean): BadgeState {
 /** Sets the tab's toolbar sticker from the marker's latest status (REQ-POP-010, D-219). */
 export async function reportStatus(
   deps: ReportStatusDeps,
-  tabId: number,
+  { tabId }: Pick<ContentSender, 'tabId' | 'url'>,
   status: TabStatus,
 ): Promise<void> {
   await deps.badge.setState(tabId, toolbarState(status, await isReadOnly(deps.stateRepo)));

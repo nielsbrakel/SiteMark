@@ -30,6 +30,7 @@ const status = (overrides: Partial<TabStatus> = {}): TabStatus => ({
   ...overrides,
 });
 
+const tab = (tabId: number) => ({ tabId, url: 'https://prod.example.com/' });
 const idle = status({ marks: [], favicon: 'off', active: false });
 const missing = status({ marks: [{ markId: OUTLINE, found: false }] });
 
@@ -53,8 +54,8 @@ describe('REQ-POP-010 REQ-POP-007 the toolbar sticker follows the tab status (D-
 
   it('sets the sticker of the reporting tab only', async () => {
     const { badge, deps } = setup();
-    await reportStatus(deps, 7, status());
-    await reportStatus(deps, 8, missing);
+    await reportStatus(deps, tab(7), status());
+    await reportStatus(deps, tab(8), missing);
     expect([badge.stateOf(7), badge.stateOf(8), badge.stateOf(9)]).toEqual([
       'active',
       'attention',
@@ -64,18 +65,18 @@ describe('REQ-POP-010 REQ-POP-007 the toolbar sticker follows the tab status (D-
 
   it('follows the tab as it is hidden, resolved and emptied', async () => {
     const { badge, deps } = setup();
-    await reportStatus(deps, 7, missing);
-    await reportStatus(deps, 7, status());
+    await reportStatus(deps, tab(7), missing);
+    await reportStatus(deps, tab(7), status());
     expect(badge.stateOf(7)).toBe('active');
-    await reportStatus(deps, 7, status({ hidden: true }));
+    await reportStatus(deps, tab(7), status({ hidden: true }));
     expect(badge.stateOf(7)).toBe('hidden');
-    await reportStatus(deps, 7, idle);
+    await reportStatus(deps, tab(7), idle);
     expect(badge.stateOf(7)).toBe('none');
   });
 
   it('shows "attention" on every reporting tab while the data is read-only (REQ-DATA-007)', async () => {
     const { badge, deps } = setup(readOnly);
-    await reportStatus(deps, 7, status());
+    await reportStatus(deps, tab(7), status());
     expect(badge.stateOf(7)).toBe('attention');
   });
 });
