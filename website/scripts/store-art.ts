@@ -92,7 +92,7 @@ export const PAGE_VIEWS = {
   environment: { width: 380, height: 460 },
   popup: { width: 900, height: 404 },
   privacy: { width: 620, height: 408 },
-  picker: { width: 720, height: 600 },
+  picker: { width: 720, height: 780 },
 } as const satisfies Record<string, Size>;
 
 /** A browser window whose view of `width` × `height` px starts at (x, y) on the slide. */
