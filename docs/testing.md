@@ -20,6 +20,7 @@
 
 First-time Playwright setup: `pnpm exec playwright install chromium`, or set `PW_CHROMIUM_EXECUTABLE`
 to an existing **Chromium / Chrome for Testing** (branded Chrome ≥ 137 ignores `--load-extension`).
+In a cloud session the preinstalled one works: `PW_CHROMIUM_EXECUTABLE=/opt/pw-browsers/chromium`.
 
 ## TDD protocol
 
