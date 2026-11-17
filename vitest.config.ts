@@ -15,6 +15,8 @@ import { WxtVitest } from 'wxt/testing/vitest-plugin';
 
 // Node ≥ 25 ships a global `localStorage` that shadows happy-dom's; switch it off so tests see happy-dom's.
 const noWebstorage = { execArgv: ['--no-experimental-webstorage'] };
+// The DOM projects share one happy-dom per worker (`isolate: false`: 40 s → 10 s for `dom`); mockReset and
+// the cleanup in tests/unit/setup.ts keep files apart, and shuffled runs stay green.
 const isolation = { mockReset: true, restoreMocks: true, unstubEnvs: true, unstubGlobals: true };
 const browserTests = '**/*.browser.test.{ts,tsx}';
 const chromium = process.env.PW_CHROMIUM_EXECUTABLE;
@@ -90,6 +92,7 @@ export default defineConfig({
         test: {
           ...isolation,
           name: 'dom',
+          isolate: false,
           environment: 'happy-dom',
           ...noWebstorage,
           include: ['src/**/*.test.{ts,tsx}', 'tests/{unit,fakes}/**/*.test.{ts,tsx}'],
@@ -121,6 +124,7 @@ export default defineConfig({
         test: {
           ...isolation,
           name: 'website-dom',
+          isolate: false,
           environment: 'happy-dom',
           ...noWebstorage,
           include: ['website/src/**/*.test.tsx'],
