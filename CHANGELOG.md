@@ -2,7 +2,13 @@
 
 ## Unreleased
 
+## 1.3.0
+
+- The toolbar icon now carries a small sticker: a green check where a site group is active, a grey dash where its marks are hidden or the group is switched off, and an amber exclamation mark when something can't be drawn fully. It replaces the text badge.
+- The popup has an On / Off switch for every site group that matches the current site, so you can turn a group off right there. The "Hide on this tab" button is gone; the hide shortcut still works.
 - Choosing an element looks like the rest of SiteMark: the panel is a ruled notebook page with wavy dividers and On / Off switches for the effects, the hint and the size tag are paper notes, and the element you point at gets a solid outline with taped corners instead of a dashed one.
+- The SiteMark logo and wordmark animate again every time the popup, the settings page or a website page opens.
+- New store images show the toolbar sticker, the popup switches and the notebook-style element picker.
 
 ## 1.2.3
 
