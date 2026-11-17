@@ -4,8 +4,12 @@ import { gzipSync } from 'node:zlib';
 import { describe, expect, it } from 'vitest';
 import { outDir, targets } from './targets';
 
-/** Gzipped budgets for code injected into web pages (REQ-NFR-002). */
+/**
+ * Gzipped budgets for code injected into web pages (REQ-NFR-002), and for the background worker, which
+ * the browser parses again on every wake (D-285).
+ */
 const budgets = [
+  { name: 'background', file: 'background.js', limitKb: 60 },
   { name: 'marker', file: 'marker.js', limitKb: 25 },
   { name: 'picker', file: 'picker.js', limitKb: 20 },
 ];
